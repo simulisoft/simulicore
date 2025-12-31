@@ -1,0 +1,53 @@
+SimuliCore
+Copyright (c) 2025-2026 Simulisoft
+
+
+TRADEMARK NOTICE
+----------------
+
+"SimuliCore" and the SimuliCore logo are trademarks of the Simulisoft initiative.
+
+This project includes the following sub-modules, which are also trademarks of the Simulisoft initiative:
+
+1. CLA3P - Compact Linear Algebra Parallel Portable Package
+2. CMPI - C++ Message Passing Interface Utilities
+3. cuLite - Lightweight CUDA Interface for GPU Acceleration
+
+The use of these trademarks is governed by the SimuliCore Trademark Policy. As stated in Section 6 of the Apache License, Version 2.0, this license does not grant permission to use the trade names, trademarks, service marks, or product names of the Licensor, except as required for reasonable and customary use in describing the origin of the Work and reproducing the content of this NOTICE file.
+
+For detailed information regarding the proper use of these trademarks, please refer to the Trademark Guidelines provided in TRADEMARK.md.
+
+THIRD-PARTY DEPENDENCIES
+------------------------
+
+This software utilizes the following third-party performance libraries:
+
+* Intel(R) oneAPI Math Kernel Library
+  https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html
+
+* Arm Performance Libraries
+  https://developer.arm.com/Tools%20and%20Software/Arm%20Performance%20Libraries
+
+
+ATTRIBUTIONS FOR ICON AND LOGO ARTWORK
+---------------------------------------
+
+The following icons and graphical elements are used under license:
+
+* Matrix icons created by Vitaly Gorbachev - Flaticon
+  https://www.flaticon.com/free-icons/matrix
+
+* Technology icons created by Freepik - Flaticon
+  https://www.flaticon.com/free-icons/technology
+
+* GPU mining icons created by Flat Icons - Flaticon
+  https://www.flaticon.com/free-icons/gpu-mining
+
+* Email icons created by Those Icons - Flaticon
+  https://www.flaticon.com/free-icons/email
+
+* Bug icons created by Pixel perfect - Flaticon
+  https://www.flaticon.com/free-icons/bug
+
+* Repository icons created by The Chohans Brand - Flaticon
+  https://www.flaticon.com/free-icons/repository

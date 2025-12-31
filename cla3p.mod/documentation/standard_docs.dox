@@ -1,0 +1,751 @@
+/*---------------------------------------------------------------------*/
+
+namespace standard_docs {
+
+/**
+ * @brief The default constructor.
+ * @details Constructs an empty object.
+ */
+void constructor();
+
+/**
+ * @brief Destroys the object.
+ * @details Destroy the object and free content memory if needed.
+ */
+void destructor();
+
+/**
+ * @brief The copy constructor.
+ * @details Constructs a new object that contains a copy of all the data of `other`.
+ */
+void copy_constructor();
+
+/**
+ * @brief The move constructor.
+ * @details Constructs a new object using the contents of `other`, `other` is destroyed. 
+ */
+void move_constructor();
+
+/**
+ * @brief The converting (copy) constructor.
+ * @details Constructs a new object that contains a copy of all the data of `other`.
+ */
+void copy_convertor();
+
+/**
+ * @brief The converting (move) constructor.
+ * @details Constructs a new object that contains a copy of all the data of `other`.
+ */
+void move_convertor();
+
+/**
+ * @brief The copy assignment operator.
+ * @details If `*this` is empty, constructs a new object with a deep copy of the contents of `other`.@n
+ *          If `*this` is not empty, performs a deep copy of the data of `other` to `*this`.@n
+ *          If `*this` is not empty, it must be compatible with `other`, `other` is unchanged.
+ */
+void copy_assignment();
+
+/**
+ * @brief The move assignment operator.
+ * @details If `*this` is empty, constructs a new object using the contents of `other`.@n
+ *          If `*this` is not empty, performs a deep copy of the data of `other` to `*this`.@n
+ *          If `*this` is not empty, it must be compatible with `other`, `other` is destroyed.
+ */
+void move_assignment();
+
+/**
+ * @brief The convert copy assignment operator.
+ * @copydetails copy_assignment()
+ */
+void copy_convert_assignment();
+
+/**
+ * @brief The convert move assignment operator.
+ * @copydetails move_assignment()
+ */
+void move_convert_assignment();
+
+/**
+ * @brief Clears the object.
+ * @details Deallocates owned data and resets all members.
+ */
+void clear();
+
+/**
+ * @brief Copies an object.
+ * @details Creates a new object that contains a copy of all the data of `*this`.
+ * @return A deep copy of `*this`.
+ */
+void copy();
+
+/**
+ * @brief Shallow-copies an object.
+ * @details Creates a new object that contains a reference to the data of `*this`.
+ *          New object does not have ownership over data.
+            Original object `*this` is unchanged.
+ * @return A shallow copy of `*this`.
+ */
+void rcopy();
+
+/**
+ * @brief Shallow-copies an immutable object.
+ * @details Creates a guard of a new object that contains a reference to the const data of `*this`.
+ * @return A guarded shallow copy of `*this`.
+ */
+void rcopy_const();
+
+/**
+ * @brief Moves an object.
+ * @details Creates a new object that contains a reference to the data of `*this`.
+ *          Ownership status is passed onto the newly created object.
+ *          Original object `*this` is destroyed.
+ * @return A shallow copy of `*this`.
+ */
+void move();
+
+/**
+ * @brief The row pointer array.
+ * @return The array containing the number of non-zero elements in each row of `*this`.
+ */
+void rowptr();
+/**
+ * @brief The column pointer array.
+ * @return The array containing the number of non-zero elements in each column of `*this`.
+ */
+void colptr();
+
+/**
+ * @brief The row index array.
+ * @return The array containing the non-zero element row index in each column of `*this`.
+ */
+void rowidx();
+
+/**
+ * @brief The column index array.
+ * @return The array containing the non-zero element column index in each column of `*this`.
+ */
+void colidx();
+
+/**
+ * @brief The values array.
+ * @return The pointer to the contents of the object.
+ */
+void values();
+
+/**
+ * @brief Fills the object with a given value.
+ * @details Sets all entries of the object to a single value.
+ * @param[in] val The value to be set.
+ */
+void fill();
+
+/**
+ * @brief Element accessor operator.
+ * @details Element accessor for elements stored within `*this`.
+ * @param[in] i The zero-based index of the element to access.
+ * @return A (constant) reference to the element at the specified index `i` of `*this`.
+ */
+void index_operator_1d();
+
+/**
+ * @brief Element accessor operator.
+ * @details Element accessor for elements stored within `*this`.
+ * @param[in] i The zero-based row index of the element to access.
+ * @param[in] j The zero-based column index of the element to access.
+ * @return A (constant) reference to the element at the specified index `(i,j)` of `*this`.
+ */
+void index_operator_2d();
+
+/**
+ * @brief Unary minus operator.
+ * @details Virtually negates the object.
+ * @return The result of the virtual operation `-(*this)`.
+ */
+ void virtual_negate_operator();
+
+/**
+ * @brief Prints the contents of `*this`.
+ * @details Prints the formatted contents of `*this` to standard output.
+ * @param[in] prec The requested precision. If `prec` is not positive, the default stream precision is used.
+ */
+void print();
+
+/**
+ * @brief Streams the contents of `*this` to an output stream.
+ * @details Streams the formatted contents of `*this` to the output string `os`.
+ * @param[in] os The output stream.
+ * @param[in] prec The requested precision. If `prec` is not positive, the default stream precision is used.
+ */
+void toStream();
+
+/**
+ * @brief Multiplies the object by a scalar.
+ * @details Performs in-place scaling of `*this` with the scalar value `val`.
+ * @param[in] val The scaling coefficient.
+ */
+void iscale();
+
+/**
+ * @brief Vector Euclidean norm.
+ * @return The Euclidean norm of `*this`.
+ */
+void normEuc();
+
+/**
+ * @brief The 1-norm.
+ * @return The 1-norm of `*this`.
+ */
+void normOne();
+
+/**
+ * @brief The infinite norm.
+ * @return The infinite norm of `*this`.
+ */
+void normInf();
+
+/**
+ * @brief The maximum norm.
+ * @return The maximum norm of `*this`.
+ */
+void normMax();
+
+/**
+ * @brief The Frobenius norm.
+ * @return The Frobenius norm of `*this`.
+ */
+ void normFro();
+
+ /**
+ * @brief The number of matrix non-zero elements.
+ * @return The number of non-zero elements in `*this`.
+ */
+void nnz();
+
+} // ~ standard_docs
+
+/*---------------------------------------------------------------------*/
+
+namespace standard_vector_docs {
+
+/**
+ * @brief The default constructor.
+ * @details Constructs an empty vector.
+ */
+void constructor();
+
+/**
+ * @brief The dimensional constructor.
+ * @details Constructs a n-sized vector with uninitialized values.
+ * @param[in] n The vector size.
+ */
+void dim_constructor();
+
+/**
+ * @brief Creates a vector from aux data.
+ * @details Creates a n-sized vector from bulk data.
+ * @param[in] n The vector size.
+ * @param[in] vals The array containing the vector values.
+ * @param[in] bind Binds the data to the vector, the vector will deallocate vals on destroy using i_free().
+ */
+void aux_constructor();
+// @param[in] incv Storage spacing between elements of `vals`.
+
+/**
+ * @brief Destroys the vector.
+ * @details Destroy the vector and free content memory if needed.
+ */
+void destructor();
+
+/**
+ * @brief Fills the vector with a given value.
+ * @details Sets all entries of the vector to a single value.
+ * @param[in] val The value to be set.
+ */
+ void fill();
+
+/**
+ * @brief Gets vector information.
+ * @details Stores vector information in a readable string.
+ * @param[in] header Set a header identifier.
+ * @return The vector info string.
+ */
+ void info();
+
+/**
+ * @brief Creates a guard from aux data.
+ * @details Creates a n-sized guarded vector (view) from immutable bulk data.
+ * @param[in] n The vector size.
+ * @param[in] vals The array containing the vector values.
+ * @return The newly created guard.
+ */
+ void view();
+
+/**
+ * @brief Creates a vector with random values in (lo, hi).
+ * @details Creates a n-sized vector with random values.
+ * @param[in] n The vector size.
+ * @param[in] lo The smallest value of each generated element.
+ * @param[in] hi The largest value of each generated element.
+ * @return The newly created vector.
+ */
+void random();
+
+/**
+ * @brief Virtually transposes a vector.
+ * @return A virtual expression that represents the transposed vector.
+ */
+ void virtual_transpose();
+
+ /**
+ * @brief Virtually conjugate-transposes a vector.
+ * @return A virtual expression that represents the conjugate-transposed vector.
+ */
+ void virtual_ctranspose();
+
+/**
+ * @brief Virtually conjugates a vector.
+ * @return A virtual expression that represents the conjugated vector.
+ */
+ void virtual_conjugate();
+
+/**
+ * @brief Conjugates the vector in-place.
+ * @details Negates the imaginary part of the elements of the vector.
+ */
+void iconjugate();
+
+/**
+ * @brief Gets a subvector with content copy.
+ * @details Gets a copy of a ni-sized portion of `*this`, starting at ibgn.
+ * @param[in] ibgn The index that the requested part begins.
+ * @param[in] ni The size of the requested block.
+ * @return A vector with content copy of `(*this)[ibgn:ibgn+ni]`.
+ */
+ void block();
+
+/**
+ * @brief Gets a (guarded) subvector with content reference.
+ * @details Gets a ni-sized (guarded) vector that references contents of `*this`, starting at ibgn.
+ * @param[in] ibgn The index that the requested part begins.
+ * @param[in] ni The size of the requested block.
+ * @return A (guarded) vector with content reference to `(*this)[ibgn:ibgn+ni]`.
+ */
+ void rblock();
+
+/**
+ * @brief Sets a subvector.
+ * @details Copies the contents of `src` to `(*this)[ibgn:ibgn+src.size()]`.
+ * @param[in] ibgn The index that src will be placed.
+ * @param[in] src The vector to be placed.
+ */
+ void set_block();
+
+/**
+ * @brief Converts a vector to a matrix (deep data copy).
+ * @return A copy of `*this` as a matrix.
+ */
+ void matrix();
+
+/**
+ * @brief Converts a (const) vector to a (guarded) matrix (shallow data copy).
+ * @return A (guarded) matrix referencing the contents of `*this`.
+ */
+ void rmatrix();
+
+/**
+ * @brief Permutes the entries of a vector
+ * @details Creates a permuted copy `P*(*this)` of `*this`.
+ * @param[in] P The left side permutation matrix.
+ * @return The vector `P*(*this)`.
+ */
+void permute_left();
+/**
+ * @brief Permutes the entries of a vector
+ * @details Fills `dest` with the permuted copy `P*(*this)` of `*this`.
+ *          Vector `dest` must be similar to `*this`.
+ * @param[in] P The left side permutation matrix.
+ * @param[out] dest The permuted vector `P*(*this)`.
+ */
+void permute_left_dst();
+
+} // ~ standard_vector_docs
+
+/*---------------------------------------------------------------------*/
+
+namespace standard_matrix_docs {
+
+/**
+ * @brief The default constructor.
+ * @details Constructs an empty matrix.
+ */
+void constructor();
+
+/**
+ * @brief The dimensional constructor.
+ * @details Constructs a general (nr x nc) matrix with uninitialized values.
+ * @param[in] nr The number of matrix rows.
+ * @param[in] nc The number of matrix columns.
+ * @param[in] pr The matrix property.
+ */
+void dim_constructor();
+
+/**
+ * @brief Creates a matrix from aux data.
+ * @details Creates a (nr x nc) matrix from bulk data.
+ * @param[in] nr The number of matrix rows.
+ * @param[in] nc The number of matrix columns.
+ * @param[in] vals The array containing the matrix values in column-major ordering.
+ * @param[in] ldv The leading dimension of the vals array.
+ * @param[in] bind Binds the data to the matrix, the matrix will deallocate vals on destroy using i_free().
+ * @param[in] pr The matrix property.
+ */
+void aux_constructor();
+
+/**
+ * @brief Destroys the matrix object.
+ * @details Destroy the matrix and free content memory if needed.
+ */
+void destructor();
+
+/**
+ * @brief The matrix leading dimension.
+ * @return The leading dimension of `*this` (column-major: ld() @f$ \geq @f$ nrows()).
+ */
+void ld();
+
+/**
+ * @brief Fills the matrix with a given value.
+ * @details Sets all entries of the matrix to a single value.
+ * @attention Imaginary part of diagonal is set to zero for Hermitian cases.@n
+ *            Diagonal is set to zero for Skew cases.
+ * @param[in] val The value to be set.
+ */
+ void fill();
+
+ /**
+ * @brief Gets matrix information.
+ * @details Stores matrix information in a readable string.
+ * @param[in] header Set a header identifier.
+ * @return The matrix info string.
+ */
+ void info();
+
+/**
+ * @brief Creates a matrix with random values in (lo,hi).
+ * @details Creates a (nr x nc) matrix with random values.
+ * @param[in] nr The number of matrix rows.
+ * @param[in] nc The number of matrix columns.
+ * @param[in] pr The matrix property.
+ * @param[in] lo The smallest value of each generated element.
+ * @param[in] hi The largest value of each generated element.
+ * @return The newly created matrix.
+ */
+void random();
+
+/**
+ * @brief Creates a matrix guard from aux data.
+ * @details Creates a (nr x nc) matrix from bulk data.
+ * @param[in] nr The number of matrix rows.
+ * @param[in] nc The number of matrix columns.
+ * @param[in] vals The array containing the matrix values in column-major ordering.
+ * @param[in] ldv The leading dimension of the vals array.
+ * @param[in] pr The matrix property.
+ * @return The newly created guard.
+ */
+ void view();
+
+/**
+ * @brief Virtually transposes a matrix.
+ * @return A virtual expression that represents the transposed matrix.
+ * @attention Works for general & triangular properties.
+ */
+ void virtual_transpose();
+
+ /**
+ * @brief Virtually conjugate-transposes a matrix.
+ * @return A virtual expression that represents the conjugate-transposed matrix.
+ * @attention Works for general & triangular properties.@n
+ *            For real matrices, performs simple transposition.
+ */
+ void virtual_ctranspose();
+
+/**
+ * @brief Virtually conjugates a matrix.
+ * @return A virtual expression that represents the conjugated matrix.
+ */
+ void virtual_conjugate();
+
+/**
+ * @brief Conjugates the matrix in-place.
+ * @details Negates the imaginary part of the elements of the matrix.
+ */
+void iconjugate();
+
+/**
+ * @brief Converts a matrix to general.
+ * @return A copy of `*this` with general property.
+ */
+void general();
+
+/**
+ * @brief Converts `*this` to general in-place.
+ * @details Converts matrix by filling missing entries and changing its property.
+ */
+void igeneral();
+
+/**
+ * @brief Converts a matrix to dense.
+ * @return A copy of `*this` as a dense matrix.
+ */
+void to_dns();
+
+/**
+ * @brief Gets a (guarded) matrix column with content reference.
+ * @details Gets a (guarded) vector that references contents of `*this` at column j.
+ * @param[in] j The column index requested.
+ * @return A (guarded) vector with content reference to `(*this)[0:nrows(),j:j+1]`.
+ */
+void rcolumn();
+
+/**
+ * @brief Gets a matrix column with content copy.
+ * @details Gets a copy of the j-th column of the matrix.
+ * @param[in] j The column index requested.
+ * @return A vector with content copy of `(*this)[0:nrows(),j:j+1]`.
+ */
+ void column();
+
+/**
+ * @brief Gets a (guarded) matrix row with content reference.
+ * @details Gets a (guarded) matrix that references contents of `*this` at row `i`.
+ * @param[in] i The row index requested.
+ * @return A (guarded) matrix with content reference to `(*this)[i:i+1,0:ncols()]`.
+ */
+void rrow();
+
+/**
+ * @brief Gets a matrix row with content copy.
+ * @details Gets a copy of the i-th row of the matrix.
+ * @param[in] i The row index requested.
+ * @return A matrix with content copy of `(*this)[i:i+1,0:ncols()]`.
+ */
+ void row();
+
+/**
+ * @brief Gets a virtual row-vector row with content reference.
+ * @details Gets a virtual row-vector that references contents of `*this` at row `i`.
+ * @param[in] i The row index requested.
+ * @return A virtual row row-vector with content reference to `(*this)[i:i+1,0:ncols()]`.
+ */
+void rrowvec();
+
+/**
+ * @brief Sets a submatrix.
+ * @details Copies the contents of `src` to `(*this)[ibgn:ibgn+src.nrows(),jbgn:jbgn+src.ncols()]`.
+ * @param[in] ibgn The row index that src will be placed.
+ * @param[in] jbgn The column index that src will be placed.
+ * @param[in] src The matrix to be placed.
+ */
+void set_block();
+
+/**
+ * @brief Gets a (guarded) submatrix with content reference.
+ * @details Gets a (ni x nj) (guarded) matrix that references contents of `*this`, starting at (ibgn, jbgn).
+ * @param[in] ibgn The row index that the requested part begins.
+ * @param[in] jbgn The column index that the requested part begins.
+ * @param[in] ni The number of rows of the requested block.
+ * @param[in] nj The number of columns of the requested block.
+ * @return A (guarded) matrix with content reference to `(*this)[ibgn:ibgn+ni,jbgn:jbgn+nj]`.
+ */
+void rblock();
+
+/**
+ * @brief Gets a submatrix with content copy.
+ * @details Gets a copy of a (ni x nj) block of `*this`, starting at (ibgn, jbgn).
+ * @param[in] ibgn The row index that the requested part begins.
+ * @param[in] jbgn The column index that the requested part begins.
+ * @param[in] ni The number of rows of the requested block.
+ * @param[in] nj The number of columns of the requested block.
+ * @return A matrix with content copy of `(*this)[ibgn:ibgn+ni,jbgn:jbgn+nj]`.
+ */
+void block();
+
+/**
+ * @brief Permutes a general matrix.
+ * @details Creates a permuted copy `P*(*this)*Q` of `*this`.
+ * @param[in] P The left side permutation matrix.
+ * @param[in] Q The right side permutation matrix.
+ * @return The matrix `P*(*this)*Q`.
+ */
+void permute_leftright();
+/**
+ * @brief Permutes the rows of a general matrix.
+ * @details Creates a permuted copy `P*(*this)` of `*this`.
+ * @param[in] P The left side permutation matrix.
+ * @return The matrix `P*(*this)`.
+ */
+void permute_left();
+/**
+ * @brief Permutes the columns of a general matrix.
+ * @details Creates a permuted copy `(*this)*Q` of `*this`.
+ * @param[in] Q The right side permutation matrix.
+ * @return The matrix `(*this)*Q`.
+ */
+void permute_right();
+/**
+ * @brief Permutes a matrix symmetrically.
+ * @details Creates a permuted copy `P*(*this)*P^T` of `*this`.
+ * @param[in] P The left and right side permutation matrix.
+ * @return The matrix `P*(*this)*P^T`.
+ */
+void permute_mirror();
+
+/**
+ * @brief Permutes a general matrix.
+ * @details Fills `dest` with the permuted copy `P*(*this)*Q` of `*this`.
+ *          Matrix `dest` must be similar to `*this`.
+ * @param[in] P The left side permutation matrix.
+ * @param[in] Q The right side permutation matrix.
+ * @param[out] dest The permuted matrix `P*(*this)*Q`.
+ */
+void permute_leftright_dst();
+
+/**
+ * @brief Permutes the rows of a general matrix.
+ * @details Fills `dest` with the permuted copy `P*(*this)` of `*this`.
+ *          Matrix `dest` must be similar to `*this`.
+ * @param[in] P The left side permutation matrix.
+ * @param[out] dest The permuted matrix `P*(*this)`.
+ */
+void permute_left_dst();
+/**
+ * @brief Permutes the columns of a general matrix.
+ * @details Fills `dest` with the permuted copy `(*this)*Q` of `*this`.
+ *          Matrix `dest` must be similar to `*this`.
+ * @param[in] Q The right side permutation matrix.
+ * @param[out] dest The permuted matrix `(*this)*Q`.
+ */
+void permute_right_dst();
+/**
+ * @brief Permutes a matrix symmetrically.
+ * @details Fills `dest` with the permuted copy `P*(*this)*P^T` of `*this`.
+ *          Matrix `dest` must be similar to `*this`.
+ * @param[in] P The left and right side permutation matrix.
+ * @param[out] dest The permuted matrix `P*(*this)*P^T`.
+ */
+void permute_mirror_dst();
+
+/*---------------------------------------------------------------------*/
+
+} // ~ standard_matrix_docs
+
+namespace standard_csx_docs {
+
+/**
+ * @brief The dimensional constructor.
+ * @details Constructs a (nr x nc) matrix with nz non-zero uninitialized values.
+ * @param[in] nr The number of matrix rows.
+ * @param[in] nc The number of matrix columns.
+ * @param[in] nz The number of matrix non zeros.
+ * @param[in] pr The matrix property.
+ */
+void dim_constructor();
+
+/**
+ * @brief Creates a matrix with random values in (lo,hi).
+ * @details Creates a (nr x nc) matrix with at most nz random values.
+ * @param[in] nr The number of matrix rows.
+ * @param[in] nc The number of matrix columns.
+ * @param[in] nz The (maximum) number of matrix non-zero elements.
+ * @param[in] pr The matrix property.
+ * @param[in] lo The smallest value of each generated element.
+ * @param[in] hi The largest value of each generated element.
+ * @return The newly created matrix.
+ */
+void random();
+
+} // ~ standard_csx_docs
+
+/*---------------------------------------------------------------------*/
+
+namespace standard_csc_docs {
+
+/**
+ * @brief Creates a matrix from aux data.
+ * @details Creates a (nr x nc) matrix from bulk data.
+ * @param[in] nr The number of matrix rows.
+ * @param[in] nc The number of matrix columns.
+ * @param[in] cptr The array containing the matrix column pointers.
+ * @param[in] ridx The array containing the matrix row indexes.
+ * @param[in] vals The array containing the matrix values.
+ * @param[in] bind Binds the data to the matrix, the matrix will deallocate all arrays on destroy using i_free().
+ * @param[in] pr The matrix property.
+ */
+void aux_constructor();
+
+/**
+ * @brief Creates a matrix guard from aux data.
+ * @details Creates a (nr x nc) matrix from bulk data.
+ * @param[in] nr The number of matrix rows.
+ * @param[in] nc The number of matrix columns.
+ * @param[in] cptr The array containing the matrix column pointers.
+ * @param[in] ridx The array containing the matrix row indexes.
+ * @param[in] vals The array containing the matrix values.
+ * @param[in] pr The matrix property.
+ * @return The newly created guard.
+ */
+void view();
+
+} // ~ standard_csc_docs
+
+/*---------------------------------------------------------------------*/
+
+namespace standard_coo_docs {
+
+/**
+ * @brief The dimensional constructor.
+ * @details Creates a (nr x nc) sparse matrix container.
+ * @param[in] nr The number of matrix rows.
+ * @param[in] nc The number of matrix columns.
+ * @param[in] pr The matrix property.
+ */
+ void dim_constructor();
+
+/**
+ * @brief Converts matrix to Compressed Sparse Column format.
+ * @param[in] duplicatePolicy Sets the policy for duplicated entries.
+ * @return The csc-formatted matrix.
+ */
+void to_csc();
+
+/**
+ * @brief The csc copy assignment operator.
+ * @details Creates a csc-formatted copy of *this using the default settings.
+ * @see toCsc()
+ */
+void to_csc_operator();
+
+/**
+ * @brief Reserve space for tuple insertion.
+ * @param[in] nz The number of elements to be reserved.
+ */
+void reserve();
+
+/**
+ * @brief Inserts a tuple into the matrix.
+ * @details Inserts the element tuple.val() in position {tuple.row(), tuple.col()}
+ * @param[in] tuple The tuple to be inserted.
+ */
+void insert_tup();
+
+/**
+ * @brief Inserts a triplet into the matrix.
+ * @details Inserts the element v in position {i, j}
+ * @param[in] i The row index of the entry.
+ * @param[in] j The column index of the entry.
+ * @param[in] v The value of the entry.
+ */
+void insert_ijv();
+
+} // ~ standard_coo_docs
