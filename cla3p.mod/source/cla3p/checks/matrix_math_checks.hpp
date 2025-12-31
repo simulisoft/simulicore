@@ -1,0 +1,58 @@
+/*
+ * Copyright (c) 2025-2026 Simulisoft
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#ifndef CLA3P_MATRIX_MATH_CHECKS_HPP_
+#define CLA3P_MATRIX_MATH_CHECKS_HPP_
+
+/**
+ * @file
+ */
+
+#include "cla3p/types.hpp"
+
+/*-------------------------------------------------*/
+namespace cla3p {
+/*-------------------------------------------------*/
+
+void mult_dim_check(
+		int_t nrowsA, int_t ncolsA, const Operation& opA, 
+		int_t nrowsB, int_t ncolsB, const Operation& opB, 
+		int_t nrowsC, int_t ncolsC);
+
+void mat_x_vec_mult_check(const Operation& opA, 
+		const Property& prA, int_t nrowsA, int_t ncolsA, 
+		int_t sizeX, int_t sizeY);
+
+#if 0
+void mat_x_mat_mult_check(
+		const Property& prA, int_t nrowsA, int_t ncolsA, const Operation& opA, 
+		const Property& prB, int_t nrowsB, int_t ncolsB, const Operation& opB, 
+		const Property& prC, int_t nrowsC, int_t ncolsC);
+#endif
+
+void trivec_mult_replace_check(const Property& prA, 
+		int_t nrowsA, int_t ncolsA, const Operation& opA, 
+		int_t sizeX);
+
+void trimat_mult_replace_check(side_t sideA, 
+		const Property& prA, int_t nrowsA, int_t ncolsA, const Operation& opA, 
+		const Property& prB, int_t nrowsB, int_t ncolsB);
+
+/*-------------------------------------------------*/
+} // namespace cla3p
+/*-------------------------------------------------*/
+
+#endif // CLA3P_MATRIX_MATH_CHECKS_HPP_

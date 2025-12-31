@@ -1,0 +1,19 @@
+/**
+ * @page cmpi_module_index Module Index
+ *  - @subpage cmpi_module_index_datatypes
+ *  - @subpage cmpi_module_index_comm
+ *
+ *
+ *
+ *
+ * @defgroup cmpi_module_index_datatypes Datatypes
+ * @brief The basic CMPI datatypes.
+ *
+ *
+ *
+ *
+ * @addtogroup cmpi_module_index_comm Communicator
+ * @brief The CMPI communicator object.
+ *
+ */
+
