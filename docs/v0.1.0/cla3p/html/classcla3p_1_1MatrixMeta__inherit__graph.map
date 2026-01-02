@@ -1,0 +1,13 @@
+<map id="cla3p::MatrixMeta" name="cla3p::MatrixMeta">
+<area shape="rect" id="Node000001" title="The matrix metadata class." alt="" coords="228,77,368,102"/>
+<area shape="rect" id="Node000003" href="$classcla3p_1_1coo_1_1XxMatrix.html" title="The sparse matrix class (coordinate format)." alt="" coords="416,5,571,45"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="350,70,431,43,432,48,352,75"/>
+<area shape="rect" id="Node000004" href="$classcla3p_1_1csc_1_1XxMatrix.html" title="The sparse matrix class (compressed sparse column format)." alt="" coords="417,69,570,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="382,87,416,87,416,92,382,92"/>
+<area shape="rect" id="Node000005" href="$classcla3p_1_1dns_1_1XxMatrix.html" title="The dense matrix class." alt="" coords="416,133,571,173"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="352,104,432,131,431,136,350,109"/>
+<area shape="rect" id="Node000002" href="$classcla3p_1_1Meta2D.html" title=" " alt="" coords="5,77,180,102"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,87,228,87,228,92,194,92"/>
+<area shape="rect" id="Node000006" href="$classcla3p_1_1dns_1_1CxMatrix.html" title="The dense complex matrix class." alt="" coords="619,133,773,173"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="584,151,618,151,618,156,584,156"/>
+</map>
