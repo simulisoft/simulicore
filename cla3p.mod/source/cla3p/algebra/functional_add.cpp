@@ -117,14 +117,6 @@ csc::XxMatrix<T_Int,T_Scalar> add(
 		return ret;
 	} // alpha/beta
 
-	//
-	// Multiply everything with (1/beta) to calculate
-	// (1/beta)*C = (alpha/beta) * A + B
-	// then scale C to get proper result
-	//
-
-	alpha = alpha / beta;
-
 	int_t    nrowsC  = A.nrows();
 	int_t    ncolsC  = A.ncols();
 	Property  propC   = A.prop();
@@ -132,13 +124,12 @@ csc::XxMatrix<T_Int,T_Scalar> add(
 	int_t*    rowidxC = nullptr;
 	T_Scalar* valuesC = nullptr;
 
-	blk::csc::add(nrowsC, ncolsC, alpha,
-			A.colptr(), A.rowidx(), A.values(),
-			B.colptr(), B.rowidx(), B.values(),
+	blk::csc::add(nrowsC, ncolsC, 
+			alpha, A.colptr(), A.rowidx(), A.values(),
+			beta, B.colptr(), B.rowidx(), B.values(),
 			&colptrC, &rowidxC, &valuesC);
 
 	ret = csc::XxMatrix<T_Int,T_Scalar>(nrowsC, ncolsC, colptrC, rowidxC, valuesC, true, propC);
-	ret.iscale(beta);
 
 	return ret;
 }
