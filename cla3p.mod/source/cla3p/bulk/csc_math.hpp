@@ -34,9 +34,9 @@ namespace csc {
 // cscC(m x n)
 //
 template <typename T_Scalar>
-void add(int_t m, int_t n, T_Scalar alpha,
-		const int_t *colptrA, const int_t *rowidxA, const T_Scalar *valuesA,
-		const int_t *colptrB, const int_t *rowidxB, const T_Scalar *valuesB,
+void add(int_t m, int_t n,
+		T_Scalar alpha, const int_t *colptrA, const int_t *rowidxA, const T_Scalar *valuesA,
+		T_Scalar beta, const int_t *colptrB, const int_t *rowidxB, const T_Scalar *valuesB,
 		int_t **colptrC, int_t **rowidxC, T_Scalar **valuesC);
 
 //

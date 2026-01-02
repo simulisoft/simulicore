@@ -24,6 +24,7 @@
 // cla3p
 #include "cla3p/error/exceptions.hpp"
 #include "cla3p/error/literals.hpp"
+#include "cla3p/proxies/blas_proxy.hpp"
 #if defined(CLA3P_INTEL_MKL)
 #include "cla3p/proxies/mkl_sparse_proxy.hpp"
 #elif defined(CLA3P_ARMPL)
@@ -36,18 +37,22 @@ namespace blk {
 namespace csc {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void add(int_t m, int_t n, T_Scalar alpha,
-		const int_t *colptrA, const int_t *rowidxA, const T_Scalar *valuesA,
-		const int_t *colptrB, const int_t *rowidxB, const T_Scalar *valuesB,
+void add(int_t m, int_t n,
+		T_Scalar alpha, const int_t *colptrA, const int_t *rowidxA, const T_Scalar *valuesA,
+		T_Scalar beta, const int_t *colptrB, const int_t *rowidxB, const T_Scalar *valuesB,
 		int_t **colptrC, int_t **rowidxC, T_Scalar **valuesC)
 {
 #if defined(CLA3P_INTEL_MKL)
+	// Multiply everything with (1/beta) to calculate
+	// (1/beta)*C = (alpha/beta) * A + B
+	// then scale C to get proper result
+	if(beta != T_Scalar(1)) { alpha = alpha / beta; }
 	mkl::csc_add(m, n, alpha, op_t::N,
 			colptrA, rowidxA, valuesA,
 			colptrB, rowidxB, valuesB,
 			colptrC, rowidxC, valuesC);
+	if(beta != T_Scalar(1)) { blas::scal((*colptrC)[n], beta, *valuesC, 1); }
 #elif defined(CLA3P_ARMPL)
-	T_Scalar beta = T_Scalar(1);
 	armpl::csc_add(m, n,
 			alpha, op_t::N, colptrA, rowidxA, valuesA,
 			beta, op_t::N, colptrB, rowidxB, valuesB,
@@ -58,9 +63,9 @@ void add(int_t m, int_t n, T_Scalar alpha,
 }
 /*-------------------------------------------------*/
 #define instantiate_add(T_Scl) \
-template void add(int_t, int_t, T_Scl, \
-		const int_t*, const int_t*, const T_Scl*, \
-		const int_t*, const int_t*, const T_Scl*, \
+template void add(int_t, int_t, \
+		T_Scl, const int_t*, const int_t*, const T_Scl*, \
+		T_Scl, const int_t*, const int_t*, const T_Scl*, \
 		int_t**, int_t**, T_Scl**)
 instantiate_add(real_t);
 instantiate_add(real4_t);
