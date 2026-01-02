@@ -1,0 +1,13 @@
+<map id="cla3p::dns::XxMatrix&lt; T_Scalar &gt;" name="cla3p::dns::XxMatrix&lt; T_Scalar &gt;">
+<area shape="rect" id="Node000001" title="The dense matrix class." alt="" coords="106,167,261,207"/>
+<area shape="rect" id="Node000006" href="$classcla3p_1_1dns_1_1CxMatrix.html" title="The dense complex matrix class." alt="" coords="106,255,261,295"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="186,221,186,254,181,254,181,221"/>
+<area shape="rect" id="Node000002" href="$classcla3p_1_1MatrixMeta.html" title="The matrix metadata class." alt="" coords="23,86,163,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,119,165,165,162,168,113,123"/>
+<area shape="rect" id="Node000003" href="$classcla3p_1_1Meta2D.html" title=" " alt="" coords="5,5,180,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="95,44,95,86,90,86,90,44"/>
+<area shape="rect" id="Node000004" href="$classcla3p_1_1dns_1_1XxContainer.html" title="The dense container class." alt="" coords="187,79,363,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="247,130,206,168,202,164,243,126"/>
+<area shape="rect" id="Node000005" href="$classcla3p_1_1Ownership.html" title="The ownership metadata class." alt="" coords="208,5,343,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="278,44,278,79,273,79,273,44"/>
+</map>
