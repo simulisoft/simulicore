@@ -197,6 +197,9 @@ To build and execute the provided examples on Windows using Visual Studio, follo
 ```sh
 ./i32/bin/ex01a_dense_vector_create.bat
 ```
+> <b><i>NOTE (Compliance Requirement): Build Configuration Alignment</i></b>  
+> To ensure stable execution, verify that the build configuration (Debug or Release) of the application matches the configuration used to compile the library. Mixing configurations is strictly discouraged due to fundamental incompatibilities in the C Runtime Library (CRT).
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
