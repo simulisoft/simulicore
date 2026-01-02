@@ -321,8 +321,7 @@ void PartialQR<T_Matrix>::setOptimumBlockSize(int_t m, int_t n)
 	int_t n1 = std::max(m,n);
 	int_t n2 = std::min(m,n);
 
-	char funName[8];
-	std::strncpy(funName, "XGEQRF", 8);
+	char funName[] = "XGEQRF";
 	funName[0] = TypeTraits<T_Scalar>::netlibChar();
 	funName[0] = std::toupper(funName[0]);
 	

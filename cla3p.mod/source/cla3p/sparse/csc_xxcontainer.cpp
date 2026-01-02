@@ -47,7 +47,7 @@ XxContainerTmpl::XxContainer(std::size_t nc, std::size_t nz)
 
 		Ownership::operator=(Ownership(true));
 
-		cptr[nc] = nz;
+		cptr[nc] = static_cast<T_Int>(nz);
 		setColptr(cptr);
 		setRowidx(ridx);
 		setValues(vals);

@@ -124,7 +124,7 @@ template <> int_t Printer::pure_element_length(uplo_t uplo, int_t m, int_t n, co
 	return (calc_max_ilen(uplo,m,n,a,lda) + 1); 
 }
 /*-------------------------------------------------*/
-static int_t pure_real_length(std::streamsize prec) { return (prec + 7); }
+static int_t pure_real_length(std::streamsize prec) { return static_cast<int_t>(prec + 7); }
 static int_t pure_complex_length(std::streamsize prec) { return (2 * pure_real_length(prec) + 3); }
 /*-------------------------------------------------*/
 template <> int_t Printer::pure_element_length(uplo_t, int_t, int_t, const real_t    *, int_t) const { return pure_real_length(m_os.precision()); }
