@@ -42,7 +42,6 @@ set(CLA3P_EXAMPLES_SRC
 	ex05a_solving_linear_systems_lu.cpp
 	ex05b_solving_linear_systems_ldlt.cpp
 	ex05c_solving_linear_systems_auto.cpp
-	#ex05d_solving_linear_systems_operators.cpp
 	ex06a_sparse_matrix_create.cpp
 	ex06c_sparse_matrix_create_with_property.cpp
 	ex06d_sparse_matrix_create_from_aux_data.cpp
@@ -51,15 +50,20 @@ set(CLA3P_EXAMPLES_SRC
 	ex06l_sparse_matrix_algebra_add.cpp
 	ex06m_sparse_matrix_algebra_vmult.cpp
 	ex06n_sparse_matrix_algebra_mmult.cpp
-	ex07a_solving_sparse_linear_systems_lu.cpp
-	ex07b_solving_sparse_linear_systems_llt.cpp
-	ex07c_solving_sparse_linear_systems_ldlt.cpp
-	#ex07d_solving_sparse_linear_systems_operators.cpp
-	ex07e_solving_sparse_linear_systems_auto.cpp
 	ex08a_qr_decomposition.cpp
 	ex08b_sv_decomposition.cpp
 	ex09a_lowrank_matrix_create.cpp
 	)
+
+	if(${SIMULICORE_ARCH_X86_64})
+		set(CLA3P_EXAMPLES_SRC ${CLA3P_EXAMPLES_SRC}
+			ex07a_solving_sparse_linear_systems_lu.cpp
+			ex07b_solving_sparse_linear_systems_llt.cpp
+			ex07c_solving_sparse_linear_systems_ldlt.cpp
+			ex07e_solving_sparse_linear_systems_auto.cpp
+			)
+    endif()
+
 
 #-----------------------------------------------
 # installation setup
