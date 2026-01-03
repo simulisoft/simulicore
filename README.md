@@ -89,9 +89,9 @@ All open source modules are licensed under the [Apache License, Version 2.0](htt
 
 # Contact
 
-<picture><img alt="envelope" src="docs/images/icons-color/envelope.png" height=24px width=24px align="top"></picture> info@simulisoft.com
+<picture><img alt="envelope" src="images/envelope.png" height=24px width=24px align="top"></picture> info@simulisoft.com
 
-<picture><img alt="bug" src="docs/images/icons-color/bug.png" height=24px width=24px align="top"></picture> [https://github.com/simulisoft/simulicore/issues](https://github.com/simulisoft/simulicore/issues)
+<picture><img alt="bug" src="images/bug.png" height=24px width=24px align="top"></picture> [https://github.com/simulisoft/simulicore/issues](https://github.com/simulisoft/simulicore/issues)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
