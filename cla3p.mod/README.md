@@ -137,10 +137,7 @@ cla3p::ops::update(2., X, tmp); // tmp += 2 * X
 cla3p::ops::mult(1., cla3p::op_t::T, A, tmp, 1., Y); // Y += A' * tmp
 ```
 
-**CLA3P Virtuals** are currently available for all vector and matrix objects.
-
-> <b><i>NOTE:</i></b>  
-> In cases where a virtual matrix product is formed by a sparse matrix and a transposed dense matrix (e.g., `A * B.transpose()`), the library explicitly calculates the transpose of the dense matrix. If this specific operation is required within a computational loop, it is recommended to pre-calculate the transpose of matrix `B` outside the loop to avoid redundant explicit computations and minimize computational overhead.
+**CLA3P Virtuals** are currently available for all vector and matrix objects, except for the low-rank matrices.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

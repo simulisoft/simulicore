@@ -33,6 +33,5 @@
 #include "cla3p/algebra/operators_multmv.hpp"
 #include "cla3p/algebra/operators_multmm.hpp"
 #include "cla3p/algebra/operators_perm.hpp"
-//#include "cla3p/algebra/operators_linsol.hpp"
 
 #endif // CLA3P_ALGEBRA_HPP_

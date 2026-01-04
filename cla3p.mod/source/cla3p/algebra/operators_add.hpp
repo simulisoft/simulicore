@@ -29,6 +29,48 @@
 #include "cla3p/virtuals/virtual_plus_minus.hpp"
 
 /*-------------------------------------------------*/
+namespace cla3p { 
+namespace alias { 
+
+template <typename T_Scalar>
+using VirtualPlus_vec = VirtualPlus<
+	dns::XxVector<T_Scalar>,
+	VirtualObject<dns::XxVector<T_Scalar>>,
+	VirtualObject<dns::XxVector<T_Scalar>>>;
+
+template <typename T_Scalar>
+using VirtualPlus_dns = VirtualPlus<
+	dns::XxMatrix<T_Scalar>,
+	VirtualObject<dns::XxMatrix<T_Scalar>>,
+	VirtualObject<dns::XxMatrix<T_Scalar>>>;
+
+template <typename T_Int, typename T_Scalar>
+using VirtualPlus_csc = VirtualPlus<
+	csc::XxMatrix<T_Int,T_Scalar>,
+	VirtualObject<csc::XxMatrix<T_Int,T_Scalar>>,
+	VirtualObject<csc::XxMatrix<T_Int,T_Scalar>>>;
+
+template <typename T_Scalar>
+using VirtualMinus_vec = VirtualMinus<
+	dns::XxVector<T_Scalar>,
+	VirtualObject<dns::XxVector<T_Scalar>>,
+	VirtualObject<dns::XxVector<T_Scalar>>>;
+
+template <typename T_Scalar>
+using VirtualMinus_dns = VirtualMinus<
+	dns::XxMatrix<T_Scalar>,
+	VirtualObject<dns::XxMatrix<T_Scalar>>,
+	VirtualObject<dns::XxMatrix<T_Scalar>>>;
+
+template <typename T_Int, typename T_Scalar>
+using VirtualMinus_csc = VirtualMinus<
+	csc::XxMatrix<T_Int,T_Scalar>,
+	VirtualObject<csc::XxMatrix<T_Int,T_Scalar>>,
+	VirtualObject<csc::XxMatrix<T_Int,T_Scalar>>>;
+
+} // namespace alias
+} // namespace cla3p
+/*-------------------------------------------------*/
 
 //
 // Virtual + Virtual
@@ -58,10 +100,7 @@ operator+(
  * @return The virtual vector sum that simulates the sum of the two.
  */
 template <typename T_Scalar>
-cla3p::VirtualPlus<
-	cla3p::dns::XxVector<T_Scalar>,
-	cla3p::VirtualObject<cla3p::dns::XxVector<T_Scalar>>,
-	cla3p::VirtualObject<cla3p::dns::XxVector<T_Scalar>>>
+cla3p::alias::VirtualPlus_vec<T_Scalar>
 operator+(
 		const cla3p::dns::XxVector<T_Scalar>& X,
 		const cla3p::dns::XxVector<T_Scalar>& Y)
@@ -78,10 +117,7 @@ operator+(
  * @return The virtual matrix sum that simulates the sum of the two.
  */
 template <typename T_Scalar>
-cla3p::VirtualPlus<
-	cla3p::dns::XxMatrix<T_Scalar>,
-	cla3p::VirtualObject<cla3p::dns::XxMatrix<T_Scalar>>,
-	cla3p::VirtualObject<cla3p::dns::XxMatrix<T_Scalar>>>
+cla3p::alias::VirtualPlus_dns<T_Scalar>
 operator+(
 		const cla3p::dns::XxMatrix<T_Scalar>& A,
 		const cla3p::dns::XxMatrix<T_Scalar>& B)
@@ -98,10 +134,7 @@ operator+(
  * @return The sparse matrix that is the difference of the two.
  */
 template <typename T_Int, typename T_Scalar>
-cla3p::VirtualPlus<
-	cla3p::csc::XxMatrix<T_Int,T_Scalar>,
-	cla3p::VirtualObject<cla3p::csc::XxMatrix<T_Int,T_Scalar>>,
-	cla3p::VirtualObject<cla3p::csc::XxMatrix<T_Int,T_Scalar>>>
+cla3p::alias::VirtualPlus_csc<T_Int,T_Scalar>
 operator+(
 		const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A,
 		const cla3p::csc::XxMatrix<T_Int,T_Scalar>& B)
@@ -225,10 +258,7 @@ operator-(
  * @return The virtual vector sum that simulates the subtraction of the two.
  */
 template <typename T_Scalar>
-cla3p::VirtualMinus<
-	cla3p::dns::XxVector<T_Scalar>,
-	cla3p::VirtualObject<cla3p::dns::XxVector<T_Scalar>>,
-	cla3p::VirtualObject<cla3p::dns::XxVector<T_Scalar>>>
+cla3p::alias::VirtualMinus_vec<T_Scalar>
 operator-(
 		const cla3p::dns::XxVector<T_Scalar>& X,
 		const cla3p::dns::XxVector<T_Scalar>& Y)
@@ -245,10 +275,7 @@ operator-(
  * @return The virtual matrix sum that simulates the subtraction of the two.
  */
 template <typename T_Scalar>
-cla3p::VirtualMinus<
-	cla3p::dns::XxMatrix<T_Scalar>,
-	cla3p::VirtualObject<cla3p::dns::XxMatrix<T_Scalar>>,
-	cla3p::VirtualObject<cla3p::dns::XxMatrix<T_Scalar>>>
+cla3p::alias::VirtualMinus_dns<T_Scalar>
 operator-(
 		const cla3p::dns::XxMatrix<T_Scalar>& A,
 		const cla3p::dns::XxMatrix<T_Scalar>& B)
@@ -265,10 +292,7 @@ operator-(
  * @return The sparse matrix that is the difference of the two.
  */
 template <typename T_Int, typename T_Scalar>
-cla3p::VirtualMinus<
-	cla3p::csc::XxMatrix<T_Int,T_Scalar>,
-	cla3p::VirtualObject<cla3p::csc::XxMatrix<T_Int,T_Scalar>>,
-	cla3p::VirtualObject<cla3p::csc::XxMatrix<T_Int,T_Scalar>>>
+cla3p::alias::VirtualMinus_csc<T_Int,T_Scalar>
 operator-(
 		const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A,
 		const cla3p::csc::XxMatrix<T_Int,T_Scalar>& B)

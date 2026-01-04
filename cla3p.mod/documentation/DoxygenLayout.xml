@@ -110,7 +110,6 @@
         <tab type="user" url="@ref cla3p_module_index_math_operators_scal" title="Scale"/>
         <tab type="user" url="@ref cla3p_module_index_math_operators_mult" title="Multiply"/>
         <tab type="user" url="@ref cla3p_module_index_math_operators_perm" title="Permute"/>
-        <tab type="user" url="@ref cla3p_module_index_math_operators_linsol" title="Linear Solve"/>
       </tab>
 
       <tab type="user" url="@ref cla3p_module_index_stream_operators" title="Stream Operators"/>

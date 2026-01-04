@@ -27,6 +27,26 @@
 #include "cla3p/virtuals/virtual_product.hpp"
 
 /*-------------------------------------------------*/
+
+namespace cla3p { 
+namespace alias { 
+
+template <typename T_Scalar>
+using VirtualProduct_dnsmv = VirtualProduct<
+	dns::XxVector<T_Scalar>,
+	VirtualObject<dns::XxMatrix<T_Scalar>>,
+	VirtualObject<dns::XxVector<T_Scalar>>>;
+
+template <typename T_Int, typename T_Scalar>
+using VirtualProduct_cscmv = VirtualProduct<
+	dns::XxVector<T_Scalar>,
+	VirtualObject<csc::XxMatrix<T_Int,T_Scalar>>,
+	VirtualObject<dns::XxVector<T_Scalar>>>;
+
+} // namespace alias
+} // namespace cla3p
+
+/*-------------------------------------------------*/
 /*
  * Virtual x XxVector
  */
@@ -58,18 +78,12 @@ operator*(
  * @return The virtual product.
  */
 template <typename T_Scalar>
-cla3p::VirtualProduct<
-	cla3p::dns::XxVector<T_Scalar>,
-	cla3p::VirtualObject<cla3p::dns::XxMatrix<T_Scalar>>,
-	cla3p::VirtualObject<cla3p::dns::XxVector<T_Scalar>>> 
+cla3p::alias::VirtualProduct_dnsmv<T_Scalar>
 operator*(
 	const cla3p::dns::XxMatrix<T_Scalar>& A, 
 	const cla3p::dns::XxVector<T_Scalar>& X) 
 { 
-	return cla3p::VirtualProduct<
-		cla3p::dns::XxVector<T_Scalar>,
-		cla3p::VirtualObject<cla3p::dns::XxMatrix<T_Scalar>>,
-		cla3p::VirtualObject<cla3p::dns::XxVector<T_Scalar>>>(A.virtualize(), X.virtualize());
+	return cla3p::alias::VirtualProduct_dnsmv<T_Scalar>(A.virtualize(), X.virtualize());
 }
 
 /**
@@ -81,18 +95,12 @@ operator*(
  * @return The virtual product.
  */
 template <typename T_Int, typename T_Scalar>
-cla3p::VirtualProduct<
-	cla3p::dns::XxVector<T_Scalar>,
-	cla3p::VirtualObject<cla3p::csc::XxMatrix<T_Int,T_Scalar>>,
-	cla3p::VirtualObject<cla3p::dns::XxVector<T_Scalar>>> 
+cla3p::alias::VirtualProduct_cscmv<T_Int,T_Scalar>
 operator*(
 	const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A, 
 	const cla3p::dns::XxVector<T_Scalar>& X) 
 { 
-	return cla3p::VirtualProduct<
-		cla3p::dns::XxVector<T_Scalar>,
-		cla3p::VirtualObject<cla3p::csc::XxMatrix<T_Int,T_Scalar>>,
-		cla3p::VirtualObject<cla3p::dns::XxVector<T_Scalar>>>(A.virtualize(), X.virtualize());
+	return cla3p::alias::VirtualProduct_cscmv<T_Int,T_Scalar>(A.virtualize(), X.virtualize());
 }
 /*-------------------------------------------------*/
 

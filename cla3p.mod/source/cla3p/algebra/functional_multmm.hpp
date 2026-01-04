@@ -49,7 +49,7 @@ namespace ops {
              A: General     B: Symmetric   opA: must be set to N   opB: ignored            C: General
              A: General     B: Hermitian   opA: must be set to N   opB: ignored            C: General
              A: General     B: Triangular  opA: must be set to N   opB: unconstrained      C: General
- *          @endverbatim
+            @endverbatim
  * @param[in] alpha The scaling coefficient.
  * @param[in] opA The operation to be performed for matrix A.
  * @param[in] A The input matrix.
@@ -131,7 +131,7 @@ void trisol(T_Scalar alpha,
              A: General     B: General     opA: unconstrained      C: General
              A: Symmetric   B: General     opA: ignored            C: General
              A: Hermitian   B: General     opA: ignored            C: General
- *          @endverbatim
+            @endverbatim
  * @param[in] alpha The scaling coefficient.
  * @param[in] opA The operation to be performed for matrix A.
  * @param[in] A The input sparse matrix.
@@ -152,7 +152,7 @@ void mult(T_Scalar alpha, op_t opA,
  *          Valid combinations are the following:
  *          @verbatim
              A: General     B: General     opA: unconstrained      opB: unconstrained   
- *          @endverbatim
+            @endverbatim
  * @param[in] alpha The scaling coefficient.
  * @param[in] opA The operation to be performed for matrix A.
  * @param[in] A The input sparse matrix.
@@ -174,7 +174,7 @@ void mult(T_Scalar alpha,
  *          Valid combinations are the following:
  *          @verbatim
             A: General     B: General     opA: N or T             opB: N or T          
- *          @endverbatim
+            @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
  * @param[in] opA The operation to be performed for matrix A.

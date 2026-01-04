@@ -28,6 +28,31 @@
 
 /*-------------------------------------------------*/
 
+namespace cla3p { 
+namespace alias { 
+
+template <typename T_Scalar>
+using VirtualProduct_dnsmm = VirtualProduct<
+	dns::XxMatrix<T_Scalar>,
+	VirtualObject<dns::XxMatrix<T_Scalar>>,
+	VirtualObject<dns::XxMatrix<T_Scalar>>>;
+
+template <typename T_Int, typename T_Scalar>
+using VirtualProduct_cscmm = VirtualProduct<
+	dns::XxMatrix<T_Scalar>,
+	VirtualObject<csc::XxMatrix<T_Int,T_Scalar>>,
+	VirtualObject<dns::XxMatrix<T_Scalar>>>;
+
+template <typename T_Int, typename T_Scalar>
+using VirtualProduct_spmm = VirtualProduct<
+	csc::XxMatrix<T_Int,T_Scalar>,
+	VirtualObject<csc::XxMatrix<T_Int,T_Scalar>>,
+	VirtualObject<csc::XxMatrix<T_Int,T_Scalar>>>;
+
+} // namespace alias
+} // namespace cla3p
+/*-------------------------------------------------*/
+
 /*
  * Virtual x XxMatrix
  */
@@ -71,45 +96,35 @@ operator*(
  * @return The virtual product.
  */
 template <typename T_Scalar>
-cla3p::VirtualProduct<
-	cla3p::dns::XxMatrix<T_Scalar>,
-	cla3p::VirtualObject<cla3p::dns::XxMatrix<T_Scalar>>,
-	cla3p::VirtualObject<cla3p::dns::XxMatrix<T_Scalar>>> 
+cla3p::alias::VirtualProduct_dnsmm<T_Scalar>
 operator*(
 	const cla3p::dns::XxMatrix<T_Scalar>& A, 
 	const cla3p::dns::XxMatrix<T_Scalar>& B) 
 {
-	return cla3p::VirtualProduct<
-		cla3p::dns::XxMatrix<T_Scalar>,
-		cla3p::VirtualObject<cla3p::dns::XxMatrix<T_Scalar>>,
-		cla3p::VirtualObject<cla3p::dns::XxMatrix<T_Scalar>>>(A.virtualize(), B.virtualize()); 
+	return cla3p::alias::VirtualProduct_dnsmm<T_Scalar>(A.virtualize(), B.virtualize());
 }
 
 /**
  * @ingroup cla3p_module_index_math_operators_mult
  * @brief Multiplies a sparse matrix with a dense matrix.
  * @details Performs the operation <b>A * B</b>
- * @warning The virtual matrix product `A * B.transpose()` 
- *          where A is sparse and B is dense calculates the transpose of B explicitly.@n
- *          If you plan to use the specific product in a loop, 
- *          it is recommended to pre-calculate the transpose of B.
+ * @note In cases where a virtual matrix product is formed by a
+ *       sparse matrix and a transposed dense matrix (e.g., `A * B.transpose()`),
+ *       the library explicitly calculates the transpose of the dense matrix.
+ *       If this specific operation is required within a computational loop, it is
+ *       recommended to pre-calculate the transpose of matrix `B` outside the loop
+ *       to avoid redundant explicit computations and minimize computational overhead.
  * @param[in] A The lhs input matrix.
  * @param[in] B The rhs input matrix.
  * @return The resulting dense matrix.
  */
 template <typename T_Int, typename T_Scalar>
-cla3p::VirtualProduct<
-	cla3p::dns::XxMatrix<T_Scalar>,
-	cla3p::VirtualObject<cla3p::csc::XxMatrix<T_Int,T_Scalar>>, 
-	cla3p::VirtualObject<cla3p::dns::XxMatrix<T_Scalar>>>
+cla3p::alias::VirtualProduct_cscmm<T_Int,T_Scalar>
 operator*(
 	const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A, 
 	const cla3p::dns::XxMatrix<T_Scalar>& B) 
 {
-	return cla3p::VirtualProduct<
-		cla3p::dns::XxMatrix<T_Scalar>,
-		cla3p::VirtualObject<cla3p::csc::XxMatrix<T_Int,T_Scalar>>,
-		cla3p::VirtualObject<cla3p::dns::XxMatrix<T_Scalar>>>(A.virtualize(), B.virtualize()); 
+	return cla3p::alias::VirtualProduct_cscmm<T_Int,T_Scalar>(A.virtualize(), B.virtualize());
 }
 
 /**
@@ -121,18 +136,12 @@ operator*(
  * @return The resulting sparse matrix.
  */
 template <typename T_Int, typename T_Scalar>
-cla3p::VirtualProduct<
-	cla3p::csc::XxMatrix<T_Int,T_Scalar>,
-	cla3p::VirtualObject<cla3p::csc::XxMatrix<T_Int,T_Scalar>>,
-	cla3p::VirtualObject<cla3p::csc::XxMatrix<T_Int,T_Scalar>>> 
+cla3p::alias::VirtualProduct_spmm<T_Int,T_Scalar>
 operator*(
 	const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A, 
 	const cla3p::csc::XxMatrix<T_Int,T_Scalar>& B) 
 {
-	return cla3p::VirtualProduct<
-		cla3p::csc::XxMatrix<T_Int,T_Scalar>,
-		cla3p::VirtualObject<cla3p::csc::XxMatrix<T_Int,T_Scalar>>,
-		cla3p::VirtualObject<cla3p::csc::XxMatrix<T_Int,T_Scalar>>>(A.virtualize(), B.virtualize()); 
+	return cla3p::alias::VirtualProduct_spmm<T_Int,T_Scalar>(A.virtualize(), B.virtualize());
 }
 
 #endif // CLA3P_OPERATORS_MULTMM_HPP_

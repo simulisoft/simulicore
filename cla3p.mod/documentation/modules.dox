@@ -158,8 +158,6 @@
  *   @defgroup cla3p_module_index_math_operators_mult Multiplication Operators
  *
  *   @defgroup cla3p_module_index_math_operators_perm Permutation Operators
- *
- *   @defgroup cla3p_module_index_math_operators_linsol Linear Solving Operators
  * @}
  *
  *

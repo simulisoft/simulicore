@@ -9,7 +9,6 @@ set(CLA3P_SRC ${CLA3P_SRC}
 	algebra/functional_multmv.cpp
 	algebra/functional_multmm.cpp
 	algebra/operators_perm.cpp
-	#algebra/operators_linsol.cpp
 	PARENT_SCOPE)
 
 set(CLA3P_ALGEBRA_HPP 
@@ -28,7 +27,6 @@ set(CLA3P_ALGEBRA_HPP
 	operators_multmv.hpp
 	operators_multmm.hpp
 	operators_perm.hpp
-	#operators_linsol.hpp
 	)
 
 #-----------------------------------------------
