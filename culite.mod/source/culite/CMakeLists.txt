@@ -12,7 +12,7 @@ set(CULITE_SRC
 	)
 
 set(CULITE_HPP
-#	types.hpp
+	types.hpp
 #	error.hpp
 #	support.hpp
 #	dense.hpp
@@ -29,7 +29,7 @@ set(CULITE_HPP
 #-----------------------------------------------
 # sub-directory setup
 #-----------------------------------------------
-#add_subdirectory(types)
+add_subdirectory(types)
 #add_subdirectory(error)
 #add_subdirectory(bulk)
 #add_subdirectory(checks)

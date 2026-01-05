@@ -26,6 +26,7 @@ set(NVIDIA_CUDA_LIB
 	${NVIDIA_CUDA_LIB_DIR}/cudart.lib 
 	${NVIDIA_CUDA_LIB_DIR}/cublas.lib 
 	${NVIDIA_CUDA_LIB_DIR}/cusolver.lib 
-	${NVIDIA_CUDA_LIB_DIR}/cusparse.lib 
-	${NVIDIA_CUDSS_LIB_DIR}/cudss.lib
-	${NVIDIA_CUDSS_LIB_DIR}/cudss_mtlayer_vcomp140.lib)
+	${NVIDIA_CUDA_LIB_DIR}/cusparse.lib)
+
+set(NVIDIA_CUDSS_LIB
+	${NVIDIA_CUDSS_LIB_DIR}/cudss.lib)

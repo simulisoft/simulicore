@@ -25,6 +25,8 @@ set(NVIDIA_CUDA_LIB
 	-lcudart
 	-lcublas
 	-lcusolver 
-	-lcusparse
+	-lcusparse)
+
+set(NVIDIA_CUDSS_LIB 
 	-L${NVIDIA_CUDSS_LIB_DIR}
 	-lcudss)

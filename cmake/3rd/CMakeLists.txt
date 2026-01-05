@@ -3,6 +3,8 @@ set(CONFIG_3RD
 	mkl.lin.cmake
 	mkl.win.cmake
 	armpl.mac.cmake
+	cuda.lin.cmake
+	cuda.win.cmake
 	)
 
 #-----------------------------------------------
