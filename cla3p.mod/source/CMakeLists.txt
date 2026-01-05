@@ -50,7 +50,7 @@ if(${SIMULICORE_SYSTEM_MACOS})
 
 endif()
 
-if(${SIMULICORE_CMAKE_LINUX_ARM64} OR ${SIMULICORE_CMAKE_WIN32_ARM64})
+if((${SIMULICORE_SYSTEM_LINUX} OR ${SIMULICORE_SYSTEM_WIN32}) AND ${SIMULICORE_ARCH_ARM64})
 	message(FATAL "Arm Performance Libraries for Linux/Windows not yet supported")
 endif()
 
