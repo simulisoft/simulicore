@@ -2,6 +2,7 @@
 #include <omp.h>
 
 #include "cla3p/dense.hpp"
+#include "culite/types.hpp"
 
 /*-------------------------------------------------*/
 
