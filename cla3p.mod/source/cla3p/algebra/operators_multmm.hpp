@@ -89,11 +89,11 @@ operator*(
 
 /**
  * @ingroup cla3p_module_index_math_operators_mult
- * @brief Multiplies a matrix with a matrix.
- * @details Performs the operation <b>A * B</b>
- * @param[in] A The lhs input matrix.
- * @param[in] B The rhs input matrix.
- * @return The virtual product.
+ * @brief Matrix-matrix multiplication for dense matrices.
+ * @details Performs the operation @f$ A \cdot B @f$.
+ * @param[in] A The left-hand side input matrix.
+ * @param[in] B The right-hand side input matrix.
+ * @return The virtual product representing the multiplication.
  */
 template <typename T_Scalar>
 cla3p::alias::VirtualProduct_dnsmm<T_Scalar>
@@ -106,16 +106,15 @@ operator*(
 
 /**
  * @ingroup cla3p_module_index_math_operators_mult
- * @brief Multiplies a sparse matrix with a dense matrix.
- * @details Performs the operation <b>A * B</b>
- * @note In cases where a virtual matrix product is formed by a
- *       sparse matrix and a transposed dense matrix (e.g., `A * B.transpose()`),
- *       the library explicitly calculates the transpose of the dense matrix.
- *       If this specific operation is required within a computational loop, it is
- *       recommended to pre-calculate the transpose of matrix `B` outside the loop
- *       to avoid redundant explicit computations and minimize computational overhead.
- * @param[in] A The lhs input matrix.
- * @param[in] B The rhs input matrix.
+ * @brief Matrix-matrix multiplication for sparse-dense matrices.
+ * @details Performs the operation @f$ A \cdot B @f$ where @p A is sparse and
+ *          @p B is dense.
+ * @note When forming a virtual product with a sparse matrix and a transposed
+ *       dense matrix (e.g., @f$ A \cdot B^T @f$), the library explicitly
+ *       calculates the transpose. If used within a loop, pre-calculate the
+ *       transpose outside the loop to minimize computational overhead.
+ * @param[in] A The left-hand side sparse matrix.
+ * @param[in] B The right-hand side dense matrix.
  * @return The resulting dense matrix.
  */
 template <typename T_Int, typename T_Scalar>
@@ -129,10 +128,10 @@ operator*(
 
 /**
  * @ingroup cla3p_module_index_math_operators_mult
- * @brief Multiplies a sparse matrix with a sparse matrix.
- * @details Performs the operation <b>A * B</b>
- * @param[in] A The lhs input matrix.
- * @param[in] B The rhs input matrix.
+ * @brief Matrix-matrix multiplication for sparse matrices.
+ * @details Performs the operation @f$ A \cdot B @f$ where both matrices are sparse.
+ * @param[in] A The left-hand side sparse matrix.
+ * @param[in] B The right-hand side sparse matrix.
  * @return The resulting sparse matrix.
  */
 template <typename T_Int, typename T_Scalar>

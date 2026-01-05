@@ -23,8 +23,7 @@
 // 3rd
 
 // cla3p
-#include "cla3p/types.hpp"
-
+#include "cla3p/types/scalar.hpp"
 #include "cla3p/proxies/blas_proxy.hpp"
 #include "cla3p/proxies/lapack_proxy.hpp"
 #include "cla3p/error/exceptions.hpp"

@@ -37,15 +37,15 @@ namespace ops {
 /**
  * @ingroup cla3p_module_index_math_op_matvec
  * @brief Updates a vector with a matrix-vector product.
- * @details Performs the operation <b>Y := beta * Y + alpha * opA(A) * X</b>
+ * @details Performs the operation @f$ Y = \beta \cdot Y + \alpha \cdot op_A(A) \cdot X @f$.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
  * @param[in] alpha The scaling coefficient.
- * @param[in] opA The operation to be performed for matrix A. If A is symmetric or hermitian, opA is ignored.
+ * @param[in] opA The operation to be performed for matrix @p A. If @p A is symmetric or hermitian, @p opA is ignored.
  * @param[in] A The input matrix.
  * @param[in] X The input vector.
- * @param[in] beta The scaling coefficient for Y.
+ * @param[in] beta The scaling coefficient for @p Y.
  * @param[in,out] Y The vector to be updated.
  */
-
 template <typename T_Scalar>
 void mult(T_Scalar alpha, op_t opA,
     const dns::XxMatrix<T_Scalar>& A,
@@ -56,8 +56,9 @@ void mult(T_Scalar alpha, op_t opA,
 /**
  * @ingroup cla3p_module_index_math_op_matvec
  * @brief Replaces a vector with a triangular matrix-vector product.
- * @details Performs the operation <b>X := opA(A) * X</b>
- * @param[in] opA The operation to be performed for matrix A.
+ * @details Performs the operation @f$ X = op_A(A) \cdot X @f$.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
+ * @param[in] opA The operation to be performed for matrix @p A.
  * @param[in] A The input triangular matrix.
  * @param[in,out] X The vector to be replaced.
  */
@@ -69,10 +70,11 @@ void trimult(op_t opA,
 /**
  * @ingroup cla3p_module_index_math_op_matvec
  * @brief Replaces a vector with the solution of a triangular system.
- * @details Solves the system <b>opA(A) * X = B</b>
- * @param[in] opA The operation to be performed for matrix A.
+ * @details Solves the system @f$ op_A(A) \cdot X = B @f$.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
+ * @param[in] opA The operation to be performed for matrix @p A.
  * @param[in] A The input triangular matrix.
- * @param[in,out] B On entry, the rhs, on exit the system solution X.
+ * @param[in,out] B On entry, the rhs, on exit the system solution @p X.
  */
 template <typename T_Scalar>
 void trisol(op_t opA,
@@ -86,15 +88,16 @@ void trisol(op_t opA,
 /**
  * @ingroup cla3p_module_index_math_op_matvec
  * @brief Updates a vector with a matrix-vector product.
- * @details Performs the operation <b>Y := beta * Y + alpha * opA(A) * X</b>
+ * @details Performs the operation @f$ Y = \beta \cdot Y + \alpha \cdot op_A(A) \cdot X @f$.
+ * @tparam T_Int The integer type for indexing.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
  * @param[in] alpha The scaling coefficient.
- * @param[in] opA The operation to be performed for matrix A. If A is symmetric or hermitian, opA is ignored.
+ * @param[in] opA The operation to be performed for matrix @p A. If @p A is symmetric or hermitian, @p opA is ignored.
  * @param[in] A The input matrix.
  * @param[in] X The input vector.
- * @param[in] beta The scaling coefficient for Y.
+ * @param[in] beta The scaling coefficient for @p Y.
  * @param[in,out] Y The vector to be updated.
  */
-
 template <typename T_Int, typename T_Scalar>
 void mult(T_Scalar alpha, op_t opA,
     const csc::XxMatrix<T_Int,T_Scalar>& A,

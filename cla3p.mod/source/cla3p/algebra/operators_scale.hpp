@@ -66,9 +66,9 @@ operator*(
 
 /**
  * @ingroup cla3p_module_index_math_operators_scal
- * @brief Multiplies a scalar with a vector.
- * @details Performs the operation <b>val * X</b>
- * @param[in] val The coefficient value.
+ * @brief Scalar-vector multiplication.
+ * @details Performs the operation @f$ \alpha \cdot X @f$.
+ * @param[in] val The scalar coefficient.
  * @param[in] X The input vector.
  * @return The virtually scaled vector.
  */
@@ -81,10 +81,10 @@ operator*(T_Scalar val, const cla3p::dns::XxVector<T_Scalar>& X)
 
 /**
  * @ingroup cla3p_module_index_math_operators_scal
- * @brief Multiplies a scalar with a dense matrix.
- * @details Performs the operation <b>val * A</b>
- * @param[in] val The coefficient value.
- * @param[in] A The input matrix.
+ * @brief Scalar-matrix multiplication for dense matrices.
+ * @details Performs the operation @f$ \alpha \cdot A @f$.
+ * @param[in] val The scalar coefficient.
+ * @param[in] A The input dense matrix.
  * @return The virtually scaled matrix.
  */
 template <typename T_Scalar>
@@ -96,11 +96,11 @@ operator*(T_Scalar val, const cla3p::dns::XxMatrix<T_Scalar>& A)
 
 /**
  * @ingroup cla3p_module_index_math_operators_scal
- * @brief Multiplies a scalar with a sparse matrix.
- * @details Performs the operation <b>val * A</b>
- * @param[in] val The coefficient value.
- * @param[in] A The input matrix.
- * @return The scaled matrix copy.
+ * @brief Scalar-matrix multiplication for sparse matrices.
+ * @details Performs the operation @f$ \alpha \cdot A @f$.
+ * @param[in] val The scalar coefficient.
+ * @param[in] A The input sparse matrix.
+ * @return The virtually scaled matrix.
  */
 template <typename T_Int, typename T_Scalar>
 cla3p::alias::VirtualScale_csc<T_Int,T_Scalar>
@@ -115,9 +115,9 @@ operator*(T_Scalar val, const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A)
 
 /**
  * @ingroup cla3p_module_index_math_operators_scal
- * @brief Scaling operator.
- * @details Scales `X` by `val`.
- * @param[in] X The input dense vector.
+ * @brief In-place vector scaling.
+ * @details Scales @p X by @p val, performing @f$ X = \alpha \cdot X @f$.
+ * @param[in,out] X The dense vector to scale.
  * @param[in] val The scaling coefficient.
  */
 template <typename T_Scalar>
@@ -130,9 +130,9 @@ void operator*=(
 
 /**
  * @ingroup cla3p_module_index_math_operators_scal
- * @brief Scaling operator.
- * @details Scales `A` by `val`.
- * @param[in] A The input dense matrix.
+ * @brief In-place dense matrix scaling.
+ * @details Scales @p A by @p val, performing @f$ A = \alpha \cdot A @f$.
+ * @param[in,out] A The dense matrix to scale.
  * @param[in] val The scaling coefficient.
  */
 template <typename T_Scalar>
@@ -145,9 +145,9 @@ void operator*=(
 
 /**
  * @ingroup cla3p_module_index_math_operators_scal
- * @brief Scaling operator.
- * @details Scales `A` by `val`.
- * @param[in] A The input sparse matrix.
+ * @brief In-place sparse matrix scaling.
+ * @details Scales @p A by @p val, performing @f$ A = \alpha \cdot A @f$.
+ * @param[in,out] A The sparse matrix to scale.
  * @param[in] val The scaling coefficient.
  */
 template <typename T_Int, typename T_Scalar>

@@ -36,12 +36,13 @@ namespace ops {
 /**
  * @ingroup cla3p_module_index_math_op_add
  * @brief Adds two compatible scaled dense vectors.
- * @details Performs the operation <b>alpha * X + beta * Y</b>
- * @param[in] alpha The scaling coefficient for X.
+ * @details Performs the operation @f$ \alpha \cdot X + \beta \cdot Y @f$.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
+ * @param[in] alpha The scaling coefficient for @p X.
  * @param[in] X The first input dense vector.
- * @param[in] beta The scaling coefficient for Y.
+ * @param[in] beta The scaling coefficient for @p Y.
  * @param[in] Y The second input dense vector.
- * @return The result of the operation <b>(alpha * X + beta * Y)</b>.
+ * @return The result of the operation @f$ \alpha \cdot X + \beta \cdot Y @f$.
  */
 template <typename T_Scalar>
 dns::XxVector<T_Scalar> add(
@@ -51,12 +52,13 @@ dns::XxVector<T_Scalar> add(
 /**
  * @ingroup cla3p_module_index_math_op_add
  * @brief Adds two compatible scaled dense matrices.
- * @details Performs the operation <b>alpha * A + beta * B</b>
- * @param[in] alpha The scaling coefficient for A.
+ * @details Performs the operation @f$ \alpha \cdot A + \beta \cdot B @f$.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
+ * @param[in] alpha The scaling coefficient for @p A.
  * @param[in] A The first input dense matrix.
- * @param[in] beta The scaling coefficient for B.
+ * @param[in] beta The scaling coefficient for @p B.
  * @param[in] B The second input dense matrix.
- * @return The result of the operation <b>(alpha * A + beta * B)</b>.
+ * @return The result of the operation @f$ \alpha \cdot A + \beta \cdot B @f$.
  */
 template <typename T_Scalar>
 dns::XxMatrix<T_Scalar> add(
@@ -66,12 +68,14 @@ dns::XxMatrix<T_Scalar> add(
 /**
  * @ingroup cla3p_module_index_math_op_add
  * @brief Adds two compatible sparse matrices.
- * @details Performs the operation <b>alpha * A + beta * B</b>
- * @param[in] alpha The scaling coefficient for A.
+ * @details Performs the operation @f$ \alpha \cdot A + \beta \cdot B @f$.
+ * @tparam T_Int The integer type for indexing.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
+ * @param[in] alpha The scaling coefficient for @p A.
  * @param[in] A The first input sparse matrix.
- * @param[in] beta The scaling coefficient for B.
+ * @param[in] beta The scaling coefficient for @p B.
  * @param[in] B The second input sparse matrix.
- * @return The result of the operation <b>(alpha * A + beta * B)</b>.
+ * @return The result of the operation @f$ \alpha \cdot A + \beta \cdot B @f$.
  */
 template <typename T_Int, typename T_Scalar>
 csc::XxMatrix<T_Int, T_Scalar> add(
@@ -81,13 +85,14 @@ csc::XxMatrix<T_Int, T_Scalar> add(
 /**
  * @ingroup cla3p_module_index_math_op_add
  * @brief Adds two compatible low-rank matrices.
- * @details Performs the operation <b>alpha * A + beta * B</b>
- * @param[in] alpha The scaling coefficient for A.
+ * @details Performs the operation @f$ \alpha \cdot A + \beta \cdot B @f$ with rank moderation.
+ * @tparam T_Matrix The underlying matrix type.
+ * @param[in] alpha The scaling coefficient for @p A.
  * @param[in] A The first input low-rank matrix.
- * @param[in] beta The scaling coefficient for B.
+ * @param[in] beta The scaling coefficient for @p B.
  * @param[in] B The second input low-rank matrix.
  * @param[in] rmod The rank moderator that controls the rank cutoff.
- * @return The result of the operation <b>(alpha * A + beta * B)</b>.
+ * @return The result of the operation @f$ \alpha \cdot A + \beta \cdot B @f$.
  */
 template <typename T_Matrix>
 lra::XxMatrix<T_Matrix> add(

@@ -25,7 +25,7 @@ Before proceeding with the installation, please review the [Prerequisites](READM
    
    Throughout this document, the top-level directory will be referred to as `<simulicore_root>`.
 
-3. For x86_64 architectures, open the following file:
+3. To configure Intel&reg; MKL, open the following file:
    
    ```sh
    <simulicore_root>/cmake/3rd/mkl.lin.cmake
@@ -35,8 +35,18 @@ Before proceeding with the installation, please review the [Prerequisites](READM
    
    For additional information, please consult the [Intel&reg; MKL Linking Guide](cmake/3rd/mkl.md).
 
+4. To configure NVIDIA&reg; CUDA, open the following file:
+   
+   ```sh
+   <simulicore_root>/cmake/3rd/cuda.lin.cmake
+   ```
+   
+   Configure the paths `NVIDIA_CUDA_ROOT` and `NVIDIA_CUDSS_ROOT` to reference your installed copies of **NVIDIA&reg; CUDA Toolkit** and **NVIDIA&reg; cuDSS**, respectively.
+   
+   For additional information, please consult the [CUDA & cuDSS Linking Guide](cmake/3rd/cuda.md).
+
    <a name="linux-cmake-config"></a>
-4. Select a build directory `build_dir` and execute the CMake command to configure the project:
+5. Select a build directory `build_dir` and execute the CMake command to configure the project:
    
    ```sh
    cmake -S <simulicore_root> -B <build_dir>
@@ -44,7 +54,7 @@ Before proceeding with the installation, please review the [Prerequisites](READM
    
    For additional configuration options, please refer to the [Additional Configuration Arguments](#extra-configuration-arguments) section below.
 
-5. Compile and install the project:
+6. Compile and install the project:
     
    ```sh
    cmake --build <build_dir>
@@ -65,7 +75,7 @@ Before proceeding with the installation, please review the [Prerequisites](READM
    
    Throughout this document, the top-level directory will be referred to as `<simulicore_root>`.
 
-2. For x86_64 architectures, open the following file:
+2. To configure Intel&reg; MKL, open the following file:
    
    ```sh
    <simulicore_root>/cmake/3rd/mkl.win.cmake
@@ -75,16 +85,26 @@ Before proceeding with the installation, please review the [Prerequisites](READM
 
    For additional information, please consult the [Intel&reg; MKL Linking Guide](cmake/3rd/mkl.md).
 
-3. Launch Microsoft Visual Studio and open the `simulicore_root` directory.
+3. To configure NVIDIA&reg; CUDA, open the following file:
+   
+   ```sh
+   <simulicore_root>/cmake/3rd/cuda.win.cmake
+   ```
+   
+   Configure the paths `NVIDIA_CUDA_ROOT` and `NVIDIA_CUDSS_ROOT` to reference your installed copies of **NVIDIA&reg; CUDA Toolkit** and **NVIDIA&reg; cuDSS**, respectively.
+
+   For additional information, please consult the [CUDA & cuDSS Linking Guide](cmake/3rd/cuda.md).
+
+4. Launch Microsoft Visual Studio and open the `simulicore_root` directory.
 
    <a name="windows-cmake-config"></a>
-4. Configure CMake within Microsoft Visual Studio by navigating to **Project > CMake Settings for SimuliCore**.
+5. Configure CMake within Microsoft Visual Studio by navigating to **Project > CMake Settings for SimuliCore**.
    
    For additional configuration options, please refer to the [Additional Configuration Arguments](#extra-configuration-arguments) section below.
 
-5. Compile the project by selecting **Build > Build All**.
+6. Compile the project by selecting **Build > Build All**.
 
-6. Install the project by selecting **Build > Install SimuliCore**.
+7. Install the project by selecting **Build > Install SimuliCore**.
 
 
 

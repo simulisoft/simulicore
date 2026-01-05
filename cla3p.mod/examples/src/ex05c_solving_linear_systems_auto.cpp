@@ -3,9 +3,9 @@
  */
 
 #include <iostream>
-#include "cla3p/dense.hpp"
-#include "cla3p/linsol.hpp"
-#include "cla3p/algebra.hpp"
+#include <cla3p/dense.hpp>
+#include <cla3p/linsol.hpp>
+#include <cla3p/algebra.hpp>
 
 /*--------------------------------------------------------------------*/
 template <typename T_Rhs>

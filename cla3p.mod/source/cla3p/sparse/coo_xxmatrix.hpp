@@ -40,7 +40,7 @@ namespace coo {
  * @brief The sparse matrix class (coordinate format).
  */
 template <typename T_Int, typename T_Scalar>
-class XxMatrix : public MatrixMeta {
+class XxMatrix : public MatrixMeta<T_Int> {
 
 	private:
 		using TupleVec = std::vector<Tuple<T_Int,T_Scalar>>;

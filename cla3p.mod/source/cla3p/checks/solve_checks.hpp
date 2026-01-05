@@ -21,25 +21,26 @@
  * @file
  */
 
+#include "cla3p/generic/matrix_meta.hpp"
 #include "cla3p/error/exceptions.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
 
-template <typename T_Matrix>
-void default_solve_input_check(int_t n, const T_Matrix& rhs)
+template <typename T_Int>
+void default_solve_input_check(int_t n, const MatrixMeta<T_Int>& rhsMeta)
 {
-	bool supported_prop = rhs.prop().isGeneral();
+	bool supported_prop = rhsMeta.prop().isGeneral();
 
-	if(rhs.nrows() != n) {
+	if(rhsMeta.nrows() != n) {
 		throw err::InvalidOp("Mismatching dimensions for linear solution stage");
 	} // dim check
 
-	if(rhs.empty()) {
+	if(rhsMeta.empty()) {
 		throw err::InvalidOp("Input rhs matrix is empty");
 	} else if(!supported_prop) {
-		throw err::InvalidOp(rhs.prop().name() + " not supported for rhs in linear solution stage");
+		throw err::InvalidOp(rhsMeta.prop().name() + " not supported for rhs in linear solution stage");
 	} // valid prop
 }
 

@@ -33,7 +33,8 @@ namespace ops {
 /**
  * @ingroup cla3p_module_index_math_op_vecvec
  * @brief Calculate vector dot product.
- * @details Performs the operation <b>X<sup>T</sup> Y</b>
+ * @details Performs the operation @f$ X^T \cdot Y @f$.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
  * @param[in] X The input vector.
  * @param[in] Y The input vector.
  * @return The dot product value.
@@ -44,7 +45,8 @@ T_Scalar dot(const dns::XxVector<T_Scalar>& X, const dns::XxVector<T_Scalar>& Y)
 /**
  * @ingroup cla3p_module_index_math_op_vecvec
  * @brief Calculate vector conjugate dot product.
- * @details Performs the operation <b>X<sup>H</sup> Y</b>
+ * @details Performs the operation @f$ X^H \cdot Y @f$.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
  * @param[in] X The input vector.
  * @param[in] Y The input vector.
  * @return The conjugate dot product value.

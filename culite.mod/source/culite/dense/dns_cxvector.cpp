@@ -15,117 +15,90 @@
  */
 
 // this file inc
-#include "cla3p/dense/dns_xxcontainer.hpp"
+#include "culite/dense/dns_cxvector.hpp"
 
 // system
 
 // 3rd
 
-// cla3p
-#include "cla3p/support/imalloc.hpp"
+// culite
+#include "culite/types/scalar.hpp"
+#include "culite/bulk/dns1D.hpp"
 
 /*-------------------------------------------------*/
-namespace cla3p {
+namespace culite {
 namespace dns {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-XxContainer<T_Scalar>::XxContainer()
+CxVector<T_Scalar>::CxVector(const XiVector<T_Scalar>& other)
+	: XxVector<T_Scalar>(other)
 {
-  defaults();
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-XxContainer<T_Scalar>::XxContainer(std::size_t numElements)
+CxVector<T_Scalar>& CxVector<T_Scalar>::operator=(const XiVector<T_Scalar>& other)
 {
-	if(numElements) {
-		T_Scalar *vals = i_malloc<T_Scalar>(numElements);
-		Ownership::operator=(Ownership(true));
-		setValues(vals);
-	}
-}
-/*-------------------------------------------------*/
-template <typename T_Scalar>
-XxContainer<T_Scalar>::XxContainer(T_Scalar *vals, bool bind)
-{
-	if(vals) {
-		Ownership::operator=(Ownership(bind));
-		setValues(vals);
-	}
-}
-/*-------------------------------------------------*/
-template <typename T_Scalar>
-XxContainer<T_Scalar>::XxContainer(XxContainer<T_Scalar>&& other)
-{
-	moveFrom(other);
-}
-/*-------------------------------------------------*/
-template <typename T_Scalar>
-XxContainer<T_Scalar>& XxContainer<T_Scalar>::operator=(XxContainer<T_Scalar>&& other)
-{
-	moveFrom(other);
+	XxVector<T_Scalar>::operator=(other);
 	return *this;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-XxContainer<T_Scalar>::~XxContainer()
+CxVector<T_Scalar>::CxVector(XiVector<T_Scalar>&& other)
+	: XxVector<T_Scalar>(std::move(other))
 {
-  clear();
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void XxContainer<T_Scalar>::defaults()
+CxVector<T_Scalar>& CxVector<T_Scalar>::operator=(XiVector<T_Scalar>&& other)
 {
-	setValues(nullptr);
+	XxVector<T_Scalar>::operator=(std::move(other));
+	return *this;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void XxContainer<T_Scalar>::setValues(T_Scalar *vals)
+CxVector<T_Scalar>::CxVector()
 {
-	m_values = vals;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-T_Scalar* XxContainer<T_Scalar>::values()
+CxVector<T_Scalar>::CxVector(int_t n)
+	: CxVector<T_Scalar>::XxVector(n)
 {
-	return m_values;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-const T_Scalar* XxContainer<T_Scalar>::values() const
+CxVector<T_Scalar>::CxVector(int_t n, T_Scalar *vals, bool bind)
+	: CxVector<T_Scalar>::XxVector(n, vals, bind)
 {
-	return m_values;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void XxContainer<T_Scalar>::clear()
+CxVector<T_Scalar>::~CxVector()
 {
-	if(owner()) {
-		i_free(values());
-	} // owner
-
-	Ownership::clear();
-
-	defaults();
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void XxContainer<T_Scalar>::moveFrom(XxContainer<T_Scalar>& other)
+XxVector<typename TypeTraits<T_Scalar>::real_type> CxVector<T_Scalar>::real() const
 {
-	if(this != &other) {
-		clear();
-		Ownership::operator=(std::move(other));
-		setValues(other.values());
-		other.unbind();
-		other.clear();
-	} // do not apply on self
+	XxVector<T_RScalar> ret(this->size());
+	blk::dns::getReal1D(this->size(), this->values(), ret.values());
+	return ret;
 }
 /*-------------------------------------------------*/
-template class XxContainer<int_t>;
-template class XxContainer<real_t>;
-template class XxContainer<real4_t>;
-template class XxContainer<complex_t>;
-template class XxContainer<complex8_t>;
+template <typename T_Scalar>
+XxVector<typename TypeTraits<T_Scalar>::real_type> CxVector<T_Scalar>::imag() const
+{
+	XxVector<T_RScalar> ret(this->size());
+	blk::dns::getImag1D(this->size(), this->values(), ret.values());
+	return ret;
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+template class CxVector<complex_t>;
+template class CxVector<complex8_t>;
 /*-------------------------------------------------*/
 } // namespace dns
-} // namespace cla3p
+} // namespace culite
 /*-------------------------------------------------*/
+

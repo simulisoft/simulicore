@@ -47,9 +47,11 @@ namespace dns {
 /**
  * @nosubgrouping 
  * @brief The dense matrix class.
+ * @details Represents a dense matrix stored in column-major format.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
  */
 template <typename T_Scalar>
-class XxMatrix : public MatrixMeta, public XxContainer<T_Scalar> {
+class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
 
 	private:
 		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
@@ -425,6 +427,11 @@ class XxMatrix : public MatrixMeta, public XxContainer<T_Scalar> {
 /**
  * @ingroup cla3p_module_index_stream_operators
  * @brief Writes to os the contents of mat.
+ * @details Outputs the matrix to the stream in a human-readable format.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
+ * @param[in,out] os The output stream.
+ * @param[in] mat The matrix to output.
+ * @return The output stream.
  */
 template <typename T_Scalar>
 std::ostream& operator<<(std::ostream& os, const cla3p::dns::XxMatrix<T_Scalar>& mat)

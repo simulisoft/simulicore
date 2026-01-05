@@ -28,15 +28,15 @@
 namespace cla3p {
 /*-------------------------------------------------*/
 
-template <typename T_Matrix>
-void lu_decomp_input_check(const T_Matrix& mat)
+template <typename T_Int>
+void lu_decomp_input_check(const MatrixMeta<T_Int>& matMeta)
 {
-	decomp_generic_check(mat);
+	decomp_generic_check(matMeta);
 
-	bool supported_prop = (mat.prop().isGeneral() || mat.prop().isSymmetric() || mat.prop().isHermitian()); 
+	bool supported_prop = (matMeta.prop().isGeneral() || matMeta.prop().isSymmetric() || matMeta.prop().isHermitian()); 
 
 	if(!supported_prop) {
-		throw err::InvalidOp("Matrices with property " + mat.prop().name() + " not supported for LU decomposition");
+		throw err::InvalidOp("Matrices with property " + matMeta.prop().name() + " not supported for LU decomposition");
 	} // valid prop
 }
 

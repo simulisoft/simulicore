@@ -28,8 +28,11 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
- * @nosubgrouping 
- * @brief The single dimension metadata class.
+ * @nosubgrouping
+ * @brief One-dimensional metadata container.
+ * @tparam T_Int Integer type for storing the dimension value.
+ * @details Provides storage and accessors for vector size.
+ *          This class serves as a base for dimension metadata in dense vector structures.
  */
 template <typename T_Int>
 class Meta1D {
@@ -40,25 +43,31 @@ class Meta1D {
 		~Meta1D() { clear(); }
 
 		/**
-		 * @brief The vector size.
-		 * @return The number of entries in `(*this)`.
+		 * @brief Vector size.
+		 * @details Returns the number of entries stored in @p (*this).
+		 * @return The size dimension.
 		 */
 		T_Int size() const { return m_size; }
 
 		/**
-		 * @brief Test whether object is empty.
-		 * @return true if object dimension is zero, false otherwise
+		 * @brief Tests whether the object has zero dimension.
+		 * @details Returns @c true if the size is zero.
+		 * @return @c true if the object is empty, @c false otherwise.
 		 */
 		bool empty() const { return !size(); }
 
 		/**
-		 * @copydoc empty()
+		 * @brief Logical negation operator.
+		 * @details Equivalent to @ref empty(); returns @c true if object has zero dimension.
+		 * @return @c true if the object is empty, @c false otherwise.
 		 */
 		bool operator!() const { return empty(); } 
 
 		/**
-		 * @brief Test whether object is empty.
-		 * @return true if object is not empty, false otherwise
+		 * @brief Boolean conversion operator.
+		 * @details Enables implicit conversion to @c bool; returns @c true if object
+		 *          has non-zero dimension.
+		 * @return @c true if the object is not empty, @c false otherwise.
 		 */
 		operator bool() const { return !empty(); }
 

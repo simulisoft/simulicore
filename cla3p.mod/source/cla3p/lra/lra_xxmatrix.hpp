@@ -35,6 +35,8 @@ namespace lra {
 /**
  * @nosubgrouping 
  * @brief The dense real matrix class.
+ * @details Represents a low-rank approximation matrix in factored form @f$ A \cdot B^* @f$.
+ * @tparam T_Matrix The underlying matrix type (e.g., dns::XxMatrix<T_Scalar>).
  */
 template <typename T_Matrix>
 class XxMatrix : public Meta2D<int_t> {
@@ -109,19 +111,22 @@ class XxMatrix : public Meta2D<int_t> {
 
 		/**
 		 * @brief The matrix rows.
-		 * @return The number of rows in `(*this)` i.e. number of rows in `(*this).A().
+		 * @details Returns the number of rows in the low-rank matrix.
+		 * @return The number of rows in @c (*this) i.e. number of rows in @c (*this).A().
 		 */
 		int_t nrows() const override;
 
 		/**
 		 * @brief The matrix columns.
-		 * @return The number of columns in `(*this)` i.e. number of rows in `(*this).B().
+		 * @details Returns the number of columns in the low-rank matrix.
+		 * @return The number of columns in @c (*this) i.e. number of rows in @c (*this).B().
 		 */
 		int_t ncols() const override;
 
 		/**
 		 * @brief The matrix rank.
-		 * @return The matrix rank i.e. number of columns in `(*this).A() and (*this).B()`.
+		 * @details Returns the rank of the low-rank approximation.
+		 * @return The matrix rank i.e. number of columns in @c (*this).A() and @c (*this).B().
 		 */
 		int_t nrank() const;
 
@@ -132,7 +137,8 @@ class XxMatrix : public Meta2D<int_t> {
 
 		/**
 		 * @brief The left matrix of the low-rank product.
-		 * @details The matrix A of the product A * B<sup>*</sup> that is the low-rank approximation.
+		 * @details Returns a reference to the matrix @p A of the product @f$ A \cdot B^* @f$ that is the low-rank approximation.
+		 * @return Reference to the left matrix.
 		 */
 		T_Matrix& A();
 
@@ -143,7 +149,8 @@ class XxMatrix : public Meta2D<int_t> {
 
 		/**
 		 * @brief The right matrix of the low-rank product.
-		 * @details The matrix B of the product A * B<sup>*</sup> that is the low-rank approximation.
+		 * @details Returns a reference to the matrix @p B of the product @f$ A \cdot B^* @f$ that is the low-rank approximation.
+		 * @return Reference to the right matrix.
 		 */
 		T_Matrix& B();
 
@@ -189,10 +196,15 @@ class XxMatrix : public Meta2D<int_t> {
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-/*
- @ingroup module_index_stream_operators
- @brief Writes to os the contents of mat.
-*/
+/**
+ * @ingroup cla3p_module_index_stream_operators
+ * @brief Writes to os the contents of mat.
+ * @details Outputs both the left matrix @p A and right matrix @p B of the low-rank factorization.
+ * @tparam T_Matrix The underlying matrix type (e.g., dns::XxMatrix<T_Scalar>).
+ * @param[in,out] os The output stream.
+ * @param[in] mat The low-rank matrix to output.
+ * @return The output stream.
+ */
 template <typename T_Matrix>
 std::ostream& operator<<(std::ostream& os, const cla3p::lra::XxMatrix<T_Matrix>& mat)
 {

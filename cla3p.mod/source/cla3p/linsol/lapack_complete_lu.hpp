@@ -30,6 +30,8 @@ namespace cla3p {
 /**
  * @nosubgrouping
  * @brief The complete pivoting LU linear solver for dense matrices.
+ * @details Implements the LU decomposition with complete pivoting @f$ P A Q = L U @f$ for general matrices.
+ * @tparam T_Matrix The matrix type (e.g., dns::XxMatrix<T_Scalar>).
  */
 template <typename T_Matrix>
 class LapackCompleteLU : public LapackBase<T_Matrix> {

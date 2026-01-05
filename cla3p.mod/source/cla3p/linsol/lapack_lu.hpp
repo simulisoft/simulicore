@@ -32,6 +32,8 @@ namespace dns { template <typename T_Scalar> class XxVector; }
 /**
  * @nosubgrouping
  * @brief The partial pivoting LU linear solver for dense matrices.
+ * @details Implements the LU decomposition with partial pivoting @f$ P A = L U @f$ for general matrices.
+ * @tparam T_Matrix The matrix type (e.g., dns::XxMatrix<T_Scalar>).
  */
 template <typename T_Matrix>
 class LapackLU : public LapackBase<T_Matrix> {

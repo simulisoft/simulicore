@@ -3,7 +3,7 @@
  */
 
 #include <iostream>
-#include "cla3p/sparse.hpp"
+#include <cla3p/sparse.hpp>
 
 int main()
 {

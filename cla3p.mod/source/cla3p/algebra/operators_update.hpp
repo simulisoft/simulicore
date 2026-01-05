@@ -58,10 +58,10 @@ void operator-=(
 
 /**
  * @ingroup cla3p_module_index_math_operators_update
- * @brief Update a dense vector with another dense vector.
- * @details Performs the operation <b>Y = Y + X</b>
- * @param[in,out] Y vector to be updated.
- * @param[in] X The rhs vector.
+ * @brief Adds a dense vector to another.
+ * @details Performs the in-place addition @f$ Y = Y + X @f$.
+ * @param[in,out] Y The vector to be updated.
+ * @param[in] X The vector to add.
  */
 template <typename T_Scalar>
 void operator+=(
@@ -73,10 +73,10 @@ void operator+=(
 
 /**
  * @ingroup cla3p_module_index_math_operators_update
- * @brief Update a dense vector with another dense vector.
- * @details Performs the operation <b>Y = Y - X</b>
- * @param[in,out] Y vector to be updated.
- * @param[in] X The rhs vector.
+ * @brief Subtracts a dense vector from another.
+ * @details Performs the in-place subtraction @f$ Y = Y - X @f$.
+ * @param[in,out] Y The vector to be updated.
+ * @param[in] X The vector to subtract.
  */
 template <typename T_Scalar>
 void operator-=(
@@ -90,10 +90,11 @@ void operator-=(
 
 /**
  * @ingroup cla3p_module_index_math_operators_update
- * @brief Update a dense matrix with another compatible dense matrix.
- * @details Performs the operation <b>A = A + B</b>
- * @param[in,out] A matrix to be updated.
- * @param[in] B The rhs matrix.
+ * @brief Adds a dense matrix to another.
+ * @details Performs the in-place addition @f$ A = A + B @f$. Matrices must
+ *          have compatible dimensions and properties.
+ * @param[in,out] A The matrix to be updated.
+ * @param[in] B The matrix to add.
  */
 template <typename T_Scalar>
 void operator+=(
@@ -105,10 +106,11 @@ void operator+=(
 
 /**
  * @ingroup cla3p_module_index_math_operators_update
- * @brief Update a dense matrix with another compatible dense matrix.
- * @details Performs the operation <b>A = A - B</b>
- * @param[in,out] A matrix to be updated.
- * @param[in] B The rhs matrix.
+ * @brief Subtracts a dense matrix from another.
+ * @details Performs the in-place subtraction @f$ A = A - B @f$. Matrices must
+ *          have compatible dimensions and properties.
+ * @param[in,out] A The matrix to be updated.
+ * @param[in] B The matrix to subtract.
  */
 template <typename T_Scalar>
 void operator-=(
@@ -122,10 +124,11 @@ void operator-=(
 
 /**
  * @ingroup cla3p_module_index_math_operators_update
- * @brief Update a sparse matrix with another compatible sparse matrix.
- * @details Performs the operation <b>A = A + B</b>
- * @param[in,out] A sparse matrix to be updated.
- * @param[in] B The rhs sparse matrix.
+ * @brief Adds a sparse matrix to another.
+ * @details Performs the in-place addition @f$ A = A + B @f$. Matrices must
+ *          have compatible dimensions and properties.
+ * @param[in,out] A The sparse matrix to be updated.
+ * @param[in] B The sparse matrix to add.
  */
 template <typename T_Int, typename T_Scalar>
 void operator+=(
@@ -137,10 +140,11 @@ void operator+=(
 
 /**
  * @ingroup cla3p_module_index_math_operators_update
- * @brief Update a sparse matrix with another compatible sparse matrix.
- * @details Performs the operation <b>A = A - B</b>
- * @param[in,out] A sparse matrix to be updated.
- * @param[in] B The rhs sparse matrix.
+ * @brief Subtracts a sparse matrix from another.
+ * @details Performs the in-place subtraction @f$ A = A - B @f$. Matrices must
+ *          have compatible dimensions and properties.
+ * @param[in,out] A The sparse matrix to be updated.
+ * @param[in] B The sparse matrix to subtract.
  */
 template <typename T_Int, typename T_Scalar>
 void operator-=(

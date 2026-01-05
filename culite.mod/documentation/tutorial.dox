@@ -1,9 +1,25 @@
 /**
  * @page culite_tutorial Quick Start Guide
- * @details Coming Soon...
+ * @brief Basic concepts and usage examples for the cuLite library.
+ * @details This guide provides a collection of examples designed to help users familiarize 
+ * themselves with the cuLite API and understand its core capabilities. 
+ * Each example is structured to demonstrate best practices for high-performance 
+ * GPU computing while maintaining code readability.
+ * 
+ * @note **Design Consistency:** cuLite closely follows CLA3P design patterns and behavior, 
+ * including conventions for copying, moving, shallow copying, and general object lifecycle 
+ * management. Users familiar with CLA3P will find the cuLite API intuitive and consistent, 
+ * enabling seamless integration between CPU and GPU-accelerated workflows.
+ * 
+ * To get started, select a category below to browse the relevant implementation examples. 
+ * Whether you are migrating from standard CUDA or starting a fresh project, these 
+ * modules offer a step-by-step progression through the library's features.
+ *
  *
  *  - @subpage culite_tutorial_datatypes
- *
+ *  - @subpage culite_tutorial_vectors
+ *  - @subpage culite_tutorial_matrices
+ *  - @subpage culite_tutorial_linsol
  *
  *
  *
@@ -11,6 +27,194 @@
  *
  *
  * @page culite_tutorial_datatypes Datatypes
- * @details Coming Soon...
+ * 
+ * cuLite utilizes a set of internal datatypes designed for seamless integration with NVIDIA CUDA environments. 
+ * These types ensure consistency across both host and device code while maintaining compatibility with standard 
+ * CUDA complex types.
+ *
+ * ### Supported Datatypes
+ *
+ * The following aliases are provided within the `culite` namespace:
+ *
+ * | cuLite Type | Underlying C++/CUDA Type | Description |
+ * | :--- | :--- | :--- |
+ * |      culite::int_t | `int32_t` or `int64_t` | Signed integer (bit-width depends on build mode) |
+ * |      culite::uint_t | `uint32_t` or `uint64_t` | Unsigned integer (bit-width depends on build mode) |
+ * | @ref culite::real_t | `double` | Double precision real |
+ * | @ref culite::real4_t | `float` | Single precision real |
+ * | @ref culite::complex_t | `cuDoubleComplex` | Double precision complex (binary compatible with `std::complex<double>`) |
+ * | @ref culite::complex8_t | `cuFloatComplex` | Single precision complex (binary compatible with `std::complex<float>`) |
+ *
+ * ### Integer Precision Configuration
+ *
+ * By default, cuLite uses 32-bit integers for its index types. You can toggle between 32-bit and 64-bit precision 
+ * using the following configuration:
+ *
+ * - **32-bit Integers (Default):** Link your application with the standard library (`libculite.so` / `culite.lib`).
+ * - **64-bit Integers:** Add the `-DCULITE_I64` flag to your compiler flags and link with the 64-bit enabled 
+ *   library (`libculite_i64.so` / `culite_i64.lib`).
+ *
+ * Example:
+ * @code{.cpp}
+ * culite::int_t i;      // Width determined by -DCULITE_I64 flag
+ * culite::real_t d;     // Always double precision
+ * culite::complex_t z;  // cuDoubleComplex structure
+ * @endcode
+ *
+ *
+ *
+ *
+ *
+ *
+ * @page culite_tutorial_vectors Vectors
+ *  - @subpage culite_tutorial_vectors_dense
+ *
+ * @page culite_tutorial_vectors_dense Dense Vectors
+ *
+ * cuLite provides specialized classes for managing dense vectors on NVIDIA GPU devices. 
+ * These classes are optimized for CUDA-accelerated linear algebra operations and support 
+ * both real and complex numerical types.
+ *
+ * ### Available Dense Vector Types
+ *
+ * The following classes are defined within the `culite::dns` namespace:
+ *
+ * | cuLite Class | Numeric Type | Precision |
+ * | :--- | :--- | :--- |
+ * | @ref culite::dns::RdVector | `double` | Double precision real |
+ * | @ref culite::dns::RfVector | `float` | Single precision real |
+ * | @ref culite::dns::CdVector | `cuDoubleComplex` | Double precision complex |
+ * | @ref culite::dns::CfVector | `cuFloatComplex` | Single precision complex |
+ *
+ * @section culite_tutorial_vectors_dense_create Creating vectors
+ *
+ * You can instantiate dense vectors using several initialization strategies, ranging from 
+ * empty containers to pre-allocated device memory.
+ *
+ * @subsection culite_tutorial_vectors_dense_create_default Default and Sized Creation
+ *
+ * Dense vectors can be declared as empty objects or with a predefined size to trigger immediate 
+ * allocation on the GPU.
+ *
+ * <table>
+ *   <tr><th>Source Code</th><th>Console Output</th></tr>
+ *   <tr>
+ *     <td> @include src/ex01a_dense_vector_create.cpp </td>
+ *     <td> @include i32/out/ex01a_dense_vector_create.out </td>
+ *   </tr>
+ * </table>
+ * 
+  *   @subsection culite_tutorial_vectors_dense_create_aux Create dense vector from aux data
+ *   Creates a vector that acts as a "view" or wrapper around an existing C-style array.
+ *   This avoids a deep copy of the data.
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex01c_dense_vector_create_from_aux_data.cpp </td>
+ *       <td> @include i32/out/ex01c_dense_vector_create_from_aux_data.out </td>
+ *     </tr>
+ *   </table>
+ *
+ * 
+ * @page culite_tutorial_matrices Matrices
+ *  - @subpage culite_tutorial_matrices_dense
+ *  - @subpage culite_tutorial_matrices_sparse
+ *
+ * @page culite_tutorial_matrices_dense Dense Matrices
+ * 
+ * cuLite provides specialized classes for managing dense matrices on NVIDIA GPU devices. 
+ * These classes are optimized for CUDA-accelerated linear algebra operations and support 
+ * both real and complex numerical types with column-major storage layout.
+ * 
+ * @warning Currently, only matrices with General property are supported. Support for structured
+ * matrix types (Symmetric, Hermitian, etc.) is planned for future releases.
+ * 
+ * ### Available Dense Matrix Types
+ *
+ * The following classes are defined within the `culite::dns` namespace:
+ *
+ * | cuLite Class | Numeric Type | Precision |
+ * | :--- | :--- | :--- |
+ * | @ref culite::dns::RdMatrix | `double` | Double precision real |
+ * | @ref culite::dns::RfMatrix | `float` | Single precision real |
+ * | @ref culite::dns::CdMatrix | `cuDoubleComplex` | Double precision complex |
+ * | @ref culite::dns::CfMatrix | `cuFloatComplex` | Single precision complex |
+ *
+ * Example:
+ * @code{.cpp}
+ * // Instantiate a double precision real matrix (e.g., 3x3)
+ * culite::dns::RdMatrix Ad(3, 3);
+ * 
+ * // Instantiate a single precision complex matrix (e.g., 5x2)
+ * culite::dns::CfMatrix Ac(5, 2);
+ * @endcode
+ *
+ * 
+ * @section culite_tutorial_matrices_dense_create Creating matrices
+ * In cuLite, dense matrices can be instantiated through various methods, 
+ * depending on whether you require fresh device memory allocation or a wrapper 
+ * for existing GPU memory.
+ *
+ *   @subsection culite_tutorial_matrices_dense_create_default Default creation
+ *   1) **Default Declaration**: Creates an empty matrix object with zero rows and columns. 
+ *      No device memory is allocated.@n
+ *   2) **Sized Declaration**: Allocates device memory for a matrix of size (m x n) on the GPU. 
+ *      Elements are uninitialized and contain indeterminate values.
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex02a_dense_matrix_create.cpp </td>
+ *       <td> @include i32/out/ex02a_dense_matrix_create.out </td>
+ *     </tr>
+ *   </table>
+ * 
+ *   @subsection culite_tutorial_matrices_dense_create_aux Create dense matrix from aux data
+ *   Creates a matrix that "views" an existing device memory buffer (column-major order). 
+ *   This avoids copying large datasets and allows wrapping pre-allocated GPU memory.
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex02d_dense_matrix_create_from_aux_data.cpp </td>
+ *       <td> @include i32/out/ex02d_dense_matrix_create_from_aux_data.out </td>
+ *     </tr>
+ *   </table>
+ * 
+ * 
+ * 
+ * 
+ * 
+ * @page culite_tutorial_matrices_sparse Sparse Matrices
+ * 
+ * @note Sparse matrix support is currently under active development. This module will provide
+ * specialized classes for efficient storage and manipulation of matrices with predominantly
+ * zero elements, including Coordinate (COO), Compressed Sparse Row (CSR), and Compressed
+ * Sparse Column (CSC) formats optimized for CUDA-accelerated operations.
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * @page culite_tutorial_linsol Linear System Solvers
+ * 
+ * cuLite provides high-performance linear system solvers for dense matrices on GPU, utilizing 
+ * optimized backends such as cuSOLVER.
+ * 
+ * - @subpage culite_tutorial_linsol_lapack
+ *
+ * @page culite_tutorial_linsol_lapack Dense (cuSOLVER Based)
+ *
+ * This section demonstrates how to solve dense systems of linear equations on GPU using 
+ * standard factorization methods.
+ *
+ * @section culite_tutorial_linsol_lapack_lu LU Decomposition (General Matrices)
+ * Performs LU factorization with partial pivoting for general matrices on GPU.
+ * <table>
+ *   <tr><th>Source Code</th><th>Console Output</th></tr>
+ *   <tr>
+ *     <td> @include src/ex05a_solving_linear_systems_lu.cpp </td>
+ *     <td> @include i32/out/ex05a_solving_linear_systems_lu.out </td>
+ *   </tr>
+ * </table>
  */
 

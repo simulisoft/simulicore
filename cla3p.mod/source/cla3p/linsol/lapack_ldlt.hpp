@@ -32,6 +32,8 @@ namespace dns { template <typename T_Scalar> class XxVector; }
 /**
  * @nosubgrouping
  * @brief The indefinite Cholesky (LDL') linear solver for dense matrices.
+ * @details Implements the Cholesky decomposition @f$ A = L D L^T @f$ for indefinite symmetric/hermitian matrices.
+ * @tparam T_Matrix The matrix type (e.g., dns::XxMatrix<T_Scalar>).
  */
 template <typename T_Matrix>
 class LapackLDLt : public LapackBase<T_Matrix> {

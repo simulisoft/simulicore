@@ -41,6 +41,8 @@ namespace dns {
 /**
  * @nosubgrouping 
  * @brief The general purpose dense vector class.
+ * @details Represents a dense vector stored in contiguous memory.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
  */
 template <typename T_Scalar>
 class XiVector : public Meta1D<int_t>, public XxContainer<T_Scalar> {
@@ -153,6 +155,11 @@ class XiVector : public Meta1D<int_t>, public XxContainer<T_Scalar> {
 /**
  * @ingroup cla3p_module_index_stream_operators
  * @brief Writes to os the contents of vec.
+ * @details Outputs the vector to the stream in a human-readable format.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
+ * @param[in,out] os The output stream.
+ * @param[in] vec The vector to output.
+ * @return The output stream.
  */
 template <typename T_Scalar>
 std::ostream& operator<<(std::ostream& os, const cla3p::dns::XiVector<T_Scalar>& vec)

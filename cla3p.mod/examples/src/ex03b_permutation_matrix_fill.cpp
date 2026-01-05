@@ -3,7 +3,7 @@
  */
 
 #include <iostream>
-#include "cla3p/perms.hpp"
+#include <cla3p/perms.hpp>
 
 int main()
 {

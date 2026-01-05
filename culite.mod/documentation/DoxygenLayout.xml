@@ -6,22 +6,65 @@
 
     <!-- ==================================================================== -->
 
-    <!--
     <tab type="usergroup" url="@ref culite_tutorial" title="Tutorial">
 
-      <tab type="usergroup" url="@ref culite_tutorial_datatypes" title="Communicator">
+      <tab type="user" url="@ref culite_tutorial_datatypes" title="Datatypes"/>
+
+      <tab type="usergroup" url="@ref culite_tutorial_vectors" title="Vectors">
+        <tab type="usergroup" url="@ref culite_tutorial_vectors_dense" title="Dense">
+          <tab type="user" url="@ref culite_tutorial_vectors_dense_create" title="Create"/>
+        </tab>
       </tab>
+
+      <tab type="usergroup" url="@ref culite_tutorial_matrices" title="Matrices">
+        <tab type="usergroup" url="@ref culite_tutorial_matrices_dense" title="Dense">
+          <tab type="user" url="@ref culite_tutorial_matrices_dense_create" title="Create"/>
+        </tab>
+        <tab type="usergroup" url="@ref culite_tutorial_matrices_sparse" title="Sparse">
+          <!-- <tab type="user" url="@ref culite_tutorial_matrices_sparse_create" title="Create"/> -->
+        </tab>
+      </tab>
+
+      <tab type="usergroup" url="@ref culite_tutorial_linsol" title="Linear System Solvers">
+        <tab type="usergroup" url="@ref culite_tutorial_linsol_lapack" title="Dense (cuSOLVER)">
+          <tab type="user" url="@ref culite_tutorial_linsol_lapack_lu" title="LU"/>
+        </tab>
+        <!--
+        <tab type="usergroup" url="@ref culite_tutorial_linsol_cudss" title="cuDSS)">
+          <tab type="user" url="@ref culite_tutorial_linsol_cudss_lu" title="LU"/>
+          <tab type="user" url="@ref culite_tutorial_linsol_cudss_ldlt" title="LDL'"/>
+          <tab type="user" url="@ref culite_tutorial_linsol_cudss_auto" title="Auto"/>
+        </tab>
+        -->
+      </tab>
+
     </tab>
-    -->
 
     <!-- ==================================================================== -->
 
-    <!--
     <tab type="usergroup" url="@ref culite_module_index" title="Module Index">
       <tab type="user" url="@ref culite_module_index_datatypes" title="Datatypes"/>
-      <tab type="user" url="@ref culite_module_index_comm" title="Communicator"/>
+      <tab type="user" url="@ref culite_module_index_allocators" title="Allocators"/>
+
+      <tab type="usergroup" url="@ref culite_module_index_vectors" title="Vectors">
+        <tab type="user" url="@ref culite_module_index_vectors_dense" title="Dense"/>
+      </tab>
+
+      <tab type="usergroup" url="@ref culite_module_index_matrices" title="Matrices">
+        <tab type="user" url="@ref culite_module_index_matrices_dense" title="Dense"/>
+        <tab type="user" url="@ref culite_module_index_matrices_sparse" title="Sparse"/>
+      </tab>
+
+      <tab type="usergroup" url="@ref culite_module_index_cuda_utils" title="CUDA Module Utilities">
+        <tab type="user" url="@ref culite_module_index_stream_utils" title="CUDA Stream"/>
+        <tab type="user" url="@ref culite_module_index_cublas_utils" title="cuBLAS"/>
+        <tab type="user" url="@ref culite_module_index_cusolver_utils" title="cuSOLVER"/>
+      </tab>
+
+      <tab type="user" url="@ref culite_module_index_host2device_operators" title="Host to Device Operators"/>
+      <tab type="user" url="@ref culite_module_index_device2host_operators" title="Device to Host Operators"/>
+      <tab type="user" url="@ref culite_module_index_stream_operators" title="Stream Operators"/>
     </tab>
-    -->
 
     <!-- ==================================================================== -->
 

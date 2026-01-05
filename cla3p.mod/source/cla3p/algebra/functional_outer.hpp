@@ -34,10 +34,11 @@ namespace ops {
 /**
  * @ingroup cla3p_module_index_math_op_vecvec
  * @brief Update a matrix with a vector outer product.
- * @details Performs the operation <b>A = A + alpha * X Y<sup>T</sup></b>@n
- *          A can be General/Symmetric/Hermitian.@n
- *          If A is Symmetric/Hermitian, it is assumed that the outcome of the operation <b>X Y<sup>T</sup></b> is also Symmetric/Hermitian
+ * @details Performs the operation @f$ A = A + \alpha \cdot X Y^T @f$.
+ *          @p A can be General/Symmetric/Hermitian.
+ *          If @p A is Symmetric/Hermitian, it is assumed that the outcome of the operation @f$ X Y^T @f$ is also Symmetric/Hermitian
  *          and only the corresponding part (upper/lower) will be calculated.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
  * @param[in] alpha The update coefficient.
  * @param[in] X The input vector.
  * @param[in] Y The input vector.
@@ -52,10 +53,11 @@ void outer(T_Scalar alpha,
 /**
  * @ingroup cla3p_module_index_math_op_vecvec
  * @brief Update a matrix with a conjugate vector outer product.
- * @details Performs the operation <b>A = A + alpha * X Y<sup>H</sup></b>@n
- *          A can be General/Symmetric/Hermitian.@n
- *          If A is Symmetric/Hermitian, it is assumed that the outcome of the operation <b>X Y<sup>H</sup></b> is also Symmetric/Hermitian
+ * @details Performs the operation @f$ A = A + \alpha \cdot X Y^H @f$.
+ *          @p A can be General/Symmetric/Hermitian.
+ *          If @p A is Symmetric/Hermitian, it is assumed that the outcome of the operation @f$ X Y^H @f$ is also Symmetric/Hermitian
  *          and only the corresponding part (upper/lower) will be calculated.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
  * @param[in] alpha The update coefficient.
  * @param[in] X The input vector.
  * @param[in] Y The input vector.

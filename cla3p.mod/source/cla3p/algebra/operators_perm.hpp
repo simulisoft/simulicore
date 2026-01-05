@@ -39,9 +39,9 @@
 
 /**
  * @ingroup cla3p_module_index_math_operators_perm
- * @brief Multiplies permutation matrix with a vector.
- * @details Performs the operation <b>P * X</b>
- * @param[in] P The input permutation matrix.
+ * @brief Permutation-vector multiplication.
+ * @details Performs the operation @f$ P \cdot X @f$, reordering vector entries.
+ * @param[in] P The permutation matrix.
  * @param[in] X The input vector.
  * @return The permuted vector.
  */
@@ -52,10 +52,10 @@ cla3p::dns::XxVector<T_Scalar> operator*(
 
 /**
  * @ingroup cla3p_module_index_math_operators_perm
- * @brief Multiplies permutation matrix with a general dense matrix.
- * @details Performs the operation <b>P * A</b>
- * @param[in] P The input permutation matrix.
- * @param[in] A The input general matrix.
+ * @brief Left permutation-matrix multiplication for dense matrices.
+ * @details Performs the operation @f$ P \cdot A @f$, reordering matrix rows.
+ * @param[in] P The permutation matrix.
+ * @param[in] A The input dense matrix.
  * @return The permuted matrix.
  */
 template <typename T_Int, typename T_Scalar>
@@ -65,10 +65,10 @@ cla3p::dns::XxMatrix<T_Scalar> operator*(
 
 /**
  * @ingroup cla3p_module_index_math_operators_perm
- * @brief Multiplies general dense matrix with a permutation matrix.
- * @details Performs the operation <b>A * P</b>
- * @param[in] A The input general matrix.
- * @param[in] P The input permutation matrix.
+ * @brief Right permutation-matrix multiplication for dense matrices.
+ * @details Performs the operation @f$ A \cdot P @f$, reordering matrix columns.
+ * @param[in] A The input dense matrix.
+ * @param[in] P The permutation matrix.
  * @return The permuted matrix.
  */
 
@@ -79,10 +79,10 @@ cla3p::dns::XxMatrix<T_Scalar> operator*(
 
 /**
  * @ingroup cla3p_module_index_math_operators_perm
- * @brief Multiplies permutation matrix with a general sparse matrix.
- * @details Performs the operation <b>P * A</b>
- * @param[in] P The input permutation matrix.
- * @param[in] A The input general matrix.
+ * @brief Left permutation-matrix multiplication for sparse matrices.
+ * @details Performs the operation @f$ P \cdot A @f$, reordering matrix rows.
+ * @param[in] P The permutation matrix.
+ * @param[in] A The input sparse matrix.
  * @return The permuted matrix.
  */
 template <typename T_Int, typename T_Scalar>
@@ -92,10 +92,10 @@ cla3p::csc::XxMatrix<T_Int,T_Scalar> operator*(
 
 /**
  * @ingroup cla3p_module_index_math_operators_perm
- * @brief Multiplies general sparse matrix with a permutation matrix.
- * @details Performs the operation <b>A * P</b>
- * @param[in] A The input general matrix.
- * @param[in] P The input permutation matrix.
+ * @brief Right permutation-matrix multiplication for sparse matrices.
+ * @details Performs the operation @f$ A \cdot P @f$, reordering matrix columns.
+ * @param[in] A The input sparse matrix.
+ * @param[in] P The permutation matrix.
  * @return The permuted matrix.
  */
 template <typename T_Int, typename T_Scalar>
@@ -105,11 +105,11 @@ cla3p::csc::XxMatrix<T_Int,T_Scalar> operator*(
 
 /**
  * @ingroup cla3p_module_index_math_operators_perm
- * @brief Multiplies a permutation matrix with a permutation matrix.
- * @details Performs the operation <b>P * Q</b>
- * @param[in] P The input permutation matrix.
- * @param[in] Q The input permutation matrix.
- * @return The permuted permutation matrix.
+ * @brief Permutation composition.
+ * @details Performs the operation @f$ P \cdot Q @f$, composing two permutations.
+ * @param[in] P The left permutation matrix.
+ * @param[in] Q The right permutation matrix.
+ * @return The composed permutation matrix.
  */
 template <typename T_Int>
 cla3p::prm::PxMatrix<T_Int> operator*(

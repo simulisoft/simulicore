@@ -93,11 +93,11 @@ operator+(
 
 /**
  * @ingroup cla3p_module_index_math_operators_add
- * @brief Adds two compatible vectors.
- * @details Performs the operation <b>X + Y</b>
+ * @brief Adds two dense vectors.
+ * @details Performs the operation @f$ X + Y @f$. Vectors must have compatible sizes.
  * @param[in] X The first vector.
  * @param[in] Y The second vector.
- * @return The virtual vector sum that simulates the sum of the two.
+ * @return The virtual vector sum representing the addition.
  */
 template <typename T_Scalar>
 cla3p::alias::VirtualPlus_vec<T_Scalar>
@@ -110,11 +110,12 @@ operator+(
 
 /**
  * @ingroup cla3p_module_index_math_operators_add
- * @brief Adds two compatible matrices.
- * @details Performs the operation <b>A + B</b>
+ * @brief Adds two dense matrices.
+ * @details Performs the operation @f$ A + B @f$. Matrices must have compatible
+ *          dimensions and properties.
  * @param[in] A The first matrix.
  * @param[in] B The second matrix.
- * @return The virtual matrix sum that simulates the sum of the two.
+ * @return The virtual matrix sum representing the addition.
  */
 template <typename T_Scalar>
 cla3p::alias::VirtualPlus_dns<T_Scalar>
@@ -127,11 +128,12 @@ operator+(
 
 /**
  * @ingroup cla3p_module_index_math_operators_add
- * @brief Subtracts two compatible sparse matrices.
- * @details Performs the operation <b>A - B</b>
+ * @brief Adds two sparse matrices.
+ * @details Performs the operation @f$ A + B @f$. Matrices must have compatible
+ *          dimensions and properties.
  * @param[in] A The first sparse matrix.
  * @param[in] B The second sparse matrix.
- * @return The sparse matrix that is the difference of the two.
+ * @return The virtual matrix sum representing the addition.
  */
 template <typename T_Int, typename T_Scalar>
 cla3p::alias::VirtualPlus_csc<T_Int,T_Scalar>
@@ -251,11 +253,11 @@ operator-(
 
 /**
  * @ingroup cla3p_module_index_math_operators_add
- * @brief Subtracts two compatible vectors.
- * @details Performs the operation <b>X - Y</b>
+ * @brief Subtracts two dense vectors.
+ * @details Performs the operation @f$ X - Y @f$. Vectors must have compatible sizes.
  * @param[in] X The first vector.
  * @param[in] Y The second vector.
- * @return The virtual vector sum that simulates the subtraction of the two.
+ * @return The virtual vector difference representing the subtraction.
  */
 template <typename T_Scalar>
 cla3p::alias::VirtualMinus_vec<T_Scalar>
@@ -268,11 +270,12 @@ operator-(
 
 /**
  * @ingroup cla3p_module_index_math_operators_add
- * @brief Subtracts two compatible matrices.
- * @details Performs the operation <b>A - B</b>
+ * @brief Subtracts two dense matrices.
+ * @details Performs the operation @f$ A - B @f$. Matrices must have compatible
+ *          dimensions and properties.
  * @param[in] A The first matrix.
  * @param[in] B The second matrix.
- * @return The virtual matrix sum that simulates the subtraction of the two.
+ * @return The virtual matrix difference representing the subtraction.
  */
 template <typename T_Scalar>
 cla3p::alias::VirtualMinus_dns<T_Scalar>
@@ -285,11 +288,12 @@ operator-(
 
 /**
  * @ingroup cla3p_module_index_math_operators_add
- * @brief Subtracts two compatible sparse matrices.
- * @details Performs the operation <b>A - B</b>
+ * @brief Subtracts two sparse matrices.
+ * @details Performs the operation @f$ A - B @f$. Matrices must have compatible
+ *          dimensions and properties.
  * @param[in] A The first sparse matrix.
  * @param[in] B The second sparse matrix.
- * @return The sparse matrix that is the difference of the two.
+ * @return The virtual matrix difference representing the subtraction.
  */
 template <typename T_Int, typename T_Scalar>
 cla3p::alias::VirtualMinus_csc<T_Int,T_Scalar>

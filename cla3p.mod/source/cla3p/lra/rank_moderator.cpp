@@ -34,12 +34,6 @@ namespace lra {
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-//template <typename T_Matrix>
-//RankModerator<T_Matrix>& RankModerator<T_Matrix>::Default()
-//{
-//	return __defaultRankModerator;
-//}
-/*-------------------------------------------------*/
 template <typename T_Matrix>
 RankModerator<T_Matrix>::RankModerator()
 {
@@ -64,15 +58,9 @@ RankModerator<T_Matrix>::~RankModerator()
 template <typename T_Matrix>
 void RankModerator<T_Matrix>::defaults()
 {
-#if 0
-	m_cutTolerance = Default().cutTolerance();
-	m_reductionMethod = Default().reductionMethod();
-	m_maxReference = Default().maxReference();
-#else
 	m_cutTolerance = T_RScalar(1e-6);
 	m_reductionMethod = lraMethod_t::StandardSVD;
 	m_maxReference = autoReference();
-#endif
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>

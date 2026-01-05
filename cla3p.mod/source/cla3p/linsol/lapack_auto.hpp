@@ -32,6 +32,8 @@ namespace dns { template <typename T_Scalar> class XxVector; }
 /**
  * @nosubgrouping
  * @brief The linear solver for dense matrices with automatic method detection.
+ * @details Automatically selects the appropriate decomposition method (LU, LLt, or LDLt) based on matrix properties.
+ * @tparam T_Matrix The matrix type (e.g., dns::XxMatrix<T_Scalar>).
  */
 template <typename T_Matrix>
 class LapackAuto : public LapackBase<T_Matrix> {

@@ -26,29 +26,49 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
- * @nosubgrouping 
- * @brief The ownership metadata class.
+ * @nosubgrouping
+ * @brief Memory ownership metadata.
+ * @details Tracks whether an object is responsible for deallocating its
+ *          associated memory. When the ownership flag is true, the object
+ *          will deallocate its contents upon destruction.
  */
 class Ownership {
 
 	public:
+		/**
+		 * @brief Default constructor.
+		 * @details Initializes ownership state to default.
+		 */
 		Ownership();
+		
+		/**
+		 * @brief Ownership constructor.
+		 * @details Initializes ownership state with the specified flag.
+		 * @param[in] owner If @c true, the object takes ownership of its contents.
+		 */
 		Ownership(bool owner);
+		
+		/**
+		 * @brief Destructor.
+		 * @details Destroys the ownership metadata object.
+		 */
 		~Ownership();
 
 		/**
-		 * @brief Test whether object is the owner of its contents.
-		 * @details If the ownership flag is true, the object is responsible for deallocation of its contents. @n
-		 *          The content memory is deallocated on object destruction.
-		 * @return whether the object is the owner of its contents.
+		 * @brief Tests memory ownership.
+		 * @details Returns @c true if the object is responsible for deallocating
+		 *          its contents. When true, memory is automatically freed upon
+		 *          object destruction.
+		 * @return @c true if the object owns its contents, @c false otherwise.
 		 */
 		bool owner() const;
 
 		/**
-		 * @brief Unties data from object.
-		 * @details Makes the object no longer responsible for content deallocation. @n
-		 *          Use with caution as it may lead to memory leaks if the contents are not deallocated by the user. @n
-		 *          Deallocate auto-allocated data using i_free().
+		 * @brief Relinquishes memory ownership.
+		 * @details Makes the object no longer responsible for content deallocation.
+		 *          Use with caution as this may lead to memory leaks if the
+		 *          contents are not deallocated manually. Auto-allocated data
+		 *          should be freed using @ref i_free().
 		 */
 		void unbind();
 

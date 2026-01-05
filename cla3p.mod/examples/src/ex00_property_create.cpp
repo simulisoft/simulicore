@@ -3,7 +3,7 @@
  */
 
 #include <iostream>
-#include "cla3p/types.hpp"
+#include <cla3p/types.hpp>
 
 int main()
 {

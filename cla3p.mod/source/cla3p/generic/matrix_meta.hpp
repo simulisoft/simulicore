@@ -29,26 +29,32 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
- * @nosubgrouping 
- * @brief The matrix metadata class.
+ * @nosubgrouping
+ * @brief Matrix metadata container.
+ * @tparam T_Int Integer type for dimension values.
+ * @details Extends @ref Meta2D with matrix property information, storing
+ *          dimensions and structural properties (e.g., symmetric, triangular).
  */
-class MatrixMeta : public Meta2D<int_t> {
+template <typename T_Int>
+class MatrixMeta : public Meta2D<T_Int> {
 
 	public:
 		MatrixMeta() {}
-		MatrixMeta(int_t nr, int_t nc, const Property& pr) : Meta2D<int_t>(nr, nc) { setProp(pr); }
+		MatrixMeta(T_Int nr, T_Int nc, const Property& pr) : Meta2D<T_Int>(nr, nc) { setProp(pr); }
 		~MatrixMeta() { clear(); }
 
 		/**
-		 * @brief The matrix property.
-		 * @details Gets the defined property for the matrix.
+		 * @brief Matrix property accessor.
+		 * @details Returns the property defining the matrix structure (e.g.,
+		 *          symmetric, triangular, hermitian).
+		 * @return A constant reference to the matrix property.
 		 */
 		const Property& prop() const { return m_prop; }
 
 	protected:
 		void clear()
 		{
-			Meta2D<int_t>::clear();
+			Meta2D<T_Int>::clear();
 			m_prop.clear();
 		}
 

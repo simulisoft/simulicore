@@ -3,8 +3,8 @@
  */
 
 #include <iostream>
-#include "cla3p/perms.hpp"
-#include "cla3p/dense.hpp"
+#include <cla3p/perms.hpp>
+#include <cla3p/dense.hpp>
 
 /*-----------------------------------------------------*/
 cla3p::dns::RdMatrix permToDense(const cla3p::prm::PiMatrix& P)

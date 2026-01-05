@@ -45,13 +45,15 @@ class Property {
 
 		/**
 		 * @copybrief standard_docs::constructor()
-d		 * @details Constructs an empty property.
+		 * @details Constructs an empty property with default values.
 		 */
 		Property();
 
 		/**
-		 * @brief The member constructor.
-		 * @details Constructs a property with type `ptype` and fill type `ftype`.
+		 * @brief Constructs a property with specified type and fill pattern.
+		 * @details Constructs a property object with the specified property type and upper/lower fill type.
+		 * @param[in] ptype The property type (general, symmetric, hermitian, triangular, or skew).
+		 * @param[in] ftype The matrix fill pattern (upper, lower, or full).
 		 */
 		explicit Property(prop_t ptype, uplo_t ftype);
 
@@ -71,160 +73,188 @@ d		 * @details Constructs an empty property.
 		Property& operator=(const Property& other);
 
 		/**
-		 * @brief The compare operator.
-		 * @details Checks if two properties are equal.
+		 * @brief Equality comparison operator.
+		 * @details Compares two property objects for equality.
+		 * @param[in] other The property object to compare against.
+		 * @return `true` if both properties have identical type and fill pattern, `false` otherwise.
 		 */
 		bool operator==(const Property& other) const;
 
 		/**
-		 * @brief The compare operator.
-		 * @details Checks if two properties are not equal.
+		 * @brief Inequality comparison operator.
+		 * @details Compares two property objects for inequality.
+		 * @param[in] other The property object to compare against.
+		 * @return `true` if properties differ in type or fill pattern, `false` otherwise.
 		 */
 		bool operator!=(const Property& other) const;
 
 		/**
-		 * @brief Resets all members.
-		 * @details Returns property to initial state.
+		 * @brief Resets the property to its default state.
+		 * @details Clears all property settings and returns the object to its initial default configuration.
 		 */
 		void clear();
 
 		/**
-		 * @brief The property type.
+		 * @brief Retrieves the property type.
+		 * @return The property type enumeration value.
 		 */
 		prop_t type() const;
 
 		/**
-		 * @brief The property fill type.
+		 * @brief Retrieves the matrix fill pattern.
+		 * @return The upper/lower fill type enumeration value.
 		 */
 		uplo_t uplo() const;
 
 		/**
-		 * @brief The property fill type as a char.
+		 * @brief Retrieves the matrix fill pattern as a character.
+		 * @return The upper/lower fill type represented as a single character.
 		 */
 		char cuplo() const;
 
 		/**
-		 * @brief Switches the uplo field.
-		 * @details Makes the upper property lower & vice versa. Full uplo remains the same.
+		 * @brief Toggles the matrix fill pattern.
+		 * @details Switches between upper and lower fill patterns (upper becomes lower and vice versa).
+		 *          The full fill pattern remains unchanged.
 		 */
 		void switchUplo();
 
 		/**
-		 * @brief The property name.
+		 * @brief Retrieves the property name.
+		 * @return A string representation of the property type.
 		 */
 		std::string name() const;
 
 		/**
-		 * @brief Checks weather the property has a valid type.
+		 * @brief Validates the property type.
+		 * @return `true` if the property has a valid type, `false` otherwise.
 		 */
 		bool isValid() const;
 
 		/**
-		 * @brief Checks weather the property requires matrix to be square.
+		 * @brief Determines if the property requires a square matrix.
+		 * @return `true` if the property necessitates a square matrix structure, `false` otherwise.
 		 */
 		bool isSquare() const;
 
 		/**
-		 * @brief Checks weather the property type is general.
+		 * @brief Determines if the property type is general.
+		 * @return `true` if the property represents a general matrix, `false` otherwise.
 		 */
 		bool isGeneral() const;
 
 		/**
-		 * @brief Checks weather the property type is symmetric.
+		 * @brief Determines if the property type is symmetric.
+		 * @return `true` if the property represents a symmetric matrix, `false` otherwise.
 		 */
 		bool isSymmetric() const;
 
 		/**
-		 * @brief Checks weather the property type is hermitian.
+		 * @brief Determines if the property type is Hermitian.
+		 * @return `true` if the property represents a Hermitian matrix, `false` otherwise.
 		 */
 		bool isHermitian() const;
 
 		/**
-		 * @brief Checks weather the property type is triangular/trapezoidal.
+		 * @brief Determines if the property type is triangular or trapezoidal.
+		 * @return `true` if the property represents a triangular or trapezoidal matrix, `false` otherwise.
 		 */
 		bool isTriangular() const;
 
 		/**
-		 * @brief Checks weather the property type is skew.
+		 * @brief Determines if the property type is skew-symmetric.
+		 * @return `true` if the property represents a skew-symmetric matrix, `false` otherwise.
 		 */
 		bool isSkew() const;
 
 		/**
-		 * @brief Checks weather the entire matrix is used.
+		 * @brief Determines if the entire matrix is utilized.
+		 * @return `true` if both upper and lower matrix parts are used, `false` otherwise.
 		 */
 		bool isFull() const;
 
 		/**
-		 * @brief Checks weather the upper part of the matrix is used.
+		 * @brief Determines if the upper triangular portion is utilized.
+		 * @return `true` if the upper part of the matrix is used, `false` otherwise.
 		 */
 		bool isUpper() const;
 
 		/**
-		 * @brief Checks weather the lower part of the matrix is used.
+		 * @brief Determines if the lower triangular portion is utilized.
+		 * @return `true` if the lower part of the matrix is used, `false` otherwise.
 		 */
 		bool isLower() const;
 
 		/**
-		 * @brief Transposes the property.
-		 * @details If a matrix has `*this` as property, the property of the (conjugate) tranposed matrix is returned.@n
-		 *          Works on General & Triangular types.
-		 * 
+		 * @brief Computes the transposed property.
+		 * @details Determines the property of the transposed (or conjugate-transposed) matrix.@n
+		 *          This operation is applicable to general and triangular matrix types.
+		 * @return The property corresponding to the transposed matrix.
 		 */
 		Property transpose() const;
 
 	public:
 
 		/**
-		 * @brief The General property.
-		 * @details Constructs a general property.
+		 * @brief Factory method for general property.
+		 * @details Creates a property object representing a general matrix with no special structure.
+		 * @return A Property object configured for general matrices.
 		 */
 		static Property General();
 
 		/**
-		 * @brief The Symmetric property (upper fill).
-		 * @details Constructs a symmetric property, upper matrix part will be filled/used.
+		 * @brief Factory method for upper-triangular symmetric property.
+		 * @details Creates a property object representing a symmetric matrix where the upper triangular part is stored and utilized.
+		 * @return A Property object configured for symmetric matrices with upper storage.
 		 */
 		static Property SymmetricUpper();
 
 		/**
-		 * @brief The Symmetric property (lower fill).
-		 * @details Constructs a symmetric property, lower matrix part will be filled/used.
+		 * @brief Factory method for lower-triangular symmetric property.
+		 * @details Creates a property object representing a symmetric matrix where the lower triangular part is stored and utilized.
+		 * @return A Property object configured for symmetric matrices with lower storage.
 		 */
 		static Property SymmetricLower();
 
 		/**
-		 * @brief The Hermitian property (upper fill).
-		 * @details Constructs a hermitian property, upper matrix part will be filled/used.
+		 * @brief Factory method for upper-triangular Hermitian property.
+		 * @details Creates a property object representing a Hermitian matrix where the upper triangular part is stored and utilized.
+		 * @return A Property object configured for Hermitian matrices with upper storage.
 		 */
 		static Property HermitianUpper();
 
 		/**
-		 * @brief The Hermitian property (lower fill).
-		 * @details Constructs a hermitian property, lower matrix part will be filled/used.
+		 * @brief Factory method for lower-triangular Hermitian property.
+		 * @details Creates a property object representing a Hermitian matrix where the lower triangular part is stored and utilized.
+		 * @return A Property object configured for Hermitian matrices with lower storage.
 		 */
 		static Property HermitianLower();
 
 		/**
-		 * @brief The Triangular property (upper fill).
-		 * @details Constructs a triangular/trapezoidal property, upper matrix part will be filled/used.
+		 * @brief Factory method for upper-triangular property.
+		 * @details Creates a property object representing an upper triangular or trapezoidal matrix.
+		 * @return A Property object configured for upper triangular matrices.
 		 */
 		static Property TriangularUpper();
 
 		/**
-		 * @brief The Triangular property (lower fill).
-		 * @details Constructs a triangular/trapezoidal property, lower matrix part will be filled/used.
+		 * @brief Factory method for lower-triangular property.
+		 * @details Creates a property object representing a lower triangular or trapezoidal matrix.
+		 * @return A Property object configured for lower triangular matrices.
 		 */
 		static Property TriangularLower();
 
 		/**
-		 * @brief The Skew property (upper fill).
-		 * @details Constructs a skew property, upper matrix part will be filled/used.
+		 * @brief Factory method for upper-triangular skew-symmetric property.
+		 * @details Creates a property object representing a skew-symmetric matrix where the upper triangular part is stored and utilized.
+		 * @return A Property object configured for skew-symmetric matrices with upper storage.
 		 */
 		static Property SkewUpper();
 
 		/**
-		 * @brief The Skew property (lower fill).
-		 * @details Constructs a skew property, lower matrix part will be filled/used.
+		 * @brief Factory method for lower-triangular skew-symmetric property.
+		 * @details Creates a property object representing a skew-symmetric matrix where the lower triangular part is stored and utilized.
+		 * @return A Property object configured for skew-symmetric matrices with lower storage.
 		 */
 		static Property SkewLower();
 
@@ -238,6 +268,15 @@ d		 * @details Constructs an empty property.
 
 /*-------------------------------------------------*/
 
+/**
+ * @brief Sanitizes property for scalar type compatibility.
+ * @tparam T_Scalar The scalar type of the matrix elements.
+ * @param[in] pr The property to sanitize.
+ * @return The sanitized property. For real scalar types, Hermitian properties are converted to symmetric properties.
+ * @details Ensures property compatibility with the scalar type by converting Hermitian properties to
+ *          symmetric properties when applied to real-valued matrices, as Hermitian and symmetric
+ *          properties are equivalent for real matrices.
+ */
 template <typename T_Scalar>
 inline Property sanitizeProperty(const Property& pr)
 {
@@ -247,6 +286,10 @@ inline Property sanitizeProperty(const Property& pr)
 	return pr;
 }
 
+/**
+ * @brief Retrieves all available property types.
+ * @return A vector containing all predefined Property objects.
+ */
 std::vector<Property> allProperties();
 
 /*-------------------------------------------------*/
@@ -255,7 +298,10 @@ std::vector<Property> allProperties();
 
 /**
  * @ingroup cla3p_module_index_stream_operators
- * @brief Writes to os the type of pr.
+ * @brief Outputs the property information to an output stream.
+ * @param[in,out] so The output stream to write to.
+ * @param[in] pr The property object to output.
+ * @return A reference to the output stream.
  */
 std::ostream& operator<<(std::ostream& so, const cla3p::Property& pr);
 

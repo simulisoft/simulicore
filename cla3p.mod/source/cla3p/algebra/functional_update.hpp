@@ -37,7 +37,8 @@ namespace ops {
 /**
  * @ingroup cla3p_module_index_math_op_add
  * @brief Update a dense vector with a compatible scaled dense vector.
- * @details Performs the operation <b>Y = Y + alpha * X</b>
+ * @details Performs the operation @f$ Y = Y + \alpha \cdot X @f$.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
  * @param[in] alpha The scaling coefficient.
  * @param[in] X The input dense vector.
  * @param[in,out] Y The dense vector to be updated.
@@ -50,7 +51,8 @@ void update(T_Scalar alpha,
 /**
  * @ingroup cla3p_module_index_math_op_add
  * @brief Update a dense matrix with a compatible scaled dense matrix.
- * @details Performs the operation <b>B = B + alpha * A</b>
+ * @details Performs the operation @f$ B = B + \alpha \cdot A @f$.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
  * @param[in] alpha The scaling coefficient.
  * @param[in] A The input dense matrix.
  * @param[in,out] B The dense matrix to be updated.
@@ -63,7 +65,9 @@ void update(T_Scalar alpha,
 /**
  * @ingroup cla3p_module_index_math_op_add
  * @brief Update a sparse matrix with a compatible scaled sparse matrix.
- * @details Performs the operation <b>B = B + alpha * A</b>
+ * @details Performs the operation @f$ B = B + \alpha \cdot A @f$.
+ * @tparam T_Int The integer type for indexing.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
  * @param[in] alpha The scaling coefficient.
  * @param[in] A The input sparse matrix.
  * @param[in,out] B The sparse matrix to be updated.

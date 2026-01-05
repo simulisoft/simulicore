@@ -36,12 +36,15 @@ namespace dns { template <typename T_Scalar> class XxVector; }
 /**
  * @nosubgrouping
  * @brief The abstract linear solver base for dense matrices.
+ * @details Provides a base class for linear solvers that use LAPACK decomposition methods.
+ * @tparam T_Matrix The matrix type (e.g., dns::XxMatrix<T_Scalar>).
  */
 template <typename T_Matrix>
 class LapackBase {
 
-	using T_Scalar = typename T_Matrix::value_type;
-	using T_Vector = dns::XxVector<T_Scalar>;
+	private:
+		using T_Scalar = typename T_Matrix::value_type;
+		using T_Vector = dns::XxVector<T_Scalar>;
 
 	protected:
 		LapackBase(decomp_t decompType);
@@ -53,37 +56,41 @@ class LapackBase {
 
 		/**
 		 * @brief Allocates internal buffers.
+		 * @details Preallocates internal storage to avoid dynamic allocation during decomposition.
 		 * @param[in] n The maximum dimension for the buffers.
 		 */
 		void reserve(int_t n);
 		
 		/**
 		 * @brief Clears the solver internal data.
-		 *
-		 * Clears the solver internal data and resets all settings
+		 * @details Clears the solver internal data and resets all settings.
 		 */
 		void clear();
 		
 		/**
 		 * @brief Performs matrix decomposition.
+		 * @details Computes the matrix factorization without modifying the input matrix.
 		 * @param[in] mat The matrix to be decomposed.
 		 */
 		void decompose(const T_Matrix& mat);
 		
 		/**
 		 * @brief Performs in-place matrix decomposition.
-		 * @param[in] mat The matrix to be decomposed, destroyed after the operation.
+		 * @details Computes the matrix factorization by overwriting the input matrix.
+		 * @param[in,out] mat The matrix to be decomposed, destroyed after the operation.
 		 */
 		void idecompose(T_Matrix& mat);
 		
 		/**
 		 * @brief Performs in-place matrix solution.
+		 * @details Solves the linear system using the precomputed factorization.
 		 * @param[in,out] rhs On input, the right hand side matrix, on exit is overwritten with the solution.
 		 */
 		void solve(T_Matrix& rhs) const;
 		
 		/**
 		 * @brief Performs in-place vector solution.
+		 * @details Solves the linear system using the precomputed factorization.
 		 * @param[in,out] rhs On input, the right hand side vector, on exit is overwritten with the solution.
 		 */
 		void solve(T_Vector& rhs) const;

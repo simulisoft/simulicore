@@ -75,12 +75,16 @@ The library continues to expand, with new features integrated into each release.
 #
 
 include(<simulicore_install>/cmake/3rd/mkl.lin.cmake)
-set(CLA3P_INC <simulicore_install>/include)
-set(CLA3P_LIB -L<simulicore_install>/lib -lcla3p)
+set(SIMULICORE_INC <simulicore_install>/include)
+set(SIMULICORE_LIB -L<simulicore_install>/lib -lcla3p)
+set(SIMULICORE_3RD_DEF ${INTEL_MKL_DEF})
+set(SIMULICORE_3RD_INC ${INTEL_MKL_INC})
+set(SIMULICORE_3RD_LIB ${INTEL_MKL_LIB})
 
 add_executable(<target> main.cpp)
-target_include_directories(<target> PRIVATE ${CLA3P_INC})
-target_link_libraries(<target> ${CLA3P_LIB} ${INTEL_MKL_LIB})
+target_compile_definitions(<target> PRIVATE ${SIMULICORE_3RD_DEF})
+target_include_directories(<target> PRIVATE ${SIMULICORE_INC} ${SIMULICORE_3RD_INC})
+target_link_libraries(<target> ${SIMULICORE_LIB} ${SIMULICORE_3RD_LIB})
 ```
 See section [Third-Party Dependencies](#third-party-dependencies) for more information.
 

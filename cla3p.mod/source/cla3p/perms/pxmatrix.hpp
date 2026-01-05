@@ -34,11 +34,11 @@ namespace prm {
 
 /**
  * @nosubgrouping
- * @brief The permutation matrix object.
- *
- * Permutation matrices are represented by an array of (unsigned) integers. @n
- * Their purpose is to rearrange indices using a predefined mapping. @n
- * So an n-sized PermMatrix is a 1D entity and its individual values lie in [0, n-1] (0-based indexing).
+ * @brief Permutation matrix utility.
+ * @tparam T_Int Integer type for permutation indices.
+ * @details Permutation matrices are stored as a 1D array of (unsigned) integers
+ *          and reorder indices based on a predefined mapping. For a size @p n
+ *          matrix, each value lies in the range [0, @p n-1] using 0-based indexing.
  */
 template <typename T_Int>
 class PxMatrix : public dns::XiVector<T_Int> {
@@ -51,39 +51,45 @@ class PxMatrix : public dns::XiVector<T_Int> {
 		 */
 
 		/**
-		 * @brief The default constructor.
-		 *
-		 * Constructs an empty permutation matrix.
+		 * @brief Default constructor.
+		 * @details Constructs an empty permutation matrix.
 		 */
 		explicit PxMatrix();
 
 		/**
-		 * @brief The dimensional constructor.
-		 *
-		 * Constructs an n-sized permutation matrix with uninitialized values.
-		 *
+		 * @brief Size constructor.
+		 * @details Constructs a permutation matrix of size @p n with uninitialized values.
 		 * @param[in] n The permutation matrix size.
 		 */
 		explicit PxMatrix(int_t n);
 
+		/**
+		 * @brief Buffer binding constructor.
+		 * @details Creates a permutation matrix of size @p n bound to external
+		 *          storage or copies from provided values.
+		 * @param[in] n The permutation matrix size.
+		 * @param[in] vals Pointer to @p n entries holding the permutation values.
+		 * @param[in] bind If @c true, binds to @p vals without ownership;
+		 *                 otherwise copies the values.
+		 */
 		explicit PxMatrix(int_t n, T_Int *vals, bool bind);
 
 		/**
-		 * @brief The copy constructor.
-		 *
-		 * Constructs a permutation matrix with a copy of the contents of `other`, `other` is unchanged.
+		 * @brief Copy constructor.
+		 * @details Constructs a permutation matrix with a copy of @p other;
+		 *          @p other remains unchanged.
 		 */
 		PxMatrix(const PxMatrix<T_Int>& other) = default;
 
 		/**
-		 * @brief The move constructor.
-		 *
-		 * Constructs a permutation matrix with the contents of `other`, `other` is destroyed.
+		 * @brief Move constructor.
+		 * @details Transfers the contents of @p other; @p other is left empty.
 		 */
 		PxMatrix(PxMatrix<T_Int>&& other) = default;
 
 		/**
-		 * @brief Destroys the permutation matrix.
+		 * @brief Destructor.
+		 * @details Destroys the permutation matrix.
 		 */
 		~PxMatrix();
 
@@ -95,26 +101,23 @@ class PxMatrix : public dns::XiVector<T_Int> {
 		 */
 
 		/**
-		 * @brief The copy assignment operator.
-		 *
-		 * If `(*this)` is empty, constructs a permutation matrix with a copy of the contents of `other`, `other` is unchanged.@n
-		 * If `(*this)` is not empty, performs a deep copy of the data of `other` to `(*this)`. The size of `(*this)` should match the size of `other`.
+		 * @brief Copy assignment operator.
+		 * @details If @p (*this) is empty, copies the contents of @p other. If @p (*this)
+		 *          is not empty, performs a deep copy of @p other into @p (*this). The two
+		 *          matrices must have equal size.
 		 */
 		PxMatrix& operator=(const PxMatrix<T_Int>& other) = default;
 
 		/**
-		 * @brief The move assignment operator.
-		 *
-		 * Replaces the contents with those of `other`, `other` is destroyed.
+		 * @brief Move assignment operator.
+		 * @details Replaces the contents with those of @p other; @p other is left empty.
 		 */
 		PxMatrix<T_Int>& operator=(PxMatrix<T_Int>&& other) = default;
 
 		/**
-		 * @brief The value setter operator.
-		 *
-		 * Sets all entries of `(*this)` to a single value.
-		 *
-		 * @param[in] val The value to be set.
+		 * @brief Value setter.
+		 * @details Sets all entries of @p (*this) to @p val.
+		 * @param[in] val The value to assign to all entries.
 		 */
 		void operator=(T_Int val);
 
@@ -126,25 +129,26 @@ class PxMatrix : public dns::XiVector<T_Int> {
 		 */
 
 		/**
-		 * @brief The inverse permutation matrix.
-		 * @return The inverse (transpose) of the permutation matrix.
+		 * @brief Inverse permutation.
+		 * @details Computes and returns the inverse (transpose) of the permutation matrix.
+		 * @return The inverse permutation matrix.
 		 */
 		PxMatrix<T_Int> inverse() const;
 
 		/**
-		 * @brief Permutes a permutation matrix.
-		 * @details Creates a permuted copy `P*(*this)` of `(*this)`.
-		 * @param[in] P The left side permutation matrix.
-		 * @return The permutated permutation matrix (P*(*this)).
+		 * @brief Left permutation composition.
+		 * @details Computes and returns the composed permutation @f$ P \cdot (*this) @f$.
+		 * @param[in] P The left-side permutation matrix.
+		 * @return The composed permutation @f$ P \cdot (*this) @f$.
 		 */
 		PxMatrix<T_Int> permuteLeft(const PxMatrix<T_Int>& P) const;
 
 		/**
-		 * @brief Permutes the entries of a vector
-		 * @details Fills `trg` with the permuted copy `P*(*this)` of `(*this)`.
-		 *          Permutation matrix `trg` must be similar to `(*this)`.
-		 * @param[in] P The left side permutation matrix.
-		 * @param[out] trg The permuted permutation matrix `P*(*this)`.
+		 * @brief In-place left permutation composition.
+		 * @details Stores the composed permutation @f$ P \cdot (*this) @f$ into @p trg.
+		 * @param[in] P The left-side permutation matrix.
+		 * @param[out] trg Output permutation matrix receiving @f$ P \cdot (*this) @f$;
+		 *          must match the size of @p (*this).
 		 */
 		void permuteLeft(const PxMatrix<T_Int>& P, PxMatrix<T_Int>& trg) const;
 
@@ -156,22 +160,19 @@ class PxMatrix : public dns::XiVector<T_Int> {
 		 */
 
 		/**
-		 * @brief Creates an identity permutation matrix
-		 *
-		 * Creates an n-sized permutation matrix with P(i) = i.
-		 *
+		 * @brief Identity permutation generator.
+		 * @details Creates an @p n-sized permutation matrix with @f$ P(i) = i @f$.
 		 * @param[in] n The permutation matrix size.
-		 * @return The newly created permutation matrix.
+		 * @return The identity permutation matrix.
 		 */
 		static PxMatrix<T_Int> identity(int_t n);
 
 		/**
-		 * @brief Creates a random permutation matrix
-		 *
-		 * Creates an n-sized permutation matrix with randomly rearranged indexes.
-		 *
+		 * @brief Random permutation generator.
+		 * @details Creates an @p n-sized permutation matrix with randomly
+		 *          rearranged indices.
 		 * @param[in] n The permutation matrix size.
-		 * @return The newly created permutation matrix.
+		 * @return The random permutation matrix.
 		 */
 		static PxMatrix<T_Int> random(int_t n);
 
@@ -180,15 +181,6 @@ class PxMatrix : public dns::XiVector<T_Int> {
 
 /*-------------------------------------------------*/
 } // namespace prm
-/*-------------------------------------------------*/
-
-template<typename T_Int>
-class TypeTraits<prm::PxMatrix<T_Int>> {
-	public:
-		static std::string type_name() { return msg::PermutationMatrix(); };
-};
-
-/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 

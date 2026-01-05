@@ -32,25 +32,29 @@ namespace err {
 /*-------------------------------------------------*/
 
 /**
- * @brief Basic cla3p exception class.
+ * @brief Base exception class for cla3p library.
+ * @details Extends @c std::exception to provide library-specific error reporting.
  */
 class Exception : public std::exception {
 
 	public:
-		/** 
-		 * @brief The default constructor.
-		 *
-		 * Constructs an exception with the given message.
+		/**
+		 * @brief Message constructor.
+		 * @details Constructs an exception with the specified message.
+		 * @param[in] msg The error message.
 		 */
 		Exception(const std::string& msg = "Untitled");
 
-		/** 
-		 * @brief Destroys the exception.
+		/**
+		 * @brief Destructor.
+		 * @details Destroys the exception object.
 		 */
 		~Exception() throw();
 
-		/** 
-		 * @brief Returns the explanatory string.
+		/**
+		 * @brief Returns the exception message.
+		 * @details Provides the explanatory error string.
+		 * @return Pointer to the null-terminated error message.
 		 */
 		const char *what() const throw();
 
@@ -61,7 +65,8 @@ class Exception : public std::exception {
 /*-------------------------------------------------*/
 
 /**
- * @brief Consistency cla3p exception class.
+ * @brief Consistency violation exception.
+ * @details Thrown when an operation encounters inconsistent or incompatible data.
  */
 class NoConsistency : public Exception {
 	public:
@@ -79,7 +84,9 @@ class NoConsistency : public Exception {
 /*-------------------------------------------------*/
 
 /**
- * @brief Invalid operation cla3p exception class.
+ * @brief Invalid operation exception.
+ * @details Thrown when an operation is not supported or not applicable in the
+ *          current context.
  */
 class InvalidOp : public Exception {
 	public:
@@ -97,7 +104,8 @@ class InvalidOp : public Exception {
 /*-------------------------------------------------*/
 
 /**
- * @brief Memory cla3p exception class.
+ * @brief Memory allocation failure exception.
+ * @details Thrown when a memory allocation request cannot be satisfied.
  */
 class OutOfMemory : public Exception {
 	public:
@@ -115,7 +123,8 @@ class OutOfMemory : public Exception {
 /*-------------------------------------------------*/
 
 /**
- * @brief Out-of-bounds cla3p exception class.
+ * @brief Index out-of-bounds exception.
+ * @details Thrown when an array or matrix access uses an invalid index.
  */
 class OutOfBounds : public Exception {
 	public:

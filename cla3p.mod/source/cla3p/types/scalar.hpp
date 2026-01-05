@@ -136,12 +136,6 @@ inline void setIm(real4_t&, real4_t) { }
 inline void setIm(complex_t& z, real_t d) { z.imag(d); }
 inline void setIm(complex8_t& c, real4_t s) { c.imag(s); }
 
-template <typename T_Scalar>
-inline T_Scalar inv(T_Scalar val)
-{
-	return (T_Scalar(1) / val); // skip zero check
-}
-
 } // namespace arith
 
 /*-------------------------------------------------*/

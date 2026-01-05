@@ -25,9 +25,9 @@ The current **SimuliCore** ecosystem includes the following modules:
 
 [**CLA3P (Compact Linear Algebra Parallel Portable Package)**](cla3p.mod/README.md): A high-performance linear algebra library. By leveraging sophisticated OOP design patterns and an intuitive API, CLA3P enables developers to produce high-quality code with minimal overhead.
 
-[**CMPI (Compact Message Passing Interface)**](cmpi.mod/README.md): A modern C++ interface designed to simplify distributed computing and inter-node communication. CMPI is currently in development and will soon be integrated into the SimuliCore suite.
+[**cuLite (Lightweight gpu acceleration interface)**](culite.mod/README.md): A specialized module for streamlining linear algebra calculations on NVIDIA® accelerators. Currently under development on top of CLA3P, cuLite will offer a simplified approach to GPU-driven computation upon release.
 
-[**cuLite (Lightweight gpu acceleration interface)**](culite.mod/README.md): A specialized module for streamlining linear algebra calculations on NVIDIA® accelerators. Currently under development, cuLite will offer a simplified approach to GPU-driven computation upon release.
+[**CMPI (Compact Message Passing Interface)**](cmpi.mod/README.md): A modern C++ interface designed to simplify distributed computing and inter-node communication. CMPI is currently in development and will soon be integrated into the SimuliCore suite.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -42,8 +42,10 @@ To build and install the suite, see the guide below.
 
 In order to build **SimuliCore** you will need:
   * [CMake](https://cmake.org) 3.12.0 and above.
-  * For <b>Linux/Windows x86_64</b>: [Intel&reg; Math Kernel Library](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html)
-    available for download [here](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-download.html).
+  * For <b>Linux/Windows x86_64</b>: 
+    - [Intel&reg; Math Kernel Library](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html) available for download [here](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-download.html).
+    - [NVIDIA&reg; CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit) 13.0 or later available for download [here](https://developer.nvidia.com/cuda-downloads).
+    - [NVIDIA&reg; cuDSS](https://developer.nvidia.com/cudss) available for download [here](https://developer.nvidia.com/cudss-downloads).
   * For <b>MacOS M-Series (arm64)</b>: [Arm Performance Libraries](https://developer.arm.com/Tools%20and%20Software/Arm%20Performance%20Libraries)
     available for download [here](https://developer.arm.com/downloads/-/arm-performance-libraries).
   * <b>Linux/Windows arm64</b>: Soon to be supported (using ArmPL)

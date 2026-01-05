@@ -30,137 +30,157 @@ namespace cla3p {
 /**
  * @ingroup cla3p_module_index_datatypes
  * @enum prop_t
- * @brief The property type.
- *
- * List of matrix algebraic properties.@n
- * Used to construct a Property class that characterizes a matrix in order to take advantage of its properties.
+ * @brief Matrix algebraic property enumeration.
+ * @details Defines the algebraic properties of matrices used to optimize computational operations.
+ *          Each property type imposes specific structural constraints and enables specialized algorithms.
  */
 enum class prop_t {
-	Undefined   = 0, /**< No property */
-	General        , /**< General matrix */
-	Symmetric      , /**< Symmetric matrix */
-	Hermitian      , /**< Hermitian matrix */
-	Triangular     , /**< Triangular/trapezoidal matrix */
-	Skew             /**< Skew matrix */
+	Undefined   = 0, /**< No algebraic property defined. */
+	General        , /**< General matrix with no special algebraic structure. */
+	Symmetric      , /**< Symmetric matrix: @f$ A = A^T @f$. */
+	Hermitian      , /**< Hermitian matrix: @f$ A = A^H @f$. */
+	Triangular     , /**< Triangular or trapezoidal matrix structure. */
+	Skew             /**< Skew-symmetric matrix: @f$ A = -A^T @f$. */
 };
 
 /**
  * @ingroup cla3p_module_index_datatypes
  * @enum uplo_t
- * @brief The fill type.
- *
- * List of matrix structural properties.@n
- * Used to construct a Property class to determine where the values of a matrix are stored.
+ * @brief Matrix storage pattern enumeration.
+ * @details Specifies which triangular portion of a matrix contains the active data.
+ *          This enumeration is used to define storage efficiency for symmetric, Hermitian,
+ *          and triangular matrices where only one triangular portion needs to be stored.
  */
 enum class uplo_t : char {
-	Full  = 'F', /**< Both matrix parts are filled */
-	Upper = 'U', /**< The upper matrix part is filled */
-	Lower = 'L'  /**< The lower matrix part is filled */
+	Full  = 'F', /**< Full matrix storage; both upper and lower triangular parts are stored and utilized. */
+	Upper = 'U', /**< Upper triangular storage; only the upper triangular part is stored and utilized. */
+	Lower = 'L'  /**< Lower triangular storage; only the lower triangular part is stored and utilized. */
 };
 
 /**
  * @ingroup cla3p_module_index_datatypes
  * @enum op_t
- * @brief The operation type.
- *
- * List of operations (implicitly) applied on a matrix.@n
- * For efficiency purposes in matrix operations, this flag is used to designate
- * a virtual operation that is not explicitly applied to the matrix.@n
- * For example in order for the operation Y = A<sup>T</sup> * X to be calculated
- * we do not need to explicitly calculate A<sup>T</sup>.@n
- * Instead we can use the mult() function with the appropriate op_t value for the matrix A:
+ * @brief Matrix operation enumeration.
+ * @details Specifies virtual operations to be applied to matrices in computational routines.
+ *          These operations are not explicitly performed; instead, the operation flag is passed
+ *          to optimized algorithms that implicitly handle the transformation.
+ * @par Example
+ *          To compute @f$ Y = A^T \cdot X @f$ without explicitly forming @f$ A^T @f$:@n
  @code
  cla3p::ops::mult(1, cla3p::op_t::T, A, X, 0, Y);
  @endcode
- to calculate the matrix product much more efficiently.
  */
 enum class op_t : char {
-	N = 'N', /**< No operation: op(A) = A */
-	T = 'T', /**< Transpose operation: op(A) = A<sup>T</sup> */
-	C = 'C'  /**< Conjugate transpose operation: op(A) = A<sup>H</sup> */
+	N = 'N', /**< No operation: @f$ \text{op}(A) = A @f$. */
+	T = 'T', /**< Transpose operation: @f$ \text{op}(A) = A^T @f$. */
+	C = 'C'  /**< Conjugate transpose operation: @f$ \text{op}(A) = A^H @f$. */
 };
 
+/**
+ * @ingroup cla3p_module_index_datatypes
+ * @enum side_t
+ * @brief Matrix operand positioning enumeration.
+ * @details Specifies whether a matrix operand is positioned on the left or right side
+ *          in binary matrix operations such as triangular solves and matrix multiplication.
+ */
 enum class side_t : char {
-	Left  = 'L',
-	Right = 'R' 
+	Left  = 'L', /**< Matrix is positioned on the left side of the operation. */
+	Right = 'R'  /**< Matrix is positioned on the right side of the operation. */
 };
 
+/**
+ * @ingroup cla3p_module_index_datatypes
+ * @enum diag_t
+ * @brief Triangular matrix diagonal type enumeration.
+ * @details Specifies whether the diagonal of a triangular matrix consists of unit elements
+ *          or arbitrary values. This affects storage requirements and computational algorithms.
+ */
 enum class diag_t : char {
-	NonUnit = 'N',
-	Unit    = 'U' 
+	NonUnit = 'N', /**< Diagonal elements are arbitrary (non-unit) values. */
+	Unit    = 'U'  /**< Diagonal elements are implicitly one; not stored explicitly. */
 };
 
 /**
  * @ingroup cla3p_module_index_datatypes
  * @enum dup_t
- * @brief The duplicated policy.
- *
- * Sets the policy for duplicated entries on sparse matrices.
+ * @brief Duplicate entry resolution policy enumeration.
+ * @details Defines the policy for handling duplicate entries when constructing sparse matrices
+ *          from coordinate format. Multiple entries at the same matrix location are combined
+ *          according to the specified policy.
  */
 enum class dup_t {
-	Sum  = 0, /**< Adds duplicated entries */
-	Prod    , /**< Multiplies duplicated entries */
-	Amax    , /**< Keeps absolute maximum entry */
-	Amin      /**< Keeps absolute minimum entry */
+	Sum  = 0, /**< Duplicated entries are summed: @f$ a_{ij} = \sum \text{values}_{ij} @f$. */
+	Prod    , /**< Duplicated entries are multiplied: @f$ a_{ij} = \prod \text{values}_{ij} @f$. */
+	Amax    , /**< The entry with maximum absolute value is retained: @f$ a_{ij} = \max|\text{values}_{ij}| @f$. */
+	Amin      /**< The entry with minimum absolute value is retained: @f$ a_{ij} = \min|\text{values}_{ij}| @f$. */
 };
 
+/**
+ * @ingroup cla3p_module_index_datatypes
+ * @enum decomp_t
+ * @brief Matrix decomposition method enumeration.
+ * @details Specifies the factorization algorithm to be used for matrix decomposition.
+ *          The choice of decomposition method depends on matrix properties and computational requirements.
+ */
 enum class decomp_t {
-	Auto        = 0,
-	LLT         = 1,
-	LDLT        = 2,
-	LU          = 3,
-	CompleteLU  = 4,
-	SymmetricLU = 5
+	Auto        = 0, /**< Automatic selection based on matrix properties. */
+	LLT         = 1, /**< Cholesky decomposition: @f$ A = L \cdot L^T @f$ (for symmetric positive definite matrices). */
+	LDLT        = 2, /**< @f$ LDL^T @f$ decomposition: @f$ A = L \cdot D \cdot L^T @f$ (for symmetric indefinite matrices). */
+	LU          = 3, /**< LU decomposition with partial pivoting: @f$ P \cdot A = L \cdot U @f$. */
+	CompleteLU  = 4, /**< Complete LU decomposition with full pivoting: @f$ P \cdot A \cdot Q = L \cdot U @f$. */
+	SymmetricLU = 5  /**< Symmetric LU decomposition with Bunch-Kaufman pivoting. */
 };
 
 /**
  * @ingroup cla3p_module_index_datatypes
  * @enum svdPolicy_t
- * @brief The singular vector calculation policy.
- * @details Sets the policy for singular vector calculation in SVD.
+ * @brief Singular vector computation policy enumeration.
+ * @details Specifies the extent of singular vector computation in Singular Value Decomposition (SVD).
+ *          Different policies trade off computational cost against the completeness of the decomposition.
  */
 enum class svdPolicy_t : char {
-	NoCalculation = 'N', /**< No singular vectors will be calculated */
-	Limited       = 'S', /**< The first min(m,n) singular vectors will be calculated */
-	Full          = 'A'  /**< All singular vectors will be calculated */
+	NoCalculation = 'N', /**< Singular vectors are not computed; only singular values are calculated. */
+	Limited       = 'S', /**< Compute the first @f$ \min(m,n) @f$ singular vectors (thin/economy SVD). */
+	Full          = 'A'  /**< Compute all @f$ m @f$ left and @f$ n @f$ right singular vectors (full SVD). */
 };
 
 /**
  * @ingroup cla3p_module_index_datatypes
  * @enum qrPolicy_t
- * @brief The Q matrix calculation policy (QR decomposition).
- * @details Sets the policy for the matrix Q form in QR decomposition.
+ * @brief QR decomposition storage policy enumeration.
+ * @details Specifies the representation format for the orthogonal matrix @f$ Q @f$ in QR decomposition.
+ *          The choice affects memory usage and subsequent computational operations.
  */
 enum class qrPolicy_t {
-	Reflection = 0, /**< Matrix Q will be stored only in the form of elementary reflector product */
-	Full            /**< Matrix Q will be explicitly calculated */
+	Reflection = 0, /**< Matrix @f$ Q @f$ is stored implicitly as a product of elementary Householder reflectors. */
+	Full            /**< Matrix @f$ Q @f$ is explicitly formed and stored in full matrix format. */
 };
 
 /**
  * @ingroup cla3p_module_index_datatypes
  * @enum qrtrans_t
- * @brief The input matrix transposition policy (QR decomposition).
- * @details Sets the policy for automatically transposing the input matrix in QR decomposition,
- *          so that the decomposition will be applied on tall matrices (#rows > #columns).@n
- *          If NoTranspose is selected the decomposition will be applied on the input matrix `(A -> QR)`.@n
- *          If AutoTranspose is selected and #rows < #columns the decomposition will be applied on the 
- *          (conjugate) transpose of the input matrix `(A`<sup>*</sup>` -> QR)`.
+ * @brief Input matrix transposition policy enumeration for QR decomposition.
+ * @details Specifies whether the input matrix should be automatically transposed before QR decomposition
+ *          to ensure optimal tall matrix orientation (number of rows @f$ \geq @f$ number of columns).
+ * @par Behavior
+ *          - NoTranspose: Decomposes @f$ A \rightarrow QR @f$ directly.
+ *          - AutoTranspose: If @f$ m < n @f$, decomposes @f$ A^H \rightarrow QR @f$ instead.
  */
 enum class qrtrans_t {
-	NoTranspose   = 0, /**< Input matrix will be decomposed as-is. */
-	AutoTranspose      /**< Input matrix will be internally transposed if #rows < #columns */
+	NoTranspose   = 0, /**< The input matrix is decomposed without modification. */
+	AutoTranspose      /**< The input matrix is conjugate-transposed if @f$ m < n @f$ to form a tall matrix. */
 };
 
 /**
  * @ingroup cla3p_module_index_datatypes
  * @enum lraMethod_t
- * @brief The matrix rank reduction method.
- * @details List of available methods for matrix rank reduction.@n
- *          Used as parameter in @ref cla3p::lra::RankModerator class to define the rank reduction method to follow.
+ * @brief Low-rank approximation algorithm enumeration.
+ * @details Specifies the computational method for matrix rank reduction in low-rank approximation (LRA) algorithms.
+ *          Used as a parameter in the @ref cla3p::lra::RankModerator class to select the factorization strategy.
  */
 enum class lraMethod_t {
-	StandardSVD = 0, /**< Use standard SVD to find ranks to keep */
-	FastQR           /**< Use a hybrid QR-SVD method (best suited for relatively large matrix dimensions) */
+	StandardSVD = 0, /**< Standard Singular Value Decomposition for rank determination (accurate but computationally expensive). */
+	FastQR           /**< Hybrid QR-SVD method optimized for large matrices (faster approximation with acceptable accuracy). */
 };
 
 /*-------------------------------------------------*/
@@ -169,28 +189,54 @@ enum class lraMethod_t {
 
 /**
  * @ingroup cla3p_module_index_stream_operators
- * @brief Writes to os the type of prop.
+ * @brief Outputs a property type enumeration to a stream.
+ * @param[in,out] os The output stream to write to.
+ * @param[in] prop The property type enumeration value.
+ * @return A reference to the output stream.
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::prop_t& prop);
 
 /**
  * @ingroup cla3p_module_index_stream_operators
- * @brief Writes to os the type of uplo.
+ * @brief Outputs a storage pattern enumeration to a stream.
+ * @param[in,out] os The output stream to write to.
+ * @param[in] uplo The storage pattern enumeration value.
+ * @return A reference to the output stream.
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::uplo_t& uplo);
 
 /**
  * @ingroup cla3p_module_index_stream_operators
- * @brief Writes to os the type of op.
+ * @brief Outputs a matrix operation enumeration to a stream.
+ * @param[in,out] os The output stream to write to.
+ * @param[in] op The operation type enumeration value.
+ * @return A reference to the output stream.
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::op_t& op);
 
+/**
+ * @ingroup cla3p_module_index_stream_operators
+ * @brief Outputs an operand positioning enumeration to a stream.
+ * @param[in,out] os The output stream to write to.
+ * @param[in] side The operand side enumeration value.
+ * @return A reference to the output stream.
+ */
 std::ostream& operator<<(std::ostream& os, const cla3p::side_t& side);
+/**
+ * @ingroup cla3p_module_index_stream_operators
+ * @brief Outputs a decomposition method enumeration to a stream.
+ * @param[in,out] os The output stream to write to.
+ * @param[in] decomp The decomposition method enumeration value.
+ * @return A reference to the output stream.
+ */
 std::ostream& operator<<(std::ostream& os, const cla3p::decomp_t& decomp);
 
 /**
  * @ingroup cla3p_module_index_stream_operators
- * @brief Writes to os the type of method.
+ * @brief Outputs a low-rank approximation method enumeration to a stream.
+ * @param[in,out] os The output stream to write to.
+ * @param[in] method The LRA method enumeration value.
+ * @return A reference to the output stream.
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::lraMethod_t& method);
 

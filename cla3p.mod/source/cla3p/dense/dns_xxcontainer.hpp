@@ -23,8 +23,9 @@
 
 #include <cstddef>
 
+#include "cla3p/dense/dns_xxcontainer_base.hpp"
 #include "cla3p/generic/ownership.hpp"
-#include "cla3p/generic/guard.hpp"
+#include "cla3p/support/imalloc.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -36,47 +37,59 @@ namespace dns {
  * @brief The dense container class.
  */
 template <typename T_Scalar>
-class XxContainer : public Ownership {
-
-	public:
-		using value_type = T_Scalar;
+class XxContainer : public XxContainerBase<T_Scalar>, public Ownership {
 
 	protected:
-		XxContainer();
-		explicit XxContainer(std::size_t numElements);
-		explicit XxContainer(T_Scalar *vals, bool bind);
+		XxContainer() {}
+
+		explicit XxContainer(std::size_t numElements)
+			: XxContainerBase<T_Scalar>(numElements ? i_malloc<T_Scalar>(numElements) : nullptr),
+			  Ownership(numElements ? true : false) {}
+
+		explicit XxContainer(T_Scalar *vals, bool bind)
+			: XxContainerBase<T_Scalar>(vals),
+			  Ownership(vals ? bind : false) {}
 
 		XxContainer(XxContainer<T_Scalar>&) = delete;
 		XxContainer<T_Scalar>& operator=(XxContainer<T_Scalar>&) = delete;
 
-		XxContainer(XxContainer<T_Scalar>&&);
-		XxContainer<T_Scalar>& operator=(XxContainer<T_Scalar>&&);
+		XxContainer(XxContainer<T_Scalar>&& other)
+		{
+			moveFrom(other);
+		}
 
-		~XxContainer();
+		XxContainer<T_Scalar>& operator=(XxContainer<T_Scalar>&& other)
+		{
+			moveFrom(other);
+			return *this;
+		}
 
-	public:
-
-		/**
-		 * @copydoc standard_docs::values()
-		 */
-		T_Scalar* values();
-
-		/**
-		 * @copydoc standard_docs::values()
-		 */
-		const T_Scalar* values() const;
+		~XxContainer()
+		{
+			clear();
+		}
 
 	protected:
-		void clear();
+		void clear()
+		{
+			if(owner()) {
+				i_free(this->values());
+			} // owner
+			XxContainerBase<T_Scalar>::clear();
+			Ownership::clear();
+		}
 
 	private:
-		T_Scalar *m_values;
-
-		void setValues(T_Scalar *vals);
-
-		void defaults();
-
-		void moveFrom(XxContainer<T_Scalar>& other);
+		void moveFrom(XxContainer<T_Scalar>& other)
+		{
+			if(this != &other) {
+				clear();
+				XxContainerBase<T_Scalar>::operator=(std::move(other));
+				Ownership::operator=(std::move(other));
+				other.unbind();
+				other.clear();
+			} // do not apply on self
+		}
 };
 
 /*-------------------------------------------------*/

@@ -31,6 +31,8 @@ namespace dns {
 /**
  * @nosubgrouping 
  * @brief The dense complex vector class.
+ * @details Represents a dense complex-valued vector stored in contiguous memory.
+ * @tparam T_Scalar The complex scalar type (e.g., std::complex<float>, std::complex<double>).
  */
 template <typename T_Scalar>
 class CxVector : public XxVector<T_Scalar> {
@@ -121,14 +123,12 @@ class CxVector : public XxVector<T_Scalar> {
 		 */
 
 		/**
-		 * @brief Gets a copy of the real part of the vector.
-		 * @return A copy of the real part of the vector.
+		 * @copydoc standard_vector_docs::get_real()
 		 */
 		XxVector<T_RScalar> real() const;
 
 		/**
-		 * @brief Gets a copy of the imaginary part of the vector.
-		 * @return A copy of the imaginary part of the vector.
+		 * @copydoc standard_vector_docs::get_imag()
 		 */
 		XxVector<T_RScalar> imag() const;
 

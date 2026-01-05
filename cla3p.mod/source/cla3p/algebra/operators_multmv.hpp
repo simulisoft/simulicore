@@ -71,11 +71,11 @@ operator*(
 
 /**
  * @ingroup cla3p_module_index_math_operators_mult
- * @brief Multiplies a matrix with a vector.
- * @details Performs the operation <b>A * X</b>
- * @param[in] A The input matrix.
+ * @brief Matrix-vector multiplication for dense matrices.
+ * @details Performs the operation @f$ A \cdot X @f$.
+ * @param[in] A The input dense matrix.
  * @param[in] X The input vector.
- * @return The virtual product.
+ * @return The virtual product representing the multiplication.
  */
 template <typename T_Scalar>
 cla3p::alias::VirtualProduct_dnsmv<T_Scalar>
@@ -88,11 +88,11 @@ operator*(
 
 /**
  * @ingroup cla3p_module_index_math_operators_mult
- * @brief Multiplies a sparse matrix with a vector.
- * @details Performs the operation <b>A * X</b>
- * @param[in] A The input matrix.
+ * @brief Matrix-vector multiplication for sparse matrices.
+ * @details Performs the operation @f$ A \cdot X @f$.
+ * @param[in] A The input sparse matrix.
  * @param[in] X The input vector.
- * @return The virtual product.
+ * @return The virtual product representing the multiplication.
  */
 template <typename T_Int, typename T_Scalar>
 cla3p::alias::VirtualProduct_cscmv<T_Int,T_Scalar>

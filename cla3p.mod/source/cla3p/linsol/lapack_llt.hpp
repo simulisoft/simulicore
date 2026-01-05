@@ -30,6 +30,8 @@ namespace cla3p {
 /**
  * @nosubgrouping
  * @brief The definite Cholesky (LL') linear solver for dense matrices.
+ * @details Implements the Cholesky decomposition @f$ A = L L^T @f$ for positive definite matrices.
+ * @tparam T_Matrix The matrix type (e.g., dns::XxMatrix<T_Scalar>).
  */
 template <typename T_Matrix>
 class LapackLLt : public LapackBase<T_Matrix> {
@@ -42,23 +44,20 @@ class LapackLLt : public LapackBase<T_Matrix> {
 
 		/**
 		 * @brief The default constructor.
-		 *
-		 * Constructs an empty solver object.
+		 * @details Constructs an empty solver object.
 		 */
 		LapackLLt() : LapackBase<T_Matrix>(decomp_t::LLT) {}
 
 		/**
 		 * @brief The dimensional constructor.
+		 * @details Constructs a solver object with @f$ n^2 @f$ preallocated buffered size.
 		 * @param[in] n The expected problem dimension.
-		 *
-		 * Constructs a solver object with n<sup>2</sup> preallocated buffered size.
 		 */
 		LapackLLt(int_t n) : LapackBase<T_Matrix>(decomp_t::LLT, n) {}
 
 		/**
 		 * @brief Destroys the solver.
-		 *
-		 * Clears all internal data and destroys the solver.
+		 * @details Clears all internal data and destroys the solver.
 		 */
 		~LapackLLt() = default;
 };

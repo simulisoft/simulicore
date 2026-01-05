@@ -43,7 +43,7 @@ XxMatrix<T_Int,T_Scalar>::XxMatrix()
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 XxMatrix<T_Int,T_Scalar>::XxMatrix(int_t nr, int_t nc, const Property& pr)
-	: MatrixMeta(nr, nc, sanitizeProperty<T_Scalar>(pr))
+	: MatrixMeta<T_Int>(nr, nc, sanitizeProperty<T_Scalar>(pr))
 {
 	if(nr > 0 && nc > 0) {
 		checker();
@@ -61,7 +61,7 @@ XxMatrix<T_Int,T_Scalar>::~XxMatrix()
 template <typename T_Int, typename T_Scalar>
 void XxMatrix<T_Int,T_Scalar>::clear()
 {
-	MatrixMeta::clear();
+	MatrixMeta<T_Int>::clear();
 	tupleVec().clear();
 }
 /*-------------------------------------------------*/
@@ -92,7 +92,7 @@ void XxMatrix<T_Int,T_Scalar>::reserve(int_t nz)
 template <typename T_Int, typename T_Scalar>
 void XxMatrix<T_Int,T_Scalar>::insert(const Tuple<T_Int,T_Scalar>& tuple)
 {
-	coo_check_triplet(nrows(), ncols(), prop(), tuple.row(), tuple.col(), tuple.val());
+	coo_check_triplet(this->nrows(), this->ncols(), this->prop(), tuple.row(), tuple.col(), tuple.val());
 
 	tupleVec().push_back(tuple);
 }
@@ -117,10 +117,10 @@ std::string XxMatrix<T_Int,T_Scalar>::info(const std::string& header) const
 
 	ss << "  Datatype............. " << TypeTraits<T_Scalar>::type_name() << "\n";
 	ss << "  Precision............ " << TypeTraits<T_Scalar>::prec_name() << "\n";
-	ss << "  Number of rows....... " << nrows() << "\n";
-	ss << "  Number of columns.... " << ncols() << "\n";
+	ss << "  Number of rows....... " << this->nrows() << "\n";
+	ss << "  Number of columns.... " << this->ncols() << "\n";
 	ss << "  Number of non zeros.. " << nnz() << "\n";
-	ss << "  Property............. " << prop() << "\n";
+	ss << "  Property............. " << this->prop() << "\n";
 
 	ss << bottom << "\n";
 
@@ -130,9 +130,9 @@ std::string XxMatrix<T_Int,T_Scalar>::info(const std::string& header) const
 template <typename T_Int, typename T_Scalar>
 void XxMatrix<T_Int,T_Scalar>::toStream(std::ostream& os, std::streamsize prec) const
 {
-	if(empty() || !nnz()) return;
+	if(this->empty() || !nnz()) return;
 
-	ListPrinter listPrinter(os, nrows(), ncols(), nnz(), prec);
+	ListPrinter listPrinter(os, this->nrows(), this->ncols(), nnz(), prec);
 
 	listPrinter.streamHeader();
 
@@ -147,10 +147,10 @@ void XxMatrix<T_Int,T_Scalar>::toStream(std::ostream& os, std::streamsize prec) 
 template <typename T_Int, typename T_Scalar>
 csc::XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::toCsc(dup_t duplicatePolicy) const
 {
-	if(!nrows() || !ncols())
+	if(!this->nrows() || !this->ncols())
 		return csc::XxMatrix<T_Int,T_Scalar>();
 
-	T_Int *colptr = i_calloc<T_Int>(ncols() + 1);
+	T_Int *colptr = i_calloc<T_Int>(this->ncols() + 1);
 
 	std::for_each(tupleVec().begin(), tupleVec().end(), 
 			[&](const Tuple<T_Int,T_Scalar> &tuple) 
@@ -158,9 +158,9 @@ csc::XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::toCsc(dup_t duplicatePol
 			colptr[tuple.col() + 1]++;
 			});
 
-	blk::csc::roll(ncols(), colptr);
+	blk::csc::roll(this->ncols(), colptr);
 
-	T_Int nnz = colptr[ncols()];
+	T_Int nnz = colptr[this->ncols()];
 
 	T_Int    *rowidx = nullptr;
 	T_Scalar *values = nullptr;
@@ -178,16 +178,16 @@ csc::XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::toCsc(dup_t duplicatePol
 				colptr[tuple.col()]++;
 				});
 
-		blk::csc::unroll(ncols(), colptr);
-		blk::csc::sort(ncols(), colptr, rowidx, values);
-		blk::csc::remove_duplicates(ncols(), colptr, rowidx, values, duplicatePolicy);
+		blk::csc::unroll(this->ncols(), colptr);
+		blk::csc::sort(this->ncols(), colptr, rowidx, values);
+		blk::csc::remove_duplicates(this->ncols(), colptr, rowidx, values, duplicatePolicy);
 
-		rowidx = static_cast<T_Int   *>(i_realloc(rowidx, colptr[ncols()] * sizeof(T_Int   )));
-		values = static_cast<T_Scalar*>(i_realloc(values, colptr[ncols()] * sizeof(T_Scalar)));
+		rowidx = static_cast<T_Int   *>(i_realloc(rowidx, colptr[this->ncols()] * sizeof(T_Int   )));
+		values = static_cast<T_Scalar*>(i_realloc(values, colptr[this->ncols()] * sizeof(T_Scalar)));
 
 	} // nnz
 
-	csc::XxMatrix<T_Int,T_Scalar> ret(nrows(), ncols(), colptr, rowidx, values, true, prop());
+	csc::XxMatrix<T_Int,T_Scalar> ret(this->nrows(), this->ncols(), colptr, rowidx, values, true, this->prop());
 
 	return ret;
 }
@@ -195,7 +195,7 @@ csc::XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::toCsc(dup_t duplicatePol
 template <typename T_Int, typename T_Scalar>
 void XxMatrix<T_Int,T_Scalar>::checker() const
 {
-	coo_consistency_check(prop(), nrows(), ncols());
+	coo_consistency_check(this->prop(), this->nrows(), this->ncols());
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

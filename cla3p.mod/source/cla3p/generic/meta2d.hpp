@@ -28,8 +28,11 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
- * @nosubgrouping 
- * @brief The double dimension metadata class.
+ * @nosubgrouping
+ * @brief Two-dimensional metadata container.
+ * @tparam T_Int Integer type for storing dimension values.
+ * @details Provides storage and accessors for matrix dimensions (rows and columns).
+ *          This class serves as a base for dimension metadata in dense matrix structures.
  */
 template <typename T_Int>
 class Meta2D {
@@ -44,31 +47,31 @@ class Meta2D {
 		~Meta2D() { clear(); }
 
 		/**
-		 * @brief The matrix rows.
-		 * @return The number of rows in `(*this)`.
+		 * @brief Number of rows.
+		 * @details Returns the number of rows stored in @p (*this).
+		 * @return The row dimension.
 		 */
 		virtual T_Int nrows() const { return m_nrows; }
 
 		/**
-		 * @brief The matrix columns.
-		 * @return The number of columns in `(*this)`.
+		 * @brief Number of columns.
+		 * @details Returns the number of columns stored in @p (*this).
+		 * @return The column dimension.
 		 */
 		virtual T_Int ncols() const { return m_ncols; }
 
 		/**
-		 * @brief Test whether object is empty.
-		 * @return true if object dimensions is zero, false otherwise
+		 * @brief Tests whether the object has zero dimensions.
+		 * @details Returns @c true if either dimension is zero.
+		 * @return @c true if the object is empty, @c false otherwise.
 		 */
 		bool empty() const { return !(nrows() && ncols()); }
 
 		/**
-		 * @copydoc empty()
-		 */
-		bool operator!() const { return empty(); } 
-
-		/**
-		 * @brief Test whether object is empty.
-		 * @return true if object is not empty, false otherwise
+		 * @brief Boolean conversion operator.
+		 * @details Enables implicit conversion to @c bool; returns @c true if object
+		 *          has non-zero dimensions.
+		 * @return @c true if the object is not empty, @c false otherwise.
 		 */
 		operator bool() const { return !empty(); }
 

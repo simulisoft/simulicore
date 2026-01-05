@@ -1,19 +1,105 @@
 /**
  * @page culite_module_index Module Index
- *  - @subpage culite_module_index_datatypes
- *  - @subpage culite_module_index_comm
+ * 
+ * Comprehensive guide to the cuLite library modules. Select a subpage below to explore specific components and implementation details.
  *
- *
- *
+ * - @subpage culite_module_index_datatypes
+ * - @subpage culite_module_index_allocators
+ * - @subpage culite_module_index_vectors
+ * - @subpage culite_module_index_matrices
  *
  * @defgroup culite_module_index_datatypes Datatypes
- * @brief The basic cuLite datatypes.
+ * @brief The basic cuLite datatypes and precision aliases.
+ * @details This module defines the fundamental numerical types used across the cuLite ecosystem. It includes 
+ * abstractions for signed and unsigned integers (configurable for 32-bit or 64-bit widths) and floating-point 
+ * types for real and complex numbers. These types ensure binary compatibility between host C++ code and 
+ * NVIDIA CUDA device kernels.
  *
+ * @defgroup culite_module_index_allocators Allocators
+ * @brief Memory management and allocation strategies for GPU computing.
+ * @details Allocators handle the lifecycle of memory on the device. This module provides specialized 
+ * routines for standard device allocation, unified memory (managed) access, and pinned host memory 
+ * to optimize data transfer throughput between the CPU and GPU.
  *
+ * @addtogroup culite_module_index_vectors Vectors
+ * @brief High-performance vector containers for CUDA.
+ * @details This module contains vector classes optimized for linear algebra operations on NVIDIA GPUs. 
+ * It manages device memory pointers and provides seamless integration with cuBLAS and other NVIDIA libraries.
+ * @{
+ *   @defgroup culite_module_index_vectors_dense Dense Vectors
+ *   @brief Dense vector objects with contiguous device storage.
+ *   @details Dense vectors store elements sequentially in GPU memory. They support a variety of 
+ *   initialization methods, including random generation and wrapping of existing device pointers.
+ * @}
  *
+ * @addtogroup culite_module_index_matrices Matrices
+ * @brief High-performance matrix containers and structural properties.
+ * @details This module provides the framework for matrix computations on the GPU, supporting various 
+ * storage formats and mathematical properties such as symmetry and hermiticity.
+ * @{
+ *   @defgroup culite_module_index_matrices_dense Dense Matrices
+ *   @brief Dense matrix objects using column-major device storage.
+ *   @details Dense matrices are optimized for throughput-heavy operations. This group includes 
+ *   classes for real and complex data, providing interfaces for matrix-matrix and matrix-vector products.
+ *   @warning Currently, only matrices with General property are supported. Support for structured
+ *   matrix types (Symmetric, Hermitian, etc.) is planned for future releases.
  *
- * @addtogroup culite_module_index_comm Communicator
- * @brief The cuLite communicator object.
+ *   @defgroup culite_module_index_matrices_sparse Sparse Matrices
+ *   @brief Sparse matrix objects and compressed storage formats.
+ *   @details This module provides support for matrices where most elements are zero. It includes 
+ *   Coordinate (COO) format for construction, Compressed Sparse Row (CSR), and Compressed Sparse 
+ *   Column (CSC) formats for accelerated sparse-dense arithmetic.
+ *   @note Sparse matrix support is currently under active development.
+ * @}
  *
+ * @addtogroup culite_module_index_cuda_utils CUDA Module Utilities
+ * @brief Core CUDA runtime and library utility classes.
+ * @details This module encompasses wrapper classes for CUDA runtime components and NVIDIA library
+ * handles. It provides convenient RAII-based management of CUDA streams, cuBLAS contexts, and cuSOLVER
+ * handles, ensuring proper resource lifecycle and exception safety.
+ * @{
+ *   @defgroup culite_module_index_stream_utils Stream Utilities
+ *   @brief CUDA stream management and synchronization.
+ *   @details Provides RAII-based management of CUDA streams that enable asynchronous kernel execution
+ *   and memory operations. Streams allow overlapping computation and data transfer for improved GPU
+ *   utilization.
+ *   
+ *   Classes:
+ *   - @ref culite::CudaStream : Main class for CUDA stream management
+ * 
+ *   @defgroup culite_module_index_cublas_utils cuBLAS Utilities
+ *   @brief cuBLAS library wrapper and handle management.
+ *   @details Encapsulates cuBLAS handle creation and provides convenient methods for Basic Linear
+ *   Algebra Subprograms (BLAS) operations on GPU. This module simplifies calling cuBLAS functions
+ *   with automatic resource management.
+ *   
+ *   Classes:
+ *   - @ref culite::CuBlasHandler : Main handler class for cuBLAS operations
+ *  
+ *   @defgroup culite_module_index_cusolver_utils cuSOLVER Utilities
+ *   @brief cuSOLVER library wrapper and handle management.
+ *   @details Provides wrapper functionality for cuSOLVER handles used in linear algebra computations
+ *   such as matrix factorizations, eigenvalue problems, and linear system solving on GPU.
+ *   
+ *   Classes:
+ *   - @ref culite::CuSolverHandler : Main handler class for cuSOLVER operations
+ * @}
+ * 
+ * @defgroup culite_module_index_stream_operators Stream Operators
+ * @brief Utility operators for asynchronous execution and data flow.
+ * @details A collection of operators designed to interact with CUDA streams. These facilitate 
+ * non-blocking execution, synchronization, and intuitive data streaming between host and device 
+ * using standard-like syntax.
+ * 
+ * @defgroup culite_module_index_host2device_operators Host to Device Operators
+ * @brief Operators for transferring data from host to device memory.
+ * @details Provides overloaded operators and utility functions for copying data from CPU memory
+ * to GPU memory. These operators support both synchronous and asynchronous transfers using CUDA
+ * streams for efficient data movement.
+ * 
+ * @defgroup culite_module_index_device2host_operators Device to Host Operators
+ * @brief Operators for transferring data from device to host memory.
+ * @details Provides overloaded operators and utility functions for copying data from GPU memory
+ * back to CPU memory. These operators enable retrieval of computation results with support for
+ * both blocking and non-blocking transfers.
  */
-

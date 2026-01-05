@@ -34,13 +34,13 @@ namespace cla3p {
 
 /**
  * @nosubgrouping
- * @brief The partial QR decomposition class.
- * @details Utility class for the rank reduction process.
- *          Uses a pivoted QR decomposition to process a chunk of the input matrix
- *          until the stopping criterion is reached. Can be resumed on request, 
- *          or perform a single step. The input matrix is automatically transposed
- *          if needed, in order for the decomposition to be applied on tall matrices
- *          (num rows >= num columns).
+ * @brief Partial Pivoted QR Decomposition for rank reduction algorithms.
+ * @tparam T_Matrix The dense matrix type to decompose.
+ * @details This class implements a partial (stopped) QR decomposition with column pivoting,
+ *          useful for low-rank approximation and rank reduction processes.
+ *          The algorithm processes the matrix incrementally, stopping when singular values
+ *          fall below a specified tolerance threshold. The input matrix is automatically
+ *          transposed as needed to ensure tall-matrix orientation (@f$ m \geq n @f$).
  */
 template <typename T_Matrix>
 class PartialQR {
@@ -54,106 +54,134 @@ class PartialQR {
 	public:
 
 		/**
-		 * @brief The default constructor.
-		 * @details Constructs an empty partial qr object.
+		 * @brief Constructs an uninitialized partial QR object.
+		 * @details Initializes an empty partial QR object with no allocated memory for decomposition results.
 		 */
 		PartialQR();
 
 		/**
-		 * @brief The dimensional constructor.
-		 * @details Constructs a partial qr object with internal buffer pre-allocation.
-		 * @param[in] m The maximum number of rows the buffer can fit.
-		 * @param[in] n The maximum number of columns the buffer can fit.
+		 * @brief Constructs a partial QR object with pre-allocated buffers.
+		 * @details Initializes the partial QR decomposition object and allocates internal buffers
+		 *          to accommodate matrices up to the specified dimensions.
+		 * @param[in] m The maximum number of matrix rows.
+		 * @param[in] n The maximum number of matrix columns.
 		 */
 		PartialQR(int_t m, int_t n);
 
 		/**
-		 * @brief Destroys the partial qr object.
-		 * @details Clears all internal data and destroys the partial qr object.
+		 * @brief Destroys the partial QR decomposition object.
+		 * @details Releases all allocated memory and clears internal data structures.
 		 */
 		~PartialQR();
 
 		/**
-		 * @brief Clears the object internal data.
-		 * @details Clears the object internal data and resets all settings.
+		 * @brief Clears all decomposition results and resets the object.
+		 * @details Deallocates decomposition results and returns the object to its default state.
 		 */
 		void clear();
 
 		/**
-		 * @brief Allocates internal buffers.
-		 * @param[in] m The maximum number of rows the buffer can fit.
-		 * @param[in] n The maximum number of columns the buffer can fit.
+		 * @brief Pre-allocates buffers for decomposition.
+		 * @details Allocates internal buffers to accommodate matrices with up to @p m rows and @p n columns.
+		 *          This avoids memory reallocation during subsequent decompositions.
+		 * @param[in] m The maximum number of matrix rows to support.
+		 * @param[in] n The maximum number of matrix columns to support.
 		 */
 		void reserve(int_t m, int_t n);
 
 		/**
-		 * @brief The cutoff tolerance.
-		 * @details Controls the number of rows in R to be kept.
-		 *          Rows kept must satisfy |R<sub>i,i</sub>| > |R<sub>0,0</sub>| * cutTolerance().
+		 * @brief Retrieves the singular value tolerance threshold.
+		 * @details Returns the relative tolerance parameter used to determine which columns are kept
+		 *          in the partial QR decomposition. Diagonal elements @f$ R_{i,i} @f$ are retained
+		 *          if @f$ |R_{i,i}| > |R_{0,0}| \cdot \text{cutTolerance}() @f$.
+		 * @return The current cutoff tolerance value.
 		 */
 		real_t cutTolerance() const;
 
 		/**
-		 * @brief Sets the cutoff tolerance.
-		 * @details Controls the number of rows in R to be kept.
-		 *          Rows kept must satisfy |R<sub>i,i</sub>| > |R<sub>0,0</sub>| * cutTolerance().
-		 * @param[in] tol The desired cutoff tolerance.
+		 * @brief Configures the singular value tolerance threshold.
+		 * @details Sets the relative tolerance parameter that determines stopping condition.
+		 *          Diagonal elements @f$ R_{i,i} @f$ are retained if @f$ |R_{i,i}| > |R_{0,0}| \cdot \text{tol} @f$.
+		 * @param[in] tol The desired cutoff tolerance value.
 		 */
 		void setCutTolerance(real_t tol);
 
 		/**
-		 * @brief Performs matrix partial qr decomposition.
-		 * @details Performs QR decomposition until the tolerance criterion |R<sub>i,i</sub>| > |R<sub>0,0</sub>| * cutTolerance() is reached.
-		 * @param[in] mat The matrix to be decomposed.
+		 * @brief Initiates the partial QR decomposition.
+		 * @details Begins column-wise QR decomposition with column pivoting, stopping when the tolerance criterion
+		 *          @f$ |R_{i,i}| > |R_{0,0}| \cdot \text{cutTolerance}() @f$ is violated.
+		 * @param[in] mat The matrix to decompose.
 		 */
 		void decompose(const T_Matrix& mat);
 
 		/**
-		 * @brief Resumes the partial qr decomposition.
-		 * @details In case decompose() returned earlier than expected, set a new tolerance value and call 
-		 *          resume() that will run until the new tolerance criterion |R<sub>i,i</sub>| > |R<sub>0,0</sub>| * cutTolerance() is reached.@n
-		 *          If the ignoreTol option is true, the decomposition will proceed until every column is processed.
-		 * @param[in] ignoreTol The decomposition will ignore the tolerance criterion and proceed to full decomposition.
+		 * @brief Resumes the partial QR decomposition.
+		 * @details Continues the decomposition from where @ref decompose() or the previous @ref resume() stopped.
+		 *          The decomposition proceeds until the tolerance criterion @f$ |R_{i,i}| > |R_{0,0}| \cdot \text{cutTolerance}() @f$ is violated,
+		 *          or all columns are processed if @p ignoreTol is `true`.
+		 * @param[in] ignoreTol If `true`, ignores the tolerance criterion and decomposes all remaining columns.
 		 */
 		void resume(bool ignoreTol = false);
 
 		/**
 		 * @brief Performs a single decomposition step.
-		 * @details Performs a single decomposition step using a auto-generated block size.
-		 * @return The number of columns processed in this step.
+		 * @details Executes one decomposition step with an automatically determined block size.
+		 * @return The number of columns processed in this decomposition step.
 		 */
 		int_t performDecompositionStep();
 
 		/**
-		 * @brief Informs about the number of columns processed.
-		 * @details Returns the total number of columns processed so far in the partial QR decomposition process.
-		 * @return The number of total columns processed.
+		 * @brief Retrieves the count of processed columns.
+		 * @details Returns the total number of columns processed so far throughout the partial QR decomposition.
+		 * @return The total number of columns processed.
 		 */
 		int_t totalColumnsProcessed() const;
 
 		/**
-		 * @brief The matrix R.
-		 * @details Returns the matrix R caclulated so far in the partial QR decomposition process.
-		 * @return The matrix R in general form.
+		 * @brief Retrieves the upper triangular matrix.
+		 * @details Returns the matrix @f$ R @f$ calculated so far in the partial QR decomposition process.
+		 * @return A constant reference to the upper triangular matrix @f$ R @f$ in general form.
 		 */
 		const T_Matrix& R() const;
 
 		/**
-		 * @brief The vector tau.
-		 * @details The vector tau of size min(m,n).
+		 * @brief Retrieves the Householder reflection coefficients.
+		 * @details Returns the vector @f$ \tau @f$ of size @f$ \min(m,n) @f$ containing
+		 *          the scalar factors for elementary Householder reflectors.
+		 * @return A constant reference to the Householder scalar coefficient vector.
 		 */
-
 		const T_Vector& tau() const;
 
 		/**
-		 * @brief The pivoting permutation matrix.
-		 * @details Returns the permutation matrix that holds the column pivots of the partial QR decomposition process.
-		 * @return The pivoting permutation matrix.
+		 * @brief Retrieves the column pivoting permutation matrix.
+		 * @details Returns the permutation matrix @f$ P @f$ that encodes the column pivots applied during
+		 *          the partial QR decomposition process.
+		 * @return A constant reference to the column pivoting permutation matrix.
 		 */
 		const prm::PiMatrix& P() const;
 
+		/**
+		 * @brief Retrieves the elementary Householder reflector matrix.
+		 * @details Returns a matrix containing the elementary Householder vectors used to implicitly represent
+		 *          the orthogonal transformation matrix from the QR decomposition.
+		 * @return A constant reference to the elementary reflector matrix.
+		 */
 		const T_Matrix& elementaryReflectors() const;
+
+		/**
+		 * @brief Determines if input matrix was transposed.
+		 * @details Indicates whether the input matrix was automatically conjugate-transposed
+		 *          during initialization to achieve tall-matrix orientation.
+		 * @return `true` if the matrix was transposed, `false` otherwise.
+		 */
 		bool transFlag() const;
+
+		/**
+		 * @brief Extracts the upper triangular portion to form matrix @f$ R @f$.
+		 * @details Constructs matrix @f$ R @f$ from the elementary reflector matrix,
+		 *          optionally keeping only the first @p numRanks columns.
+		 * @param[in] numRanks The number of columns to retain (0 means all columns).
+		 */
 		void fillMatrixR(int_t numRanks = 0);
 
 	private:

@@ -25,12 +25,13 @@
 namespace cla3p { 
 /*-------------------------------------------------*/
 /**
-* @brief Encloses an object and prevents its contents from being changed.
-* @details Some functions need to return objects that contain immutable data.
-*          The contents of these objects must be protected.
-*          The Guard class is used for preventing those data from being exposed to change.
-* @include ex04a_guard_const_vector.cpp
-*/
+ * @brief Immutable object wrapper.
+ * @tparam T_Object The object type to guard.
+ * @details Provides a read-only view of an object, preventing modifications
+ *          to its contents. Used when functions need to return objects with
+ *          immutable data that must be protected from external changes.
+ * @include ex04a_guard_const_vector.cpp
+ */
 
 template <typename T_Object>
 class Guard {
@@ -38,26 +39,26 @@ class Guard {
 	public:
 
 		/**
-		 * @copybrief standard_docs::constructor()
-		 * @details Constructs an empty guard.
+		 * @brief Default constructor.
+		 * @details Constructs an empty guard with no attached object.
 		 */
 		Guard() {}
 
 		/**
-		 * @brief Destroys the guard.
-		 * @details Detaches contents and destroys guard.
+		 * @brief Destructor.
+		 * @details Detaches the guarded object and destroys the guard.
 		 */
 		~Guard() { clear(); }
 
 		/**
-		 * @copybrief standard_docs::copy_constructor()
-		 * @details Constructs a guard with a referenced copy of the contents of `other`.
+		 * @brief Copy constructor.
+		 * @details Constructs a guard with a referenced copy of @p other.
 		 */
 		Guard(const Guard<T_Object>& other) { setLocalObj(other.get()); }
 
 		/**
-		 * @copybrief standard_docs::copy_assignment()
-		 * @details Replaces the contents of guard with a referenced copy of the contents of `other`.
+		 * @brief Copy assignment operator.
+		 * @details Replaces the guarded object with a referenced copy of @p other.
 		 */
 		Guard<T_Object>& operator=(const Guard<T_Object>& other)
 		{
@@ -66,27 +67,31 @@ class Guard {
 		}
 
 		/**
-		 * @copybrief standard_docs::move_convertor()
+		 * @brief Move converting constructor.
+		 * @tparam U_Object The source object type.
+		 * @details Constructs a guard by converting and moving from @p other.
 		 */
 		template <typename U_Object>
 		Guard(Guard<U_Object>&& other) 
 			: Guard(static_cast<const T_Object&>(other.get())) {} 
 
 		/**
-		 * @brief The input constructor.
-		 * @details Constructs guard with a referenced copy of `obj`.
+		 * @brief Object constructor.
+		 * @details Constructs a guard with a referenced copy of @p obj.
+		 * @param[in] obj The object to guard.
 		 */
 		explicit Guard(const T_Object& obj) { setLocalObj(obj); }
 
 		/**
 		 * @brief Clears the guard.
-		 * @details Detaches contents and resets guard.
+		 * @details Detaches the guarded object and resets the guard to an empty state.
 		 */
 		void clear() { m_obj.clear(); }
 
 		/**
-		 * @brief The guarded object.
-		 * @return A constant reference to the object being guarded.
+		 * @brief Retrieves the guarded object.
+		 * @details Returns a constant reference to the object being guarded.
+		 * @return A constant reference to the guarded object.
 		 */
 		const T_Object& get() const { return m_obj; }
 

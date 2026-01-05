@@ -21,20 +21,21 @@
  * @file
  */
 
+#include "cla3p/generic/meta2d.hpp"
 #include "cla3p/error/exceptions.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
 
-template <typename T_Matrix>
-void decomp_generic_check(const T_Matrix& mat)
+template <typename T_Int>
+void decomp_generic_check(const Meta2D<T_Int>& meta2d)
 {
-	if(!mat) {
+	if(!meta2d) {
 		throw err::InvalidOp("Input matrix is empty");
 	} // empty
 
-	if(mat.nrows() != mat.ncols()) {
+	if(meta2d.nrows() != meta2d.ncols()) {
 		throw err::InvalidOp("Only square matrices are supported for linear decomposition");
 	} // square
 }

@@ -3,8 +3,8 @@
  */
 
 #include <iostream>
-#include "cla3p/dense.hpp"
-#include "cla3p/lra.hpp"
+#include <cla3p/dense.hpp>
+#include <cla3p/lra.hpp>
 
 int main()
 {

@@ -31,6 +31,8 @@ namespace dns {
 /**
  * @nosubgrouping 
  * @brief The dense complex matrix class.
+ * @details Represents a dense complex-valued matrix stored in column-major format.
+ * @tparam T_Scalar The complex scalar type (e.g., std::complex<float>, std::complex<double>).
  */
 template <typename T_Scalar>
 class CxMatrix : public XxMatrix<T_Scalar> {
@@ -131,14 +133,12 @@ class CxMatrix : public XxMatrix<T_Scalar> {
 		 */
 
 		/**
-		 * @brief Gets a copy of the real part of the matrix.
-		 * @return A copy of the real part of the matrix.
+		 * @copydoc standard_matrix_docs::get_real()
 		 */
 		XxMatrix<T_RScalar> real() const;
 
 		/**
-		 * @brief Gets a copy of the imaginary part of the matrix.
-		 * @return A copy of the imaginary part of the matrix.
+		 * @copydoc standard_matrix_docs::get_imag()
 		 */
 		XxMatrix<T_RScalar> imag() const;
 
