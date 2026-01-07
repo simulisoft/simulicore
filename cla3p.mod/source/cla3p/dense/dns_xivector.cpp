@@ -44,7 +44,7 @@ XiVector<T_Scalar>::XiVector()
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XiVector<T_Scalar>::XiVector(int_t n)
-	: Meta1D(n), XxContainer<T_Scalar>(n)
+	: Meta1D<int_t>(n), XxContainer<T_Scalar>(n)
 {
 	if(n > 0) {
 		checker();
@@ -55,7 +55,7 @@ XiVector<T_Scalar>::XiVector(int_t n)
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XiVector<T_Scalar>::XiVector(int_t n, T_Scalar *vals, bool bind)
-	: Meta1D(n), XxContainer<T_Scalar>(vals, bind)
+	: Meta1D<int_t>(n), XxContainer<T_Scalar>(vals, bind)
 {
 	if(n > 0) {
 		checker();
@@ -103,7 +103,7 @@ XiVector<T_Scalar>& XiVector<T_Scalar>::operator=(XiVector<T_Scalar>&& other)
 template <typename T_Scalar>
 void XiVector<T_Scalar>::clear()
 {
-	Meta1D::clear();
+	Meta1D<int_t>::clear();
 	XxContainer<T_Scalar>::clear();
 }
 /*-------------------------------------------------*/

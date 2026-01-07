@@ -173,13 +173,9 @@ void XxVector<T_Scalar>::permuteLeft(const prm::PiMatrix& P, XxVector<T_Scalar>&
 template <typename T_Scalar>
 XxVector<T_Scalar> XxVector<T_Scalar>::block(int_t ibgn, int_t ni) const
 {
-#if 0
-	return rblock(ibgn,ni).get().copy();
-#else
 	XiVector<T_Scalar> tmp = rblock(ibgn,ni).get().copy();
 	XxVector<T_Scalar> ret(tmp);
 	return ret;
-#endif
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -202,8 +198,7 @@ Guard<XxVector<T_Scalar>> XxVector<T_Scalar>::rblock(int_t ibgn, int_t ni) const
 template <typename T_Scalar>
 void XxVector<T_Scalar>::setBlock(int_t ibgn, const XxVector<T_Scalar>& src)
 {
-	XxVector<T_Scalar> tmp = rblock(ibgn, src.size());
-	std::copy(src.values(), src.values() + src.size(), tmp.values());
+	rblock(ibgn, src.size()) = src;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
