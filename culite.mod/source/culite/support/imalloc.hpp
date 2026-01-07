@@ -27,17 +27,80 @@
 namespace culite {
 /*-------------------------------------------------*/
 
+/**
+ * @ingroup culite_module_index_allocators
+ * @brief Allocates memory on the device.
+ * @details This function reserves a block of memory of the specified size on the 
+ *          underlying device.
+ * @param[in] size The number of bytes to allocate.
+ * @return A pointer to the allocated memory on success; @c nullptr if the allocation fails.
+ * @note Memory allocated by this function must be freed using the corresponding device free function.
+ * @see device_free()
+ */
 void* device_alloc(std::size_t size);
+
+/**
+ * @ingroup culite_module_index_allocators
+ * @brief Frees a block of memory on the device.
+ * @details This function releases the memory previously allocated by @ref device_alloc.
+ *          If @p ptr is @c nullptr, no action is performed.
+ * @param[in] ptr Pointer to the device memory to be freed.
+ * @note This function is marked @c noexcept and is guaranteed not to throw 
+ *       exceptions during the deallocation process.
+ * @see device_alloc()
+ */
 void device_free(void *ptr) noexcept;
 
+/**
+ * @ingroup culite_module_index_allocators
+ * @brief Allocates typed memory on the device.
+ * @details This function reserves a block of memory for @p n elements of type @p T 
+ *          on the underlying device.
+ * @tparam T The type of elements to allocate.
+ * @param[in] n The number of elements to allocate.
+ * @return A pointer to the allocated memory on success; @c nullptr if the allocation fails.
+ * @note Memory allocated by this function must be freed using the corresponding device free function.
+ * @see device_free()
+ */
 template <typename T>
 T* device_alloc_t(std::size_t n) {
 	return static_cast<T*>(device_alloc(n * sizeof(T)));
 }
 
+/**
+ * @ingroup culite_module_index_allocators
+ * @brief Allocates page-locked (pinned) host memory.
+ * @details Reserves a block of host memory that is page-locked and accessible to the device. 
+ * @param[in] size The number of bytes to allocate.
+ * @return A pointer to the pinned host memory on success; @c nullptr if the allocation fails.
+ * @note Must be freed using the corresponding pinned memory deallocation function.
+ * @see pinned_free()
+ */
+
 void* pinned_alloc(std::size_t size);
+/**
+ * @ingroup culite_module_index_allocators
+ * @brief Frees a block of pinned host memory.
+ * @details Releases the memory previously allocated by @ref pinned_alloc. 
+ *          If @p ptr is @c nullptr, no action is performed.
+ * @param[in] ptr Pointer to the pinned host memory to be freed.
+ * @note This function is marked @c noexcept and is guaranteed not to throw 
+ *       exceptions during the deallocation process.
+ * @see pinned_alloc()
+ */
 void pinned_free(void *ptr) noexcept;
 
+/**
+ * @ingroup culite_module_index_allocators
+ * @brief Allocates typed pinned host memory.
+ * @details This function reserves a block of host memory for @p n elements of type @p T 
+ *          that is page-locked and accessible to the device.
+ * @tparam T The type of elements to allocate.
+ * @param[in] n The number of elements to allocate.
+ * @return A pointer to the allocated pinned host memory on success; @c nullptr if the allocation fails.
+ * @note Must be freed using the corresponding pinned memory deallocation function.
+ * @see pinned_free()
+ */
 template <typename T>
 T* pinned_alloc_t(std::size_t n) {
 	return static_cast<T*>(pinned_alloc(n * sizeof(T)));
