@@ -1,8 +1,8 @@
 "---------------------------------------------------------------------------
 
-"syn keyword cTypeCustomDatatype sample
+syn keyword cTypeCustomDatatype CudaException
 
-"hi cTypeCustomDatatype ctermfg=lightgreen guifg=darkblue
+hi cTypeCustomDatatype ctermfg=lightgreen guifg=darkblue
 
 "---------------------------------------------------------------------------
 

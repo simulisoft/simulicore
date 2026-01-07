@@ -953,6 +953,7 @@ WARN_LOGFILE           =
 INPUT                  = ./README.md \
                          ./modules.dox \
                          ./tutorial.dox \
+                         ./standard_docs.dox \
                          ../../include/culite \
                          ../../examples/culite
 

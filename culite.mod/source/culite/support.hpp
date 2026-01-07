@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-#ifndef CULITE_TYPES_HPP_
-#define CULITE_TYPES_HPP_
+#ifndef CULITE_SUPPORT_HPP_
+#define CULITE_SUPPORT_HPP_
 
-#include "culite/types/traits.hpp"
-#include "culite/types/integer.hpp"
-#include "culite/types/scalar.hpp"
+#include "culite/support/imalloc.hpp"
 
-#endif // CULITE_TYPES_HPP_
+#endif // CULITE_SUPPORT_HPP_

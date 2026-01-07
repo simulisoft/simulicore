@@ -14,11 +14,25 @@
  * limitations under the License.
  */
 
-#ifndef CULITE_TYPES_HPP_
-#define CULITE_TYPES_HPP_
+#ifndef CULITE_ERROR_LITERALS_HPP_
+#define CULITE_ERROR_LITERALS_HPP_
 
-#include "culite/types/traits.hpp"
-#include "culite/types/integer.hpp"
-#include "culite/types/scalar.hpp"
+/** 
+ * @file
+ */
 
-#endif // CULITE_TYPES_HPP_
+#include <string>
+
+/*-------------------------------------------------*/
+namespace culite {
+namespace msg {
+/*-------------------------------------------------*/
+
+std::string Success();
+
+/*-------------------------------------------------*/
+} // namespace msg
+} // namespace culite
+/*-------------------------------------------------*/
+
+#endif // CULITE_ERROR_LITERALS_HPP_

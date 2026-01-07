@@ -8,5 +8,8 @@
  * @defgroup culite_module_index_datatypes Datatypes
  * @brief The basic cuLite datatypes.
  *
+ * @defgroup culite_module_index_allocators Allocators
+ * @brief The basic cuLite allocators.
+ *
  */
 

@@ -13,30 +13,30 @@ set(CULITE_SRC
 
 set(CULITE_HPP
 	types.hpp
-#	error.hpp
-#	support.hpp
-#	dense.hpp
-#	sparse.hpp
-#	perms.hpp
-#	virtuals.hpp
-#	algebra.hpp
-#	linsol.hpp
-#	svd.hpp
-#	qr.hpp
-#	lra.hpp
+	error.hpp
+	support.hpp
+	dense.hpp
+	#sparse.hpp
+	#perms.hpp
+	#virtuals.hpp
+	#algebra.hpp
+	#linsol.hpp
+	#svd.hpp
+	#qr.hpp
+	#lra.hpp
 	)
 
 #-----------------------------------------------
 # sub-directory setup
 #-----------------------------------------------
 add_subdirectory(types)
-#add_subdirectory(error)
+add_subdirectory(error)
 #add_subdirectory(bulk)
 #add_subdirectory(checks)
 #add_subdirectory(proxies)
-#add_subdirectory(support)
+add_subdirectory(support)
 #add_subdirectory(generic)
-#add_subdirectory(dense)
+add_subdirectory(dense)
 #add_subdirectory(sparse)
 #add_subdirectory(perms)
 #add_subdirectory(virtuals)

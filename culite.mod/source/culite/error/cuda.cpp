@@ -15,21 +15,31 @@
  */
 
 // this file inc
-#include "culite/types/scalar.hpp"
+#include "culite/error/cuda.hpp"
 
 // system
+#include <string>
 
 // 3rd
 
 // culite
+#include "culite/error/exceptions.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
+namespace err {
 /*-------------------------------------------------*/
-
-int test() { return 0; }
-
+void check_cuda(cudaError_t cudaError)
+{
+	if (cudaError != cudaSuccess) {
+		std::string error_code = std::to_string(cudaError);
+		std::string error_name = cudaGetErrorName(cudaError);
+		std::string error_details = cudaGetErrorString(cudaError);
+		std::string error_msg = "[" + error_code + "]: " + error_name + " - " + error_details;
+		throw err::CudaException(error_msg);
+	}
+}
 /*-------------------------------------------------*/
+} // namespace err
 } // namespace culite
 /*-------------------------------------------------*/
-
