@@ -14,53 +14,50 @@
  * limitations under the License.
  */
 
-// this file inc
-#include "culite/support/imalloc.hpp"
+#ifndef CULITE_UTILS_HPP_
+#define CULITE_UTILS_HPP_
 
-// system
+/** 
+ * @file
+ */
 
-// 3rd
+#include <cstddef>
 #include <cuda_runtime.h>
 
-// culite
-#include "culite/error/cuda.hpp"
+#include "culite/types/traits.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
 /*-------------------------------------------------*/
-void* device_alloc(std::size_t size)
+
+void memCopyX2X(std::size_t count, const void *src, void *dest, cudaMemcpyKind kind);
+
+template <typename T>
+inline void memCopyD2D(std::size_t n, const T *src, T *dest)
 {
-	void *ret = nullptr;
-
-    if (!size) return ret;
-
-	cudaError_t cudaError = cudaMalloc(&ret, size);
-	err::check_cuda(cudaError);
-	
-	return ret;
+	memCopyX2X(n * sizeof(T), src, dest, cudaMemcpyDeviceToDevice);
 }
-/*-------------------------------------------------*/
-void device_free(void *ptr) noexcept
+
+template <typename T>
+inline void memCopyH2D(std::size_t n, const typename TypeTraits<T>::host_type *src, T *dest)
 {
-    cudaFree(ptr);
+	memCopyX2X(n * sizeof(T), src, dest, cudaMemcpyHostToDevice);
 }
-/*-------------------------------------------------*/
-void* pinned_alloc(std::size_t size)
+
+template <typename T>
+inline void memCopyD2H(std::size_t n, const T *src, typename TypeTraits<T>::host_type *dest)
 {
-	void *ret = nullptr;
-
-	if (!size) return ret;
-
-	cudaError_t cudaError = cudaMallocHost(&ret, size);
-	err::check_cuda(cudaError);
-
-	return ret;
+	memCopyX2X(n * sizeof(T), src, dest, cudaMemcpyDeviceToHost);
 }
-/*-------------------------------------------------*/
-void pinned_free(void *ptr) noexcept
+
+template <typename T>
+inline void memCopyH2H(std::size_t n, const T *src, T *dest)
 {
-    cudaFreeHost(ptr);
+	memCopyX2X(n * sizeof(T), src, dest, cudaMemcpyHostToHost);
 }
+
 /*-------------------------------------------------*/
 } // namespace culite
 /*-------------------------------------------------*/
+
+#endif // CULITE_UTILS_HPP_

@@ -15,12 +15,11 @@
  */
 
 // this file inc
-#include "culite/support/imalloc.hpp"
+#include "culite/support/utils.hpp"
 
 // system
 
 // 3rd
-#include <cuda_runtime.h>
 
 // culite
 #include "culite/error/cuda.hpp"
@@ -28,38 +27,10 @@
 /*-------------------------------------------------*/
 namespace culite {
 /*-------------------------------------------------*/
-void* device_alloc(std::size_t size)
+void memCopyX2X(std::size_t count, const void *src, void *dest, cudaMemcpyKind kind)
 {
-	void *ret = nullptr;
-
-    if (!size) return ret;
-
-	cudaError_t cudaError = cudaMalloc(&ret, size);
+	cudaError_t cudaError = cudaMemcpy(dest, src, count, kind);
 	err::check_cuda(cudaError);
-	
-	return ret;
-}
-/*-------------------------------------------------*/
-void device_free(void *ptr) noexcept
-{
-    cudaFree(ptr);
-}
-/*-------------------------------------------------*/
-void* pinned_alloc(std::size_t size)
-{
-	void *ret = nullptr;
-
-	if (!size) return ret;
-
-	cudaError_t cudaError = cudaMallocHost(&ret, size);
-	err::check_cuda(cudaError);
-
-	return ret;
-}
-/*-------------------------------------------------*/
-void pinned_free(void *ptr) noexcept
-{
-    cudaFreeHost(ptr);
 }
 /*-------------------------------------------------*/
 } // namespace culite

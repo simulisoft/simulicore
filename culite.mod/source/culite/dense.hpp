@@ -17,25 +17,26 @@
 #ifndef CULITE_DENSE_HPP_
 #define CULITE_DENSE_HPP_
 
+#include "culite/dense/dns_xxvector.hpp"
 //#include "culite/dense/dns_cxvector.hpp"
 //#include "culite/dense/dns_cxmatrix.hpp"
 
 namespace culite {
 namespace dns {
 
-#if 0
-
 /**
- * @ingroup cla3p_module_index_vectors_dense
+ * @ingroup culite_module_index_vectors_dense
  * @brief Double precision real vector.
  */
 using RdVector = XxVector<real_t>;
 
 /**
- * @ingroup cla3p_module_index_vectors_dense
+ * @ingroup culite_module_index_vectors_dense
  * @brief Single precision real vector.
  */
 using RfVector = XxVector<real4_t>;
+
+#if 0
 
 /**
  * @ingroup cla3p_module_index_vectors_dense

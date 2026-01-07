@@ -15,51 +15,46 @@
  */
 
 // this file inc
-#include "culite/support/imalloc.hpp"
+#include "culite/types/integer.hpp"
 
 // system
 
 // 3rd
-#include <cuda_runtime.h>
+#include <cla3p/types/literals.hpp>
 
 // culite
-#include "culite/error/cuda.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
 /*-------------------------------------------------*/
-void* device_alloc(std::size_t size)
+std::string TypeTraits<int_t>::type_name()
 {
-	void *ret = nullptr;
-
-    if (!size) return ret;
-
-	cudaError_t cudaError = cudaMalloc(&ret, size);
-	err::check_cuda(cudaError);
-	
-	return ret;
+	return ::cla3p::msg::Integer();
 }
 /*-------------------------------------------------*/
-void device_free(void *ptr) noexcept
+std::string TypeTraits<int_t>::prec_name()
 {
-    cudaFree(ptr);
+#if defined (CULITE_I64)
+	return ::cla3p::msg::Double();
+#else
+	return ::cla3p::msg::Single();
+#endif
 }
 /*-------------------------------------------------*/
-void* pinned_alloc(std::size_t size)
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+std::string TypeTraits<uint_t>::type_name()
 {
-	void *ret = nullptr;
-
-	if (!size) return ret;
-
-	cudaError_t cudaError = cudaMallocHost(&ret, size);
-	err::check_cuda(cudaError);
-
-	return ret;
+	return ::cla3p::msg::UnsignedInteger();
 }
 /*-------------------------------------------------*/
-void pinned_free(void *ptr) noexcept
+std::string TypeTraits<uint_t>::prec_name()
 {
-    cudaFreeHost(ptr);
+#if defined (CULITE_I64)
+	return ::cla3p::msg::Double();
+#else
+	return ::cla3p::msg::Single();
+#endif
 }
 /*-------------------------------------------------*/
 } // namespace culite

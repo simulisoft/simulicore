@@ -1,6 +1,8 @@
 /**
  * @page culite_module_index Module Index
  *  - @subpage culite_module_index_datatypes
+ *  - @subpage culite_module_index_allocators
+ *  - @subpage culite_module_index_vectors
  *
  *
  *
@@ -10,6 +12,13 @@
  *
  * @defgroup culite_module_index_allocators Allocators
  * @brief The basic cuLite allocators.
+ *
+ * @addtogroup culite_module_index_vectors Vectors
+ * The cuLite vector objects.
+ * @{
+ *   @defgroup culite_module_index_vectors_dense Dense Vectors
+ *   The cuLite dense vector objects.
+ * @}
  *
  */
 

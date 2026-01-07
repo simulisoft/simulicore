@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_DNS_XIVECTOR_HPP_
-#define CLA3P_DNS_XIVECTOR_HPP_
+#ifndef CULITE_DNS_XIVECTOR_HPP_
+#define CULITE_DNS_XIVECTOR_HPP_
 
 /**
  * @file
@@ -23,18 +23,14 @@
 
 #include <string>
 #include <ostream>
+#include <cla3p/generic/meta1d.hpp>
 
-#include "cla3p/generic/guard.hpp"
-#include "cla3p/generic/meta1d.hpp"
-#include "cla3p/dense/dns_xxcontainer.hpp"
-
-/*-------------------------------------------------*/
-namespace cla3p { 
-/*-------------------------------------------------*/
-
-namespace prm { template <typename T_Int> class PxMatrix; }
+#include "culite/types/integer.hpp"
+#include "culite/generic/guard.hpp"
+#include "culite/dense/dns_xxcontainer.hpp"
 
 /*-------------------------------------------------*/
+namespace culite { 
 namespace dns {
 /*-------------------------------------------------*/
 
@@ -43,7 +39,7 @@ namespace dns {
  * @brief The general purpose dense vector class.
  */
 template <typename T_Scalar>
-class XiVector : public Meta1D<int_t>, public XxContainer<T_Scalar> {
+class XiVector : public ::cla3p::Meta1D<int_t>, public XxContainer<T_Scalar> {
 
 	public:
 		XiVector();
@@ -58,23 +54,6 @@ class XiVector : public Meta1D<int_t>, public XxContainer<T_Scalar> {
 		XiVector<T_Scalar>& operator=(XiVector<T_Scalar>&& other);
 
 		/** 
-		 * @name Operators
-		 * @{
-		 */
-
-		/**
-		 * @copydoc standard_docs::index_operator_1d()
-		 */
-		T_Scalar& operator()(int_t i);
-
-		/**
-		 * @copydoc standard_docs::index_operator_1d()
-		 */
-		const T_Scalar& operator()(int_t i) const;
-
-		/** @} */
-
-		/** 
 		 * @name Public Member Functions
 		 * @{
 		 */
@@ -83,11 +62,6 @@ class XiVector : public Meta1D<int_t>, public XxContainer<T_Scalar> {
 		 * @copydoc standard_docs::clear()
 		 */
 		void clear();
-
-		/**
-		 * @copydoc standard_vector_docs::fill()
-		 */
-		void fill(T_Scalar val);
 
 		/**
 		 * @copydoc standard_docs::copy()
@@ -114,16 +88,6 @@ class XiVector : public Meta1D<int_t>, public XxContainer<T_Scalar> {
 		 */
 		std::string info(const std::string& header = "") const;
 
-		/**
-		 * @copydoc standard_docs::print()
-		 */
-		void print(std::streamsize prec = 0) const;
-
-		/**
-		 * @copydoc standard_docs::toStream()
-		 */
-		void toStream(std::ostream& os, std::streamsize prec = 0) const;
-
 		/** @} */
 
 		/** 
@@ -146,19 +110,18 @@ class XiVector : public Meta1D<int_t>, public XxContainer<T_Scalar> {
 
 /*-------------------------------------------------*/
 } // namespace dns
-/*-------------------------------------------------*/
-} // namespace cla3p
+} // namespace culite
 /*-------------------------------------------------*/
 
-/**
- * @ingroup cla3p_module_index_stream_operators
+/* TODO: enable when ready
+ * @ingroup culite_module_index_stream_operators
  * @brief Writes to os the contents of vec.
  */
-template <typename T_Scalar>
-std::ostream& operator<<(std::ostream& os, const cla3p::dns::XiVector<T_Scalar>& vec)
-{
-	vec.toStream(os);
-	return os;
-}
+//template <typename T_Scalar>
+//std::ostream& operator<<(std::ostream& os, const culite::dns::XiVector<T_Scalar>& vec)
+//{
+//	vec.toStream(os);
+//	return os;
+//}
 
-#endif // CLA3P_DNS_XIVECTOR_HPP_
+#endif // CULITE_DNS_XIVECTOR_HPP_

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_DNS_XXVECTOR_HPP_
-#define CLA3P_DNS_XXVECTOR_HPP_
+#ifndef CULITE_DNS_XXVECTOR_HPP_
+#define CULITE_DNS_XXVECTOR_HPP_
 
 /**
  * @file
@@ -24,22 +24,11 @@
 #include <string>
 #include <ostream>
 
-#include "cla3p/generic/guard.hpp"
-#include "cla3p/dense/dns_xivector.hpp"
-
-#include "cla3p/virtuals/virtual_rowvec.hpp"
-#include "cla3p/virtuals/virtual_object.hpp"
-#include "cla3p/virtuals/virtual_transpose.hpp"
-#include "cla3p/virtuals/virtual_conjugate.hpp"
-#include "cla3p/virtuals/virtual_scale.hpp"
+#include "culite/generic/guard.hpp"
+#include "culite/dense/dns_xivector.hpp"
 
 /*-------------------------------------------------*/
-namespace cla3p { 
-/*-------------------------------------------------*/
-
-namespace prm { template <typename T_Int> class PxMatrix; }
-
-/*-------------------------------------------------*/
+namespace culite { 
 namespace dns {
 /*-------------------------------------------------*/
 
@@ -64,18 +53,6 @@ class XxVector : public XiVector<T_Scalar> {
 
 		XxVector<T_Scalar>& operator=(XiVector<T_Scalar>&& other);
 		XxVector<T_Scalar>& operator=(const XiVector<T_Scalar>& other);
-
-		template <typename T_Virtual>
-		explicit XxVector(const VirtualExpression<XxVector<T_Scalar>,T_Virtual>& v) { operator=(v); }
-		template <typename T_Virtual>
-		XxVector(VirtualExpression<XxVector<T_Scalar>,T_Virtual>&& v) { operator=(std::move(v)); }
-
-		template <typename T_Virtual>
-		XxVector<T_Scalar>& operator=(const VirtualExpression<XxVector<T_Scalar>,T_Virtual>& v) { evaluateFrom(v); return *this; }
-		template <typename T_Virtual>
-		XxVector<T_Scalar>& operator=(VirtualExpression<XxVector<T_Scalar>,T_Virtual>&& v) { evaluateFrom(v); return *this; }
-
-		VirtualObject<XxVector<T_Scalar>> virtualize() const { return VirtualObject<XxVector<T_Scalar>>(*this); }
 
 		/**
 		 * @name Constructors
@@ -130,14 +107,9 @@ class XxVector : public XiVector<T_Scalar> {
 		XxVector<T_Scalar>& operator=(XxVector<T_Scalar>&& other) = default;
 
 		/**
-		 * @copydoc standard_matrix_docs::fill()
-		 */
-		void operator=(T_Scalar val);
-
-		/**
 		 * @copydoc standard_docs::virtual_negate_operator()
 		 */
-		VirtualScale<XxVector<T_Scalar>,VirtualObject<XxVector<T_Scalar>>> operator-() const;
+		XxVector<T_Scalar> operator-() const; // TODO: use virtuals
 
 		/** @} */
 
@@ -151,20 +123,20 @@ class XxVector : public XiVector<T_Scalar> {
 		 */
 		void iscale(T_Scalar val);
 
-		/**
+		/* TODO: use virtuals
 		 * @copydoc standard_vector_docs::virtual_transpose()
 		 */
-		VirtualRowvec<T_Scalar> transpose() const;
+		// VirtualRowvec<T_Scalar> transpose() const;
 
-		/**
+		/* TODO: use virtuals
 		 * @copydoc standard_vector_docs::virtual_ctranspose()
 		 */
-		VirtualRowvec<T_Scalar> ctranspose() const;
+		//VirtualRowvec<T_Scalar> ctranspose() const;
 
-		/**
+		/* TODO: use virtuals
 		 * @copydoc standard_vector_docs::virtual_conjugate()
 		 */
-		VirtualConjugate<XxVector<T_Scalar>> conjugate() const;
+		//VirtualConjugate<XxVector<T_Scalar>> conjugate() const;
 
 		/**
 		 * @copydoc standard_vector_docs::iconjugate()
@@ -186,15 +158,15 @@ class XxVector : public XiVector<T_Scalar> {
 		 */
 		T_RScalar normEuc() const;
 
-		/**
+		/* TODO: implement
 		 * @copydoc standard_vector_docs::permute_left()
 		 */
-		XxVector<T_Scalar> permuteLeft(const prm::PxMatrix<int_t>& P) const;
+		//XxVector<T_Scalar> permuteLeft(const prm::PxMatrix<int_t>& P) const;
 
-		/**
+		/* TODO: implement
 		 * @copydoc standard_vector_docs::permute_left_dst()
 		 */
-		void permuteLeft(const prm::PxMatrix<int_t>& P, XxVector<T_Scalar>& dest) const;
+		//void permuteLeft(const prm::PxMatrix<int_t>& P, XxVector<T_Scalar>& dest) const;
 
 		/**
 		 * @copydoc standard_vector_docs::rblock()
@@ -230,22 +202,11 @@ class XxVector : public XiVector<T_Scalar> {
 
 		/** @} */
 
-	protected:
-		template <typename T_Virtual>
-		void evaluateFrom(const VirtualExpression<XxVector<T_Scalar>,T_Virtual>& v)
-		{
-			if(*this) {
-				v.evaluateOnExisting(*this);
-			} else {
-				v.evaluateOnNew(*this);
-			}
-		}
-
 };
 
 /*-------------------------------------------------*/
 } // namespace dns
-} // namespace cla3p
+} // namespace culite
 /*-------------------------------------------------*/
 
-#endif // CLA3P_DNS_XXVECTOR_HPP_
+#endif // CULITE_DNS_XXVECTOR_HPP_

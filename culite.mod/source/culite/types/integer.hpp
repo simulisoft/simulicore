@@ -22,6 +22,9 @@
  */
 
 #include <cstdint>
+#include <cla3p/types/integer.hpp>
+
+#include "culite/types/traits.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -34,6 +37,20 @@ using uint_t = uint64_t;
 using int_t = int;
 using uint_t = unsigned int;
 #endif
+
+template<> class TypeTraits<int_t> {
+	public:
+		using host_type = ::cla3p::int_t;
+		static std::string type_name();
+		static std::string prec_name();
+};
+
+template<> class TypeTraits<uint_t> {
+	public:
+		using host_type = ::cla3p::uint_t;
+		static std::string type_name();
+		static std::string prec_name();
+};
 
 /*-------------------------------------------------*/
 } // namespace culite

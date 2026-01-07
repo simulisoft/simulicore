@@ -21,8 +21,6 @@
 
 // 3rd
 
-// cla3p
-
 // culite
 #include "culite/types/integer.hpp"
 #include "culite/types/scalar.hpp"

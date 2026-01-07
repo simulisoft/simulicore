@@ -2,6 +2,8 @@
 # source setup
 #-----------------------------------------------
 set(CULITE_SRC ${CULITE_SRC}
+	types/integer.cpp
+	types/scalar.cpp
 	PARENT_SCOPE)
 
 set(CULITE_TYPES_HPP 

@@ -15,26 +15,22 @@
  */
 
 // this file inc
-#include "cla3p/dense/dns_xivector.hpp"
+#include "culite/dense/dns_xivector.hpp"
 
 // system
-#include <algorithm>
 
 // 3rd
+#include <cla3p/checks/basic_checks.hpp>
+#include <cla3p/checks/dns_checks.hpp>
+#include <cla3p/support/utils.hpp>
 
-// cla3p
-#include "cla3p/bulk/dns_io.hpp"
-
-#include "cla3p/error/exceptions.hpp"
-#include "cla3p/error/literals.hpp"
-
-#include "cla3p/support/utils.hpp"
-#include "cla3p/checks/basic_checks.hpp"
-#include "cla3p/checks/dns_checks.hpp"
-#include "cla3p/checks/block_ops_checks.hpp"
+// culite
+#include "culite/types/integer.hpp"
+#include "culite/types/scalar.hpp"
+#include "culite/support/utils.hpp"
 
 /*-------------------------------------------------*/
-namespace cla3p {
+namespace culite {
 namespace dns {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -44,7 +40,7 @@ XiVector<T_Scalar>::XiVector()
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XiVector<T_Scalar>::XiVector(int_t n)
-	: Meta1D(n), XxContainer<T_Scalar>(n)
+	: ::cla3p::Meta1D<int_t>(n), XxContainer<T_Scalar>(n)
 {
 	if(n > 0) {
 		checker();
@@ -55,7 +51,7 @@ XiVector<T_Scalar>::XiVector(int_t n)
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XiVector<T_Scalar>::XiVector(int_t n, T_Scalar *vals, bool bind)
-	: Meta1D(n), XxContainer<T_Scalar>(vals, bind)
+	: ::cla3p::Meta1D<int_t>(n), XxContainer<T_Scalar>(vals, bind)
 {
 	if(n > 0) {
 		checker();
@@ -103,34 +99,8 @@ XiVector<T_Scalar>& XiVector<T_Scalar>::operator=(XiVector<T_Scalar>&& other)
 template <typename T_Scalar>
 void XiVector<T_Scalar>::clear()
 {
-	Meta1D::clear();
+	::cla3p::Meta1D<int_t>::clear();
 	XxContainer<T_Scalar>::clear();
-}
-/*-------------------------------------------------*/
-template <typename T_Scalar>
-void XiVector<T_Scalar>::fill(T_Scalar val)
-{
-	std::fill(this->values(), this->values() + size(), val);
-}
-/*-------------------------------------------------*/
-template <typename T_Scalar>
-T_Scalar& XiVector<T_Scalar>::operator()(int_t i)
-{
-	if(i >= size()) {
-		throw err::OutOfBounds(msg::IndexOutOfBounds(size(),i));
-	} // out-of-bounds
-
-	return (this->values())[i];
-}
-/*-------------------------------------------------*/
-template <typename T_Scalar>
-const T_Scalar& XiVector<T_Scalar>::operator()(int_t i) const
-{
-	if(i >= size()) {
-		throw err::OutOfBounds(msg::IndexOutOfBounds(size(),i));
-	} // out-of-bounds
-
-	return (this->values())[i];
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -166,7 +136,7 @@ std::string XiVector<T_Scalar>::info(const std::string& header) const
 { 
 	std::string top;
 	std::string bottom;
-	fill_info_margins(header, top, bottom);
+	::cla3p::fill_info_margins(header, top, bottom);
 
 	std::ostringstream ss;
 
@@ -176,7 +146,7 @@ std::string XiVector<T_Scalar>::info(const std::string& header) const
 	ss << "  Precision............ " << TypeTraits<T_Scalar>::prec_name() << "\n";
 	ss << "  Size................. " << size() << "\n";
 	ss << "  Values............... " << this->values() << "\n";
-	ss << "  Owner................ " << boolToYesNo(this->owner()) << "\n";
+	ss << "  Owner................ " << ::cla3p::boolToYesNo(this->owner()) << "\n";
 
 	ss << bottom << "\n";
 
@@ -184,21 +154,9 @@ std::string XiVector<T_Scalar>::info(const std::string& header) const
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void XiVector<T_Scalar>::print(std::streamsize prec) const
-{
-	toStream(std::cout, prec);
-}
-/*-------------------------------------------------*/
-template <typename T_Scalar>
-void XiVector<T_Scalar>::toStream(std::ostream& os, std::streamsize prec) const
-{
-	blk::dns::print_to_stream(os, uplo_t::Full, size(), 1, this->values(), size(), prec);
-}
-/*-------------------------------------------------*/
-template <typename T_Scalar>
 void XiVector<T_Scalar>::checker() const
 {
-	dns_consistency_check(size(), 1, this->values(), size());
+	::cla3p::dns_consistency_check(size(), 1, this->values(), size());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -209,7 +167,7 @@ void XiVector<T_Scalar>::moveFrom(XiVector<T_Scalar>& other)
 		if(*this) {
 			*this = other;
 		} else {
-			Meta1D<int_t>::operator=(std::move(other));
+			::cla3p::Meta1D<int_t>::operator=(std::move(other));
 			XxContainer<T_Scalar>::operator=(std::move(other));
 			other.unbind();
 		} // similar
@@ -223,8 +181,8 @@ template <typename T_Scalar>
 void XiVector<T_Scalar>::copyFromExisting(const XiVector<T_Scalar>& other)
 {
 	if(this != &other) {
-		similarity_dim_check(size(), other.size());
-		std::copy(other.values(), other.values() + size(), this->values());
+		::cla3p::similarity_dim_check(size(), other.size());
+		memCopyD2D(size(), other.values(), this->values());
 	} // do not apply on self
 }
 /*-------------------------------------------------*/
@@ -245,5 +203,5 @@ template class XiVector<complex_t>;
 template class XiVector<complex8_t>;
 /*-------------------------------------------------*/
 } // namespace dns
-} // namespace cla3p
+} // namespace culite
 /*-------------------------------------------------*/
