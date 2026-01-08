@@ -2,6 +2,8 @@
 
 syn keyword cTypeCustomDatatype CudaException
 
+syn keyword cTypeCustomDatatype alloc_t
+
 hi cTypeCustomDatatype ctermfg=lightgreen guifg=darkblue
 
 "---------------------------------------------------------------------------

@@ -28,6 +28,27 @@
 /*-------------------------------------------------*/
 namespace culite {
 /*-------------------------------------------------*/
+alloc_t detect_allocation_type(const void* ptr)
+{
+	cudaPointerAttributes attributes;
+	cudaError_t cudaError = cudaPointerGetAttributes(&attributes, ptr);
+	err::check_cuda(cudaError);
+
+	alloc_t ret = alloc_t::Unregistered;
+
+	if (attributes.type == cudaMemoryTypeDevice) {
+		ret = alloc_t::Device;
+	} else if (attributes.type == cudaMemoryTypeHost) {
+		ret = alloc_t::Pinned;
+	} else if (attributes.type == cudaMemoryTypeManaged) {
+		ret = alloc_t::Managed;
+	} else if (attributes.type == cudaMemoryTypeUnregistered) {
+		ret = alloc_t::Unregistered;
+	}
+
+	return ret;
+}
+/*-------------------------------------------------*/
 void* device_alloc(std::size_t size)
 {
 	void *ret = nullptr;

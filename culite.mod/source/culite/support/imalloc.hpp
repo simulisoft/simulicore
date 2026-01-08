@@ -23,9 +23,16 @@
 
 #include <cstddef>
 
+#include "culite/types/enums.hpp"
+
 /*-------------------------------------------------*/
 namespace culite {
 /*-------------------------------------------------*/
+
+//
+// Careful, slow inside loops
+//
+alloc_t detect_allocation_type(const void* ptr);
 
 /**
  * @ingroup culite_module_index_allocators

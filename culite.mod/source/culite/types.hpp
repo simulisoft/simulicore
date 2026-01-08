@@ -20,5 +20,6 @@
 #include "culite/types/traits.hpp"
 #include "culite/types/integer.hpp"
 #include "culite/types/scalar.hpp"
+#include "culite/types/enums.hpp"
 
 #endif // CULITE_TYPES_HPP_

@@ -43,8 +43,8 @@ class XiVector : public ::cla3p::Meta1D<int_t>, public XxContainer<T_Scalar> {
 
 	public:
 		XiVector();
-		explicit XiVector(int_t n);
-		explicit XiVector(int_t n, T_Scalar *vals, bool bind);
+		explicit XiVector(int_t n, alloc_t alloc_type);
+		explicit XiVector(int_t n, T_Scalar *vals, alloc_t alloc_type, bool bind);
 		~XiVector();
 
 		XiVector(const XiVector<T_Scalar>& other);
@@ -98,7 +98,7 @@ class XiVector : public ::cla3p::Meta1D<int_t>, public XxContainer<T_Scalar> {
 		/**
 		 * @copydoc standard_vector_docs::view()
 		 */
-		static Guard<XiVector<T_Scalar>> view(int_t n, const T_Scalar *vals);
+		static Guard<XiVector<T_Scalar>> view(int_t n, const T_Scalar *vals, alloc_t alloc_type);
 
 		/** @} */
 

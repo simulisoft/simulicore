@@ -67,12 +67,12 @@ class XxVector : public XiVector<T_Scalar> {
 		/**
 		 * @copydoc standard_vector_docs::dim_constructor()
 		 */
-		explicit XxVector(int_t n);
+		explicit XxVector(int_t n, alloc_t alloc_type);
 
 		/**
 		 * @copydoc standard_vector_docs::aux_constructor()
 		 */
-		explicit XxVector(int_t n, T_Scalar *vals, bool bind);
+		explicit XxVector(int_t n, T_Scalar *vals, alloc_t alloc_type, bool bind);
 
 		/**
 		 * @copydoc standard_docs::copy_constructor()
@@ -198,7 +198,7 @@ class XxVector : public XiVector<T_Scalar> {
 		/**
 		 * @copydoc standard_vector_docs::random()
 		 */
-		static XxVector<T_Scalar> random(int_t n, T_RScalar lo = T_RScalar(0), T_RScalar hi = T_RScalar(1));
+		static XxVector<T_Scalar> random(int_t n, alloc_t alloc_type, T_RScalar lo = T_RScalar(0), T_RScalar hi = T_RScalar(1));
 
 		/** @} */
 

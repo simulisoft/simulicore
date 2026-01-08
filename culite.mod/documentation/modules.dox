@@ -20,5 +20,9 @@
  *   The cuLite dense vector objects.
  * @}
  *
+ *
+ * @defgroup culite_module_index_stream_operators Stream Operators
+ * List of cuLite stream operators.
+ *
  */
 

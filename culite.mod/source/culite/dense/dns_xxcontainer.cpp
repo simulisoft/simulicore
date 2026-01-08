@@ -25,10 +25,19 @@
 #include "culite/types/integer.hpp"
 #include "culite/types/scalar.hpp"
 #include "culite/support/imalloc.hpp"
+#include "culite/error/exceptions.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
 namespace dns {
+/*-------------------------------------------------*/
+static alloc_t filter_alloc_type(alloc_t alloc_type)
+{
+	if(alloc_type == alloc_t::Managed || alloc_type == alloc_t::Unregistered) {
+		err::CudaException("Managed and Unregistered allocation types are not supported.");
+	}
+	return alloc_type;
+}
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XxContainer<T_Scalar>::XxContainer()
@@ -37,21 +46,36 @@ XxContainer<T_Scalar>::XxContainer()
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-XxContainer<T_Scalar>::XxContainer(std::size_t numElements)
+XxContainer<T_Scalar>::XxContainer(std::size_t numElements, alloc_t alloc_type)
 {
+	alloc_type = filter_alloc_type(alloc_type);
 	if(numElements) {
-		T_Scalar *vals = device_alloc_t<T_Scalar>(numElements);
+		T_Scalar *vals = nullptr;
+		switch (alloc_type) {
+			case alloc_t::Device:
+				vals = device_alloc_t<T_Scalar>(numElements);
+				break;
+			case alloc_t::Pinned:
+				vals = pinned_alloc_t<T_Scalar>(numElements);
+				break;
+			default:
+				err::CudaException("Unsupported allocation type.");
+				break;
+		}
 		::cla3p::Ownership::operator=(::cla3p::Ownership(true));
 		setValues(vals);
+		setAllocationType(alloc_type);
 	}
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-XxContainer<T_Scalar>::XxContainer(T_Scalar *vals, bool bind)
+XxContainer<T_Scalar>::XxContainer(T_Scalar *vals, alloc_t alloc_type, bool bind)
 {
+	alloc_type = filter_alloc_type(alloc_type);
 	if(vals) {
 		Ownership::operator=(Ownership(bind));
 		setValues(vals);
+		setAllocationType(alloc_type);
 	}
 }
 /*-------------------------------------------------*/
@@ -78,12 +102,19 @@ template <typename T_Scalar>
 void XxContainer<T_Scalar>::defaults()
 {
 	setValues(nullptr);
+	setAllocationType(alloc_t::Unregistered);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void XxContainer<T_Scalar>::setValues(T_Scalar *vals)
 {
 	m_values = vals;
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void XxContainer<T_Scalar>::setAllocationType(alloc_t alloc_type)
+{
+	m_alloc_type = alloc_type;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -99,10 +130,30 @@ const T_Scalar* XxContainer<T_Scalar>::values() const
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
+alloc_t XxContainer<T_Scalar>::allocationType() const
+{
+	return m_alloc_type;
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
 void XxContainer<T_Scalar>::clear()
 {
 	if(owner()) {
-		device_free(static_cast<void*>(values()));
+
+		switch (allocationType()) {
+        	case alloc_t::Device:
+            	device_free(static_cast<void*>(values()));
+            	break;
+
+        	case alloc_t::Pinned:
+            	pinned_free(static_cast<void*>(values()));
+            	break;
+
+        	default:
+				err::CudaException("Unsupported allocation type.");
+				break;
+    	} // switch
+
 	} // owner
 
 	::cla3p::Ownership::clear();
@@ -117,6 +168,7 @@ void XxContainer<T_Scalar>::moveFrom(XxContainer<T_Scalar>& other)
 		clear();
 		::cla3p::Ownership::operator=(std::move(other));
 		setValues(other.values());
+		setAllocationType(other.allocationType());
 		other.unbind();
 		other.clear();
 	} // do not apply on self

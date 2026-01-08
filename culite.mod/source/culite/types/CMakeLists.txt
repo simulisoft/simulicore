@@ -4,12 +4,14 @@
 set(CULITE_SRC ${CULITE_SRC}
 	types/integer.cpp
 	types/scalar.cpp
+	types/enums.cpp
 	PARENT_SCOPE)
 
 set(CULITE_TYPES_HPP 
 	traits.hpp
 	integer.hpp
 	scalar.hpp
+	enums.hpp
 	)
 
 #-----------------------------------------------

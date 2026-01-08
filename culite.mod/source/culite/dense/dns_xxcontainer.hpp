@@ -24,6 +24,8 @@
 #include <cstddef>
 #include <cla3p/generic/ownership.hpp>
 
+#include "culite/types/enums.hpp"
+
 /*-------------------------------------------------*/
 namespace culite { 
 namespace dns {
@@ -41,8 +43,8 @@ class XxContainer : public ::cla3p::Ownership {
 
 	protected:
 		XxContainer();
-		explicit XxContainer(std::size_t numElements);
-		explicit XxContainer(T_Scalar *vals, bool bind);
+		explicit XxContainer(std::size_t numElements, alloc_t alloc_type);
+		explicit XxContainer(T_Scalar *vals, alloc_t alloc_type, bool bind);
 
 		XxContainer(XxContainer<T_Scalar>&) = delete;
 		XxContainer<T_Scalar>& operator=(XxContainer<T_Scalar>&) = delete;
@@ -64,13 +66,17 @@ class XxContainer : public ::cla3p::Ownership {
 		 */
 		const T_Scalar* values() const;
 
+		alloc_t allocationType() const;
+
 	protected:
 		void clear();
 
 	private:
 		T_Scalar *m_values;
+		alloc_t m_alloc_type;
 
 		void setValues(T_Scalar *vals);
+		void setAllocationType(alloc_t alloc_type);
 
 		void defaults();
 

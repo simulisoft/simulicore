@@ -24,36 +24,34 @@
 #include <cstddef>
 #include <cuda_runtime.h>
 
-#include "culite/types/traits.hpp"
-
 /*-------------------------------------------------*/
 namespace culite {
 /*-------------------------------------------------*/
 
 void memCopyX2X(std::size_t count, const void *src, void *dest, cudaMemcpyKind kind);
 
-template <typename T>
-inline void memCopyD2D(std::size_t n, const T *src, T *dest)
+template <typename T_Device>
+inline void memCopyD2D(std::size_t n, const T_Device *src, T_Device *dest)
 {
-	memCopyX2X(n * sizeof(T), src, dest, cudaMemcpyDeviceToDevice);
+	memCopyX2X(n * sizeof(T_Device), src, dest, cudaMemcpyDeviceToDevice);
 }
 
-template <typename T>
-inline void memCopyH2D(std::size_t n, const typename TypeTraits<T>::host_type *src, T *dest)
+template <typename T_Device, typename T_Host>
+inline void memCopyH2D(std::size_t n, const T_Host *src, T_Device *dest)
 {
-	memCopyX2X(n * sizeof(T), src, dest, cudaMemcpyHostToDevice);
+	memCopyX2X(n * sizeof(T_Device), src, dest, cudaMemcpyHostToDevice);
 }
 
-template <typename T>
-inline void memCopyD2H(std::size_t n, const T *src, typename TypeTraits<T>::host_type *dest)
+template <typename T_Device, typename T_Host>
+inline void memCopyD2H(std::size_t n, const T_Device *src, T_Host *dest)
 {
-	memCopyX2X(n * sizeof(T), src, dest, cudaMemcpyDeviceToHost);
+	memCopyX2X(n * sizeof(T_Device), src, dest, cudaMemcpyDeviceToHost);
 }
 
-template <typename T>
-inline void memCopyH2H(std::size_t n, const T *src, T *dest)
+template <typename T_Host>
+inline void memCopyH2H(std::size_t n, const T_Host *src, T_Host *dest)
 {
-	memCopyX2X(n * sizeof(T), src, dest, cudaMemcpyHostToHost);
+	memCopyX2X(n * sizeof(T_Host), src, dest, cudaMemcpyHostToHost);
 }
 
 /*-------------------------------------------------*/
