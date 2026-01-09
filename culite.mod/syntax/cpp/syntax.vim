@@ -4,6 +4,12 @@ syn keyword cTypeCustomDatatype CudaException
 
 syn keyword cTypeCustomDatatype alloc_t
 
+syn keyword cTypeCustomDatatype XxVectorHost
+syn keyword cTypeCustomDatatype RdVectorHost
+syn keyword cTypeCustomDatatype RfVectorHost
+syn keyword cTypeCustomDatatype CdVectorHost
+syn keyword cTypeCustomDatatype CfVectorHost
+
 hi cTypeCustomDatatype ctermfg=lightgreen guifg=darkblue
 
 "---------------------------------------------------------------------------
@@ -14,9 +20,10 @@ hi cTypeCustomDatatype ctermfg=lightgreen guifg=darkblue
 
 "---------------------------------------------------------------------------
 
-"syn keyword cTypeCustomTemplate T_Sample
+syn keyword cTypeCustomTemplate T_Host
+syn keyword cTypeCustomTemplate T_Device
 
-"hi cTypeCustomTemplate ctermfg=lightcyan guifg=darkblue
+hi cTypeCustomTemplate ctermfg=lightcyan guifg=darkblue
 
 "---------------------------------------------------------------------------
 
