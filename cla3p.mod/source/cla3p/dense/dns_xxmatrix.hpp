@@ -49,7 +49,7 @@ namespace dns {
  * @brief The dense matrix class.
  */
 template <typename T_Scalar>
-class XxMatrix : public MatrixMeta, public XxContainer<T_Scalar> {
+class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
 
 	private:
 		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;

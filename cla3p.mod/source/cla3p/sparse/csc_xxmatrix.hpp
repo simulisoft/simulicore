@@ -44,7 +44,7 @@ namespace csc {
  * @brief The sparse matrix class (compressed sparse column format).
  */
 template <typename T_Int, typename T_Scalar>
-class XxMatrix : public MatrixMeta, public XxContainer<T_Int,T_Scalar> {
+class XxMatrix : public MatrixMeta<T_Int>, public XxContainer<T_Int,T_Scalar> {
 
 	private:
 		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;

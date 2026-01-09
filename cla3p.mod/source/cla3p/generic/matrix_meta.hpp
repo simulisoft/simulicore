@@ -32,11 +32,12 @@ namespace cla3p {
  * @nosubgrouping 
  * @brief The matrix metadata class.
  */
-class MatrixMeta : public Meta2D<int_t> {
+template <typename T_Int>
+class MatrixMeta : public Meta2D<T_Int> {
 
 	public:
 		MatrixMeta() {}
-		MatrixMeta(int_t nr, int_t nc, const Property& pr) : Meta2D<int_t>(nr, nc) { setProp(pr); }
+		MatrixMeta(T_Int nr, T_Int nc, const Property& pr) : Meta2D<T_Int>(nr, nc) { setProp(pr); }
 		~MatrixMeta() { clear(); }
 
 		/**
@@ -48,7 +49,7 @@ class MatrixMeta : public Meta2D<int_t> {
 	protected:
 		void clear()
 		{
-			Meta2D<int_t>::clear();
+			Meta2D<T_Int>::clear();
 			m_prop.clear();
 		}
 

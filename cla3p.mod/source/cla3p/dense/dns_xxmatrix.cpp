@@ -53,7 +53,7 @@ XxMatrix<T_Scalar>::XxMatrix()
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XxMatrix<T_Scalar>::XxMatrix(int_t nr, int_t nc, const Property& pr)
-	: MatrixMeta(nr, nc, sanitizeProperty<T_Scalar>(pr)), XxContainer<T_Scalar>(nr * nc)
+	: MatrixMeta<int_t>(nr, nc, sanitizeProperty<T_Scalar>(pr)), XxContainer<T_Scalar>(nr * nc)
 {
 	if(nr > 0 && nc > 0) {
 		setLd(nr);
@@ -65,7 +65,7 @@ XxMatrix<T_Scalar>::XxMatrix(int_t nr, int_t nc, const Property& pr)
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XxMatrix<T_Scalar>::XxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const Property& pr)
-	: MatrixMeta(nr, nc, sanitizeProperty<T_Scalar>(pr)), XxContainer<T_Scalar>(vals, bind)
+	: MatrixMeta<int_t>(nr, nc, sanitizeProperty<T_Scalar>(pr)), XxContainer<T_Scalar>(vals, bind)
 {
 	if(nr > 0 && nc > 0) {
 		setLd(ldv);
@@ -132,7 +132,7 @@ int_t XxMatrix<T_Scalar>::ld() const
 template <typename T_Scalar>
 void XxMatrix<T_Scalar>::clear()
 {
-	MatrixMeta::clear();
+	MatrixMeta<int_t>::clear();
 	XxContainer<T_Scalar>::clear();
 	defaults();
 }
@@ -555,7 +555,7 @@ void XxMatrix<T_Scalar>::moveFrom(XxMatrix<T_Scalar>& other)
 		if(*this) {
 			*this = other;
 		} else {
-			MatrixMeta::operator=(std::move(other));
+			MatrixMeta<int_t>::operator=(std::move(other));
 			XxContainer<T_Scalar>::operator=(std::move(other));
 			setLd(other.ld());
 			other.unbind();
