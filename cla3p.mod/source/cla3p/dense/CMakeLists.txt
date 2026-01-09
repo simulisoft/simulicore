@@ -2,7 +2,6 @@
 # source setup
 #-----------------------------------------------
 set(CLA3P_SRC ${CLA3P_SRC}
-	dense/dns_xxcontainer.cpp
 	dense/dns_xivector.cpp
 	dense/dns_xxvector.cpp
 	dense/dns_cxvector.cpp
