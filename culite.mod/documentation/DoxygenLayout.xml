@@ -6,13 +6,10 @@
 
     <!-- ==================================================================== -->
 
-    <!--
     <tab type="usergroup" url="@ref culite_tutorial" title="Tutorial">
-
-      <tab type="usergroup" url="@ref culite_tutorial_datatypes" title="Communicator">
+      <tab type="usergroup" url="@ref culite_tutorial_datatypes" title="Datatypes">
       </tab>
     </tab>
-    -->
 
     <!-- ==================================================================== -->
 
