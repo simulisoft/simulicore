@@ -25,6 +25,7 @@
 
 #include "cla3p/generic/ownership.hpp"
 #include "cla3p/generic/guard.hpp"
+#include "cla3p/support/imalloc.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -42,41 +43,98 @@ class XxContainer : public Ownership {
 		using value_type = T_Scalar;
 
 	protected:
-		XxContainer();
-		explicit XxContainer(std::size_t numElements);
-		explicit XxContainer(T_Scalar *vals, bool bind);
+		XxContainer()
+		{
+			defaults();
+		}
+
+		explicit XxContainer(std::size_t numElements)
+			: XxContainer<T_Scalar>()
+		{
+			if(numElements) {
+				T_Scalar *vals = allocateMemory(numElements);
+				Ownership::operator=(Ownership(true));
+				setValues(vals);
+			}
+		}
+
+		explicit XxContainer(T_Scalar *vals, bool bind)
+			: XxContainer<T_Scalar>()
+		{
+			if(vals) {
+				Ownership::operator=(Ownership(bind));
+				setValues(vals);
+			}
+		}
 
 		XxContainer(XxContainer<T_Scalar>&) = delete;
 		XxContainer<T_Scalar>& operator=(XxContainer<T_Scalar>&) = delete;
 
-		XxContainer(XxContainer<T_Scalar>&&);
-		XxContainer<T_Scalar>& operator=(XxContainer<T_Scalar>&&);
+		XxContainer(XxContainer<T_Scalar>&& other)
+		{
+			moveFrom(other);
+		}
 
-		~XxContainer();
+		XxContainer<T_Scalar>& operator=(XxContainer<T_Scalar>&& other)
+		{
+			moveFrom(other);
+			return *this;
+		}
+
+		~XxContainer()
+		{
+			clear();
+		}
 
 	public:
 
 		/**
 		 * @copydoc standard_docs::values()
 		 */
-		T_Scalar* values();
+		T_Scalar* values() { return m_values; }
 
 		/**
 		 * @copydoc standard_docs::values()
 		 */
-		const T_Scalar* values() const;
+		const T_Scalar* values() const { return m_values; }
 
 	protected:
-		void clear();
+		void clear()
+		{
+			if(owner()) {
+				freeMemory(values());
+			} // owner
+			Ownership::clear();
+			defaults();
+		}
 
 	private:
 		T_Scalar *m_values;
 
-		void setValues(T_Scalar *vals);
+		void setValues(T_Scalar *vals) { m_values = vals; }
 
-		void defaults();
+		void defaults() { setValues(nullptr); }
 
-		void moveFrom(XxContainer<T_Scalar>& other);
+		void moveFrom(XxContainer<T_Scalar>& other)
+		{
+			if(this != &other) {
+				clear();
+				Ownership::operator=(std::move(other));
+				setValues(other.values());
+				other.unbind();
+				other.clear();
+			} // do not apply on self
+		}
+
+		virtual T_Scalar* allocateMemory(std::size_t numElements)
+		{
+			return i_malloc<T_Scalar>(numElements);
+		}
+
+		virtual void freeMemory(T_Scalar *ptr)
+		{
+			i_free(ptr);
+		}
 };
 
 /*-------------------------------------------------*/
