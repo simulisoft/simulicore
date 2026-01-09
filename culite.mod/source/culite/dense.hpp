@@ -18,8 +18,7 @@
 #define CULITE_DENSE_HPP_
 
 #include "culite/types/scalar.hpp"
-#include "culite/dense/dns_xxvector.hpp"
-//#include "culite/dense/dns_cxvector.hpp"
+#include "culite/dense/dns_cxvector.hpp"
 //#include "culite/dense/dns_cxmatrix.hpp"
 
 namespace culite {
@@ -37,8 +36,6 @@ using RdVector = XxVector<real_t>;
  */
 using RfVector = XxVector<real4_t>;
 
-#if 0
-
 /**
  * @ingroup culite_module_index_vectors_dense
  * @brief Double precision complex device vector.
@@ -51,6 +48,7 @@ using CdVector = CxVector<complex_t>;
  */
 using CfVector = CxVector<complex8_t>;
 
+#if 0
 
 /**
  * @ingroup cla3p_module_index_matrices_dense

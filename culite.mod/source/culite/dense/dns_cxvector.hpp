@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_DNS_CXVECTOR_HPP_
-#define CLA3P_DNS_CXVECTOR_HPP_
+#ifndef CULITE_DNS_CXVECTOR_HPP_
+#define CULITE_DNS_CXVECTOR_HPP_
 
 /**
  * @file
  */
 
-#include "cla3p/dense/dns_xxvector.hpp"
+#include "culite/dense/dns_xxvector.hpp"
 
 /*-------------------------------------------------*/
-namespace cla3p { 
+namespace culite { 
 namespace dns {
 /*-------------------------------------------------*/
 
 /**
  * @nosubgrouping 
- * @brief The dense complex vector class.
+ * @brief The device dense complex vector class.
  */
 template <typename T_Scalar>
 class CxVector : public XxVector<T_Scalar> {
@@ -49,12 +49,6 @@ class CxVector : public XxVector<T_Scalar> {
 
     	CxVector<T_Scalar>& operator=(const XiVector<T_Scalar>& other);
     	CxVector<T_Scalar>& operator=(XiVector<T_Scalar>&& other);
-
-		template <typename T_Virtual>
-		CxVector(const VirtualExpression<XxVector<T_Scalar>,T_Virtual>& v) { operator=(v); }
-
-		template <typename T_Virtual>
-		CxVector<T_Scalar>& operator=(const VirtualExpression<XxVector<T_Scalar>,T_Virtual>& v) { XxVector<T_Scalar>::evaluateFrom(v); return *this; }
 
 		/**
 		 * @name Constructors
@@ -108,11 +102,6 @@ class CxVector : public XxVector<T_Scalar> {
 		 */
 		CxVector<T_Scalar>& operator=(CxVector<T_Scalar>&& other) = default;
 
-		/**
-		 * @copydoc standard_vector_docs::fill()
-		 */
-		void operator=(T_Scalar val);
-
 		/** @} */
 
 		/** 
@@ -120,17 +109,17 @@ class CxVector : public XxVector<T_Scalar> {
 		 * @{
 		 */
 
-		/**
+		/* // TODO: implement
 		 * @brief Gets a copy of the real part of the vector.
 		 * @return A copy of the real part of the vector.
 		 */
-		XxVector<T_RScalar> real() const;
+		//XxVector<T_RScalar> real() const;
 
-		/**
+		/* // TODO: implement
 		 * @brief Gets a copy of the imaginary part of the vector.
 		 * @return A copy of the imaginary part of the vector.
 		 */
-		XxVector<T_RScalar> imag() const;
+		//XxVector<T_RScalar> imag() const;
 
 		/** @} */
 
@@ -138,7 +127,7 @@ class CxVector : public XxVector<T_Scalar> {
 
 /*-------------------------------------------------*/
 } // namespace dns
-} // namespace cla3p
+} // namespace culite
 /*-------------------------------------------------*/
 
-#endif // CLA3P_DNS_CXVECTOR_HPP_
+#endif // CULITE_DNS_CXVECTOR_HPP_

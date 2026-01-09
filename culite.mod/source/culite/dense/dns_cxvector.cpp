@@ -15,17 +15,17 @@
  */
 
 // this file inc
-#include "cla3p/dense/dns_cxvector.hpp"
+#include "culite/dense/dns_cxvector.hpp"
 
 // system
 
 // 3rd
 
-// cla3p
-#include "cla3p/bulk/dns.hpp"
+// culite
+#include "culite/types/scalar.hpp"
 
 /*-------------------------------------------------*/
-namespace cla3p {
+namespace culite {
 namespace dns {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -76,12 +76,7 @@ CxVector<T_Scalar>::~CxVector()
 {
 }
 /*-------------------------------------------------*/
-template <typename T_Scalar>
-void CxVector<T_Scalar>::operator=(T_Scalar val)
-{
-	this->fill(val);
-}
-/*-------------------------------------------------*/
+#if 0
 template <typename T_Scalar>
 XxVector<typename TypeTraits<T_Scalar>::real_type> CxVector<T_Scalar>::real() const
 {
@@ -97,6 +92,7 @@ XxVector<typename TypeTraits<T_Scalar>::real_type> CxVector<T_Scalar>::imag() co
 	blk::dns::get_imag(uplo_t::Full, this->size(), 1, this->values(), this->size(), ret.values(), ret.size());
 	return ret;
 }
+#endif // 0
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
@@ -104,6 +100,6 @@ template class CxVector<complex_t>;
 template class CxVector<complex8_t>;
 /*-------------------------------------------------*/
 } // namespace dns
-} // namespace cla3p
+} // namespace culite
 /*-------------------------------------------------*/
 
