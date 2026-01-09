@@ -24,10 +24,12 @@
 #include <string>
 #include <ostream>
 #include <cla3p/generic/meta1d.hpp>
+#include <cla3p/dense/dns_xxcontainer.hpp>
+#include <cla3p/generic/guard.hpp>
 
 #include "culite/types/integer.hpp"
-#include "culite/generic/guard.hpp"
-#include "culite/dense/dns_xxcontainer.hpp"
+
+
 
 /*-------------------------------------------------*/
 namespace culite { 
@@ -36,15 +38,15 @@ namespace dns {
 
 /**
  * @nosubgrouping 
- * @brief The general purpose dense vector class.
+ * @brief The general purpose device dense vector class.
  */
 template <typename T_Scalar>
-class XiVector : public ::cla3p::Meta1D<int_t>, public XxContainer<T_Scalar> {
+class XiVector : public ::cla3p::Meta1D<int_t>, public ::cla3p::dns::XxContainer<T_Scalar> {
 
 	public:
 		XiVector();
-		explicit XiVector(int_t n, alloc_t alloc_type);
-		explicit XiVector(int_t n, T_Scalar *vals, alloc_t alloc_type, bool bind);
+		explicit XiVector(int_t n);
+		explicit XiVector(int_t n, T_Scalar *vals, bool bind);
 		~XiVector();
 
 		XiVector(const XiVector<T_Scalar>& other);
@@ -76,7 +78,7 @@ class XiVector : public ::cla3p::Meta1D<int_t>, public XxContainer<T_Scalar> {
 		/**
 		 * @copydoc standard_docs::rcopy_const()
 		 */
-		Guard<XiVector<T_Scalar>> rcopy() const;
+		::cla3p::Guard<XiVector<T_Scalar>> rcopy() const;
 
 		/**
 		 * @copydoc standard_docs::move()
@@ -98,7 +100,7 @@ class XiVector : public ::cla3p::Meta1D<int_t>, public XxContainer<T_Scalar> {
 		/**
 		 * @copydoc standard_vector_docs::view()
 		 */
-		static Guard<XiVector<T_Scalar>> view(int_t n, const T_Scalar *vals, alloc_t alloc_type);
+		static ::cla3p::Guard<XiVector<T_Scalar>> view(int_t n, const T_Scalar *vals);
 
 		/** @} */
 
@@ -106,7 +108,15 @@ class XiVector : public ::cla3p::Meta1D<int_t>, public XxContainer<T_Scalar> {
 		void moveFrom(XiVector<T_Scalar>& other);
 		void copyFromExisting(const XiVector<T_Scalar>& other);
 		void checker() const;
+
+		virtual T_Scalar* allocateMemory(std::size_t numElements) override;
+		virtual void freeMemory(T_Scalar *ptr) override;
 };
+
+/*-------------------------------------------------*/
+
+// TODO: implement a XiVectorHost class that inherits from ::cla3p::dns::XiVector
+//       and overrides allocators with pinned memory allocators
 
 /*-------------------------------------------------*/
 } // namespace dns

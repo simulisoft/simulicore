@@ -36,14 +36,14 @@ XxVector<T_Scalar>::XxVector()
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-XxVector<T_Scalar>::XxVector(int_t n, alloc_t alloc_type)
-	: XiVector<T_Scalar>(n, alloc_type)
+XxVector<T_Scalar>::XxVector(int_t n)
+	: XiVector<T_Scalar>(n)
 {
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-XxVector<T_Scalar>::XxVector(int_t n, T_Scalar *vals, alloc_t alloc_type, bool bind)
-	: XiVector<T_Scalar>(n, vals, alloc_type, bind)
+XxVector<T_Scalar>::XxVector(int_t n, T_Scalar *vals, bool bind)
+	: XiVector<T_Scalar>(n, vals, bind)
 {
 }
 /*-------------------------------------------------*/
@@ -187,15 +187,15 @@ XxVector<T_Scalar> XxVector<T_Scalar>::rblock(int_t ibgn, int_t ni)
 {
 	::cla3p::block_op_consistency_check(::cla3p::Property::General(), this->size(), 1, ibgn, 0, ni, 1);
 
-	return XxVector<T_Scalar>(ni, this->values() + ibgn, this->allocationType(), false);
+	return XxVector<T_Scalar>(ni, this->values() + ibgn, false);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-Guard<XxVector<T_Scalar>> XxVector<T_Scalar>::rblock(int_t ibgn, int_t ni) const
+::cla3p::Guard<XxVector<T_Scalar>> XxVector<T_Scalar>::rblock(int_t ibgn, int_t ni) const
 {
 	::cla3p::block_op_consistency_check(::cla3p::Property::General(), this->size(), 1, ibgn, 0, ni, 1);
 
-	Guard<XxVector<T_Scalar>> ret = this->view(ni, this->values() + ibgn, this->allocationType());
+	::cla3p::Guard<XxVector<T_Scalar>> ret = this->view(ni, this->values() + ibgn);
 	return ret;
 }
 /*-------------------------------------------------*/
@@ -206,9 +206,9 @@ void XxVector<T_Scalar>::setBlock(int_t ibgn, const XxVector<T_Scalar>& src)
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-XxVector<T_Scalar> XxVector<T_Scalar>::random(int_t n, alloc_t alloc_type, T_RScalar /*lo*/, T_RScalar /*hi*/)
+XxVector<T_Scalar> XxVector<T_Scalar>::random(int_t n, T_RScalar /*lo*/, T_RScalar /*hi*/)
 {
-	XxVector<T_Scalar> ret(n, alloc_type);
+	XxVector<T_Scalar> ret(n);
 	// TODO: implement
 	// blk::dns::rand(uplo_t::Full, ret.size(), 1, ret.values(), ret.size(), lo, hi);
 	return ret;

@@ -17,6 +17,7 @@
 #ifndef CULITE_DENSE_HPP_
 #define CULITE_DENSE_HPP_
 
+#include "culite/types/scalar.hpp"
 #include "culite/dense/dns_xxvector.hpp"
 //#include "culite/dense/dns_cxvector.hpp"
 //#include "culite/dense/dns_cxmatrix.hpp"

@@ -192,7 +192,7 @@ class XxMatrix : public MatrixMeta, public XxContainer<T_Scalar> {
 		/**
 		 * @copydoc standard_docs::rcopy_const()
 		 */
-		Guard<XxMatrix<T_Scalar>> rcopy() const;
+		::cla3p::Guard<XxMatrix<T_Scalar>> rcopy() const;
 
 		/**
 		 * @copydoc standard_docs::move()
@@ -322,7 +322,7 @@ class XxMatrix : public MatrixMeta, public XxContainer<T_Scalar> {
 		/**
 		 * @copydoc standard_matrix_docs::rblock()
 		 */
-		Guard<XxMatrix<T_Scalar>> rblock(int_t ibgn, int_t jbgn, int_t ni, int_t nj) const;
+		::cla3p::Guard<XxMatrix<T_Scalar>> rblock(int_t ibgn, int_t jbgn, int_t ni, int_t nj) const;
 
 		/**
 		 * @copydoc standard_matrix_docs::set_block()
@@ -342,7 +342,7 @@ class XxMatrix : public MatrixMeta, public XxContainer<T_Scalar> {
 		/**
 		 * @copydoc standard_matrix_docs::rcolumn()
 		 */
-		Guard<XxVector<T_Scalar>> rcolumn(int_t j) const;
+		::cla3p::Guard<XxVector<T_Scalar>> rcolumn(int_t j) const;
 
 		/**
 		 * @copydoc standard_matrix_docs::row()
@@ -357,7 +357,7 @@ class XxMatrix : public MatrixMeta, public XxContainer<T_Scalar> {
 		/**
 		 * @copydoc standard_matrix_docs::rrow()
 		 */
-		Guard<XxMatrix<T_Scalar>> rrow(int_t i) const;
+		::cla3p::Guard<XxMatrix<T_Scalar>> rrow(int_t i) const;
 
 		/**
 		 * @copydoc standard_matrix_docs::rrowvec()
@@ -381,7 +381,7 @@ class XxMatrix : public MatrixMeta, public XxContainer<T_Scalar> {
 		/**
 		 * @copydoc standard_matrix_docs::view()
 		 */
-		static Guard<XxMatrix<T_Scalar>> view(int_t nr, int_t nc, const T_Scalar *vals, int_t ldv, const Property& pr = Property::General());
+		static ::cla3p::Guard<XxMatrix<T_Scalar>> view(int_t nr, int_t nc, const T_Scalar *vals, int_t ldv, const Property& pr = Property::General());
 
 		/** @} */
 

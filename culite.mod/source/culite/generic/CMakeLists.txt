@@ -5,7 +5,6 @@ set(CULITE_SRC ${CULITE_SRC}
 	PARENT_SCOPE)
 
 set(CULITE_GENERIC_HPP 
-	guard.hpp
 	)
 
 #-----------------------------------------------
