@@ -17,6 +17,7 @@
 #ifndef CLA3P_DENSE_HPP_
 #define CLA3P_DENSE_HPP_
 
+#include "cla3p/types/scalar.hpp"
 #include "cla3p/dense/dns_cxvector.hpp"
 #include "cla3p/dense/dns_cxmatrix.hpp"
 
