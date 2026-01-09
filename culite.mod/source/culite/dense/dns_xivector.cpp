@@ -41,7 +41,7 @@ XiVector<T_Scalar>::XiVector()
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XiVector<T_Scalar>::XiVector(int_t n)
-	: ::cla3p::Meta1D<int_t>(n), ::cla3p::dns::XxContainer<T_Scalar>(n)
+	: ::cla3p::Meta1D<int_t>(n), XxContainer<T_Scalar>(n)
 {
 	if(n > 0) {
 		checker();
@@ -52,7 +52,7 @@ XiVector<T_Scalar>::XiVector(int_t n)
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XiVector<T_Scalar>::XiVector(int_t n, T_Scalar *val, bool bind)
-	: ::cla3p::Meta1D<int_t>(n), ::cla3p::dns::XxContainer<T_Scalar>(val, bind)
+	: ::cla3p::Meta1D<int_t>(n), XxContainer<T_Scalar>(val, bind)
 {
 	if(n > 0) {
 		checker();
@@ -101,7 +101,7 @@ template <typename T_Scalar>
 void XiVector<T_Scalar>::clear()
 {
 	::cla3p::Meta1D<int_t>::clear();
-	::cla3p::dns::XxContainer<T_Scalar>::clear();
+	XxContainer<T_Scalar>::clear();
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -168,7 +168,7 @@ void XiVector<T_Scalar>::moveFrom(XiVector<T_Scalar>& other)
 			*this = other;
 		} else {
 			::cla3p::Meta1D<int_t>::operator=(std::move(other));
-			::cla3p::dns::XxContainer<T_Scalar>::operator=(std::move(other));
+			XxContainer<T_Scalar>::operator=(std::move(other));
 			other.unbind();
 		} // similar
 
@@ -192,18 +192,6 @@ template <typename T_Scalar>
 	XiVector<T_Scalar> tmp(n, const_cast<T_Scalar*>(vals), false);
 	::cla3p::Guard<XiVector<T_Scalar>> ret(tmp);
 	return ret;
-}
-/*-------------------------------------------------*/
-template <typename T_Scalar>
-T_Scalar* XiVector<T_Scalar>::allocateMemory(std::size_t numElements)
-{
-  return device_alloc_t<T_Scalar>(numElements);
-}
-/*-------------------------------------------------*/
-template <typename T_Scalar>
-void XiVector<T_Scalar>::freeMemory(T_Scalar *ptr)
-{
-  device_free(ptr);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

@@ -214,6 +214,8 @@ XxVector<T_Scalar> XxVector<T_Scalar>::random(int_t n, T_RScalar /*lo*/, T_RScal
 	return ret;
 }
 /*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 template class XxVector<real_t>;
 template class XxVector<real4_t>;
 template class XxVector<complex_t>;

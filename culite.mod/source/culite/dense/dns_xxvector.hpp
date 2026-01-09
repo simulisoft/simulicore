@@ -33,7 +33,7 @@ namespace dns {
 
 /**
  * @nosubgrouping 
- * @brief The floating point dense vector class.
+ * @brief The floating point device dense vector class.
  */
 template <typename T_Scalar>
 class XxVector : public XiVector<T_Scalar> {

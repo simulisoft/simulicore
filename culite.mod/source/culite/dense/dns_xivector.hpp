@@ -24,12 +24,10 @@
 #include <string>
 #include <ostream>
 #include <cla3p/generic/meta1d.hpp>
-#include <cla3p/dense/dns_xxcontainer.hpp>
 #include <cla3p/generic/guard.hpp>
 
 #include "culite/types/integer.hpp"
-
-
+#include "culite/dense/dns_xxcontainer.hpp"
 
 /*-------------------------------------------------*/
 namespace culite { 
@@ -41,7 +39,7 @@ namespace dns {
  * @brief The general purpose device dense vector class.
  */
 template <typename T_Scalar>
-class XiVector : public ::cla3p::Meta1D<int_t>, public ::cla3p::dns::XxContainer<T_Scalar> {
+class XiVector : public ::cla3p::Meta1D<int_t>, public XxContainer<T_Scalar> {
 
 	public:
 		XiVector();
@@ -108,9 +106,6 @@ class XiVector : public ::cla3p::Meta1D<int_t>, public ::cla3p::dns::XxContainer
 		void moveFrom(XiVector<T_Scalar>& other);
 		void copyFromExisting(const XiVector<T_Scalar>& other);
 		void checker() const;
-
-		virtual T_Scalar* allocateMemory(std::size_t numElements) override;
-		virtual void freeMemory(T_Scalar *ptr) override;
 };
 
 /*-------------------------------------------------*/

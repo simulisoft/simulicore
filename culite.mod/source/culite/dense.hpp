@@ -27,29 +27,30 @@ namespace dns {
 
 /**
  * @ingroup culite_module_index_vectors_dense
- * @brief Double precision real vector.
+ * @brief Double precision real device vector.
  */
 using RdVector = XxVector<real_t>;
 
 /**
  * @ingroup culite_module_index_vectors_dense
- * @brief Single precision real vector.
+ * @brief Single precision real device vector.
  */
 using RfVector = XxVector<real4_t>;
 
 #if 0
 
 /**
- * @ingroup cla3p_module_index_vectors_dense
- * @brief Double precision complex vector.
+ * @ingroup culite_module_index_vectors_dense
+ * @brief Double precision complex device vector.
  */
 using CdVector = CxVector<complex_t>;
 
 /**
- * @ingroup cla3p_module_index_vectors_dense
- * @brief Single precision complex vector.
+ * @ingroup culite_module_index_vectors_dense
+ * @brief Single precision complex device vector.
  */
 using CfVector = CxVector<complex8_t>;
+
 
 /**
  * @ingroup cla3p_module_index_matrices_dense

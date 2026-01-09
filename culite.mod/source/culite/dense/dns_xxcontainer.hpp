@@ -14,30 +14,32 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_DNS_XXCONTAINER_HPP_
-#define CLA3P_DNS_XXCONTAINER_HPP_
+#ifndef CCULITE_DNS_XXCONTAINER_HPP_
+#define CCULITE_DNS_XXCONTAINER_HPP_
 
 /**
  * @file
  */
 
+#include <iostream>
 #include <cstddef>
 
-#include "cla3p/generic/ownership.hpp"
-#include "cla3p/generic/guard.hpp"
-#include "cla3p/support/imalloc.hpp"
+#include <cla3p/generic/ownership.hpp>
+#include <cla3p/generic/guard.hpp>
+
+#include "culite/support/imalloc.hpp"
 
 /*-------------------------------------------------*/
-namespace cla3p { 
+namespace culite { 
 namespace dns {
 /*-------------------------------------------------*/
 
 /**
  * @nosubgrouping 
- * @brief The dense container class.
+ * @brief The device dense container class.
  */
 template <typename T_Scalar>
-class XxContainer : public Ownership {
+class XxContainer : public ::cla3p::Ownership {
 
 	public:
 		using value_type = T_Scalar;
@@ -52,7 +54,7 @@ class XxContainer : public Ownership {
 			: XxContainer<T_Scalar>()
 		{
 			if(numElements) {
-				T_Scalar *vals = i_malloc<T_Scalar>(numElements);
+				T_Scalar *vals = device_alloc_t<T_Scalar>(numElements);
 				Ownership::operator=(Ownership(true));
 				setValues(vals);
 			}
@@ -102,7 +104,7 @@ class XxContainer : public Ownership {
 		void clear()
 		{
 			if(owner()) {
-				i_free(values());
+				device_free(values());
 			} // owner
 			Ownership::clear();
 			defaults();
@@ -132,4 +134,4 @@ class XxContainer : public Ownership {
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_DNS_XXCONTAINER_HPP_
+#endif // CULITE_DNS_XXCONTAINER_HPP_

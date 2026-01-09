@@ -10,6 +10,7 @@ set(CULITE_SRC ${CULITE_SRC}
 	PARENT_SCOPE)
 
 set(CULITE_DENSE_HPP 
+	dns_xxcontainer.hpp
 	dns_xivector.hpp
 	dns_xxvector.hpp
 	#dns_cxvector.hpp
