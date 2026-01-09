@@ -19,7 +19,7 @@
 
 #include "culite/types/scalar.hpp"
 #include "culite/dense/dns_cxvector.hpp"
-//#include "culite/dense/dns_cxmatrix.hpp"
+#include "culite/dense/dns_cxmatrix.hpp"
 
 namespace culite {
 namespace dns {
@@ -48,33 +48,29 @@ using CdVector = CxVector<complex_t>;
  */
 using CfVector = CxVector<complex8_t>;
 
-#if 0
-
 /**
- * @ingroup cla3p_module_index_matrices_dense
+ * @ingroup culite_module_index_matrices_dense
  * @brief Double precision real matrix.
  */
 using RdMatrix = XxMatrix<real_t>;
 
 /**
- * @ingroup cla3p_module_index_matrices_dense
+ * @ingroup culite_module_index_matrices_dense
  * @brief Single precision real matrix.
  */
 using RfMatrix = XxMatrix<real4_t>;
 
 /**
- * @ingroup cla3p_module_index_matrices_dense
+ * @ingroup culite_module_index_matrices_dense
  * @brief Double precision complex matrix.
  */
 using CdMatrix = CxMatrix<complex_t>;
 
 /**
- * @ingroup cla3p_module_index_matrices_dense
+ * @ingroup culite_module_index_matrices_dense
  * @brief Single precision complex matrix.
  */
 using CfMatrix = CxMatrix<complex8_t>;
-
-#endif // 0
 
 } // namespace dns
 } // namespace culite

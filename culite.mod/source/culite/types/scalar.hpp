@@ -61,6 +61,7 @@ template<> class TypeTraits<real_t> {
 		using real_type = real_t;
 		using complex_type = complex_t;
 		using host_type = ::cla3p::real_t;
+		static host_type toHostType(const real_t& v);
 		static std::string type_name();
 		static std::string prec_name();
 		constexpr static char netlibChar() { return 'd'; }
@@ -75,6 +76,7 @@ template<> class TypeTraits<real4_t> {
 		using real_type = real4_t;
 		using complex_type = complex8_t;
 		using host_type = ::cla3p::real4_t;
+		static host_type toHostType(const real4_t& v);
 		static std::string type_name();
 		static std::string prec_name();
 		constexpr static char netlibChar() { return 's'; }
@@ -89,6 +91,7 @@ template<> class TypeTraits<complex_t> {
 		using real_type = real_t;
 		using complex_type = complex_t;
 		using host_type = ::cla3p::complex_t;
+		static host_type toHostType(const complex_t& v);
 		static std::string type_name();
 		static std::string prec_name();
 		constexpr static char netlibChar() { return 'z'; }
@@ -103,6 +106,7 @@ template<> class TypeTraits<complex8_t> {
 		using real_type = real4_t;
 		using complex_type = complex8_t;
 		using host_type = ::cla3p::complex8_t;
+		static host_type toHostType(const complex8_t& v);
 		static std::string type_name();
 		static std::string prec_name();
 		constexpr static char netlibChar() { return 'c'; }

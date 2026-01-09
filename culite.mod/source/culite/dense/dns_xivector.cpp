@@ -182,6 +182,7 @@ void XiVector<T_Scalar>::copyFromExisting(const XiVector<T_Scalar>& other)
 {
 	if(this != &other) {
 		::cla3p::similarity_dim_check(size(), other.size());
+		// TODO: implement bulks
 		memCopyD2D(size(), other.values(), this->values());
 	} // do not apply on self
 }

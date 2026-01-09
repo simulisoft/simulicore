@@ -7,11 +7,23 @@
  *
  *
  *
+ *
+ *
  * @defgroup culite_module_index_datatypes Datatypes
  * @brief The basic cuLite datatypes.
  *
+ *
+ *
+ *
+ *
+ *
  * @defgroup culite_module_index_allocators Allocators
  * @brief The basic cuLite allocators.
+ *
+ *
+ *
+ *
+ *
  *
  * @addtogroup culite_module_index_vectors Vectors
  * The cuLite vector objects.
@@ -19,6 +31,26 @@
  *   @defgroup culite_module_index_vectors_dense Dense Vectors
  *   The cuLite dense vector objects.
  * @}
+ *
+ *
+ *
+ *
+ *
+ *
+ * @addtogroup culite_module_index_matrices Matrices
+ * The cuLite matrix objects.
+ * @{
+ *   @defgroup culite_module_index_matrices_dense Dense Matrices
+ *   The cuLite dense matrix objects.
+ *
+ *   @defgroup culite_module_index_matrices_sparse Sparse Matrices
+ *   The cuLite sparse matrix objects.
+ *
+ * @}
+ *
+ *
+ *
+ *
  *
  *
  * @defgroup culite_module_index_stream_operators Stream Operators

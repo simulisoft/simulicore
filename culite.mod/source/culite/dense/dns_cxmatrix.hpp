@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_DNS_CXMATRIX_HPP_
-#define CLA3P_DNS_CXMATRIX_HPP_
+#ifndef CULITE_DNS_CXMATRIX_HPP_
+#define CULITE_DNS_CXMATRIX_HPP_
 
 /**
  * @file
  */
 
-#include "cla3p/dense/dns_xxmatrix.hpp"
+#include "culite/dense/dns_xxmatrix.hpp"
 
 /*-------------------------------------------------*/
-namespace cla3p { 
+namespace culite { 
 namespace dns {
 /*-------------------------------------------------*/
 
 /**
  * @nosubgrouping 
- * @brief The dense complex matrix class.
+ * @brief The device dense complex matrix class.
  */
 template <typename T_Scalar>
 class CxMatrix : public XxMatrix<T_Scalar> {
@@ -50,22 +50,6 @@ class CxMatrix : public XxMatrix<T_Scalar> {
 		CxMatrix<T_Scalar>& operator=(const XxMatrix<T_Scalar>& other);
 		CxMatrix<T_Scalar>& operator=(XxMatrix<T_Scalar>&& other);
 
-		template <typename T_Virtual>
-		explicit CxMatrix(const VirtualExpression<XxMatrix<T_Scalar>,T_Virtual>& v) { operator=(v); }
-		template <typename T_Virtual>
-		CxMatrix(VirtualExpression<XxMatrix<T_Scalar>,T_Virtual>&& v) { operator=(std::move(v)); }
-
-		template <typename T_Virtual>
-		CxMatrix<T_Scalar>& operator=(const VirtualExpression<XxMatrix<T_Scalar>,T_Virtual>& v) { XxMatrix<T_Scalar>::evaluateFrom(v); return *this; }
-		template <typename T_Virtual>
-		CxMatrix<T_Scalar>& operator=(VirtualExpression<XxMatrix<T_Scalar>,T_Virtual>&& v) { XxMatrix<T_Scalar>::evaluateFrom(v); return *this; }
-
-		explicit CxMatrix(const VirtualRowvec<T_Scalar>& rv) { operator=(rv); }
-		CxMatrix(VirtualRowvec<T_Scalar>&& rv) { operator=(std::move(rv)); }
-
-		CxMatrix<T_Scalar>& operator=(const VirtualRowvec<T_Scalar>& rv) { XxMatrix<T_Scalar>::evaluateFrom(rv); return *this; }
-		CxMatrix<T_Scalar>& operator=(VirtualRowvec<T_Scalar>&& rv) { XxMatrix<T_Scalar>::evaluateFrom(rv); return *this; }
-
 		/**
 		 * @name Constructors
 		 * @{
@@ -79,12 +63,12 @@ class CxMatrix : public XxMatrix<T_Scalar> {
 		/**
 		 * @copydoc standard_matrix_docs::dim_constructor()
 		 */
-		explicit CxMatrix(int_t nr, int_t nc, const Property& pr = Property::General());
+		explicit CxMatrix(int_t nr, int_t nc, const ::cla3p::Property& pr = ::cla3p::Property::General());
 
 		/**
 		 * @copydoc standard_matrix_docs::aux_constructor()
 		 */
-		explicit CxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const Property& pr = Property::General());
+		explicit CxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const ::cla3p::Property& pr = ::cla3p::Property::General());
 
 		/**
 		 * @copydoc standard_docs::copy_constructor()
@@ -118,11 +102,6 @@ class CxMatrix : public XxMatrix<T_Scalar> {
 		 */
 		CxMatrix<T_Scalar>& operator=(CxMatrix<T_Scalar>&& other) = default;
 
-		/**
-		 * @copydoc standard_matrix_docs::fill()
-		 */
-		void operator=(T_Scalar val);
-
 		/** @} */
 
 		/** 
@@ -148,7 +127,7 @@ class CxMatrix : public XxMatrix<T_Scalar> {
 
 /*-------------------------------------------------*/
 } // namespace dns
-} // namespace cla3p
+} // namespace culite
 /*-------------------------------------------------*/
 
-#endif // CLA3P_DNS_CXMATRIX_HPP_
+#endif // CULITE_DNS_CXMATRIX_HPP_

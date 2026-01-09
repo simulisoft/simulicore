@@ -14,69 +14,38 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_DNS_XXMATRIX_HPP_
-#define CLA3P_DNS_XXMATRIX_HPP_
+#ifndef CULITE_DNS_XXMATRIX_HPP_
+#define CULITE_DNS_XXMATRIX_HPP_
 
 /**
  * @file
  */
 
-#include <string>
+//#include <string>
 
-#include "cla3p/generic/guard.hpp"
-#include "cla3p/generic/matrix_meta.hpp"
-#include "cla3p/dense/dns_xxcontainer.hpp"
-#include "cla3p/dense/dns_xxvector.hpp"
+#include <cla3p/generic/guard.hpp>
+#include <cla3p/generic/matrix_meta.hpp>
 
-#include "cla3p/virtuals/virtual_object.hpp"
-#include "cla3p/virtuals/virtual_rowvec.hpp"
-#include "cla3p/virtuals/virtual_transpose.hpp"
-#include "cla3p/virtuals/virtual_conjugate.hpp"
-#include "cla3p/virtuals/virtual_scale.hpp"
+#include "culite/dense/dns_xxcontainer.hpp"
+#include "culite/dense/dns_xxvector.hpp"
 
 /*-------------------------------------------------*/
-namespace cla3p { 
-/*-------------------------------------------------*/
-
-namespace prm { template <typename T_Int> class PxMatrix; }
-
-/*-------------------------------------------------*/
+namespace culite { 
 namespace dns {
 /*-------------------------------------------------*/
 
 /**
  * @nosubgrouping 
- * @brief The dense matrix class.
+ * @brief The device dense matrix class.
  */
 template <typename T_Scalar>
-class XxMatrix : public MatrixMeta, public XxContainer<T_Scalar> {
+class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar> {
 
 	private:
 		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+		using T_ScalarHost = typename TypeTraits<T_Scalar>::host_type;
 
 	public:
-
-		//
-		// Convertors
-		// Move convertors intentionally left as non-explicit
-		//
-		template <typename T_Virtual>
-		explicit XxMatrix(const VirtualExpression<XxMatrix<T_Scalar>,T_Virtual>& v) { operator=(v); }
-		template <typename T_Virtual>
-		XxMatrix(VirtualExpression<XxMatrix<T_Scalar>,T_Virtual>&& v) { operator=(std::move(v)); }
-
-		template <typename T_Virtual>
-		XxMatrix<T_Scalar>& operator=(const VirtualExpression<XxMatrix<T_Scalar>,T_Virtual>& v) { evaluateFrom(v); return *this; }
-		template <typename T_Virtual>
-		XxMatrix<T_Scalar>& operator=(VirtualExpression<XxMatrix<T_Scalar>,T_Virtual>&& v) { evaluateFrom(v); return *this; }
-
-		explicit XxMatrix(const VirtualRowvec<T_Scalar>& rv) { operator=(rv); }
-		XxMatrix(VirtualRowvec<T_Scalar>&& rv) { operator=(std::move(rv)); }
-
-		XxMatrix<T_Scalar>& operator=(const VirtualRowvec<T_Scalar>& rv) { evaluateFrom(rv); return *this; }
-		XxMatrix<T_Scalar>& operator=(VirtualRowvec<T_Scalar>&& rv) { evaluateFrom(rv); return *this;  }
-
-		VirtualObject<XxMatrix<T_Scalar>> virtualize() const { return VirtualObject<XxMatrix<T_Scalar>>(*this); }
 	
 		/**
 		 * @name Constructors
@@ -91,12 +60,12 @@ class XxMatrix : public MatrixMeta, public XxContainer<T_Scalar> {
 		/**
 		 * @copydoc standard_matrix_docs::dim_constructor()
 		 */
-		explicit XxMatrix(int_t nr, int_t nc, const Property& pr = Property::General());
+		explicit XxMatrix(int_t nr, int_t nc, const ::cla3p::Property& pr = ::cla3p::Property::General());
 
 		/**
 		 * @copydoc standard_matrix_docs::aux_constructor()
 		 */
-		explicit XxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const Property& pr = Property::General());
+		explicit XxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const ::cla3p::Property& pr = ::cla3p::Property::General());
 
 		/**
 		 * @copydoc standard_docs::copy_constructor()
@@ -131,24 +100,9 @@ class XxMatrix : public MatrixMeta, public XxContainer<T_Scalar> {
 		XxMatrix<T_Scalar>& operator=(XxMatrix<T_Scalar>&& other);
 
 		/**
-		 * @copydoc standard_docs::index_operator_2d()
-		 */
-		T_Scalar& operator()(int_t i, int_t j);
-
-		/**
-		 * @copydoc standard_docs::index_operator_2d()
-		 */
-		const T_Scalar& operator()(int_t i, int_t j) const;
-
-		/**
 		 * @copydoc standard_docs::virtual_negate_operator()
 		 */
-		VirtualScale<XxMatrix<T_Scalar>,VirtualObject<XxMatrix<T_Scalar>>> operator-() const;
-
-		/**
-		 * @copydoc standard_matrix_docs::fill()
-		 */
-		void operator=(T_Scalar val);
+		XxMatrix<T_Scalar> operator-() const; // TODO: use virtuals
 
 		/** @} */
 
@@ -173,11 +127,6 @@ class XxMatrix : public MatrixMeta, public XxContainer<T_Scalar> {
 		 * @copydoc standard_docs::clear()
 		 */
 		void clear();
-
-		/**
-		 * @copydoc standard_matrix_docs::fill()
-		 */
-		void fill(T_Scalar val);
 
 		/**
 		 * @copydoc standard_docs::copy()
@@ -205,34 +154,24 @@ class XxMatrix : public MatrixMeta, public XxContainer<T_Scalar> {
 		std::string info(const std::string& header = "") const;
 
 		/**
-		 * @copydoc standard_docs::print()
-		 */
-		void print(std::streamsize prec = 0) const;
-
-		/**
-		 * @copydoc standard_docs::toStream()
-		 */
-		void toStream(std::ostream& os, std::streamsize prec = 0) const;
-
-		/**
 		 * @copydoc standard_docs::iscale()
 		 */
 		void iscale(T_Scalar val);
 
-		/**
+		/* TODO: use virtuals
 		 *  @copydoc standard_matrix_docs::virtual_transpose()
 		 */
-		VirtualTranspose<XxMatrix<T_Scalar>> transpose() const;
+		//VirtualTranspose<XxMatrix<T_Scalar>> transpose() const;
 
-		/**
+		/* TODO: use virtuals
 		 * @copydoc standard_matrix_docs::virtual_ctranspose()
 		 */
-		VirtualTranspose<XxMatrix<T_Scalar>> ctranspose() const;
+		//VirtualTranspose<XxMatrix<T_Scalar>> ctranspose() const;
 
-		/**
+		/* TODO: use virtuals
 		 * @copydoc standard_matrix_docs::virtual_conjugate()
 		 */
-		VirtualConjugate<XxMatrix<T_Scalar>> conjugate() const;
+		//VirtualConjugate<XxMatrix<T_Scalar>> conjugate() const;
 
 		/**
 		 * @copydoc standard_matrix_docs::iconjugate()
@@ -269,45 +208,45 @@ class XxMatrix : public MatrixMeta, public XxContainer<T_Scalar> {
 		 */
 		void igeneral();
 
-		/**
+		/* TODO: implement
 		 * @copydoc standard_matrix_docs::permute_leftright()
 		 */
-		XxMatrix<T_Scalar> permuteLeftRight(const prm::PxMatrix<int_t>& P, const prm::PxMatrix<int_t>& Q) const;
+		//XxMatrix<T_Scalar> permuteLeftRight(const prm::PxMatrix<int_t>& P, const prm::PxMatrix<int_t>& Q) const;
 
-		/**
+		/* TODO: implement
 		 * @copydoc standard_matrix_docs::permute_leftright_dst()
 		 */
-		void permuteLeftRight(const prm::PxMatrix<int_t>& P, const prm::PxMatrix<int_t>& Q, XxMatrix<T_Scalar>& dest) const;
+		//void permuteLeftRight(const prm::PxMatrix<int_t>& P, const prm::PxMatrix<int_t>& Q, XxMatrix<T_Scalar>& dest) const;
 
-		/**
+		/* TODO: implement
 		 * @copydoc standard_matrix_docs::permute_left()
 		 */
-		XxMatrix<T_Scalar> permuteLeft(const prm::PxMatrix<int_t>& P) const;
+		//XxMatrix<T_Scalar> permuteLeft(const prm::PxMatrix<int_t>& P) const;
 
-		/**
+		/* TODO: implement
 		 * @copydoc standard_matrix_docs::permute_left_dst()
 		 */
-		void permuteLeft(const prm::PxMatrix<int_t>& P, XxMatrix<T_Scalar>& dest) const;
+		//void permuteLeft(const prm::PxMatrix<int_t>& P, XxMatrix<T_Scalar>& dest) const;
 
-		/**
+		/* TODO: implement
 		 * @copydoc standard_matrix_docs::permute_right()
 		 */
-		XxMatrix<T_Scalar> permuteRight(const prm::PxMatrix<int_t>& Q) const;
+		//XxMatrix<T_Scalar> permuteRight(const prm::PxMatrix<int_t>& Q) const;
 
-		/**
+		/* TODO: implement
 		 * @copydoc standard_matrix_docs::permute_right_dst()
 		 */
-		void permuteRight(const prm::PxMatrix<int_t>& Q, XxMatrix<T_Scalar>& dest) const;
+		//void permuteRight(const prm::PxMatrix<int_t>& Q, XxMatrix<T_Scalar>& dest) const;
 
-		/**
+		/* TODO: implement
 		 * @copydoc standard_matrix_docs::permute_mirror()
 		 */
-		XxMatrix<T_Scalar> permuteMirror(const prm::PxMatrix<int_t>& P) const;
+		//XxMatrix<T_Scalar> permuteMirror(const prm::PxMatrix<int_t>& P) const;
 
-		/**
+		/* TODO: implement
 		 * @copydoc standard_matrix_docs::permute_mirror_dst()
 		 */
-		void permuteMirror(const prm::PxMatrix<int_t>& P, XxMatrix<T_Scalar>& dest) const;
+		//void permuteMirror(const prm::PxMatrix<int_t>& P, XxMatrix<T_Scalar>& dest) const;
 
 		/**
 		 * @copydoc standard_matrix_docs::block()
@@ -359,10 +298,10 @@ class XxMatrix : public MatrixMeta, public XxContainer<T_Scalar> {
 		 */
 		::cla3p::Guard<XxMatrix<T_Scalar>> rrow(int_t i) const;
 
-		/**
+		/* TODO: use virtuals
 		 * @copydoc standard_matrix_docs::rrowvec()
 		 */
-		VirtualRowvec<T_Scalar> rrowvec(int_t i) const;
+		//VirtualRowvec<T_Scalar> rrowvec(int_t i) const;
 
 		/** @} */
 
@@ -374,14 +313,14 @@ class XxMatrix : public MatrixMeta, public XxContainer<T_Scalar> {
 		/**
 		 * @copydoc standard_matrix_docs::random()
 		 */
-		static XxMatrix<T_Scalar> random(int_t nr, int_t nc, const Property& pr = Property::General(), 
+		static XxMatrix<T_Scalar> random(int_t nr, int_t nc, const ::cla3p::Property& pr = ::cla3p::Property::General(), 
 				T_RScalar lo = T_RScalar(0), 
 				T_RScalar hi = T_RScalar(1));
 
 		/**
 		 * @copydoc standard_matrix_docs::view()
 		 */
-		static ::cla3p::Guard<XxMatrix<T_Scalar>> view(int_t nr, int_t nc, const T_Scalar *vals, int_t ldv, const Property& pr = Property::General());
+		static ::cla3p::Guard<XxMatrix<T_Scalar>> view(int_t nr, int_t nc, const T_Scalar *vals, int_t ldv, const ::cla3p::Property& pr = ::cla3p::Property::General());
 
 		/** @} */
 
@@ -395,42 +334,22 @@ class XxMatrix : public MatrixMeta, public XxContainer<T_Scalar> {
 		void moveFrom(XxMatrix<T_Scalar>& other);
 		void copyFromExisting(const XxMatrix<T_Scalar>& other);
 		void checker() const;
-
-	protected:
-		template <typename T_Virtual>
-		void evaluateFrom(const VirtualExpression<XxMatrix<T_Scalar>,T_Virtual>& v)
-		{
-			if(*this) {
-				v.evaluateOnExisting(*this);
-			} else {
-				v.evaluateOnNew(*this);
-			}
-		}
-
-		void evaluateFrom(const VirtualRowvec<T_Scalar>& rv)
-		{
-			if(*this) {
-				rv.evaluateOnExisting(*this);
-			} else {
-				rv.evaluateOnNew(*this);
-			}
-		}
 };
 
 /*-------------------------------------------------*/
 } // namespace dns
-} // namespace cla3p
+} // namespace culite
 /*-------------------------------------------------*/
 
-/**
- * @ingroup cla3p_module_index_stream_operators
+/* TODO: enable when ready
+ * @ingroup culite_module_index_stream_operators
  * @brief Writes to os the contents of mat.
  */
-template <typename T_Scalar>
-std::ostream& operator<<(std::ostream& os, const cla3p::dns::XxMatrix<T_Scalar>& mat)
-{
-	mat.toStream(os);
-	return os;
-}
+//template <typename T_Scalar>
+//std::ostream& operator<<(std::ostream& os, const culite::dns::XxMatrix<T_Scalar>& mat)
+//{
+//	mat.toStream(os);
+//	return os;
+//}
 
-#endif // CLA3P_DNS_XXMATRIX_HPP_
+#endif // CULITE_DNS_XXMATRIX_HPP_

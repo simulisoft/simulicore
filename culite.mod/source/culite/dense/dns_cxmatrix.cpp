@@ -15,17 +15,17 @@
  */
 
 // this file inc
-#include "cla3p/dense/dns_cxmatrix.hpp"
+#include "culite/dense/dns_cxmatrix.hpp"
 
 // system
 
 // 3rd
 
-// cla3p
-#include "cla3p/bulk/dns.hpp"
+// culite
+#include "culite/types/scalar.hpp"
 
 /*-------------------------------------------------*/
-namespace cla3p {
+namespace culite {
 namespace dns {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -60,13 +60,13 @@ CxMatrix<T_Scalar>::CxMatrix()
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-CxMatrix<T_Scalar>::CxMatrix(int_t nr, int_t nc, const Property& pr)
+CxMatrix<T_Scalar>::CxMatrix(int_t nr, int_t nc, const ::cla3p::Property& pr)
 	: CxMatrix<T_Scalar>::XxMatrix(nr, nc, pr)
 {
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-CxMatrix<T_Scalar>::CxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const Property& pr)
+CxMatrix<T_Scalar>::CxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const ::cla3p::Property& pr)
 	: CxMatrix<T_Scalar>::XxMatrix(nr, nc, vals, ldv, bind, pr)
 {
 }
@@ -77,25 +77,22 @@ CxMatrix<T_Scalar>::~CxMatrix()
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void CxMatrix<T_Scalar>::operator=(T_Scalar val)
-{
-	this->fill(val);
-}
-/*-------------------------------------------------*/
-template <typename T_Scalar>
 XxMatrix<typename TypeTraits<T_Scalar>::real_type> CxMatrix<T_Scalar>::real() const
 {
-	Property ret_prop = (this->prop().isHermitian() ? Property(prop_t::Symmetric, this->prop().uplo()) : this->prop());
+	::cla3p::Property ret_prop = (this->prop().isHermitian()
+		? ::cla3p::Property(::cla3p::prop_t::Symmetric, this->prop().uplo()) 
+		: this->prop());
 
 	XxMatrix<T_RScalar> ret(this->nrows(), this->ncols(), ret_prop);
 
-	blk::dns::get_real(
-			this->prop().uplo(), 
-			this->nrows(), 
-			this->ncols(), 
-			this->values(), 
-			this->ld(), 
-			ret.values(), ret.ld());
+	// TODO: implement bulks
+	// blk::dns::get_real(
+	//		this->prop().uplo(), 
+	//		this->nrows(), 
+	//		this->ncols(), 
+	//		this->values(), 
+	//		this->ld(), 
+	//		ret.values(), ret.ld());
 
 	return ret;
 }
@@ -103,17 +100,20 @@ XxMatrix<typename TypeTraits<T_Scalar>::real_type> CxMatrix<T_Scalar>::real() co
 template <typename T_Scalar>
 XxMatrix<typename TypeTraits<T_Scalar>::real_type> CxMatrix<T_Scalar>::imag() const
 {
-	Property ret_prop = (this->prop().isHermitian() ? Property(prop_t::Skew, this->prop().uplo()) : this->prop());
+	::cla3p::Property ret_prop = (this->prop().isHermitian()
+		? ::cla3p::Property(::cla3p::prop_t::Skew, this->prop().uplo()) 
+		: this->prop());
 
 	XxMatrix<T_RScalar> ret(this->nrows(), this->ncols(), ret_prop);
 
-	blk::dns::get_imag(
-			this->prop().uplo(), 
-			this->nrows(), 
-			this->ncols(), 
-			this->values(), 
-			this->ld(), 
-			ret.values(), ret.ld());
+	// TODO: implement bulks
+	// blk::dns::get_imag(
+	//		this->prop().uplo(), 
+	//		this->nrows(), 
+	//		this->ncols(), 
+	//		this->values(), 
+	//		this->ld(), 
+	//		ret.values(), ret.ld());
 
 	return ret;
 }
@@ -124,6 +124,6 @@ template class CxMatrix<complex_t>;
 template class CxMatrix<complex8_t>;
 /*-------------------------------------------------*/
 } // namespace dns
-} // namespace cla3p
+} // namespace culite
 /*-------------------------------------------------*/
 

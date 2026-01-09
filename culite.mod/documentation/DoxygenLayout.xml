@@ -24,6 +24,12 @@
         <tab type="user" url="@ref culite_module_index_vectors_dense" title="Dense"/>
       </tab>
 
+      <tab type="usergroup" url="@ref culite_module_index_matrices" title="Matrices">
+        <tab type="user" url="@ref culite_module_index_matrices_dense" title="Dense"/>
+        <tab type="user" url="@ref culite_module_index_matrices_sparse" title="Sparse"/>
+      </tab>
+
+
       <tab type="user" url="@ref culite_module_index_stream_operators" title="Stream Operators"/>
     </tab>
 
