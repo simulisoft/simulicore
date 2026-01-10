@@ -13,7 +13,7 @@ message(STATUS "cuLite Root Directory: ${CULITE_ROOT}")
 # sub-directory setup
 #-----------------------------------------------
 add_subdirectory(source)
-#add_subdirectory(examples)
+add_subdirectory(examples)
 
 if(${SIMULICORE_DEVELOPER_MODE})
 	add_subdirectory(documentation)

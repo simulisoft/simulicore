@@ -246,7 +246,7 @@ void dim_constructor();
  * @details Creates a n-sized vector from bulk data.
  * @param[in] n The vector size.
  * @param[in] vals The array containing the vector values.
- * @param[in] bind Binds the data to the vector, the vector will deallocate vals on destroy using i_free().
+ * @param[in] bind Binds the data to the vector, the vector will deallocate vals on destroy using @ref device_free().
  */
 void aux_constructor();
 // @param[in] incv Storage spacing between elements of `vals`.
