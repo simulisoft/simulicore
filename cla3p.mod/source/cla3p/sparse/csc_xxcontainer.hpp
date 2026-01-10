@@ -23,9 +23,9 @@
 
 #include <cstddef>
 
-#include "cla3p/types.hpp"
+#include "cla3p/sparse/csc_xxcontainer_base.hpp"
 #include "cla3p/generic/ownership.hpp"
-#include "cla3p/generic/guard.hpp"
+#include "cla3p/support/imalloc.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -37,62 +37,68 @@ namespace csc {
  * @brief The sparse container class (compressed sparse column).
  */
 template <typename T_Int, typename T_Scalar>
-class XxContainer : public Ownership {
+class XxContainer : public XxContainerBase<T_Int, T_Scalar>, public Ownership {
 
 	public:
-		using index_type = T_Int;
-		using value_type = T_Scalar;
+		XxContainer() {}
 
-	public:
-		XxContainer();
-		explicit XxContainer(std::size_t nc, std::size_t nz);
-		explicit XxContainer(T_Int *cptr, T_Int *ridx, T_Scalar *vals, bool bind);
-		~XxContainer();
+		explicit XxContainer(std::size_t nc, std::size_t nz)
+			: XxContainerBase<T_Int,T_Scalar>(nc ? i_malloc<T_Int>(nc+1) : nullptr,
+			                                  nz ? i_malloc<T_Int>(nz) : nullptr,
+			                                  nz ? i_malloc<T_Scalar>(nz) : nullptr),
+			  Ownership(nc ? true : false)
+		{
+			this->colptr()[nc] = static_cast<T_Int>(nz);
+		}
 
-		/**
-		 * @copydoc standard_docs::colptr()
-		 */
-		T_Int* colptr();
+		explicit XxContainer(T_Int *cptr, T_Int *ridx, T_Scalar *vals, bool bind)
+			: XxContainerBase<T_Int,T_Scalar>(cptr ? cptr : nullptr, 
+											  cptr ? ridx : nullptr, 
+											  cptr ? vals : nullptr),
+			  Ownership(cptr ? bind : false) {}
 
-		/**
-		 * @copydoc standard_docs::colptr()
-		 */
-		const T_Int* colptr() const;
+		XxContainer(XxContainer<T_Int,T_Scalar>&) = delete;
+		XxContainer<T_Int,T_Scalar>& operator=(XxContainer<T_Int,T_Scalar>&) = delete;
 
-		/**
-		 * @copydoc standard_docs::rowidx()
-		 */
-		T_Int* rowidx();
+		XxContainer(XxContainer<T_Int,T_Scalar>&& other)
+		{
+			moveFrom(other);
+		}
 
-		/**
-		 * @copydoc standard_docs::rowidx()
-		 */
-		const T_Int* rowidx() const;
+		XxContainer<T_Int,T_Scalar>& operator=(XxContainer<T_Int,T_Scalar>&& other)
+		{
+			moveFrom(other);
+			return *this;
+		}
 
-		/**
-		 * @copydoc standard_docs::values()
-		 */
-		T_Scalar* values();
-
-		/**
-		 * @copydoc standard_docs::values()
-		 */
-		const T_Scalar* values() const;
+		~XxContainer()
+		{
+			clear();
+		}
 
 	protected:
-		void clear();
+		void clear()
+		{
+			if(owner()) {
+				i_free(this->colptr());
+				i_free(this->rowidx());
+				i_free(this->values());
+			} // owner
+			XxContainerBase<T_Int,T_Scalar>::clear();
+			Ownership::clear();
+		}
 
 	private:
-
-		T_Int*    m_colptr;
-		T_Int*    m_rowidx;
-		T_Scalar* m_values;
-
-		void setColptr(T_Int*);
-		void setRowidx(T_Int*);
-		void setValues(T_Scalar*);
-
-		void defaults();
+		void moveFrom(XxContainer<T_Int,T_Scalar>& other)
+		{
+			if(this != &other) {
+				clear();
+				XxContainerBase<T_Int,T_Scalar>::operator=(std::move(other));
+				Ownership::operator=(std::move(other));
+				other.unbind();
+				other.clear();
+			} // do not apply on self
+		}
 };
 
 /*-------------------------------------------------*/
