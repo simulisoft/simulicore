@@ -1,8 +1,15 @@
 /**
  * @page cla3p_tutorial Quick Start Guide
- * In this section we present a collection of examples that demonstrate the basic concepts of CLA3P.@n 
- * The purpose of this guide is to help users get familiar with the CLA3P API and grasp its capabilities.@n
- * Simply choose the category you are interested in and browse the related code.
+ * @brief Essential concepts and implementation examples for the CLA3P library.
+ * @details This section provides a curated collection of examples designed to demonstrate 
+ * the fundamental principles of CLA3P. These modules serve as a practical 
+ * introduction, helping you quickly master the CLA3P API and leverage its 
+ * high-performance linear algebra capabilities in your own projects.
+ * 
+ * To begin, select a category from the list below to explore the corresponding 
+ * code samples. Whether you are performing basic matrix operations or complex 
+ * numerical decompositions, these guides offer a structured path to efficient 
+ * library integration.
  *
  *  - @subpage cla3p_tutorial_datatypes
  *  - @subpage cla3p_tutorial_vectors
