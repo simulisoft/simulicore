@@ -55,15 +55,14 @@ set(CLA3P_EXAMPLES_SRC
 	ex09a_lowrank_matrix_create.cpp
 	)
 
-	if(${SIMULICORE_ARCH_X86_64})
-		set(CLA3P_EXAMPLES_SRC ${CLA3P_EXAMPLES_SRC}
-			ex07a_solving_sparse_linear_systems_lu.cpp
-			ex07b_solving_sparse_linear_systems_llt.cpp
-			ex07c_solving_sparse_linear_systems_ldlt.cpp
-			ex07e_solving_sparse_linear_systems_auto.cpp
-			)
-    endif()
-
+if(${SIMULICORE_ARCH_X86_64})
+	set(CLA3P_EXAMPLES_SRC ${CLA3P_EXAMPLES_SRC}
+		ex07a_solving_sparse_linear_systems_lu.cpp
+		ex07b_solving_sparse_linear_systems_llt.cpp
+		ex07c_solving_sparse_linear_systems_ldlt.cpp
+		ex07e_solving_sparse_linear_systems_auto.cpp
+		)
+endif()
 
 #-----------------------------------------------
 # installation setup
