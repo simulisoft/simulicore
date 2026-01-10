@@ -7,8 +7,15 @@
     <!-- ==================================================================== -->
 
     <tab type="usergroup" url="@ref culite_tutorial" title="Tutorial">
-      <tab type="usergroup" url="@ref culite_tutorial_datatypes" title="Datatypes">
+
+      <tab type="user" url="@ref culite_tutorial_datatypes" title="Datatypes"/>
+
+      <tab type="usergroup" url="@ref culite_tutorial_vectors" title="Vectors">
+        <tab type="usergroup" url="@ref culite_tutorial_vectors_dense" title="Dense">
+          <tab type="user" url="@ref culite_tutorial_vectors_dense_create" title="Create"/>
+        </tab>
       </tab>
+
     </tab>
 
     <!-- ==================================================================== -->

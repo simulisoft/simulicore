@@ -33,12 +33,6 @@ message(STATUS "cuLite Examples Install Directory: ${CMAKE_INSTALL_PREFIX}")
 #-----------------------------------------------
 #include(${SIMULICORE_INSTALL_DIR}/cmake/openmp.cmake)
 
-#if(${SIMULICORE_SYSTEM_MACOS})
-#	set(CULITE_EXAMPLES_3RD_PARTY_INC ${CULITE_EXAMPLES_3RD_PARTY_INC} ${MACOS_OMP_INC})
-#	set(CULITE_EXAMPLES_3RD_PARTY_LIB ${CULITE_EXAMPLES_3RD_PARTY_LIB} ${MACOS_OMP_LIB})
-#	set(CULITE_EXAMPLES_3RD_PARTY_I64_LIB  ${CULITE_EXAMPLES_3RD_PARTY_I64_LIB} ${MACOS_OMP_LIB})
-#endif()
-
 #-----------------------------------------------
 # set 3rd parties (initialize with cuLite and CLA3P)
 #-----------------------------------------------
@@ -62,9 +56,13 @@ endif()
 # 
 # armpl/accelerate setup
 #
-#if(${SIMULICORE_SYSTEM_MACOS})
-
-#	include(${SIMULICORE_INSTALL_DIR}/cmake/3rd/armpl.mac.cmake)
+#if((${SIMULICORE_SYSTEM_LINUX} OR ${SIMULICORE_SYSTEM_WIN32}) AND ${SIMULICORE_ARCH_ARM64})
+#
+#	if(${SIMULICORE_SYSTEM_LINUX})
+#		include(${SIMULICORE_INSTALL_DIR}/cmake/3rd/armpl.lin.cmake)
+#	elseif(${SIMULICORE_SYSTEM_WIN32})
+#		include(${SIMULICORE_INSTALL_DIR}/cmake/3rd/armpl.win.cmake)
+#	endif()
 #	
 #	# definitions
 #	set(CULITE_EXAMPLES_3RD_PARTY_DEF ${CULITE_EXAMPLES_3RD_PARTY_DEF} ${ARMPL_DEF})
@@ -133,21 +131,6 @@ endif()
 #-----------------------------------------------
 # function that creates wrap script
 #-----------------------------------------------
-if(${SIMULICORE_SYSTEM_MACOS})
-	function(install_script_file)
-		set(SCRIPT_FNAME "${CMAKE_CURRENT_BINARY_DIR}/${EXAMPLE}.sh")
-		file(WRITE ${SCRIPT_FNAME} "#!/bin/bash\n")
-		file(APPEND ${SCRIPT_FNAME} "ROOT_DIR=`dirname $0`\n")
-		file(APPEND ${SCRIPT_FNAME} "if [[ -z $" "{DYLD_FALLBACK_LIBRARY_PATH} ]]; then\n")
-		file(APPEND ${SCRIPT_FNAME} "  export DYLD_FALLBACK_LIBRARY_PATH=${CULITE_EXAMPLES_3RD_PARTY_LIB_PATH}\n")
-		file(APPEND ${SCRIPT_FNAME} "else\n")
-		file(APPEND ${SCRIPT_FNAME} "  export DYLD_FALLBACK_LIBRARY_PATH=$" "{DYLD_FALLBACK_LIBRARY_PATH}:${CULITE_EXAMPLES_3RD_PARTY_LIB_PATH}\n")
-		file(APPEND ${SCRIPT_FNAME} "fi\n")
-		file(APPEND ${SCRIPT_FNAME} "exec $" "{ROOT_DIR}/${EXAMPLE}")
-		install(PROGRAMS ${SCRIPT_FNAME} DESTINATION bin)
-	endfunction()
-endif()
-
 if(${SIMULICORE_SYSTEM_LINUX})
 	function(install_script_file)
 		set(SCRIPT_FNAME "${CMAKE_CURRENT_BINARY_DIR}/${EXAMPLE}.sh")
@@ -177,7 +160,7 @@ endif()
 #-----------------------------------------------
 # target/dependencies/installation setup
 #-----------------------------------------------
-if(${SIMULICORE_SYSTEM_LINUX} OR ${SIMULICORE_SYSTEM_MACOS})
+if(${SIMULICORE_SYSTEM_LINUX})
 	string(REPLACE ";" ":" CULITE_EXAMPLES_3RD_PARTY_LIB_PATH "${CULITE_EXAMPLES_3RD_PARTY_LIB_PATH}")
 endif()
 

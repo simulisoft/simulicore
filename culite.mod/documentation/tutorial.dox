@@ -1,8 +1,18 @@
 /**
  * @page culite_tutorial Quick Start Guide
- * @details Coming Soon...
+ * @brief Basic concepts and usage examples for the cuLite library.
+ * @details This guide provides a collection of examples designed to help users familiarize 
+ * themselves with the cuLite API and understand its core capabilities. 
+ * Each example is structured to demonstrate best practices for high-performance 
+ * GPU computing while maintaining code readability.
+ * 
+ * To get started, select a category below to browse the relevant implementation examples. 
+ * Whether you are migrating from standard CUDA or starting a fresh project, these 
+ * modules offer a step-by-step progression through the library's features.
+ *
  *
  *  - @subpage culite_tutorial_datatypes
+ *  - @subpage culite_tutorial_vectors
  *
  *
  *
@@ -11,6 +21,56 @@
  *
  *
  * @page culite_tutorial_datatypes Datatypes
- * @details Coming Soon...
+ * @details cuLite uses the following datatypes:
+ *
+ * @code
+ *
+ * culite::int_t i; // integer
+ * culite::uint_t u; // unsigned integer
+ *
+ * culite::real_t d; // double precision real (double)
+ * culite::real4_t s; // single precision real (float)
+ * culite::complex_t z; // double precision complex (cuDoubleComplex)
+ * culite::complex8_t c; // single precision complex (cuFloatComplex)
+ *
+ * @endcode
+ *
+ * For 32-bit integer length, link with the default library (libculite.so / culite.lib).@n 
+ * For 64-bit integer length add -DCULITE_I64 to your compilation flags and link with the i64 library (libculite_i64.so / culite_i64.lib).
+ *
+ *
+ *
+ *
+ *
+ *
+ * @page culite_tutorial_vectors Vectors
+ *  - @subpage culite_tutorial_vectors_dense
+ *
+ * @page culite_tutorial_vectors_dense Dense Vectors
+ *
+ * cuLite supports the following dense vectors:
+ *
+ * @code
+ *
+ * culite::dns::RdVector Xd; // double precision real vector
+ * culite::dns::RfVector Xs; // single precision real vector
+ * culite::dns::CdVector Xz; // double precision complex vector
+ * culite::dns::CfVector Xc; // single precision complex vector
+ *
+ * @endcode
+ *
+ *
+ * @section culite_tutorial_vectors_dense_create Creating vectors
+ * You can declare/create dense vectors in the following ways:
+ *
+ *   @subsection culite_tutorial_vectors_dense_create_default Default creation
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex01a_dense_vector_create.cpp </td>
+ *       <td> @include i32/out/ex01a_dense_vector_create.out </td>
+ *     </tr>
+ *   </table>
+ *
  */
 
