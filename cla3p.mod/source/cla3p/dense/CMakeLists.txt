@@ -10,6 +10,7 @@ set(CLA3P_SRC ${CLA3P_SRC}
 	PARENT_SCOPE)
 
 set(CLA3P_DENSE_HPP 
+	dns_xxcontainer_base.hpp
 	dns_xxcontainer.hpp
 	dns_xivector.hpp
 	dns_xxvector.hpp
