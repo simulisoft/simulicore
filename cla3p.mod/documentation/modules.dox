@@ -1,4 +1,177 @@
-/**
+ /**
+ * @page cla3p_module_index Module Index
+ * 
+ * Comprehensive guide to the CLA3P library modules. Select a subpage below to explore specific components, implementation details, and algebraic functionality.
+ *
+ * - @subpage cla3p_module_index_datatypes
+ * - @subpage cla3p_module_index_allocators
+ * - @subpage cla3p_module_index_vectors
+ * - @subpage cla3p_module_index_matrices
+ * - @subpage cla3p_module_index_guard
+ * - @subpage cla3p_module_index_math_op
+ * - @subpage cla3p_module_index_linsol
+ * - @subpage cla3p_module_index_qr
+ * - @subpage cla3p_module_index_svd
+ * - @subpage cla3p_module_index_math_operators
+ * - @subpage cla3p_module_index_stream_operators
+ * - @subpage cla3p_module_index_exceptions
+ * - @subpage cla3p_module_index_special_enums
+ *
+ * @defgroup cla3p_module_index_datatypes Datatypes
+ * @brief The basic CLA3P datatypes and configuration classes.
+ * @details This module defines the fundamental numerical types and property descriptors used throughout the library. 
+ * It includes precision aliases for real and complex numbers, as well as structural metadata classes.
+ * Includes classes:
+ *  - @ref cla3p::Property : Defines matrix structure (Symmetric, Hermitian, etc.).
+ *  - @ref cla3p::Operation : Specifies transformation types (Transpose, Conjugate Transpose).
+ *
+ * @defgroup cla3p_module_index_allocators Allocators
+ * @brief Memory management utilities for numerical buffers.
+ * @details Contains the internal and user-facing allocation routines used by CLA3P to ensure memory alignment 
+ * and efficient data handling across different architectures.
+ *
+ * @addtogroup cla3p_module_index_vectors Vectors
+ * @brief Vector container objects.
+ * @details High-level abstractions for mathematical vectors, providing a unified interface for 1D data arrays.
+ * @{
+ *   @defgroup cla3p_module_index_vectors_dense Dense Vectors
+ *   @brief Dense vector objects with contiguous storage.
+ *   @details Classes for handling dense 1D arrays with support for various numerical precisions.
+ * @}
+ *
+ * @addtogroup cla3p_module_index_matrices Matrices
+ * @brief Matrix container objects and storage formats.
+ * @details A collection of 2D mathematical containers, ranging from standard dense arrays to memory-efficient sparse and low-rank formats.
+ * @{
+ *   @defgroup cla3p_module_index_matrices_dense Dense Matrices
+ *   @brief Dense matrix objects using column-major storage.
+ *   @details Optimized for high-throughput BLAS/LAPACK operations.
+ *
+ *   @defgroup cla3p_module_index_matrices_sparse Sparse Matrices
+ *   @brief Sparse matrix objects (COO and CSC formats).
+ *   @details Optimized for large-scale systems where most entries are zero.
+ *
+ *   @defgroup cla3p_module_index_matrices_lowrank Low-Rank Matrices
+ *   @brief Low-rank matrix objects (factorized format).
+ *   @details Represents matrices as products of smaller factors to save memory and time.
+ *
+ *   @defgroup cla3p_module_index_matrices_perm Permutation Matrices
+ *   @brief Permutation matrix objects for reordering.
+ *   @details Specialized containers for storing and applying index-based permutations.
+ * @}
+ * 
+ * @defgroup cla3p_module_index_guard Guard
+ * @brief Memory and data integrity utility.
+ * @details Provides a wrapper mechanism to handle immutable data returned by library functions safely.
+ * Includes class:
+ *  - @ref cla3p::Guard : Ensures read-only access to internal library objects.
+ *
+ * @addtogroup cla3p_module_index_math_op Functional Algebra
+ * @brief Functional-style algebraic operations.
+ * @details Provides a functional interface (typically via the `cla3p::ops` namespace) for performing 
+ * linear algebra without relying solely on operator overloading.
+ * @{
+ *   @defgroup cla3p_module_index_math_op_add Add/Update Operations
+ *   @brief Operations for summing or updating existing containers.
+ *
+ *   @defgroup cla3p_module_index_math_op_vecvec Inner/Outer product Operations
+ *   @brief Dot products and rank-1 updates.
+ *
+ *   @defgroup cla3p_module_index_math_op_matvec Matrix-Vector Operations
+ *   @brief Efficient products between matrices and vectors.
+ *
+ *   @defgroup cla3p_module_index_math_op_matmat Matrix-Matrix Operations
+ *   @brief High-performance matrix multiplications (GEMM).
+ * @}
+ *
+ * @addtogroup cla3p_module_index_linsol Linear Solvers
+ * @brief Solvers for systems of linear equations (Ax = B).
+ * @details Interfaces for various factorization-based solvers optimized for different matrix structures.
+ * @{
+ *   @defgroup cla3p_module_index_linsol_dense Dense Linear Solvers
+ *   @brief Solvers for dense systems using LAPACK backends.
+ *   Includes classes:
+ *    - @ref cla3p::LapackAuto : Automatic solver selection.
+ *    - @ref cla3p::LapackLLt : Cholesky factorization.
+ *    - @ref cla3p::LapackLDLt : Bunch-Kaufman factorization.
+ *    - @ref cla3p::LapackLU : LU factorization.
+ *    - @ref cla3p::LapackCompleteLU : LU factorization with full pivoting.
+ *
+ *   @defgroup cla3p_module_index_linsol_sparse Sparse Linear Solvers
+ *   @brief Solvers for sparse systems using Pardiso/MKL backends.
+ *   Includes classes:
+ *    - @ref cla3p::PardisoLLt : Sparse Cholesky.
+ *    - @ref cla3p::PardisoLDLt : Sparse Symmetric/Hermitian indefinite.
+ *    - @ref cla3p::PardisoLU : Sparse LU for general matrices.
+ *    - @ref cla3p::PardisoSymmetricLU : Sparse LU for symmetric matrices.
+ * @}
+ *
+ * @defgroup cla3p_module_index_qr QR Decomposition
+ * @brief Orthogonal-triangular matrix factorization.
+ * @details Tools for computing the QR decomposition of dense matrices.
+ * Includes class:
+ *  - @ref cla3p::DefaultQR : Standard QR decomposition interface.
+ *
+ * @defgroup cla3p_module_index_svd Singular Value Decomposition
+ * @brief Singular value-based matrix factorization.
+ * @details Tools for computing singular values and singular vectors.
+ * Includes class:
+ *  - @ref cla3p::DefaultSVD : Standard SVD interface.
+ *
+ * @addtogroup cla3p_module_index_math_operators Algebra Operators
+ * @brief Intuitive non-member algebraic operator definitions for matrix and vector calculus.
+ * @details This module provides overloaded C++ operators that allow users to write mathematical 
+ * expressions in a syntax closely resembling standard linear algebra notation. These operators 
+ * call optimized internal routines for performance while maintaining code readability.
+ * @{
+ *   @defgroup cla3p_module_index_math_operators_add Addition/Subtraction Operators
+ *   @brief Binary operators for summing or subtracting compatible numerical containers.
+ *   @details Implements `+` and `-` for vectors and matrices. These operators perform dimensional 
+ *   consistency checks before executing element-wise arithmetic.
+ *
+ *   @defgroup cla3p_module_index_math_operators_update Updating Operators
+ *   @brief Compound assignment operators for in-place data modification.
+ *   @details Implements `+=` and `-=` to update existing objects, reducing memory allocation 
+ *   overhead by reusing the destination buffer.
+ *
+ *   @defgroup cla3p_module_index_math_operators_scal Scaling Operators
+ *   @brief Scalar-container multiplication and division.
+ *   @details Implements `*` and `/` between scalars and CLA3P objects, allowing for uniform scaling 
+ *   of all elements in a vector or matrix.
+ *
+ *   @defgroup cla3p_module_index_math_operators_mult Multiplication Operators
+ *   @brief Matrix-vector and matrix-matrix product definitions.
+ *   @details Implements the `*` operator for dot products, matrix-vector multiplications, and 
+ *   matrix-matrix products (GEMM). These are mapped to high-performance BLAS backends.
+ *
+ *   @defgroup cla3p_module_index_math_operators_perm Permutation Operators
+ *   @brief Operator-based reordering of rows and columns.
+ *   @details Implements the `*` operator for applying @ref cla3p::prm::PxMatrix reordering 
+ *   to vectors and matrices, providing a clean syntax for row/column pivoting.
+ * @}
+ *
+ * @defgroup cla3p_module_index_stream_operators Stream Operators
+ * @brief I/O stream integration.
+ * @details Overloads for `std::ostream` to allow easy printing and logging of CLA3P objects.
+ *
+ * @defgroup cla3p_module_index_exceptions Exceptions
+ * @brief Error handling and diagnostic classes.
+ * @details Specialized exception types thrown by CLA3P during runtime errors or invalid operations.
+ *   Includes classes:
+ *    - @ref cla3p::err::Exception : Base exception class.
+ *    - @ref cla3p::err::NoConsistency : Dimensional or property mismatch.
+ *    - @ref cla3p::err::InvalidOp : Operation not supported for given type.
+ *    - @ref cla3p::err::OutOfMemory : Memory allocation failures.
+ *    - @ref cla3p::err::OutOfBounds : Indexing errors.
+ *
+ * @defgroup cla3p_module_index_special_enums Special Enumerations
+ * @brief Enumerated types for specific algorithm control.
+ * @details Enums for defining solver behavior, search directions, and other algorithmic parameters.
+ */
+
+/* ---------------------------------------------------------------------------------------- */
+
+/* OLD MODULE INDEX BELOW - TO BE DELETED
  * @page cla3p_module_index Module Index
  *  - @subpage cla3p_module_index_datatypes
  *  - @subpage cla3p_module_index_allocators
