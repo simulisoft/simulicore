@@ -19,24 +19,40 @@
  *
  *
  *
- *
  * @page culite_tutorial_datatypes Datatypes
- * @details cuLite uses the following datatypes:
+ * 
+ * cuLite utilizes a set of internal datatypes designed for seamless integration with NVIDIA CUDA environments. 
+ * These types ensure consistency across both host and device code while maintaining compatibility with standard 
+ * CUDA complex types.
  *
- * @code
+ * ### Supported Datatypes
  *
- * culite::int_t i; // integer
- * culite::uint_t u; // unsigned integer
+ * The following aliases are provided within the `culite` namespace:
  *
- * culite::real_t d; // double precision real (double)
- * culite::real4_t s; // single precision real (float)
- * culite::complex_t z; // double precision complex (cuDoubleComplex)
- * culite::complex8_t c; // single precision complex (cuFloatComplex)
+ * | cuLite Type | Underlying C++/CUDA Type | Description |
+ * | :--- | :--- | :--- |
+ * |      culite::int_t | `int32_t` or `int64_t` | Signed integer (bit-width depends on build mode) |
+ * |      culite::uint_t | `uint32_t` or `uint64_t` | Unsigned integer (bit-width depends on build mode) |
+ * | @ref culite::real_t | `double` | Double precision real |
+ * | @ref culite::real4_t | `float` | Single precision real |
+ * | @ref culite::complex_t | `cuDoubleComplex` | Double precision complex (binary compatible with `std::complex<double>`) |
+ * | @ref culite::complex8_t | `cuFloatComplex` | Single precision complex (binary compatible with `std::complex<float>`) |
  *
+ * ### Integer Precision Configuration
+ *
+ * By default, cuLite uses 32-bit integers for its index types. You can toggle between 32-bit and 64-bit precision 
+ * using the following configuration:
+ *
+ * - **32-bit Integers (Default):** Link your application with the standard library (`libculite.so` / `culite.lib`).
+ * - **64-bit Integers:** Add the `-DCULITE_I64` flag to your compiler flags and link with the 64-bit enabled 
+ *   library (`libculite_i64.so` / `culite_i64.lib`).
+ *
+ * Example:
+ * @code{.cpp}
+ * culite::int_t i;      // Width determined by -DCULITE_I64 flag
+ * culite::real_t d;     // Always double precision
+ * culite::complex_t z;  // cuDoubleComplex structure
  * @endcode
- *
- * For 32-bit integer length, link with the default library (libculite.so / culite.lib).@n 
- * For 64-bit integer length add -DCULITE_I64 to your compilation flags and link with the i64 library (libculite_i64.so / culite_i64.lib).
  *
  *
  *
@@ -48,29 +64,38 @@
  *
  * @page culite_tutorial_vectors_dense Dense Vectors
  *
- * cuLite supports the following dense vectors:
+ * cuLite provides specialized classes for managing dense vectors on NVIDIA GPU devices. 
+ * These classes are optimized for CUDA-accelerated linear algebra operations and support 
+ * both real and complex numerical types.
  *
- * @code
+ * ### Available Dense Vector Types
  *
- * culite::dns::RdVector Xd; // double precision real vector
- * culite::dns::RfVector Xs; // single precision real vector
- * culite::dns::CdVector Xz; // double precision complex vector
- * culite::dns::CfVector Xc; // single precision complex vector
+ * The following classes are defined within the `culite::dns` namespace:
  *
- * @endcode
- *
+ * | cuLite Class | Numeric Type | Precision |
+ * | :--- | :--- | :--- |
+ * | @ref culite::dns::RdVector | `double` | Double precision real |
+ * | @ref culite::dns::RfVector | `float` | Single precision real |
+ * | @ref culite::dns::CdVector | `cuDoubleComplex` | Double precision complex |
+ * | @ref culite::dns::CfVector | `cuFloatComplex` | Single precision complex |
  *
  * @section culite_tutorial_vectors_dense_create Creating vectors
- * You can declare/create dense vectors in the following ways:
  *
- *   @subsection culite_tutorial_vectors_dense_create_default Default creation
- *   <table>
- *     <tr><th>Code</th><th>Output</th></tr>
- *     <tr>
- *       <td> @include     src/ex01a_dense_vector_create.cpp </td>
- *       <td> @include i32/out/ex01a_dense_vector_create.out </td>
- *     </tr>
- *   </table>
+ * You can instantiate dense vectors using several initialization strategies, ranging from 
+ * empty containers to pre-allocated device memory.
+ *
+ * @subsection culite_tutorial_vectors_dense_create_default Default and Sized Creation
+ *
+ * Dense vectors can be declared as empty objects or with a predefined size to trigger immediate 
+ * allocation on the GPU.
+ *
+ * <table>
+ *   <tr><th>Source Code</th><th>Console Output</th></tr>
+ *   <tr>
+ *     <td> @include src/ex01a_dense_vector_create.cpp </td>
+ *     <td> @include i32/out/ex01a_dense_vector_create.out </td>
+ *   </tr>
+ * </table>
  *
  */
 
