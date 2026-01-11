@@ -115,52 +115,52 @@ d		 * @details Constructs an empty property.
 		std::string name() const;
 
 		/**
-		 * @brief Checks weather the property has a valid type.
+		 * @brief Checks whether the property has a valid type.
 		 */
 		bool isValid() const;
 
 		/**
-		 * @brief Checks weather the property requires matrix to be square.
+		 * @brief Checks whether the property requires matrix to be square.
 		 */
 		bool isSquare() const;
 
 		/**
-		 * @brief Checks weather the property type is general.
+		 * @brief Checks whether the property type is general.
 		 */
 		bool isGeneral() const;
 
 		/**
-		 * @brief Checks weather the property type is symmetric.
+		 * @brief Checks whether the property type is symmetric.
 		 */
 		bool isSymmetric() const;
 
 		/**
-		 * @brief Checks weather the property type is hermitian.
+		 * @brief Checks whether the property type is hermitian.
 		 */
 		bool isHermitian() const;
 
 		/**
-		 * @brief Checks weather the property type is triangular/trapezoidal.
+		 * @brief Checks whether the property type is triangular/trapezoidal.
 		 */
 		bool isTriangular() const;
 
 		/**
-		 * @brief Checks weather the property type is skew.
+		 * @brief Checks whether the property type is skew.
 		 */
 		bool isSkew() const;
 
 		/**
-		 * @brief Checks weather the entire matrix is used.
+		 * @brief Checks whether the entire matrix is used.
 		 */
 		bool isFull() const;
 
 		/**
-		 * @brief Checks weather the upper part of the matrix is used.
+		 * @brief Checks whether the upper part of the matrix is used.
 		 */
 		bool isUpper() const;
 
 		/**
-		 * @brief Checks weather the lower part of the matrix is used.
+		 * @brief Checks whether the lower part of the matrix is used.
 		 */
 		bool isLower() const;
 

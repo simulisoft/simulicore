@@ -88,7 +88,7 @@ class Operation {
 		std::string name() const;
 
 		/**
-		 * @brief Checks weather the operation is (conjugate) transpose
+		 * @brief Checks whether the operation is (conjugate) transpose
 		 */
 		bool isTranspose() const;
 
