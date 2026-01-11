@@ -1,5 +1,65 @@
 /**
  * @page culite_module_index Module Index
+ * 
+ * Comprehensive guide to the cuLite library modules. Select a subpage below to explore specific components and implementation details.
+ *
+ * - @subpage culite_module_index_datatypes
+ * - @subpage culite_module_index_allocators
+ * - @subpage culite_module_index_vectors
+ * - @subpage culite_module_index_matrices
+ *
+ * @defgroup culite_module_index_datatypes Datatypes
+ * @brief The basic cuLite datatypes and precision aliases.
+ * @details This module defines the fundamental numerical types used across the cuLite ecosystem. It includes 
+ * abstractions for signed and unsigned integers (configurable for 32-bit or 64-bit widths) and floating-point 
+ * types for real and complex numbers. These types ensure binary compatibility between host C++ code and 
+ * NVIDIA CUDA device kernels.
+ *
+ * @defgroup culite_module_index_allocators Allocators
+ * @brief Memory management and allocation strategies for GPU computing.
+ * @details Allocators handle the lifecycle of memory on the device. This module provides specialized 
+ * routines for standard device allocation, unified memory (managed) access, and pinned host memory 
+ * to optimize data transfer throughput between the CPU and GPU.
+ *
+ * @addtogroup culite_module_index_vectors Vectors
+ * @brief High-performance vector containers for CUDA.
+ * @details This module contains vector classes optimized for linear algebra operations on NVIDIA GPUs. 
+ * It manages device memory pointers and provides seamless integration with cuBLAS and other NVIDIA libraries.
+ * @{
+ *   @defgroup culite_module_index_vectors_dense Dense Vectors
+ *   @brief Dense vector objects with contiguous device storage.
+ *   @details Dense vectors store elements sequentially in GPU memory. They support a variety of 
+ *   initialization methods, including random generation and wrapping of existing device pointers.
+ * @}
+ *
+ * @addtogroup culite_module_index_matrices Matrices
+ * @brief High-performance matrix containers and structural properties.
+ * @details This module provides the framework for matrix computations on the GPU, supporting various 
+ * storage formats and mathematical properties such as symmetry and hermiticity.
+ * @{
+ *   @defgroup culite_module_index_matrices_dense Dense Matrices
+ *   @brief Dense matrix objects using column-major device storage.
+ *   @details Dense matrices are optimized for throughput-heavy operations. This group includes 
+ *   classes for real and complex data, providing interfaces for matrix-matrix and matrix-vector products.
+ *
+ *   @defgroup culite_module_index_matrices_sparse Sparse Matrices
+ *   @brief Sparse matrix objects and compressed storage formats.
+ *   @details This module provides support for matrices where most elements are zero. It includes 
+ *   Coordinate (COO) format for construction and Compressed Sparse Column (CSC) format for 
+ *   accelerated sparse-dense arithmetic.
+ * @}
+ *
+ * @defgroup culite_module_index_stream_operators Stream Operators
+ * @brief Utility operators for asynchronous execution and data flow.
+ * @details A collection of operators designed to interact with CUDA streams. These facilitate 
+ * non-blocking execution, synchronization, and intuitive data streaming between host and device 
+ * using standard-like syntax.
+ */
+
+/* ---------------------------------------------------------------------------------------- */
+
+/* OLD MODULE INDEX BELOW - TO BE DELETED
+ * @page culite_module_index Module Index
  *  - @subpage culite_module_index_datatypes
  *  - @subpage culite_module_index_allocators
  *  - @subpage culite_module_index_vectors
@@ -57,4 +117,3 @@
  * List of cuLite stream operators.
  *
  */
-
