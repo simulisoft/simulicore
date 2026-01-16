@@ -193,7 +193,7 @@ You can find the latest **cuLite** version documentation [here](https://www.simu
 To accelerate computations on GPU hardware, **cuLite** relies on NVIDIA CUDA libraries:
 * **Linux/Windows (x86_64 with NVIDIA GPU)**:
   - [**NVIDIA CUDA Toolkit**](https://developer.nvidia.com/cuda-toolkit): The CUDA Toolkit includes cuBLAS, cuSOLVER, and cuSPARSE libraries required by **cuLite**.
-   - [**cuDSS (CUDA Direct Sparse Solver)**](https://developer.nvidia.com/cudss): Required for advanced sparse linear system solving capabilities, provides high-performance direct solvers for sparse matrices on GPU.
+  - [**cuDSS (CUDA Direct Sparse Solver)**](https://developer.nvidia.com/cudss): Required for advanced sparse linear system solving capabilities, provides high-performance direct solvers for sparse matrices on GPU.
 
 Detailed instructions for linking with CUDA libraries are available in the provided linking [guide](https://github.com/simulisoft/simulicore/blob/main/cmake/3rd/cuda.md).
 
