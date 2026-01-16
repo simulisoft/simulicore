@@ -7,59 +7,47 @@
 
 int main()
 {
-	cla3p::dns::RdVector X(5);
+	cla3p::dns::RdVector x(5);
 
 	for(cla3p::uint_t i = 0; i < 5; i++)
-		X(i) = i;
+		x(i) = i;
 
-	std::cout << "X:\n" << X << "\n";
-
-	/*
-	 * Get a copy of X[1:3) in Xb
-	 * Get a reference of X[2:5) in Xr
-	 */
-
-	cla3p::dns::RdVector Xb = X.block(1, 2);
-	cla3p::dns::RdVector Xr = X.rblock(2, 3);
-
-	std::cout << "Xb:\n" << Xb;
-	std::cout << "Xr:\n" << Xr;
+	std::cout << "x:\n" << x << "\n";
 
 	/*
-	 * Get a guarded reference of Xref[2:5) in Xg
+	 * Get a copy of x[1:3) in xb
+	 * Get a reference of x[2:5) in xr
 	 */
-
-	const cla3p::dns::RdVector& Xref = X;
-
-	cla3p::Guard<cla3p::dns::RdVector> Xg = Xref.rblock(2, 3);
-
-	std::cout << "Xg:\n" << Xg.get() << "\n";
+	cla3p::dns::RdVector xb = x.block(1, 2);
+	cla3p::dns::RdVector xr = x.rblock(2, 3);
+	std::cout << "xb:\n" << xb;
+	std::cout << "xr:\n" << xr;
+	/*
+	 * Get a guarded reference of xref[2:5) in xg
+	 */
+	const cla3p::dns::RdVector& xref = x;
+	cla3p::Guard<cla3p::dns::RdVector> xg = xref.rblock(2, 3);
+	std::cout << "xg:\n" << xg.get() << "\n";
 
 	/*
 	 * Change values in blocks
 	 */
-
-	Xr = -1;
-
-	std::cout << "X:\n" << X;
+	xr = -1;
+	std::cout << "x:\n" << x;
 
 	/*
-	 * Set values of Xb to X, starting at index 1
+	 * Set values of xb to x, starting at index 1
 	 */
-
-	Xb = -2;
-	X.setBlock(1, Xb);
-
-	std::cout << "X:\n" << X;
+	xb = -2;
+	x.setBlock(1, xb);
+	std::cout << "x:\n" << x;
 
 	/*
-	 * Set values of Xb to X, starting at index 2
+	 * Set values of xb to x, starting at index 2
 	 */
-
-	Xb = -3;
-	X.rblock(2, 2) = Xb;
-
-	std::cout << "X:\n" << X;
+	xb = -3;
+	x.rblock(2, 2) = xb;
+	std::cout << "x:\n" << x;
 
 	return 0;
 }

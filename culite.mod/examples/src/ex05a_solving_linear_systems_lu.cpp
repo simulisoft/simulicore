@@ -14,18 +14,18 @@ int main()
 	 * Create a random dense objects on host
 	 */
 	const cla3p::dns::RdMatrix HostA  = cla3p::dns::RdMatrix::random(5,5);
-	const cla3p::dns::RdVector HostB1 = cla3p::dns::RdVector::random(5);
-	const cla3p::dns::RdMatrix HostB2 = cla3p::dns::RdMatrix::random(5,3);
+	const cla3p::dns::RdVector HostBv = cla3p::dns::RdVector::random(5);
+	const cla3p::dns::RdMatrix HostBm = cla3p::dns::RdMatrix::random(5,3);
 
 	/*
 	 * Transfer to device
 	 */
 	culite::dns::RdMatrix A ;
-	culite::dns::RdVector B1;
-	culite::dns::RdMatrix B2;
+	culite::dns::RdVector b;
+	culite::dns::RdMatrix B;
 	HostA >> A;
-	HostB1 >> B1;
-	HostB2 >> B2;
+	HostBv >> b;
+	HostBm >> B;
 
 	/*
 	 * Instantiate LU solver
@@ -40,29 +40,29 @@ int main()
 	{
 		/*
 		 * Single column (vector) rhs
-		 * Overwrite X with the solution (A^{-1} * B1)
+		 * Overwrite x with the solution (A^{-1} * Bv)
 		 */
-		culite::dns::RdVector X = B1;
-		luSolver.solve(X);
+		culite::dns::RdVector x = b;
+		luSolver.solve(x);
 		// Check error norm on host
 		cla3p::dns::RdVector HostX;
-		X >> HostX;
+		x >> HostX;
 		std::cout << "Dense Vector rhs::Absolute Error: "
-			<< (HostB1 - HostA * HostX).evaluate().normOne() << std::endl;
+			<< (HostBv - HostA * HostX).evaluate().normOne() << std::endl;
 	}
 
 	{
 		/*
 		 * Multiple column (matrix) rhs
-		 * Overwrite X with the solution (A^{-1} * B2)
+		 * Overwrite X with the solution (A^{-1} * B)
 		 */
-		culite::dns::RdMatrix X = B2;
+		culite::dns::RdMatrix X = B;
 		luSolver.solve(X);
 		// Check error norm on host
 		cla3p::dns::RdMatrix HostX;
 		X >> HostX;
 		std::cout << "Dense Matrix rhs::Absolute Error: "
-			<< (HostB2 - HostA * HostX).evaluate().normOne() << std::endl;
+			<< (HostBm - HostA * HostX).evaluate().normOne() << std::endl;
 	}
 
 	return 0;

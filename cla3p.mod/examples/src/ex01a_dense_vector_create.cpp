@@ -11,25 +11,25 @@ int main()
 	 * Double precision real empty vector
 	 */
 
-	cla3p::dns::RdVector X;
+	cla3p::dns::RdVector x;
 
-	std::cout << X.info("X");
+	std::cout << x.info("x");
 
 	/*
 	 * Single precision real vector with size 3 (uninitialized values)
 	 */
 
-	cla3p::dns::RfVector Y(3);
+	cla3p::dns::RfVector y(3);
 
-	std::cout << Y.info("Y");
+	std::cout << y.info("y");
 
 	/*
-	 * Allocate space for X (size 5, uninitialized values)
+	 * Allocate space for x (size 5, uninitialized values)
 	 */
 
-	X = cla3p::dns::RdVector(5);
+	x = cla3p::dns::RdVector(5);
 
-	std::cout << X.info("X");
+	std::cout << x.info("x");
 
 	return 0;
 }

@@ -16,7 +16,6 @@ static void solve_linear_system(const cla3p::dns::RdMatrix& A, const T_Rhs& B)
 	/*
 	 * Decompose A into a product depending on property
 	 */
-
 	autoSolver.decompose(A);
 
 	T_Rhs X = B;
@@ -24,7 +23,6 @@ static void solve_linear_system(const cla3p::dns::RdMatrix& A, const T_Rhs& B)
 	/*
 	 * Overwrite X with the solution (A^{-1} * B)
 	 */
-
 	autoSolver.solve(X);
 
 	std::string type_name = "Unknown";
@@ -40,13 +38,11 @@ int main()
 	/*
 	 * Create a random general matrix
 	 */
-
 	const cla3p::dns::RdMatrix Agen = cla3p::dns::RdMatrix::random(5, 5);
 
 	/*
 	 * Create a random symmetric matrix
 	 */
-
 	cla3p::Property prA = cla3p::Property::SymmetricLower();
 	const cla3p::dns::RdMatrix Asym = cla3p::dns::RdMatrix::random(5, 5, prA);
 
@@ -54,16 +50,16 @@ int main()
 	 * Create random right hand sides
 	 */
 
-	const cla3p::dns::RdVector B1 = cla3p::dns::RdVector::random(5);
-	const cla3p::dns::RdMatrix B2 = cla3p::dns::RdMatrix::random(5, 3);
+	const cla3p::dns::RdVector b = cla3p::dns::RdVector::random(5);
+	const cla3p::dns::RdMatrix B = cla3p::dns::RdMatrix::random(5, 3);
 
 	std::cout << "General lhs\n";
-	solve_linear_system(Agen, B1);
-	solve_linear_system(Agen, B2);
+	solve_linear_system(Agen, b);
+	solve_linear_system(Agen, B);
 
 	std::cout << "\nSymmetric lhs\n";
-	solve_linear_system(Asym, B1);
-	solve_linear_system(Asym, B2);
+	solve_linear_system(Asym, b);
+	solve_linear_system(Asym, B);
 
 	return 0;
 }

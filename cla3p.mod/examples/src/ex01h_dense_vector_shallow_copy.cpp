@@ -7,24 +7,24 @@
 
 int main()
 {
-	cla3p::dns::RfVector X(3);
-	X = 1;
+	cla3p::dns::RfVector x(3);
+	x = 1;
 
-	std::cout << X.info("X") << X;
+	std::cout << x.info("x") << x;
 
 	/*
-	 * Shallow copy X to Y (X & Y share contents)
+	 * Shallow copy x to y (x & y share contents)
 	 */
 
-	cla3p::dns::RfVector Y = X.rcopy();
+	cla3p::dns::RfVector y = x.rcopy();
 
-	std::cout << Y.info("Y") << Y << "\n";
+	std::cout << y.info("y") << y << "\n";
 
-	Y(0) = 0;
-	Y(2) = 0;
+	y(0) = 0;
+	y(2) = 0;
 
-	std::cout << "X:\n" << X;
-	std::cout << "Y:\n" << Y;
+	std::cout << "x:\n" << x;
+	std::cout << "y:\n" << y;
 
 	return 0;
 }

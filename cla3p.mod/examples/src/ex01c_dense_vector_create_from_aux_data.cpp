@@ -11,39 +11,34 @@ int main()
 	/*
 	 * Allocate space for x & y
 	 */
-
-	cla3p::real_t *x = cla3p::i_calloc<cla3p::real_t>(5); 
-	cla3p::real_t *y = cla3p::i_calloc<cla3p::real_t>(3); 
+	cla3p::real_t *p_x = cla3p::i_calloc<cla3p::real_t>(5); 
+	cla3p::real_t *p_y = cla3p::i_calloc<cla3p::real_t>(3); 
 
 	for(cla3p::uint_t i = 0; i < 5; i++)
-		x[i] = i;
-
+		p_x[i] = i;
 	for(cla3p::uint_t i = 0; i < 3; i++)
-		y[i] = 3 - i;
+		p_y[i] = 3 - i;
 
 	/*
-	 * Assign pointer x in vector X but do not bind
-	 * X simply hosts x, need to manually dealloc x
+	 * Assign pointer p_x in vector x but do not bind
+	 * x simply hosts p_x, need to manually dealloc p_x
 	 */
-
-	cla3p::dns::RdVector X(5, x, false);
-
-	std::cout << X.info("X") << X;
+	cla3p::dns::RdVector x(5, p_x, false);
+	std::cout << x.info("x") << x;
 
 	/*
-	 * Assign pointer y in vector Y and bind
-	 * Y takes ownership of y, no free call for y is required
+	 * Assign pointer p_y in vector y and bind
+	 * y takes ownership of p_y, no free call for p_y is required
 	 */
 
-	cla3p::dns::RdVector Y(3, y, true);
+	cla3p::dns::RdVector y(3, p_y, true);
 
-	std::cout << Y.info("Y") << Y;
-
+	std::cout << y.info("y") << y;
 	/* 
 	 * Free x and exit
 	 */
 
-	cla3p::i_free(x);
+	cla3p::i_free(p_x);
 
 	return 0;
 }

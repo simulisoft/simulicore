@@ -8,24 +8,24 @@
 
 int main()
 {
-	cla3p::dns::RdVector X(3);
+	cla3p::dns::RdVector x(3);
 
-	X = 3.;
-	std::cout << "X:\n" << X << "\n";
+	x = 3.;
+	std::cout << "x:\n" << x << "\n";
 
 	/*
-	 * Scale X using operators and the scale function respectively
+	 * Scale x using operators and the scale function respectively
 	 */
 
-	X *= 2.;
-	std::cout << "X *= 2:\n" << X << "\n";
+	x *= 2.;
+	std::cout << "x *= 2:\n" << x << "\n";
 
-	X.iscale(.5);
-	std::cout << "X.iscale(.5):\n" << X << "\n";
+	x.iscale(.5);
+	std::cout << "x.iscale(.5):\n" << x << "\n";
 
-	cla3p::dns::RdVector Y = 2. * X;
+	cla3p::dns::RdVector y = 2. * x;
 
-	std::cout << "Y:\n" << Y;
+	std::cout << "y:\n" << y;
 
 	return 0;
 }

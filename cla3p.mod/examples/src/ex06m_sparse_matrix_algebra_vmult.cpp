@@ -18,34 +18,30 @@ int main()
 	Acoo.insert(0,0,5.0);
 
 	cla3p::csc::RdMatrix A = Acoo.toCsc();
-
 	std::cout << "A:\n" << A << "\n";
 
-	cla3p::dns::RdVector X(5);
-
-	X = 2.;
-	std::cout << "X:\n" << X << "\n";
-
-	/*
-	 * Perform the operation (A * X) using operators and the mult function respectively
-	 */
-
-	cla3p::dns::RdVector Y1 = A * X;
-	std::cout << "Y1:\n" << Y1;
-
-	cla3p::dns::RdVector Y2(5);
-	cla3p::ops::mult(1., cla3p::op_t::N, A, X, 0., Y2);
-	std::cout << "Y2:\n" << Y2 << "\n";
+	cla3p::dns::RdVector x(5);
+	x = 2.;
+	std::cout << "x:\n" << x << "\n";
 
 	/*
-	 * Perform the operation (Yx += A * X) using operators and the mult function respectively
+	 * Perform the operation (A * x) using operators and the mult function respectively
 	 */
+	cla3p::dns::RdVector y1 = A * x;
+	std::cout << "y1:\n" << y1;
 
-	Y1 += A * X;
-	std::cout << "Y1:\n" << Y1;
+	cla3p::dns::RdVector y2(5);
+	cla3p::ops::mult(1., cla3p::op_t::N, A, x, 0., y2);
+	std::cout << "y2:\n" << y2 << "\n";
 
-	cla3p::ops::mult(1., cla3p::op_t::N, A, X, 1., Y2);
-	std::cout << "Y2:\n" << Y2;
+	/*
+	 * Perform the operation (y1 += A * x) using operators and the mult function respectively
+	 */
+	y1 += A * x;
+	std::cout << "y1:\n" << y1;
+
+	cla3p::ops::mult(1., cla3p::op_t::N, A, x, 1., y2);
+	std::cout << "y2:\n" << y2;
 
 	return 0;
 }

@@ -7,29 +7,29 @@
 
 int main()
 {
-	cla3p::dns::RfVector X(3);
-	X = 1;
+	cla3p::dns::RfVector x(3);
+	x = 1;
 
-	std::cout << X.info("X") << X;
-
-	/*
-	 * Move X to Y
-	 */
-
-	cla3p::dns::RfVector Y = X.move();
-
-	std::cout << X.info("X") << X;
-	std::cout << Y.info("Y") << Y;
+	std::cout << x.info("x") << x;
 
 	/*
-	 * Move Y to Z
-	 * Z is non-empty with non matching dimension, so operation will fail
+	 * Move x to y
 	 */
 
-	cla3p::dns::RfVector Z(2);
+	cla3p::dns::RfVector y = x.move();
+
+	std::cout << x.info("x") << x;
+	std::cout << y.info("y") << y;
+
+	/*
+	 * Move y to z
+	 * z is non-empty with non matching dimension, so operation will fail
+	 */
+
+	cla3p::dns::RfVector z(2);
 
 	try {
-		Z = Y.move();
+		z = y.move();
 	} catch (...) {
 		std::cout << "Invalid move exception caught" << std::endl;
 	}

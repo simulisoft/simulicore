@@ -7,29 +7,29 @@
 
 int main()
 {
-	cla3p::dns::RdVector X(3);
-	cla3p::dns::RdVector Y(3);
-	cla3p::dns::RdVector Z(3);
+	cla3p::dns::RdVector x(3);
+	cla3p::dns::RdVector y(3);
+	cla3p::dns::RdVector z(3);
 
 	/* 
-	 * Set all values in X to 1.5 (using member function)
-	 * Set all values in Y to -2.7 (using operator=)
+	 * Set all values in x to 1.5 (using member function)
+	 * Set all values in y to -2.7 (using operator=)
 	 */
 
-	X.fill(1.5);
-	Y = -2.7;
+	x.fill(1.5);
+	y = -2.7;
 
 	/* 
-	 * Insert values in Z manually
+	 * Insert values in z manually
 	 */
 
-	Z(0) = 3.;
-	Z(1) = 2.;
-	Z(2) = Z(0) + Z(1);
+	z(0) = 3.;
+	z(1) = 2.;
+	z(2) = z(0) + z(1);
 
-	std::cout << "X:\n" << X << "\n";
-	std::cout << "Y:\n" << Y << "\n";
-	std::cout << "Z:\n" << Z;
+	std::cout << "x:\n" << x << "\n";
+	std::cout << "y:\n" << y << "\n";
+	std::cout << "z:\n" << z;
 
 	return 0;
 }

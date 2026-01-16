@@ -10,26 +10,22 @@ int main()
 	/*
 	 * Create a constant vector
 	 */
-
-	const cla3p::dns::RdVector X = cla3p::dns::RdVector::random(5);
+	const cla3p::dns::RdVector x = cla3p::dns::RdVector::random(5);
 
 	/*
 	 * Get a shallow copy of the constant vector using the Guard class
 	 */
-
-	cla3p::Guard<cla3p::dns::RdVector> Ygrd = X.rcopy();
+	cla3p::Guard<cla3p::dns::RdVector> y_grd = x.rcopy();
 
 	/*
 	 * Get an immutable reference of the copied vector
 	 */
-
-	const cla3p::dns::RdVector& Y = Ygrd.get();
+	const cla3p::dns::RdVector& y = y_grd.get();
 
 	/*
 	 * Get info of the two vectors
 	 */
-
-	std::cout << X.info("X") << Y.info("Y") << std::endl;
+	std::cout << x.info("x") << y.info("y") << std::endl;
 
 	return 0;
 }

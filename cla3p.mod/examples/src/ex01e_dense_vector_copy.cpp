@@ -7,32 +7,28 @@
 
 int main()
 {
-	cla3p::dns::RfVector X(3);
-	X = 1;
+	cla3p::dns::RfVector x(3);
+	x = 1;
 
-	std::cout << X.info("X") << X;
+	std::cout << x.info("x") << x;
 
 	/*
-	 * Copy X to Y using assignment
-	 * Copy X to Z using copy()
+	 * Copy x to y using assignment
+	 * Copy x to z using copy()
 	 */
-	
-	cla3p::dns::RfVector Y = X;
-	cla3p::dns::RfVector Z = X.copy();
-
-	std::cout << Y.info("Y") << Y;
-	std::cout << Z.info("Z") << Z;
+	cla3p::dns::RfVector y = x;
+	cla3p::dns::RfVector z = x.copy();
+	std::cout << y.info("y") << y;
+	std::cout << z.info("z") << z;
 
 	/*
-	 * Copy Y to Z using assignment
-	 * Z is already allocated 
+	 * Copy y to z using assignment
+	 * z is already allocated 
 	 * No re-allocation performed 
 	 * Needs matching sizes
 	 */
-
-	Z = Y;
-
-	std::cout << Z.info("Z") << Z;
+	z = y;
+	std::cout << z.info("z") << z;
 
 	return 0;
 }

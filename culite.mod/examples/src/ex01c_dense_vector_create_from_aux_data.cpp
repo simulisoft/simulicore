@@ -31,20 +31,20 @@ int main()
 	culite::memCopyH2D(3, y_host, y_device);
 
 	/*
-	 * Assign pointer x in vector X but do not bind
-	 * X simply hosts x, need to manually dealloc x
+	 * Assign pointer x in vector x but do not bind
+	 * x simply hosts x, need to manually dealloc x
 	 */
 
-	culite::dns::RdVector X(5, x_device, false);
-	std::cout << X.info("X") << X;
+	culite::dns::RdVector x(5, x_device, false);
+	std::cout << x.info("x") << x;
 
 	/*
-	 * Assign pointer y in vector Y and bind
-	 * Y takes ownership of y, no free call for y is required
+	 * Assign pointer y in vector y and bind
+	 * y takes ownership of y, no free call for y is required
 	 */
 
-	culite::dns::RdVector Y(3, y_device, true);
-	std::cout << Y.info("Y") << Y;
+	culite::dns::RdVector y(3, y_device, true);
+	std::cout << y.info("y") << y;
 
 	/* 
 	 * Free x and exit
@@ -53,7 +53,6 @@ int main()
 	cla3p::i_free(x_host);
 	cla3p::i_free(y_host);
 	culite::device_free(x_device);
-	// y_device is freed by Y's destructor
-
+	// y_device is freed by y's destructor
 	return 0;
 }
