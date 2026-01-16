@@ -37,16 +37,16 @@ namespace ops {
 /**
  * @ingroup cla3p_module_index_math_op_add
  * @brief Update a dense vector with a compatible scaled dense vector.
- * @details Performs the operation @f$ Y = Y + \alpha \cdot X @f$.
+ * @details Performs the operation @f$ y = y + \alpha \cdot x @f$.
  * @tparam T_Scalar The scalar type (e.g., float, double, complex).
  * @param[in] alpha The scaling coefficient.
- * @param[in] X The input dense vector.
- * @param[in,out] Y The dense vector to be updated.
+ * @param[in] x The input dense vector.
+ * @param[in,out] y The dense vector to be updated.
  */
 template <typename T_Scalar>
 void update(T_Scalar alpha,
-    const dns::XxVector<T_Scalar>& X,
-    dns::XxVector<T_Scalar>& Y);
+    const dns::XxVector<T_Scalar>& x,
+    dns::XxVector<T_Scalar>& y);
 
 /**
  * @ingroup cla3p_module_index_math_op_add

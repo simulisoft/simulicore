@@ -34,39 +34,39 @@ namespace ops {
 /**
  * @ingroup cla3p_module_index_math_op_vecvec
  * @brief Update a matrix with a vector outer product.
- * @details Performs the operation @f$ A = A + \alpha \cdot X Y^T @f$.
+ * @details Performs the operation @f$ A = A + \alpha \cdot x y^T @f$.
  *          @p A can be General/Symmetric/Hermitian.
- *          If @p A is Symmetric/Hermitian, it is assumed that the outcome of the operation @f$ X Y^T @f$ is also Symmetric/Hermitian
+ *          If @p A is Symmetric/Hermitian, it is assumed that the outcome of the operation @f$ x y^T @f$ is also Symmetric/Hermitian
  *          and only the corresponding part (upper/lower) will be calculated.
  * @tparam T_Scalar The scalar type (e.g., float, double, complex).
  * @param[in] alpha The update coefficient.
- * @param[in] X The input vector.
- * @param[in] Y The input vector.
+ * @param[in] x The input vector.
+ * @param[in] y The input vector.
  * @param[in,out] A The matrix to be updated.
  */
 template <typename T_Scalar>
 void outer(T_Scalar alpha, 
-		const dns::XxVector<T_Scalar>& X, 
-		const dns::XxVector<T_Scalar>& Y, 
+		const dns::XxVector<T_Scalar>& x, 
+		const dns::XxVector<T_Scalar>& y, 
 		dns::XxMatrix<T_Scalar>& A);
 
 /**
  * @ingroup cla3p_module_index_math_op_vecvec
  * @brief Update a matrix with a conjugate vector outer product.
- * @details Performs the operation @f$ A = A + \alpha \cdot X Y^H @f$.
+ * @details Performs the operation @f$ A = A + \alpha \cdot x y^H @f$.
  *          @p A can be General/Symmetric/Hermitian.
- *          If @p A is Symmetric/Hermitian, it is assumed that the outcome of the operation @f$ X Y^H @f$ is also Symmetric/Hermitian
+ *          If @p A is Symmetric/Hermitian, it is assumed that the outcome of the operation @f$ x y^H @f$ is also Symmetric/Hermitian
  *          and only the corresponding part (upper/lower) will be calculated.
  * @tparam T_Scalar The scalar type (e.g., float, double, complex).
  * @param[in] alpha The update coefficient.
- * @param[in] X The input vector.
- * @param[in] Y The input vector.
+ * @param[in] x The input vector.
+ * @param[in] y The input vector.
  * @param[in,out] A The matrix to be updated.
  */
 template <typename T_Scalar>
 void outerc(T_Scalar alpha,
-    const dns::XxVector<T_Scalar>& X,
-    const dns::XxVector<T_Scalar>& Y,
+    const dns::XxVector<T_Scalar>& x,
+    const dns::XxVector<T_Scalar>& y,
     dns::XxMatrix<T_Scalar>& A);
 
 /*-------------------------------------------------*/

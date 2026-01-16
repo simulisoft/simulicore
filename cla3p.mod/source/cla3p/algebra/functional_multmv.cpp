@@ -39,37 +39,37 @@ namespace ops {
 template <typename T_Scalar>
 void mult(T_Scalar alpha, op_t opA,
     const dns::XxMatrix<T_Scalar>& A,
-    const dns::XxVector<T_Scalar>& X,
+    const dns::XxVector<T_Scalar>& x,
 		T_Scalar beta,
-    dns::XxVector<T_Scalar>& Y)
+    dns::XxVector<T_Scalar>& y)
 {
 	Operation _opA(opA);
-	mat_x_vec_mult_check(_opA, A.prop(), A.nrows(), A.ncols(), X.size(), Y.size());
+	mat_x_vec_mult_check(_opA, A.prop(), A.nrows(), A.ncols(), x.size(), y.size());
 
 	if(A.prop().isGeneral()) {
 
-		blk::dns::gem_x_vec(opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), X.values(), beta, Y.values());
+		blk::dns::gem_x_vec(opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), x.values(), beta, y.values());
 
 	} else if(A.prop().isSymmetric()) {
 
-		blk::dns::sym_x_vec(A.prop().uplo(), A.ncols(), alpha, A.values(), A.ld(), X.values(), beta, Y.values());
+		blk::dns::sym_x_vec(A.prop().uplo(), A.ncols(), alpha, A.values(), A.ld(), x.values(), beta, y.values());
 
 	} else if(A.prop().isHermitian()) {
 
-		blk::dns::hem_x_vec(A.prop().uplo(), A.ncols(), alpha, A.values(), A.ld(), X.values(), beta, Y.values());
+		blk::dns::hem_x_vec(A.prop().uplo(), A.ncols(), alpha, A.values(), A.ld(), x.values(), beta, y.values());
 
 	} else if(A.prop().isTriangular()) {
 
 		if(beta == T_Scalar(0)) {
 
-			blk::dns::trm_x_vec(A.prop().uplo(), opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), X.values(), Y.values());
+			blk::dns::trm_x_vec(A.prop().uplo(), opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), x.values(), y.values());
 
 		} else {
 
-			dns::XxVector<T_Scalar> tmp(Y.size());
-			blk::dns::trm_x_vec(A.prop().uplo(), opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), X.values(), tmp.values());
-			Y.iscale(beta);
-			ops::update(T_Scalar(1), tmp, Y);
+			dns::XxVector<T_Scalar> tmp(y.size());
+			blk::dns::trm_x_vec(A.prop().uplo(), opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), x.values(), tmp.values());
+			y.iscale(beta);
+			ops::update(T_Scalar(1), tmp, y);
 
 		} // beta
 
@@ -95,12 +95,12 @@ instantiate_mult(complex8_t);
 template <typename T_Scalar>
 void trimult(op_t opA,
 		const dns::XxMatrix<T_Scalar>& A,
-		dns::XxVector<T_Scalar>& X)
+		dns::XxVector<T_Scalar>& x)
 {
 	Operation _opA(opA);
-	trivec_mult_replace_check(A.prop(), A.nrows(), A.ncols(), _opA, X.size());
+	trivec_mult_replace_check(A.prop(), A.nrows(), A.ncols(), _opA, x.size());
 
-	blas::trmv(A.prop().cuplo(), _opA.ctype(), 'N', A.ncols(), A.values(), A.ld(), X.values(), 1);
+	blas::trmv(A.prop().cuplo(), _opA.ctype(), 'N', A.ncols(), A.values(), A.ld(), x.values(), 1);
 }
 /*-------------------------------------------------*/
 #define instantiate_trimult(T_Scl) \
@@ -116,12 +116,12 @@ instantiate_trimult(complex8_t);
 template <typename T_Scalar>
 void trisol(op_t opA,
     const dns::XxMatrix<T_Scalar>& A,
-    dns::XxVector<T_Scalar>& B)
+    dns::XxVector<T_Scalar>& b)
 {
 	Operation _opA(opA);
-	trivec_mult_replace_check(A.prop(), A.nrows(), A.ncols(), _opA, B.size());
+	trivec_mult_replace_check(A.prop(), A.nrows(), A.ncols(), _opA, b.size());
 
-	blas::trsv(A.prop().cuplo(), _opA.ctype(), 'N', A.ncols(), A.values(), A.ld(), B.values(), 1);
+	blas::trsv(A.prop().cuplo(), _opA.ctype(), 'N', A.ncols(), A.values(), A.ld(), b.values(), 1);
 }
 /*-------------------------------------------------*/
 #define instantiate_trisol(T_Scl) \
@@ -139,30 +139,30 @@ instantiate_trisol(complex8_t);
 template <typename T_Int, typename T_Scalar>
 void mult(T_Scalar alpha, op_t opA,
     const csc::XxMatrix<T_Int,T_Scalar>& A,
-    const dns::XxVector<T_Scalar>& X,
+    const dns::XxVector<T_Scalar>& x,
 		T_Scalar beta,
-    dns::XxVector<T_Scalar>& Y)
+    dns::XxVector<T_Scalar>& y)
 {
 	Operation _opA(opA);
-	mat_x_vec_mult_check(_opA, A.prop(), A.nrows(), A.ncols(), X.size(), Y.size());
+	mat_x_vec_mult_check(_opA, A.prop(), A.nrows(), A.ncols(), x.size(), y.size());
 
 	if(A.prop().isGeneral() || A.prop().isTriangular()) {
 
 		blk::csc::gem_x_vec(opA, A.nrows(), A.ncols(), alpha, 
 				A.colptr(), A.rowidx(), A.values(), 
-				X.values(), beta, Y.values());
+				x.values(), beta, y.values());
 
 	} else if(A.prop().isSymmetric()) {
 
 		blk::csc::sym_x_vec(A.prop().uplo(), A.ncols(), alpha, 
 				A.colptr(), A.rowidx(), A.values(), 
-				X.values(), beta, Y.values());
+				x.values(), beta, y.values());
 
 	} else if(A.prop().isHermitian()) {
 
 		blk::csc::hem_x_vec(A.prop().uplo(), A.ncols(), alpha, 
 				A.colptr(), A.rowidx(), A.values(), 
-				X.values(), beta, Y.values());
+				x.values(), beta, y.values());
 
 	} else {
 

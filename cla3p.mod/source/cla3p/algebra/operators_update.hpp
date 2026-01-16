@@ -59,31 +59,31 @@ void operator-=(
 /**
  * @ingroup cla3p_module_index_math_operators_update
  * @brief Adds a dense vector to another.
- * @details Performs the in-place addition @f$ Y = Y + X @f$.
- * @param[in,out] Y The vector to be updated.
- * @param[in] X The vector to add.
+ * @details Performs the in-place addition @f$ y = y + x @f$.
+ * @param[in,out] y The vector to be updated.
+ * @param[in] x The vector to add.
  */
 template <typename T_Scalar>
 void operator+=(
-		cla3p::dns::XxVector<T_Scalar>& Y,
-		const cla3p::dns::XxVector<T_Scalar>& X)
+		cla3p::dns::XxVector<T_Scalar>& y,
+		const cla3p::dns::XxVector<T_Scalar>& x)
 {
-	cla3p::ops::update(T_Scalar(1), X, Y);
+	cla3p::ops::update(T_Scalar(1), x, y);
 }
 
 /**
  * @ingroup cla3p_module_index_math_operators_update
  * @brief Subtracts a dense vector from another.
- * @details Performs the in-place subtraction @f$ Y = Y - X @f$.
- * @param[in,out] Y The vector to be updated.
- * @param[in] X The vector to subtract.
+ * @details Performs the in-place subtraction @f$ y = y - x @f$.
+ * @param[in,out] y The vector to be updated.
+ * @param[in] x The vector to subtract.
  */
 template <typename T_Scalar>
 void operator-=(
-		cla3p::dns::XxVector<T_Scalar>& Y,
-		const cla3p::dns::XxVector<T_Scalar>& X)
+		cla3p::dns::XxVector<T_Scalar>& y,
+		const cla3p::dns::XxVector<T_Scalar>& x)
 {
-	cla3p::ops::update(T_Scalar(-1), X, Y);
+	cla3p::ops::update(T_Scalar(-1), x, y);
 }
 
 /*-------------------------------------------------*/

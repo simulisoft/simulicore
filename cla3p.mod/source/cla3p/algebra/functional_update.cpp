@@ -35,10 +35,10 @@ namespace cla3p {
 namespace ops {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void update(T_Scalar alpha, const dns::XxVector<T_Scalar>& X, dns::XxVector<T_Scalar>& Y)
+void update(T_Scalar alpha, const dns::XxVector<T_Scalar>& x, dns::XxVector<T_Scalar>& y)
 {
-	similarity_dim_check(X.size(), Y.size());
-	blas::axpy(X.size(), alpha, X.values(), 1, Y.values(), 1);
+	similarity_dim_check(x.size(), y.size());
+	blas::axpy(x.size(), alpha, x.values(), 1, y.values(), 1);
 }
 /*-------------------------------------------------*/
 #define instantiate_update(T_Scl) \

@@ -40,15 +40,15 @@
 /**
  * @ingroup cla3p_module_index_math_operators_perm
  * @brief Permutation-vector multiplication.
- * @details Performs the operation @f$ P \cdot X @f$, reordering vector entries.
+ * @details Performs the operation @f$ P \cdot x @f$, reordering vector entries.
  * @param[in] P The permutation matrix.
- * @param[in] X The input vector.
+ * @param[in] x The input vector.
  * @return The permuted vector.
  */
 template <typename T_Int, typename T_Scalar>
 cla3p::dns::XxVector<T_Scalar> operator*(
 	const cla3p::prm::PxMatrix<T_Int>& P, 
-	const cla3p::dns::XxVector<T_Scalar>& X);
+	const cla3p::dns::XxVector<T_Scalar>& x);
 
 /**
  * @ingroup cla3p_module_index_math_operators_perm

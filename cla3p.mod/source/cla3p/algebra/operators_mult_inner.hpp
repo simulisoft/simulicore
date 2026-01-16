@@ -35,10 +35,10 @@ namespace dns { template <typename T_Scalar> class XxVector; }
  */
 template <typename T_Scalar>
 T_Scalar operator*(
-		const cla3p::VirtualRowvec<T_Scalar>& vX,
-		const cla3p::dns::XxVector<T_Scalar>& Y)
+		const cla3p::VirtualRowvec<T_Scalar>& vx,
+		const cla3p::dns::XxVector<T_Scalar>& y)
 {
-	return vX.evaluateInner(Y);
+	return vx.evaluateInner(y);
 }
 
 /*
@@ -46,10 +46,10 @@ T_Scalar operator*(
  */
 template <typename T_Vector, typename T_Virtual>
 typename T_Vector::value_type operator*(
-		const cla3p::VirtualRowvec<typename T_Vector::value_type>& vX,
-		const cla3p::VirtualExpression<T_Vector, T_Virtual>& vY)
+		const cla3p::VirtualRowvec<typename T_Vector::value_type>& vx,
+		const cla3p::VirtualExpression<T_Vector, T_Virtual>& vy)
 {
-	return (vX * vY.evaluate());
+	return (vx * vy.evaluate());
 }
 
 /*-------------------------------------------------*/

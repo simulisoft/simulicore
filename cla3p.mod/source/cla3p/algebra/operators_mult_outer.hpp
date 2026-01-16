@@ -35,12 +35,12 @@ cla3p::VirtualOuter<
 	cla3p::dns::XxMatrix<T_Scalar>,
 	cla3p::VirtualObject<cla3p::dns::XxVector<T_Scalar>>>
 operator*(
-		const cla3p::dns::XxVector<T_Scalar>& X,
-		const cla3p::VirtualRowvec<T_Scalar>& vY)
+		const cla3p::dns::XxVector<T_Scalar>& x,
+		const cla3p::VirtualRowvec<T_Scalar>& vy)
 {
 	return cla3p::VirtualOuter<
 		cla3p::dns::XxMatrix<T_Scalar>,
-		cla3p::VirtualObject<cla3p::dns::XxVector<T_Scalar>>>(X.virtualize(), vY);
+		cla3p::VirtualObject<cla3p::dns::XxVector<T_Scalar>>>(x.virtualize(), vy);
 }
 
 /*
@@ -50,10 +50,10 @@ template <typename T_Scalar, typename T_Virtual>
 
 cla3p::VirtualOuter<cla3p::dns::XxMatrix<T_Scalar>,T_Virtual>
 operator*(
-		const cla3p::VirtualExpression<cla3p::dns::XxVector<T_Scalar>, T_Virtual>& vX,
-		const cla3p::VirtualRowvec<T_Scalar>& vY)
+		const cla3p::VirtualExpression<cla3p::dns::XxVector<T_Scalar>, T_Virtual>& vx,
+		const cla3p::VirtualRowvec<T_Scalar>& vy)
 {
-	return cla3p::VirtualOuter<cla3p::dns::XxMatrix<T_Scalar>,T_Virtual>(vX, vY);
+	return cla3p::VirtualOuter<cla3p::dns::XxMatrix<T_Scalar>,T_Virtual>(vx, vy);
 }
 
 /*-------------------------------------------------*/

@@ -36,16 +36,16 @@ namespace ops {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 dns::XxVector<T_Scalar> add(
-		T_Scalar alpha, const dns::XxVector<T_Scalar>& X,
-		T_Scalar beta , const dns::XxVector<T_Scalar>& Y)
+		T_Scalar alpha, const dns::XxVector<T_Scalar>& x,
+		T_Scalar beta , const dns::XxVector<T_Scalar>& y)
 {
-	similarity_dim_check(X.size(), Y.size());
+	similarity_dim_check(x.size(), y.size());
 
-	dns::XxVector<T_Scalar> ret(X.size());
+	dns::XxVector<T_Scalar> ret(x.size());
 
-	blk::dns::add(uplo_t::Full, X.size(), 1, 
-		alpha, X.values(), X.size(),
-		beta , Y.values(), Y.size(), 
+	blk::dns::add(uplo_t::Full, x.size(), 1, 
+		alpha, x.values(), x.size(),
+		beta , y.values(), y.size(), 
 		ret.values(), ret.size());
 
 	return ret;

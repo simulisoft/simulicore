@@ -94,18 +94,18 @@ operator+(
 /**
  * @ingroup cla3p_module_index_math_operators_add
  * @brief Adds two dense vectors.
- * @details Performs the operation @f$ X + Y @f$. Vectors must have compatible sizes.
- * @param[in] X The first vector.
- * @param[in] Y The second vector.
+ * @details Performs the operation @f$ x + y @f$. Vectors must have compatible sizes.
+ * @param[in] x The first vector.
+ * @param[in] y The second vector.
  * @return The virtual vector sum representing the addition.
  */
 template <typename T_Scalar>
 cla3p::alias::VirtualPlus_vec<T_Scalar>
 operator+(
-		const cla3p::dns::XxVector<T_Scalar>& X,
-		const cla3p::dns::XxVector<T_Scalar>& Y)
+		const cla3p::dns::XxVector<T_Scalar>& x,
+		const cla3p::dns::XxVector<T_Scalar>& y)
 {
-	return (X.virtualize() + Y.virtualize());
+	return (x.virtualize() + y.virtualize());
 }
 
 /**
@@ -254,18 +254,18 @@ operator-(
 /**
  * @ingroup cla3p_module_index_math_operators_add
  * @brief Subtracts two dense vectors.
- * @details Performs the operation @f$ X - Y @f$. Vectors must have compatible sizes.
- * @param[in] X The first vector.
- * @param[in] Y The second vector.
+ * @details Performs the operation @f$ x - y @f$. Vectors must have compatible sizes.
+ * @param[in] x The first vector.
+ * @param[in] y The second vector.
  * @return The virtual vector difference representing the subtraction.
  */
 template <typename T_Scalar>
 cla3p::alias::VirtualMinus_vec<T_Scalar>
 operator-(
-		const cla3p::dns::XxVector<T_Scalar>& X,
-		const cla3p::dns::XxVector<T_Scalar>& Y)
+		const cla3p::dns::XxVector<T_Scalar>& x,
+		const cla3p::dns::XxVector<T_Scalar>& y)
 {
-	return (X.virtualize() - Y.virtualize());
+	return (x.virtualize() - y.virtualize());
 }
 
 /**

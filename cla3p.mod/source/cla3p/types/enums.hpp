@@ -65,9 +65,9 @@ enum class uplo_t : char {
  *          These operations are not explicitly performed; instead, the operation flag is passed
  *          to optimized algorithms that implicitly handle the transformation.
  * @par Example
- *          To compute @f$ Y = A^T \cdot X @f$ without explicitly forming @f$ A^T @f$:@n
+ *          To compute @f$ y = A^T \cdot x @f$ without explicitly forming @f$ A^T @f$:@n
  @code
- cla3p::ops::mult(1, cla3p::op_t::T, A, X, 0, Y);
+ cla3p::ops::mult(1, cla3p::op_t::T, A, x, 0, y);
  @endcode
  */
 enum class op_t : char {

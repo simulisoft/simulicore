@@ -57,12 +57,12 @@ cla3p::VirtualProduct<
 	cla3p::VirtualObject<cla3p::dns::XxVector<typename T_Left::result_type::value_type>>> 
 operator*(
 	const cla3p::VirtualExpression<typename T_Left::result_type, T_Left>& left, 
-	const cla3p::dns::XxVector<typename T_Left::result_type::value_type>& X) 
+	const cla3p::dns::XxVector<typename T_Left::result_type::value_type>& x) 
 { 
 	return cla3p::VirtualProduct<
 		cla3p::dns::XxVector<typename T_Left::result_type::value_type>,
 		T_Left,
-		cla3p::VirtualObject<cla3p::dns::XxVector<typename T_Left::result_type::value_type>>>(left.self(), X.virtualize());
+		cla3p::VirtualObject<cla3p::dns::XxVector<typename T_Left::result_type::value_type>>>(left.self(), x.virtualize());
 }
 
 /*
@@ -72,35 +72,35 @@ operator*(
 /**
  * @ingroup cla3p_module_index_math_operators_mult
  * @brief Matrix-vector multiplication for dense matrices.
- * @details Performs the operation @f$ A \cdot X @f$.
+ * @details Performs the operation @f$ A \cdot x @f$.
  * @param[in] A The input dense matrix.
- * @param[in] X The input vector.
+ * @param[in] x The input vector.
  * @return The virtual product representing the multiplication.
  */
 template <typename T_Scalar>
 cla3p::alias::VirtualProduct_dnsmv<T_Scalar>
 operator*(
 	const cla3p::dns::XxMatrix<T_Scalar>& A, 
-	const cla3p::dns::XxVector<T_Scalar>& X) 
+	const cla3p::dns::XxVector<T_Scalar>& x) 
 { 
-	return cla3p::alias::VirtualProduct_dnsmv<T_Scalar>(A.virtualize(), X.virtualize());
+	return cla3p::alias::VirtualProduct_dnsmv<T_Scalar>(A.virtualize(), x.virtualize());
 }
 
 /**
  * @ingroup cla3p_module_index_math_operators_mult
  * @brief Matrix-vector multiplication for sparse matrices.
- * @details Performs the operation @f$ A \cdot X @f$.
+ * @details Performs the operation @f$ A \cdot x @f$.
  * @param[in] A The input sparse matrix.
- * @param[in] X The input vector.
+ * @param[in] x The input vector.
  * @return The virtual product representing the multiplication.
  */
 template <typename T_Int, typename T_Scalar>
 cla3p::alias::VirtualProduct_cscmv<T_Int,T_Scalar>
 operator*(
 	const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A, 
-	const cla3p::dns::XxVector<T_Scalar>& X) 
+	const cla3p::dns::XxVector<T_Scalar>& x) 
 { 
-	return cla3p::alias::VirtualProduct_cscmv<T_Int,T_Scalar>(A.virtualize(), X.virtualize());
+	return cla3p::alias::VirtualProduct_cscmv<T_Int,T_Scalar>(A.virtualize(), x.virtualize());
 }
 /*-------------------------------------------------*/
 

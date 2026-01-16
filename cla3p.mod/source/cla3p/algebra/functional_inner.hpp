@@ -33,26 +33,26 @@ namespace ops {
 /**
  * @ingroup cla3p_module_index_math_op_vecvec
  * @brief Calculate vector dot product.
- * @details Performs the operation @f$ X^T \cdot Y @f$.
+ * @details Performs the operation @f$ x^T \cdot y @f$.
  * @tparam T_Scalar The scalar type (e.g., float, double, complex).
- * @param[in] X The input vector.
- * @param[in] Y The input vector.
+ * @param[in] x The input vector.
+ * @param[in] y The input vector.
  * @return The dot product value.
  */
 template <typename T_Scalar>
-T_Scalar dot(const dns::XxVector<T_Scalar>& X, const dns::XxVector<T_Scalar>& Y);
+T_Scalar dot(const dns::XxVector<T_Scalar>& x, const dns::XxVector<T_Scalar>& y);
 
 /**
  * @ingroup cla3p_module_index_math_op_vecvec
  * @brief Calculate vector conjugate dot product.
- * @details Performs the operation @f$ X^H \cdot Y @f$.
+ * @details Performs the operation @f$ x^H \cdot y @f$.
  * @tparam T_Scalar The scalar type (e.g., float, double, complex).
- * @param[in] X The input vector.
- * @param[in] Y The input vector.
+ * @param[in] x The input vector.
+ * @param[in] y The input vector.
  * @return The conjugate dot product value.
  */
 template <typename T_Scalar>
-T_Scalar dotc(const dns::XxVector<T_Scalar>& X, const dns::XxVector<T_Scalar>& Y);
+T_Scalar dotc(const dns::XxVector<T_Scalar>& x, const dns::XxVector<T_Scalar>& y);
 
 /*-------------------------------------------------*/
 } // namespace ops

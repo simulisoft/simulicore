@@ -27,9 +27,9 @@
 template <typename T_Int, typename T_Scalar>
 cla3p::dns::XxVector<T_Scalar> operator*(
     const cla3p::prm::PxMatrix<T_Int>& P,
-    const cla3p::dns::XxVector<T_Scalar>& X)
+    const cla3p::dns::XxVector<T_Scalar>& x)
 {
-  return X.permuteLeft(P);
+  return x.permuteLeft(P);
 }
 /*-------------------------------------------------*/
 #define instantiate_perm(T_Int, T_Scl) \

@@ -67,16 +67,16 @@ operator*(
 /**
  * @ingroup cla3p_module_index_math_operators_scal
  * @brief Scalar-vector multiplication.
- * @details Performs the operation @f$ \alpha \cdot X @f$.
+ * @details Performs the operation @f$ \alpha \cdot x @f$.
  * @param[in] val The scalar coefficient.
- * @param[in] X The input vector.
+ * @param[in] x The input vector.
  * @return The virtually scaled vector.
  */
 template <typename T_Scalar>
 cla3p::alias::VirtualScale_vec<T_Scalar>
-operator*(T_Scalar val, const cla3p::dns::XxVector<T_Scalar>& X) 
+operator*(T_Scalar val, const cla3p::dns::XxVector<T_Scalar>& x) 
 { 
-	return cla3p::alias::VirtualScale_vec<T_Scalar>(X.virtualize(), val);
+	return cla3p::alias::VirtualScale_vec<T_Scalar>(x.virtualize(), val);
 }
 
 /**
@@ -116,16 +116,16 @@ operator*(T_Scalar val, const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A)
 /**
  * @ingroup cla3p_module_index_math_operators_scal
  * @brief In-place vector scaling.
- * @details Scales @p X by @p val, performing @f$ X = \alpha \cdot X @f$.
- * @param[in,out] X The dense vector to scale.
+ * @details Scales @p x by @p val, performing @f$ x = \alpha \cdot x @f$.
+ * @param[in,out] x The dense vector to scale.
  * @param[in] val The scaling coefficient.
  */
 template <typename T_Scalar>
 void operator*=(
-		cla3p::dns::XxVector<T_Scalar>& X, 
+		cla3p::dns::XxVector<T_Scalar>& x, 
 		T_Scalar val)
 {
-	X.iscale(val);
+	x.iscale(val);
 }
 
 /**

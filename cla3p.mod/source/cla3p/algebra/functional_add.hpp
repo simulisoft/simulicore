@@ -36,18 +36,18 @@ namespace ops {
 /**
  * @ingroup cla3p_module_index_math_op_add
  * @brief Adds two compatible scaled dense vectors.
- * @details Performs the operation @f$ \alpha \cdot X + \beta \cdot Y @f$.
+ * @details Performs the operation @f$ \alpha \cdot x + \beta \cdot y @f$.
  * @tparam T_Scalar The scalar type (e.g., float, double, complex).
- * @param[in] alpha The scaling coefficient for @p X.
- * @param[in] X The first input dense vector.
- * @param[in] beta The scaling coefficient for @p Y.
- * @param[in] Y The second input dense vector.
- * @return The result of the operation @f$ \alpha \cdot X + \beta \cdot Y @f$.
+ * @param[in] alpha The scaling coefficient for @p x.
+ * @param[in] x The first input dense vector.
+ * @param[in] beta The scaling coefficient for @p y.
+ * @param[in] y The second input dense vector.
+ * @return The result of the operation @f$ \alpha \cdot x + \beta \cdot y @f$.
  */
 template <typename T_Scalar>
 dns::XxVector<T_Scalar> add(
-		T_Scalar alpha, const dns::XxVector<T_Scalar>& X,
-		T_Scalar beta , const dns::XxVector<T_Scalar>& Y);
+		T_Scalar alpha, const dns::XxVector<T_Scalar>& x,
+		T_Scalar beta , const dns::XxVector<T_Scalar>& y);
 
 /**
  * @ingroup cla3p_module_index_math_op_add

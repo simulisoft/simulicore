@@ -31,11 +31,11 @@ namespace cla3p {
 namespace ops {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-T_Scalar dot(const dns::XxVector<T_Scalar>& X, const dns::XxVector<T_Scalar>& Y)
+T_Scalar dot(const dns::XxVector<T_Scalar>& x, const dns::XxVector<T_Scalar>& y)
 {
-	similarity_dim_check(X.size(), Y.size());
+	similarity_dim_check(x.size(), y.size());
 
-	return blas::dot(X.size(), X.values(), 1, Y.values(), 1);
+	return blas::dot(x.size(), x.values(), 1, y.values(), 1);
 }
 /*-------------------------------------------------*/
 #define instantiate_dot(T_Scl) \
@@ -47,11 +47,11 @@ instantiate_dot(complex8_t);
 #undef instantiate_dot
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-T_Scalar dotc(const dns::XxVector<T_Scalar>& X, const dns::XxVector<T_Scalar>& Y)
+T_Scalar dotc(const dns::XxVector<T_Scalar>& x, const dns::XxVector<T_Scalar>& y)
 {
-	similarity_dim_check(X.size(), Y.size());
+	similarity_dim_check(x.size(), y.size());
 
-	return blas::dotc(X.size(), X.values(), 1, Y.values(), 1);
+	return blas::dotc(x.size(), x.values(), 1, y.values(), 1);
 }
 /*-------------------------------------------------*/
 #define instantiate_dotc(T_Scl) \

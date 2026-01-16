@@ -100,13 +100,13 @@ See section [Third-Party Dependencies](#third-party-dependencies) for more infor
 For example, a transposed matrix-vector multiplication may be executed as follows:
 
 ```cpp
-Y = A.transpose() * X;
-Z += A.transpose() * X;
+y = A.transpose() * x;
+z += A.transpose() * x;
 ```
 or by utilizing the mult() function:
 ```cpp
-cla3p::ops::mult(1., cla3p::op_t::T, A, X, 0., Y);
-cla3p::ops::mult(1., cla3p::op_t::T, A, X, 1., Z);
+cla3p::ops::mult(1., cla3p::op_t::T, A, x, 0., y);
+cla3p::ops::mult(1., cla3p::op_t::T, A, x, 1., z);
 ```
 
 Leveraging the **CLA3P Virtuals** symbolic operation layer, operations such as `A.transpose()` are not executed explicitly. Instead, a virtually transposed matrix object is generated and passed to the multiplication operator. This approach ensures that the calculation is performed without additional memory allocation or redundant computational overhead.
@@ -115,30 +115,30 @@ The **CLA3P Virtuals** framework enables the execution of complex, single-line o
 
 ```cpp
 cla3p::dns::RdMatrix A = cla3p::dns::RdMatrix::random(3,3);
-cla3p::dns::RdVector X = cla3p::dns::RdVector::random(3);
-cla3p::dns::RdVector Y(3);
+cla3p::dns::RdVector x = cla3p::dns::RdVector::random(3);
+cla3p::dns::RdVector y(3);
 
 //
 // (1) No additional space required
 //
-Y = 2. * A * X - A.transpose() * X;
+y = 2. * A * x - A.transpose() * x;
 
 //
-// (2) Additional space required for evaluation of vector (- A * X + 2. * X)
+// (2) Additional space required for evaluation of vector (- A * x + 2. * x)
 //
-Y += A.transpose() * ( - A * X + 2. * X );
+y += A.transpose() * ( - A * x + 2. * x );
 ```
 For scenarios requiring optimal performance and explicit control, equivalent operations may be performed via the advanced functional interface. This interface provides direct access to high-performance computational kernels:
 ```cpp
 // Operation (1)
-cla3p::ops::mult( 2., cla3p::op_t::N, A, X, 0., Y); // Y = 2 * A * X
-cla3p::ops::mult(-1., cla3p::op_t::T, A, X, 1., Y); // Y -= A' * X
+cla3p::ops::mult( 2., cla3p::op_t::N, A, x, 0., y); // y = 2 * A * x
+cla3p::ops::mult(-1., cla3p::op_t::T, A, x, 1., y); // y -= A' * x
 
 // Operation (2)
 cla3p::dns::RdVector tmp(3);
-cla3p::ops::mult(-1., cla3p::op_t::N, A, X, 0., tmp); // tmp = - A * X
-cla3p::ops::update(2., X, tmp); // tmp += 2 * X
-cla3p::ops::mult(1., cla3p::op_t::T, A, tmp, 1., Y); // Y += A' * tmp
+cla3p::ops::mult(-1., cla3p::op_t::N, A, x, 0., tmp); // tmp = - A * x
+cla3p::ops::update(2., x, tmp); // tmp += 2 * x
+cla3p::ops::mult(1., cla3p::op_t::T, A, tmp, 1., y); // y += A' * tmp
 ```
 
 **CLA3P Virtuals** are currently available for all vector and matrix objects, except for the low-rank matrices.
