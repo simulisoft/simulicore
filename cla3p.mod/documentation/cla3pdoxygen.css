@@ -14,3 +14,12 @@ div.fragment {
 div.line {
   white-space: pre;
 }
+
+code {
+  font-family: monospace;      /* Standard for code */
+  background-color: #f0f0f0; /* Light gray background */
+  padding: 2px 4px;            /* Small internal spacing */
+  border-radius: 4px;          /* Slightly rounded corners */
+  color: #d14;               /* Optional: distinct color (e.g., GitHub style) */
+  /* font-weight: bold;            Optional: bold text */
+}
