@@ -682,7 +682,7 @@ static norm_one_skew(uplo_t uplo, int_t n, const T_Scalar *a, int_t lda)
 	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
 	T_RScalar ret = 0;
-	T_RScalar *tmp = i_calloc<T_RScalar>(n);
+	T_RScalar *tmp = i_calloc_t<T_RScalar>(n);
 
 	for(int_t j = 0; j < n; j++) {
 		RowRange ir = irange_strict(uplo, n, j);

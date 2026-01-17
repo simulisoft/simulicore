@@ -76,7 +76,7 @@ class LapackAllocator {
 		void allocate()
 		{
 			m_lwork = static_cast<int_t>(arith::getRe(m_worklen));
-			m_work = i_malloc<T_Scalar>(m_lwork);
+			m_work = i_malloc_t<T_Scalar>(m_lwork);
 		}
 
 		int_t* lwork()
@@ -184,7 +184,7 @@ TypeTraits<typein>::real_type lange(char norm, int_t m, int_t n, const typein *a
 TypeTraits<typein>::real_type lange(char norm, int_t m, int_t n, const typein *a, int_t lda) \
 { \
 	TypeTraits<typein>::real_type *work = \
-	(norm == 'I' || norm == 'i') ? i_malloc<TypeTraits<typein>::real_type>(n) : nullptr; \
+	(norm == 'I' || norm == 'i') ? i_malloc_t<TypeTraits<typein>::real_type>(n) : nullptr; \
 	TypeTraits<typein>::real_type ret = lapack_func_name(prefix##lange)(&norm, &m, &n, a, &lda, work); \
 	i_free(work); \
 	return ret; \
@@ -250,7 +250,7 @@ static TypeTraits<typein>::real_type lansy_internal(char norm, char uplo, int_t 
 { \
 	TypeTraits<typein>::real_type *work = \
 	(norm == 'I' || norm == 'i' || \
-	 norm == 'O' || norm == 'o' || norm == '1') ? i_malloc<TypeTraits<typein>::real_type>(n) : nullptr; \
+	 norm == 'O' || norm == 'o' || norm == '1') ? i_malloc_t<TypeTraits<typein>::real_type>(n) : nullptr; \
 	TypeTraits<typein>::real_type ret = lapack_func_name(prefix##lansy)(&norm, &uplo, &n, a, &lda, work); \
 	i_free(work); \
 	return ret; \
@@ -300,7 +300,7 @@ static TypeTraits<typein>::real_type lanhe_internal(char norm, char uplo, int_t 
 { \
 	TypeTraits<typein>::real_type *work = \
 	(norm == 'I' || norm == 'i' || \
-	 norm == 'O' || norm == 'o' || norm == '1') ? i_malloc<TypeTraits<typein>::real_type>(n) : nullptr; \
+	 norm == 'O' || norm == 'o' || norm == '1') ? i_malloc_t<TypeTraits<typein>::real_type>(n) : nullptr; \
 	TypeTraits<typein>::real_type ret = lapack_func_name(prefix##lanhe)(&norm, &uplo, &n, a, &lda, work); \
 	i_free(work); \
 	return ret; \
@@ -335,7 +335,7 @@ TypeTraits<typein>::real_type lantr(char norm, char uplo, char diag, int_t m, in
 #define lantr_macro(typein, prefix) \
 TypeTraits<typein>::real_type lantr(char norm, char uplo, char diag, int_t m, int_t n, const typein* a, int_t lda) \
 { \
-	TypeTraits<typein>::real_type *work = (norm == 'I' || norm == 'i') ? i_malloc<TypeTraits<typein>::real_type>(m) : nullptr; \
+	TypeTraits<typein>::real_type *work = (norm == 'I' || norm == 'i') ? i_malloc_t<TypeTraits<typein>::real_type>(m) : nullptr; \
 	TypeTraits<typein>::real_type ret = lapack_func_name(prefix##lantr)(&norm, &uplo, &diag, &m, &n, a, &lda, work); \
 	i_free(work); \
 	return ret; \

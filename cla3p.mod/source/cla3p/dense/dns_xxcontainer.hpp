@@ -43,7 +43,7 @@ class XxContainer : public XxContainerBase<T_Scalar>, public Ownership {
 		XxContainer() {}
 
 		explicit XxContainer(std::size_t numElements)
-			: XxContainerBase<T_Scalar>(numElements ? i_malloc<T_Scalar>(numElements) : nullptr),
+			: XxContainerBase<T_Scalar>(numElements ? i_malloc_t<T_Scalar>(numElements) : nullptr),
 			  Ownership(numElements ? true : false) {}
 
 		explicit XxContainer(T_Scalar *vals, bool bind)

@@ -64,12 +64,12 @@ void* i2realloc(void *ptr, std::size_t size);
  * @return Pointer to the allocated storage on success, otherwise @c nullptr.
  */
 template <typename T_Elem>
-T_Elem* i_malloc(std::size_t nmemb)
+T_Elem* i_malloc_t(std::size_t nmemb)
 {
 	return static_cast<T_Elem*>(i2malloc(nmemb * sizeof(T_Elem)));
 }
 
-/* // Messes with doxygen parsing. Deactivate.
+/**
  * @ingroup cla3p_module_index_allocators
  * @brief Type-safe allocator for zero-initialized storage.
  * @details Allocates @p nmemb elements of type @p T_Elem and initializes all bits to zero.
@@ -77,7 +77,7 @@ T_Elem* i_malloc(std::size_t nmemb)
  * @return Pointer to the allocated storage on success, otherwise @c nullptr.
  */
 template <typename T_Elem>
-T_Elem* i_calloc(std::size_t nmemb)
+T_Elem* i_calloc_t(std::size_t nmemb)
 {
 	return static_cast<T_Elem*>(i2calloc(nmemb, sizeof(T_Elem)));
 }
@@ -92,7 +92,7 @@ T_Elem* i_calloc(std::size_t nmemb)
  * @return Pointer to the resized storage on success, otherwise @c nullptr.
  */
 template <typename T_Elem>
-T_Elem* i_realloc(T_Elem* ptr, std::size_t nmemb)
+T_Elem* i_realloc_t(T_Elem* ptr, std::size_t nmemb)
 {
 	return static_cast<T_Elem*>(i2realloc(ptr, nmemb * sizeof(T_Elem)));
 }
@@ -100,7 +100,7 @@ T_Elem* i_realloc(T_Elem* ptr, std::size_t nmemb)
 /**
  * @ingroup cla3p_module_index_allocators
  * @brief Default deallocator for cla3p allocations.
- * @details Releases memory previously allocated by @ref i_malloc(), i_calloc(), or @ref i_realloc().
+ * @details Releases memory previously allocated by @ref i_malloc_t(), @ref i_calloc_t(), or @ref i_realloc_t().
  * @param[in,out] ptr Pointer to the memory block to deallocate (may be @c nullptr).
  */
 void i_free(void *ptr);

@@ -52,9 +52,9 @@ class HeapBuffer {
 				try {
 					m_capacity = nmemb;
 					if(m_buffer)
-						m_buffer = i_realloc<T_Scalar>(m_buffer, nmemb);
+						m_buffer = i_realloc_t<T_Scalar>(m_buffer, nmemb);
 					else
-						m_buffer = i_malloc<T_Scalar>(nmemb);
+						m_buffer = i_malloc_t<T_Scalar>(nmemb);
 				} catch (...) {
 					clear();
 					throw;

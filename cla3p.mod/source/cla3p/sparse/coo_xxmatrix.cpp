@@ -150,7 +150,7 @@ csc::XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::toCsc(dup_t duplicatePol
 	if(!this->nrows() || !this->ncols())
 		return csc::XxMatrix<T_Int,T_Scalar>();
 
-	T_Int *colptr = i_calloc<T_Int>(this->ncols() + 1);
+	T_Int *colptr = i_calloc_t<T_Int>(this->ncols() + 1);
 
 	std::for_each(tupleVec().begin(), tupleVec().end(), 
 			[&](const Tuple<T_Int,T_Scalar> &tuple) 
@@ -167,8 +167,8 @@ csc::XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::toCsc(dup_t duplicatePol
 
 	if(nnz) {
 
-		rowidx = i_malloc<T_Int>(nnz);
-		values = i_malloc<T_Scalar>(nnz);
+		rowidx = i_malloc_t<T_Int>(nnz);
+		values = i_malloc_t<T_Scalar>(nnz);
 
 		std::for_each(tupleVec().begin(), tupleVec().end(), 
 				[&](const Tuple<T_Int,T_Scalar> &tuple) 
@@ -182,8 +182,8 @@ csc::XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::toCsc(dup_t duplicatePol
 		blk::csc::sort(this->ncols(), colptr, rowidx, values);
 		blk::csc::remove_duplicates(this->ncols(), colptr, rowidx, values, duplicatePolicy);
 
-		rowidx = static_cast<T_Int   *>(i_realloc(rowidx, colptr[this->ncols()] * sizeof(T_Int   )));
-		values = static_cast<T_Scalar*>(i_realloc(values, colptr[this->ncols()] * sizeof(T_Scalar)));
+		rowidx = i_realloc_t<T_Int>(rowidx, colptr[this->ncols()]);
+		values = i_realloc_t<T_Scalar>(values, colptr[this->ncols()]);
 
 	} // nnz
 

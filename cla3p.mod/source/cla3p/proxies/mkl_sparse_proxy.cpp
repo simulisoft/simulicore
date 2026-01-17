@@ -100,7 +100,7 @@ static void copy_csx4_to_csx3(int_t n, sparse_index_base_t indexing,
 		int_t    **csxidx, 
 		T_Scalar **values)
 {
-	int_t *csxptr3 = i_malloc<int_t>(n+1);
+	int_t *csxptr3 = i_malloc_t<int_t>(n+1);
 
 	csxptr3[0] = 0;
 	for(int_t j = 0; j < n; j++) {
@@ -109,8 +109,8 @@ static void copy_csx4_to_csx3(int_t n, sparse_index_base_t indexing,
 
 	int_t nnz = csxptr3[n];
 
-	int_t    *csxidx3 = i_malloc<int_t>(nnz);
-	T_Scalar *values3 = i_malloc<T_Scalar>(nnz);
+	int_t    *csxidx3 = i_malloc_t<int_t>(nnz);
+	T_Scalar *values3 = i_malloc_t<T_Scalar>(nnz);
 
 	for(int_t j = 0; j < n; j++) {
 		int_t ibgn4 = csxbgn4[j] - csxbgn4[0];

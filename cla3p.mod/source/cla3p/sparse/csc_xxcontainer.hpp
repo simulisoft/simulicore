@@ -43,9 +43,9 @@ class XxContainer : public XxContainerBase<T_Int, T_Scalar>, public Ownership {
 		XxContainer() {}
 
 		explicit XxContainer(std::size_t nc, std::size_t nz)
-			: XxContainerBase<T_Int,T_Scalar>(nc ? i_malloc<T_Int>(nc+1) : nullptr,
-			                                  nc ? i_malloc<T_Int>(nz) : nullptr,
-			                                  nc ? i_malloc<T_Scalar>(nz) : nullptr),
+			: XxContainerBase<T_Int,T_Scalar>(nc ? i_malloc_t<T_Int>(nc+1) : nullptr,
+			                                  nc ? i_malloc_t<T_Int>(nz) : nullptr,
+			                                  nc ? i_malloc_t<T_Scalar>(nz) : nullptr),
 			  Ownership(nc ? true : false)
 		{
 			this->colptr()[nc] = static_cast<T_Int>(nz);

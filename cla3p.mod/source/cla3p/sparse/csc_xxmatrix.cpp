@@ -321,21 +321,21 @@ XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::general() const
 
 	} else if(this->prop().isSymmetric()) {
 
-		colptr_ge = i_malloc<T_Int>(this->ncols() + 1);
+		colptr_ge = i_malloc_t<T_Int>(this->ncols() + 1);
 		blk::csc::uplo2ge_colptr(this->prop().uplo(), this->ncols(), this->colptr(), this->rowidx(), colptr_ge);
 		T_Int nz = colptr_ge[this->ncols()];
-		rowidx_ge = i_malloc<T_Int>(nz);
-		values_ge = i_malloc<T_Scalar>(nz);
+		rowidx_ge = i_malloc_t<T_Int>(nz);
+		values_ge = i_malloc_t<T_Scalar>(nz);
 		blk::csc::sy2ge(this->prop().uplo(), this->ncols(), this->colptr(), this->rowidx(), this->values(), colptr_ge, rowidx_ge, values_ge);
 		ret = XxMatrix<T_Int,T_Scalar>(this->nrows(), this->ncols(), colptr_ge, rowidx_ge, values_ge, true);
 
 	} else if(this->prop().isHermitian()) {
 
-		colptr_ge = i_malloc<T_Int>(this->ncols() + 1);
+		colptr_ge = i_malloc_t<T_Int>(this->ncols() + 1);
 		blk::csc::uplo2ge_colptr(this->prop().uplo(), this->ncols(), this->colptr(), this->rowidx(), colptr_ge);
 		T_Int nz = colptr_ge[this->ncols()];
-		rowidx_ge = i_malloc<T_Int>(nz);
-		values_ge = i_malloc<T_Scalar>(nz);
+		rowidx_ge = i_malloc_t<T_Int>(nz);
+		values_ge = i_malloc_t<T_Scalar>(nz);
 		blk::csc::he2ge(this->prop().uplo(), this->ncols(), this->colptr(), this->rowidx(), this->values(), colptr_ge, rowidx_ge, values_ge);
 		ret = XxMatrix<T_Int,T_Scalar>(this->nrows(), this->ncols(), colptr_ge, rowidx_ge, values_ge, true);
 
@@ -430,7 +430,7 @@ XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::block(int_t ibgn, int_t jbgn,
 
 	if(!ni || !nj) return XxMatrix<T_Int,T_Scalar>();
 
-	T_Int *cptr = i_calloc<T_Int>(nj + 1);
+	T_Int *cptr = i_calloc_t<T_Int>(nj + 1);
 
 	int_t iend = ibgn + ni;
 	int_t jend = jbgn + nj;
@@ -453,8 +453,8 @@ XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::block(int_t ibgn, int_t jbgn,
 
 	if(nnz) {
 
-		ridx = i_malloc<T_Int>(nnz);
-		vals = i_malloc<T_Scalar>(nnz);
+		ridx = i_malloc_t<T_Int>(nnz);
+		vals = i_malloc_t<T_Scalar>(nnz);
 
 		for(int_t j = jbgn; j < jend; j++) {
 			int_t jlocal = j - jbgn;
