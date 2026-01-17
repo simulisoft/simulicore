@@ -3,18 +3,20 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 if(${SIMULICORE_SYSTEM_LINUX})
-	if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-		if(${SIMULICORE_DEVELOPER_MODE})
-			add_compile_options(-Werror)
-			add_compile_options(-Wpedantic)
-		endif()
-		add_compile_options(-m64)
-		add_compile_options(-Wall)
-		add_compile_options(-Wextra)
-		add_compile_options(-Wshadow)
-		add_compile_options(-Wmissing-format-attribute)
-		add_compile_options(-fdiagnostics-color=always)
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+		set(CPP_FLAGS_LINUX "")
+        if(${SIMULICORE_DEVELOPER_MODE})
+			list(APPEND CPP_FLAGS_LINUX -Werror 
+			                            -Wpedantic)
+        endif()
+			list(APPEND CPP_FLAGS_LINUX -m64 
+			                            -Wall 
+										-Wextra 
+										-Wshadow 
+										-Wmissing-format-attribute 
+										-fdiagnostics-color=always)
 	endif()
+	add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:${CPP_FLAGS_LINUX}>")
 endif()
 
 if(${SIMULICORE_SYSTEM_MACOS})

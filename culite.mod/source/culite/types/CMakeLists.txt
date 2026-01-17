@@ -14,12 +14,21 @@ set(CULITE_TYPES_HPP
 	enums.hpp
 	)
 
+set(CULITE_CUSRC ${CULITE_CUSRC}
+	types/complex.cu
+	PARENT_SCOPE)
+
+set(CULITE_TYPES_CUH 
+	complex.cuh
+	)
+
 #-----------------------------------------------
 # installation setup
 #-----------------------------------------------
 set(CULITE_TYPES_HPP_INSTALL include/culite/types)
 
 install(FILES ${CULITE_TYPES_HPP} DESTINATION ${CULITE_TYPES_HPP_INSTALL})
+install(FILES ${CULITE_TYPES_CUH} DESTINATION ${CULITE_TYPES_HPP_INSTALL})
 #-----------------------------------------------
 # end
 #-----------------------------------------------

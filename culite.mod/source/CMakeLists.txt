@@ -46,7 +46,6 @@ endif()
 # cla3p setup
 #-----------------------------------------------
 # definitions
-#set(CULITE_3RD_PARTY_DEF ${CULITE_3RD_PARTY_DEF})
 set(CULITE_3RD_PARTY_I64_DEF ${CULITE_3RD_PARTY_I64_DEF} CLA3P_I64)
 
 # includes

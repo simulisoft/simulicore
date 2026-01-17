@@ -1,9 +1,16 @@
+
 #-----------------------------------------------
 # set library name
 #-----------------------------------------------
 set(CULITE_INC "${CMAKE_CURRENT_SOURCE_DIR}/.." CACHE INTERNAL "The culite includes")
 set(CULITE_LIB "culite" CACHE INTERNAL "The lp64 culite library")
 set(CULITE_I64_LIB "${CULITE_LIB}_i64" CACHE INTERNAL "The ilp64 culite library")
+
+#-----------------------------------------------
+# set CUDA compiler
+# needs NVIDIA_CUDA_ROOT configured in the previous level
+#-----------------------------------------------
+include(${SIMULICORE_ROOT}/cmake/cuda_compiler.cmake)
 
 #-----------------------------------------------
 # source setup
@@ -24,6 +31,12 @@ set(CULITE_HPP
 	#svd.hpp
 	#qr.hpp
 	#lra.hpp
+	)
+
+set(CULITE_CUSRC
+	)
+
+set(CULITE_CUH
 	)
 
 #-----------------------------------------------
@@ -49,8 +62,11 @@ add_subdirectory(linsol)
 #-----------------------------------------------
 # target setup
 #-----------------------------------------------
-add_library(${CULITE_LIB} SHARED ${CULITE_SRC})
-add_library(${CULITE_I64_LIB} SHARED ${CULITE_SRC})
+add_library(${CULITE_LIB} SHARED ${CULITE_SRC} ${CULITE_CUSRC})
+add_library(${CULITE_I64_LIB} SHARED ${CULITE_SRC} ${CULITE_CUSRC})
+
+set_target_properties(${CULITE_LIB} PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+set_target_properties(${CULITE_I64_LIB} PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 
 #-----------------------------------------------
 # dependencies setup
@@ -71,6 +87,7 @@ set(CULITE_HPP_INSTALL include/culite)
 set(CULITE_LIB_INSTALL lib)
 
 install(FILES ${CULITE_HPP} DESTINATION ${CULITE_HPP_INSTALL})
+install(FILES ${CULITE_CUH} DESTINATION ${CULITE_HPP_INSTALL})
 install(TARGETS ${CULITE_LIB} DESTINATION ${CULITE_LIB_INSTALL})
 install(TARGETS ${CULITE_I64_LIB} DESTINATION ${CULITE_LIB_INSTALL})
 #-----------------------------------------------
