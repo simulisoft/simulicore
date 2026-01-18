@@ -46,7 +46,7 @@ void CuSolverHandler::defaults()
     m_workspaceInBytesOnDevice = 0;
     m_workspaceInBytesOnHost = 0;
     m_factorCudaType = cudaDataType::CUDA_R_32I; // set to an unsupported type
-    //m_factorCudaType = static_cast<cudaDataType>(-1); // unidentified, is this valid?
+    m_factorDim = 0;
 }
 /*-------------------------------------------------*/
 void CuSolverHandler::clear()

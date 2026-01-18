@@ -22,6 +22,7 @@
  */
 
 #include <cusolverDn.h>
+#include <cla3p/checks/basic_checks.hpp>
 
 #include "culite/types/traits.hpp"
 #include "culite/error/cuda.hpp"
@@ -145,6 +146,7 @@ class CuSolverHandler {
             err::check_cusolver(cusolverStatus);
 
             m_factorCudaType = TypeTraits<T_Scalar>::cuda_type();
+            m_factorDim = ldf;
         }
 
         /**
@@ -157,8 +159,8 @@ class CuSolverHandler {
         template <typename T_Matrix>
         void solveLU(T_Matrix& B)
         {
+            ::cla3p::similarity_dim_check(m_factorDim, static_cast<cuSolverInt>(B.nrows()));
             using T_Scalar = typename T_Matrix::value_type;
-            cuSolverInt ldf = B.nrows();
             cusolverDnParams_t params = nullptr;
             cusolverStatus_t cusolverStatus = cusolverDnXgetrs(
                 handle(),
@@ -168,7 +170,7 @@ class CuSolverHandler {
                 B.ncols(),
                 m_factorCudaType,
                 factorWork().data(),
-                ldf,
+                m_factorDim,
                 ipiv().data(),
                 TypeTraits<T_Scalar>::cuda_type(),
                 B.values(),
@@ -190,6 +192,7 @@ class CuSolverHandler {
         size_t m_workspaceInBytesOnDevice;
         size_t m_workspaceInBytesOnHost;
         cudaDataType m_factorCudaType;
+        cuSolverInt m_factorDim;
 
         DeviceBuffer<cuSolverInt> m_ipiv;
         DeviceBuffer<infoInt> m_info;
