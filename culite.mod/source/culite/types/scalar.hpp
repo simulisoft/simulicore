@@ -132,13 +132,14 @@ template<> class TypeTraits<complex8_t> {
  * @param im The imaginary part of the complex number (defaults to 0).
  * @return The complex number initialized with the provided values
  */
-inline complex_t makeComplex(const real_t& re, const real_t& im = 0) { return make_cuDoubleComplex(re, im); }
+CULITE_HOST inline complex_t
+makeComplex(const real_t& re, const real_t& im = 0) { return make_cuDoubleComplex(re, im); }
 
 /**
  * @ingroup culite_module_index_datatypes
  * @copydoc makeComplex(const real_t&, const real_t&)
  */
-inline complex8_t makeComplex(const real4_t& re, const real4_t& im = 0) { return make_cuFloatComplex(re, im); }
+CULITE_HOST inline complex8_t makeComplex(const real4_t& re, const real4_t& im = 0) { return make_cuFloatComplex(re, im); }
 
 /**
  * @ingroup culite_module_index_datatypes
@@ -148,13 +149,16 @@ inline complex8_t makeComplex(const real4_t& re, const real4_t& im = 0) { return
  * @return The value converted to T_Scalar.
  */
 template <typename T_Scalar>
-inline T_Scalar makeScalar(const typename TypeTraits<T_Scalar>::real_type& v) { return v; }
+CULITE_HOST inline T_Scalar
+makeScalar(const typename TypeTraits<T_Scalar>::real_type& v) { return v; }
 
 template <>
-inline complex_t makeScalar<complex_t>(const real_t& re) { return makeComplex(re); }
+CULITE_HOST inline complex_t
+makeScalar<complex_t>(const real_t& re) { return makeComplex(re); }
 
 template <>
-inline complex8_t makeScalar<complex8_t>(const real4_t& re) { return makeComplex(re); }
+CULITE_HOST inline complex8_t
+makeScalar<complex8_t>(const real4_t& re) { return makeComplex(re); }
 
 /*-------------------------------------------------*/
 
@@ -179,10 +183,10 @@ CULITE_HOST CULITE_DEVICE inline real4_t getIm(real4_t) { return 0; }
 CULITE_HOST CULITE_DEVICE inline real_t  getIm(complex_t z) { return cuCimag(z); }
 CULITE_HOST CULITE_DEVICE inline real4_t getIm(complex8_t c) { return cuCimagf(c); }
 
-inline void setIm(real_t&, real_t) { }
-inline void setIm(real4_t&, real4_t) { }
-inline void setIm(complex_t& z, real_t d) { z.y = d; }
-inline void setIm(complex8_t& c, real4_t s) { c.y = s; }
+CULITE_HOST CULITE_DEVICE inline void setIm(real_t*, real_t) { }
+CULITE_HOST CULITE_DEVICE inline void setIm(real4_t*, real4_t) { }
+CULITE_HOST CULITE_DEVICE inline void setIm(complex_t* z, real_t d) { z->y = d; }
+CULITE_HOST CULITE_DEVICE inline void setIm(complex8_t* c, real4_t s) { c->y = s; }
 } // namespace arith
 
 /*-------------------------------------------------*/
