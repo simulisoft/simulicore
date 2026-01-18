@@ -18,6 +18,7 @@
 #include "culite/bulk/dns2D_impl.hpp"
 
 // system
+#include <cmath>
 
 // 3rd
 #include <cuda_runtime.h>
@@ -179,6 +180,90 @@ template real4_t  launch_matrix_inf_norm<real4_t>(int_t, int_t, const real4_t*, 
 template real_t launch_matrix_inf_norm<complex_t>(int_t, int_t, const complex_t*, int_t);
 template real4_t  launch_matrix_inf_norm<complex8_t>(int_t, int_t, const complex8_t*, int_t);
 /*-------------------------------------------------*/
+template <typename T_Scalar>
+__global__ void matrix_max_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_t lda, typename TypeTraits<T_Scalar>::real_type* globalMax) 
+{
+    using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
+    int_t j = blockIdx.x * blockDim.x + threadIdx.x;
+    if (j < n) {
+        T_RScalar localMax = 0;
+        for (int_t i = 0; i < m; ++i) {
+            localMax = fmax(localMax, (T_RScalar)arith::abs(a[j * lda + i]));
+        }
+        atomicMax(globalMax, localMax);
+    }
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+typename TypeTraits<T_Scalar>::real_type
+launch_matrix_max_norm(int_t m, int_t n, const T_Scalar* a, int_t lda) 
+{
+    using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
+    if (m <= 0 || n <= 0) return 0;
+
+    T_RScalar retHost = 0;
+    T_RScalar* retDevice = device_alloc_t<T_RScalar>(1);
+    cudaMemset(retDevice, 0, sizeof(T_RScalar));
+
+    int threads = 256;
+    int blocks = (n + threads - 1) / threads;
+    matrix_max_norm_kernel<T_Scalar><<<blocks, threads>>>(m, n, a, lda, retDevice);
+
+    memCopyD2H(1, retDevice, &retHost);
+    device_free(retDevice);
+    syncDevice(); // double sync affects performance?
+
+    return retHost;
+}
+/*-------------------------------------------------*/
+template real_t launch_matrix_max_norm<real_t>(int_t, int_t, const real_t*, int_t);
+template real4_t  launch_matrix_max_norm<real4_t>(int_t, int_t, const real4_t*, int_t);
+template real_t launch_matrix_max_norm<complex_t>(int_t, int_t, const complex_t*, int_t);
+template real4_t  launch_matrix_max_norm<complex8_t>(int_t, int_t, const complex8_t*, int_t);
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+__global__ void matrix_fro_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_t lda, typename TypeTraits<T_Scalar>::real_type* globalSum) {
+    int_t j = blockIdx.x * blockDim.x + threadIdx.x;
+    if (j < n) {
+        double colSum = 0;
+        for (int_t i = 0; i < m; ++i) {
+            colSum += arith::abs2(a[j * lda + i]);
+        }
+        atomicAdd(globalSum, colSum);
+    }
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+typename TypeTraits<T_Scalar>::real_type
+launch_matrix_fro_norm(int_t m, int_t n, const T_Scalar* a, int_t lda) 
+{
+    using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
+    if (m <= 0 || n <= 0) return 0;
+
+    T_RScalar retHost = 0;
+    T_RScalar* retDevice = device_alloc_t<T_RScalar>(1);
+    cudaMemset(retDevice, 0, sizeof(T_RScalar));
+
+    int threads = 256;
+    int blocks = (n + threads - 1) / threads;
+    matrix_fro_norm_kernel<T_Scalar><<<blocks, threads>>>(m, n, a, lda, retDevice);
+
+    memCopyD2H(1, retDevice, &retHost);
+    device_free(retDevice);
+    syncDevice(); // double sync affects performance?
+    
+    return std::sqrt(retHost);
+}
+/*-------------------------------------------------*/
+template real_t launch_matrix_fro_norm<real_t>(int_t, int_t, const real_t*, int_t);
+template real4_t  launch_matrix_fro_norm<real4_t>(int_t, int_t, const real4_t*, int_t);
+template real_t launch_matrix_fro_norm<complex_t>(int_t, int_t, const complex_t*, int_t);
+template real4_t  launch_matrix_fro_norm<complex8_t>(int_t, int_t, const complex8_t*, int_t);
+/*-------------------------------------------------*/
+
 
 
 

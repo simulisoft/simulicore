@@ -123,32 +123,40 @@ typename TypeTraits<T_Scalar>::real_type normInf2D(::cla3p::prop_t ptype,
 // Norm Max
 //
 template <typename T_Scalar>
-typename TypeTraits<T_Scalar>::real_type normMax2D(
-	::cla3p::prop_t /*ptype*/, 
-	::cla3p::uplo_t /*uplo*/,
-	int_t /*m*/, int_t /*n*/, 
-	const T_Scalar* /*a*/, 
-	int_t /*lda*/)
+typename TypeTraits<T_Scalar>::real_type normMax2D(::cla3p::prop_t ptype, 
+	                                               ::cla3p::uplo_t uplo,
+                                                   int_t m, int_t n, 
+                                                   const T_Scalar* a, 
+                                                   int_t lda)
 {
-	// TODO: implement
-	err::CudaException("blk::dns::normMax2D is not implemented yet.");
-	return typename TypeTraits<T_Scalar>::real_type(0);
+	typename TypeTraits<T_Scalar>::real_type ret = 0;
+	if(ptype == ::cla3p::prop_t::General && uplo == ::cla3p::uplo_t::Full) {
+		ret = launch_matrix_max_norm(m, n, a, lda);
+	} else {
+		// TODO: implement
+		throw err::CudaException("blk::dns::normMax2D is only implemented for full matrices.");
+	}
+	return ret;
 }
 /*-------------------------------------------------*/
 //
 // Norm Frobenius
 //
 template <typename T_Scalar>
-typename TypeTraits<T_Scalar>::real_type normFro2D(
-	::cla3p::prop_t /*ptype*/, 
-	::cla3p::uplo_t /*uplo*/,
-	int_t /*m*/, int_t /*n*/, 
-	const T_Scalar* /*a*/, 
-	int_t /*lda*/)
+typename TypeTraits<T_Scalar>::real_type normFro2D(::cla3p::prop_t ptype, 
+                                                   ::cla3p::uplo_t uplo,
+                                                   int_t m, int_t n, 
+                                                   const T_Scalar* a, 
+                                                   int_t lda)
 {
-	// TODO: implement
-	err::CudaException("blk::dns::normFro2D is not implemented yet.");
-	return typename TypeTraits<T_Scalar>::real_type(0);
+	typename TypeTraits<T_Scalar>::real_type ret = 0;
+	if(ptype == ::cla3p::prop_t::General && uplo == ::cla3p::uplo_t::Full) {
+		ret = launch_matrix_fro_norm(m, n, a, lda);
+	} else {
+		// TODO: implement
+		throw err::CudaException("blk::dns::normFro2D is only implemented for full matrices.");
+	}
+	return ret;
 }
 /*-------------------------------------------------*/
 //
@@ -159,7 +167,7 @@ template <typename T_Scalar>
 void conjugate2D(::cla3p::uplo_t, int_t, int_t, T_Scalar*, int_t)
 {
 	// TODO: implement
-	err::CudaException("blk::dns::conjugate2D is not implemented yet.");
+	throw err::CudaException("blk::dns::conjugate2D is not implemented yet.");
 }
 /*-------------------------------------------------*/
 //
@@ -201,7 +209,7 @@ template <typename T_Scalar>
 void getReal2D(::cla3p::uplo_t, int_t, int_t, const T_Scalar*, int_t, typename TypeTraits<T_Scalar>::real_type*, int_t)
 {
 	// TODO: implement
-	err::CudaException("blk::dns::getReal2D is not implemented yet.");
+	throw err::CudaException("blk::dns::getReal2D is not implemented yet.");
 }
 /*-------------------------------------------------*/
 //
@@ -211,57 +219,8 @@ template <typename T_Scalar>
 void getImag2D(::cla3p::uplo_t, int_t, int_t, const T_Scalar*, int_t, typename TypeTraits<T_Scalar>::real_type*, int_t)
 {
 	// TODO: implement
-	err::CudaException("blk::dns::getImag2D is not implemented yet.");
+	throw err::CudaException("blk::dns::getImag2D is not implemented yet.");
 }
-/*-------------------------------------------------*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*-------------------------------------------------*/
-
-#if 0
-
-//
-// Symmetric to general
-//
-template <typename T_Scalar>
-void sy2ge(uplo_t uplo, int_t n, T_Scalar *a, int_t lda);
-
-//
-// Hermitian to general
-//
-template <typename T_Scalar>
-void he2ge(uplo_t uplo, int_t n, T_Scalar *a, int_t lda);
-
-//
-// Skew to general
-//
-template <typename T_Scalar>
-void sk2ge(uplo_t uplo, int_t n, T_Scalar *a, int_t lda);
-
-//
-// Triangular to general
-//
-template <typename T_Scalar>
-void tr2ge(uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda);
-
-#endif // 0
-
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace blk

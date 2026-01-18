@@ -40,6 +40,13 @@ template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type
 launch_matrix_inf_norm(int_t m, int_t n, const T_Scalar* a, int_t lda);
 
+template <typename T_Scalar>
+typename TypeTraits<T_Scalar>::real_type
+launch_matrix_max_norm(int_t m, int_t n, const T_Scalar* a, int_t lda);
+
+template <typename T_Scalar>
+typename TypeTraits<T_Scalar>::real_type
+launch_matrix_fro_norm(int_t m, int_t n, const T_Scalar* a, int_t lda);
 
 /*-------------------------------------------------*/
 } // namespace dns

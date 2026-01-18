@@ -173,6 +173,11 @@ CULITE_HOST CULITE_DEVICE inline real4_t abs(real4_t s) { return s; }
 CULITE_HOST CULITE_DEVICE inline real_t abs(complex_t z) { return cuCabs(z); }
 CULITE_HOST CULITE_DEVICE inline real4_t abs(complex8_t c) { return cuCabsf(c); }
 
+CULITE_HOST CULITE_DEVICE inline real_t abs2(real_t d) { return d*d; }
+CULITE_HOST CULITE_DEVICE inline real4_t abs2(real4_t s) { return s*s; }
+CULITE_HOST CULITE_DEVICE inline real_t abs2(complex_t z) { return cuCreal(z)*cuCreal(z) + cuCimag(z)*cuCimag(z); }
+CULITE_HOST CULITE_DEVICE inline real4_t abs2(complex8_t c) { return cuCrealf(c)*cuCrealf(c) + cuCimagf(c)*cuCimagf(c); }
+
 CULITE_HOST CULITE_DEVICE inline real_t  getRe(real_t d) { return d; }
 CULITE_HOST CULITE_DEVICE inline real4_t getRe(real4_t f) { return f; }
 CULITE_HOST CULITE_DEVICE inline real_t  getRe(complex_t z) { return cuCreal(z); }
