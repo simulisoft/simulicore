@@ -20,6 +20,12 @@
  * @details Allocators handle the lifecycle of memory on the device. This module provides specialized 
  * routines for standard device allocation, unified memory (managed) access, and pinned host memory 
  * to optimize data transfer throughput between the CPU and GPU.
+ * 
+ * @defgroup culite_module_index_copying Transfer/Copy Data Between Memory Spaces
+ * @brief Utility functions for transferring data between host and device memory.
+ * @details This module offers a suite of functions and operators to facilitate efficient copying of
+ * data between CPU (host) and GPU (device) memory spaces. It supports synchronous and asynchronous
+ * transfers, as well as conversions between different data representations.
  *
  * @addtogroup culite_module_index_vectors Vectors
  * @brief High-performance vector containers for CUDA.

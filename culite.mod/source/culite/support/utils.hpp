@@ -29,28 +29,72 @@
 namespace culite {
 /*-------------------------------------------------*/
 
+/**
+ * @brief Synchronizes the CUDA device.
+ * @details Blocks until the device has completed all preceding requested tasks.
+ */
 void syncDevice();
 
+/**
+ * @ingroup culite_module_index_copying
+ * @brief Copies memory between different memory spaces.
+ * @param count Number of bytes to copy.
+ * @param src Source memory pointer.
+ * @param dest Destination memory pointer.
+ * @param kind Type of memory copy operation (device-to-device, host-to-device, etc.).
+ */
 void memCopyX2X(std::size_t count, const void *src, void *dest, cudaMemcpyKind kind);
 
+/**
+ * @ingroup culite_module_index_copying
+ * @brief Copies a vector from device memory to device memory.
+ * @tparam T_Scalar The scalar type of the vector elements.
+ * @param n Number of elements to copy.
+ * @param src Source device memory pointer.
+ * @param dest Destination device memory pointer.
+ */
 template <typename T_Scalar>
 inline void memCopyD2D(std::size_t n, const T_Scalar *src, T_Scalar *dest)
 {
 	memCopyX2X(n * sizeof(T_Scalar), src, dest, cudaMemcpyDeviceToDevice);
 }
 
+/**
+ * @ingroup culite_module_index_copying
+ * @brief Copies a vector from host memory to device memory.
+ * @tparam T_Scalar The scalar type of the vector elements.
+ * @param n Number of elements to copy.
+ * @param src Source host memory pointer.
+ * @param dest Destination device memory pointer.
+ */
 template <typename T_Scalar>
 inline void memCopyH2D(std::size_t n, const T_Scalar *src, T_Scalar *dest)
 {
 	memCopyX2X(n * sizeof(T_Scalar), src, dest, cudaMemcpyHostToDevice);
 }
 
+/**
+ * @ingroup culite_module_index_copying
+ * @brief Copies a vector from device memory to host memory.
+ * @tparam T_Scalar The scalar type of the vector elements.
+ * @param n Number of elements to copy.
+ * @param src Source device memory pointer.
+ * @param dest Destination host memory pointer.
+ */
 template <typename T_Scalar>
 inline void memCopyD2H(std::size_t n, const T_Scalar *src, T_Scalar *dest)
 {
 	memCopyX2X(n * sizeof(T_Scalar), src, dest, cudaMemcpyDeviceToHost);
 }
 
+/**
+ * @ingroup culite_module_index_copying
+ * @brief Copies a vector from host memory to host memory.
+ * @tparam T_Scalar The scalar type of the vector elements.
+ * @param n Number of elements to copy.
+ * @param src Source host memory pointer.
+ * @param dest Destination host memory pointer.
+ */
 template <typename T_Scalar>
 inline void memCopyH2H(std::size_t n, const T_Scalar *src, T_Scalar *dest)
 {
@@ -59,12 +103,28 @@ inline void memCopyH2H(std::size_t n, const T_Scalar *src, T_Scalar *dest)
 
 /*-------------------------------------------------*/
 
+/**
+ * @ingroup culite_module_index_copying
+ * @brief Copies a vector from host memory (cla3p type) to device memory.
+ * @tparam T_Scalar The scalar type of the vector elements.
+ * @param n Number of elements to copy.
+ * @param src Source host memory pointer with cla3p type.
+ * @param dest Destination device memory pointer.
+ */
 template <typename T_Scalar>
 inline void memCopyH2D(std::size_t n, const typename TypeTraits<T_Scalar>::cla3p_type *src, T_Scalar *dest)
 {
 	memCopyX2X(n * sizeof(T_Scalar), src, dest, cudaMemcpyHostToDevice);
 }
 
+/**
+ * @ingroup culite_module_index_copying
+ * @brief Copies a vector from device memory to host memory (cla3p type).
+ * @tparam T_Scalar The scalar type of the vector elements.
+ * @param n Number of elements to copy.
+ * @param src Source device memory pointer.
+ * @param dest Destination host memory pointer with cla3p type.
+ */
 template <typename T_Scalar>
 inline void memCopyD2H(std::size_t n, const T_Scalar *src, typename TypeTraits<T_Scalar>::cla3p_type *dest)
 {
@@ -73,11 +133,33 @@ inline void memCopyD2H(std::size_t n, const T_Scalar *src, typename TypeTraits<T
 
 /*-------------------------------------------------*/
 
+/**
+ * @ingroup culite_module_index_copying
+ * @brief Copies a 2D matrix between different memory spaces.
+ * @param elemSize Size of each element in bytes.
+ * @param m Number of rows to copy.
+ * @param n Number of columns to copy.
+ * @param src Source memory pointer.
+ * @param lds Leading dimension of the source matrix.
+ * @param dest Destination memory pointer.
+ * @param ldd Leading dimension of the destination matrix.
+ * @param kind Type of memory copy operation (device-to-device, host-to-device, etc.).
+ */
 void memCopyX2X(std::size_t elemSize, std::size_t m, std::size_t n, 
 	            const void *src, std::size_t lds, 
 				void *dest, std::size_t ldd, cudaMemcpyKind kind);
 
-
+/**
+ * @ingroup culite_module_index_copying
+ * @brief Copies a 2D matrix from device memory to device memory.
+ * @tparam T_Scalar The scalar type of the matrix elements.
+ * @param m Number of rows to copy.
+ * @param n Number of columns to copy.
+ * @param src Source device memory pointer.
+ * @param lds Leading dimension of the source matrix.
+ * @param dest Destination device memory pointer.
+ * @param ldd Leading dimension of the destination matrix.
+ */
 template <typename T_Scalar>
 inline void memCopyD2D(std::size_t m, std::size_t n, 
 	                   const T_Scalar *src, std::size_t lds, 
@@ -86,6 +168,17 @@ inline void memCopyD2D(std::size_t m, std::size_t n,
 	memCopyX2X(sizeof(T_Scalar), m, n, src, lds, dest, ldd, cudaMemcpyDeviceToDevice);
 }
 
+/**
+ * @ingroup culite_module_index_copying
+ * @brief Copies a 2D matrix from host memory to device memory.
+ * @tparam T_Scalar The scalar type of the matrix elements.
+ * @param m Number of rows to copy.
+ * @param n Number of columns to copy.
+ * @param src Source host memory pointer.
+ * @param lds Leading dimension of the source matrix.
+ * @param dest Destination device memory pointer.
+ * @param ldd Leading dimension of the destination matrix.
+ */
 template <typename T_Scalar>
 inline void memCopyH2D(std::size_t m, std::size_t n, 
 	                   const T_Scalar *src, std::size_t lds, 
@@ -94,6 +187,17 @@ inline void memCopyH2D(std::size_t m, std::size_t n,
 	memCopyX2X(sizeof(T_Scalar), m, n, src, lds, dest, ldd, cudaMemcpyHostToDevice);
 }
 
+/**
+ * @ingroup culite_module_index_copying
+ * @brief Copies a 2D matrix from device memory to host memory.
+ * @tparam T_Scalar The scalar type of the matrix elements.
+ * @param m Number of rows to copy.
+ * @param n Number of columns to copy.
+ * @param src Source device memory pointer.
+ * @param lds Leading dimension of the source matrix.
+ * @param dest Destination host memory pointer.
+ * @param ldd Leading dimension of the destination matrix.
+ */
 template <typename T_Scalar>
 inline void memCopyD2H(std::size_t m, std::size_t n, 
 	                   const T_Scalar *src, std::size_t lds, 
@@ -102,6 +206,17 @@ inline void memCopyD2H(std::size_t m, std::size_t n,
 	memCopyX2X(sizeof(T_Scalar), m, n, src, lds, dest, ldd, cudaMemcpyDeviceToHost);
 }
 
+/**
+ * @ingroup culite_module_index_copying
+ * @brief Copies a 2D matrix from host memory to host memory.
+ * @tparam T_Scalar The scalar type of the matrix elements.
+ * @param m Number of rows to copy.
+ * @param n Number of columns to copy.
+ * @param src Source host memory pointer.
+ * @param lds Leading dimension of the source matrix.
+ * @param dest Destination host memory pointer.
+ * @param ldd Leading dimension of the destination matrix.
+ */
 template <typename T_Scalar>
 inline void memCopyH2H(std::size_t m, std::size_t n, 
 	                   const T_Scalar *src, std::size_t lds, 
@@ -112,6 +227,17 @@ inline void memCopyH2H(std::size_t m, std::size_t n,
 
 /*-------------------------------------------------*/
 
+/**
+ * @ingroup culite_module_index_copying
+ * @brief Copies a 2D matrix from host memory (cla3p type) to device memory.
+ * @tparam T_Scalar The scalar type of the matrix elements.
+ * @param m Number of rows to copy.
+ * @param n Number of columns to copy.
+ * @param src Source host memory pointer with cla3p type.
+ * @param lds Leading dimension of the source matrix.
+ * @param dest Destination device memory pointer.
+ * @param ldd Leading dimension of the destination matrix.
+ */
 template <typename T_Scalar>
 inline void memCopyH2D(std::size_t m, std::size_t n, 
 	                   const typename TypeTraits<T_Scalar>::cla3p_type *src, std::size_t lds, 
@@ -120,6 +246,17 @@ inline void memCopyH2D(std::size_t m, std::size_t n,
 	memCopyX2X(sizeof(T_Scalar), m, n, src, lds, dest, ldd, cudaMemcpyHostToDevice);
 }
 
+/**
+ * @ingroup culite_module_index_copying
+ * @brief Copies a 2D matrix from device memory to host memory (cla3p type).
+ * @tparam T_Scalar The scalar type of the matrix elements.
+ * @param m Number of rows to copy.
+ * @param n Number of columns to copy.
+ * @param src Source device memory pointer.
+ * @param lds Leading dimension of the source matrix.
+ * @param dest Destination host memory pointer with cla3p type.
+ * @param ldd Leading dimension of the destination matrix.
+ */
 template <typename T_Scalar>
 inline void memCopyD2H(std::size_t m, std::size_t n, 
 	                   const T_Scalar *src, std::size_t lds, 
