@@ -2,7 +2,10 @@
 #include <omp.h>
 
 #include <cla3p/dense.hpp>
+
+#if !defined(__APPLE__)
 #include <culite/types.hpp>
+#endif
 
 /*-------------------------------------------------*/
 
