@@ -42,22 +42,38 @@ cublasSideMode_t cla3pSide2cublasSide(::cla3p::side_t side);
 /*-------------------------------------------------*/
 
 template <typename T_Scalar>
-void VectorH2D(int_t n, const typename TypeTraits<T_Scalar>::host_type *src, T_Scalar *dest);
+void VectorH2D(int_t n, const T_Scalar *src, T_Scalar *dest);
 
 template <typename T_Scalar>
-void VectorD2H(int_t n, const T_Scalar *src, typename TypeTraits<T_Scalar>::host_type *dest);
+void VectorD2H(int_t n, const T_Scalar *src, T_Scalar *dest);
+
+template <typename T_Scalar>
+void VectorH2D(int_t n, const typename TypeTraits<T_Scalar>::cla3p_type *src, T_Scalar *dest);
+
+template <typename T_Scalar>
+void VectorD2H(int_t n, const T_Scalar *src, typename TypeTraits<T_Scalar>::cla3p_type *dest);
 
 /*-------------------------------------------------*/
 
 template <typename T_Scalar>
 void MatrixH2D(int_t nr, int_t nc, 
-               const typename TypeTraits<T_Scalar>::host_type *src, int_t lds, 
+               const T_Scalar *src, int_t lds, 
                T_Scalar *dest, int_t ldd);
 
 template <typename T_Scalar>
 void MatrixD2H(int_t nr, int_t nc, 
                const T_Scalar *src, int_t ldd, 
-               typename TypeTraits<T_Scalar>::host_type *dest, int_t lds);
+               T_Scalar *dest, int_t lds);
+
+template <typename T_Scalar>
+void MatrixH2D(int_t nr, int_t nc, 
+               const typename TypeTraits<T_Scalar>::cla3p_type *src, int_t lds, 
+               T_Scalar *dest, int_t ldd);
+
+template <typename T_Scalar>
+void MatrixD2H(int_t nr, int_t nc, 
+               const T_Scalar *src, int_t ldd, 
+               typename TypeTraits<T_Scalar>::cla3p_type *dest, int_t lds);
 
 /*------------------ Level 1 ----------------------*/
 

@@ -24,6 +24,7 @@
 #include <cla3p/types/enums.hpp>
 
 #include "culite/types/integer.hpp"
+#include "culite/types/scalar.hpp"
 #include "culite/support/utils.hpp"
 #include "culite/error/exceptions.hpp"
 #include "culite/bulk/dns2D_impl.hpp"

@@ -45,7 +45,7 @@ template <typename T_Scalar>
 class XiVector : public ::cla3p::Meta1D<int_t>, public XxContainer<T_Scalar> {
 
 	private:
-		using T_ScalarHost = typename TypeTraits<T_Scalar>::host_type;
+		using T_Cla3pScalar = typename TypeTraits<T_Scalar>::cla3p_type;
 
 	public:
 		XiVector();
@@ -101,7 +101,7 @@ class XiVector : public ::cla3p::Meta1D<int_t>, public XxContainer<T_Scalar> {
 		 *          Otherwise, @p dest must be compatible with the device vector.
 		 * @param[out] dest The destination host vector.
 		 */
-		void copyToHost(::cla3p::dns::XiVector<T_ScalarHost>& dest) const;
+		void copyToHost(::cla3p::dns::XiVector<T_Cla3pScalar>& dest) const;
 
 		/**
 		 * @brief Copies a host vector to the device vector.
@@ -110,7 +110,7 @@ class XiVector : public ::cla3p::Meta1D<int_t>, public XxContainer<T_Scalar> {
 		 *          Otherwise, the device vector must be compatible with @p src.
 		 * @param[in] src The source host vector.
 		 */
-		void copyFromHost(const ::cla3p::dns::XiVector<T_ScalarHost>& src);
+		void copyFromHost(const ::cla3p::dns::XiVector<T_Cla3pScalar>& src);
 
 		/** @} */
 
@@ -148,7 +148,7 @@ class XiVector : public ::cla3p::Meta1D<int_t>, public XxContainer<T_Scalar> {
  */
 template <typename T_Scalar>
 void operator>>(const culite::dns::XiVector<T_Scalar>& src,
-	            ::cla3p::dns::XiVector<typename culite::TypeTraits<T_Scalar>::host_type>& dest)
+	            ::cla3p::dns::XiVector<typename culite::TypeTraits<T_Scalar>::cla3p_type>& dest)
 {
 	src.copyToHost(dest);
 }
@@ -165,7 +165,7 @@ void operator>>(const culite::dns::XiVector<T_Scalar>& src,
  * @param[out] dest The destination device vector.
  */
 template <typename T_Scalar>
-void operator>>(const ::cla3p::dns::XiVector<typename culite::TypeTraits<T_Scalar>::host_type>& src,
+void operator>>(const ::cla3p::dns::XiVector<typename culite::TypeTraits<T_Scalar>::cla3p_type>& src,
 	            culite::dns::XiVector<T_Scalar>& dest)
 {
 	dest.copyFromHost(src);
@@ -185,7 +185,7 @@ void operator>>(const ::cla3p::dns::XiVector<typename culite::TypeTraits<T_Scala
 template <typename T_Scalar>
 std::ostream& operator<<(std::ostream& os, const culite::dns::XiVector<T_Scalar>& vec)
 {
-	::cla3p::dns::XiVector<typename culite::TypeTraits<T_Scalar>::host_type> hostVec;
+	::cla3p::dns::XiVector<typename culite::TypeTraits<T_Scalar>::cla3p_type> hostVec;
 	vec >> hostVec;
 	os << hostVec;
 	return os;

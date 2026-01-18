@@ -34,18 +34,18 @@ namespace culite {
 #if defined (CULITE_I64)
 using int_t = int64_t;
 using uint_t = uint64_t;
-const cudaDataType __cuda_itype = cudaDataType::CUDA_R_32I;
-const cudaDataType __cuda_utype = cudaDataType::CUDA_R_32U;
+const cudaDataType __cuda_itype = cudaDataType::CUDA_R_64I;
+const cudaDataType __cuda_utype = cudaDataType::CUDA_R_64U;
 #else
 using int_t = int;
 using uint_t = unsigned int;
-const cudaDataType __cuda_itype = cudaDataType::CUDA_R_64I;
-const cudaDataType __cuda_utype = cudaDataType::CUDA_R_64U;
+const cudaDataType __cuda_itype = cudaDataType::CUDA_R_32I;
+const cudaDataType __cuda_utype = cudaDataType::CUDA_R_32U;
 #endif
 
 template<> class TypeTraits<int_t> {
 	public:
-		using host_type = ::cla3p::int_t;
+		using cla3p_type = ::cla3p::int_t;
 		static std::string type_name();
 		static std::string prec_name();
 		static constexpr cudaDataType cuda_type() { return __cuda_itype; }
@@ -53,10 +53,10 @@ template<> class TypeTraits<int_t> {
 
 template<> class TypeTraits<uint_t> {
 	public:
-		using host_type = ::cla3p::uint_t;
+		using cla3p_type = ::cla3p::uint_t;
 		static std::string type_name();
 		static std::string prec_name();
-		static constexpr cudaDataType cuda_utype() { return __cuda_itype; }
+		static constexpr cudaDataType cuda_utype() { return __cuda_utype; }
 };
 
 /*-------------------------------------------------*/

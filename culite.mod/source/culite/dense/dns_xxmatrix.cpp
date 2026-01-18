@@ -43,7 +43,7 @@ XxMatrix<T_Scalar>::XxMatrix()
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XxMatrix<T_Scalar>::XxMatrix(int_t nr, int_t nc, const ::cla3p::Property& pr)
-	: MatrixMeta<int_t>(nr, nc, ::cla3p::sanitizeProperty<T_ScalarHost>(pr)), XxContainer<T_Scalar>(nr * nc)
+	: MatrixMeta<int_t>(nr, nc, ::cla3p::sanitizeProperty<T_Cla3pScalar>(pr)), XxContainer<T_Scalar>(nr * nc)
 {
 	if(nr > 0 && nc > 0) {
 		setLd(nr);
@@ -55,7 +55,7 @@ XxMatrix<T_Scalar>::XxMatrix(int_t nr, int_t nc, const ::cla3p::Property& pr)
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XxMatrix<T_Scalar>::XxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const ::cla3p::Property& pr)
-	: MatrixMeta<int_t>(nr, nc, ::cla3p::sanitizeProperty<T_ScalarHost>(pr)), XxContainer<T_Scalar>(vals, bind)
+	: MatrixMeta<int_t>(nr, nc, ::cla3p::sanitizeProperty<T_Cla3pScalar>(pr)), XxContainer<T_Scalar>(vals, bind)
 {
 	if(nr > 0 && nc > 0) {
 		setLd(ldv);
@@ -166,8 +166,8 @@ XxMatrix<T_Scalar> XxMatrix<T_Scalar>::move()
 template <typename T_Scalar>
 void XxMatrix<T_Scalar>::iscale(T_Scalar val)
 {
-	T_ScalarHost valHost = TypeTraits<T_Scalar>::toHostType(val);
-	::cla3p::hermitian_coeff_check<T_ScalarHost>(prop(), valHost);
+	T_Cla3pScalar valHost = TypeTraits<T_Scalar>::toHostType(val);
+	::cla3p::hermitian_coeff_check<T_Cla3pScalar>(prop(), valHost);
 	blk::dns::scale2D(
 		prop().uplo(),
 		nrows(),
@@ -441,10 +441,10 @@ void XxMatrix<T_Scalar>::copyFromExisting(const XxMatrix<T_Scalar>& other)
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void XxMatrix<T_Scalar>::copyToHost(::cla3p::dns::XxMatrix<T_ScalarHost>& dest) const
+void XxMatrix<T_Scalar>::copyToHost(::cla3p::dns::XxMatrix<T_Cla3pScalar>& dest) const
 {
 	if(!dest) {
-		dest = ::cla3p::dns::XxMatrix<T_ScalarHost>(nrows(), ncols(), prop());
+		dest = ::cla3p::dns::XxMatrix<T_Cla3pScalar>(nrows(), ncols(), prop());
 	}
 	::cla3p::similarity_check(prop(), 
 	                          nrows(), 
@@ -463,7 +463,7 @@ void XxMatrix<T_Scalar>::copyToHost(::cla3p::dns::XxMatrix<T_ScalarHost>& dest) 
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void XxMatrix<T_Scalar>::copyFromHost(const ::cla3p::dns::XxMatrix<T_ScalarHost>& src)
+void XxMatrix<T_Scalar>::copyFromHost(const ::cla3p::dns::XxMatrix<T_Cla3pScalar>& src)
 {
 	if(!(*this)) {
 		*this = XxMatrix<T_Scalar>(src.nrows(), src.ncols(), src.prop());

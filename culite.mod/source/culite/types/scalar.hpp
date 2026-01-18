@@ -27,6 +27,7 @@
 
 #include "culite/types/cuda_macros.hpp"
 #include "culite/types/traits.hpp"
+#include "culite/types/complex.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -62,10 +63,10 @@ template<> class TypeTraits<real_t> {
 	public:
 		using real_type = real_t;
 		using complex_type = complex_t;
-		using host_type = ::cla3p::real_t;
+		using cla3p_type = ::cla3p::real_t;
 		static std::string type_name();
 		static std::string prec_name();
-		CULITE_HOST CULITE_DEVICE static host_type toHostType(const real_t v);
+		CULITE_HOST CULITE_DEVICE static cla3p_type toHostType(const real_t v);
 		CULITE_HOST CULITE_DEVICE static constexpr cudaDataType cuda_type() { return cudaDataType::CUDA_R_64F; }
 		CULITE_HOST CULITE_DEVICE static constexpr char netlibChar() { return 'd'; }
 		CULITE_HOST CULITE_DEVICE static constexpr bool is_real() { return true; }
@@ -78,10 +79,10 @@ template<> class TypeTraits<real4_t> {
 	public:
 		using real_type = real4_t;
 		using complex_type = complex8_t;
-		using host_type = ::cla3p::real4_t;
+		using cla3p_type = ::cla3p::real4_t;
 		static std::string type_name();
 		static std::string prec_name();
-		CULITE_HOST CULITE_DEVICE static host_type toHostType(const real4_t v);
+		CULITE_HOST CULITE_DEVICE static cla3p_type toHostType(const real4_t v);
 		CULITE_HOST CULITE_DEVICE static constexpr cudaDataType cuda_type() { return cudaDataType::CUDA_R_32F; }
 		CULITE_HOST CULITE_DEVICE static constexpr char netlibChar() { return 's'; }
 		CULITE_HOST CULITE_DEVICE static constexpr bool is_real() { return true; }
@@ -94,10 +95,10 @@ template<> class TypeTraits<complex_t> {
 	public:
 		using real_type = real_t;
 		using complex_type = complex_t;
-		using host_type = ::cla3p::complex_t;
+		using cla3p_type = ::cla3p::complex_t;
 		static std::string type_name();
 		static std::string prec_name();
-		CULITE_HOST CULITE_DEVICE static host_type toHostType(const complex_t v);
+		CULITE_HOST CULITE_DEVICE static cla3p_type toHostType(const complex_t v);
 		CULITE_HOST CULITE_DEVICE static constexpr cudaDataType cuda_type() { return cudaDataType::CUDA_C_64F; }
 		CULITE_HOST CULITE_DEVICE static constexpr char netlibChar() { return 'z'; }
 		CULITE_HOST CULITE_DEVICE static constexpr bool is_real() { return false; }
@@ -110,10 +111,10 @@ template<> class TypeTraits<complex8_t> {
 	public:
 		using real_type = real4_t;
 		using complex_type = complex8_t;
-		using host_type = ::cla3p::complex8_t;
+		using cla3p_type = ::cla3p::complex8_t;
 		static std::string type_name();
 		static std::string prec_name();
-		CULITE_HOST CULITE_DEVICE static host_type toHostType(const complex8_t v);
+		CULITE_HOST CULITE_DEVICE static cla3p_type toHostType(const complex8_t v);
 		CULITE_HOST CULITE_DEVICE static constexpr cudaDataType cuda_type() { return cudaDataType::CUDA_C_32F; }
 		CULITE_HOST CULITE_DEVICE static constexpr char netlibChar() { return 'c'; }
 		CULITE_HOST CULITE_DEVICE static constexpr bool is_real() { return false; }

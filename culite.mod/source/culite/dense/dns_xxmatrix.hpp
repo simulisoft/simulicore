@@ -46,7 +46,7 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
 
 	private:
 		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
-		using T_ScalarHost = typename TypeTraits<T_Scalar>::host_type;
+		using T_Cla3pScalar = typename TypeTraits<T_Scalar>::cla3p_type;
 
 	public:
 	
@@ -263,7 +263,7 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
 		 *          Otherwise, @p dest must be compatible with the device matrix.
 		 * @param[out] dest The destination host matrix.
 		 */
-		void copyToHost(::cla3p::dns::XxMatrix<T_ScalarHost>& dest) const;
+		void copyToHost(::cla3p::dns::XxMatrix<T_Cla3pScalar>& dest) const;
 
 		/**
 		 * @brief Copies a host matrix to the device matrix.
@@ -272,7 +272,7 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
 		 *          Otherwise, the device matrix must be compatible with @p src.
 		 * @param[in] src The source host matrix.
 		 */
-		void copyFromHost(const ::cla3p::dns::XxMatrix<T_ScalarHost>& src);
+		void copyFromHost(const ::cla3p::dns::XxMatrix<T_Cla3pScalar>& src);
 
 		/** @} */
 
@@ -316,7 +316,7 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
  */
 template <typename T_Scalar>
 void operator>>(const culite::dns::XxMatrix<T_Scalar>& src,
-	            ::cla3p::dns::XxMatrix<typename culite::TypeTraits<T_Scalar>::host_type>& dest)
+	            ::cla3p::dns::XxMatrix<typename culite::TypeTraits<T_Scalar>::cla3p_type>& dest)
 {
 	src.copyToHost(dest);
 }
@@ -333,7 +333,7 @@ void operator>>(const culite::dns::XxMatrix<T_Scalar>& src,
  * @param[out] dest The destination device matrix.
  */
 template <typename T_Scalar>
-void operator>>(const ::cla3p::dns::XxMatrix<typename culite::TypeTraits<T_Scalar>::host_type>& src,
+void operator>>(const ::cla3p::dns::XxMatrix<typename culite::TypeTraits<T_Scalar>::cla3p_type>& src,
 	            culite::dns::XxMatrix<T_Scalar>& dest)
 {
 	dest.copyFromHost(src);
@@ -353,7 +353,7 @@ void operator>>(const ::cla3p::dns::XxMatrix<typename culite::TypeTraits<T_Scala
 template <typename T_Scalar>
 std::ostream& operator<<(std::ostream& os, const culite::dns::XxMatrix<T_Scalar>& mat)
 {
-	::cla3p::dns::XxMatrix<typename culite::TypeTraits<T_Scalar>::host_type> hostMat;
+	::cla3p::dns::XxMatrix<typename culite::TypeTraits<T_Scalar>::cla3p_type> hostMat;
 	mat >> hostMat;
 	os << hostMat;
 	return os;

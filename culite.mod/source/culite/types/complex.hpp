@@ -39,11 +39,18 @@ class DoubleComplex {
 		: m_data(cuDoubleComplex{re, im}) {}
 		~DoubleComplex() = default;
 
-    	CULITE_HOST CULITE_DEVICE T_RScalar& real() { return m_data.x; }
-    	CULITE_HOST CULITE_DEVICE T_RScalar& imag() { return m_data.y; }
+		// host only
+    	CULITE_HOST T_RScalar& rreal() { return m_data.x; }
+    	CULITE_HOST T_RScalar& rimag() { return m_data.y; }
+		CULITE_HOST const T_RScalar& rreal() const { return m_data.x; }
+    	CULITE_HOST const T_RScalar& rimag() const { return m_data.y; }
 
-    	CULITE_HOST CULITE_DEVICE const T_RScalar& real() const { return m_data.x; }
-    	CULITE_HOST CULITE_DEVICE const T_RScalar& imag() const { return m_data.y; }
+		// generic
+		CULITE_DEVICE CULITE_DEVICE T_RScalar real() const { return m_data.x; }
+    	CULITE_DEVICE CULITE_DEVICE T_RScalar imag() const { return m_data.y; }
+
+		CULITE_HOST CULITE_DEVICE void setReal(const T_RScalar r) { m_data.x = r; }
+		CULITE_HOST CULITE_DEVICE void setImag(const T_RScalar i) { m_data.y = i; }
 
 		CULITE_HOST CULITE_DEVICE T_RScalar abs() const { return cuCabs(m_data); }
 		CULITE_HOST CULITE_DEVICE T_RScalar abs2() const 
@@ -88,11 +95,18 @@ class SingleComplex {
 		: m_data(cuFloatComplex{re, im}) {}
 		~SingleComplex() = default;
 
-		CULITE_HOST CULITE_DEVICE T_RScalar& real() { return m_data.x; }
-		CULITE_HOST CULITE_DEVICE T_RScalar& imag() { return m_data.y; }
+		// host only
+    	CULITE_HOST T_RScalar& rreal() { return m_data.x; }
+    	CULITE_HOST T_RScalar& rimag() { return m_data.y; }
+		CULITE_HOST const T_RScalar& rreal() const { return m_data.x; }
+    	CULITE_HOST const T_RScalar& rimag() const { return m_data.y; }
 
-		CULITE_HOST CULITE_DEVICE const T_RScalar& real() const { return m_data.x; }
-		CULITE_HOST CULITE_DEVICE const T_RScalar& imag() const { return m_data.y; }
+		// generic
+		CULITE_HOST CULITE_DEVICE T_RScalar real() const { return m_data.x; }
+    	CULITE_HOST CULITE_DEVICE T_RScalar imag() const { return m_data.y; }
+
+		CULITE_HOST CULITE_DEVICE void setReal(const T_RScalar r) { m_data.x = r; }
+		CULITE_HOST CULITE_DEVICE void setImag(const T_RScalar i) { m_data.y = i; }
 
 		CULITE_HOST CULITE_DEVICE T_RScalar abs() const { return cuCabsf(m_data); }
 		CULITE_HOST CULITE_DEVICE T_RScalar abs2() const 
@@ -129,13 +143,13 @@ class SingleComplex {
 } // namespace culite
 /*-------------------------------------------------*/
 
-CULITE_HOST std::ostream& operator<<(std::ostream& os, const culite::DoubleComplex& c) {
-    os << "(" << c.real() << "," << c.imag() << ")";
+CULITE_HOST inline std::ostream& operator<<(std::ostream& os, const culite::DoubleComplex& c) {
+    os << "(" << c.rreal() << "," << c.rimag() << ")";
     return os;
 }
 
-CULITE_HOST std::ostream& operator<<(std::ostream& os, const culite::SingleComplex& c) {
-    os << "(" << c.real() << "," << c.imag() << ")";
+CULITE_HOST inline std::ostream& operator<<(std::ostream& os, const culite::SingleComplex& c) {
+    os << "(" << c.rreal() << "," << c.rimag() << ")";
     return os;
 }
 

@@ -21,6 +21,8 @@
  * @file
  */
 
+#include "culite/types/integer.hpp"
+#include "culite/types/scalar.hpp"
 #include "culite/support/utils.hpp"
 #include "culite/bulk/dns1D_impl.hpp"
 #include "culite/generic/cublas_handler.hpp"
@@ -56,13 +58,11 @@ typename TypeTraits<T_Scalar>::real_type normOne1D(int_t n, const T_Scalar *x)
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type normInf1D(int_t n, const T_Scalar *x)
 {
-	using T_ScalarHost = typename TypeTraits<T_Scalar>::host_type;
-
 	int_t idx = 0;
 	globalCuBlasHandler().iamax<T_Scalar>(n, x, 1, &idx);
-	T_ScalarHost ret = 0;
+	T_Scalar ret = makeScalar<T_Scalar>(0);
 	memCopyD2H(1, x + idx - 1, &ret);
-	return std::abs(ret);
+	return arith::abs(ret);
 }
 /*-------------------------------------------------*/
 //

@@ -196,17 +196,17 @@ template <typename T_Scalar>
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void XiVector<T_Scalar>::copyToHost(::cla3p::dns::XiVector<T_ScalarHost>& dest) const
+void XiVector<T_Scalar>::copyToHost(::cla3p::dns::XiVector<T_Cla3pScalar>& dest) const
 {
 	if(!dest) {
-		dest = ::cla3p::dns::XiVector<T_ScalarHost>(size());
+		dest = ::cla3p::dns::XiVector<T_Cla3pScalar>(size());
 	}
 	::cla3p::similarity_dim_check(size(), static_cast<int_t>(dest.size()));
 	cublas::VectorD2H<T_Scalar>(size(), this->values(), dest.values());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void XiVector<T_Scalar>::copyFromHost(const ::cla3p::dns::XiVector<T_ScalarHost>& src)
+void XiVector<T_Scalar>::copyFromHost(const ::cla3p::dns::XiVector<T_Cla3pScalar>& src)
 {
 	if(!(*this)) {
 		*this = XiVector<T_Scalar>(src.size());

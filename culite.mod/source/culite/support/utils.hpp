@@ -40,13 +40,13 @@ inline void memCopyD2D(std::size_t n, const T_Scalar *src, T_Scalar *dest)
 }
 
 template <typename T_Scalar>
-inline void memCopyH2D(std::size_t n, const typename TypeTraits<T_Scalar>::host_type *src, T_Scalar *dest)
+inline void memCopyH2D(std::size_t n, const T_Scalar *src, T_Scalar *dest)
 {
 	memCopyX2X(n * sizeof(T_Scalar), src, dest, cudaMemcpyHostToDevice);
 }
 
 template <typename T_Scalar>
-inline void memCopyD2H(std::size_t n, const T_Scalar *src, typename TypeTraits<T_Scalar>::host_type *dest)
+inline void memCopyD2H(std::size_t n, const T_Scalar *src, T_Scalar *dest)
 {
 	memCopyX2X(n * sizeof(T_Scalar), src, dest, cudaMemcpyDeviceToHost);
 }
@@ -59,33 +59,73 @@ inline void memCopyH2H(std::size_t n, const T_Scalar *src, T_Scalar *dest)
 
 /*-------------------------------------------------*/
 
+template <typename T_Scalar>
+inline void memCopyH2D(std::size_t n, const typename TypeTraits<T_Scalar>::cla3p_type *src, T_Scalar *dest)
+{
+	memCopyX2X(n * sizeof(T_Scalar), src, dest, cudaMemcpyHostToDevice);
+}
+
+template <typename T_Scalar>
+inline void memCopyD2H(std::size_t n, const T_Scalar *src, typename TypeTraits<T_Scalar>::cla3p_type *dest)
+{
+	memCopyX2X(n * sizeof(T_Scalar), src, dest, cudaMemcpyDeviceToHost);
+}
+
+/*-------------------------------------------------*/
+
 void memCopyX2X(std::size_t elemSize, std::size_t m, std::size_t n, 
 	            const void *src, std::size_t lds, 
 				void *dest, std::size_t ldd, cudaMemcpyKind kind);
 
 
 template <typename T_Scalar>
-inline void memCopyD2D(std::size_t m, std::size_t n, const T_Scalar *src, std::size_t lds, T_Scalar *dest, std::size_t ldd)
+inline void memCopyD2D(std::size_t m, std::size_t n, 
+	                   const T_Scalar *src, std::size_t lds, 
+					   T_Scalar *dest, std::size_t ldd)
 {
 	memCopyX2X(sizeof(T_Scalar), m, n, src, lds, dest, ldd, cudaMemcpyDeviceToDevice);
 }
 
 template <typename T_Scalar>
-inline void memCopyH2D(std::size_t m, std::size_t n, const typename TypeTraits<T_Scalar>::host_type *src, std::size_t lds, T_Scalar *dest, std::size_t ldd)
+inline void memCopyH2D(std::size_t m, std::size_t n, 
+	                   const T_Scalar *src, std::size_t lds, 
+					   T_Scalar *dest, std::size_t ldd)
 {
 	memCopyX2X(sizeof(T_Scalar), m, n, src, lds, dest, ldd, cudaMemcpyHostToDevice);
 }
 
 template <typename T_Scalar>
-inline void memCopyD2H(std::size_t m, std::size_t n, const T_Scalar *src, std::size_t lds, typename TypeTraits<T_Scalar>::host_type *dest, std::size_t ldd)
+inline void memCopyD2H(std::size_t m, std::size_t n, 
+	                   const T_Scalar *src, std::size_t lds, 
+					   T_Scalar *dest, std::size_t ldd)
 {
 	memCopyX2X(sizeof(T_Scalar), m, n, src, lds, dest, ldd, cudaMemcpyDeviceToHost);
 }
 
 template <typename T_Scalar>
-inline void memCopyH2H(std::size_t m, std::size_t n, const T_Scalar *src, std::size_t lds, T_Scalar *dest, std::size_t ldd)
+inline void memCopyH2H(std::size_t m, std::size_t n, 
+	                   const T_Scalar *src, std::size_t lds, 
+					   T_Scalar *dest, std::size_t ldd)
 {
 	memCopyX2X(sizeof(T_Scalar), m, n, src, lds, dest, ldd, cudaMemcpyHostToHost);
+}
+
+/*-------------------------------------------------*/
+
+template <typename T_Scalar>
+inline void memCopyH2D(std::size_t m, std::size_t n, 
+	                   const typename TypeTraits<T_Scalar>::cla3p_type *src, std::size_t lds, 
+					   T_Scalar *dest, std::size_t ldd)
+{
+	memCopyX2X(sizeof(T_Scalar), m, n, src, lds, dest, ldd, cudaMemcpyHostToDevice);
+}
+
+template <typename T_Scalar>
+inline void memCopyD2H(std::size_t m, std::size_t n, 
+	                   const T_Scalar *src, std::size_t lds, 
+					   typename TypeTraits<T_Scalar>::cla3p_type *dest, std::size_t ldd)
+{
+	memCopyX2X(sizeof(T_Scalar), m, n, src, lds, dest, ldd, cudaMemcpyDeviceToHost);
 }
 
 /*-------------------------------------------------*/
