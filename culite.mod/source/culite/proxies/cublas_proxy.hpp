@@ -62,8 +62,8 @@ void MatrixH2D(int_t nr, int_t nc,
 
 template <typename T_Scalar>
 void MatrixD2H(int_t nr, int_t nc, 
-               const T_Scalar *src, int_t ldd, 
-               T_Scalar *dest, int_t lds);
+               const T_Scalar *src, int_t lds, 
+               T_Scalar *dest, int_t ldd);
 
 template <typename T_Scalar>
 void MatrixH2D(int_t nr, int_t nc, 
@@ -72,8 +72,8 @@ void MatrixH2D(int_t nr, int_t nc,
 
 template <typename T_Scalar>
 void MatrixD2H(int_t nr, int_t nc, 
-               const T_Scalar *src, int_t ldd, 
-               typename TypeTraits<T_Scalar>::cla3p_type *dest, int_t lds);
+               const T_Scalar *src, int_t lds, 
+               typename TypeTraits<T_Scalar>::cla3p_type *dest, int_t ldd);
 
 /*------------------ Level 1 ----------------------*/
 
