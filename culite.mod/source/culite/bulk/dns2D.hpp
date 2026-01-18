@@ -163,11 +163,14 @@ typename TypeTraits<T_Scalar>::real_type normFro2D(::cla3p::prop_t ptype,
 // Conjugate 2D
 //
 template <typename T_Scalar>
-//void conjugate2D(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda)
-void conjugate2D(::cla3p::uplo_t, int_t, int_t, T_Scalar*, int_t)
+void conjugate2D(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda)
 {
-	// TODO: implement
-	throw err::CudaException("blk::dns::conjugate2D is not implemented yet.");
+	if(uplo == ::cla3p::uplo_t::Full) {
+		launch_conjugate_2d(m, n, a, lda);
+	} else {
+		// TODO: implement
+		throw err::CudaException("blk::dns::conjugate2D is only implemented for full matrices.");
+	}
 }
 /*-------------------------------------------------*/
 //
@@ -206,20 +209,34 @@ void ctranspose2D(int_t m, int_t n, const T_Scalar *a, int_t lda, T_Scalar* b, i
 // get Real 2D
 //
 template <typename T_Scalar>
-void getReal2D(::cla3p::uplo_t, int_t, int_t, const T_Scalar*, int_t, typename TypeTraits<T_Scalar>::real_type*, int_t)
+void getReal2D(::cla3p::uplo_t uplo, 
+	           int_t m, int_t n, 
+			   const T_Scalar* a, int_t lda, 
+			   typename TypeTraits<T_Scalar>::real_type* r, int_t ldr)
 {
-	// TODO: implement
-	throw err::CudaException("blk::dns::getReal2D is not implemented yet.");
+	if(uplo == ::cla3p::uplo_t::Full) {
+		launch_get_real_2d(m, n, a, lda, r, ldr);
+	} else {
+		// TODO: implement
+		throw err::CudaException("blk::dns::getReal2D is only implemented for full matrices.");
+	}
 }
 /*-------------------------------------------------*/
 //
 // get Imag 2D
 //
 template <typename T_Scalar>
-void getImag2D(::cla3p::uplo_t, int_t, int_t, const T_Scalar*, int_t, typename TypeTraits<T_Scalar>::real_type*, int_t)
+void getImag2D(::cla3p::uplo_t uplo, 
+	            int_t m, int_t n, 
+				const T_Scalar* a, int_t lda, 
+				typename TypeTraits<T_Scalar>::real_type* r, int_t ldr)
 {
-	// TODO: implement
-	throw err::CudaException("blk::dns::getImag2D is not implemented yet.");
+	if(uplo == ::cla3p::uplo_t::Full) {
+		launch_get_imag_2d(m, n, a, lda, r, ldr);
+	} else {
+		// TODO: implement
+		throw err::CudaException("blk::dns::getImag2D is only implemented for full matrices.");
+	}
 }
 /*-------------------------------------------------*/
 } // namespace dns

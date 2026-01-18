@@ -264,6 +264,87 @@ template real4_t  launch_matrix_fro_norm<real4_t>(int_t, int_t, const real4_t*, 
 template real_t launch_matrix_fro_norm<complex_t>(int_t, int_t, const complex_t*, int_t);
 template real4_t  launch_matrix_fro_norm<complex8_t>(int_t, int_t, const complex8_t*, int_t);
 /*-------------------------------------------------*/
+template <typename T_Scalar>
+__global__ void get_real_kernel_2d(int_t m, int_t n, const T_Scalar* a, int_t lda, 
+                                   typename TypeTraits<T_Scalar>::real_type* r, int_t ldr)
+{
+    int_t i = blockIdx.x * blockDim.x + threadIdx.x;
+    int_t j = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if (i < m && j < n) {
+        r[j * ldr + i] = arith::getRe(a[j * lda + i]);
+    }
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void launch_get_real_2d(int_t m, int_t n, const T_Scalar* a, int_t lda, 
+                        typename TypeTraits<T_Scalar>::real_type* r, int_t ldr)
+{
+    dim3 threadsPerBlock(16, 16);
+    dim3 numBlocks((m + threadsPerBlock.x - 1) / threadsPerBlock.x,
+                   (n + threadsPerBlock.y - 1) / threadsPerBlock.y);
+
+    get_real_kernel_2d<<<numBlocks, threadsPerBlock>>>(m, n, a, lda, r, ldr);
+    syncDevice();
+}
+/*-------------------------------------------------*/
+template void launch_get_real_2d<complex_t>(int_t, int_t, const complex_t*, int_t, real_t*, int_t);
+template void launch_get_real_2d<complex8_t>(int_t, int_t, const complex8_t*, int_t, real4_t*, int_t);
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+__global__ void get_imag_kernel_2d(int_t m, int_t n, const T_Scalar* a, int_t lda, 
+                                   typename TypeTraits<T_Scalar>::real_type* r, int_t ldr)
+{
+    int_t i = blockIdx.x * blockDim.x + threadIdx.x;
+    int_t j = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if (i < m && j < n) {
+        r[j * ldr + i] = arith::getIm(a[j * lda + i]);
+    }
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void launch_get_imag_2d(int_t m, int_t n, const T_Scalar* a, int_t lda, 
+                        typename TypeTraits<T_Scalar>::real_type* r, int_t ldr)
+{
+    dim3 threadsPerBlock(16, 16);
+    dim3 numBlocks((m + threadsPerBlock.x - 1) / threadsPerBlock.x,
+                   (n + threadsPerBlock.y - 1) / threadsPerBlock.y);
+
+    get_imag_kernel_2d<<<numBlocks, threadsPerBlock>>>(m, n, a, lda, r, ldr);
+    syncDevice();
+}
+/*-------------------------------------------------*/
+template void launch_get_imag_2d<complex_t>(int_t, int_t, const complex_t*, int_t, real_t*, int_t);
+template void launch_get_imag_2d<complex8_t>(int_t, int_t, const complex8_t*, int_t, real4_t*, int_t);
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+__global__ void conjugate_kernel_2d(int_t m, int_t n, T_Scalar* a, int_t lda)
+{
+    int_t i = blockIdx.x * blockDim.x + threadIdx.x;
+    int_t j = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if (i < m && j < n) {
+        a[j * lda + i] = arith::conj(a[j * lda + i]);
+    }
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void launch_conjugate_2d(int_t m, int_t n, T_Scalar* a, int_t lda)
+{
+    dim3 threadsPerBlock(16, 16);
+    dim3 numBlocks((m + threadsPerBlock.x - 1) / threadsPerBlock.x,
+                   (n + threadsPerBlock.y - 1) / threadsPerBlock.y);
+
+    conjugate_kernel_2d<<<numBlocks, threadsPerBlock>>>(m, n, a, lda);
+    syncDevice();
+}
+/*-------------------------------------------------*/
+template void launch_conjugate_2d<real_t>(int_t, int_t, real_t*, int_t);
+template void launch_conjugate_2d<real4_t>(int_t, int_t, real4_t*, int_t);
+template void launch_conjugate_2d<complex_t>(int_t, int_t, complex_t*, int_t);
+template void launch_conjugate_2d<complex8_t>(int_t, int_t, complex8_t*, int_t);
+/*-------------------------------------------------*/
 
 
 

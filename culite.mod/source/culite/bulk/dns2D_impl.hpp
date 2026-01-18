@@ -48,6 +48,17 @@ template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type
 launch_matrix_fro_norm(int_t m, int_t n, const T_Scalar* a, int_t lda);
 
+template <typename T_Scalar>
+void launch_get_real_2d(int_t m, int_t n, const T_Scalar* a, int_t lda, 
+                        typename TypeTraits<T_Scalar>::real_type* r, int_t ldr);
+
+template <typename T_Scalar>
+void launch_get_imag_2d(int_t m, int_t n, const T_Scalar* a, int_t lda, 
+                        typename TypeTraits<T_Scalar>::real_type* r, int_t ldr);
+
+template <typename T_Scalar>
+void launch_conjugate_2d(int_t m, int_t n, const T_Scalar* a, int_t lda);
+
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace blk
