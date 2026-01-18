@@ -29,6 +29,8 @@
 namespace culite {
 /*-------------------------------------------------*/
 
+void syncDevice();
+
 void memCopyX2X(std::size_t count, const void *src, void *dest, cudaMemcpyKind kind);
 
 template <typename T_Scalar>

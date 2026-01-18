@@ -14,21 +14,15 @@
  * limitations under the License.
  */
 
-// this file inc
-#include "culite/types/complex.hpp"
+#ifndef CULITE_CUDA_MACROS_HPP_
+#define CULITE_CUDA_MACROS_HPP_
 
-// system
+#if defined(__CUDACC__)
+    #define CULITE_HOST __host__
+    #define CULITE_DEVICE __device__
+#else
+    #define CULITE_HOST
+    #define CULITE_DEVICE
+#endif
 
-// 3rd
-
-// culite
-
-/*-------------------------------------------------*/
-namespace culite {
-/*-------------------------------------------------*/
-
-// TODO: delete file if not needed
-
-/*-------------------------------------------------*/
-} // namespace culite
-/*-------------------------------------------------*/
+#endif // CULITE_CUDA_MACROS_HPP_

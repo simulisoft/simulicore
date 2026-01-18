@@ -8,8 +8,10 @@ set(CULITE_SRC ${CULITE_SRC}
 	PARENT_SCOPE)
 
 set(CULITE_TYPES_HPP 
+	cuda_macros.hpp
 	traits.hpp
 	integer.hpp
+	complex.hpp
 	scalar.hpp
 	enums.hpp
 	)
@@ -19,7 +21,6 @@ set(CULITE_CUSRC ${CULITE_CUSRC}
 	PARENT_SCOPE)
 
 set(CULITE_TYPES_CUH 
-	complex.cuh
 	)
 
 #-----------------------------------------------

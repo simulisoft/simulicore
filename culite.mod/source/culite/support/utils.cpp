@@ -27,6 +27,12 @@
 /*-------------------------------------------------*/
 namespace culite {
 /*-------------------------------------------------*/
+void syncDevice()
+{
+	cudaError_t cudaError = cudaDeviceSynchronize();
+	err::check_cuda(cudaError);
+}
+/*-------------------------------------------------*/
 void memCopyX2X(std::size_t count, const void *src, void *dest, cudaMemcpyKind kind)
 {
 	cudaError_t cudaError = cudaMemcpy(dest, src, count, kind);

@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-#ifndef CULITE_BULK_DNS1D_IMPL_CUH_
-#define CULITE_BULK_DNS1D_IMPL_CUH_
+#ifndef CULITE_BULK_DNS2D_IMPL_HPP_
+#define CULITE_BULK_DNS2D_IMPL_HPP_
 
 /**
  * @file
  */
-#include <cuda_runtime.h>
-
-#include "culite/types/scalar.hpp"
+#include "culite/types/integer.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -31,7 +29,7 @@ namespace dns {
 /*-------------------------------------------------*/
 
 template <typename T_Scalar>
-void launch_conjugate_kernel_1d(std::size_t n, T_Scalar* x);
+void launch_scale_matrix_kernel(int_t m, int_t n, T_Scalar* v, int_t ldv, T_Scalar alpha);
 
 /*-------------------------------------------------*/
 } // namespace dns
@@ -39,4 +37,4 @@ void launch_conjugate_kernel_1d(std::size_t n, T_Scalar* x);
 } // namespace culite
 /*-------------------------------------------------*/
 
-#endif // CULITE_BULK_DNS1D_IMPL_CUH_
+#endif // CULITE_BULK_DNS2D_IMPL_HPP_

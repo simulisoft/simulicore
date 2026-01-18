@@ -25,6 +25,7 @@
 #include <library_types.h> // cuda
 #include <cla3p/types/scalar.hpp>
 
+#include "culite/types/cuda_macros.hpp"
 #include "culite/types/traits.hpp"
 
 /*-------------------------------------------------*/
@@ -181,6 +182,13 @@ inline void setIm(complex8_t& c, real4_t s) { c.y = s; }
 
 /*-------------------------------------------------*/
 } // namespace culite
+/*-------------------------------------------------*/
+
+CULITE_HOST CULITE_DEVICE inline culite::complex_t operator*(culite::complex_t z1, culite::complex_t z2) { return cuCmul(z1, z2); }
+CULITE_HOST CULITE_DEVICE inline culite::complex8_t operator*(culite::complex8_t c1, culite::complex8_t c2) { return cuCmulf(c1, c2); }
+CULITE_HOST CULITE_DEVICE inline culite::complex_t operator/(culite::complex_t z1, culite::complex_t z2) { return cuCdiv(z1, z2); }
+CULITE_HOST CULITE_DEVICE inline culite::complex8_t operator/(culite::complex8_t c1, culite::complex8_t c2) { return cuCdivf(c1, c2); }
+
 /*-------------------------------------------------*/
 
 #endif // CULITE_SCALAR_HPP_

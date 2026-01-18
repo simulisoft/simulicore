@@ -22,10 +22,8 @@
  */
 
 #include "culite/support/utils.hpp"
-#include "culite/error/exceptions.hpp"
+#include "culite/bulk/dns1D_impl.hpp"
 #include "culite/generic/cublas_handler.hpp"
-
-#include "culite/bulk/dns1D_impl.cuh"
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -93,7 +91,7 @@ void scale1D(int_t n, const T_Scalar& alpha, T_Scalar *x)
 template <typename T_Scalar>
 void conjugate1D(int_t n, T_Scalar* x)
 {
-	launch_conjugate_kernel_1d<T_Scalar>(n, x);
+	launch_conjugate_kernel_1d(n, x);
 	//cudaError_t cudaStatus = cudaGetLastError();
 	//err::check_cuda(cudaStatus);
 }
@@ -102,20 +100,22 @@ void conjugate1D(int_t n, T_Scalar* x)
 // get Real 1D
 //
 template <typename T_Scalar>
-void getReal1D(int_t, const T_Scalar*, typename TypeTraits<T_Scalar>::real_type*)
+void getReal1D(int_t n, const T_Scalar* x, typename TypeTraits<T_Scalar>::real_type* y)
 {
-	// TODO: implement
-	err::CudaException("blk::dns::getReal1D is not implemented yet.");
+	launch_get_real_kernel_1d<T_Scalar>(n, x, y);
+	//cudaError_t cudaStatus = cudaGetLastError();
+	//err::check_cuda(cudaStatus);
 }
 /*-------------------------------------------------*/
 //
 // get Imag 1D
 //
 template <typename T_Scalar>
-void getImag1D(int_t, const T_Scalar*, typename TypeTraits<T_Scalar>::real_type*)
+void getImag1D(int_t n, const T_Scalar* x, typename TypeTraits<T_Scalar>::real_type* y)
 {
-	// TODO: implement
-	err::CudaException("blk::dns::getImag1D is not implemented yet.");
+	launch_get_imag_kernel_1d<T_Scalar>(n, x, y);
+	//cudaError_t cudaStatus = cudaGetLastError();
+	//err::check_cuda(cudaStatus);
 }
 /*-------------------------------------------------*/
 } // namespace dns

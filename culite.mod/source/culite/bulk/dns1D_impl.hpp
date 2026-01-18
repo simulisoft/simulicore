@@ -14,21 +14,34 @@
  * limitations under the License.
  */
 
-// this file inc
-#include "culite/types/complex.hpp"
+#ifndef CULITE_BULK_DNS1D_IMPL_HPP_
+#define CULITE_BULK_DNS1D_IMPL_HPP_
 
-// system
-
-// 3rd
-
-// culite
+/**
+ * @file
+ */
+#include "culite/types/traits.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
+namespace blk {
+namespace dns {
 /*-------------------------------------------------*/
 
-// TODO: delete file if not needed
+template <typename T_Scalar>
+void launch_conjugate_kernel_1d(std::size_t n, T_Scalar* x);
+
+template <typename T_Scalar>
+void launch_get_real_kernel_1d(std::size_t n, const T_Scalar* x, typename TypeTraits<T_Scalar>::real_type* y);
+
+template <typename T_Scalar>
+void launch_get_imag_kernel_1d(std::size_t n, const T_Scalar* x, typename TypeTraits<T_Scalar>::real_type* y);
+
 
 /*-------------------------------------------------*/
+} // namespace dns
+} // namespace blk
 } // namespace culite
 /*-------------------------------------------------*/
+
+#endif // CULITE_BULK_DNS1D_IMPL_HPP_
