@@ -71,12 +71,11 @@ set_target_properties(${CULITE_I64_LIB} PROPERTIES CUDA_SEPARABLE_COMPILATION ON
 #-----------------------------------------------
 # dependencies setup
 #-----------------------------------------------
-target_compile_definitions(${CULITE_LIB} PRIVATE ${CULITE_3RD_PARTY_DEF})
-target_compile_definitions(${CULITE_I64_LIB} PRIVATE ${CULITE_3RD_PARTY_I64_DEF})
+target_compile_definitions(${CULITE_LIB} PUBLIC ${CULITE_3RD_PARTY_DEF})
+target_compile_definitions(${CULITE_I64_LIB} PUBLIC ${CULITE_3RD_PARTY_I64_DEF})
 
-target_include_directories(${CULITE_LIB} PRIVATE ${CULITE_INC} ${CULITE_3RD_PARTY_INC})
-target_include_directories(${CULITE_I64_LIB} PRIVATE ${CULITE_INC} ${CULITE_3RD_PARTY_INC})
-
+target_include_directories(${CULITE_LIB} PUBLIC ${CULITE_INC} ${CULITE_3RD_PARTY_INC})
+target_include_directories(${CULITE_I64_LIB} PUBLIC ${CULITE_INC} ${CULITE_3RD_PARTY_INC})
 target_link_libraries(${CULITE_LIB} ${CULITE_3RD_PARTY_LIB})
 target_link_libraries(${CULITE_I64_LIB} ${CULITE_3RD_PARTY_I64_LIB})
 

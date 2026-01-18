@@ -1,7 +1,6 @@
 #-----------------------------------------------
 # set 3rd parties
 #-----------------------------------------------
-
 set(CLA3P_3RD_PARTY_DEF )
 set(CLA3P_3RD_PARTY_I64_DEF CLA3P_I64)
 set(CLA3P_3RD_PARTY_INC )
@@ -24,13 +23,6 @@ endif()
 #-----------------------------------------------
 set(CLA3P_CMAKE_ARMPL false)
 if(${SIMULICORE_SYSTEM_MACOS})
-
-	# definitions
-	# set(CLA3P_3RD_PARTY_DEF ${CLA3P_3RD_PARTY_DEF} ACCELERATE_NEW_LAPACK)
-	# set(CLA3P_3RD_PARTY_I64_DEF ${CLA3P_3RD_PARTY_I64_DEF} ACCELERATE_NEW_LAPACK ACCELERATE_LAPACK_ILP64)
-	# libraries
-	# set(CLA3P_3RD_PARTY_LIB ${CLA3P_3RD_PARTY_LIB} "-framework Accelerate")
-	# set(CLA3P_3RD_PARTY_I64_LIB ${CLA3P_3RD_PARTY_I64_LIB} "-framework Accelerate")
 
 	include(${SIMULICORE_ROOT}/cmake/3rd/armpl.mac.cmake)
 

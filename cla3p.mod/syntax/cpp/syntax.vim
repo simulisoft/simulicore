@@ -141,7 +141,7 @@ hi cTypeCustomTemplate ctermfg=lightcyan guifg=darkblue
 syn keyword cTypeCustomNSpace std
 
 syn keyword cTypeCustomNSpace cla3p
-syn keyword cTypeCustomNSpace cmpi
+syn keyword cTypeCustomNSpace alias
 
 syn keyword cTypeCustomNSpace mkl
 syn keyword cTypeCustomNSpace armpl
