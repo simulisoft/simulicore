@@ -16,13 +16,13 @@ int main()
 	cla3p::uint_t nc  = 12; // number of columns
 	cla3p::uint_t nnz = 10; // number of non-zeros
 
-	cla3p::int_t  *colptrA = cla3p::i_calloc<cla3p::int_t >(nc + 1); 
-	cla3p::int_t  *rowidxA = cla3p::i_calloc<cla3p::int_t >(nnz); 
-	cla3p::real_t *valuesA = cla3p::i_calloc<cla3p::real_t>(nnz); 
+	cla3p::int_t  *colptrA = cla3p::i_calloc_t<cla3p::int_t >(nc + 1); 
+	cla3p::int_t  *rowidxA = cla3p::i_calloc_t<cla3p::int_t >(nnz); 
+	cla3p::real_t *valuesA = cla3p::i_calloc_t<cla3p::real_t>(nnz); 
 
-	cla3p::int_t  *colptrB = cla3p::i_calloc<cla3p::int_t >(nc + 1); 
-	cla3p::int_t  *rowidxB = cla3p::i_calloc<cla3p::int_t >(nnz); 
-	cla3p::real_t *valuesB = cla3p::i_calloc<cla3p::real_t>(nnz); 
+	cla3p::int_t  *colptrB = cla3p::i_calloc_t<cla3p::int_t >(nc + 1); 
+	cla3p::int_t  *rowidxB = cla3p::i_calloc_t<cla3p::int_t >(nnz); 
+	cla3p::real_t *valuesB = cla3p::i_calloc_t<cla3p::real_t>(nnz); 
 
 	/*
 	 * Assign csc pointers in matrix A but do not bind

@@ -15,8 +15,8 @@ int main()
 
 	cla3p::uint_t lda = 7;
 	cla3p::uint_t ldb = 5;
-	cla3p::real_t *a = cla3p::i_calloc<cla3p::real_t>(lda * 4); 
-	cla3p::real_t *b = cla3p::i_calloc<cla3p::real_t>(ldb * 5); 
+	cla3p::real_t *a = cla3p::i_calloc_t<cla3p::real_t>(lda * 4); 
+	cla3p::real_t *b = cla3p::i_calloc_t<cla3p::real_t>(ldb * 5); 
 
 	for(cla3p::uint_t j = 0, icnt = 0; j < 4; j++)
 		for(cla3p::uint_t i = 0; i < 3; i++)
