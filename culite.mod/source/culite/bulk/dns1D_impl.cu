@@ -20,6 +20,7 @@
 // system
 
 // 3rd
+#include <cuda_runtime.h>
 
 // culite
 #include "culite/types/scalar.hpp"
@@ -83,8 +84,8 @@ void launch_get_real_kernel_1d(std::size_t n, const T_Scalar* x, typename TypeTr
     syncDevice();
 }
 /*-------------------------------------------------*/
-template void launch_get_real_kernel_1d<complex_t>(std::size_t n, const complex_t* x, real_t* y);
-template void launch_get_real_kernel_1d<complex8_t>(std::size_t n, const complex8_t* x, real4_t* y);
+template void launch_get_real_kernel_1d<complex_t>(std::size_t, const complex_t*, real_t*);
+template void launch_get_real_kernel_1d<complex8_t>(std::size_t, const complex8_t*, real4_t*);
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
@@ -107,8 +108,8 @@ void launch_get_imag_kernel_1d(std::size_t n, const T_Scalar* x, typename TypeTr
     syncDevice();
 }
 /*-------------------------------------------------*/
-template void launch_get_imag_kernel_1d<complex_t>(std::size_t n, const complex_t* x, real_t* y);
-template void launch_get_imag_kernel_1d<complex8_t>(std::size_t n, const complex8_t* x, real4_t* y);
+template void launch_get_imag_kernel_1d<complex_t>(std::size_t, const complex_t*, real_t*);
+template void launch_get_imag_kernel_1d<complex8_t>(std::size_t, const complex8_t*, real4_t*);
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace blk

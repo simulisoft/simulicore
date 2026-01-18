@@ -20,6 +20,7 @@
 /**
  * @file
  */
+#include "culite/types/traits.hpp"
 #include "culite/types/integer.hpp"
 
 /*-------------------------------------------------*/
@@ -30,6 +31,15 @@ namespace dns {
 
 template <typename T_Scalar>
 void launch_scale_matrix_kernel(int_t m, int_t n, T_Scalar* v, int_t ldv, T_Scalar alpha);
+
+template <typename T_Scalar>
+typename TypeTraits<T_Scalar>::real_type
+launch_matrix_1_norm(int_t m, int_t n, const T_Scalar* a, int_t lda);
+
+template <typename T_Scalar>
+typename TypeTraits<T_Scalar>::real_type
+launch_matrix_inf_norm(int_t m, int_t n, const T_Scalar* a, int_t lda);
+
 
 /*-------------------------------------------------*/
 } // namespace dns

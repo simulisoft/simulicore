@@ -17,7 +17,6 @@ set(CULITE_TYPES_HPP
 	)
 
 set(CULITE_CUSRC ${CULITE_CUSRC}
-	types/complex.cu
 	PARENT_SCOPE)
 
 set(CULITE_TYPES_CUH 

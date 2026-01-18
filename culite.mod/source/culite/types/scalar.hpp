@@ -159,20 +159,25 @@ inline complex8_t makeScalar<complex8_t>(const real4_t& re) { return makeComplex
 /*-------------------------------------------------*/
 
 namespace arith {
-inline real_t conj(const real_t& d) { return d; }
-inline real4_t conj(const real4_t& s) { return s; }
-inline complex_t conj(const complex_t& z) { return cuConj(z); }
-inline complex8_t conj(const complex8_t& c) { return cuConjf(c); }
+CULITE_HOST CULITE_DEVICE inline real_t conj(real_t d) { return d; }
+CULITE_HOST CULITE_DEVICE inline real4_t conj(real4_t s) { return s; }
+CULITE_HOST CULITE_DEVICE inline complex_t conj(complex_t z) { return cuConj(z); }
+CULITE_HOST CULITE_DEVICE inline complex8_t conj(complex8_t c) { return cuConjf(c); }
 
-inline real_t  getRe(const real_t& d) { return d; }
-inline real4_t getRe(const real4_t& f) { return f; }
-inline real_t  getRe(const complex_t& z) { return cuCreal(z); }
-inline real4_t getRe(const complex8_t& c) { return cuCrealf(c); }
+CULITE_HOST CULITE_DEVICE inline real_t abs(real_t d) { return d; }
+CULITE_HOST CULITE_DEVICE inline real4_t abs(real4_t s) { return s; }
+CULITE_HOST CULITE_DEVICE inline real_t abs(complex_t z) { return cuCabs(z); }
+CULITE_HOST CULITE_DEVICE inline real4_t abs(complex8_t c) { return cuCabsf(c); }
 
-inline real_t  getIm(const real_t&) { return 0; }
-inline real4_t getIm(const real4_t&) { return 0; }
-inline real_t  getIm(const complex_t& z) { return cuCimag(z); }
-inline real4_t getIm(const complex8_t& c) { return cuCimagf(c); }
+CULITE_HOST CULITE_DEVICE inline real_t  getRe(real_t d) { return d; }
+CULITE_HOST CULITE_DEVICE inline real4_t getRe(real4_t f) { return f; }
+CULITE_HOST CULITE_DEVICE inline real_t  getRe(complex_t z) { return cuCreal(z); }
+CULITE_HOST CULITE_DEVICE inline real4_t getRe(complex8_t c) { return cuCrealf(c); }
+
+CULITE_HOST CULITE_DEVICE inline real_t  getIm(real_t) { return 0; }
+CULITE_HOST CULITE_DEVICE inline real4_t getIm(real4_t) { return 0; }
+CULITE_HOST CULITE_DEVICE inline real_t  getIm(complex_t z) { return cuCimag(z); }
+CULITE_HOST CULITE_DEVICE inline real4_t getIm(complex8_t c) { return cuCimagf(c); }
 
 inline void setIm(real_t&, real_t) { }
 inline void setIm(real4_t&, real4_t) { }
