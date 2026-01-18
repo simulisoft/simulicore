@@ -45,6 +45,10 @@ Utilizing a foundational framework of dense and sparse linear algebra, **CLA3P**
 - [x] Dense QR decompositions
 - [x] Dense eigensolvers
 - [x] Sparse linear system solvers
+- [x] Low-rank matrix representation
+- [ ] Low-rank Matrix Algebra
+- [ ] Block Low-rank Matrix representation
+- [ ] Block Low-rank Matrix decomposition
 
 All features described above are supported by a comprehensive suite of intuitive **operators** to facilitate rapid development, complemented by an advanced **functional mathematics interface** for optimal performance. This dual-layer approach enables users to select the interface that best aligns with their specific project requirements.
 
