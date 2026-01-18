@@ -7,6 +7,14 @@ set(CULITE_SRC ${CULITE_SRC}
 set(CULITE_BULK_HPP 
 	)
 
+set(CULITE_CUSRC ${CULITE_CUSRC}
+	bulk/dns1D_impl.cu
+	PARENT_SCOPE)
+
+set(CULITE_TYPES_CUH 
+	)
+
+
 #-----------------------------------------------
 # installation setup
 #-----------------------------------------------

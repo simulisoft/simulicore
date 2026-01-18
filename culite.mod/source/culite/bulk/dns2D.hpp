@@ -397,4 +397,4 @@ void permute(prop_t ptype, uplo_t uplo, int_t m, int_t n, const T_Scalar *a, int
 } // namespace culite
 /*-------------------------------------------------*/
 
-#endif // CULITE_BULK_DNS_HPP_
+#endif // CULITE_BULK_DNS2D_HPP_

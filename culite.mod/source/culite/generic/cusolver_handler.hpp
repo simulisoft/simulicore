@@ -166,7 +166,7 @@ class CuSolverHandler {
                 handle(),
                 params,
                 CUBLAS_OP_N,
-                B.nrows(), // TODO: check dim matching
+                B.nrows(),
                 B.ncols(),
                 m_factorCudaType,
                 factorWork().data(),

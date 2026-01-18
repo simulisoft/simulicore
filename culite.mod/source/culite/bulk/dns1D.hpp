@@ -25,6 +25,8 @@
 #include "culite/error/exceptions.hpp"
 #include "culite/generic/cublas_handler.hpp"
 
+#include "culite/bulk/dns1D_impl.cuh"
+
 /*-------------------------------------------------*/
 namespace culite {
 namespace blk {
@@ -89,11 +91,11 @@ void scale1D(int_t n, const T_Scalar& alpha, T_Scalar *x)
 // Conjugate 1D
 //
 template <typename T_Scalar>
-//void conjugate_1d(int_t n, const T_Scalar *x)
-void conjugate1D(int_t, const T_Scalar*)
+void conjugate1D(int_t n, T_Scalar* x)
 {
-	// TODO: implement
-	err::CudaException("blk::dns::conjugate1D is not implemented yet.");
+	launch_conjugate_kernel_1d<T_Scalar>(n, x);
+	//cudaError_t cudaStatus = cudaGetLastError();
+	//err::check_cuda(cudaStatus);
 }
 /*-------------------------------------------------*/
 //
@@ -121,4 +123,4 @@ void getImag1D(int_t, const T_Scalar*, typename TypeTraits<T_Scalar>::real_type*
 } // namespace culite
 /*-------------------------------------------------*/
 
-#endif // CULITE_BULK_DNS_HPP_
+#endif // CULITE_BULK_DNS1D_HPP_
