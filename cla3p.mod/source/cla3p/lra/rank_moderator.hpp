@@ -63,7 +63,7 @@ class RankModerator {
 		 */
 
 		/**
-		 * @copydoc standard_docs::constructor
+		 * @copydoc standard_docs::constructor()
 		 */
 		RankModerator();
 
@@ -79,7 +79,7 @@ class RankModerator {
 		explicit RankModerator(T_RScalar tol, lraMethod_t method, T_RScalar ref = autoReference());
 
 		/**
-		 * @copydoc standard_docs::destructor
+		 * @copydoc standard_docs::destructor()
 		 */
 		~RankModerator();
 
