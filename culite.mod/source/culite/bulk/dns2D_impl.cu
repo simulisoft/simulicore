@@ -90,11 +90,11 @@ __global__ void matrix_1_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_t 
     int_t j = blockIdx.x * blockDim.x + threadIdx.x;
 
     if (j < n) {
-        T_RScalar col_sum = 0;
+        T_RScalar colSum = 0;
         for (int_t i = 0; i < m; ++i) {
-            col_sum = col_sum + arith::abs(a[j * lda + i]);
+            colSum += arith::abs(a[j * lda + i]);
         } // i
-        atomicMax(ret, col_sum);
+        atomicMax(ret, colSum);
     } // j
 }
 /*-------------------------------------------------*/
@@ -127,12 +127,10 @@ template real4_t  launch_matrix_1_norm<complex8_t>(int_t, int_t, const complex8_
 template <typename T_Scalar>
 __global__ void fill_row_sums(int_t m, int_t n, const T_Scalar* v, int_t ldv, typename TypeTraits<T_Scalar>::real_type* rowSums) 
 {
-    using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
-
     int_t i = blockIdx.x * blockDim.x + threadIdx.x;
     int_t j = blockIdx.y * blockDim.y + threadIdx.y;
     if (i < m && j < n) {
-        atomicAdd(&rowSums[i], (T_RScalar)arith::abs(v[j * ldv + i]));
+        atomicAdd(&rowSums[i], arith::abs(v[j * ldv + i]));
     }
 }
 /*-------------------------------------------------*/
@@ -189,7 +187,7 @@ __global__ void matrix_max_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_
     if (j < n) {
         T_RScalar localMax = 0;
         for (int_t i = 0; i < m; ++i) {
-            localMax = fmax(localMax, (T_RScalar)arith::abs(a[j * lda + i]));
+            localMax = fmax(localMax, arith::abs(a[j * lda + i]));
         }
         atomicMax(globalMax, localMax);
     }
@@ -224,10 +222,13 @@ template real_t launch_matrix_max_norm<complex_t>(int_t, int_t, const complex_t*
 template real4_t  launch_matrix_max_norm<complex8_t>(int_t, int_t, const complex8_t*, int_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-__global__ void matrix_fro_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_t lda, typename TypeTraits<T_Scalar>::real_type* globalSum) {
+__global__ void matrix_fro_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_t lda, typename TypeTraits<T_Scalar>::real_type* globalSum)
+{
+    using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
     int_t j = blockIdx.x * blockDim.x + threadIdx.x;
     if (j < n) {
-        double colSum = 0;
+        T_RScalar colSum = 0;
         for (int_t i = 0; i < m; ++i) {
             colSum += arith::abs2(a[j * lda + i]);
         }
