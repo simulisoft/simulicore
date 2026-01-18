@@ -20,23 +20,85 @@
 /**
  * @file
  */
+#include <string>
 
-#include "cla3p/types.hpp"
+#include "cla3p/generic/matrix_meta.hpp"
+#include "cla3p/error/exceptions.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
 
-void square_check(int_t m, int_t n);
+template <typename T_Int>
+void square_check(const T_Int& m, const T_Int& n)
+{
+	if(m != n) {
+		std::string errMsg = "Matrix is not square: (" + std::to_string(m) + "x" + std::to_string(n) + ")";
+		throw err::NoConsistency(errMsg);
+	}
+}
 
-void property_compatibility_check(const Property& prop, int_t m, int_t n);
+template <typename T_Int>
+void square_check(const Meta2D<T_Int>& meta)
+{
+	square_check(meta.nrows(), meta.ncols());
+}
 
-void similarity_dim_check(int_t n1, int_t n2);
+/*-------------------------------------------------*/
 
+template <typename T_Int>
+void property_compatibility_check(const Property& prop, const T_Int& m, const T_Int& n)
+{
+	if(!prop.isValid()) {
+		std::string errMsg = "Invalid property.";
+		throw err::NoConsistency(errMsg);
+	}
+
+	if(prop.isSquare()) {
+		square_check(m, n);
+	}
+}
+
+template <typename T_Int>
+void property_compatibility_check(const MatrixMeta<T_Int>& meta)
+{
+	property_compatibility_check(meta.prop(), meta.nrows(), meta.ncols());
+}
+
+/*-------------------------------------------------*/
+
+template <typename T_Int>
+void similarity_dim_check(const T_Int& n1, const T_Int& n2)
+{
+	if(n1 != n2) {
+		std::string errMsg = "Mismatching dimensions: (" + std::to_string(n1) + " vs " + std::to_string(n2) + ")";
+		throw err::NoConsistency(errMsg);
+	}
+}
+
+/*-------------------------------------------------*/
+
+template <typename T_Int>
 void similarity_check(
-		const Property& prop1, int_t nrows1, int_t ncols1, 
-		const Property& prop2, int_t nrows2, int_t ncols2);
+		const Property& prop1, const T_Int& nrows1, const T_Int& ncols1, 
+		const Property& prop2, const T_Int& nrows2, const T_Int& ncols2)
+{
+	similarity_dim_check(nrows1, nrows2);
+	similarity_dim_check(ncols1, ncols2);
 
+	if(prop1 != prop2) {
+		std::string errMsg = "Mismatching properties " + prop1.name() + " vs " + prop2.name() + ".";
+		throw err::NoConsistency(errMsg);
+	}
+}
+
+template <typename T_Int>
+void similarity_check(const MatrixMeta<T_Int>& meta1,
+					  const MatrixMeta<T_Int>& meta2)
+{
+	similarity_check(meta1.prop(), meta1.nrows(), meta1.ncols(),
+					 meta2.prop(), meta2.nrows(), meta2.ncols());
+}
 
 /*-------------------------------------------------*/
 } // namespace cla3p

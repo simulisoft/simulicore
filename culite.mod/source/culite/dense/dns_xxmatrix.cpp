@@ -421,14 +421,22 @@ template <typename T_Scalar>
 void XxMatrix<T_Scalar>::copyFromExisting(const XxMatrix<T_Scalar>& other)
 {
 	if(this != &other) {
-		::cla3p::similarity_check(prop(), nrows(), ncols(), other.prop(), other.nrows(), other.ncols());
+
+		::cla3p::similarity_check(prop(), 
+		                          nrows(), 
+								  ncols(), 
+								  other.prop(), 
+								  static_cast<int_t>(other.nrows()), 
+								  static_cast<int_t>(other.ncols()));
+
 		blk::dns::copy2D(other.prop().uplo(), 
-				             other.nrows(), 
-										 other.ncols(), 
-										 other.values(), 
-										 other.ld(), 
-										 this->values(), 
-										 ld());
+				         other.nrows(), 
+						 other.ncols(), 
+						 other.values(), 
+						 other.ld(), 
+						 this->values(), 
+						 ld());
+
 	} // do not apply on self
 }
 /*-------------------------------------------------*/
@@ -438,7 +446,13 @@ void XxMatrix<T_Scalar>::copyToHost(::cla3p::dns::XxMatrix<T_ScalarHost>& dest) 
 	if(!dest) {
 		dest = ::cla3p::dns::XxMatrix<T_ScalarHost>(nrows(), ncols(), prop());
 	}
-	::cla3p::similarity_check(prop(), nrows(), ncols(), dest.prop(), dest.nrows(), dest.ncols());
+	::cla3p::similarity_check(prop(), 
+	                          nrows(), 
+							  ncols(), 
+							  dest.prop(), 
+							  static_cast<int_t>(dest.nrows()), 
+							  static_cast<int_t>(dest.ncols()));
+
 	cublas::MatrixD2H<T_Scalar>(
 		nrows(),
 		ncols(),
@@ -454,7 +468,13 @@ void XxMatrix<T_Scalar>::copyFromHost(const ::cla3p::dns::XxMatrix<T_ScalarHost>
 	if(!(*this)) {
 		*this = XxMatrix<T_Scalar>(src.nrows(), src.ncols(), src.prop());
 	}
-	::cla3p::similarity_check(prop(), nrows(), ncols(), src.prop(), src.nrows(), src.ncols());
+	::cla3p::similarity_check(prop(), 
+	                          nrows(), 
+							  ncols(), 
+							  src.prop(), 
+							  static_cast<int_t>(src.nrows()), 
+							  static_cast<int_t>(src.ncols()));
+
 	cublas::MatrixH2D<T_Scalar>(
 		src.nrows(),
 		src.ncols(),

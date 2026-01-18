@@ -182,7 +182,7 @@ template <typename T_Scalar>
 void XiVector<T_Scalar>::copyFromExisting(const XiVector<T_Scalar>& other)
 {
 	if(this != &other) {
-		::cla3p::similarity_dim_check(size(), other.size());
+		::cla3p::similarity_dim_check(size(), static_cast<int_t>(other.size()));
 		blk::dns::copy1D(size(), other.values(), this->values());
 	} // do not apply on self
 }
@@ -201,7 +201,7 @@ void XiVector<T_Scalar>::copyToHost(::cla3p::dns::XiVector<T_ScalarHost>& dest) 
 	if(!dest) {
 		dest = ::cla3p::dns::XiVector<T_ScalarHost>(size());
 	}
-	::cla3p::similarity_dim_check(size(), dest.size());
+	::cla3p::similarity_dim_check(size(), static_cast<int_t>(dest.size()));
 	cublas::VectorD2H<T_Scalar>(size(), this->values(), dest.values());
 }
 /*-------------------------------------------------*/
@@ -211,7 +211,7 @@ void XiVector<T_Scalar>::copyFromHost(const ::cla3p::dns::XiVector<T_ScalarHost>
 	if(!(*this)) {
 		*this = XiVector<T_Scalar>(src.size());
 	}
-	::cla3p::similarity_dim_check(size(), src.size());
+	::cla3p::similarity_dim_check(size(), static_cast<int_t>(src.size()));
 	cublas::VectorH2D<T_Scalar>(size(), src.values(), this->values());
 }
 /*-------------------------------------------------*/
