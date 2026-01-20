@@ -15,6 +15,8 @@ install(FILES ${LICENSE_FILES} DESTINATION ${LICENSE_INSTALL})
 #-----------------------------------------------
 add_subdirectory(intel_mkl)
 add_subdirectory(armpl)
+add_subdirectory(nvidia_cuda)
+add_subdirectory(nvidia_cudss)
 
 #-----------------------------------------------
 # end
