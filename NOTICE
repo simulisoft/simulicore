@@ -28,6 +28,12 @@ This software utilizes the following third-party performance libraries:
 * Arm Performance Libraries
   https://developer.arm.com/Tools%20and%20Software/Arm%20Performance%20Libraries
 
+* NVIDIA CUDA Toolkit
+  https://developer.nvidia.com/cuda-toolkit
+
+* NVIDIA cuDSS (CUDA Direct Sparse Solver)
+  https://developer.nvidia.com/cudss
+
 
 ATTRIBUTIONS FOR ICON AND LOGO ARTWORK
 ---------------------------------------
