@@ -22,9 +22,9 @@
 // 3rd
 
 // cla3p
-#include "cla3p/dense.hpp"
-#include "cla3p/sparse.hpp"
-#include "cla3p/perms.hpp"
+#include "cla3p/sparse/coo_xxmatrix.hpp"
+#include "cla3p/perms/pxmatrix.hpp"
+
 #include "cla3p/bulk/dns.hpp"
 #include "cla3p/bulk/csc.hpp"
 #include "cla3p/bulk/csc_math.hpp"
@@ -50,7 +50,7 @@ XxMatrix<T_Int,T_Scalar>::XxMatrix()
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-XxMatrix<T_Int,T_Scalar>::XxMatrix(int_t nr, int_t nc, int_t nz, const Property& pr)
+XxMatrix<T_Int,T_Scalar>::XxMatrix(T_Int nr, T_Int nc, T_Int nz, const Property& pr)
 	: MatrixMeta<T_Int>(nr, nc, sanitizeProperty<T_Scalar>(pr)), XxContainer<T_Int,T_Scalar>(nc, nz)
 {
 	if(nr > 0 && nc > 0) {
@@ -61,7 +61,7 @@ XxMatrix<T_Int,T_Scalar>::XxMatrix(int_t nr, int_t nc, int_t nz, const Property&
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-XxMatrix<T_Int,T_Scalar>::XxMatrix(int_t nr, int_t nc, T_Int *cptr, T_Int *ridx, T_Scalar *vals, bool bind, const Property& pr)
+XxMatrix<T_Int,T_Scalar>::XxMatrix(T_Int nr, T_Int nc, T_Int *cptr, T_Int *ridx, T_Scalar *vals, bool bind, const Property& pr)
 	: MatrixMeta<T_Int>(nr, nc, sanitizeProperty<T_Scalar>(pr)), XxContainer<T_Int,T_Scalar>(cptr, ridx, vals, bind)
 {
 	if(nr > 0 && nc > 0) {
@@ -121,7 +121,7 @@ alias::VirtualScal_csc<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::operator-() con
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-int_t XxMatrix<T_Int,T_Scalar>::nnz() const
+T_Int XxMatrix<T_Int,T_Scalar>::nnz() const
 {
 	if(!this->empty()) {
 		return (this->colptr())[this->ncols()];
@@ -164,8 +164,8 @@ void XxMatrix<T_Int,T_Scalar>::copyFromExisting(const XxMatrix<T_Int,T_Scalar>& 
 		similarity_check(this->prop(), this->nrows(), this->ncols(), other.prop(), other.nrows(), other.ncols());
 		similarity_dim_check(nnz(), other.nnz());
 
-		int_t nc = other.ncols() + 1;
-		int_t nz = other.nnz();
+		T_Int nc = other.ncols() + 1;
+		T_Int nz = other.nnz();
 
 		// 
 		// TODO: perhaps use a copy for 1D arrays
@@ -358,7 +358,7 @@ dns::XxMatrix<T_Scalar> XxMatrix<T_Int,T_Scalar>::toDns() const
 {
 	dns::XxMatrix<T_Scalar> ret(this->nrows(), this->ncols(), this->prop());
 	ret = 0;
-	for(int_t j = 0; j < this->ncols(); j++) {
+	for(T_Int j = 0; j < this->ncols(); j++) {
 		for(T_Int irow = (this->colptr())[j]; irow < (this->colptr())[j+1]; irow++) {
 			ret((this->rowidx())[irow],j) = (this->values())[irow];
 		} // irow
@@ -368,7 +368,7 @@ dns::XxMatrix<T_Scalar> XxMatrix<T_Int,T_Scalar>::toDns() const
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::permuteLeftRight(const prm::PiMatrix& P, const prm::PiMatrix& Q) const
+XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::permuteLeftRight(const prm::PxMatrix<T_Int>& P, const prm::PxMatrix<T_Int>& Q) const
 {
 	perm_ge_op_consistency_check(this->prop().type(), this->nrows(), this->ncols(), P.size(), Q.size());
 
@@ -382,7 +382,7 @@ XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::permuteLeftRight(const prm::P
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::permuteLeft(const prm::PiMatrix& P) const
+XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::permuteLeft(const prm::PxMatrix<T_Int>& P) const
 {
 	perm_ge_op_consistency_check(this->prop().type(), this->nrows(), this->ncols(), P.size(), this->ncols());
 
@@ -396,7 +396,7 @@ XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::permuteLeft(const prm::PiMatr
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::permuteRight(const prm::PiMatrix& Q) const
+XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::permuteRight(const prm::PxMatrix<T_Int>& Q) const
 {
 	perm_ge_op_consistency_check(this->prop().type(), this->nrows(), this->ncols(), this->nrows(), Q.size());
 
@@ -410,7 +410,7 @@ XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::permuteRight(const prm::PiMat
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::permuteMirror(const prm::PiMatrix& P) const
+XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::permuteMirror(const prm::PxMatrix<T_Int>& P) const
 {
 	perm_op_consistency_check(this->nrows(), this->ncols(), P.size(), P.size());
 
@@ -424,7 +424,7 @@ XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::permuteMirror(const prm::PiMa
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::block(int_t ibgn, int_t jbgn, int_t ni, int_t nj) const
+XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::block(T_Int ibgn, T_Int jbgn, T_Int ni, T_Int nj) const
 {
 	Property pr = block_op_consistency_check(this->prop(), this->nrows(), this->ncols(), ibgn, jbgn, ni, nj);
 
@@ -432,11 +432,11 @@ XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::block(int_t ibgn, int_t jbgn,
 
 	T_Int *cptr = i_calloc_t<T_Int>(nj + 1);
 
-	int_t iend = ibgn + ni;
-	int_t jend = jbgn + nj;
+	T_Int iend = ibgn + ni;
+	T_Int jend = jbgn + nj;
 
-	for(int_t j = jbgn; j < jend; j++) {
-		int_t jlocal = j - jbgn;
+	for(T_Int j = jbgn; j < jend; j++) {
+		T_Int jlocal = j - jbgn;
 		for(T_Int irow = (this->colptr())[j]; irow < (this->colptr())[j+1]; irow++) {
 			T_Int i = (this->rowidx())[irow];
 			if(static_cast<T_Int>(ibgn) <= i && i < static_cast<T_Int>(iend)) {
@@ -456,8 +456,8 @@ XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::block(int_t ibgn, int_t jbgn,
 		ridx = i_malloc_t<T_Int>(nnz);
 		vals = i_malloc_t<T_Scalar>(nnz);
 
-		for(int_t j = jbgn; j < jend; j++) {
-			int_t jlocal = j - jbgn;
+		for(T_Int j = jbgn; j < jend; j++) {
+			T_Int jlocal = j - jbgn;
 			for(T_Int irow = (this->colptr())[j]; irow < (this->colptr())[j+1]; irow++) {
 				T_Int i = (this->rowidx())[irow];
 				T_Int ilocal = i - ibgn;
@@ -488,24 +488,24 @@ void XxMatrix<T_Int,T_Scalar>::checker() const
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::random(int_t nr, int_t nc, int_t nz, const Property& pr, T_RScalar lo, T_RScalar hi)
+XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::random(T_Int nr, T_Int nc, T_Int nz, const Property& pr, T_RScalar lo, T_RScalar hi)
 {
 	if(!nr || !nc)
 		return XxMatrix<T_Int,T_Scalar>();
 
 	coo::XxMatrix<T_Int,T_Scalar> Acoo(nr, nc, pr);
 
-	int_t offDiagNnz = nz;
+	T_Int offDiagNnz = nz;
 
 	/*
 	 * Fill diagonal if needed
 	 */
 	if(pr.isSymmetric() || pr.isHermitian() || pr.isTriangular() || (pr.isGeneral() && nr == nc)) {
 
-		int_t diagNnz = std::min(std::min(nr,nc),nz);
+		T_Int diagNnz = std::min(std::min(nr,nc),nz);
 		offDiagNnz = nz - diagNnz;
 
-		for(int_t j = 0; j < diagNnz; j++) {
+		for(T_Int j = 0; j < diagNnz; j++) {
 
 			T_Scalar Ajj = rand<T_Scalar>(lo,hi);
 
@@ -524,10 +524,10 @@ XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::random(int_t nr, int_t nc, in
 	 * Do not treat cases where i == j
 	 * Trivial cases like 1x1 Skew are insignificant
 	 */
-	for(int_t k = 0; k < offDiagNnz; k++) {
+	for(T_Int k = 0; k < offDiagNnz; k++) {
 
-		int_t iend = nr - 1;
-		int_t jend = nc - 1;
+		T_Int iend = nr - 1;
+		T_Int jend = nc - 1;
 
 		if(pr.isTriangular() && pr.isUpper() && nr > nc) iend = jend; 
 		if(pr.isTriangular() && pr.isLower() && nr < nc) jend = iend; 
@@ -554,7 +554,7 @@ XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::random(int_t nr, int_t nc, in
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-Guard<XxMatrix<T_Int,T_Scalar>> XxMatrix<T_Int,T_Scalar>::view(int_t nr, int_t nc, const T_Int *cptr, const T_Int *ridx, const T_Scalar *vals, const Property& pr)
+Guard<XxMatrix<T_Int,T_Scalar>> XxMatrix<T_Int,T_Scalar>::view(T_Int nr, T_Int nc, const T_Int *cptr, const T_Int *ridx, const T_Scalar *vals, const Property& pr)
 {
 	XxMatrix<T_Int,T_Scalar> tmp(nr, nc,
 			const_cast<T_Int   *>(cptr),

@@ -83,12 +83,12 @@ class XxMatrix : public MatrixMeta<T_Int>, public XxContainer<T_Int,T_Scalar> {
 		/**
 		 * @copydoc standard_csx_docs::dim_constructor()
 		 */
-		explicit XxMatrix(int_t nr, int_t nc, int_t nz, const Property& pr = Property::General());
+		explicit XxMatrix(T_Int nr, T_Int nc, T_Int nz, const Property& pr = Property::General());
 
 		/**
 		 * @copydoc standard_csc_docs::aux_constructor()
 		 */
-		explicit XxMatrix(int_t nr, int_t nc, T_Int *cptr, T_Int *ridx, T_Scalar *vals, bool bind, const Property& pr = Property::General());
+		explicit XxMatrix(T_Int nr, T_Int nc, T_Int *cptr, T_Int *ridx, T_Scalar *vals, bool bind, const Property& pr = Property::General());
 
 		/**
 		 * @copydoc standard_docs::copy_constructor()
@@ -137,7 +137,7 @@ class XxMatrix : public MatrixMeta<T_Int>, public XxContainer<T_Int,T_Scalar> {
 		/**
 		 * @copydoc standard_docs::nnz()
 		 */
-		int_t nnz() const;
+		T_Int nnz() const;
 
 		/** @} */
 
@@ -239,27 +239,27 @@ class XxMatrix : public MatrixMeta<T_Int>, public XxContainer<T_Int,T_Scalar> {
 		/**
 		 * @copydoc standard_matrix_docs::permute_leftright()
 		 */
-		XxMatrix<T_Int,T_Scalar> permuteLeftRight(const prm::PxMatrix<int_t>& P, const prm::PxMatrix<int_t>& Q) const;
+		XxMatrix<T_Int,T_Scalar> permuteLeftRight(const prm::PxMatrix<T_Int>& P, const prm::PxMatrix<T_Int>& Q) const;
 
 		/**
 		 * @copydoc standard_matrix_docs::permute_left()
 		 */
-		XxMatrix<T_Int,T_Scalar> permuteLeft(const prm::PxMatrix<int_t>& P) const;
+		XxMatrix<T_Int,T_Scalar> permuteLeft(const prm::PxMatrix<T_Int>& P) const;
 
 		/**
 		 * @copydoc standard_matrix_docs::permute_right()
 		 */
-		XxMatrix<T_Int,T_Scalar> permuteRight(const prm::PxMatrix<int_t>& Q) const;
+		XxMatrix<T_Int,T_Scalar> permuteRight(const prm::PxMatrix<T_Int>& Q) const;
 
 		/**
 		 * @copydoc standard_matrix_docs::permute_mirror()
 		 */
-		XxMatrix<T_Int,T_Scalar> permuteMirror(const prm::PxMatrix<int_t>& P) const;
+		XxMatrix<T_Int,T_Scalar> permuteMirror(const prm::PxMatrix<T_Int>& P) const;
 
 		/**
 		 * @copydoc standard_matrix_docs::block()
 		 */
-		XxMatrix<T_Int,T_Scalar> block(int_t ibgn, int_t jbgn, int_t ni, int_t nj) const;
+		XxMatrix<T_Int,T_Scalar> block(T_Int ibgn, T_Int jbgn, T_Int ni, T_Int nj) const;
 
 		/** @} */
 
@@ -271,13 +271,13 @@ class XxMatrix : public MatrixMeta<T_Int>, public XxContainer<T_Int,T_Scalar> {
 		/**
 		 * @copydoc standard_csx_docs::random()
 		 */
-		static XxMatrix<T_Int,T_Scalar> random(int_t nr, int_t nc, int_t nz, const Property& pr = Property::General(),
+		static XxMatrix<T_Int,T_Scalar> random(T_Int nr, T_Int nc, T_Int nz, const Property& pr = Property::General(),
 				T_RScalar lo = T_RScalar(0), T_RScalar hi = T_RScalar(1));
 
 		/**
 		 * @copydoc standard_csc_docs::view()
 		 */
-		static Guard<XxMatrix<T_Int,T_Scalar>> view(int_t nr, int_t nc, const T_Int *cptr, const T_Int *ridx, const T_Scalar *vals, const Property& pr = Property::General());
+		static Guard<XxMatrix<T_Int,T_Scalar>> view(T_Int nr, T_Int nc, const T_Int *cptr, const T_Int *ridx, const T_Scalar *vals, const Property& pr = Property::General());
 
 		/** @} */
 

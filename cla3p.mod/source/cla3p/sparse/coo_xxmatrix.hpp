@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>
 
-#include "cla3p/types.hpp"
+#include "cla3p/types/enums.hpp"
 #include "cla3p/generic/matrix_meta.hpp"
 #include "cla3p/generic/tuple.hpp"
 #include "cla3p/sparse/csc_xxmatrix.hpp"
@@ -64,7 +64,7 @@ class XxMatrix : public MatrixMeta<T_Int> {
 		/**
 		 * @copydoc standard_coo_docs::dim_constructor()
 		 */
-		explicit XxMatrix(int_t nr, int_t nc, const Property& pr = Property::General());
+		explicit XxMatrix(T_Int nr, T_Int nc, const Property& pr = Property::General());
 
 		/**
 		 * @copydoc standard_docs::copy_constructor()
@@ -108,7 +108,7 @@ class XxMatrix : public MatrixMeta<T_Int> {
 		/**
 		 * @copydoc standard_docs::nnz()
 		 */
-		int_t nnz() const;
+		T_Int nnz() const;
 
 		/** @} */
 
@@ -125,7 +125,7 @@ class XxMatrix : public MatrixMeta<T_Int> {
 		/**
 		 * @copydoc standard_coo_docs::reserve()
 		 */
-		void reserve(int_t nz);
+		void reserve(T_Int nz);
 
 		/**
 		 * @copydoc standard_coo_docs::insert_tup()

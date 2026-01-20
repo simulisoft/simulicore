@@ -23,11 +23,11 @@
 // 3rd
 
 // cla3p
-#include "cla3p/error.hpp"
-#include "cla3p/sparse.hpp"
-#include "cla3p/bulk/csc.hpp"
+#include "cla3p/sparse/csc_xxmatrix.hpp"
+
 #include "cla3p/support/imalloc.hpp"
 #include "cla3p/support/utils.hpp"
+#include "cla3p/bulk/csc.hpp"
 
 #include "cla3p/checks/basic_checks.hpp"
 #include "cla3p/checks/coo_checks.hpp"
@@ -42,7 +42,7 @@ XxMatrix<T_Int,T_Scalar>::XxMatrix()
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-XxMatrix<T_Int,T_Scalar>::XxMatrix(int_t nr, int_t nc, const Property& pr)
+XxMatrix<T_Int,T_Scalar>::XxMatrix(T_Int nr, T_Int nc, const Property& pr)
 	: MatrixMeta<T_Int>(nr, nc, sanitizeProperty<T_Scalar>(pr))
 {
 	if(nr > 0 && nc > 0) {
@@ -66,9 +66,9 @@ void XxMatrix<T_Int,T_Scalar>::clear()
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-int_t XxMatrix<T_Int,T_Scalar>::nnz() const
+T_Int XxMatrix<T_Int,T_Scalar>::nnz() const
 {
-	return static_cast<int_t>(tupleVec().size());
+	return static_cast<T_Int>(tupleVec().size());
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
@@ -84,7 +84,7 @@ const typename XxMatrix<T_Int,T_Scalar>::TupleVec& XxMatrix<T_Int,T_Scalar>::tup
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-void XxMatrix<T_Int,T_Scalar>::reserve(int_t nz)
+void XxMatrix<T_Int,T_Scalar>::reserve(T_Int nz)
 {
 	tupleVec().reserve(nz);
 }
@@ -136,7 +136,7 @@ void XxMatrix<T_Int,T_Scalar>::toStream(std::ostream& os, std::streamsize prec) 
 
 	listPrinter.streamHeader();
 
-	for(int_t cnt = 0; cnt < nnz(); cnt++) {
+	for(T_Int cnt = 0; cnt < nnz(); cnt++) {
 			T_Int    i = tupleVec()[cnt].row();
 			T_Int    j = tupleVec()[cnt].col();
 			T_Scalar v = tupleVec()[cnt].val();
