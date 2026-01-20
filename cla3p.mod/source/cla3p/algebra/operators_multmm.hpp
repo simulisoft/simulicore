@@ -24,33 +24,9 @@
 #include "cla3p/dense/dns_xxvector.hpp"
 #include "cla3p/dense/dns_xxmatrix.hpp"
 #include "cla3p/sparse/csc_xxmatrix.hpp"
+
 #include "cla3p/virtuals/virtual_product.hpp"
 
-/*-------------------------------------------------*/
-
-namespace cla3p { 
-namespace alias { 
-
-template <typename T_Scalar>
-using VirtualProduct_dnsmm = VirtualProduct<
-	dns::XxMatrix<T_Scalar>,
-	VirtualObject<dns::XxMatrix<T_Scalar>>,
-	VirtualObject<dns::XxMatrix<T_Scalar>>>;
-
-template <typename T_Int, typename T_Scalar>
-using VirtualProduct_cscmm = VirtualProduct<
-	dns::XxMatrix<T_Scalar>,
-	VirtualObject<csc::XxMatrix<T_Int,T_Scalar>>,
-	VirtualObject<dns::XxMatrix<T_Scalar>>>;
-
-template <typename T_Int, typename T_Scalar>
-using VirtualProduct_spmm = VirtualProduct<
-	csc::XxMatrix<T_Int,T_Scalar>,
-	VirtualObject<csc::XxMatrix<T_Int,T_Scalar>>,
-	VirtualObject<csc::XxMatrix<T_Int,T_Scalar>>>;
-
-} // namespace alias
-} // namespace cla3p
 /*-------------------------------------------------*/
 
 /*
@@ -61,22 +37,22 @@ template <typename T_Scalar, typename T_Left>
 cla3p::VirtualProduct<
 	cla3p::dns::XxMatrix<T_Scalar>,
 	T_Left,
-	cla3p::VirtualObject<cla3p::dns::XxMatrix<T_Scalar>>> 
+	cla3p::alias::VirtualObj_dns<T_Scalar>>
 operator*(
 	const cla3p::VirtualExpression<typename T_Left::result_type, T_Left>& left, 
-	const cla3p::dns::XxMatrix<T_Scalar>& B) 
+	const cla3p::dns::XxMatrix<T_Scalar>& B)
 { 
 	return cla3p::VirtualProduct<
 		cla3p::dns::XxMatrix<T_Scalar>,
 		T_Left,
-		cla3p::VirtualObject<cla3p::dns::XxMatrix<T_Scalar>>>(left.self(), B.virtualize());
+		cla3p::alias::VirtualObj_dns<T_Scalar>>(left.self(), B.virtualize());
 }
 
 template <typename T_Int, typename T_Scalar, typename T_Left>
 cla3p::VirtualProduct<
 	cla3p::csc::XxMatrix<T_Int,T_Scalar>,
 	T_Left, 
-	cla3p::VirtualObject<cla3p::csc::XxMatrix<T_Int,T_Scalar>>>
+	cla3p::alias::VirtualObj_csc<T_Int,T_Scalar>>
 operator*(
 	const cla3p::VirtualExpression<typename T_Left::result_type, T_Left>& left, 
 	const cla3p::csc::XxMatrix<T_Int,T_Scalar>& B) 
@@ -84,7 +60,7 @@ operator*(
 	return cla3p::VirtualProduct<
 		cla3p::csc::XxMatrix<T_Int,T_Scalar>,
 		T_Left,
-		cla3p::VirtualObject<cla3p::csc::XxMatrix<T_Int,T_Scalar>>>(left.self(), B.virtualize());
+		cla3p::alias::VirtualObj_csc<T_Int,T_Scalar>>(left.self(), B.virtualize());
 }
 
 /**
@@ -96,12 +72,12 @@ operator*(
  * @return The virtual product representing the multiplication.
  */
 template <typename T_Scalar>
-cla3p::alias::VirtualProduct_dnsmm<T_Scalar>
+cla3p::alias::VirtualProd_dnsmm<T_Scalar>
 operator*(
 	const cla3p::dns::XxMatrix<T_Scalar>& A, 
 	const cla3p::dns::XxMatrix<T_Scalar>& B) 
 {
-	return cla3p::alias::VirtualProduct_dnsmm<T_Scalar>(A.virtualize(), B.virtualize());
+	return cla3p::alias::VirtualProd_dnsmm<T_Scalar>(A.virtualize(), B.virtualize());
 }
 
 /**
@@ -118,12 +94,12 @@ operator*(
  * @return The resulting dense matrix.
  */
 template <typename T_Int, typename T_Scalar>
-cla3p::alias::VirtualProduct_cscmm<T_Int,T_Scalar>
+cla3p::alias::VirtualProd_cscmm<T_Int,T_Scalar>
 operator*(
 	const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A, 
 	const cla3p::dns::XxMatrix<T_Scalar>& B) 
 {
-	return cla3p::alias::VirtualProduct_cscmm<T_Int,T_Scalar>(A.virtualize(), B.virtualize());
+	return cla3p::alias::VirtualProd_cscmm<T_Int,T_Scalar>(A.virtualize(), B.virtualize());
 }
 
 /**
@@ -135,12 +111,14 @@ operator*(
  * @return The resulting sparse matrix.
  */
 template <typename T_Int, typename T_Scalar>
-cla3p::alias::VirtualProduct_spmm<T_Int,T_Scalar>
+cla3p::alias::VirtualProd_cscspmm<T_Int,T_Scalar>
 operator*(
 	const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A, 
 	const cla3p::csc::XxMatrix<T_Int,T_Scalar>& B) 
 {
-	return cla3p::alias::VirtualProduct_spmm<T_Int,T_Scalar>(A.virtualize(), B.virtualize());
+	return cla3p::alias::VirtualProd_cscspmm<T_Int,T_Scalar>(A.virtualize(), B.virtualize());
 }
+
+/*-------------------------------------------------*/
 
 #endif // CLA3P_OPERATORS_MULTMM_HPP_

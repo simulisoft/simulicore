@@ -63,14 +63,14 @@ class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
 		// Move convertors intentionally left as non-explicit
 		//
 		template <typename T_Virtual>
-		explicit XxMatrix(const VirtualExpression<XxMatrix<T_Scalar>,T_Virtual>& v) { operator=(v); }
+		explicit XxMatrix(const alias::VirtualExpr_dns<T_Scalar,T_Virtual>& v) { operator=(v); }
 		template <typename T_Virtual>
-		XxMatrix(VirtualExpression<XxMatrix<T_Scalar>,T_Virtual>&& v) { operator=(std::move(v)); }
+		XxMatrix(alias::VirtualExpr_dns<T_Scalar,T_Virtual>&& v) { operator=(std::move(v)); }
 
 		template <typename T_Virtual>
-		XxMatrix<T_Scalar>& operator=(const VirtualExpression<XxMatrix<T_Scalar>,T_Virtual>& v) { evaluateFrom(v); return *this; }
+		XxMatrix<T_Scalar>& operator=(const alias::VirtualExpr_dns<T_Scalar,T_Virtual>& v) { evaluateFrom(v); return *this; }
 		template <typename T_Virtual>
-		XxMatrix<T_Scalar>& operator=(VirtualExpression<XxMatrix<T_Scalar>,T_Virtual>&& v) { evaluateFrom(v); return *this; }
+		XxMatrix<T_Scalar>& operator=(alias::VirtualExpr_dns<T_Scalar,T_Virtual>&& v) { evaluateFrom(v); return *this; }
 
 		explicit XxMatrix(const VirtualRowvec<T_Scalar>& rv) { operator=(rv); }
 		XxMatrix(VirtualRowvec<T_Scalar>&& rv) { operator=(std::move(rv)); }
@@ -78,7 +78,7 @@ class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
 		XxMatrix<T_Scalar>& operator=(const VirtualRowvec<T_Scalar>& rv) { evaluateFrom(rv); return *this; }
 		XxMatrix<T_Scalar>& operator=(VirtualRowvec<T_Scalar>&& rv) { evaluateFrom(rv); return *this;  }
 
-		VirtualObject<XxMatrix<T_Scalar>> virtualize() const { return VirtualObject<XxMatrix<T_Scalar>>(*this); }
+		alias::VirtualObj_dns<T_Scalar> virtualize() const { return alias::VirtualObj_dns<T_Scalar>(*this); }
 	
 		/**
 		 * @name Constructors
@@ -145,7 +145,7 @@ class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
 		/**
 		 * @copydoc standard_docs::virtual_negate_operator()
 		 */
-		VirtualScale<XxMatrix<T_Scalar>,VirtualObject<XxMatrix<T_Scalar>>> operator-() const;
+		alias::VirtualScal_dns<T_Scalar> operator-() const;
 
 		/**
 		 * @copydoc standard_matrix_docs::fill()
@@ -234,7 +234,7 @@ class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
 		/**
 		 * @copydoc standard_matrix_docs::virtual_conjugate()
 		 */
-		VirtualConjugate<XxMatrix<T_Scalar>> conjugate() const;
+		alias::VirtualConj_dns<T_Scalar> conjugate() const;
 
 		/**
 		 * @copydoc standard_matrix_docs::iconjugate()
@@ -400,7 +400,7 @@ class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
 
 	protected:
 		template <typename T_Virtual>
-		void evaluateFrom(const VirtualExpression<XxMatrix<T_Scalar>,T_Virtual>& v)
+		void evaluateFrom(const alias::VirtualExpr_dns<T_Scalar,T_Virtual>& v)
 		{
 			if(*this) {
 				v.evaluateOnExisting(*this);

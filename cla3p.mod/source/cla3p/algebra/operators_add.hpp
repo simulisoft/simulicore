@@ -24,52 +24,11 @@
 #include "cla3p/dense/dns_xxvector.hpp"
 #include "cla3p/dense/dns_xxmatrix.hpp"
 #include "cla3p/sparse/csc_xxmatrix.hpp"
+
 #include "cla3p/virtuals/virtual_expression.hpp"
 #include "cla3p/virtuals/virtual_object.hpp"
 #include "cla3p/virtuals/virtual_plus_minus.hpp"
 
-/*-------------------------------------------------*/
-namespace cla3p { 
-namespace alias { 
-
-template <typename T_Scalar>
-using VirtualPlus_vec = VirtualPlus<
-	dns::XxVector<T_Scalar>,
-	VirtualObject<dns::XxVector<T_Scalar>>,
-	VirtualObject<dns::XxVector<T_Scalar>>>;
-
-template <typename T_Scalar>
-using VirtualPlus_dns = VirtualPlus<
-	dns::XxMatrix<T_Scalar>,
-	VirtualObject<dns::XxMatrix<T_Scalar>>,
-	VirtualObject<dns::XxMatrix<T_Scalar>>>;
-
-template <typename T_Int, typename T_Scalar>
-using VirtualPlus_csc = VirtualPlus<
-	csc::XxMatrix<T_Int,T_Scalar>,
-	VirtualObject<csc::XxMatrix<T_Int,T_Scalar>>,
-	VirtualObject<csc::XxMatrix<T_Int,T_Scalar>>>;
-
-template <typename T_Scalar>
-using VirtualMinus_vec = VirtualMinus<
-	dns::XxVector<T_Scalar>,
-	VirtualObject<dns::XxVector<T_Scalar>>,
-	VirtualObject<dns::XxVector<T_Scalar>>>;
-
-template <typename T_Scalar>
-using VirtualMinus_dns = VirtualMinus<
-	dns::XxMatrix<T_Scalar>,
-	VirtualObject<dns::XxMatrix<T_Scalar>>,
-	VirtualObject<dns::XxMatrix<T_Scalar>>>;
-
-template <typename T_Int, typename T_Scalar>
-using VirtualMinus_csc = VirtualMinus<
-	csc::XxMatrix<T_Int,T_Scalar>,
-	VirtualObject<csc::XxMatrix<T_Int,T_Scalar>>,
-	VirtualObject<csc::XxMatrix<T_Int,T_Scalar>>>;
-
-} // namespace alias
-} // namespace cla3p
 /*-------------------------------------------------*/
 
 //
@@ -153,11 +112,11 @@ operator+(
 template <typename T_Scalar, typename T_Right>
 cla3p::VirtualPlus<
 	cla3p::dns::XxVector<T_Scalar>,
-	cla3p::VirtualObject<cla3p::dns::XxVector<T_Scalar>>,
+	cla3p::alias::VirtualObj_vec<T_Scalar>,
 	T_Right>
 operator+(
 		const cla3p::dns::XxVector<T_Scalar>& A,
-		const cla3p::VirtualExpression<cla3p::dns::XxVector<T_Scalar>, T_Right>& B)
+		const cla3p::alias::VirtualExpr_vec<T_Scalar,T_Right>& B)
 {
 	return (A.virtualize() + B);
 }
@@ -165,11 +124,11 @@ operator+(
 template <typename T_Scalar, typename T_Right>
 cla3p::VirtualPlus<
 	cla3p::dns::XxMatrix<T_Scalar>,
-	cla3p::VirtualObject<cla3p::dns::XxMatrix<T_Scalar>>,
+	cla3p::alias::VirtualObj_dns<T_Scalar>,
 	T_Right>
 operator+(
 		const cla3p::dns::XxMatrix<T_Scalar>& A,
-		const cla3p::VirtualExpression<cla3p::dns::XxMatrix<T_Scalar>, T_Right>& B)
+		const cla3p::alias::VirtualExpr_dns<T_Scalar,T_Right>& B)
 {
 	return (A.virtualize() + B);
 }
@@ -177,11 +136,11 @@ operator+(
 template <typename T_Int, typename T_Scalar, typename T_Right>
 cla3p::VirtualPlus<
 	cla3p::csc::XxMatrix<T_Int,T_Scalar>,
-	cla3p::VirtualObject<cla3p::csc::XxMatrix<T_Int,T_Scalar>>,
+	cla3p::alias::VirtualObj_csc<T_Int,T_Scalar>,
 	T_Right>
 operator+(
 		const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A,
-		const cla3p::VirtualExpression<cla3p::csc::XxMatrix<T_Int,T_Scalar>, T_Right>& B)
+		const cla3p::alias::VirtualExpr_csc<T_Int,T_Scalar,T_Right>& B)
 {
 	return (A.virtualize() + B);
 }
@@ -196,9 +155,9 @@ template <typename T_Scalar, typename T_Left>
 cla3p::VirtualPlus<
 	cla3p::dns::XxVector<T_Scalar>,
 	T_Left,
-	cla3p::VirtualObject<cla3p::dns::XxVector<T_Scalar>>>
+	cla3p::alias::VirtualObj_vec<T_Scalar>>
 operator+(
-		const cla3p::VirtualExpression<cla3p::dns::XxVector<T_Scalar>, T_Left>& A,
+		const cla3p::alias::VirtualExpr_vec<T_Scalar, T_Left>& A,
 		const cla3p::dns::XxVector<T_Scalar>& B)
 {
 	return (A + B.virtualize());
@@ -208,9 +167,9 @@ template <typename T_Scalar, typename T_Left>
 cla3p::VirtualPlus<
 	cla3p::dns::XxMatrix<T_Scalar>,
 	T_Left,
-	cla3p::VirtualObject<cla3p::dns::XxMatrix<T_Scalar>>>
+	cla3p::alias::VirtualObj_dns<T_Scalar>>
 operator+(
-		const cla3p::VirtualExpression<cla3p::dns::XxMatrix<T_Scalar>, T_Left>& A,
+		const cla3p::alias::VirtualExpr_dns<T_Scalar, T_Left>& A,
 		const cla3p::dns::XxMatrix<T_Scalar>& B)
 {
 	return (A + B.virtualize());
@@ -220,9 +179,9 @@ template <typename T_Int, typename T_Scalar, typename T_Left>
 cla3p::VirtualPlus<
 	cla3p::csc::XxMatrix<T_Int,T_Scalar>,
 	T_Left,
-	cla3p::VirtualObject<cla3p::csc::XxMatrix<T_Int,T_Scalar>>>
+	cla3p::alias::VirtualObj_csc<T_Int,T_Scalar>>
 operator+(
-		const cla3p::VirtualExpression<cla3p::csc::XxMatrix<T_Int,T_Scalar>, T_Left>& A,
+		const cla3p::alias::VirtualExpr_csc<T_Int,T_Scalar,T_Left>& A,
 		const cla3p::csc::XxMatrix<T_Int,T_Scalar>& B)
 {
 	return (A + B.virtualize());
@@ -313,11 +272,11 @@ operator-(
 template <typename T_Scalar, typename T_Right>
 cla3p::VirtualMinus<
 	cla3p::dns::XxVector<T_Scalar>,
-	cla3p::VirtualObject<cla3p::dns::XxVector<T_Scalar>>,
+	cla3p::alias::VirtualObj_vec<T_Scalar>,
 	T_Right>
 operator-(
 		const cla3p::dns::XxVector<T_Scalar>& A,
-		const cla3p::VirtualExpression<cla3p::dns::XxVector<T_Scalar>, T_Right>& B)
+		const cla3p::alias::VirtualExpr_vec<T_Scalar,T_Right>& B)
 {
 	return (A.virtualize() - B);
 }
@@ -325,11 +284,11 @@ operator-(
 template <typename T_Scalar, typename T_Right>
 cla3p::VirtualMinus<
 	cla3p::dns::XxMatrix<T_Scalar>,
-	cla3p::VirtualObject<cla3p::dns::XxMatrix<T_Scalar>>,
+	cla3p::alias::VirtualObj_dns<T_Scalar>,
 	T_Right>
 operator-(
 		const cla3p::dns::XxMatrix<T_Scalar>& A,
-		const cla3p::VirtualExpression<cla3p::dns::XxMatrix<T_Scalar>, T_Right>& B)
+		const cla3p::alias::VirtualExpr_dns<T_Scalar,T_Right>& B)
 {
 	return (A.virtualize() - B);
 }
@@ -337,11 +296,11 @@ operator-(
 template <typename T_Int, typename T_Scalar, typename T_Right>
 cla3p::VirtualMinus<
 	cla3p::csc::XxMatrix<T_Int,T_Scalar>,
-	cla3p::VirtualObject<cla3p::csc::XxMatrix<T_Int,T_Scalar>>,
+	cla3p::alias::VirtualObj_csc<T_Int,T_Scalar>,
 	T_Right>
 operator-(
 		const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A,
-		const cla3p::VirtualExpression<cla3p::csc::XxMatrix<T_Int,T_Scalar>, T_Right>& B)
+		const cla3p::alias::VirtualExpr_csc<T_Int,T_Scalar,T_Right>& B)
 {
 	return (A.virtualize() - B);
 }
@@ -356,9 +315,9 @@ template <typename T_Scalar, typename T_Left>
 cla3p::VirtualMinus<
 	cla3p::dns::XxVector<T_Scalar>,
 	T_Left,
-	cla3p::VirtualObject<cla3p::dns::XxVector<T_Scalar>>>
+	cla3p::alias::VirtualObj_vec<T_Scalar>>
 operator-(
-		const cla3p::VirtualExpression<cla3p::dns::XxVector<T_Scalar>, T_Left>& A,
+		const cla3p::alias::VirtualExpr_vec<T_Scalar,T_Left>& A,
 		const cla3p::dns::XxVector<T_Scalar>& B)
 {
 	return (A - B.virtualize());
@@ -368,9 +327,9 @@ template <typename T_Scalar, typename T_Left>
 cla3p::VirtualMinus<
 	cla3p::dns::XxMatrix<T_Scalar>,
 	T_Left,
-	cla3p::VirtualObject<cla3p::dns::XxMatrix<T_Scalar>>>
+	cla3p::alias::VirtualObj_dns<T_Scalar>>
 operator-(
-		const cla3p::VirtualExpression<cla3p::dns::XxMatrix<T_Scalar>, T_Left>& A,
+		const cla3p::alias::VirtualExpr_dns<T_Scalar,T_Left>& A,
 		const cla3p::dns::XxMatrix<T_Scalar>& B)
 {
 	return (A - B.virtualize());
@@ -380,9 +339,9 @@ template <typename T_Int, typename T_Scalar, typename T_Left>
 cla3p::VirtualMinus<
 	cla3p::csc::XxMatrix<T_Int,T_Scalar>,
 	T_Left,
-	cla3p::VirtualObject<cla3p::csc::XxMatrix<T_Int,T_Scalar>>>
+	cla3p::alias::VirtualObj_csc<T_Int,T_Scalar>>
 operator-(
-		const cla3p::VirtualExpression<cla3p::csc::XxMatrix<T_Int,T_Scalar>, T_Left>& A,
+		const cla3p::alias::VirtualExpr_csc<T_Int,T_Scalar,T_Left>& A,
 		const cla3p::csc::XxMatrix<T_Int,T_Scalar>& B)
 {
 	return (A - B.virtualize());

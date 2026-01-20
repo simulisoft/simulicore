@@ -75,6 +75,18 @@ class VirtualTranspose : public VirtualExpression<T_Result, VirtualTranspose<T_R
 };
 
 /*-------------------------------------------------*/
+
+namespace alias { 
+
+template <typename T_Scalar>
+using VirtualTrans_dns = VirtualTranspose<dns::XxMatrix<T_Scalar>>;
+
+template <typename T_Int, typename T_Scalar>
+using VirtualTrans_csc = VirtualTranspose<csc::XxMatrix<T_Int, T_Scalar>>;
+
+} // namespace alias
+
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 

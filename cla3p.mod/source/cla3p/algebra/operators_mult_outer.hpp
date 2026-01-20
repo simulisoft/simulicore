@@ -33,14 +33,14 @@
 template <typename T_Scalar>
 cla3p::VirtualOuter<
 	cla3p::dns::XxMatrix<T_Scalar>,
-	cla3p::VirtualObject<cla3p::dns::XxVector<T_Scalar>>>
+	cla3p::alias::VirtualObj_vec<T_Scalar>>
 operator*(
 		const cla3p::dns::XxVector<T_Scalar>& x,
 		const cla3p::VirtualRowvec<T_Scalar>& vy)
 {
 	return cla3p::VirtualOuter<
 		cla3p::dns::XxMatrix<T_Scalar>,
-		cla3p::VirtualObject<cla3p::dns::XxVector<T_Scalar>>>(x.virtualize(), vy);
+		cla3p::alias::VirtualObj_vec<T_Scalar>>(x.virtualize(), vy);
 }
 
 /*

@@ -29,9 +29,6 @@
 namespace cla3p { 
 /*-------------------------------------------------*/
 
-namespace dns { template <typename T_Scalar> class XxVector; }
-namespace dns { template <typename T_Scalar> class XxMatrix; }
-
 /**
  * @nosubgrouping
  * @brief The virtual outer product expression class.
@@ -42,10 +39,9 @@ class VirtualOuter : public VirtualExpression<T_Result, VirtualOuter<T_Result, T
 
 	private:
 		using T_Scalar = typename T_Result::value_type;
-		using T_Vector = dns::XxVector<T_Scalar>;
 
 	public:
-		explicit VirtualOuter(const VirtualExpression<T_Vector, T_Virtual>& left, const VirtualRowvec<T_Scalar>& right)
+		explicit VirtualOuter(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& left, const VirtualRowvec<T_Scalar>& right)
 		: m_left(left.self()), m_right(right) {}
 
 		~VirtualOuter() {}
@@ -63,7 +59,7 @@ class VirtualOuter : public VirtualExpression<T_Result, VirtualOuter<T_Result, T
 
 template <typename T_Scalar>
 void VirtualOuterEvaluateOnNewSpec(
-	const VirtualObject<dns::XxVector<T_Scalar>>& left, 
+	const alias::VirtualObj_vec<T_Scalar>& left, 
 	const VirtualRowvec<T_Scalar>& right, 
 	dns::XxMatrix<T_Scalar>& dest)
 {
@@ -81,7 +77,7 @@ void VirtualOuterEvaluateOnNewSpec(
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void VirtualOuterEvaluateOnExistingSpec(
-	const VirtualObject<dns::XxVector<T_Scalar>>& left, 
+	const alias::VirtualObj_vec<T_Scalar>& left, 
 	const VirtualRowvec<T_Scalar>& right, 
 	dns::XxMatrix<T_Scalar>& dest)
 {
@@ -99,7 +95,7 @@ void VirtualOuterEvaluateOnExistingSpec(
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void VirtualOuterAccumulateOnExistingSpec(
-	const VirtualObject<dns::XxVector<T_Scalar>>& left, 
+	const alias::VirtualObj_vec<T_Scalar>& left, 
 	const VirtualRowvec<T_Scalar>& right, 
 	dns::XxMatrix<T_Scalar>& dest,
 	T_Scalar coeff)

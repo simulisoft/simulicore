@@ -22,6 +22,7 @@
  */
 
 #include "cla3p/virtuals/virtual_expression.hpp"
+#include "cla3p/virtuals/virtual_object.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -53,6 +54,42 @@ class VirtualProduct : public VirtualExpression<T_Result, VirtualProduct<T_Resul
 		T_Left m_left;
 		T_Right m_right;
 };
+
+/*-------------------------------------------------*/
+
+namespace alias { 
+
+template <typename T_Scalar>
+using VirtualProd_dnsmv = VirtualProduct<
+	dns::XxVector<T_Scalar>,
+	alias::VirtualObj_dns<T_Scalar>,
+	alias::VirtualObj_vec<T_Scalar>>;
+
+template <typename T_Int, typename T_Scalar>
+using VirtualProd_cscmv = VirtualProduct<
+	dns::XxVector<T_Scalar>,
+	alias::VirtualObj_csc<T_Int,T_Scalar>,
+	alias::VirtualObj_vec<T_Scalar>>;
+
+template <typename T_Scalar>
+using VirtualProd_dnsmm = VirtualProduct<
+	dns::XxMatrix<T_Scalar>,
+	alias::VirtualObj_dns<T_Scalar>,
+	alias::VirtualObj_dns<T_Scalar>>;
+
+template <typename T_Int, typename T_Scalar>
+using VirtualProd_cscmm = VirtualProduct<
+	dns::XxMatrix<T_Scalar>,
+	alias::VirtualObj_csc<T_Int,T_Scalar>,
+	alias::VirtualObj_dns<T_Scalar>>;
+
+template <typename T_Int, typename T_Scalar>
+using VirtualProd_cscspmm = VirtualProduct<
+	csc::XxMatrix<T_Int,T_Scalar>,
+	alias::VirtualObj_csc<T_Int,T_Scalar>,
+	alias::VirtualObj_csc<T_Int,T_Scalar>>;
+
+} // namespace alias
 
 /*-------------------------------------------------*/
 } // namespace cla3p

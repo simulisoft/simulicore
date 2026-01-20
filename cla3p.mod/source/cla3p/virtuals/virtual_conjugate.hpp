@@ -21,8 +21,8 @@
  * @file
  */
 
-#include "cla3p/virtuals/virtual_expression.hpp"
 #include "cla3p/algebra/functional_update.hpp"
+#include "cla3p/virtuals/virtual_expression.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -66,6 +66,21 @@ class VirtualConjugate : public VirtualExpression<T_Result, VirtualConjugate<T_R
 	private:
 		const T_Result& m_src;
 };
+
+/*-------------------------------------------------*/
+
+namespace alias { 
+
+template <typename T_Scalar>
+using VirtualConj_vec = VirtualConjugate<dns::XxVector<T_Scalar>>;
+
+template <typename T_Scalar>
+using VirtualConj_dns = VirtualConjugate<dns::XxMatrix<T_Scalar>>;
+
+template <typename T_Int, typename T_Scalar>
+using VirtualConj_csc = VirtualConjugate<csc::XxMatrix<T_Int, T_Scalar>>;
+
+} // namespace alias
 
 /*-------------------------------------------------*/
 } // namespace cla3p

@@ -53,10 +53,10 @@ class CxVector : public XxVector<T_Scalar> {
     	CxVector<T_Scalar>& operator=(XiVector<T_Scalar>&& other);
 
 		template <typename T_Virtual>
-		CxVector(const VirtualExpression<XxVector<T_Scalar>,T_Virtual>& v) { operator=(v); }
+		CxVector(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v) { operator=(v); }
 
 		template <typename T_Virtual>
-		CxVector<T_Scalar>& operator=(const VirtualExpression<XxVector<T_Scalar>,T_Virtual>& v) { XxVector<T_Scalar>::evaluateFrom(v); return *this; }
+		CxVector<T_Scalar>& operator=(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v) { XxVector<T_Scalar>::evaluateFrom(v); return *this; }
 
 		/**
 		 * @name Constructors

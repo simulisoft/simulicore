@@ -44,10 +44,10 @@ T_Scalar operator*(
 /*
  * VirtualRowvec x VirtualExpression
  */
-template <typename T_Vector, typename T_Virtual>
-typename T_Vector::value_type operator*(
-		const cla3p::VirtualRowvec<typename T_Vector::value_type>& vx,
-		const cla3p::VirtualExpression<T_Vector, T_Virtual>& vy)
+template <typename T_Scalar, typename T_Virtual>
+T_Scalar operator*(
+		const cla3p::VirtualRowvec<T_Scalar>& vx,
+		const cla3p::alias::VirtualExpr_vec<T_Scalar, T_Virtual>& vy)
 {
 	return (vx * vy.evaluate());
 }

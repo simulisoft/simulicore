@@ -24,6 +24,14 @@
 #include <ostream>
 
 /*-------------------------------------------------*/
+
+namespace cla3p {
+namespace dns { template <typename T_Scalar> class XxVector; }
+namespace dns { template <typename T_Scalar> class XxMatrix; }
+namespace csc { template <typename T_Int, typename T_Scalar> class XxMatrix; }
+} // namespace cla3p
+
+/*-------------------------------------------------*/
 namespace cla3p { 
 /*-------------------------------------------------*/
 
@@ -78,6 +86,21 @@ class VirtualExpression {
 };
 
 /*-------------------------------------------------*/
+
+namespace alias { 
+
+template <typename T_Scalar, typename T_Virtual>
+using VirtualExpr_vec = VirtualExpression<dns::XxVector<T_Scalar>, T_Virtual>;
+
+template <typename T_Scalar, typename T_Virtual>
+using VirtualExpr_dns = VirtualExpression<dns::XxMatrix<T_Scalar>, T_Virtual>;
+
+template <typename T_Int, typename T_Scalar, typename T_Virtual>
+using VirtualExpr_csc = VirtualExpression<csc::XxMatrix<T_Int,T_Scalar>, T_Virtual>;
+
+} // namespace alias
+
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 
@@ -91,5 +114,7 @@ std::ostream& operator<<(std::ostream& os, const cla3p::VirtualExpression<T_Resu
 	os << v.evaluate();
 	return os;
 }
+
+/*-------------------------------------------------*/
 
 #endif // CLA3P_VIRTUAL_EXPRESSION_HPP_

@@ -45,7 +45,7 @@ operator*(
 template <typename T_Scalar, typename T_Right>
 cla3p::VirtualProduct<
 	typename T_Right::result_type,
-	cla3p::VirtualObject<cla3p::dns::XxMatrix<T_Scalar>>, 
+	cla3p::alias::VirtualObj_dns<T_Scalar>, 
 	T_Right>
 operator*(
 	const cla3p::dns::XxMatrix<T_Scalar>& A, 
@@ -53,14 +53,14 @@ operator*(
 { 
 	return cla3p::VirtualProduct<
 		typename T_Right::result_type,
-		cla3p::VirtualObject<cla3p::dns::XxMatrix<T_Scalar>>,
+		cla3p::alias::VirtualObj_dns<T_Scalar>,
 		T_Right>(A.virtualize(), right.self());
 }
 
 template <typename T_Int, typename T_Scalar, typename T_Right>
 cla3p::VirtualProduct<
 	typename T_Right::result_type,
-	cla3p::VirtualObject<cla3p::csc::XxMatrix<T_Int,T_Scalar>>, 
+	cla3p::alias::VirtualObj_csc<T_Int,T_Scalar>, 
 	T_Right>
 operator*(
 	const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A, 
@@ -68,8 +68,10 @@ operator*(
 { 
 	return cla3p::VirtualProduct<
 		typename T_Right::result_type,
-		cla3p::VirtualObject<cla3p::csc::XxMatrix<T_Int,T_Scalar>>,
+		cla3p::alias::VirtualObj_csc<T_Int,T_Scalar>,
 		T_Right>(A.virtualize(), right.self());
 }
+
+/*-------------------------------------------------*/
 
 #endif // CLA3P_OPERATORS_MULTXX_HPP_

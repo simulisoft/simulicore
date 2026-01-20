@@ -30,28 +30,6 @@
 
 /*-------------------------------------------------*/
 
-namespace cla3p { 
-namespace alias { 
-
-template <typename T_Scalar>
-using VirtualScale_vec = VirtualScale<
-	dns::XxVector<T_Scalar>,
-	VirtualObject<dns::XxVector<T_Scalar>>>;
-
-template <typename T_Scalar>
-using VirtualScale_dns = VirtualScale<
-	dns::XxMatrix<T_Scalar>,
-	VirtualObject<dns::XxMatrix<T_Scalar>>>;
-
-template <typename T_Int, typename T_Scalar>
-using VirtualScale_csc = VirtualScale<
-	csc::XxMatrix<T_Int,T_Scalar>,
-	VirtualObject<csc::XxMatrix<T_Int,T_Scalar>>>;
-
-} // namespace alias
-} // namespace cla3p
-/*-------------------------------------------------*/
-
 /*
  * Generic scale operator
  */
@@ -73,10 +51,10 @@ operator*(
  * @return The virtually scaled vector.
  */
 template <typename T_Scalar>
-cla3p::alias::VirtualScale_vec<T_Scalar>
+cla3p::alias::VirtualScal_vec<T_Scalar>
 operator*(T_Scalar val, const cla3p::dns::XxVector<T_Scalar>& x) 
 { 
-	return cla3p::alias::VirtualScale_vec<T_Scalar>(x.virtualize(), val);
+	return cla3p::alias::VirtualScal_vec<T_Scalar>(x.virtualize(), val);
 }
 
 /**
@@ -88,10 +66,10 @@ operator*(T_Scalar val, const cla3p::dns::XxVector<T_Scalar>& x)
  * @return The virtually scaled matrix.
  */
 template <typename T_Scalar>
-cla3p::alias::VirtualScale_dns<T_Scalar>
+cla3p::alias::VirtualScal_dns<T_Scalar>
 operator*(T_Scalar val, const cla3p::dns::XxMatrix<T_Scalar>& A) 
 { 
-	return cla3p::alias::VirtualScale_dns<T_Scalar>(A.virtualize(), val);
+	return cla3p::alias::VirtualScal_dns<T_Scalar>(A.virtualize(), val);
 }
 
 /**
@@ -103,10 +81,10 @@ operator*(T_Scalar val, const cla3p::dns::XxMatrix<T_Scalar>& A)
  * @return The virtually scaled matrix.
  */
 template <typename T_Int, typename T_Scalar>
-cla3p::alias::VirtualScale_csc<T_Int,T_Scalar>
+cla3p::alias::VirtualScal_csc<T_Int,T_Scalar>
 operator*(T_Scalar val, const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A) 
 { 
-	return cla3p::alias::VirtualScale_csc<T_Int,T_Scalar>(A.virtualize(), val);
+	return cla3p::alias::VirtualScal_csc<T_Int,T_Scalar>(A.virtualize(), val);
 }
 
 /*-------------------------------------------------*/

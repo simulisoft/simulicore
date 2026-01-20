@@ -72,6 +72,27 @@ class VirtualScale : public VirtualExpression<T_Result, VirtualScale<T_Result, T
 };
 
 /*-------------------------------------------------*/
+
+namespace alias { 
+
+template <typename T_Scalar>
+using VirtualScal_vec = VirtualScale<
+	dns::XxVector<T_Scalar>,
+	alias::VirtualObj_vec<T_Scalar>>;
+
+template <typename T_Scalar>
+using VirtualScal_dns = VirtualScale<
+	dns::XxMatrix<T_Scalar>,
+	alias::VirtualObj_dns<T_Scalar>>;
+
+template <typename T_Int, typename T_Scalar>
+using VirtualScal_csc = VirtualScale<
+	csc::XxMatrix<T_Int,T_Scalar>,
+	alias::VirtualObj_csc<T_Int,T_Scalar>>;
+
+} // namespace alias
+
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 

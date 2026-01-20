@@ -22,6 +22,7 @@
  */
 
 #include "cla3p/virtuals/virtual_expression.hpp"
+#include "cla3p/virtuals/virtual_object.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -155,6 +156,48 @@ void VirtualMinus<T_Result, T_Left, T_Right>::evaluateOnExisting(T_Result& dest)
 {
 	VirtualMinusEvaluateOnExistingSpec<T_Result, T_Left, T_Right>(m_left, m_right, dest); 
 }
+/*-------------------------------------------------*/
+
+namespace alias { 
+
+template <typename T_Scalar>
+using VirtualPlus_vec = VirtualPlus<
+	dns::XxVector<T_Scalar>,
+	VirtualObj_vec<T_Scalar>,
+	VirtualObj_vec<T_Scalar>>;
+
+template <typename T_Scalar>
+using VirtualPlus_dns = VirtualPlus<
+	dns::XxMatrix<T_Scalar>,
+	VirtualObj_dns<T_Scalar>,
+	VirtualObj_dns<T_Scalar>>;
+
+template <typename T_Int, typename T_Scalar>
+using VirtualPlus_csc = VirtualPlus<
+	csc::XxMatrix<T_Int,T_Scalar>,
+	VirtualObj_csc<T_Int,T_Scalar>,
+	VirtualObj_csc<T_Int,T_Scalar>>;
+
+template <typename T_Scalar>
+using VirtualMinus_vec = VirtualMinus<
+	dns::XxVector<T_Scalar>,
+	VirtualObj_vec<T_Scalar>,
+	VirtualObj_vec<T_Scalar>>;
+
+template <typename T_Scalar>
+using VirtualMinus_dns = VirtualMinus<
+	dns::XxMatrix<T_Scalar>,
+	VirtualObj_dns<T_Scalar>,
+	VirtualObj_dns<T_Scalar>>;
+
+template <typename T_Int, typename T_Scalar>
+using VirtualMinus_csc = VirtualMinus<
+	csc::XxMatrix<T_Int,T_Scalar>,
+	VirtualObj_csc<T_Int,T_Scalar>,
+	VirtualObj_csc<T_Int,T_Scalar>>;
+
+} // namespace alias
+
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

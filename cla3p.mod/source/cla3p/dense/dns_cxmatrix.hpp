@@ -53,14 +53,14 @@ class CxMatrix : public XxMatrix<T_Scalar> {
 		CxMatrix<T_Scalar>& operator=(XxMatrix<T_Scalar>&& other);
 
 		template <typename T_Virtual>
-		explicit CxMatrix(const VirtualExpression<XxMatrix<T_Scalar>,T_Virtual>& v) { operator=(v); }
+		explicit CxMatrix(const alias::VirtualExpr_dns<T_Scalar,T_Virtual>& v) { operator=(v); }
 		template <typename T_Virtual>
-		CxMatrix(VirtualExpression<XxMatrix<T_Scalar>,T_Virtual>&& v) { operator=(std::move(v)); }
+		CxMatrix(alias::VirtualExpr_dns<T_Scalar,T_Virtual>&& v) { operator=(std::move(v)); }
 
 		template <typename T_Virtual>
-		CxMatrix<T_Scalar>& operator=(const VirtualExpression<XxMatrix<T_Scalar>,T_Virtual>& v) { XxMatrix<T_Scalar>::evaluateFrom(v); return *this; }
+		CxMatrix<T_Scalar>& operator=(const alias::VirtualExpr_dns<T_Scalar,T_Virtual>& v) { XxMatrix<T_Scalar>::evaluateFrom(v); return *this; }
 		template <typename T_Virtual>
-		CxMatrix<T_Scalar>& operator=(VirtualExpression<XxMatrix<T_Scalar>,T_Virtual>&& v) { XxMatrix<T_Scalar>::evaluateFrom(v); return *this; }
+		CxMatrix<T_Scalar>& operator=(alias::VirtualExpr_dns<T_Scalar,T_Virtual>&& v) { XxMatrix<T_Scalar>::evaluateFrom(v); return *this; }
 
 		explicit CxMatrix(const VirtualRowvec<T_Scalar>& rv) { operator=(rv); }
 		CxMatrix(VirtualRowvec<T_Scalar>&& rv) { operator=(std::move(rv)); }

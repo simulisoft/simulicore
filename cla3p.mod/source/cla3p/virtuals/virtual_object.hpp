@@ -21,8 +21,8 @@
  * @file
  */
 
-#include "cla3p/virtuals/virtual_expression.hpp"
 #include "cla3p/algebra/functional_update.hpp"
+#include "cla3p/virtuals/virtual_expression.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -64,6 +64,21 @@ class VirtualObject : public VirtualExpression<T_Result, VirtualObject<T_Result>
 	private:
 		const T_Result& m_obj;
 };
+
+/*-------------------------------------------------*/
+
+namespace alias { 
+
+template <typename T_Scalar>
+using VirtualObj_vec = VirtualObject<dns::XxVector<T_Scalar>>;
+
+template <typename T_Scalar>
+using VirtualObj_dns = VirtualObject<dns::XxMatrix<T_Scalar>>;
+
+template <typename T_Int, typename T_Scalar>
+using VirtualObj_csc = VirtualObject<csc::XxMatrix<T_Int, T_Scalar>>;
+
+} // namespace alias
 
 /*-------------------------------------------------*/
 } // namespace cla3p

@@ -29,13 +29,16 @@
 #include "cla3p/sparse/csc_xxcontainer.hpp"
 #include "cla3p/generic/guard.hpp"
 
+#include "cla3p/virtuals/virtual_expression.hpp"
+#include "cla3p/virtuals/virtual_object.hpp"
+#include "cla3p/virtuals/virtual_scale.hpp"
+
+/*-------------------------------------------------*/
+
+namespace cla3p{ namespace prm { template <typename T_Int> class PxMatrix; } }
+
 /*-------------------------------------------------*/
 namespace cla3p { 
-/*-------------------------------------------------*/
-
-namespace prm { template <typename T_Int> class PxMatrix; }
-
-/*-------------------------------------------------*/
 namespace csc {
 /*-------------------------------------------------*/
 
@@ -56,16 +59,16 @@ class XxMatrix : public MatrixMeta<T_Int>, public XxContainer<T_Int,T_Scalar> {
 		// Move convertors intentionally left as non-explicit
 		//
 		template <typename T_Virtual>
-		explicit XxMatrix(const VirtualExpression<XxMatrix<T_Int,T_Scalar>,T_Virtual>& v) { operator=(v); }
+		explicit XxMatrix(const alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>& v) { operator=(v); }
 		template <typename T_Virtual>
-		XxMatrix(VirtualExpression<XxMatrix<T_Int,T_Scalar>,T_Virtual>&& v) { operator=(std::move(v)); }
+		XxMatrix(alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>&& v) { operator=(std::move(v)); }
 
 		template <typename T_Virtual>
-		XxMatrix<T_Int,T_Scalar>& operator=(const VirtualExpression<XxMatrix<T_Int,T_Scalar>,T_Virtual>& v) { evaluateFrom(v); return *this; }
+		XxMatrix<T_Int,T_Scalar>& operator=(const alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>& v) { evaluateFrom(v); return *this; }
 		template <typename T_Virtual>
-		XxMatrix<T_Int,T_Scalar>& operator=(VirtualExpression<XxMatrix<T_Int,T_Scalar>,T_Virtual>&& v) { evaluateFrom(v); return *this; }
+		XxMatrix<T_Int,T_Scalar>& operator=(alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>&& v) { evaluateFrom(v); return *this; }
 
-		VirtualObject<XxMatrix<T_Int,T_Scalar>> virtualize() const { return VirtualObject<XxMatrix<T_Int,T_Scalar>>(*this); }
+		alias::VirtualObj_csc<T_Int,T_Scalar> virtualize() const { return alias::VirtualObj_csc<T_Int,T_Scalar>(*this); }
 
 		/**
 		 * @name Constructors
@@ -122,7 +125,7 @@ class XxMatrix : public MatrixMeta<T_Int>, public XxContainer<T_Int,T_Scalar> {
 		/**
 		 * @copydoc standard_docs::virtual_negate_operator()
 		 */
-		VirtualScale<XxMatrix<T_Int,T_Scalar>,VirtualObject<XxMatrix<T_Int,T_Scalar>>> operator-() const;
+		alias::VirtualScal_csc<T_Int,T_Scalar> operator-() const;
 
 		/** @} */
 
@@ -196,7 +199,7 @@ class XxMatrix : public MatrixMeta<T_Int>, public XxContainer<T_Int,T_Scalar> {
 		/**
 		 * @copydoc standard_matrix_docs::virtual_conjugate()
 		 */
-		VirtualConjugate<XxMatrix<T_Int,T_Scalar>> conjugate() const;
+		alias::VirtualConj_csc<T_Int,T_Scalar> conjugate() const;
 
 		/**
 		 * @copydoc standard_matrix_docs::iconjugate()
@@ -285,7 +288,7 @@ class XxMatrix : public MatrixMeta<T_Int>, public XxContainer<T_Int,T_Scalar> {
 
 	protected:
 		template <typename T_Virtual>
-		void evaluateFrom(const VirtualExpression<XxMatrix<T_Int,T_Scalar>,T_Virtual>& v)
+		void evaluateFrom(const alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>& v)
 		{
 			if(*this) {
 				v.evaluateOnExisting(*this);

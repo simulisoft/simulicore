@@ -83,7 +83,7 @@ XxVector<T_Scalar>& XxVector<T_Scalar>::operator=(XiVector<T_Scalar>&& other)
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-VirtualScale<XxVector<T_Scalar>,VirtualObject<XxVector<T_Scalar>>> XxVector<T_Scalar>::operator-() const
+alias::VirtualScal_vec<T_Scalar> XxVector<T_Scalar>::operator-() const
 {	
 	return (T_Scalar(-1) * (*this));
 }
@@ -113,9 +113,9 @@ VirtualRowvec<T_Scalar> XxVector<T_Scalar>::ctranspose() const
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-VirtualConjugate<XxVector<T_Scalar>> XxVector<T_Scalar>::conjugate() const
+alias::VirtualConj_vec<T_Scalar> XxVector<T_Scalar>::conjugate() const
 {
-	return VirtualConjugate<XxVector<T_Scalar>>(*this);
+	return alias::VirtualConj_vec<T_Scalar>(*this);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>

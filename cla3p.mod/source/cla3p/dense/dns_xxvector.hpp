@@ -66,16 +66,16 @@ class XxVector : public XiVector<T_Scalar> {
 		XxVector<T_Scalar>& operator=(const XiVector<T_Scalar>& other);
 
 		template <typename T_Virtual>
-		explicit XxVector(const VirtualExpression<XxVector<T_Scalar>,T_Virtual>& v) { operator=(v); }
+		explicit XxVector(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v) { operator=(v); }
 		template <typename T_Virtual>
-		XxVector(VirtualExpression<XxVector<T_Scalar>,T_Virtual>&& v) { operator=(std::move(v)); }
+		XxVector(alias::VirtualExpr_vec<T_Scalar,T_Virtual>&& v) { operator=(std::move(v)); }
 
 		template <typename T_Virtual>
-		XxVector<T_Scalar>& operator=(const VirtualExpression<XxVector<T_Scalar>,T_Virtual>& v) { evaluateFrom(v); return *this; }
+		XxVector<T_Scalar>& operator=(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v) { evaluateFrom(v); return *this; }
 		template <typename T_Virtual>
-		XxVector<T_Scalar>& operator=(VirtualExpression<XxVector<T_Scalar>,T_Virtual>&& v) { evaluateFrom(v); return *this; }
+		XxVector<T_Scalar>& operator=(alias::VirtualExpr_vec<T_Scalar,T_Virtual>&& v) { evaluateFrom(v); return *this; }
 
-		VirtualObject<XxVector<T_Scalar>> virtualize() const { return VirtualObject<XxVector<T_Scalar>>(*this); }
+		alias::VirtualObj_vec<T_Scalar> virtualize() const { return alias::VirtualObj_vec<T_Scalar>(*this); }
 
 		/**
 		 * @name Constructors
@@ -137,7 +137,7 @@ class XxVector : public XiVector<T_Scalar> {
 		/**
 		 * @copydoc standard_docs::virtual_negate_operator()
 		 */
-		VirtualScale<XxVector<T_Scalar>,VirtualObject<XxVector<T_Scalar>>> operator-() const;
+		alias::VirtualScal_vec<T_Scalar> operator-() const;
 
 		/** @} */
 
@@ -164,7 +164,7 @@ class XxVector : public XiVector<T_Scalar> {
 		/**
 		 * @copydoc standard_vector_docs::virtual_conjugate()
 		 */
-		VirtualConjugate<XxVector<T_Scalar>> conjugate() const;
+		alias::VirtualConj_vec<T_Scalar> conjugate() const;
 
 		/**
 		 * @copydoc standard_vector_docs::iconjugate()
@@ -232,7 +232,7 @@ class XxVector : public XiVector<T_Scalar> {
 
 	protected:
 		template <typename T_Virtual>
-		void evaluateFrom(const VirtualExpression<XxVector<T_Scalar>,T_Virtual>& v)
+		void evaluateFrom(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v)
 		{
 			if(*this) {
 				v.evaluateOnExisting(*this);
