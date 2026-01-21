@@ -35,12 +35,11 @@
 #include "cla3p/virtuals/virtual_scale.hpp"
 
 /*-------------------------------------------------*/
+
+namespace cla3p { namespace prm { template <typename T_Int> class PxMatrix; } }
+
+/*-------------------------------------------------*/
 namespace cla3p { 
-/*-------------------------------------------------*/
-
-namespace prm { template <typename T_Int> class PxMatrix; }
-
-/*-------------------------------------------------*/
 namespace dns {
 /*-------------------------------------------------*/
 
@@ -439,5 +438,7 @@ std::ostream& operator<<(std::ostream& os, const cla3p::dns::XxMatrix<T_Scalar>&
 	mat.toStream(os);
 	return os;
 }
+
+/*-------------------------------------------------*/
 
 #endif // CLA3P_DNS_XXMATRIX_HPP_

@@ -34,12 +34,11 @@
 #include "cla3p/virtuals/virtual_scale.hpp"
 
 /*-------------------------------------------------*/
+
+namespace cla3p { namespace prm { template <typename T_Int> class PxMatrix; } }
+
+/*-------------------------------------------------*/
 namespace cla3p { 
-/*-------------------------------------------------*/
-
-namespace prm { template <typename T_Int> class PxMatrix; }
-
-/*-------------------------------------------------*/
 namespace dns {
 /*-------------------------------------------------*/
 
