@@ -239,7 +239,8 @@ class XxMatrix : public MatrixMeta<T_Int>, public XxContainer<T_Int,T_Scalar> {
 		/**
 		 * @copydoc standard_matrix_docs::permute_leftright()
 		 */
-		XxMatrix<T_Int,T_Scalar> permuteLeftRight(const prm::PxMatrix<T_Int>& P, const prm::PxMatrix<T_Int>& Q) const;
+		XxMatrix<T_Int,T_Scalar> permuteLeftRight(const prm::PxMatrix<T_Int>& P, 
+                                                  const prm::PxMatrix<T_Int>& Q) const;
 
 		/**
 		 * @copydoc standard_matrix_docs::permute_left()
@@ -271,13 +272,16 @@ class XxMatrix : public MatrixMeta<T_Int>, public XxContainer<T_Int,T_Scalar> {
 		/**
 		 * @copydoc standard_csx_docs::random()
 		 */
-		static XxMatrix<T_Int,T_Scalar> random(T_Int nr, T_Int nc, T_Int nz, const Property& pr = Property::General(),
-				T_RScalar lo = T_RScalar(0), T_RScalar hi = T_RScalar(1));
+		static XxMatrix<T_Int,T_Scalar> random(T_Int nr, T_Int nc, T_Int nz, 
+                                               const Property& pr = Property::General(),
+				                               T_RScalar lo = T_RScalar(0), T_RScalar hi = T_RScalar(1));
 
 		/**
 		 * @copydoc standard_csc_docs::view()
 		 */
-		static Guard<XxMatrix<T_Int,T_Scalar>> view(T_Int nr, T_Int nc, const T_Int *cptr, const T_Int *ridx, const T_Scalar *vals, const Property& pr = Property::General());
+		static Guard<XxMatrix<T_Int,T_Scalar>> view(T_Int nr, T_Int nc, 
+                                                    const T_Int *cptr, const T_Int *ridx, const T_Scalar *vals, 
+                                                    const Property& pr = Property::General());
 
 		/** @} */
 
@@ -314,5 +318,7 @@ std::ostream& operator<<(std::ostream& os, const cla3p::csc::XxMatrix<T_Int,T_Sc
 	mat.toStream(os);
 	return os;
 }
+
+/*-------------------------------------------------*/
 
 #endif // CLA3P_CSC_XXMATRIX_HPP_
