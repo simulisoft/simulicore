@@ -110,13 +110,17 @@ void VirtualRowvec<T_Scalar>::evaluateOnNew(dns::XxMatrix<T_Scalar>& dest) const
 template <typename T_Scalar>
 void VirtualRowvec<T_Scalar>::evaluateOnExisting(dns::XxMatrix<T_Scalar>& dest) const
 {
-  blas::copy(m_size, m_values, m_incv, dest.values(), dest.ld());
+    similarity_dim_check<int_t>(m_size, dest.ncols());
+    similarity_dim_check<int_t>(1, dest.nrows());
+    blas::copy(m_size, m_values, m_incv, dest.values(), dest.ld());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void VirtualRowvec<T_Scalar>::accumulateOnExisting(T_Scalar coeff, dns::XxMatrix<T_Scalar>& dest) const
 {
-  blas::axpy(m_size, coeff, m_values, m_incv, dest.values(), dest.ld());
+    similarity_dim_check<int_t>(m_size, dest.ncols());
+    similarity_dim_check<int_t>(1, dest.nrows());
+    blas::axpy(m_size, coeff, m_values, m_incv, dest.values(), dest.ld());
 }
 /*-------------------------------------------------*/
 template class VirtualRowvec<real_t>;
