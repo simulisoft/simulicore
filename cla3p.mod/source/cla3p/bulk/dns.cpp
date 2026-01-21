@@ -183,6 +183,7 @@ static void copy_naive(uplo_t uplo, int_t m, int_t n, const T_Scalar *a, int_t l
 		return;
 	} // coeff = 0
 
+    // TODO: consider a parallel for loop here
 	for(int_t j = 0; j < n; j++) {
 		RowRange ir = irange(uplo, m, j);
 		for(int_t i = ir.ibgn; i < ir.iend; i++) {
@@ -198,6 +199,41 @@ template <> void copy(uplo_t uplo, int_t m, int_t n, const real4_t    *a, int_t 
 template <> void copy(uplo_t uplo, int_t m, int_t n, const complex_t  *a, int_t lda, complex_t  *b, int_t ldb, complex_t  coeff) { copy_lapack(uplo, m, n, a, lda, b, ldb, coeff); }
 template <> void copy(uplo_t uplo, int_t m, int_t n, const complex8_t *a, int_t lda, complex8_t *b, int_t ldb, complex8_t coeff) { copy_lapack(uplo, m, n, a, lda, b, ldb, coeff); }
 /*-------------------------------------------------*/
+template <typename T_Scalar>
+static void copy_stride_impl(uplo_t uplo, int_t m, int_t n, 
+                             const T_Scalar *a, int_t lda, int_t inca, 
+                             T_Scalar *b, int_t ldb, int_t incb, 
+                             T_Scalar coeff)
+{
+	if(m <= 0 || n <= 0) return;
+
+    if(uplo == uplo_t::Full && lda == m && ldb == m) {
+
+        // TODO: overflow check for m*n
+        blas::copy(m * n, a, inca, b, incb);
+        blas::scal(m * n, coeff, b, incb);
+
+    } else {
+
+        // TODO: consider a parallel for loop here
+	    for(int_t j = 0; j < n; j++) {
+	    	RowRange ir = irange(uplo, m, j);
+            if(ir.ilen) {
+                const T_Scalar *aj = blk::dns::ptrmv(lda, a, ir.ibgn * inca, j);
+                T_Scalar *bj = blk::dns::ptrmv(ldb, b, ir.ibgn * incb, j);
+                blas::copy(ir.ilen, aj, inca, bj, incb);
+                blas::scal(ir.ilen, coeff, bj, incb);
+            } // ilen
+	    } // j
+
+    }
+}
+/*-------------------------------------------------*/
+template <> void copy_stride(uplo_t uplo, int_t m, int_t n, const real_t     *a, int_t lda, int_t inca, real_t     *b, int_t ldb, int_t incb, real_t     coeff) { copy_stride_impl(uplo, m, n, a, lda, inca, b, ldb, incb, coeff); }
+template <> void copy_stride(uplo_t uplo, int_t m, int_t n, const real4_t    *a, int_t lda, int_t inca, real4_t    *b, int_t ldb, int_t incb, real4_t    coeff) { copy_stride_impl(uplo, m, n, a, lda, inca, b, ldb, incb, coeff); }
+template <> void copy_stride(uplo_t uplo, int_t m, int_t n, const complex_t  *a, int_t lda, int_t inca, complex_t  *b, int_t ldb, int_t incb, complex_t  coeff) { copy_stride_impl(uplo, m, n, a, lda, inca, b, ldb, incb, coeff); }
+template <> void copy_stride(uplo_t uplo, int_t m, int_t n, const complex8_t *a, int_t lda, int_t inca, complex8_t *b, int_t ldb, int_t incb, complex8_t coeff) { copy_stride_impl(uplo, m, n, a, lda, inca, b, ldb, incb, coeff); }
+/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -205,12 +241,18 @@ static void get_real_no_mkl(uplo_t uplo, int_t m, int_t n, const T_Scalar *a, in
 {
 	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
+#if 0
 	for(int_t j = 0; j < n; j++) {
 		RowRange ir = irange(uplo, m, j);
 		if(ir.ilen) {
 			blas::copy(ir.ilen, reinterpret_cast<const T_RScalar*>(ptrmv(lda,a,ir.ibgn,j)), 2, ptrmv(ldb,b,ir.ibgn,j), 1);
 		} // ilen
 	} // j
+#else
+    copy_stride(uplo, m, n,
+                reinterpret_cast<const T_RScalar*>(a), 2 * lda, 2,
+                b, ldb, 1);
+#endif // 0
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -238,12 +280,18 @@ static void set_real_no_mkl(uplo_t uplo, int_t m, int_t n, const typename TypeTr
 {
 	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
+#if 0
 	for(int_t j = 0; j < n; j++) {
 		RowRange ir = irange(uplo, m, j);
 		if(ir.ilen) {
 			blas::copy(ir.ilen, ptrmv(lda,a,ir.ibgn,j), 1, reinterpret_cast<T_RScalar*>(ptrmv(ldb,b,ir.ibgn,j)), 2);
 		} // ilen
 	} // j
+#else
+    copy_stride(uplo, m, n,
+                a, lda, 1,
+                reinterpret_cast<T_RScalar*>(b), 2 * ldb, 2);
+#endif // 0
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -271,12 +319,18 @@ static void get_imag_no_mkl(uplo_t uplo, int_t m, int_t n, const T_Scalar *a, in
 {
 	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
+#if 0
 	for(int_t j = 0; j < n; j++) {
 		RowRange ir = irange(uplo, m, j);
 		if(ir.ilen) {
 			blas::copy(ir.ilen, reinterpret_cast<const T_RScalar*>(ptrmv(lda,a,ir.ibgn,j)) + 1, 2, ptrmv(ldb,b,ir.ibgn,j), 1);
 		} // ilen
 	} // j
+#else
+    copy_stride(uplo, m, n,
+                reinterpret_cast<const T_RScalar*>(a) + 1, 2 * lda, 2,
+                b, ldb, 1);
+#endif // 0
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -304,12 +358,18 @@ static void set_imag_no_mkl(uplo_t uplo, int_t m, int_t n, const typename TypeTr
 {
 	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
+#if 0
 	for(int_t j = 0; j < n; j++) {
 		RowRange ir = irange(uplo, m, j);
 		if(ir.ilen) {
 			blas::copy(ir.ilen, ptrmv(lda,a,ir.ibgn,j), 1, reinterpret_cast<T_RScalar*>(ptrmv(ldb,b,ir.ibgn,j)) + 1, 2);
 		} // ilen
 	} // j
+#else
+    copy_stride(uplo, m, n,
+                a, lda, 1,
+                reinterpret_cast<T_RScalar*>(b) + 1, 2 * ldb, 2);
+#endif // 0
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>

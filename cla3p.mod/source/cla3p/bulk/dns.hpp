@@ -91,6 +91,15 @@ void copy(uplo_t uplo, int_t m, int_t n, const T_Scalar *a, int_t lda,
 		T_Scalar *b, int_t ldb, T_Scalar coeff = T_Scalar(1));
 
 //
+// Copy with internal strides
+//
+template <typename T_Scalar>
+void copy_stride(uplo_t uplo, int_t m, int_t n, 
+                 const T_Scalar *a, int_t lda, int_t inca,
+		         T_Scalar *b, int_t ldb, int_t incb, 
+                 T_Scalar coeff = T_Scalar(1));
+
+//
 // Get real part from complex
 //
 template <typename T_Scalar>
