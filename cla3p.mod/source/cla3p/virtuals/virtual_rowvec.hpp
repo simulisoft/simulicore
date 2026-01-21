@@ -60,7 +60,7 @@ class VirtualRowvec {
 
 	private:
 		int_t m_size;
-		const T_Scalar *m_vals;
+		const T_Scalar *m_values;
 		int_t m_incv;
 		bool m_conj;
 };
