@@ -23,7 +23,7 @@
 
  #include <iostream>
  #include <cuComplex.h>
- #include "culite/types/cuda_macros.hpp"
+ #include "culite/types/cuda_api.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {

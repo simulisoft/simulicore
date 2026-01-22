@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef CULITE_CUDA_MACROS_HPP_
-#define CULITE_CUDA_MACROS_HPP_
+#ifndef CULITE_CUDA_API_HPP_
+#define CULITE_CUDA_API_HPP_
 
 #if defined(__CUDACC__)
     #define CULITE_HOST __host__
@@ -25,4 +25,4 @@
     #define CULITE_DEVICE
 #endif
 
-#endif // CULITE_CUDA_MACROS_HPP_
+#endif // CULITE_CUDA_API_HPP_

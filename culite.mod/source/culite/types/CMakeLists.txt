@@ -8,7 +8,7 @@ set(CULITE_SRC ${CULITE_SRC}
 	PARENT_SCOPE)
 
 set(CULITE_TYPES_HPP 
-	cuda_macros.hpp
+	cuda_api.hpp
 	traits.hpp
 	integer.hpp
 	complex.hpp

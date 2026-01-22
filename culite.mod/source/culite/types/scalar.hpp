@@ -25,7 +25,7 @@
 #include <library_types.h> // cuda
 #include <cla3p/types/scalar.hpp>
 
-#include "culite/types/cuda_macros.hpp"
+#include "culite/types/cuda_api.hpp"
 #include "culite/types/traits.hpp"
 #include "culite/types/complex.hpp"
 
