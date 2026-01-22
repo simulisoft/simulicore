@@ -13,8 +13,8 @@ int main()
 	 * Allocate space for x & y on host
 	 */
 
-	cla3p::real_t *x_host = cla3p::i_calloc<cla3p::real_t>(5); 
-	cla3p::real_t *y_host = cla3p::i_calloc<cla3p::real_t>(3); 
+	cla3p::real_t *x_host = cla3p::i_calloc_t<cla3p::real_t>(5); 
+	cla3p::real_t *y_host = cla3p::i_calloc_t<cla3p::real_t>(3); 
 
 	for(cla3p::uint_t i = 0; i < 5; i++)
 		x_host[i] = i;
