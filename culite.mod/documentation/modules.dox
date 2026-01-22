@@ -89,6 +89,15 @@
  *   
  *   Classes:
  *   - @ref culite::CuSolverHandler : Main handler class for cuSOLVER operations
+ * 
+ *   @defgroup culite_module_index_cusparse_utils cuSPARSE Utilities
+ *   @brief cuSPARSE library wrapper and handle management.
+ *   @details Provides wrapper functionality for cuSPARSE handles used in sparse matrix computations
+ *   such as sparse matrix-vector multiplication, sparse matrix-matrix multiplication, and format
+ *   conversions on GPU.
+ *   
+ *   Classes:
+ *   - @ref culite::CuSparseHandler : Main handler class for cuSPARSE operations
  * @}
  * 
  * @defgroup culite_module_index_stream_operators Stream Operators

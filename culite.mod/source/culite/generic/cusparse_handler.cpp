@@ -15,48 +15,28 @@
  */
 
 // this file inc
-#include "culite/generic/cusolver_handler.hpp"
+#include "culite/generic/cusparse_handler.hpp"
 
 // system
 
 // 3rd
 
 // culite
+#include "culite/error/cuda.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
 /*-------------------------------------------------*/
-CuSolverHandler::CuSolverHandler()
+CuSparseHandler::CuSparseHandler()
 {
-    cusolverStatus_t cusolverStatus = cusolverDnCreate(&m_handle);
-    err::check_cusolver(cusolverStatus);
-    defaults();
+    cusparseStatus_t cusparseStatus = cusparseCreate(&m_handle);
+    err::check_cusparse(cusparseStatus);
 }
 /*-------------------------------------------------*/
-CuSolverHandler::~CuSolverHandler()
+CuSparseHandler::~CuSparseHandler()
 {
-    clear();
-    cusolverStatus_t cusolverStatus = cusolverDnDestroy(m_handle);
-    err::check_cusolver(cusolverStatus);
-}
-/*-------------------------------------------------*/
-void CuSolverHandler::defaults()
-{
-    m_workspaceInBytesOnDevice = 0;
-    m_workspaceInBytesOnHost = 0;
-    m_factorCudaType = cudaDataType::CUDA_R_32I; // set to an unsupported type
-    m_factorDim = 0;
-}
-/*-------------------------------------------------*/
-void CuSolverHandler::clear()
-{
-    ipiv().clear();
-    info().clear();
-    factorWork().clear();
-    deviceWork().clear();
-    hostWork().clear();
-
-    defaults();
+    cusparseStatus_t cusparseStatus = cusparseDestroy(m_handle);
+    err::check_cusparse(cusparseStatus);
 }
 /*-------------------------------------------------*/
 } // namespace culite

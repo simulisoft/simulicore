@@ -3,10 +3,12 @@
 #-----------------------------------------------
 set(CULITE_SRC ${CULITE_SRC}
 	proxies/cublas_proxy.cpp
+    proxies/cusparse_proxy.cpp
 	PARENT_SCOPE)
 
 set(CULITE_PROXY_HPP 
 	cublas_proxy.hpp
+	cusparse_proxy.hpp
 	)
 
 #-----------------------------------------------

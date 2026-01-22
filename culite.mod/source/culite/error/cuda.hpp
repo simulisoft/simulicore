@@ -24,6 +24,7 @@
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
 #include <cusolverDn.h>
+#include <cusparse.h>
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -33,6 +34,7 @@ namespace err {
 void check_cuda(cudaError_t error);
 void check_cublas(cublasStatus_t status);
 void check_cusolver(cusolverStatus_t status);
+void check_cusparse(cusparseStatus_t status);
 
 /*-------------------------------------------------*/
 } // namespace err

@@ -94,6 +94,17 @@ void check_cusolver(cusolverStatus_t status)
 	}
 }
 /*-------------------------------------------------*/
+void check_cusparse(cusparseStatus_t status)
+{
+    if (status != CUSPARSE_STATUS_SUCCESS) {
+        std::string error_code = std::to_string(status);
+        std::string error_name = cusparseGetErrorName(status);
+        std::string error_details = cusparseGetErrorString(status);
+        std::string error_msg = "[" + error_code + "]: " + error_name + " - " + error_details;
+        throw err::CudaException(error_msg);
+    }
+}
+/*-------------------------------------------------*/
 } // namespace err
 } // namespace culite
 /*-------------------------------------------------*/
