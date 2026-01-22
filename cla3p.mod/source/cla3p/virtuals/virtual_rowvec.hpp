@@ -30,23 +30,43 @@ namespace cla3p {
 namespace dns { template <typename T_Scalar> class XxVector; }
 namespace dns { template <typename T_Scalar> class XxMatrix; }
 
+/*-------------------------------------------------*/
+
+template <typename T_Int, typename T_Scalar>
+class VirtualRowvecBase {
+
+    public:
+    	VirtualRowvecBase(T_Int n, const T_Scalar *vals, T_Int incv, bool conj)
+        : m_size(n), m_values(vals), m_incv(incv), m_conj(conj) {}
+		~VirtualRowvecBase() {}
+
+    protected:
+        T_Int size() const { return m_size; }
+        const T_Scalar* values() const { return m_values; }
+        T_Int incv() const { return m_incv; }
+        bool isConj() const { return m_conj; }
+
+    private:
+        T_Int m_size;
+        const T_Scalar *m_values;
+        T_Int m_incv;
+        bool m_conj;
+};
+
+/*-------------------------------------------------*/
+
 /**
  * @nosubgrouping
  * @brief The virtual row-vector class.
  */
 template <typename T_Scalar>
-class VirtualRowvec {
+class VirtualRowvec : public VirtualRowvecBase<int_t, T_Scalar> {
 
 	public:
 		VirtualRowvec(int_t n, const T_Scalar *vals, int_t incv, bool conj); 
 		~VirtualRowvec();
 
-		/* TODO: Consider enabling this later
-		 * @brief Calculates the inner-product.
-		 * @details Calculates the inner-product of `this` virtual row-vector and a given vector.
-		 * @param[in] vec The vector to compute the inner-product with.
-		 * @returns The inner-product <*this, vec>.
-		 */
+        // TODO: doxy comments if needed
 		T_Scalar evaluateInner(const dns::XxVector<T_Scalar>& vec) const;
 
 		// TODO: doxy comments if needed
@@ -54,15 +74,10 @@ class VirtualRowvec {
 		void evaluateOuterOnExisting(T_Scalar coeff, const dns::XxVector<T_Scalar>& vec, dns::XxMatrix<T_Scalar>& dest) const;
 		void accumulateOuterOnExisting(T_Scalar coeff, const dns::XxVector<T_Scalar>& vec, dns::XxMatrix<T_Scalar>& dest) const;
 
+        // TODO: doxy comments if needed
 		void evaluateOnNew(dns::XxMatrix<T_Scalar>& dest) const;
 		void evaluateOnExisting(dns::XxMatrix<T_Scalar>& dest) const;
 		void accumulateOnExisting(T_Scalar coeff, dns::XxMatrix<T_Scalar>& dest) const;
-
-	private:
-		int_t m_size;
-		const T_Scalar *m_values;
-		int_t m_incv;
-		bool m_conj;
 };
 
 /*-------------------------------------------------*/

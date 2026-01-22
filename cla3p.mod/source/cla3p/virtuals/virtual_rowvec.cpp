@@ -34,7 +34,7 @@ namespace cla3p {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 VirtualRowvec<T_Scalar>::VirtualRowvec(int_t n, const T_Scalar *vals, int_t incv, bool conj)
-    : m_size(n), m_values(vals), m_incv(incv), m_conj(conj)
+    : VirtualRowvecBase<int_t,T_Scalar>(n, vals, incv, conj)
 {
 }
 /*-------------------------------------------------*/
@@ -46,13 +46,13 @@ VirtualRowvec<T_Scalar>::~VirtualRowvec()
 template <typename T_Scalar>
 T_Scalar VirtualRowvec<T_Scalar>::evaluateInner(const dns::XxVector<T_Scalar>& vec) const
 {
-  similarity_dim_check(m_size, vec.size());
+  similarity_dim_check(this->size(), vec.size());
 
   T_Scalar ret = 0;
-  if(m_conj) {
-    ret = blas::dotc(m_size, m_values, m_incv, vec.values(), 1);
+  if(this->isConj()) {
+    ret = blas::dotc(this->size(), this->values(), this->incv(), vec.values(), 1);
   } else {
-    ret = blas::dot(m_size, m_values, m_incv, vec.values(), 1);
+    ret = blas::dot(this->size(), this->values(), this->incv(), vec.values(), 1);
   }
 
   return ret;
@@ -62,7 +62,7 @@ template <typename T_Scalar>
 void VirtualRowvec<T_Scalar>::evaluateOuterOnNew(T_Scalar coeff, const dns::XxVector<T_Scalar>& vec, dns::XxMatrix<T_Scalar>& dest) const
 {
 	dest.clear();
-	dest = dns::XxMatrix<T_Scalar>(m_size, vec.size());
+	dest = dns::XxMatrix<T_Scalar>(this->size(), vec.size());
 	evaluateOuterOnExisting(coeff, vec, dest);
 }
 /*-------------------------------------------------*/
@@ -76,51 +76,50 @@ void VirtualRowvec<T_Scalar>::evaluateOuterOnExisting(T_Scalar coeff, const dns:
 template <typename T_Scalar>
 void VirtualRowvec<T_Scalar>::accumulateOuterOnExisting(T_Scalar coeff, const dns::XxVector<T_Scalar>& vec, dns::XxMatrix<T_Scalar>& dest) const
 {
-  outer_product_consistency_check(m_conj, dest.nrows(), dest.ncols(), dest.prop(), vec.size(), m_size);
+  outer_product_consistency_check(this->isConj(), dest.nrows(), dest.ncols(), dest.prop(), vec.size(), this->size());
   hermitian_coeff_check(dest.prop(), coeff);
 
   T_Scalar beta = T_Scalar(1);
 
   if(dest.prop().isGeneral()) {
 
-    if(m_conj) {
-      blas::gerc(dest.nrows(), dest.ncols(), coeff, vec.values(), 1, m_values, m_incv, dest.values(), dest.ld());
+    if(this->isConj()) {
+      blas::gerc(dest.nrows(), dest.ncols(), coeff, vec.values(), 1, this->values(), this->incv(), dest.values(), dest.ld());
     } else {
-      blas::ger(dest.nrows(), dest.ncols(), coeff, vec.values(), 1, m_values, m_incv, dest.values(), dest.ld());
+      blas::ger(dest.nrows(), dest.ncols(), coeff, vec.values(), 1, this->values(), this->incv(), dest.values(), dest.ld());
     }
 
   } else if(dest.prop().isSymmetric()) {
 
-    blas::gemmt(dest.prop().cuplo(), 'N', 'T', dest.nrows(), 1, coeff, m_values, m_incv, vec.values(), 1, beta, dest.values(), dest.ld());
+    blas::gemmt(dest.prop().cuplo(), 'N', 'T', dest.nrows(), 1, coeff, this->values(), this->incv(), vec.values(), 1, beta, dest.values(), dest.ld());
 
   } else if(dest.prop().isHermitian()) { 
 
-    blas::gemmt(dest.prop().cuplo(), 'N', 'C', dest.nrows(), 1, coeff, m_values, m_incv, vec.values(), 1, beta, dest.values(), dest.ld());
-
+    blas::gemmt(dest.prop().cuplo(), 'N', 'C', dest.nrows(), 1, coeff, this->values(), this->incv(), vec.values(), 1, beta, dest.values(), dest.ld());
   } // prop
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void VirtualRowvec<T_Scalar>::evaluateOnNew(dns::XxMatrix<T_Scalar>& dest) const
 {
-  dest = dns::XxMatrix<T_Scalar>(1, m_size);
+  dest = dns::XxMatrix<T_Scalar>(1, this->size());
   evaluateOnExisting(dest);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void VirtualRowvec<T_Scalar>::evaluateOnExisting(dns::XxMatrix<T_Scalar>& dest) const
 {
-    similarity_dim_check<int_t>(m_size, dest.ncols());
+    similarity_dim_check<int_t>(this->size(), dest.ncols());
     similarity_dim_check<int_t>(1, dest.nrows());
-    blas::copy(m_size, m_values, m_incv, dest.values(), dest.ld());
+    blas::copy(this->size(), this->values(), this->incv(), dest.values(), dest.ld());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void VirtualRowvec<T_Scalar>::accumulateOnExisting(T_Scalar coeff, dns::XxMatrix<T_Scalar>& dest) const
 {
-    similarity_dim_check<int_t>(m_size, dest.ncols());
+    similarity_dim_check<int_t>(this->size(), dest.ncols());
     similarity_dim_check<int_t>(1, dest.nrows());
-    blas::axpy(m_size, coeff, m_values, m_incv, dest.values(), dest.ld());
+    blas::axpy(this->size(), coeff, this->values(), this->incv(), dest.values(), dest.ld());
 }
 /*-------------------------------------------------*/
 template class VirtualRowvec<real_t>;
