@@ -57,7 +57,7 @@ void launch_get_imag_2d(int_t m, int_t n, const T_Scalar* a, int_t lda,
                         typename TypeTraits<T_Scalar>::real_type* r, int_t ldr);
 
 template <typename T_Scalar>
-void launch_conjugate_2d(int_t m, int_t n, const T_Scalar* a, int_t lda);
+void launch_conjugate_2d(int_t m, int_t n, T_Scalar* a, int_t lda);
 
 /*-------------------------------------------------*/
 } // namespace dns

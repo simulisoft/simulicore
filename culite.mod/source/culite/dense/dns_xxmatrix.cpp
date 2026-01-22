@@ -29,7 +29,7 @@
 // culite
 #include "culite/types/scalar.hpp"
 #include "culite/bulk/dns2D.hpp"
-#include "culite/proxies/cublas_proxy.hpp"
+#include "culite/support/utils.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -453,13 +453,9 @@ void XxMatrix<T_Scalar>::copyToHost(::cla3p::dns::XxMatrix<T_Cla3pScalar>& dest)
 							  static_cast<int_t>(dest.nrows()), 
 							  static_cast<int_t>(dest.ncols()));
 
-	cublas::MatrixD2H<T_Scalar>(
-		nrows(),
-		ncols(),
-		this->values(),
-		ld(),
-		dest.values(),
-		dest.ld());
+    memCopyD2H(nrows(), ncols(),
+               this->values(), ld(),
+               dest.values(), dest.ld());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -475,13 +471,10 @@ void XxMatrix<T_Scalar>::copyFromHost(const ::cla3p::dns::XxMatrix<T_Cla3pScalar
 							  static_cast<int_t>(src.nrows()), 
 							  static_cast<int_t>(src.ncols()));
 
-	cublas::MatrixH2D<T_Scalar>(
-		src.nrows(),
-		src.ncols(),
-		src.values(),
-		src.ld(),
-		this->values(),
-		ld());
+    memCopyH2D<T_Scalar>(src.nrows(), src.ncols(), 
+	                     src.values(), src.ld(), 
+					     this->values(), ld());
+
 }
 /*-------------------------------------------------*/
 template class XxMatrix<real_t>;

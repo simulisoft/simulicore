@@ -29,7 +29,6 @@
 #include "culite/support/utils.hpp"
 #include "culite/support/imalloc.hpp"
 #include "culite/bulk/dns1D.hpp"
-#include "culite/proxies/cublas_proxy.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -202,7 +201,7 @@ void XiVector<T_Scalar>::copyToHost(::cla3p::dns::XiVector<T_Cla3pScalar>& dest)
 		dest = ::cla3p::dns::XiVector<T_Cla3pScalar>(size());
 	}
 	::cla3p::similarity_dim_check(size(), static_cast<int_t>(dest.size()));
-	cublas::VectorD2H<T_Scalar>(size(), this->values(), dest.values());
+    memCopyD2H(size(), this->values(), dest.values());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -212,7 +211,7 @@ void XiVector<T_Scalar>::copyFromHost(const ::cla3p::dns::XiVector<T_Cla3pScalar
 		*this = XiVector<T_Scalar>(src.size());
 	}
 	::cla3p::similarity_dim_check(size(), static_cast<int_t>(src.size()));
-	cublas::VectorH2D<T_Scalar>(size(), src.values(), this->values());
+    memCopyH2D(src.size(), src.values(), this->values());
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

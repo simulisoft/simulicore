@@ -137,22 +137,6 @@ vector_h2d_macro(complex8_t);
 #undef vector_h2d_macro
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void VectorH2D(int_t n, const typename TypeTraits<T_Scalar>::cla3p_type *src, T_Scalar *dest)
-{
-    cublasStatus_t cublasStatus = cublas_func_name(SetVector)(n, sizeof(T_Scalar), src, 1, dest, 1);
-    err::check_cublas(cublasStatus);
-}
-/*-------------------------------------------------*/
-#define vector_h2d_macro(typein) \
-template void VectorH2D<typein>(int_t, const typename TypeTraits<typein>::cla3p_type*, typein*);
-//vector_h2d_macro(int_t);
-//vector_h2d_macro(real_t);
-//vector_h2d_macro(real4_t);
-vector_h2d_macro(complex_t);
-vector_h2d_macro(complex8_t);
-#undef vector_h2d_macro
-/*-------------------------------------------------*/
-template <typename T_Scalar>
 void VectorD2H(int_t n, const T_Scalar *src, T_Scalar *dest)
 {
     cublasStatus_t cublasStatus = cublas_func_name(GetVector)(n, sizeof(T_Scalar), src, 1, dest, 1);
@@ -164,22 +148,6 @@ template void VectorD2H<typein>(int_t, const typein*, typein*);
 vector_d2h_macro(int_t);
 vector_d2h_macro(real_t);
 vector_d2h_macro(real4_t);
-vector_d2h_macro(complex_t);
-vector_d2h_macro(complex8_t);
-#undef vector_d2h_macro
-/*-------------------------------------------------*/
-template <typename T_Scalar>
-void VectorD2H(int_t n, const T_Scalar *src, typename TypeTraits<T_Scalar>::cla3p_type *dest)
-{
-    cublasStatus_t cublasStatus = cublas_func_name(GetVector)(n, sizeof(T_Scalar), src, 1, dest, 1);
-    err::check_cublas(cublasStatus);
-}
-/*-------------------------------------------------*/
-#define vector_d2h_macro(typein) \
-template void VectorD2H<typein>(int_t, const typein*, typename TypeTraits<typein>::cla3p_type*);
-//vector_d2h_macro(int_t);
-//vector_d2h_macro(real_t);
-//vector_d2h_macro(real4_t);
 vector_d2h_macro(complex_t);
 vector_d2h_macro(complex8_t);
 #undef vector_d2h_macro
@@ -202,23 +170,6 @@ matrix_h2d_macro(complex8_t);
 #undef matrix_h2d_macro
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void MatrixH2D(int_t nr, int_t nc, 
-               const typename TypeTraits<T_Scalar>::cla3p_type *src, int_t lds, 
-               T_Scalar *dest, int_t ldd)
-{
-    cublasStatus_t cublasStatus = cublas_func_name(SetMatrix)(nr, nc, sizeof(T_Scalar), src, lds, dest, ldd);
-    err::check_cublas(cublasStatus);
-}
-/*-------------------------------------------------*/
-#define matrix_h2d_macro(typein) \
-template void MatrixH2D<typein>(int_t, int_t, const typename TypeTraits<typein>::cla3p_type*, int_t, typein*, int_t);
-//matrix_h2d_macro(real_t);
-//matrix_h2d_macro(real4_t);
-matrix_h2d_macro(complex_t);
-matrix_h2d_macro(complex8_t);
-#undef matrix_h2d_macro
-/*-------------------------------------------------*/
-template <typename T_Scalar>
 void MatrixD2H(int_t nr, int_t nc, 
                const T_Scalar *src, int_t lds, 
                T_Scalar *dest, int_t ldd)
@@ -231,23 +182,6 @@ void MatrixD2H(int_t nr, int_t nc,
 template void MatrixD2H<typein>(int_t, int_t, const typein*, int_t, typein*, int_t);
 matrix_d2h_macro(real_t);
 matrix_d2h_macro(real4_t);
-matrix_d2h_macro(complex_t);
-matrix_d2h_macro(complex8_t);
-#undef matrix_d2h_macro
-/*-------------------------------------------------*/
-template <typename T_Scalar>
-void MatrixD2H(int_t nr, int_t nc, 
-               const T_Scalar *src, int_t lds, 
-               typename TypeTraits<T_Scalar>::cla3p_type *dest, int_t ldd)
-{
-    cublasStatus_t cublasStatus = cublas_func_name(GetMatrix)(nr, nc, sizeof(T_Scalar), src, lds, dest, ldd);
-    err::check_cublas(cublasStatus);
-}
-/*-------------------------------------------------*/
-#define matrix_d2h_macro(typein) \
-template void MatrixD2H<typein>(int_t, int_t, const typein*, int_t, typename TypeTraits<typein>::cla3p_type*, int_t);
-//matrix_d2h_macro(real_t);
-//matrix_d2h_macro(real4_t);
 matrix_d2h_macro(complex_t);
 matrix_d2h_macro(complex8_t);
 #undef matrix_d2h_macro
