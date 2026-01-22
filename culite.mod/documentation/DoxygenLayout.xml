@@ -60,6 +60,7 @@
         <tab type="user" url="@ref culite_module_index_stream_utils" title="CUDA Stream"/>
         <tab type="user" url="@ref culite_module_index_cublas_utils" title="cuBLAS"/>
         <tab type="user" url="@ref culite_module_index_cusolver_utils" title="cuSOLVER"/>
+        <tab type="user" url="@ref culite_module_index_cusparse_utils" title="cuSPARSE"/>
       </tab>
 
       <tab type="user" url="@ref culite_module_index_host2device_operators" title="Host to Device Operators"/>

@@ -28,9 +28,9 @@ namespace culite {
 /*-------------------------------------------------*/
 CuSolverHandler::CuSolverHandler()
 {
+    defaults();
     cusolverStatus_t cusolverStatus = cusolverDnCreate(&m_handle);
     err::check_cusolver(cusolverStatus);
-    defaults();
 }
 /*-------------------------------------------------*/
 CuSolverHandler::~CuSolverHandler()

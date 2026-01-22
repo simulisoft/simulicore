@@ -29,14 +29,28 @@ namespace culite {
 /*-------------------------------------------------*/
 CuSparseHandler::CuSparseHandler()
 {
+    defaults();
     cusparseStatus_t cusparseStatus = cusparseCreate(&m_handle);
     err::check_cusparse(cusparseStatus);
 }
 /*-------------------------------------------------*/
 CuSparseHandler::~CuSparseHandler()
 {
+    clear();
     cusparseStatus_t cusparseStatus = cusparseDestroy(m_handle);
     err::check_cusparse(cusparseStatus);
+}
+/*-------------------------------------------------*/
+void CuSparseHandler::defaults()
+{
+    m_workspaceInBytes = 0;
+}
+/*-------------------------------------------------*/
+void CuSparseHandler::clear()
+{
+    deviceWork().clear();
+    
+    defaults();
 }
 /*-------------------------------------------------*/
 } // namespace culite

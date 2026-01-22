@@ -21,7 +21,8 @@
  * @file
  */
 
-#include <cusparse.h>
+#include "culite/support/imalloc.hpp"
+#include "culite/proxies/cusparse_proxy.hpp"
 
 /*-------------------------------------------------*/
 namespace culite { 
@@ -51,7 +52,6 @@ class CuSparseHandler {
          */
         CuSparseHandler();
 
-        
         /**
          * @brief Destructor.
          * @details Destroys the cuSPARSE handle and releases all allocated resources.
@@ -64,8 +64,130 @@ class CuSparseHandler {
          */
         cusparseHandle_t handle() { return m_handle; }
 
+        /**
+         * @brief Clear the internal workspace buffers.
+         * @details Releases all internal workspace memory allocated for cuSPARSE operations.
+         */
+        void clear();
+
+        /**
+         * @brief Reserve workspace memory for sparse matrix-vector multiplication (SpMV).
+         * @details Queries the required buffer size for the SpMV operation and allocates
+         *          the necessary workspace memory on the device.
+         * @tparam T_Scalar The scalar type (e.g., float, double, complex).
+         * @param[in] opA Operation to apply to matrix A (e.g., no-transpose, transpose, conjugate-transpose).
+         * @param[in] alpha Pointer to scalar alpha.
+         * @param[in,out] matA Sparse matrix in CSR format.
+         * @param[in] vecX Input dense vector X.
+         * @param[in] beta Pointer to scalar beta.
+         * @param[in] vecY Dense vector Y for buffer size computation.
+         * @param[in] alg Algorithm to use for SpMV (default: CUSPARSE_SPMV_CSR_ALG1).
+         */
+        template <typename T_Scalar>
+        void reserveSpmv(::cla3p::op_t                      opA,
+                         const T_Scalar*                    alpha,
+                         cusparse::ConstSpMatCsr<T_Scalar>& matA,
+                         cusparse::ConstDnVec<T_Scalar>&    vecX,
+                         const T_Scalar*                    beta,
+                         cusparse::ConstDnVec<T_Scalar>&    vecY,
+                         cusparseSpMVAlg_t                  alg = cusparseSpMVAlg_t::CUSPARSE_SPMV_CSR_ALG1)
+        {
+            cusparseStatus_t status = cusparseSpMV_bufferSize(handle(),
+                                                              cusparse::cla3pOp2cusparseOp(opA),
+                                                              alpha,
+                                                              matA.descr(),
+                                                              vecX.descr(),
+                                                              beta,
+                                                              vecY.descr(),
+                                                              TypeTraits<T_Scalar>::cuda_type(),
+                                                              alg,
+                                                              &m_workspaceInBytes);
+            err::check_cusparse(status);
+
+            deviceWork().reserve(m_workspaceInBytes);
+        }
+
+        /**
+         * @brief Preprocess the sparse matrix-vector multiplication operation.
+         * @details Performs any necessary preprocessing steps for the SpMV operation,
+         *          which may optimize subsequent repeated operations with the same sparsity pattern.
+         * @tparam T_Scalar The scalar type (e.g., float, double, complex).
+         * @param[in] opA Operation to apply to matrix A (e.g., no-transpose, transpose, conjugate-transpose).
+         * @param[in] alpha Pointer to scalar alpha.
+         * @param[in,out] matA Sparse matrix in CSR format.
+         * @param[in] vecX Input dense vector X.
+         * @param[in] beta Pointer to scalar beta.
+         * @param[in] vecY Dense vector Y for preprocessing.
+         * @param[in] alg Algorithm to use for SpMV (default: CUSPARSE_SPMV_CSR_ALG1).
+         */
+        template <typename T_Scalar>
+        void preprocessSpmv(::cla3p::op_t                      opA,
+                            const T_Scalar*                    alpha,
+                            cusparse::ConstSpMatCsr<T_Scalar>& matA,
+                            cusparse::ConstDnVec<T_Scalar>&    vecX,
+                            const T_Scalar*                    beta,
+                            cusparse::ConstDnVec<T_Scalar>&    vecY,
+                            cusparseSpMVAlg_t                  alg = cusparseSpMVAlg_t::CUSPARSE_SPMV_CSR_ALG1)
+        {
+            cusparseStatus_t status = cusparseSpMV_preprocess(handle(),
+                                                              cusparse::cla3pOp2cusparseOp(opA),
+                                                              alpha,
+                                                              matA.descr(),
+                                                              vecX.descr(),
+                                                              beta,
+                                                              vecY.descr(),
+                                                              TypeTraits<T_Scalar>::cuda_type(),
+                                                              alg,
+                                                              deviceWork().data());
+            err::check_cusparse(status);
+        }
+
+        /**
+         * @brief Perform sparse matrix-vector multiplication.
+         * @details Computes Y = alpha * op(A) * X + beta * Y, where A is a sparse matrix in CSR format,
+         *          X and Y are dense vectors, and op(A) is either A, A^T, or A^H.
+         * @tparam T_Scalar The scalar type (e.g., float, double, complex).
+         * @param[in] opA Operation to apply to matrix A (e.g., no-transpose, transpose, conjugate-transpose).
+         * @param[in] alpha Pointer to scalar alpha.
+         * @param[in,out] matA Sparse matrix in CSR format.
+         * @param[in] vecX Input dense vector X.
+         * @param[in] beta Pointer to scalar beta.
+         * @param[in,out] vecY Output dense vector Y.
+         * @param[in] alg Algorithm to use for SpMV (default: CUSPARSE_SPMV_CSR_ALG1).
+         */
+        template <typename T_Scalar>
+        void performSpmv(::cla3p::op_t                      opA,
+                         const T_Scalar*                    alpha,
+                         cusparse::ConstSpMatCsr<T_Scalar>& matA,
+                         cusparse::ConstDnVec<T_Scalar>&    vecX,
+                         const T_Scalar*                    beta,
+                         cusparse::DnVec<T_Scalar>&         vecY,
+                         cusparseSpMVAlg_t                  alg = cusparseSpMVAlg_t::CUSPARSE_SPMV_CSR_ALG1)
+        {
+            cusparseStatus_t status = cusparseSpMV(handle(),
+                                                   cusparse::cla3pOp2cusparseOp(opA),
+                                                   alpha,
+                                                   matA.descr(),
+                                                   vecX.descr(),
+                                                   beta,
+                                                   vecY.descr(),
+                                                   TypeTraits<T_Scalar>::cuda_type(),
+                                                   alg,
+                                                   deviceWork().data());
+            err::check_cusparse(status);
+        }
+
+    private:
+        DeviceBufferVoid& deviceWork() { return m_deviceBuffer; }
+
     private:
         cusparseHandle_t m_handle{nullptr};
+
+        std::size_t m_workspaceInBytes;
+
+        DeviceBufferVoid m_deviceBuffer;
+
+        void defaults();
 };
 
 /*-------------------------------------------------*/

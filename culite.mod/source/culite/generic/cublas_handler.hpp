@@ -21,8 +21,6 @@
  * @file
  */
 
-#include <cublas_v2.h>
-
 #include <cla3p/types/enums.hpp>
 
 #include "culite/types/integer.hpp"
