@@ -71,7 +71,7 @@ class DnVec {
             err::check_cusparse(cusparseStatus);
         }
 
-        cusparseDnVecDescr_t get() { return m_descr; }
+        cusparseDnVecDescr_t descr() { return m_descr; }
 
     private:
         cusparseDnVecDescr_t m_descr{nullptr};
@@ -95,7 +95,7 @@ class ConstDnVec {
             err::check_cusparse(cusparseStatus);
         }
 
-        cusparseConstDnVecDescr_t get() { return m_descr; }
+        cusparseConstDnVecDescr_t descr() { return m_descr; }
 
     private:
         cusparseConstDnVecDescr_t m_descr{nullptr};
@@ -120,7 +120,7 @@ class DnMat {
             err::check_cusparse(cusparseStatus);
         }
 
-        cusparseDnMatDescr_t get() { return m_descr; }
+        cusparseDnMatDescr_t descr() { return m_descr; }
 
     private:
         cusparseDnMatDescr_t m_descr{nullptr};
@@ -145,7 +145,7 @@ class ConstDnMat {
             err::check_cusparse(cusparseStatus);
         }
 
-        cusparseConstDnMatDescr_t get() { return m_descr; }
+        cusparseConstDnMatDescr_t descr() { return m_descr; }
 
     private:
         cusparseConstDnMatDescr_t m_descr{nullptr};
@@ -185,7 +185,7 @@ class SpMatCsr {
             err::check_cusparse(cusparseStatus);
         }
 
-        cusparseSpMatDescr_t get() { return m_descr; }
+        cusparseSpMatDescr_t descr() { return m_descr; }
 
     private:
         cusparseSpMatDescr_t m_descr{nullptr};
@@ -225,7 +225,7 @@ class ConstSpMatCsr {
             err::check_cusparse(cusparseStatus);
         }
 
-        cusparseConstSpMatDescr_t get() { return m_descr; }
+        cusparseConstSpMatDescr_t descr() { return m_descr; }
 
     private:
         cusparseConstSpMatDescr_t m_descr{nullptr};
@@ -265,7 +265,7 @@ class SpMatCsc {
             err::check_cusparse(cusparseStatus);
         }
 
-        cusparseSpMatDescr_t get() { return m_descr; }
+        cusparseSpMatDescr_t descr() { return m_descr; }
 
     private:
         cusparseSpMatDescr_t m_descr{nullptr};
@@ -305,7 +305,7 @@ class ConstSpMatCsc {
             err::check_cusparse(cusparseStatus);
         }
 
-        cusparseConstSpMatDescr_t get() { return m_descr; }
+        cusparseConstSpMatDescr_t descr() { return m_descr; }
 
     private:
         cusparseConstSpMatDescr_t m_descr{nullptr};
