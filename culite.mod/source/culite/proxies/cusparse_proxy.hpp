@@ -59,9 +59,15 @@ template <typename T_Scalar>
 class DnVec {
 
     public:
-        DnVec(int64_t size, T_Scalar *vals)
+        DnVec(int64_t size, T_Scalar *vals) 
         {
-            cusparseStatus_t cusparseStatus = cusparseCreateDnVec(&m_descr, size, vals, TypeTraits<T_Scalar>::cuda_type());
+            cusparseStatus_t cusparseStatus = cusparseCreateDnVec(m_descr, size, vals, TypeTraits<T_Scalar>::cuda_type());
+            err::check_cusparse(cusparseStatus);
+        }
+
+        DnVec(int64_t size, const T_Scalar *vals) 
+        {
+            cusparseStatus_t cusparseStatus = cusparseCreateConstDnVec(m_descr, size, vals, TypeTraits<T_Scalar>::cuda_type());
             err::check_cusparse(cusparseStatus);
         }
 
@@ -72,33 +78,10 @@ class DnVec {
         }
 
         cusparseDnVecDescr_t descr() { return m_descr; }
+        cusparseConstDnVecDescr_t descr() const { return m_descr; }
 
     private:
         cusparseDnVecDescr_t m_descr{nullptr};
-};
-
-/*-------------------------------------------------*/
-
-template <typename T_Scalar>
-class ConstDnVec {
-
-    public:
-        ConstDnVec(int64_t size, const T_Scalar *vals)
-        {
-            cusparseStatus_t cusparseStatus = cusparseCreateConstDnVec(&m_descr, size, vals, TypeTraits<T_Scalar>::cuda_type());
-            err::check_cusparse(cusparseStatus);
-        }
-
-        ~ConstDnVec()
-        {
-            cusparseStatus_t cusparseStatus = cusparseDestroyDnVec(m_descr);
-            err::check_cusparse(cusparseStatus);
-        }
-
-        cusparseConstDnVecDescr_t descr() { return m_descr; }
-
-    private:
-        cusparseConstDnVecDescr_t m_descr{nullptr};
 };
 
 /*-------------------------------------------------*/
@@ -114,6 +97,13 @@ class DnMat {
             err::check_cusparse(cusparseStatus);
         }
 
+        DnMat(int64_t rows, int64_t cols, const T_Scalar *vals, int64_t ld, 
+              cusparseOrder_t order = cusparseOrder_t::CUSPARSE_ORDER_COL)
+        {
+            cusparseStatus_t cusparseStatus = cusparseCreateConstDnMat(&m_descr, rows, cols, ld, vals, TypeTraits<T_Scalar>::cuda_type(), order);
+            err::check_cusparse(cusparseStatus);
+        }
+
         ~DnMat()
         {
             cusparseStatus_t cusparseStatus = cusparseDestroyDnMat(m_descr);
@@ -121,6 +111,7 @@ class DnMat {
         }
 
         cusparseDnMatDescr_t descr() { return m_descr; }
+        cusparseConstDnMatDescr_t descr() const { return m_descr; }
 
     private:
         cusparseDnMatDescr_t m_descr{nullptr};
@@ -128,33 +119,30 @@ class DnMat {
 
 /*-------------------------------------------------*/
 
-template <typename T_Scalar>
-class ConstDnMat {
+class SpMatBase {
 
     public:
-        ConstDnMat(int64_t rows, int64_t cols, const T_Scalar *vals, int64_t ld, 
-                   cusparseOrder_t order = cusparseOrder_t::CUSPARSE_ORDER_COL)
+        SpMatBase() = default;
+        
+        ~SpMatBase()
         {
-            cusparseStatus_t cusparseStatus = cusparseCreateConstDnMat(&m_descr, rows, cols, ld, vals, TypeTraits<T_Scalar>::cuda_type(), order);
-            err::check_cusparse(cusparseStatus);
+            if(m_descr != nullptr) {
+                cusparseStatus_t cusparseStatus = cusparseDestroySpMat(m_descr);
+                err::check_cusparse(cusparseStatus);
+            }
         }
 
-        ~ConstDnMat()
-        {
-            cusparseStatus_t cusparseStatus = cusparseDestroyDnMat(m_descr);
-            err::check_cusparse(cusparseStatus);
-        }
+        cusparseSpMatDescr_t descr() { return m_descr; };
+        cusparseConstSpMatDescr_t descr() const { return m_descr; };
 
-        cusparseConstDnMatDescr_t descr() { return m_descr; }
-
-    private:
-        cusparseConstDnMatDescr_t m_descr{nullptr};
+    protected:
+        cusparseSpMatDescr_t m_descr{nullptr};
 };
 
 /*-------------------------------------------------*/
 
 template <typename T_Scalar>
-class SpMatCsr {
+class SpMatCsr : public SpMatBase {
 
     public:
         SpMatCsr(int64_t             rows,
@@ -179,31 +167,13 @@ class SpMatCsr {
             err::check_cusparse(cusparseStatus);
         }
 
-        ~SpMatCsr()
-        {
-            cusparseStatus_t cusparseStatus = cusparseDestroySpMat(m_descr);
-            err::check_cusparse(cusparseStatus);
-        }
-
-        cusparseSpMatDescr_t descr() { return m_descr; }
-
-    private:
-        cusparseSpMatDescr_t m_descr{nullptr};
-};
-
-/*-------------------------------------------------*/
-
-template <typename T_Scalar>
-class ConstSpMatCsr {
-
-    public:
-        ConstSpMatCsr(int64_t             rows,
-                      int64_t             cols,
-                      int64_t             nnz,
-                      const int_t*        rowptr,
-                      const int_t*        colidx,
-                      const T_Scalar*     values,
-                      cusparseIndexBase_t idxBase = cusparseIndexBase_t::CUSPARSE_INDEX_BASE_ZERO)
+        SpMatCsr(int64_t             rows,
+                 int64_t             cols,
+                 int64_t             nnz,
+                 const int_t*        rowptr,
+                 const int_t*        colidx,
+                 const T_Scalar*     values,
+                 cusparseIndexBase_t idxBase = cusparseIndexBase_t::CUSPARSE_INDEX_BASE_ZERO)
         {
             cusparseStatus_t cusparseStatus = cusparseCreateConstCsr(&m_descr,
                                                                      rows,
@@ -219,22 +189,13 @@ class ConstSpMatCsr {
             err::check_cusparse(cusparseStatus);
         }
 
-        ~ConstSpMatCsr()
-        {
-            cusparseStatus_t cusparseStatus = cusparseDestroySpMat(m_descr);
-            err::check_cusparse(cusparseStatus);
-        }
-
-        cusparseConstSpMatDescr_t descr() { return m_descr; }
-
-    private:
-        cusparseConstSpMatDescr_t m_descr{nullptr};
+        ~SpMatCsr() = default;
 };
 
 /*-------------------------------------------------*/
 
 template <typename T_Scalar>
-class SpMatCsc {
+class SpMatCsc : public SpMatBase {
 
     public:
         SpMatCsc(int64_t             rows,
@@ -259,31 +220,13 @@ class SpMatCsc {
             err::check_cusparse(cusparseStatus);
         }
 
-        ~SpMatCsc()
-        {
-            cusparseStatus_t cusparseStatus = cusparseDestroySpMat(m_descr);
-            err::check_cusparse(cusparseStatus);
-        }
-
-        cusparseSpMatDescr_t descr() { return m_descr; }
-
-    private:
-        cusparseSpMatDescr_t m_descr{nullptr};
-};
-
-/*-------------------------------------------------*/
-
-template <typename T_Scalar>
-class ConstSpMatCsc {
-
-    public:
-        ConstSpMatCsc(int64_t             rows,
-                      int64_t             cols,
-                      int64_t             nnz,
-                      const int_t*        colptr,
-                      const int_t*        rowidx,
-                      const T_Scalar*     values,
-                      cusparseIndexBase_t idxBase = cusparseIndexBase_t::CUSPARSE_INDEX_BASE_ZERO)
+        SpMatCsc(int64_t             rows,
+                 int64_t             cols,
+                 int64_t             nnz,
+                 const int_t*        colptr,
+                 const int_t*        rowidx,
+                 const T_Scalar*     values,
+                 cusparseIndexBase_t idxBase = cusparseIndexBase_t::CUSPARSE_INDEX_BASE_ZERO)
         {
             cusparseStatus_t cusparseStatus = cusparseCreateConstCsc(&m_descr,
                                                                      rows,
@@ -299,16 +242,7 @@ class ConstSpMatCsc {
             err::check_cusparse(cusparseStatus);
         }
 
-        ~ConstSpMatCsc()
-        {
-            cusparseStatus_t cusparseStatus = cusparseDestroySpMat(m_descr);
-            err::check_cusparse(cusparseStatus);
-        }
-
-        cusparseConstSpMatDescr_t descr() { return m_descr; }
-
-    private:
-        cusparseConstSpMatDescr_t m_descr{nullptr};
+        ~SpMatCsc() = default;
 };
 
 /*-------------------------------------------------*/

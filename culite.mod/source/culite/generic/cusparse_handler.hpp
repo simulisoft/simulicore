@@ -70,27 +70,14 @@ class CuSparseHandler {
          */
         void clear();
 
-        /**
-         * @brief Reserve workspace memory for sparse matrix-vector multiplication (SpMV).
-         * @details Queries the required buffer size for the SpMV operation and allocates
-         *          the necessary workspace memory on the device.
-         * @tparam T_Scalar The scalar type (e.g., float, double, complex).
-         * @param[in] opA Operation to apply to matrix A (e.g., no-transpose, transpose, conjugate-transpose).
-         * @param[in] alpha Pointer to scalar alpha.
-         * @param[in,out] matA Sparse matrix in CSR format.
-         * @param[in] vecX Input dense vector X.
-         * @param[in] beta Pointer to scalar beta.
-         * @param[in] vecY Dense vector Y for buffer size computation.
-         * @param[in] alg Algorithm to use for SpMV (default: CUSPARSE_SPMV_CSR_ALG1).
-         */
         template <typename T_Scalar>
-        void reserveSpmv(::cla3p::op_t                      opA,
-                         const T_Scalar*                    alpha,
-                         cusparse::ConstSpMatCsr<T_Scalar>& matA,
-                         cusparse::ConstDnVec<T_Scalar>&    vecX,
-                         const T_Scalar*                    beta,
-                         cusparse::ConstDnVec<T_Scalar>&    vecY,
-                         cusparseSpMVAlg_t                  alg = cusparseSpMVAlg_t::CUSPARSE_SPMV_CSR_ALG1)
+        void reserveSpmv(::cla3p::op_t                    opA,
+                         const T_Scalar*                  alpha,
+                         const cusparse::SpMatBase&       matA,
+                         const cusparse::DnVec<T_Scalar>& vecX,
+                         const T_Scalar*                  beta,
+                         cusparse::DnVec<T_Scalar>&       vecY,
+                         cusparseSpMVAlg_t                alg = cusparseSpMVAlg_t::CUSPARSE_SPMV_CSR_ALG1)
         {
             cusparseStatus_t status = cusparseSpMV_bufferSize(handle(),
                                                               cusparse::cla3pOp2cusparseOp(opA),
@@ -107,27 +94,14 @@ class CuSparseHandler {
             deviceWork().reserve(m_workspaceInBytes);
         }
 
-        /**
-         * @brief Preprocess the sparse matrix-vector multiplication operation.
-         * @details Performs any necessary preprocessing steps for the SpMV operation,
-         *          which may optimize subsequent repeated operations with the same sparsity pattern.
-         * @tparam T_Scalar The scalar type (e.g., float, double, complex).
-         * @param[in] opA Operation to apply to matrix A (e.g., no-transpose, transpose, conjugate-transpose).
-         * @param[in] alpha Pointer to scalar alpha.
-         * @param[in,out] matA Sparse matrix in CSR format.
-         * @param[in] vecX Input dense vector X.
-         * @param[in] beta Pointer to scalar beta.
-         * @param[in] vecY Dense vector Y for preprocessing.
-         * @param[in] alg Algorithm to use for SpMV (default: CUSPARSE_SPMV_CSR_ALG1).
-         */
         template <typename T_Scalar>
-        void preprocessSpmv(::cla3p::op_t                      opA,
-                            const T_Scalar*                    alpha,
-                            cusparse::ConstSpMatCsr<T_Scalar>& matA,
-                            cusparse::ConstDnVec<T_Scalar>&    vecX,
-                            const T_Scalar*                    beta,
-                            cusparse::ConstDnVec<T_Scalar>&    vecY,
-                            cusparseSpMVAlg_t                  alg = cusparseSpMVAlg_t::CUSPARSE_SPMV_CSR_ALG1)
+        void preprocessSpmv(::cla3p::op_t                    opA,
+                            const T_Scalar*                  alpha,
+                            const cusparse::SpMatBase&       matA,
+                            const cusparse::DnVec<T_Scalar>& vecX,
+                            const T_Scalar*                  beta,
+                            cusparse::DnVec<T_Scalar>&       vecY,
+                            cusparseSpMVAlg_t                alg = cusparseSpMVAlg_t::CUSPARSE_SPMV_CSR_ALG1)
         {
             cusparseStatus_t status = cusparseSpMV_preprocess(handle(),
                                                               cusparse::cla3pOp2cusparseOp(opA),
@@ -142,27 +116,14 @@ class CuSparseHandler {
             err::check_cusparse(status);
         }
 
-        /**
-         * @brief Perform sparse matrix-vector multiplication.
-         * @details Computes Y = alpha * op(A) * X + beta * Y, where A is a sparse matrix in CSR format,
-         *          X and Y are dense vectors, and op(A) is either A, A^T, or A^H.
-         * @tparam T_Scalar The scalar type (e.g., float, double, complex).
-         * @param[in] opA Operation to apply to matrix A (e.g., no-transpose, transpose, conjugate-transpose).
-         * @param[in] alpha Pointer to scalar alpha.
-         * @param[in,out] matA Sparse matrix in CSR format.
-         * @param[in] vecX Input dense vector X.
-         * @param[in] beta Pointer to scalar beta.
-         * @param[in,out] vecY Output dense vector Y.
-         * @param[in] alg Algorithm to use for SpMV (default: CUSPARSE_SPMV_CSR_ALG1).
-         */
         template <typename T_Scalar>
-        void performSpmv(::cla3p::op_t                      opA,
-                         const T_Scalar*                    alpha,
-                         cusparse::ConstSpMatCsr<T_Scalar>& matA,
-                         cusparse::ConstDnVec<T_Scalar>&    vecX,
-                         const T_Scalar*                    beta,
-                         cusparse::DnVec<T_Scalar>&         vecY,
-                         cusparseSpMVAlg_t                  alg = cusparseSpMVAlg_t::CUSPARSE_SPMV_CSR_ALG1)
+        void performSpmv(::cla3p::op_t                    opA,
+                         const T_Scalar*                  alpha,
+                         const cusparse::SpMatBase&       matA,
+                         const cusparse::DnVec<T_Scalar>& vecX,
+                         const T_Scalar*                  beta,
+                         cusparse::DnVec<T_Scalar>&       vecY,
+                         cusparseSpMVAlg_t                alg = cusparseSpMVAlg_t::CUSPARSE_SPMV_CSR_ALG1)
         {
             cusparseStatus_t status = cusparseSpMV(handle(),
                                                    cusparse::cla3pOp2cusparseOp(opA),
@@ -171,6 +132,82 @@ class CuSparseHandler {
                                                    vecX.descr(),
                                                    beta,
                                                    vecY.descr(),
+                                                   TypeTraits<T_Scalar>::cuda_type(),
+                                                   alg,
+                                                   deviceWork().data());
+            err::check_cusparse(status);
+        }
+
+        template <typename T_Scalar>
+        void reserveSpmm(::cla3p::op_t                    opA,
+                         ::cla3p::op_t                    opB,
+                         const T_Scalar*                  alpha,
+                         const cusparse::SpMatBase&       matA,
+                         const cusparse::DnMat<T_Scalar>& matB,
+                         const T_Scalar*                  beta,
+                         cusparse::DnMat<T_Scalar>&       matC,
+                         cusparseSpMMAlg_t                alg = cusparseSpMMAlg_t::CUSPARSE_SPMM_CSR_ALG1)
+        {
+            cusparseStatus_t status = cusparseSpMM_bufferSize(handle(),
+                                                              cusparse::cla3pOp2cusparseOp(opA),
+                                                              cusparse::cla3pOp2cusparseOp(opB),
+                                                              alpha,
+                                                              matA.descr(),
+                                                              matB.descr(),
+                                                              beta,
+                                                              matC.descr(),
+                                                              TypeTraits<T_Scalar>::cuda_type(),
+                                                              alg,
+                                                              &m_workspaceInBytes);
+            err::check_cusparse(status);
+
+            deviceWork().reserve(m_workspaceInBytes);
+        }
+
+        template <typename T_Scalar>
+        void preprocessSpmm(::cla3p::op_t                    opA,
+                            ::cla3p::op_t                    opB,
+                            const T_Scalar*                  alpha,
+                            const cusparse::SpMatBase&       matA,
+                            const cusparse::DnMat<T_Scalar>& matB,
+                            const T_Scalar*                  beta,
+                            cusparse::DnMat<T_Scalar>&       matC,
+                            cusparseSpMMAlg_t                alg = cusparseSpMMAlg_t::CUSPARSE_SPMM_CSR_ALG1)
+        {
+            cusparseStatus_t status = cusparseSpMM_preprocess(handle(),
+                                                              cusparse::cla3pOp2cusparseOp(opA),
+                                                              cusparse::cla3pOp2cusparseOp(opB),
+                                                              alpha,
+                                                              matA.descr(),
+                                                              matB.descr(),
+                                                              beta,
+                                                              matC.descr(),
+                                                              TypeTraits<T_Scalar>::cuda_type(),
+                                                              alg,
+                                                              deviceWork().data());
+            err::check_cusparse(status);
+        }
+
+
+
+        template <typename T_Scalar>
+        void performSpmm(::cla3p::op_t                    opA,
+                         ::cla3p::op_t                    opB,
+                         const T_Scalar*                  alpha,
+                         const cusparse::SpMatBase&       matA,
+                         const cusparse::DnMat<T_Scalar>& matB,
+                         const T_Scalar*                  beta,
+                         cusparse::DnMat<T_Scalar>&       matC,
+                         cusparseSpMMAlg_t                alg = cusparseSpMMAlg_t::CUSPARSE_SPMM_CSR_ALG1)
+        {
+            cusparseStatus_t status = cusparseSpMM(handle(),
+                                                   cusparse::cla3pOp2cusparseOp(opA),
+                                                   cusparse::cla3pOp2cusparseOp(opB),
+                                                   alpha,
+                                                   matA.descr(),
+                                                   matB.descr(),
+                                                   beta,
+                                                   matC.descr(),
                                                    TypeTraits<T_Scalar>::cuda_type(),
                                                    alg,
                                                    deviceWork().data());
