@@ -85,32 +85,49 @@ class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_matrix_docs::constructor()
+		 * @brief Default constructor.
+		 * @details Creates an empty matrix with no allocated memory.
 		 */
 		XxMatrix();
 
 		/**
-		 * @copydoc standard_matrix_docs::dim_constructor()
+		 * @brief Dimension constructor.
+		 * @details Creates a matrix of the specified dimensions and allocates memory.
+		 * @param[in] nr The number of rows.
+		 * @param[in] nc The number of columns.
+		 * @param[in] pr The matrix property (default: General).
 		 */
 		explicit XxMatrix(int_t nr, int_t nc, const Property& pr = Property::General());
 
 		/**
-		 * @copydoc standard_matrix_docs::aux_constructor()
+		 * @brief Auxiliary constructor.
+		 * @details Creates a matrix using existing memory.
+		 * @param[in] nr The number of rows.
+		 * @param[in] nc The number of columns.
+		 * @param[in] vals Pointer to existing memory.
+		 * @param[in] ldv The leading dimension.
+		 * @param[in] bind If true, the matrix does not take ownership of the memory.
+		 * @param[in] pr The matrix property (default: General).
 		 */
 		explicit XxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const Property& pr = Property::General());
 
 		/**
-		 * @copydoc standard_docs::copy_constructor()
+		 * @brief Copy constructor.
+		 * @details Creates a new matrix by copying another matrix.
+		 * @param[in] other The matrix to copy.
 		 */
 		XxMatrix(const XxMatrix<T_Scalar>& other);
 
 		/**
-		 * @copydoc standard_docs::move_constructor()
+		 * @brief Move constructor.
+		 * @details Creates a new matrix by moving resources from another matrix.
+		 * @param[in] other The matrix to move from.
 		 */
 		XxMatrix(XxMatrix<T_Scalar>&& other);
 
 		/**
-		 * @copydoc standard_matrix_docs::destructor()
+		 * @brief Destructor.
+		 * @details Destroys the matrix and releases allocated memory.
 		 */
 		~XxMatrix();
 
@@ -122,32 +139,50 @@ class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_docs::copy_assignment()
+		 * @brief Copy assignment operator.
+		 * @details Copies the contents of another matrix to this matrix.
+		 * @param[in] other The matrix to copy.
+		 * @return Reference to this matrix.
 		 */
 		XxMatrix<T_Scalar>& operator=(const XxMatrix<T_Scalar>& other);
 
 		/**
-		 * @copydoc standard_docs::move_assignment()
+		 * @brief Move assignment operator.
+		 * @details Moves resources from another matrix to this matrix.
+		 * @param[in] other The matrix to move from.
+		 * @return Reference to this matrix.
 		 */
 		XxMatrix<T_Scalar>& operator=(XxMatrix<T_Scalar>&& other);
 
 		/**
-		 * @copydoc standard_docs::index_operator_2d()
+		 * @brief Element access operator.
+		 * @details Accesses the element at the specified row and column.
+		 * @param[in] i The row index (0-based).
+		 * @param[in] j The column index (0-based).
+		 * @return Reference to the element at position (i,j).
 		 */
 		T_Scalar& operator()(int_t i, int_t j);
 
 		/**
-		 * @copydoc standard_docs::index_operator_2d()
+		 * @brief Element access operator.
+		 * @details Accesses the element at the specified row and column.
+		 * @param[in] i The row index (0-based).
+		 * @param[in] j The column index (0-based).
+		 * @return Const reference to the element at position (i,j).
 		 */
 		const T_Scalar& operator()(int_t i, int_t j) const;
 
 		/**
-		 * @copydoc standard_docs::virtual_negate_operator()
+		 * @brief Unary negation operator.
+		 * @details Returns a negated copy of the matrix.
+		 * @return A virtual expression containing the negated elements.
 		 */
 		alias::VirtualScal_dns<T_Scalar> operator-() const;
 
 		/**
-		 * @copydoc standard_matrix_docs::fill()
+		 * @brief Fill operator.
+		 * @details Fills all elements with the specified value.
+		 * @param[in] val The scalar value to fill with.
 		 */
 		void operator=(T_Scalar val);
 
@@ -159,7 +194,9 @@ class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_matrix_docs::ld()
+		 * @brief Get the leading dimension.
+		 * @details Returns the leading dimension of the matrix (distance between consecutive columns).
+		 * @return The leading dimension.
 		 */
 		int_t ld() const;
 
@@ -171,197 +208,309 @@ class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_docs::clear()
+		 * @brief Clear the matrix.
+		 * @details Releases all memory and resets the matrix to an empty state.
 		 */
 		void clear();
 
 		/**
-		 * @copydoc standard_matrix_docs::fill()
+		 * @brief Fill all elements with a value.
+		 * @details Sets all elements in the matrix to the specified scalar value.
+		 * @param[in] val The scalar value to fill with.
 		 */
 		void fill(T_Scalar val);
 
 		/**
-		 * @copydoc standard_docs::copy()
+		 * @brief Create a deep copy of the matrix.
+		 * @details Creates a new matrix with its own memory allocation
+		 *          and copies all elements from this matrix to the new matrix.
+		 * @return A new matrix containing a copy of this matrix's data.
 		 */
 		XxMatrix<T_Scalar> copy() const;
 
 		/**
-		 * @copydoc standard_docs::rcopy()
+		 * @brief Create a reference copy (shallow copy) of the matrix.
+		 * @details Creates a new matrix object that references the same memory
+		 *          as this matrix. Changes to either matrix will affect both.
+		 * @return A matrix that shares memory with this matrix.
 		 */
 		XxMatrix<T_Scalar> rcopy();
 
 		/**
-		 * @copydoc standard_docs::rcopy_const()
+		 * @brief Create a guarded reference copy (shallow copy) of the matrix.
+		 * @details Creates a guarded matrix object that references the same memory
+		 *          as this matrix. The guard ensures the reference is read-only.
+		 * @return A guarded matrix that shares memory with this matrix.
 		 */
 		Guard<XxMatrix<T_Scalar>> rcopy() const;
 
 		/**
-		 * @copydoc standard_docs::move()
+		 * @brief Move the matrix's resources.
+		 * @details Transfers ownership of the memory to a new matrix object,
+		 *          leaving this matrix in an empty state.
+		 * @return A new matrix containing this matrix's memory.
 		 */
 		XxMatrix<T_Scalar> move();
 
 		/**
-		 * @copydoc standard_matrix_docs::info()
+		 * @brief Get information about the matrix.
+		 * @details Returns a string containing information about the matrix's dimensions and properties.
+		 * @param[in] header Optional header string to prepend to the information.
+		 * @return A string containing matrix information.
 		 */
 		std::string info(const std::string& header = "") const;
 
 		/**
-		 * @copydoc standard_docs::print()
+		 * @brief Print the matrix to standard output.
+		 * @details Prints the matrix elements to standard output with specified precision.
+		 * @param[in] prec The output precision (default: 0 for default precision).
 		 */
 		void print(std::streamsize prec = 0) const;
 
 		/**
-		 * @copydoc standard_docs::toStream()
+		 * @brief Output the matrix to a stream.
+		 * @details Writes the matrix elements to the specified output stream with specified precision.
+		 * @param[in,out] os The output stream to write to.
+		 * @param[in] prec The output precision (default: 0 for default precision).
 		 */
 		void toStream(std::ostream& os, std::streamsize prec = 0) const;
 
 		/**
-		 * @copydoc standard_docs::iscale()
+		 * @brief Scale the matrix in-place.
+		 * @details Multiplies all elements of the matrix by a scalar value.
+		 * @param[in] val The scalar value to multiply by.
 		 */
 		void iscale(T_Scalar val);
 
 		/**
-		 *  @copydoc standard_matrix_docs::virtual_transpose()
+		 * @brief Transpose the matrix.
+		 * @details Returns a transposed view of the matrix.
+		 * @return A virtual transpose expression.
 		 */
 		VirtualTranspose<XxMatrix<T_Scalar>> transpose() const;
 
 		/**
-		 * @copydoc standard_matrix_docs::virtual_ctranspose()
+		 * @brief Conjugate transpose the matrix.
+		 * @details Returns a conjugate transposed view of the matrix.
+		 * @return A virtual conjugate transpose expression.
 		 */
 		VirtualTranspose<XxMatrix<T_Scalar>> ctranspose() const;
 
 		/**
-		 * @copydoc standard_matrix_docs::virtual_conjugate()
+		 * @brief Compute the complex conjugate.
+		 * @details Returns a virtual expression containing the complex conjugate of each element.
+		 * @return A virtual expression with conjugated elements.
 		 */
 		alias::VirtualConj_dns<T_Scalar> conjugate() const;
 
 		/**
-		 * @copydoc standard_matrix_docs::iconjugate()
+		 * @brief Conjugate the matrix in-place.
+		 * @details Replaces all elements with their complex conjugates.
 		 */
 		void iconjugate();
 
 		/**
-		 * @copydoc standard_docs::normOne()
+		 * @brief Compute the 1-norm.
+		 * @details Computes the maximum absolute column sum.
+		 * @return The 1-norm of the matrix.
 		 */
 		T_RScalar normOne() const;
 
 		/**
-		 * @copydoc standard_docs::normInf()
+		 * @brief Compute the infinity norm.
+		 * @details Computes the maximum absolute row sum.
+		 * @return The infinity norm of the matrix.
 		 */
 		T_RScalar normInf() const;
 
 		/**
-		 * @copydoc standard_docs::normMax()
+		 * @brief Compute the maximum norm.
+		 * @details Computes the maximum absolute value of all elements.
+		 * @return The maximum norm of the matrix.
 		 */
 		T_RScalar normMax() const;
 
 		/**
-		 * @copydoc standard_docs::normFro()
+		 * @brief Compute the Frobenius norm.
+		 * @details Computes the square root of the sum of squared absolute values of all elements.
+		 * @return The Frobenius norm of the matrix.
 		 */
 		T_RScalar normFro() const;
 
 		/**
-		 * @copydoc standard_matrix_docs::general()
+		 * @brief Convert to general matrix.
+		 * @details Creates a new general matrix by copying all relevant elements from a structured matrix.
+		 * @return A general matrix containing the full data.
 		 */
 		XxMatrix<T_Scalar> general() const;
 
 		/**
-		 * @copydoc standard_matrix_docs::igeneral()
+		 * @brief Convert to general matrix in-place.
+		 * @details Converts a structured matrix to general form by filling in all elements.
 		 */
 		void igeneral();
 
 		/**
-		 * @copydoc standard_matrix_docs::permute_leftright()
+		 * @brief Permute rows and columns.
+		 * @details Applies left and right permutations to the matrix.
+		 * @param[in] P The row permutation matrix.
+		 * @param[in] Q The column permutation matrix.
+		 * @return A new matrix containing the permuted elements.
 		 */
 		XxMatrix<T_Scalar> permuteLeftRight(const prm::PxMatrix<int_t>& P, const prm::PxMatrix<int_t>& Q) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::permute_leftright_dst()
+		 * @brief Permute rows and columns into a destination.
+		 * @details Applies left and right permutations to the matrix and stores the result in the destination matrix.
+		 * @param[in] P The row permutation matrix.
+		 * @param[in] Q The column permutation matrix.
+		 * @param[out] dest The destination matrix for the permuted elements.
 		 */
 		void permuteLeftRight(const prm::PxMatrix<int_t>& P, const prm::PxMatrix<int_t>& Q, XxMatrix<T_Scalar>& dest) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::permute_left()
+		 * @brief Permute rows.
+		 * @details Applies a left (row) permutation to the matrix.
+		 * @param[in] P The row permutation matrix.
+		 * @return A new matrix containing the permuted elements.
 		 */
 		XxMatrix<T_Scalar> permuteLeft(const prm::PxMatrix<int_t>& P) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::permute_left_dst()
+		 * @brief Permute rows into a destination.
+		 * @details Applies a left (row) permutation to the matrix and stores the result in the destination matrix.
+		 * @param[in] P The row permutation matrix.
+		 * @param[out] dest The destination matrix for the permuted elements.
 		 */
 		void permuteLeft(const prm::PxMatrix<int_t>& P, XxMatrix<T_Scalar>& dest) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::permute_right()
+		 * @brief Permute columns.
+		 * @details Applies a right (column) permutation to the matrix.
+		 * @param[in] Q The column permutation matrix.
+		 * @return A new matrix containing the permuted elements.
 		 */
 		XxMatrix<T_Scalar> permuteRight(const prm::PxMatrix<int_t>& Q) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::permute_right_dst()
+		 * @brief Permute columns into a destination.
+		 * @details Applies a right (column) permutation to the matrix and stores the result in the destination matrix.
+		 * @param[in] Q The column permutation matrix.
+		 * @param[out] dest The destination matrix for the permuted elements.
 		 */
 		void permuteRight(const prm::PxMatrix<int_t>& Q, XxMatrix<T_Scalar>& dest) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::permute_mirror()
+		 * @brief Permute rows and columns symmetrically.
+		 * @details Applies the same permutation to both rows and columns (mirror permutation).
+		 * @param[in] P The permutation matrix to apply to both rows and columns.
+		 * @return A new matrix containing the permuted elements.
 		 */
 		XxMatrix<T_Scalar> permuteMirror(const prm::PxMatrix<int_t>& P) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::permute_mirror_dst()
+		 * @brief Permute rows and columns symmetrically into a destination.
+		 * @details Applies the same permutation to both rows and columns and stores the result in the destination matrix.
+		 * @param[in] P The permutation matrix to apply to both rows and columns.
+		 * @param[out] dest The destination matrix for the permuted elements.
 		 */
 		void permuteMirror(const prm::PxMatrix<int_t>& P, XxMatrix<T_Scalar>& dest) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::block()
+		 * @brief Extract a block as a new matrix.
+		 * @details Creates a new matrix containing a deep copy of a contiguous block of elements.
+		 * @param[in] ibgn The starting row index of the block.
+		 * @param[in] jbgn The starting column index of the block.
+		 * @param[in] ni The number of rows in the block.
+		 * @param[in] nj The number of columns in the block.
+		 * @return A new matrix containing the block's data.
 		 */
 		XxMatrix<T_Scalar> block(int_t ibgn, int_t jbgn, int_t ni, int_t nj) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::rblock()
+		 * @brief Extract a reference block.
+		 * @details Creates a matrix that references a contiguous block of this matrix's memory.
+		 * @param[in] ibgn The starting row index of the block.
+		 * @param[in] jbgn The starting column index of the block.
+		 * @param[in] ni The number of rows in the block.
+		 * @param[in] nj The number of columns in the block.
+		 * @return A matrix that shares memory with this matrix.
 		 */
 		XxMatrix<T_Scalar> rblock(int_t ibgn, int_t jbgn, int_t ni, int_t nj);
 
 		/**
-		 * @copydoc standard_matrix_docs::rblock()
+		 * @brief Extract a guarded reference block.
+		 * @details Creates a guarded matrix that references a contiguous block of this matrix's memory.
+		 * @param[in] ibgn The starting row index of the block.
+		 * @param[in] jbgn The starting column index of the block.
+		 * @param[in] ni The number of rows in the block.
+		 * @param[in] nj The number of columns in the block.
+		 * @return A guarded matrix that shares memory with this matrix.
 		 */
 		Guard<XxMatrix<T_Scalar>> rblock(int_t ibgn, int_t jbgn, int_t ni, int_t nj) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::set_block()
+		 * @brief Set a block of elements.
+		 * @details Copies elements from the source matrix to a contiguous block of this matrix.
+		 * @param[in] ibgn The starting row index where the block will be written.
+		 * @param[in] jbgn The starting column index where the block will be written.
+		 * @param[in] src The source matrix to copy from.
 		 */
 		void setBlock(int_t ibgn, int_t jbgn, const XxMatrix<T_Scalar>& src);
 
 		/**
-		 * @copydoc standard_matrix_docs::column()
+		 * @brief Extract a column as a new vector.
+		 * @details Creates a new vector containing a deep copy of a column.
+		 * @param[in] j The column index.
+		 * @return A new vector containing the column's data.
 		 */
 		XxVector<T_Scalar> column(int_t j) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::rcolumn()
+		 * @brief Extract a column as a reference.
+		 * @details Creates a vector that references a column of this matrix's memory.
+		 * @param[in] j The column index.
+		 * @return A vector that shares memory with this matrix.
 		 */
 		XxVector<T_Scalar> rcolumn(int_t j);
 
 		/**
-		 * @copydoc standard_matrix_docs::rcolumn()
+		 * @brief Extract a column as a guarded reference.
+		 * @details Creates a guarded vector that references a column of this matrix's memory.
+		 * @param[in] j The column index.
+		 * @return A guarded vector that shares memory with this matrix.
 		 */
 		Guard<XxVector<T_Scalar>> rcolumn(int_t j) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::row()
+		 * @brief Extract a row as a new matrix.
+		 * @details Creates a new matrix containing a deep copy of a row.
+		 * @param[in] i The row index.
+		 * @return A new matrix containing the row's data.
 		 */
 		XxMatrix<T_Scalar> row(int_t i) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::rrow()
+		 * @brief Extract a row as a reference.
+		 * @details Creates a matrix that references a row of this matrix's memory.
+		 * @param[in] i The row index.
+		 * @return A matrix that shares memory with this matrix.
 		 */
 		XxMatrix<T_Scalar> rrow(int_t i);
 
 		/**
-		 * @copydoc standard_matrix_docs::rrow()
+		 * @brief Extract a row as a guarded reference.
+		 * @details Creates a guarded matrix that references a row of this matrix's memory.
+		 * @param[in] i The row index.
+		 * @return A guarded matrix that shares memory with this matrix.
 		 */
 		Guard<XxMatrix<T_Scalar>> rrow(int_t i) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::rrowvec()
+		 * @brief Extract a row as a virtual row vector.
+		 * @details Creates a virtual row vector expression that references a row of this matrix's memory.
+		 * @param[in] i The row index.
+		 * @return A virtual row vector expression.
 		 */
 		VirtualRowvec<T_Scalar> rrowvec(int_t i) const;
 
@@ -373,14 +522,30 @@ class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_matrix_docs::random()
+		 * @brief Create a random matrix.
+		 * @details Creates a matrix with random values uniformly distributed in the specified range.
+		 * @param[in] nr The number of rows.
+		 * @param[in] nc The number of columns.
+		 * @param[in] pr The matrix property (default: General).
+		 * @param[in] lo The lower bound of the random values (default: 0).
+		 * @param[in] hi The upper bound of the random values (default: 1).
+		 * @return A matrix containing random values.
 		 */
 		static XxMatrix<T_Scalar> random(int_t nr, int_t nc, const Property& pr = Property::General(), 
 				T_RScalar lo = T_RScalar(0), 
 				T_RScalar hi = T_RScalar(1));
 
 		/**
-		 * @copydoc standard_matrix_docs::view()
+		 * @brief Create a view of existing memory.
+		 * @details Creates a guarded matrix that references existing memory
+		 *          without taking ownership. The memory must remain valid for the lifetime
+		 *          of the returned view.
+		 * @param[in] nr The number of rows.
+		 * @param[in] nc The number of columns.
+		 * @param[in] vals Pointer to the memory.
+		 * @param[in] ldv The leading dimension.
+		 * @param[in] pr The matrix property (default: General).
+		 * @return A guarded matrix that views the specified memory.
 		 */
 		static Guard<XxMatrix<T_Scalar>> view(int_t nr, int_t nc, const T_Scalar *vals, int_t ldv, const Property& pr = Property::General());
 

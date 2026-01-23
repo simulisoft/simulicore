@@ -63,7 +63,8 @@ class RankModerator {
 		 */
 
 		/**
-		 * @copydoc standard_docs::constructor()
+		 * @brief Default constructor.
+		 * @details Creates a rank moderator with default parameter values.
 		 */
 		RankModerator();
 
@@ -79,7 +80,8 @@ class RankModerator {
 		explicit RankModerator(T_RScalar tol, lraMethod_t method, T_RScalar ref = autoReference());
 
 		/**
-		 * @copydoc standard_docs::destructor()
+		 * @brief Destructor.
+		 * @details Destroys the rank moderator object.
 		 */
 		~RankModerator();
 

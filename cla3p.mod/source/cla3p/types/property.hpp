@@ -44,7 +44,7 @@ class Property {
 	public:
 
 		/**
-		 * @copybrief standard_docs::constructor()
+		 * @brief Default constructor.
 		 * @details Constructs an empty property with default values.
 		 */
 		Property();
@@ -58,17 +58,23 @@ class Property {
 		explicit Property(prop_t ptype, uplo_t ftype);
 
 		/**
-		 * @copydoc standard_docs::destructor()
+		 * @brief Destructor.
+		 * @details Destroys the property object.
 		 */
 		~Property();
 
 		/**
-		 * @copydoc standard_docs::copy_constructor()
+		 * @brief Copy constructor.
+		 * @details Creates a new property object by copying another property object.
+		 * @param[in] other The property object to copy.
 		 */
 		Property(const Property& other);
 
 		/**
-		 * @copydoc standard_docs::copy_assignment()
+		 * @brief Copy assignment operator.
+		 * @details Copies the contents of another property object to this property object.
+		 * @param[in] other The property object to copy.
+		 * @return Reference to this property object.
 		 */
 		Property& operator=(const Property& other);
 
@@ -76,7 +82,7 @@ class Property {
 		 * @brief Equality comparison operator.
 		 * @details Compares two property objects for equality.
 		 * @param[in] other The property object to compare against.
-		 * @return `true` if both properties have identical type and fill pattern, `false` otherwise.
+		 * @return @c true if both properties have identical type and fill pattern, @c false otherwise.
 		 */
 		bool operator==(const Property& other) const;
 
@@ -84,7 +90,7 @@ class Property {
 		 * @brief Inequality comparison operator.
 		 * @details Compares two property objects for inequality.
 		 * @param[in] other The property object to compare against.
-		 * @return `true` if properties differ in type or fill pattern, `false` otherwise.
+		 * @return @c true if properties differ in type or fill pattern, @c false otherwise.
 		 */
 		bool operator!=(const Property& other) const;
 
@@ -127,61 +133,61 @@ class Property {
 
 		/**
 		 * @brief Validates the property type.
-		 * @return `true` if the property has a valid type, `false` otherwise.
+		 * @return @c true if the property has a valid type, @c false otherwise.
 		 */
 		bool isValid() const;
 
 		/**
 		 * @brief Determines if the property requires a square matrix.
-		 * @return `true` if the property necessitates a square matrix structure, `false` otherwise.
+		 * @return @c true if the property necessitates a square matrix structure, @c false otherwise.
 		 */
 		bool isSquare() const;
 
 		/**
 		 * @brief Determines if the property type is general.
-		 * @return `true` if the property represents a general matrix, `false` otherwise.
+		 * @return @c true if the property represents a general matrix, @c false otherwise.
 		 */
 		bool isGeneral() const;
 
 		/**
 		 * @brief Determines if the property type is symmetric.
-		 * @return `true` if the property represents a symmetric matrix, `false` otherwise.
+		 * @return @c true if the property represents a symmetric matrix, @c false otherwise.
 		 */
 		bool isSymmetric() const;
 
 		/**
 		 * @brief Determines if the property type is Hermitian.
-		 * @return `true` if the property represents a Hermitian matrix, `false` otherwise.
+		 * @return @c true if the property represents a Hermitian matrix, @c false otherwise.
 		 */
 		bool isHermitian() const;
 
 		/**
 		 * @brief Determines if the property type is triangular or trapezoidal.
-		 * @return `true` if the property represents a triangular or trapezoidal matrix, `false` otherwise.
+		 * @return @c true if the property represents a triangular or trapezoidal matrix, @c false otherwise.
 		 */
 		bool isTriangular() const;
 
 		/**
 		 * @brief Determines if the property type is skew-symmetric.
-		 * @return `true` if the property represents a skew-symmetric matrix, `false` otherwise.
+		 * @return @c true if the property represents a skew-symmetric matrix, @c false otherwise.
 		 */
 		bool isSkew() const;
 
 		/**
 		 * @brief Determines if the entire matrix is utilized.
-		 * @return `true` if both upper and lower matrix parts are used, `false` otherwise.
+		 * @return @c true if both upper and lower matrix parts are used, @c false otherwise.
 		 */
 		bool isFull() const;
 
 		/**
 		 * @brief Determines if the upper triangular portion is utilized.
-		 * @return `true` if the upper part of the matrix is used, `false` otherwise.
+		 * @return @c true if the upper part of the matrix is used, @c false otherwise.
 		 */
 		bool isUpper() const;
 
 		/**
 		 * @brief Determines if the lower triangular portion is utilized.
-		 * @return `true` if the lower part of the matrix is used, `false` otherwise.
+		 * @return @c true if the lower part of the matrix is used, @c false otherwise.
 		 */
 		bool isLower() const;
 

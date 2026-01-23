@@ -52,13 +52,14 @@ class XxMatrix : public Meta2D<int_t> {
 		 */
 
 		/**
-		 * @copydoc standard_matrix_docs::constructor()
+		 * @brief Default constructor.
+		 * @details Creates an empty low-rank matrix with no allocated memory.
 		 */
 		XxMatrix();
 
 		/**
-		 * @copybrief standard_matrix_docs::dim_constructor()
-		 * @details Constructs a (nr x nc) low-rank matrix with rank `k` and uninitialized values.
+		 * @brief Dimension constructor.
+		 * @details Constructs a (nr x nc) low-rank matrix with rank @p k and uninitialized values.
 		 * @param[in] nr The number of matrix rows.
 		 * @param[in] nc The number of matrix columns.
 		 * @param[in] k The low matrix rank.
@@ -66,17 +67,22 @@ class XxMatrix : public Meta2D<int_t> {
 		explicit XxMatrix(int_t nr, int_t nc, int_t k);
 
 		/**
-		 * @copydoc standard_docs::copy_constructor()
+		 * @brief Copy constructor.
+		 * @details Creates a new low-rank matrix by copying another low-rank matrix.
+		 * @param[in] other The low-rank matrix to copy.
 		 */
 		XxMatrix(const XxMatrix<T_Matrix>& other);
 
 		/**
-		 * @copydoc standard_docs::move_constructor()
+		 * @brief Move constructor.
+		 * @details Creates a new low-rank matrix by moving resources from another low-rank matrix.
+		 * @param[in] other The low-rank matrix to move from.
 		 */
 		XxMatrix(XxMatrix<T_Matrix>&& other);
 
 		/**
-		 * @copydoc standard_matrix_docs::destructor()
+		 * @brief Destructor.
+		 * @details Destroys the low-rank matrix and releases allocated memory.
 		 */
 		~XxMatrix();
 
@@ -88,17 +94,25 @@ class XxMatrix : public Meta2D<int_t> {
 		 */
 
 		/**
-		 * @copydoc standard_docs::copy_assignment()
+		 * @brief Copy assignment operator.
+		 * @details Copies the contents of another low-rank matrix to this low-rank matrix.
+		 * @param[in] other The low-rank matrix to copy.
+		 * @return Reference to this low-rank matrix.
 		 */
 		XxMatrix<T_Matrix>& operator=(const XxMatrix<T_Matrix>& other);
 
 		/**
-		 * @copydoc standard_docs::move_assignment()
+		 * @brief Move assignment operator.
+		 * @details Moves resources from another low-rank matrix to this low-rank matrix.
+		 * @param[in] other The low-rank matrix to move from.
+		 * @return Reference to this low-rank matrix.
 		 */
 		XxMatrix<T_Matrix>& operator=(XxMatrix<T_Matrix>&& other);
 
 		/**
-		 * @copydoc standard_matrix_docs::fill()
+		 * @brief Fill operator.
+		 * @details Fills all elements in both matrices A and B with the specified value.
+		 * @param[in] val The scalar value to fill with.
 		 */
 		void operator=(T_Scalar val);
 
@@ -162,22 +176,30 @@ class XxMatrix : public Meta2D<int_t> {
 		 */
 
 		/**
-		 * @copydoc standard_docs::clear()
+		 * @brief Clear the low-rank matrix.
+		 * @details Releases all memory and resets the matrix to an empty state.
 		 */
 		void clear();
 
 		/**
-		 * @copydoc standard_matrix_docs::fill()
+		 * @brief Fill all elements with a value.
+		 * @details Sets all elements in both matrices A and B to the specified scalar value.
+		 * @param[in] val The scalar value to fill with.
 		 */
 		void fill(T_Scalar val);
 
 		/**
-		 * @copydoc standard_docs::iscale()
+		 * @brief Scale the low-rank matrix in-place.
+		 * @details Multiplies all elements of matrix A by a scalar value.
+		 * @param[in] val The scalar value to multiply by.
 		 */
 		void iscale(T_Scalar val);
 
 		/**
-		 * @copydoc standard_matrix_docs::info()
+		 * @brief Get information about the low-rank matrix.
+		 * @details Returns a string containing information about the matrix's dimensions and rank.
+		 * @param[in] header Optional header string to prepend to the information.
+		 * @return A string containing matrix information.
 		 */
 		std::string info(const std::string& header = "") const;
 

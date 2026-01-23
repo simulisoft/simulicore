@@ -70,12 +70,16 @@ class XxContainerBase {
 	public:
 
 		/**
-		 * @copydoc standard_docs::values()
+		 * @brief Access the data buffer.
+		 * @details Returns a pointer to the underlying data array.
+		 * @return Pointer to the data buffer.
 		 */
 		T_Scalar* values() { return m_values; }
 
 		/**
-		 * @copydoc standard_docs::values()
+		 * @brief Access the data buffer.
+		 * @details Returns a pointer to the underlying data array.
+		 * @return Pointer to the data buffer.
 		 */
 		const T_Scalar* values() const { return m_values; }
 

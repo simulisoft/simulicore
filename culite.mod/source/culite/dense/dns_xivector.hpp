@@ -65,32 +65,48 @@ class XiVector : public ::cla3p::Meta1D<int_t>, public XxContainer<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_docs::clear()
+		 * @brief Clear the device vector.
+		 * @details Releases all device memory and resets the vector to an empty state.
 		 */
 		void clear();
 
 		/**
-		 * @copydoc standard_docs::copy()
+		 * @brief Create a deep copy of the device vector.
+		 * @details Creates a new device vector with its own device memory allocation
+		 *          and copies all elements from this vector to the new vector.
+		 * @return A new device vector containing a copy of this vector's data.
 		 */
 		XiVector<T_Scalar> copy() const;
 
 		/**
-		 * @copydoc standard_docs::rcopy()
+		 * @brief Create a reference copy (shallow copy) of the device vector.
+		 * @details Creates a new device vector object that references the same device memory
+		 *          as this vector. Changes to either vector will affect both.
+		 * @return A device vector that shares device memory with this vector.
 		 */
 		XiVector<T_Scalar> rcopy();
 
 		/**
-		 * @copydoc standard_docs::rcopy_const()
+		 * @brief Create a guarded reference copy (shallow copy) of the device vector.
+		 * @details Creates a guarded device vector object that references the same device memory
+		 *          as this vector. The guard ensures the reference is read-only.
+		 * @return A guarded device vector that shares device memory with this vector.
 		 */
 		::cla3p::Guard<XiVector<T_Scalar>> rcopy() const;
 
 		/**
-		 * @copydoc standard_docs::move()
+		 * @brief Move the device vector's resources.
+		 * @details Transfers ownership of the device memory to a new vector object,
+		 *          leaving this vector in an empty state.
+		 * @return A new device vector containing this vector's device memory.
 		 */
 		XiVector<T_Scalar> move();
 
 		/**
-		 * @copydoc standard_vector_docs::info()
+		 * @brief Get information about the device vector.
+		 * @details Returns a string containing information about the vector's size and properties.
+		 * @param[in] header Optional header string to prepend to the information.
+		 * @return A string containing vector information.
 		 */
 		std::string info(const std::string& header = "") const;
 
@@ -120,7 +136,13 @@ class XiVector : public ::cla3p::Meta1D<int_t>, public XxContainer<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_vector_docs::view()
+		 * @brief Create a view of existing device memory.
+		 * @details Creates a guarded device vector that references existing device memory
+		 *          without taking ownership. The memory must remain valid for the lifetime
+		 *          of the returned view.
+		 * @param[in] n The number of elements in the vector.
+		 * @param[in] vals Pointer to the device memory.
+		 * @return A guarded device vector that views the specified device memory.
 		 */
 		static ::cla3p::Guard<XiVector<T_Scalar>> view(int_t n, const T_Scalar *vals);
 

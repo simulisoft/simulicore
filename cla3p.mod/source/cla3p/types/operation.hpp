@@ -49,7 +49,7 @@ class Operation {
 		/**
 		 * @brief The member constructor.
 		 *
-		 * Constructs an operation with type `otype`.
+		 * Constructs an operation with type @p otype.
 		 */
 		explicit Operation(op_t otype);
 
@@ -61,14 +61,14 @@ class Operation {
 		/**
 		 * @brief The copy constructor.
 		 *
-		 * Constructs an operation with the copy of the contents of `other`.
+		 * Constructs an operation with the copy of the contents of @p other.
 		 */
 		Operation(const Operation& other);
 
 		/**
 		 * @brief The copy assignment operator.
 		 *
-		 * Replaces the contents of `(*this)` with a copy of the contents of `other`.
+		 * Replaces the contents of @c *this with a copy of the contents of @p other.
 		 */
 		Operation& operator=(const Operation& other);
 

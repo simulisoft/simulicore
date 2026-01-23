@@ -58,32 +58,49 @@ class CxMatrix : public XxMatrix<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_matrix_docs::constructor()
+		 * @brief Default constructor.
+		 * @details Creates an empty device complex matrix with no allocated device memory.
 		 */
 		CxMatrix();
 
 		/**
-		 * @copydoc standard_matrix_docs::dim_constructor()
+		 * @brief Dimension constructor.
+		 * @details Creates a device complex matrix of the specified dimensions and allocates device memory.
+		 * @param[in] nr The number of rows.
+		 * @param[in] nc The number of columns.
+		 * @param[in] pr The matrix property (default: General).
 		 */
 		explicit CxMatrix(int_t nr, int_t nc, const ::cla3p::Property& pr = ::cla3p::Property::General());
 
 		/**
-		 * @copydoc standard_matrix_docs::aux_constructor()
+		 * @brief Auxiliary constructor.
+		 * @details Creates a device complex matrix using existing device memory.
+		 * @param[in] nr The number of rows.
+		 * @param[in] nc The number of columns.
+		 * @param[in] vals Pointer to existing device memory.
+		 * @param[in] ldv The leading dimension.
+		 * @param[in] bind If true, the matrix does not take ownership of the memory.
+		 * @param[in] pr The matrix property (default: General).
 		 */
 		explicit CxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const ::cla3p::Property& pr = ::cla3p::Property::General());
 
 		/**
-		 * @copydoc standard_docs::copy_constructor()
+		 * @brief Copy constructor.
+		 * @details Creates a new device complex matrix by copying another device complex matrix.
+		 * @param[in] other The device complex matrix to copy.
 		 */
 		CxMatrix(const CxMatrix<T_Scalar>& other) = default;
 
 		/**
-		 * @copydoc standard_docs::move_constructor()
+		 * @brief Move constructor.
+		 * @details Creates a new device complex matrix by moving resources from another device complex matrix.
+		 * @param[in] other The device complex matrix to move from.
 		 */
 		CxMatrix(CxMatrix<T_Scalar>&& other) = default;
 
 		/**
-		 * @copydoc standard_matrix_docs::destructor()
+		 * @brief Destructor.
+		 * @details Destroys the device complex matrix and releases allocated device memory.
 		 */
 		~CxMatrix();
 
@@ -95,12 +112,18 @@ class CxMatrix : public XxMatrix<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_docs::copy_assignment()
+		 * @brief Copy assignment operator.
+		 * @details Copies the contents of another device complex matrix to this device complex matrix.
+		 * @param[in] other The device complex matrix to copy.
+		 * @return Reference to this device complex matrix.
 		 */
 		CxMatrix<T_Scalar>& operator=(const CxMatrix<T_Scalar>& other) = default;
 
 		/**
-		 * @copydoc standard_docs::move_assignment()
+		 * @brief Move assignment operator.
+		 * @details Moves resources from another device complex matrix to this device complex matrix.
+		 * @param[in] other The device complex matrix to move from.
+		 * @return Reference to this device complex matrix.
 		 */
 		CxMatrix<T_Scalar>& operator=(CxMatrix<T_Scalar>&& other) = default;
 
@@ -112,12 +135,16 @@ class CxMatrix : public XxMatrix<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_matrix_docs::get_real()
+		 * @brief Extract the real part.
+		 * @details Creates a new device matrix containing the real parts of all complex elements.
+		 * @return A device matrix containing the real components.
 		 */
 		XxMatrix<T_RScalar> real() const;
 
 		/**
-		 * @copydoc standard_matrix_docs::get_imag()
+		 * @brief Extract the imaginary part.
+		 * @details Creates a new device matrix containing the imaginary parts of all complex elements.
+		 * @return A device matrix containing the imaginary components.
 		 */
 		XxMatrix<T_RScalar> imag() const;
 

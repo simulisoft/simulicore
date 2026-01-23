@@ -121,7 +121,7 @@ class PardisoBase :
 		 * @param[in] rhs The right hand side matrix.
 		 * @param[out] sol The matrix containing with the solution.
 		 *
-		 * Calculates the solution `sol` using the decomposed matrix.
+		 * Calculates the solution @p sol using the decomposed matrix.
 		 * Uses settings from the pardiso::GlobalParams & pardiso::SolveParams classes.
 		 */
 		void solve(const dns::XxMatrix<T_Scalar>& rhs, dns::XxMatrix<T_Scalar>& sol);
@@ -131,7 +131,7 @@ class PardisoBase :
 		 * @param[in] rhs The right hand side vector.
 		 * @param[out] sol The vector containing with the solution.
 		 *
-		 * Calculates the solution `sol` using the decomposed matrix.
+		 * Calculates the solution @p sol using the decomposed matrix.
 		 * Uses settings from the pardiso::GlobalParams & pardiso::SolveParams classes.
 		 */
 		void solve(const dns::XxVector<T_Scalar>& rhs, dns::XxVector<T_Scalar>& sol);

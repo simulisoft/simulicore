@@ -226,9 +226,9 @@ class SolveParams {
 		 *
 		 *  - numIters = 0, (default) Automatically performs two steps of iterative refinement 
 		 *                  when perturbed pivots are obtained during the numerical factorization.)
-		 *  - numIters > 0, The solver performs not more than the absolute value of `numIters` steps of iterative refinement.
+		 *  - numIters > 0, The solver performs not more than the absolute value of @p numIters steps of iterative refinement.
 		 *                  The solver might stop the process before the maximum number of steps.
-		 *  - numIters < 0, The solver performs not more than the absolute value of `numIters` steps of iterative refinement.
+		 *  - numIters < 0, The solver performs not more than the absolute value of @p numIters steps of iterative refinement.
 		 *                  The accumulation of the residuum uses extended precision real and complex data types.
 		 */
 		void setMaxIterativeRefinements(int_t numIters);

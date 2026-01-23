@@ -64,32 +64,44 @@ class CxVector : public XxVector<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_vector_docs::constructor()
+		 * @brief Default constructor.
+		 * @details Creates an empty complex vector with no allocated memory.
 		 */
 		CxVector();
 
 		/**
-		 * @copydoc standard_vector_docs::dim_constructor()
+		 * @brief Dimension constructor.
+		 * @details Creates a complex vector of the specified size and allocates memory.
+		 * @param[in] n The number of elements.
 		 */
 		explicit CxVector(int_t n);
 
 		/**
-		 * @copydoc standard_vector_docs::aux_constructor()
+		 * @brief Auxiliary constructor.
+		 * @details Creates a complex vector using existing memory.
+		 * @param[in] n The number of elements.
+		 * @param[in] vals Pointer to existing memory.
+		 * @param[in] bind If true, the vector does not take ownership of the memory.
 		 */
 		explicit CxVector(int_t n, T_Scalar *vals, bool bind);
 
 		/**
-		 * @copydoc standard_docs::copy_constructor()
+		 * @brief Copy constructor.
+		 * @details Creates a new complex vector by copying another complex vector.
+		 * @param[in] other The complex vector to copy.
 		 */
 		CxVector(const CxVector<T_Scalar>& other) = default;
 
 		/**
-		 * @copydoc standard_docs::move_constructor()
+		 * @brief Move constructor.
+		 * @details Creates a new complex vector by moving resources from another complex vector.
+		 * @param[in] other The complex vector to move from.
 		 */
 		CxVector(CxVector<T_Scalar>&& other) = default;
 
 		/**
-		 * @copydoc standard_vector_docs::destructor()
+		 * @brief Destructor.
+		 * @details Destroys the complex vector and releases allocated memory.
 		 */
 		~CxVector();
 
@@ -101,17 +113,25 @@ class CxVector : public XxVector<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_docs::copy_assignment()
+		 * @brief Copy assignment operator.
+		 * @details Copies the contents of another complex vector to this complex vector.
+		 * @param[in] other The complex vector to copy.
+		 * @return Reference to this complex vector.
 		 */
 		CxVector<T_Scalar>& operator=(const CxVector<T_Scalar>& other) = default;
 
 		/**
-		 * @copydoc standard_docs::move_assignment()
+		 * @brief Move assignment operator.
+		 * @details Moves resources from another complex vector to this complex vector.
+		 * @param[in] other The complex vector to move from.
+		 * @return Reference to this complex vector.
 		 */
 		CxVector<T_Scalar>& operator=(CxVector<T_Scalar>&& other) = default;
 
 		/**
-		 * @copydoc standard_vector_docs::fill()
+		 * @brief Fill operator.
+		 * @details Fills all elements with the specified complex value.
+		 * @param[in] val The complex scalar value to fill with.
 		 */
 		void operator=(T_Scalar val);
 
@@ -123,12 +143,16 @@ class CxVector : public XxVector<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_vector_docs::get_real()
+		 * @brief Extract the real part.
+		 * @details Creates a new vector containing the real parts of all complex elements.
+		 * @return A vector containing the real components.
 		 */
 		XxVector<T_RScalar> real() const;
 
 		/**
-		 * @copydoc standard_vector_docs::get_imag()
+		 * @brief Extract the imaginary part.
+		 * @details Creates a new vector containing the imaginary parts of all complex elements.
+		 * @return A vector containing the imaginary components.
 		 */
 		XxVector<T_RScalar> imag() const;
 

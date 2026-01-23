@@ -82,32 +82,44 @@ class XxVector : public XiVector<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_vector_docs::constructor()
+		 * @brief Default constructor.
+		 * @details Creates an empty vector with no allocated memory.
 		 */
 		XxVector();
 
 		/**
-		 * @copydoc standard_vector_docs::dim_constructor()
+		 * @brief Dimension constructor.
+		 * @details Creates a vector of the specified size and allocates memory.
+		 * @param[in] n The number of elements.
 		 */
 		explicit XxVector(int_t n);
 
 		/**
-		 * @copydoc standard_vector_docs::aux_constructor()
+		 * @brief Auxiliary constructor.
+		 * @details Creates a vector using existing memory.
+		 * @param[in] n The number of elements.
+		 * @param[in] vals Pointer to existing memory.
+		 * @param[in] bind If true, the vector does not take ownership of the memory.
 		 */
 		explicit XxVector(int_t n, T_Scalar *vals, bool bind);
 
 		/**
-		 * @copydoc standard_docs::copy_constructor()
+		 * @brief Copy constructor.
+		 * @details Creates a new vector by copying another vector.
+		 * @param[in] other The vector to copy.
 		 */
 		XxVector(const XxVector<T_Scalar>& other) = default;
 
 		/**
-		 * @copydoc standard_docs::move_constructor()
+		 * @brief Move constructor.
+		 * @details Creates a new vector by moving resources from another vector.
+		 * @param[in] other The vector to move from.
 		 */
 		XxVector(XxVector<T_Scalar>&& other) = default;
 
 		/**
-		 * @copydoc standard_vector_docs::destructor()
+		 * @brief Destructor.
+		 * @details Destroys the vector and releases allocated memory.
 		 */
 		~XxVector();
 
@@ -119,22 +131,32 @@ class XxVector : public XiVector<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_docs::copy_assignment()
+		 * @brief Copy assignment operator.
+		 * @details Copies the contents of another vector to this vector.
+		 * @param[in] other The vector to copy.
+		 * @return Reference to this vector.
 		 */
 		XxVector<T_Scalar>& operator=(const XxVector<T_Scalar>& other) = default;
 
 		/**
-		 * @copydoc standard_docs::move_assignment()
+		 * @brief Move assignment operator.
+		 * @details Moves resources from another vector to this vector.
+		 * @param[in] other The vector to move from.
+		 * @return Reference to this vector.
 		 */
 		XxVector<T_Scalar>& operator=(XxVector<T_Scalar>&& other) = default;
 
 		/**
-		 * @copydoc standard_matrix_docs::fill()
+		 * @brief Fill operator.
+		 * @details Fills all elements with the specified value.
+		 * @param[in] val The scalar value to fill with.
 		 */
 		void operator=(T_Scalar val);
 
 		/**
-		 * @copydoc standard_docs::virtual_negate_operator()
+		 * @brief Unary negation operator.
+		 * @details Returns a negated copy of the vector.
+		 * @return A virtual expression containing the negated elements.
 		 */
 		alias::VirtualScal_vec<T_Scalar> operator-() const;
 
@@ -146,72 +168,108 @@ class XxVector : public XiVector<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_docs::iscale()
+		 * @brief Scale the vector in-place.
+		 * @details Multiplies all elements of the vector by a scalar value.
+		 * @param[in] val The scalar value to multiply by.
 		 */
 		void iscale(T_Scalar val);
 
 		/**
-		 * @copydoc standard_vector_docs::virtual_transpose()
+		 * @brief Transpose the vector.
+		 * @details Returns a row vector view of this column vector.
+		 * @return A virtual row vector expression.
 		 */
 		VirtualRowvec<T_Scalar> transpose() const;
 
 		/**
-		 * @copydoc standard_vector_docs::virtual_ctranspose()
+		 * @brief Conjugate transpose the vector.
+		 * @details Returns a conjugate transposed row vector view of this column vector.
+		 * @return A virtual row vector expression.
 		 */
 		VirtualRowvec<T_Scalar> ctranspose() const;
 
 		/**
-		 * @copydoc standard_vector_docs::virtual_conjugate()
+		 * @brief Compute the complex conjugate.
+		 * @details Returns a virtual expression containing the complex conjugate of each element.
+		 * @return A virtual expression with conjugated elements.
 		 */
 		alias::VirtualConj_vec<T_Scalar> conjugate() const;
 
 		/**
-		 * @copydoc standard_vector_docs::iconjugate()
+		 * @brief Conjugate the vector in-place.
+		 * @details Replaces all elements with their complex conjugates.
 		 */
 		void iconjugate();
 
 		/**
-		 * @copydoc standard_docs::normOne()
+		 * @brief Compute the 1-norm.
+		 * @details Computes the sum of absolute values of all elements.
+		 * @return The 1-norm of the vector.
 		 */
 		T_RScalar normOne() const;
 
 		/**
-		 * @copydoc standard_docs::normInf()
+		 * @brief Compute the infinity norm.
+		 * @details Computes the maximum absolute value of all elements.
+		 * @return The infinity norm of the vector.
 		 */
 		T_RScalar normInf() const;
 
 		/**
-		 * @copydoc standard_docs::normEuc()
+		 * @brief Compute the Euclidean norm.
+		 * @details Computes the square root of the sum of squared absolute values of all elements.
+		 * @return The Euclidean norm of the vector.
 		 */
 		T_RScalar normEuc() const;
 
 		/**
-		 * @copydoc standard_vector_docs::permute_left()
+		 * @brief Permute the vector.
+		 * @details Applies a left permutation to the vector.
+		 * @param[in] P The permutation matrix.
+		 * @return A new vector containing the permuted elements.
 		 */
 		XxVector<T_Scalar> permuteLeft(const prm::PxMatrix<int_t>& P) const;
 
 		/**
-		 * @copydoc standard_vector_docs::permute_left_dst()
+		 * @brief Permute the vector into a destination.
+		 * @details Applies a left permutation to the vector and stores the result in the destination vector.
+		 * @param[in] P The permutation matrix.
+		 * @param[out] dest The destination vector for the permuted elements.
 		 */
 		void permuteLeft(const prm::PxMatrix<int_t>& P, XxVector<T_Scalar>& dest) const;
 
 		/**
-		 * @copydoc standard_vector_docs::rblock()
+		 * @brief Extract a block as a new vector.
+		 * @details Creates a new vector containing a deep copy of a contiguous block of elements.
+		 * @param[in] ibgn The starting index of the block.
+		 * @param[in] ni The number of elements in the block.
+		 * @return A new vector containing the block's data.
 		 */
 		XxVector<T_Scalar> block(int_t ibgn, int_t ni) const;
 
 		/**
-		 * @copydoc standard_vector_docs::rblock()
+		 * @brief Extract a reference block.
+		 * @details Creates a vector that references a contiguous block of this vector's memory.
+		 * @param[in] ibgn The starting index of the block.
+		 * @param[in] ni The number of elements in the block.
+		 * @return A vector that shares memory with this vector.
 		 */
 		XxVector<T_Scalar> rblock(int_t ibgn, int_t ni);
 
 		/**
-		 * @copydoc standard_vector_docs::rblock()
+		 * @brief Extract a guarded reference block.
+		 * @details Creates a guarded vector that references a contiguous block of this vector's memory.
+		 * @param[in] ibgn The starting index of the block.
+		 * @param[in] ni The number of elements in the block.
+		 * @return A guarded vector that shares memory with this vector.
 		 */
 		Guard<XxVector<T_Scalar>> rblock(int_t ibgn, int_t ni) const;
 
 		/**
-		 * @copydoc standard_vector_docs::set_block()
+		 * @brief Set a block of elements.
+		 * @details Copies elements from the source vector to a contiguous block of this vector.
+		 * @param[in] ibgn The starting index where the block will be written.
+		 * @param[in] src The source vector to copy from.
 		 */
 		void setBlock(int_t ibgn, const XxVector<T_Scalar>& src);
 
@@ -223,7 +281,12 @@ class XxVector : public XiVector<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_vector_docs::random()
+		 * @brief Create a random vector.
+		 * @details Creates a vector with random values uniformly distributed in the specified range.
+		 * @param[in] n The number of elements.
+		 * @param[in] lo The lower bound of the random values (default: 0).
+		 * @param[in] hi The upper bound of the random values (default: 1).
+		 * @return A vector containing random values.
 		 */
 		static XxVector<T_Scalar> random(int_t n, T_RScalar lo = T_RScalar(0), T_RScalar hi = T_RScalar(1));
 

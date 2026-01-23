@@ -57,27 +57,37 @@ class XxMatrix : public MatrixMeta<T_Int> {
 		 */
 
 		/**
-		 * @copydoc standard_matrix_docs::constructor()
+		 * @brief Default constructor.
+		 * @details Creates an empty sparse matrix with no allocated memory.
 		 */
 		XxMatrix();
 
 		/**
-		 * @copydoc standard_coo_docs::dim_constructor()
+		 * @brief Dimension constructor.
+		 * @details Creates a sparse matrix of the specified dimensions in coordinate format.
+		 * @param[in] nr The number of rows.
+		 * @param[in] nc The number of columns.
+		 * @param[in] pr The matrix property (default: General).
 		 */
 		explicit XxMatrix(T_Int nr, T_Int nc, const Property& pr = Property::General());
 
 		/**
-		 * @copydoc standard_docs::copy_constructor()
+		 * @brief Copy constructor.
+		 * @details Creates a new sparse matrix by copying another sparse matrix.
+		 * @param[in] other The sparse matrix to copy.
 		 */
 		XxMatrix(const XxMatrix<T_Int,T_Scalar>& other) = default;
 
 		/**
-		 * @copydoc standard_docs::move_constructor()
+		 * @brief Move constructor.
+		 * @details Creates a new sparse matrix by moving resources from another sparse matrix.
+		 * @param[in] other The sparse matrix to move from.
 		 */
 		XxMatrix(XxMatrix<T_Int,T_Scalar>&& other) = default;
 
 		/**
-		 * @copydoc standard_matrix_docs::destructor()
+		 * @brief Destructor.
+		 * @details Destroys the sparse matrix and releases allocated memory.
 		 */
 		~XxMatrix();
 
@@ -89,12 +99,18 @@ class XxMatrix : public MatrixMeta<T_Int> {
 		 */
 
 		/**
-		 * @copydoc standard_docs::copy_assignment()
+		 * @brief Copy assignment operator.
+		 * @details Copies the contents of another sparse matrix to this sparse matrix.
+		 * @param[in] other The sparse matrix to copy.
+		 * @return Reference to this sparse matrix.
 		 */
 		XxMatrix<T_Int,T_Scalar>& operator=(const XxMatrix<T_Int,T_Scalar>& other) = default;
 
 		/**
-		 * @copydoc standard_docs::move_assignment()
+		 * @brief Move assignment operator.
+		 * @details Moves resources from another sparse matrix to this sparse matrix.
+		 * @param[in] other The sparse matrix to move from.
+		 * @return Reference to this sparse matrix.
 		 */
 		XxMatrix<T_Int,T_Scalar>& operator=(XxMatrix<T_Int,T_Scalar>&& other) = default;
 
@@ -106,7 +122,9 @@ class XxMatrix : public MatrixMeta<T_Int> {
 		 */
 
 		/**
-		 * @copydoc standard_docs::nnz()
+		 * @brief Get the number of non-zero elements.
+		 * @details Returns the number of stored non-zero elements in the sparse matrix.
+		 * @return The number of non-zero elements.
 		 */
 		T_Int nnz() const;
 
@@ -118,37 +136,55 @@ class XxMatrix : public MatrixMeta<T_Int> {
 		 */
 
 		/**
-		 * @copydoc standard_docs::clear()
+		 * @brief Clear the sparse matrix.
+		 * @details Releases all memory and resets the matrix to an empty state.
 		 */
 		void clear();
 
 		/**
-		 * @copydoc standard_coo_docs::reserve()
+		 * @brief Reserve storage for non-zero elements.
+		 * @details Preallocates memory for the specified number of non-zero elements to avoid reallocations.
+		 * @param[in] nz The number of non-zero elements to reserve space for.
 		 */
 		void reserve(T_Int nz);
 
 		/**
-		 * @copydoc standard_coo_docs::insert_tup()
+		 * @brief Insert a non-zero element using a tuple.
+		 * @details Inserts a non-zero element specified as a tuple (row, column, value) into the sparse matrix.
+		 * @param[in] tuple The tuple containing the row index, column index, and value.
 		 */
 		void insert(const Tuple<T_Int,T_Scalar>& tuple);
 
 		/**
-		 * @copydoc standard_coo_docs::insert_ijv()
+		 * @brief Insert a non-zero element.
+		 * @details Inserts a non-zero element at the specified row and column with the given value.
+		 * @param[in] i The row index.
+		 * @param[in] j The column index.
+		 * @param[in] v The value to insert.
 		 */
 		void insert(T_Int i, T_Int j, T_Scalar v);
 
 		/**
-		 * @copydoc standard_matrix_docs::info()
+		 * @brief Get information about the sparse matrix.
+		 * @details Returns a string containing information about the matrix's dimensions, non-zeros, and properties.
+		 * @param[in] header Optional header string to prepend to the information.
+		 * @return A string containing matrix information.
 		 */
 		std::string info(const std::string& header = "") const;
 
 		/**
-		 * @copydoc standard_docs::toStream()
+		 * @brief Output the sparse matrix to a stream.
+		 * @details Writes the sparse matrix elements to the specified output stream with specified precision.
+		 * @param[in,out] os The output stream to write to.
+		 * @param[in] prec The output precision (default: 0 for default precision).
 		 */
 		void toStream(std::ostream& os, std::streamsize prec = 0) const;
 
 		/**
-		 * @copydoc standard_coo_docs::to_csc()
+		 * @brief Convert to compressed sparse column (CSC) format.
+		 * @details Converts the coordinate format sparse matrix to CSC format.
+		 * @param[in] duplicatePolicy The policy for handling duplicate entries (default: Sum).
+		 * @return A sparse matrix in CSC format.
 		 */
 		csc::XxMatrix<T_Int,T_Scalar> toCsc(dup_t duplicatePolicy = dup_t::Sum) const;
 

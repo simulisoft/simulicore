@@ -58,32 +58,44 @@ class CxVector : public XxVector<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_vector_docs::constructor()
+		 * @brief Default constructor.
+		 * @details Creates an empty complex device vector with no allocated device memory.
 		 */
 		CxVector();
 
 		/**
-		 * @copydoc standard_vector_docs::dim_constructor()
+		 * @brief Dimension constructor.
+		 * @details Creates a complex device vector of the specified size and allocates device memory.
+		 * @param[in] n The number of elements in the vector.
 		 */
 		explicit CxVector(int_t n);
 
 		/**
-		 * @copydoc standard_vector_docs::aux_constructor()
+		 * @brief Auxiliary constructor.
+		 * @details Creates a complex device vector using existing device memory.
+		 * @param[in] n The number of elements in the vector.
+		 * @param[in] vals Pointer to existing device memory.
+		 * @param[in] bind If true, the vector does not take ownership of the memory.
 		 */
 		explicit CxVector(int_t n, T_Scalar *vals, bool bind);
 
 		/**
-		 * @copydoc standard_docs::copy_constructor()
+		 * @brief Copy constructor.
+		 * @details Creates a new complex device vector by copying another complex device vector.
+		 * @param[in] other The complex device vector to copy.
 		 */
 		CxVector(const CxVector<T_Scalar>& other) = default;
 
 		/**
-		 * @copydoc standard_docs::move_constructor()
+		 * @brief Move constructor.
+		 * @details Creates a new complex device vector by moving resources from another complex device vector.
+		 * @param[in] other The complex device vector to move from.
 		 */
 		CxVector(CxVector<T_Scalar>&& other) = default;
 
 		/**
-		 * @copydoc standard_vector_docs::destructor()
+		 * @brief Destructor.
+		 * @details Destroys the complex device vector and releases allocated device memory.
 		 */
 		~CxVector();
 
@@ -95,12 +107,18 @@ class CxVector : public XxVector<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_docs::copy_assignment()
+		 * @brief Copy assignment operator.
+		 * @details Copies the contents of another complex device vector to this complex device vector.
+		 * @param[in] other The complex device vector to copy.
+		 * @return Reference to this complex device vector.
 		 */
 		CxVector<T_Scalar>& operator=(const CxVector<T_Scalar>& other) = default;
 
 		/**
-		 * @copydoc standard_docs::move_assignment()
+		 * @brief Move assignment operator.
+		 * @details Moves resources from another complex device vector to this complex device vector.
+		 * @param[in] other The complex device vector to move from.
+		 * @return Reference to this complex device vector.
 		 */
 		CxVector<T_Scalar>& operator=(CxVector<T_Scalar>&& other) = default;
 
@@ -112,12 +130,16 @@ class CxVector : public XxVector<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_vector_docs::get_real()
+		 * @brief Extract the real part.
+		 * @details Creates a new device vector containing the real part of each complex element.
+		 * @return A device vector containing the real parts.
 		 */
 		XxVector<T_RScalar> real() const;
 
 		/**
-		 * @copydoc standard_vector_docs::get_imag()
+		 * @brief Extract the imaginary part.
+		 * @details Creates a new device vector containing the imaginary part of each complex element.
+		 * @return A device vector containing the imaginary parts.
 		 */
 		XxVector<T_RScalar> imag() const;	
 

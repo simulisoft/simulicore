@@ -68,19 +68,19 @@ class VirtualExpression {
 
 		/**
 		 * @brief Evaluates the expression on a return object.
-		 * @details Clears existing data in `dest`, reallocates and evaluates the expression.
+		 * @details Clears existing data in @p dest, reallocates and evaluates the expression.
 		 */
 		virtual void evaluateOnNew(T_Result& dest) const = 0;
 
 		/**
 		 * @brief Evaluates the expression on a return object.
-		 * @details Evaluates the expression on the pre-allocated & compatible `dest`.
+		 * @details Evaluates the expression on the pre-allocated & compatible @p dest.
 		 */
 		virtual void evaluateOnExisting(T_Result& dest) const = 0;
 
 		/**
 		 * @brief Adds the expression on a return object.
-		 * @details Adds the scaled expression result to the pre-allocated & compatible `dest`.
+		 * @details Adds the scaled expression result to the pre-allocated & compatible @p dest.
 		 */
 		virtual void accumulateOnExisting(T_Result& dest, T_Scalar coeff) const = 0;
 };

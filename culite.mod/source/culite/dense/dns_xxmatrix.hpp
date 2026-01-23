@@ -56,32 +56,49 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
 		 */
 
 		/**
-		 * @copydoc standard_matrix_docs::constructor()
+		 * @brief Default constructor.
+		 * @details Creates an empty device matrix with no allocated device memory.
 		 */
 		XxMatrix();
 
 		/**
-		 * @copydoc standard_matrix_docs::dim_constructor()
+		 * @brief Dimension constructor.
+		 * @details Creates a device matrix of the specified dimensions and allocates device memory.
+		 * @param[in] nr The number of rows.
+		 * @param[in] nc The number of columns.
+		 * @param[in] pr The matrix property (default: General).
 		 */
 		explicit XxMatrix(int_t nr, int_t nc, const ::cla3p::Property& pr = ::cla3p::Property::General());
 
 		/**
-		 * @copydoc standard_matrix_docs::aux_constructor()
+		 * @brief Auxiliary constructor.
+		 * @details Creates a device matrix using existing device memory.
+		 * @param[in] nr The number of rows.
+		 * @param[in] nc The number of columns.
+		 * @param[in] vals Pointer to existing device memory.
+		 * @param[in] ldv The leading dimension.
+		 * @param[in] bind If true, the matrix does not take ownership of the memory.
+		 * @param[in] pr The matrix property (default: General).
 		 */
 		explicit XxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const ::cla3p::Property& pr = ::cla3p::Property::General());
 
 		/**
-		 * @copydoc standard_docs::copy_constructor()
+		 * @brief Copy constructor.
+		 * @details Creates a new device matrix by copying another device matrix.
+		 * @param[in] other The device matrix to copy.
 		 */
 		XxMatrix(const XxMatrix<T_Scalar>& other);
 
 		/**
-		 * @copydoc standard_docs::move_constructor()
+		 * @brief Move constructor.
+		 * @details Creates a new device matrix by moving resources from another device matrix.
+		 * @param[in] other The device matrix to move from.
 		 */
 		XxMatrix(XxMatrix<T_Scalar>&& other);
 
 		/**
-		 * @copydoc standard_matrix_docs::destructor()
+		 * @brief Destructor.
+		 * @details Destroys the device matrix and releases allocated device memory.
 		 */
 		~XxMatrix();
 
@@ -93,17 +110,25 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
 		 */
 
 		/**
-		 * @copydoc standard_docs::copy_assignment()
+		 * @brief Copy assignment operator.
+		 * @details Copies the contents of another device matrix to this device matrix.
+		 * @param[in] other The device matrix to copy.
+		 * @return Reference to this device matrix.
 		 */
 		XxMatrix<T_Scalar>& operator=(const XxMatrix<T_Scalar>& other);
 
 		/**
-		 * @copydoc standard_docs::move_assignment()
+		 * @brief Move assignment operator.
+		 * @details Moves resources from another device matrix to this device matrix.
+		 * @param[in] other The device matrix to move from.
+		 * @return Reference to this device matrix.
 		 */
 		XxMatrix<T_Scalar>& operator=(XxMatrix<T_Scalar>&& other);
 
 		/**
-		 * @copydoc standard_docs::virtual_negate_operator()
+		 * @brief Unary negation operator.
+		 * @details Returns a negated copy of the device matrix.
+		 * @return A device matrix containing the negated elements.
 		 */
 		XxMatrix<T_Scalar> operator-() const; // TODO: use virtuals
 
@@ -115,7 +140,9 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
 		 */
 
 		/**
-		 * @copydoc standard_matrix_docs::ld()
+		 * @brief Get the leading dimension.
+		 * @details Returns the leading dimension of the device matrix (distance between consecutive columns).
+		 * @return The leading dimension.
 		 */
 		int_t ld() const;
 
@@ -127,127 +154,200 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
 		 */
 
 		/**
-		 * @copydoc standard_docs::clear()
+		 * @brief Clear the device matrix.
+		 * @details Releases all device memory and resets the matrix to an empty state.
 		 */
 		void clear();
 
 		/**
-		 * @copydoc standard_docs::copy()
+		 * @brief Create a deep copy of the device matrix.
+		 * @details Creates a new device matrix with its own device memory allocation
+		 *          and copies all elements from this matrix to the new matrix.
+		 * @return A new device matrix containing a copy of this matrix's data.
 		 */
 		XxMatrix<T_Scalar> copy() const;
 
 		/**
-		 * @copydoc standard_docs::rcopy()
+		 * @brief Create a reference copy (shallow copy) of the device matrix.
+		 * @details Creates a new device matrix object that references the same device memory
+		 *          as this matrix. Changes to either matrix will affect both.
+		 * @return A device matrix that shares device memory with this matrix.
 		 */
 		XxMatrix<T_Scalar> rcopy();
 
 		/**
-		 * @copydoc standard_docs::rcopy_const()
+		 * @brief Create a guarded reference copy (shallow copy) of the device matrix.
+		 * @details Creates a guarded device matrix object that references the same device memory
+		 *          as this matrix. The guard ensures the reference is read-only.
+		 * @return A guarded device matrix that shares device memory with this matrix.
 		 */
 		::cla3p::Guard<XxMatrix<T_Scalar>> rcopy() const;
 
 		/**
-		 * @copydoc standard_docs::move()
+		 * @brief Move the device matrix's resources.
+		 * @details Transfers ownership of the device memory to a new matrix object,
+		 *          leaving this matrix in an empty state.
+		 * @return A new device matrix containing this matrix's device memory.
 		 */
 		XxMatrix<T_Scalar> move();
 
 		/**
-		 * @copydoc standard_matrix_docs::info()
+		 * @brief Get information about the device matrix.
+		 * @details Returns a string containing information about the matrix's dimensions and properties.
+		 * @param[in] header Optional header string to prepend to the information.
+		 * @return A string containing matrix information.
 		 */
 		std::string info(const std::string& header = "") const;
 
 		/**
-		 * @copydoc standard_docs::iscale()
+		 * @brief Scale the device matrix in-place.
+		 * @details Multiplies all elements of the device matrix by a scalar value.
+		 * @param[in] val The scalar value to multiply by.
 		 */
 		void iscale(T_Scalar val);
 
 		/**
-		 *  @copydoc standard_matrix_docs::virtual_transpose()
+		 * @brief Transpose the device matrix.
+		 * @details Returns a transposed copy of the device matrix.
+		 * @return A device matrix containing the transposed elements.
 		 */
 		XxMatrix<T_Scalar> transpose() const; // TODO: use virtuals
 
 		/**
-		 * @copydoc standard_matrix_docs::virtual_ctranspose()
+		 * @brief Conjugate transpose the device matrix.
+		 * @details Returns a conjugate transposed copy of the device matrix.
+		 * @return A device matrix containing the conjugate transposed elements.
 		 */
 		XxMatrix<T_Scalar> ctranspose() const; // TODO: use virtuals
 
 		/**
-		 * @copydoc standard_matrix_docs::virtual_conjugate()
+		 * @brief Compute the complex conjugate.
+		 * @details Returns a device matrix containing the complex conjugate of each element.
+		 * @return A device matrix with conjugated elements.
 		 */
 		XxMatrix<T_Scalar> conjugate() const; // TODO: use virtuals
 
 		/**
-		 * @copydoc standard_matrix_docs::iconjugate()
+		 * @brief Conjugate the device matrix in-place.
+		 * @details Replaces all elements with their complex conjugates.
 		 */
 		void iconjugate();
 
 		/**
-		 * @copydoc standard_docs::normOne()
+		 * @brief Compute the 1-norm.
+		 * @details Computes the maximum absolute column sum.
+		 * @return The 1-norm of the device matrix.
 		 */
 		T_RScalar normOne() const;
 
 		/**
-		 * @copydoc standard_docs::normInf()
+		 * @brief Compute the infinity norm.
+		 * @details Computes the maximum absolute row sum.
+		 * @return The infinity norm of the device matrix.
 		 */
 		T_RScalar normInf() const;
 
 		/**
-		 * @copydoc standard_docs::normMax()
+		 * @brief Compute the maximum norm.
+		 * @details Computes the maximum absolute value of all elements.
+		 * @return The maximum norm of the device matrix.
 		 */
 		T_RScalar normMax() const;
 
 		/**
-		 * @copydoc standard_docs::normFro()
+		 * @brief Compute the Frobenius norm.
+		 * @details Computes the square root of the sum of squared absolute values of all elements.
+		 * @return The Frobenius norm of the device matrix.
 		 */
 		T_RScalar normFro() const;
 
 		/**
-		 * @copydoc standard_matrix_docs::block()
+		 * @brief Extract a block as a new device matrix.
+		 * @details Creates a new device matrix containing a deep copy of a contiguous block of elements.
+		 * @param[in] ibgn The starting row index of the block.
+		 * @param[in] jbgn The starting column index of the block.
+		 * @param[in] ni The number of rows in the block.
+		 * @param[in] nj The number of columns in the block.
+		 * @return A new device matrix containing the block's data.
 		 */
 		XxMatrix<T_Scalar> block(int_t ibgn, int_t jbgn, int_t ni, int_t nj) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::rblock()
+		 * @brief Extract a reference block.
+		 * @details Creates a device matrix that references a contiguous block of this matrix's device memory.
+		 * @param[in] ibgn The starting row index of the block.
+		 * @param[in] jbgn The starting column index of the block.
+		 * @param[in] ni The number of rows in the block.
+		 * @param[in] nj The number of columns in the block.
+		 * @return A device matrix that shares device memory with this matrix.
 		 */
 		XxMatrix<T_Scalar> rblock(int_t ibgn, int_t jbgn, int_t ni, int_t nj);
 
 		/**
-		 * @copydoc standard_matrix_docs::rblock()
+		 * @brief Extract a guarded reference block.
+		 * @details Creates a guarded device matrix that references a contiguous block of this matrix's device memory.
+		 * @param[in] ibgn The starting row index of the block.
+		 * @param[in] jbgn The starting column index of the block.
+		 * @param[in] ni The number of rows in the block.
+		 * @param[in] nj The number of columns in the block.
+		 * @return A guarded device matrix that shares device memory with this matrix.
 		 */
 		::cla3p::Guard<XxMatrix<T_Scalar>> rblock(int_t ibgn, int_t jbgn, int_t ni, int_t nj) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::set_block()
+		 * @brief Set a block of elements.
+		 * @details Copies elements from the source device matrix to a contiguous block of this matrix.
+		 * @param[in] ibgn The starting row index where the block will be written.
+		 * @param[in] jbgn The starting column index where the block will be written.
+		 * @param[in] src The source device matrix to copy from.
 		 */
 		void setBlock(int_t ibgn, int_t jbgn, const XxMatrix<T_Scalar>& src);
 
 		/**
-		 * @copydoc standard_matrix_docs::column()
+		 * @brief Extract a column as a new device vector.
+		 * @details Creates a new device vector containing a deep copy of a column.
+		 * @param[in] j The column index.
+		 * @return A new device vector containing the column's data.
 		 */
 		XxVector<T_Scalar> column(int_t j) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::rcolumn()
+		 * @brief Extract a column as a reference.
+		 * @details Creates a device vector that references a column of this matrix's device memory.
+		 * @param[in] j The column index.
+		 * @return A device vector that shares device memory with this matrix.
 		 */
 		XxVector<T_Scalar> rcolumn(int_t j);
 
 		/**
-		 * @copydoc standard_matrix_docs::rcolumn()
+		 * @brief Extract a column as a guarded reference.
+		 * @details Creates a guarded device vector that references a column of this matrix's device memory.
+		 * @param[in] j The column index.
+		 * @return A guarded device vector that shares device memory with this matrix.
 		 */
 		::cla3p::Guard<XxVector<T_Scalar>> rcolumn(int_t j) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::row()
+		 * @brief Extract a row as a new device matrix.
+		 * @details Creates a new device matrix containing a deep copy of a row.
+		 * @param[in] i The row index.
+		 * @return A new device matrix containing the row's data.
 		 */
 		XxMatrix<T_Scalar> row(int_t i) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::rrow()
+		 * @brief Extract a row as a reference.
+		 * @details Creates a device matrix that references a row of this matrix's device memory.
+		 * @param[in] i The row index.
+		 * @return A device matrix that shares device memory with this matrix.
 		 */
 		XxMatrix<T_Scalar> rrow(int_t i);
 
 		/**
-		 * @copydoc standard_matrix_docs::rrow()
+		 * @brief Extract a row as a guarded reference.
+		 * @details Creates a guarded device matrix that references a row of this matrix's device memory.
+		 * @param[in] i The row index.
+		 * @return A guarded device matrix that shares device memory with this matrix.
 		 */
 		::cla3p::Guard<XxMatrix<T_Scalar>> rrow(int_t i) const;
 
@@ -282,7 +382,16 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
 		 */
 
 		/**
-		 * @copydoc standard_matrix_docs::view()
+		 * @brief Create a view of existing device memory.
+		 * @details Creates a guarded device matrix that references existing device memory
+		 *          without taking ownership. The memory must remain valid for the lifetime
+		 *          of the returned view.
+		 * @param[in] nr The number of rows.
+		 * @param[in] nc The number of columns.
+		 * @param[in] vals Pointer to the device memory.
+		 * @param[in] ldv The leading dimension.
+		 * @param[in] pr The matrix property (default: General).
+		 * @return A guarded device matrix that views the specified device memory.
 		 */
 		static ::cla3p::Guard<XxMatrix<T_Scalar>> view(int_t nr, int_t nc, const T_Scalar *vals, int_t ldv, const ::cla3p::Property& pr = ::cla3p::Property::General());
 

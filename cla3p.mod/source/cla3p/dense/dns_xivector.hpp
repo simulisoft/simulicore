@@ -64,12 +64,18 @@ class XiVector : public Meta1D<int_t>, public XxContainer<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_docs::index_operator_1d()
+		 * @brief Element access operator.
+		 * @details Accesses the element at the specified index.
+		 * @param[in] i The index of the element (0-based).
+		 * @return Reference to the element at index i.
 		 */
 		T_Scalar& operator()(int_t i);
 
 		/**
-		 * @copydoc standard_docs::index_operator_1d()
+		 * @brief Element access operator.
+		 * @details Accesses the element at the specified index.
+		 * @param[in] i The index of the element (0-based).
+		 * @return Const reference to the element at index i.
 		 */
 		const T_Scalar& operator()(int_t i) const;
 
@@ -81,47 +87,70 @@ class XiVector : public Meta1D<int_t>, public XxContainer<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_docs::clear()
+		 * @brief Clear the vector.
+		 * @details Releases all memory and resets the vector to an empty state.
 		 */
 		void clear();
 
 		/**
-		 * @copydoc standard_vector_docs::fill()
+		 * @brief Fill all elements with a value.
+		 * @details Sets all elements in the vector to the specified scalar value.
+		 * @param[in] val The scalar value to fill with.
 		 */
 		void fill(T_Scalar val);
 
 		/**
-		 * @copydoc standard_docs::copy()
+		 * @brief Create a deep copy of the vector.
+		 * @details Creates a new vector with its own memory allocation
+		 *          and copies all elements from this vector to the new vector.
+		 * @return A new vector containing a copy of this vector's data.
 		 */
 		XiVector<T_Scalar> copy() const;
 
 		/**
-		 * @copydoc standard_docs::rcopy()
+		 * @brief Create a reference copy (shallow copy) of the vector.
+		 * @details Creates a new vector object that references the same memory
+		 *          as this vector. Changes to either vector will affect both.
+		 * @return A vector that shares memory with this vector.
 		 */
 		XiVector<T_Scalar> rcopy();
 
 		/**
-		 * @copydoc standard_docs::rcopy_const()
+		 * @brief Create a guarded reference copy (shallow copy) of the vector.
+		 * @details Creates a guarded vector object that references the same memory
+		 *          as this vector. The guard ensures the reference is read-only.
+		 * @return A guarded vector that shares memory with this vector.
 		 */
 		Guard<XiVector<T_Scalar>> rcopy() const;
 
 		/**
-		 * @copydoc standard_docs::move()
+		 * @brief Move the vector's resources.
+		 * @details Transfers ownership of the memory to a new vector object,
+		 *          leaving this vector in an empty state.
+		 * @return A new vector containing this vector's memory.
 		 */
 		XiVector<T_Scalar> move();
 
 		/**
-		 * @copydoc standard_vector_docs::info()
+		 * @brief Get information about the vector.
+		 * @details Returns a string containing information about the vector's dimensions.
+		 * @param[in] header Optional header string to prepend to the information.
+		 * @return A string containing vector information.
 		 */
 		std::string info(const std::string& header = "") const;
 
 		/**
-		 * @copydoc standard_docs::print()
+		 * @brief Print the vector to standard output.
+		 * @details Prints the vector elements to standard output with specified precision.
+		 * @param[in] prec The output precision (default: 0 for default precision).
 		 */
 		void print(std::streamsize prec = 0) const;
 
 		/**
-		 * @copydoc standard_docs::toStream()
+		 * @brief Output the vector to a stream.
+		 * @details Writes the vector elements to the specified output stream with specified precision.
+		 * @param[in,out] os The output stream to write to.
+		 * @param[in] prec The output precision (default: 0 for default precision).
 		 */
 		void toStream(std::ostream& os, std::streamsize prec = 0) const;
 
@@ -133,7 +162,13 @@ class XiVector : public Meta1D<int_t>, public XxContainer<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_vector_docs::view()
+		 * @brief Create a view of existing memory.
+		 * @details Creates a guarded vector that references existing memory
+		 *          without taking ownership. The memory must remain valid for the lifetime
+		 *          of the returned view.
+		 * @param[in] n The number of elements.
+		 * @param[in] vals Pointer to the memory.
+		 * @return A guarded vector that views the specified memory.
 		 */
 		static Guard<XiVector<T_Scalar>> view(int_t n, const T_Scalar *vals);
 

@@ -76,32 +76,51 @@ class XxMatrix : public MatrixMeta<T_Int>, public XxContainer<T_Int,T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_matrix_docs::constructor()
+		 * @brief Default constructor.
+		 * @details Creates an empty sparse matrix with no allocated memory.
 		 */
 		XxMatrix();
 
 		/**
-		 * @copydoc standard_csx_docs::dim_constructor()
+		 * @brief Dimension constructor.
+		 * @details Creates a sparse matrix of the specified dimensions in CSC format and allocates memory.
+		 * @param[in] nr The number of rows.
+		 * @param[in] nc The number of columns.
+		 * @param[in] nz The number of non-zero elements.
+		 * @param[in] pr The matrix property (default: General).
 		 */
 		explicit XxMatrix(T_Int nr, T_Int nc, T_Int nz, const Property& pr = Property::General());
 
 		/**
-		 * @copydoc standard_csc_docs::aux_constructor()
+		 * @brief Auxiliary constructor.
+		 * @details Creates a sparse matrix using existing CSC format arrays.
+		 * @param[in] nr The number of rows.
+		 * @param[in] nc The number of columns.
+		 * @param[in] cptr Pointer to existing column pointer array.
+		 * @param[in] ridx Pointer to existing row index array.
+		 * @param[in] vals Pointer to existing values array.
+		 * @param[in] bind If true, the matrix does not take ownership of the memory.
+		 * @param[in] pr The matrix property (default: General).
 		 */
 		explicit XxMatrix(T_Int nr, T_Int nc, T_Int *cptr, T_Int *ridx, T_Scalar *vals, bool bind, const Property& pr = Property::General());
 
 		/**
-		 * @copydoc standard_docs::copy_constructor()
+		 * @brief Copy constructor.
+		 * @details Creates a new sparse matrix by copying another sparse matrix.
+		 * @param[in] other The sparse matrix to copy.
 		 */
 		XxMatrix(const XxMatrix<T_Int,T_Scalar>& other);
 
 		/**
-		 * @copydoc standard_docs::move_constructor()
+		 * @brief Move constructor.
+		 * @details Creates a new sparse matrix by moving resources from another sparse matrix.
+		 * @param[in] other The sparse matrix to move from.
 		 */
 		XxMatrix(XxMatrix<T_Int,T_Scalar>&& other);
 
 		/**
-		 * @copydoc standard_matrix_docs::destructor()
+		 * @brief Destructor.
+		 * @details Destroys the sparse matrix and releases allocated memory.
 		 */
 		~XxMatrix();
 
@@ -113,17 +132,25 @@ class XxMatrix : public MatrixMeta<T_Int>, public XxContainer<T_Int,T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_docs::copy_assignment()
+		 * @brief Copy assignment operator.
+		 * @details Copies the contents of another sparse matrix to this sparse matrix.
+		 * @param[in] other The sparse matrix to copy.
+		 * @return Reference to this sparse matrix.
 		 */
 		XxMatrix<T_Int,T_Scalar>& operator=(const XxMatrix<T_Int,T_Scalar>& other);
 
 		/**
-		 * @copydoc standard_docs::move_assignment()
+		 * @brief Move assignment operator.
+		 * @details Moves resources from another sparse matrix to this sparse matrix.
+		 * @param[in] other The sparse matrix to move from.
+		 * @return Reference to this sparse matrix.
 		 */
 		XxMatrix<T_Int,T_Scalar>& operator=(XxMatrix<T_Int,T_Scalar>&& other);
 
 		/**
-		 * @copydoc standard_docs::virtual_negate_operator()
+		 * @brief Unary negation operator.
+		 * @details Returns a negated copy of the sparse matrix.
+		 * @return A virtual expression containing the negated elements.
 		 */
 		alias::VirtualScal_csc<T_Int,T_Scalar> operator-() const;
 
@@ -135,7 +162,9 @@ class XxMatrix : public MatrixMeta<T_Int>, public XxContainer<T_Int,T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_docs::nnz()
+		 * @brief Get the number of non-zero elements.
+		 * @details Returns the number of stored non-zero elements in the sparse matrix.
+		 * @return The number of non-zero elements.
 		 */
 		T_Int nnz() const;
 
@@ -147,118 +176,177 @@ class XxMatrix : public MatrixMeta<T_Int>, public XxContainer<T_Int,T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_docs::clear()
+		 * @brief Clear the sparse matrix.
+		 * @details Releases all memory and resets the matrix to an empty state.
 		 */
 		void clear();
 
 		/**
-		 * @copydoc standard_matrix_docs::info()
+		 * @brief Get information about the sparse matrix.
+		 * @details Returns a string containing information about the matrix's dimensions, non-zeros, and properties.
+		 * @param[in] header Optional header string to prepend to the information.
+		 * @return A string containing matrix information.
 		 */
 		std::string info(const std::string& header = "") const;
 
 		/**
-		 * @copydoc standard_docs::copy()
+		 * @brief Create a deep copy of the sparse matrix.
+		 * @details Creates a new sparse matrix with its own memory allocation
+		 *          and copies all elements from this matrix to the new matrix.
+		 * @return A new sparse matrix containing a copy of this matrix's data.
 		 */
 		XxMatrix<T_Int,T_Scalar> copy() const;
 
 		/**
-		 * @copydoc standard_docs::rcopy()
+		 * @brief Create a reference copy (shallow copy) of the sparse matrix.
+		 * @details Creates a new sparse matrix object that references the same memory
+		 *          as this matrix. Changes to either matrix will affect both.
+		 * @return A sparse matrix that shares memory with this matrix.
 		 */
 		XxMatrix<T_Int,T_Scalar> rcopy();
 
 		/**
-		 * @copydoc standard_docs::rcopy_const()
+		 * @brief Create a guarded reference copy (shallow copy) of the sparse matrix.
+		 * @details Creates a guarded sparse matrix object that references the same memory
+		 *          as this matrix. The guard ensures the reference is read-only.
+		 * @return A guarded sparse matrix that shares memory with this matrix.
 		 */
 		Guard<XxMatrix<T_Int,T_Scalar>> rcopy() const;
 
 		/**
-		 * @copydoc standard_docs::move()
+		 * @brief Move the sparse matrix's resources.
+		 * @details Transfers ownership of the memory to a new sparse matrix object,
+		 *          leaving this matrix in an empty state.
+		 * @return A new sparse matrix containing this matrix's memory.
 		 */
 		XxMatrix<T_Int,T_Scalar> move();
 
 		/**
-		 * @copydoc standard_docs::toStream()
+		 * @brief Output the sparse matrix to a stream.
+		 * @details Writes the sparse matrix elements to the specified output stream with specified precision.
+		 * @param[in,out] os The output stream to write to.
+		 * @param[in] prec The output precision (default: 0 for default precision).
 		 */
 		void toStream(std::ostream& os, std::streamsize prec = 0) const;
 
 		/**
-		 * @copydoc standard_docs::iscale()
+		 * @brief Scale the sparse matrix in-place.
+		 * @details Multiplies all non-zero elements of the sparse matrix by a scalar value.
+		 * @param[in] val The scalar value to multiply by.
 		 */
 		void iscale(T_Scalar val);
 
 		/**
-		 * @copydoc standard_matrix_docs::virtual_transpose()
+		 * @brief Transpose the sparse matrix.
+		 * @details Returns a transposed view of the sparse matrix.
+		 * @return A virtual transpose expression.
 		 */
 		VirtualTranspose<XxMatrix<T_Int,T_Scalar>> transpose() const;
 
 		/**
-		 * @copydoc standard_matrix_docs::virtual_ctranspose()
+		 * @brief Conjugate transpose the sparse matrix.
+		 * @details Returns a conjugate transposed view of the sparse matrix.
+		 * @return A virtual conjugate transpose expression.
 		 */
 		VirtualTranspose<XxMatrix<T_Int,T_Scalar>> ctranspose() const;
 
 		/**
-		 * @copydoc standard_matrix_docs::virtual_conjugate()
+		 * @brief Compute the complex conjugate.
+		 * @details Returns a virtual expression containing the complex conjugate of each non-zero element.
+		 * @return A virtual expression with conjugated elements.
 		 */
 		alias::VirtualConj_csc<T_Int,T_Scalar> conjugate() const;
 
 		/**
-		 * @copydoc standard_matrix_docs::iconjugate()
+		 * @brief Conjugate the sparse matrix in-place.
+		 * @details Replaces all non-zero elements with their complex conjugates.
 		 */
 		void iconjugate();
 
 		/**
-		 * @copydoc standard_docs::normOne()
+		 * @brief Compute the 1-norm.
+		 * @details Computes the maximum absolute column sum.
+		 * @return The 1-norm of the sparse matrix.
 		 */
 		T_RScalar normOne() const;
 
 		/**
-		 * @copydoc standard_docs::normInf()
+		 * @brief Compute the infinity norm.
+		 * @details Computes the maximum absolute row sum.
+		 * @return The infinity norm of the sparse matrix.
 		 */
 		T_RScalar normInf() const;
 
 		/**
-		 * @copydoc standard_docs::normMax()
+		 * @brief Compute the maximum norm.
+		 * @details Computes the maximum absolute value of all non-zero elements.
+		 * @return The maximum norm of the sparse matrix.
 		 */
 		T_RScalar normMax() const;
 
 		/**
-		 * @copydoc standard_docs::normFro()
+		 * @brief Compute the Frobenius norm.
+		 * @details Computes the square root of the sum of squared absolute values of all non-zero elements.
+		 * @return The Frobenius norm of the sparse matrix.
 		 */
 		T_RScalar normFro() const;
 
 		/**
-		 * @copydoc standard_matrix_docs::general()
+		 * @brief Convert to general sparse matrix.
+		 * @details Creates a new general sparse matrix by copying all relevant elements from a structured sparse matrix.
+		 * @return A general sparse matrix containing the full data.
 		 */
 		XxMatrix<T_Int,T_Scalar> general() const;
 
 		/**
-		 * @copydoc standard_matrix_docs::to_dns()
+		 * @brief Convert to dense matrix format.
+		 * @details Converts the sparse matrix to a dense matrix by expanding all elements.
+		 * @return A dense matrix containing the same data.
 		 */
 		dns::XxMatrix<T_Scalar> toDns() const;
 
 		/**
-		 * @copydoc standard_matrix_docs::permute_leftright()
+		 * @brief Permute rows and columns.
+		 * @details Applies left and right permutations to the sparse matrix.
+		 * @param[in] P The row permutation matrix.
+		 * @param[in] Q The column permutation matrix.
+		 * @return A new sparse matrix containing the permuted elements.
 		 */
 		XxMatrix<T_Int,T_Scalar> permuteLeftRight(const prm::PxMatrix<T_Int>& P, 
                                                   const prm::PxMatrix<T_Int>& Q) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::permute_left()
+		 * @brief Permute rows.
+		 * @details Applies a left (row) permutation to the sparse matrix.
+		 * @param[in] P The row permutation matrix.
+		 * @return A new sparse matrix containing the permuted elements.
 		 */
 		XxMatrix<T_Int,T_Scalar> permuteLeft(const prm::PxMatrix<T_Int>& P) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::permute_right()
+		 * @brief Permute columns.
+		 * @details Applies a right (column) permutation to the sparse matrix.
+		 * @param[in] Q The column permutation matrix.
+		 * @return A new sparse matrix containing the permuted elements.
 		 */
 		XxMatrix<T_Int,T_Scalar> permuteRight(const prm::PxMatrix<T_Int>& Q) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::permute_mirror()
+		 * @brief Permute rows and columns symmetrically.
+		 * @details Applies the same permutation to both rows and columns (mirror permutation).
+		 * @param[in] P The permutation matrix to apply to both rows and columns.
+		 * @return A new sparse matrix containing the permuted elements.
 		 */
 		XxMatrix<T_Int,T_Scalar> permuteMirror(const prm::PxMatrix<T_Int>& P) const;
 
 		/**
-		 * @copydoc standard_matrix_docs::block()
+		 * @brief Extract a block as a new sparse matrix.
+		 * @details Creates a new sparse matrix containing a copy of a contiguous block of elements.
+		 * @param[in] ibgn The starting row index of the block.
+		 * @param[in] jbgn The starting column index of the block.
+		 * @param[in] ni The number of rows in the block.
+		 * @param[in] nj The number of columns in the block.
+		 * @return A new sparse matrix containing the block's data.
 		 */
 		XxMatrix<T_Int,T_Scalar> block(T_Int ibgn, T_Int jbgn, T_Int ni, T_Int nj) const;
 
@@ -270,14 +358,32 @@ class XxMatrix : public MatrixMeta<T_Int>, public XxContainer<T_Int,T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_csx_docs::random()
+		 * @brief Create a random sparse matrix.
+		 * @details Creates a sparse matrix with random non-zero values uniformly distributed in the specified range.
+		 * @param[in] nr The number of rows.
+		 * @param[in] nc The number of columns.
+		 * @param[in] nz The number of non-zero elements.
+		 * @param[in] pr The matrix property (default: General).
+		 * @param[in] lo The lower bound of the random values (default: 0).
+		 * @param[in] hi The upper bound of the random values (default: 1).
+		 * @return A sparse matrix containing random values.
 		 */
 		static XxMatrix<T_Int,T_Scalar> random(T_Int nr, T_Int nc, T_Int nz, 
                                                const Property& pr = Property::General(),
 				                               T_RScalar lo = T_RScalar(0), T_RScalar hi = T_RScalar(1));
 
 		/**
-		 * @copydoc standard_csc_docs::view()
+		 * @brief Create a view of existing CSC arrays.
+		 * @details Creates a guarded sparse matrix that references existing CSC format memory
+		 *          without taking ownership. The memory must remain valid for the lifetime
+		 *          of the returned view.
+		 * @param[in] nr The number of rows.
+		 * @param[in] nc The number of columns.
+		 * @param[in] cptr Pointer to the column pointer array.
+		 * @param[in] ridx Pointer to the row index array.
+		 * @param[in] vals Pointer to the values array.
+		 * @param[in] pr The matrix property (default: General).
+		 * @return A guarded sparse matrix that views the specified CSC arrays.
 		 */
 		static Guard<XxMatrix<T_Int,T_Scalar>> view(T_Int nr, T_Int nc, 
                                                     const T_Int *cptr, const T_Int *ridx, const T_Scalar *vals, 

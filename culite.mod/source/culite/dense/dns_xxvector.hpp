@@ -61,32 +61,44 @@ class XxVector : public XiVector<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_vector_docs::constructor()
+		 * @brief Default constructor.
+		 * @details Creates an empty device vector with no allocated device memory.
 		 */
 		XxVector();
 
 		/**
-		 * @copydoc standard_vector_docs::dim_constructor()
+		 * @brief Dimension constructor.
+		 * @details Creates a device vector of the specified size and allocates device memory.
+		 * @param[in] n The number of elements in the vector.
 		 */
 		explicit XxVector(int_t n);
 
 		/**
-		 * @copydoc standard_vector_docs::aux_constructor()
+		 * @brief Auxiliary constructor.
+		 * @details Creates a device vector using existing device memory.
+		 * @param[in] n The number of elements in the vector.
+		 * @param[in] vals Pointer to existing device memory.
+		 * @param[in] bind If true, the vector does not take ownership of the memory.
 		 */
 		explicit XxVector(int_t n, T_Scalar *vals, bool bind);
 
 		/**
-		 * @copydoc standard_docs::copy_constructor()
+		 * @brief Copy constructor.
+		 * @details Creates a new device vector by copying another device vector.
+		 * @param[in] other The device vector to copy.
 		 */
 		XxVector(const XxVector<T_Scalar>& other) = default;
 
 		/**
-		 * @copydoc standard_docs::move_constructor()
+		 * @brief Move constructor.
+		 * @details Creates a new device vector by moving resources from another device vector.
+		 * @param[in] other The device vector to move from.
 		 */
 		XxVector(XxVector<T_Scalar>&& other) = default;
 
 		/**
-		 * @copydoc standard_vector_docs::destructor()
+		 * @brief Destructor.
+		 * @details Destroys the device vector and releases allocated device memory.
 		 */
 		~XxVector();
 
@@ -98,17 +110,25 @@ class XxVector : public XiVector<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_docs::copy_assignment()
+		 * @brief Copy assignment operator.
+		 * @details Copies the contents of another device vector to this device vector.
+		 * @param[in] other The device vector to copy.
+		 * @return Reference to this device vector.
 		 */
 		XxVector<T_Scalar>& operator=(const XxVector<T_Scalar>& other) = default;
 
 		/**
-		 * @copydoc standard_docs::move_assignment()
+		 * @brief Move assignment operator.
+		 * @details Moves resources from another device vector to this device vector.
+		 * @param[in] other The device vector to move from.
+		 * @return Reference to this device vector.
 		 */
 		XxVector<T_Scalar>& operator=(XxVector<T_Scalar>&& other) = default;
 
 		/**
-		 * @copydoc standard_docs::virtual_negate_operator()
+		 * @brief Unary negation operator.
+		 * @details Returns a negated copy of the device vector.
+		 * @return A device vector containing the negated elements.
 		 */
 		XxVector<T_Scalar> operator-() const; // TODO: use virtuals
 
@@ -120,7 +140,9 @@ class XxVector : public XiVector<T_Scalar> {
 		 */
 
 		/**
-		 * @copydoc standard_docs::iscale()
+		 * @brief Scale the device vector in-place.
+		 * @details Multiplies all elements of the device vector by a scalar value.
+		 * @param[in] val The scalar value to multiply by.
 		 */
 		void iscale(const T_Scalar& val);
 
@@ -135,47 +157,71 @@ class XxVector : public XiVector<T_Scalar> {
 		//VirtualRowvec<T_Scalar> ctranspose() const;
 
 		/**
-		 * @copydoc standard_vector_docs::virtual_conjugate()
+		 * @brief Compute the complex conjugate.
+		 * @details Returns a device vector containing the complex conjugate of each element.
+		 * @return A device vector with conjugated elements.
 		 */
 		XxVector<T_Scalar> conjugate() const; // TODO: use virtuals
 
 		/**
-		 * @copydoc standard_vector_docs::iconjugate()
+		 * @brief Conjugate the device vector in-place.
+		 * @details Replaces all elements with their complex conjugates.
 		 */
 		void iconjugate();
 
 		/**
-		 * @copydoc standard_docs::normOne()
+		 * @brief Compute the 1-norm.
+		 * @details Computes the sum of absolute values of all elements.
+		 * @return The 1-norm of the device vector.
 		 */
 		T_RScalar normOne() const;
 
 		/**
-		 * @copydoc standard_docs::normInf()
+		 * @brief Compute the infinity norm.
+		 * @details Computes the maximum absolute value of all elements.
+		 * @return The infinity norm of the device vector.
 		 */
 		T_RScalar normInf() const;
 
 		/**
-		 * @copydoc standard_docs::normEuc()
+		 * @brief Compute the Euclidean norm (2-norm).
+		 * @details Computes the square root of the sum of squared absolute values.
+		 * @return The Euclidean norm of the device vector.
 		 */
 		T_RScalar normEuc() const;
 
 		/**
-		 * @copydoc standard_vector_docs::rblock()
+		 * @brief Extract a block as a new device vector.
+		 * @details Creates a new device vector containing a deep copy of a contiguous block of elements.
+		 * @param[in] ibgn The starting index of the block.
+		 * @param[in] ni The number of elements in the block.
+		 * @return A new device vector containing the block's data.
 		 */
 		XxVector<T_Scalar> block(int_t ibgn, int_t ni) const;
 
 		/**
-		 * @copydoc standard_vector_docs::rblock()
+		 * @brief Extract a reference block.
+		 * @details Creates a device vector that references a contiguous block of this vector's device memory.
+		 * @param[in] ibgn The starting index of the block.
+		 * @param[in] ni The number of elements in the block.
+		 * @return A device vector that shares device memory with this vector.
 		 */
 		XxVector<T_Scalar> rblock(int_t ibgn, int_t ni);
 
 		/**
-		 * @copydoc standard_vector_docs::rblock()
+		 * @brief Extract a guarded reference block.
+		 * @details Creates a guarded device vector that references a contiguous block of this vector's device memory.
+		 * @param[in] ibgn The starting index of the block.
+		 * @param[in] ni The number of elements in the block.
+		 * @return A guarded device vector that shares device memory with this vector.
 		 */
 		::cla3p::Guard<XxVector<T_Scalar>> rblock(int_t ibgn, int_t ni) const;
 
 		/**
-		 * @copydoc standard_vector_docs::set_block()
+		 * @brief Set a block of elements.
+		 * @details Copies elements from the source device vector to a contiguous block of this vector.
+		 * @param[in] ibgn The starting index where the block will be written.
+		 * @param[in] src The source device vector to copy from.
 		 */
 		void setBlock(int_t ibgn, const XxVector<T_Scalar>& src);
 

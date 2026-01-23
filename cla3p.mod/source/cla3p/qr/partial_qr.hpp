@@ -118,8 +118,8 @@ class PartialQR {
 		 * @brief Resumes the partial QR decomposition.
 		 * @details Continues the decomposition from where @ref decompose() or the previous @ref resume() stopped.
 		 *          The decomposition proceeds until the tolerance criterion @f$ |R_{i,i}| > |R_{0,0}| \cdot \text{cutTolerance}() @f$ is violated,
-		 *          or all columns are processed if @p ignoreTol is `true`.
-		 * @param[in] ignoreTol If `true`, ignores the tolerance criterion and decomposes all remaining columns.
+		 *          or all columns are processed if @p ignoreTol is @c true.
+		 * @param[in] ignoreTol If @c true, ignores the tolerance criterion and decomposes all remaining columns.
 		 */
 		void resume(bool ignoreTol = false);
 
@@ -172,7 +172,7 @@ class PartialQR {
 		 * @brief Determines if input matrix was transposed.
 		 * @details Indicates whether the input matrix was automatically conjugate-transposed
 		 *          during initialization to achieve tall-matrix orientation.
-		 * @return `true` if the matrix was transposed, `false` otherwise.
+		 * @return @c true if the matrix was transposed, @c false otherwise.
 		 */
 		bool transFlag() const;
 

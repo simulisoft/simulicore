@@ -70,32 +70,44 @@ class XxContainerBase {
 		}
 
 		/**
-		 * @copydoc standard_docs::colptr()
+		 * @brief Access the column pointer array.
+		 * @details Returns a pointer to the column pointer array (CSC format).
+		 * @return Pointer to the column pointer array.
 		 */
 		T_Int* colptr() { return m_colptr; }
 
 		/**
-		 * @copydoc standard_docs::colptr()
+		 * @brief Access the column pointer array.
+		 * @details Returns a pointer to the column pointer array (CSC format).
+		 * @return Pointer to the column pointer array.
 		 */
 		const T_Int* colptr() const { return m_colptr; }
 
 		/**
-		 * @copydoc standard_docs::rowidx()
+		 * @brief Access the row index array.
+		 * @details Returns a pointer to the row index array (CSC format).
+		 * @return Pointer to the row index array.
 		 */
 		T_Int* rowidx() { return m_rowidx; }
 
 		/**
-		 * @copydoc standard_docs::rowidx()
+		 * @brief Access the row index array.
+		 * @details Returns a pointer to the row index array (CSC format).
+		 * @return Pointer to the row index array.
 		 */
 		const T_Int* rowidx() const { return m_rowidx; }
 
 		/**
-		 * @copydoc standard_docs::values()
+		 * @brief Access the data buffer.
+		 * @details Returns a pointer to the underlying data array.
+		 * @return Pointer to the data buffer.
 		 */
 		T_Scalar* values() {  return m_values; }
 
 		/**
-		 * @copydoc standard_docs::values()
+		 * @brief Access the data buffer.
+		 * @details Returns a pointer to the underlying data array.
+		 * @return Pointer to the data buffer.
 		 */
 		const T_Scalar* values() const { return m_values; }
 

@@ -953,7 +953,6 @@ WARN_LOGFILE           =
 INPUT                  = ./README.md \
                          ./modules.dox \
                          ./tutorial.dox \
-                         ./standard_docs.dox \
                          ../../include/cla3p \
                          ../../examples/cla3p \
 
