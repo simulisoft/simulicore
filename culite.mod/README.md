@@ -49,7 +49,7 @@ Utilizing a foundational framework of GPU memory management and accelerated comp
 - [x] CUDA stream management (limited support)
 - [x] cuBLAS integration (Basic Linear Algebra Subprograms on GPU - limited support)
 - [x] cuSOLVER integration (Dense linear system solvers on GPU - limited support)
-- [ ] cuSPARSE integration (Sparse matrix operations on GPU)
+- [x] cuSPARSE integration (Sparse matrix operations on GPU - limited support)
 
 All features described above are supported by a comprehensive suite of intuitive **handler classes** to facilitate rapid development, complemented by an advanced **proxy layer** for direct CUDA library access. This dual-layer approach enables users to select the interface that best aligns with their specific project requirements.
 
