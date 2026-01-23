@@ -64,6 +64,11 @@ inline constexpr cusparseIndexType_t indexType()
 class LegacyMatDescr {
 
     public:
+
+        // disable copying
+        LegacyMatDescr(const LegacyMatDescr&) = delete;
+        LegacyMatDescr& operator=(const LegacyMatDescr&) = delete;
+
         LegacyMatDescr()
         {
             cusparseStatus_t cusparseStatus = cusparseCreateMatDescr(&m_descr);
@@ -163,6 +168,11 @@ template <typename T_Scalar>
 class DnVec {
 
     public:
+
+        // disable copying
+        DnVec(const DnVec&) = delete;
+        DnVec& operator=(const DnVec&) = delete;
+
         DnVec(cuSparseInt size, T_Scalar *vals) 
         {
             cusparseStatus_t cusparseStatus = cusparseCreateDnVec(m_descr, size, vals, TypeTraits<T_Scalar>::cuda_type());
@@ -194,6 +204,11 @@ template <typename T_Scalar>
 class DnMat {
 
     public:
+
+        // disable copying
+        DnMat(const DnMat&) = delete;
+        DnMat& operator=(const DnMat&) = delete;
+
         DnMat(cuSparseInt rows, cuSparseInt cols, T_Scalar *vals, cuSparseInt ld, 
               cusparseOrder_t order = cusparseOrder_t::CUSPARSE_ORDER_COL)
         {
@@ -226,6 +241,11 @@ class DnMat {
 class SpMatBase {
 
     public:
+
+        // disable copying
+        SpMatBase(const SpMatBase&) = delete;
+        SpMatBase& operator=(const SpMatBase&) = delete;
+
         SpMatBase() = default;
         ~SpMatBase()
         {
@@ -248,6 +268,11 @@ template <typename T_Scalar>
 class SpMatCsr : public SpMatBase {
 
     public:
+
+        // disable copying
+        SpMatCsr(const SpMatCsr&) = delete;
+        SpMatCsr& operator=(const SpMatCsr&) = delete;
+
         SpMatCsr(cuSparseInt         rows,
                  cuSparseInt         cols,
                  cuSparseInt         nnz,
@@ -301,6 +326,11 @@ template <typename T_Scalar>
 class SpMatCsc : public SpMatBase {
 
     public:
+
+        // disable copying
+        SpMatCsc(const SpMatCsc&) = delete;
+        SpMatCsc& operator=(const SpMatCsc&) = delete;
+
         SpMatCsc(cuSparseInt         rows,
                  cuSparseInt         cols,
                  cuSparseInt         nnz,

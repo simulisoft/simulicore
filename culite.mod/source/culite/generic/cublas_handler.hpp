@@ -43,6 +43,11 @@ class CuBlasHandler;
  */
 class CuBlasSpm {
     public:
+
+        // disable copying
+        CuBlasSpm(const CuBlasSpm&) = delete;
+        CuBlasSpm& operator=(const CuBlasSpm&) = delete;
+
         /**
          * @brief Constructor.
          * @details Sets the pointer mode for the given CuBlasHandler and stores the previous mode.

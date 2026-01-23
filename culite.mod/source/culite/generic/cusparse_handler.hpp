@@ -41,6 +41,11 @@ class CuSparseHandler;
  */
 class CuSparseSpm {
     public:
+
+        // disable copying
+        CuSparseSpm(const CuSparseSpm&) = delete;
+        CuSparseSpm& operator=(const CuSparseSpm&) = delete;
+
         /**
          * @brief Constructor.
          * @details Sets the pointer mode for the given CuSparseHandler and stores the previous mode.
