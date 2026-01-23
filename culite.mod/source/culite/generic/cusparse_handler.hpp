@@ -70,6 +70,19 @@ class CuSparseHandler {
          */
         void clear();
 
+        /**
+         * @brief Reserve workspace memory for sparse matrix-vector multiplication (SpMV).
+         * @details Queries the required buffer size for the SpMV operation and allocates
+         *          the necessary workspace memory on the device.
+         * @tparam T_Scalar The scalar type (e.g., float, double, complex).
+         * @param[in] opA Operation to apply to matrix A (e.g., no-transpose, transpose, conjugate-transpose).
+         * @param[in] alpha Pointer to scalar alpha.
+         * @param[in] matA Sparse matrix.
+         * @param[in] vecX Input dense vector X.
+         * @param[in] beta Pointer to scalar beta.
+         * @param[in,out] vecY Dense vector Y for buffer size computation.
+         * @param[in] alg Algorithm to use for SpMV (default: CUSPARSE_SPMV_CSR_ALG1).
+         */
         template <typename T_Scalar>
         void reserveSpmv(::cla3p::op_t                    opA,
                          const T_Scalar*                  alpha,
@@ -94,6 +107,19 @@ class CuSparseHandler {
             deviceWork().reserve(m_workspaceInBytes);
         }
 
+        /**
+         * @brief Preprocess the sparse matrix-vector multiplication operation.
+         * @details Performs any necessary preprocessing steps for the SpMV operation,
+         *          which may optimize subsequent repeated operations with the same sparsity pattern.
+         * @tparam T_Scalar The scalar type (e.g., float, double, complex).
+         * @param[in] opA Operation to apply to matrix A (e.g., no-transpose, transpose, conjugate-transpose).
+         * @param[in] alpha Pointer to scalar alpha.
+         * @param[in] matA Sparse matrix.
+         * @param[in] vecX Input dense vector X.
+         * @param[in] beta Pointer to scalar beta.
+         * @param[in,out] vecY Dense vector Y for preprocessing.
+         * @param[in] alg Algorithm to use for SpMV (default: CUSPARSE_SPMV_CSR_ALG1).
+         */
         template <typename T_Scalar>
         void preprocessSpmv(::cla3p::op_t                    opA,
                             const T_Scalar*                  alpha,
@@ -116,6 +142,19 @@ class CuSparseHandler {
             err::check_cusparse(status);
         }
 
+        /**
+         * @brief Perform sparse matrix-vector multiplication.
+         * @details Computes Y = alpha * op(A) * X + beta * Y, where A is a sparse matrix,
+         *          X and Y are dense vectors, and op(A) is either A, A^T, or A^H.
+         * @tparam T_Scalar The scalar type (e.g., float, double, complex).
+         * @param[in] opA Operation to apply to matrix A (e.g., no-transpose, transpose, conjugate-transpose).
+         * @param[in] alpha Pointer to scalar alpha.
+         * @param[in] matA Sparse matrix.
+         * @param[in] vecX Input dense vector X.
+         * @param[in] beta Pointer to scalar beta.
+         * @param[in,out] vecY Output dense vector Y.
+         * @param[in] alg Algorithm to use for SpMV (default: CUSPARSE_SPMV_CSR_ALG1).
+         */
         template <typename T_Scalar>
         void performSpmv(::cla3p::op_t                    opA,
                          const T_Scalar*                  alpha,
@@ -138,6 +177,20 @@ class CuSparseHandler {
             err::check_cusparse(status);
         }
 
+        /**
+         * @brief Reserve workspace memory for sparse matrix-matrix multiplication (SpMM).
+         * @details Queries the required buffer size for the SpMM operation and allocates
+         *          the necessary workspace memory on the device.
+         * @tparam T_Scalar The scalar type (e.g., float, double, complex).
+         * @param[in] opA Operation to apply to matrix A (e.g., no-transpose, transpose, conjugate-transpose).
+         * @param[in] opB Operation to apply to matrix B (e.g., no-transpose, transpose, conjugate-transpose).
+         * @param[in] alpha Pointer to scalar alpha.
+         * @param[in] matA Sparse matrix A.
+         * @param[in] matB Dense matrix B.
+         * @param[in] beta Pointer to scalar beta.
+         * @param[in,out] matC Dense matrix C for buffer size computation.
+         * @param[in] alg Algorithm to use for SpMM (default: CUSPARSE_SPMM_CSR_ALG1).
+         */
         template <typename T_Scalar>
         void reserveSpmm(::cla3p::op_t                    opA,
                          ::cla3p::op_t                    opB,
@@ -164,6 +217,20 @@ class CuSparseHandler {
             deviceWork().reserve(m_workspaceInBytes);
         }
 
+        /**
+         * @brief Preprocess the sparse matrix-matrix multiplication operation.
+         * @details Performs any necessary preprocessing steps for the SpMM operation,
+         *          which may optimize subsequent repeated operations with the same sparsity pattern.
+         * @tparam T_Scalar The scalar type (e.g., float, double, complex).
+         * @param[in] opA Operation to apply to matrix A (e.g., no-transpose, transpose, conjugate-transpose).
+         * @param[in] opB Operation to apply to matrix B (e.g., no-transpose, transpose, conjugate-transpose).
+         * @param[in] alpha Pointer to scalar alpha.
+         * @param[in] matA Sparse matrix A.
+         * @param[in] matB Dense matrix B.
+         * @param[in] beta Pointer to scalar beta.
+         * @param[in,out] matC Dense matrix C for preprocessing.
+         * @param[in] alg Algorithm to use for SpMM (default: CUSPARSE_SPMM_CSR_ALG1).
+         */
         template <typename T_Scalar>
         void preprocessSpmm(::cla3p::op_t                    opA,
                             ::cla3p::op_t                    opB,
@@ -188,8 +255,20 @@ class CuSparseHandler {
             err::check_cusparse(status);
         }
 
-
-
+        /**
+         * @brief Perform sparse matrix-matrix multiplication.
+         * @details Computes C = alpha * op(A) * op(B) + beta * C, where A is a sparse matrix,
+         *          B and C are dense matrices, and op(X) is either X, X^T, or X^H.
+         * @tparam T_Scalar The scalar type (e.g., float, double, complex).
+         * @param[in] opA Operation to apply to matrix A (e.g., no-transpose, transpose, conjugate-transpose).
+         * @param[in] opB Operation to apply to matrix B (e.g., no-transpose, transpose, conjugate-transpose).
+         * @param[in] alpha Pointer to scalar alpha.
+         * @param[in] matA Sparse matrix A.
+         * @param[in] matB Dense matrix B.
+         * @param[in] beta Pointer to scalar beta.
+         * @param[in,out] matC Output dense matrix C.
+         * @param[in] alg Algorithm to use for SpMM (default: CUSPARSE_SPMM_CSR_ALG1).
+         */
         template <typename T_Scalar>
         void performSpmm(::cla3p::op_t                    opA,
                          ::cla3p::op_t                    opB,
