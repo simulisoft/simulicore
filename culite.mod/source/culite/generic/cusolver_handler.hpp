@@ -91,17 +91,16 @@ class CuSolverHandler {
         {
             using T_Scalar = typename T_Matrix::value_type;
             cusolverDnParams_t params = nullptr;
-            cusolverStatus_t cusolverStatus = cusolverDnXgetrf_bufferSize(
-                handle(),
-                params,
-                A.nrows(),
-                A.ncols(),
-                TypeTraits<T_Scalar>::cuda_type(),
-                A.values(),
-                A.ld(),
-                TypeTraits<T_Scalar>::cuda_type(),
-                &m_workspaceInBytesOnDevice,
-                &m_workspaceInBytesOnHost);
+            cusolverStatus_t cusolverStatus = cusolverDnXgetrf_bufferSize(handle(),
+                                                                          params,
+                                                                          A.nrows(),
+                                                                          A.ncols(),
+                                                                          TypeTraits<T_Scalar>::cuda_type(),
+                                                                          A.values(),
+                                                                          A.ld(),
+                                                                          TypeTraits<T_Scalar>::cuda_type(),
+                                                                          &m_workspaceInBytesOnDevice,
+                                                                          &m_workspaceInBytesOnHost);
             err::check_cusolver(cusolverStatus);
 
             ipiv().reserve(std::min(A.nrows(), A.ncols()));
@@ -128,21 +127,20 @@ class CuSolverHandler {
                                  A.values(), A.ld(), 
                                  static_cast<T_Scalar*>(factorWork().data()), ldf);
             cusolverDnParams_t params = nullptr;
-            cusolverStatus_t cusolverStatus = cusolverDnXgetrf(
-                handle(),
-                params,
-                A.nrows(),
-                A.ncols(),
-                TypeTraits<T_Scalar>::cuda_type(),
-                factorWork().data(),
-                ldf,
-                ipiv().data(),
-                TypeTraits<T_Scalar>::cuda_type(),
-                deviceWork().data(),
-                m_workspaceInBytesOnDevice,
-                hostWork().data(),
-                m_workspaceInBytesOnHost,
-                info().data());
+            cusolverStatus_t cusolverStatus = cusolverDnXgetrf(handle(),
+                                                               params,
+                                                               A.nrows(),
+                                                               A.ncols(),
+                                                               TypeTraits<T_Scalar>::cuda_type(),
+                                                               factorWork().data(),
+                                                               ldf,
+                                                               ipiv().data(),
+                                                               TypeTraits<T_Scalar>::cuda_type(),
+                                                               deviceWork().data(),
+                                                               m_workspaceInBytesOnDevice,
+                                                               hostWork().data(),
+                                                               m_workspaceInBytesOnHost,
+                                                               info().data());
             err::check_cusolver(cusolverStatus);
 
             m_factorCudaType = TypeTraits<T_Scalar>::cuda_type();
@@ -162,20 +160,19 @@ class CuSolverHandler {
             ::cla3p::similarity_dim_check(m_factorDim, static_cast<cuSolverInt>(B.nrows()));
             using T_Scalar = typename T_Matrix::value_type;
             cusolverDnParams_t params = nullptr;
-            cusolverStatus_t cusolverStatus = cusolverDnXgetrs(
-                handle(),
-                params,
-                CUBLAS_OP_N,
-                B.nrows(),
-                B.ncols(),
-                m_factorCudaType,
-                factorWork().data(),
-                m_factorDim,
-                ipiv().data(),
-                TypeTraits<T_Scalar>::cuda_type(),
-                B.values(),
-                B.ld(),
-                info().data());
+            cusolverStatus_t cusolverStatus = cusolverDnXgetrs(handle(),
+                                                               params,
+                                                               CUBLAS_OP_N,
+                                                               B.nrows(),
+                                                               B.ncols(),
+                                                               m_factorCudaType,
+                                                               factorWork().data(),
+                                                               m_factorDim,
+                                                               ipiv().data(),
+                                                               TypeTraits<T_Scalar>::cuda_type(),
+                                                               B.values(),
+                                                               B.ld(),
+                                                               info().data());
             err::check_cusolver(cusolverStatus);
         }
 
