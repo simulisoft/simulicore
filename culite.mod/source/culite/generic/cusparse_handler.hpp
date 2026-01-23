@@ -28,6 +28,40 @@
 namespace culite { 
 /*-------------------------------------------------*/
 
+class CuSparseHandler;
+
+/*-------------------------------------------------*/
+
+/**
+ * @nosubgrouping
+ * @brief RAII helper for managing cuSPARSE pointer mode.
+ * @details This class provides a scoped guard that temporarily sets a cuSPARSE pointer mode
+ *          and automatically restores the previous mode when the object goes out of scope.
+ *          This ensures proper cleanup even in the presence of exceptions.
+ */
+class CuSparseSpm {
+    public:
+        /**
+         * @brief Constructor.
+         * @details Sets the pointer mode for the given CuSparseHandler and stores the previous mode.
+         * @param[in] cuSparseHandler The CuSparseHandler whose pointer mode will be modified.
+         * @param[in] mode The new pointer mode to set.
+         */
+        CuSparseSpm(CuSparseHandler& cuSparseHandler, cusparsePointerMode_t mode);
+        
+        /**
+         * @brief Destructor.
+         * @details Restores the pointer mode that was active before the constructor was called.
+         */
+        ~CuSparseSpm();
+
+    private:
+        CuSparseHandler& m_handler;
+        cusparsePointerMode_t m_oldMode;
+};  
+
+/*-------------------------------------------------*/
+
 /**
  * @nosubgrouping
  * @brief The cuSparse handler class.
@@ -36,9 +70,6 @@ namespace culite {
  *          and internal workspace buffers required for factorization and solve operations.
  */
 class CuSparseHandler {
-
-    private:
-        using cuSparseInt = int64_t;
 
     public:
 
@@ -69,6 +100,23 @@ class CuSparseHandler {
          * @details Releases all internal workspace memory allocated for cuSPARSE operations.
          */
         void clear();
+
+        /**
+         * @brief Set the pointer mode for cuSPARSE operations.
+         * @details Changes the pointer mode and returns the previous mode. The pointer mode
+         *          determines whether scalar values (alpha, beta) are passed by reference
+         *          on the host or device.
+         * @param[in] mode The new pointer mode to set.
+         * @return The pointer mode that was active before this call.
+         */
+        cusparsePointerMode_t setPointerMode(cusparsePointerMode_t mode);
+        
+        /**
+         * @brief Get the current pointer mode.
+         * @details Returns the current pointer mode setting for cuSPARSE operations.
+         * @return The current pointer mode.
+         */
+        cusparsePointerMode_t pointerMode();
 
         /**
          * @brief Reserve workspace memory for sparse matrix-vector multiplication (SpMV).

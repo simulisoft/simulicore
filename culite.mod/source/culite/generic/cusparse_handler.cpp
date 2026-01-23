@@ -27,6 +27,19 @@
 /*-------------------------------------------------*/
 namespace culite {
 /*-------------------------------------------------*/
+CuSparseSpm::CuSparseSpm(CuSparseHandler& cuSparseHandler, cusparsePointerMode_t mode)
+    : m_handler(cuSparseHandler)
+{
+    m_oldMode = m_handler.setPointerMode(mode);
+}
+/*-------------------------------------------------*/
+CuSparseSpm::~CuSparseSpm()
+{
+    m_handler.setPointerMode(m_oldMode);
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 CuSparseHandler::CuSparseHandler()
 {
     defaults();
@@ -49,8 +62,26 @@ void CuSparseHandler::defaults()
 void CuSparseHandler::clear()
 {
     deviceWork().clear();
-    
+
     defaults();
+}
+/*-------------------------------------------------*/
+cusparsePointerMode_t CuSparseHandler::setPointerMode(cusparsePointerMode_t mode)
+{
+    cusparsePointerMode_t ret = pointerMode();
+    if (ret != mode) {
+        cusparseStatus_t status = cusparseSetPointerMode(m_handle, mode);
+        err::check_cusparse(status);
+    }
+    return ret;
+}
+/*-------------------------------------------------*/
+cusparsePointerMode_t CuSparseHandler::pointerMode()
+{
+    cusparsePointerMode_t ret;
+    cusparseStatus_t status = cusparseGetPointerMode(m_handle, &ret);
+    err::check_cusparse(status);
+    return ret;
 }
 /*-------------------------------------------------*/
 } // namespace culite

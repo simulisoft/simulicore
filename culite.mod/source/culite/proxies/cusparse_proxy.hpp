@@ -33,6 +33,10 @@ namespace culite {
 namespace cusparse {
 /*-------------------------------------------------*/
 
+using cuSparseInt = int64_t;
+
+/*-------------------------------------------------*/
+
 ::cla3p::op_t cusparseOp2cla3pOp(cusparseOperation_t op);
 cusparseOperation_t cla3pOp2cusparseOp(::cla3p::op_t op);
 
@@ -159,13 +163,13 @@ template <typename T_Scalar>
 class DnVec {
 
     public:
-        DnVec(int64_t size, T_Scalar *vals) 
+        DnVec(cuSparseInt size, T_Scalar *vals) 
         {
             cusparseStatus_t cusparseStatus = cusparseCreateDnVec(m_descr, size, vals, TypeTraits<T_Scalar>::cuda_type());
             err::check_cusparse(cusparseStatus);
         }
 
-        DnVec(int64_t size, const T_Scalar *vals) 
+        DnVec(cuSparseInt size, const T_Scalar *vals) 
         {
             cusparseStatus_t cusparseStatus = cusparseCreateConstDnVec(m_descr, size, vals, TypeTraits<T_Scalar>::cuda_type());
             err::check_cusparse(cusparseStatus);
@@ -190,14 +194,14 @@ template <typename T_Scalar>
 class DnMat {
 
     public:
-        DnMat(int64_t rows, int64_t cols, T_Scalar *vals, int64_t ld, 
+        DnMat(cuSparseInt rows, cuSparseInt cols, T_Scalar *vals, cuSparseInt ld, 
               cusparseOrder_t order = cusparseOrder_t::CUSPARSE_ORDER_COL)
         {
             cusparseStatus_t cusparseStatus = cusparseCreateDnMat(&m_descr, rows, cols, ld, vals, TypeTraits<T_Scalar>::cuda_type(), order);
             err::check_cusparse(cusparseStatus);
         }
 
-        DnMat(int64_t rows, int64_t cols, const T_Scalar *vals, int64_t ld, 
+        DnMat(cuSparseInt rows, cuSparseInt cols, const T_Scalar *vals, cuSparseInt ld, 
               cusparseOrder_t order = cusparseOrder_t::CUSPARSE_ORDER_COL)
         {
             cusparseStatus_t cusparseStatus = cusparseCreateConstDnMat(&m_descr, rows, cols, ld, vals, TypeTraits<T_Scalar>::cuda_type(), order);
@@ -244,9 +248,9 @@ template <typename T_Scalar>
 class SpMatCsr : public SpMatBase {
 
     public:
-        SpMatCsr(int64_t             rows,
-                 int64_t             cols,
-                 int64_t             nnz,
+        SpMatCsr(cuSparseInt         rows,
+                 cuSparseInt         cols,
+                 cuSparseInt         nnz,
                  int_t*              rowptr,
                  int_t*              colidx,
                  T_Scalar*           values,
@@ -266,9 +270,9 @@ class SpMatCsr : public SpMatBase {
             err::check_cusparse(cusparseStatus);
         }
 
-        SpMatCsr(int64_t             rows,
-                 int64_t             cols,
-                 int64_t             nnz,
+        SpMatCsr(cuSparseInt         rows,
+                 cuSparseInt         cols,
+                 cuSparseInt         nnz,
                  const int_t*        rowptr,
                  const int_t*        colidx,
                  const T_Scalar*     values,
@@ -297,9 +301,9 @@ template <typename T_Scalar>
 class SpMatCsc : public SpMatBase {
 
     public:
-        SpMatCsc(int64_t             rows,
-                 int64_t             cols,
-                 int64_t             nnz,
+        SpMatCsc(cuSparseInt         rows,
+                 cuSparseInt         cols,
+                 cuSparseInt         nnz,
                  int_t*              colptr,
                  int_t*              rowidx,
                  T_Scalar*           values,
@@ -319,9 +323,9 @@ class SpMatCsc : public SpMatBase {
             err::check_cusparse(cusparseStatus);
         }
 
-        SpMatCsc(int64_t             rows,
-                 int64_t             cols,
-                 int64_t             nnz,
+        SpMatCsc(cuSparseInt         rows,
+                 cuSparseInt         cols,
+                 cuSparseInt         nnz,
                  const int_t*        colptr,
                  const int_t*        rowidx,
                  const T_Scalar*     values,

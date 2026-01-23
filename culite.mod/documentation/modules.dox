@@ -81,6 +81,7 @@
  *   
  *   Classes:
  *   - @ref culite::CuBlasHandler : Main handler class for cuBLAS operations
+ *   - @ref culite::CuBlasSpm : RAII class for managing cuBLAS pointer modes
  *  
  *   @defgroup culite_module_index_cusolver_utils cuSOLVER Utilities
  *   @brief cuSOLVER library wrapper and handle management.
@@ -98,6 +99,7 @@
  *   
  *   Classes:
  *   - @ref culite::CuSparseHandler : Main handler class for cuSPARSE operations
+ *   - @ref culite::CuSparseSpm : RAII class for managing cuSPARSE pointer modes
  * @}
  * 
  * @defgroup culite_module_index_stream_operators Stream Operators

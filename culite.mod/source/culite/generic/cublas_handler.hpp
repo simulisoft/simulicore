@@ -30,6 +30,40 @@
 namespace culite { 
 /*-------------------------------------------------*/
 
+class CuBlasHandler;
+
+/*-------------------------------------------------*/
+
+/**
+ * @nosubgrouping
+ * @brief RAII helper for managing cuBLAS pointer mode.
+ * @details This class provides a scoped guard that temporarily sets a cuBLAS pointer mode
+ *          and automatically restores the previous mode when the object goes out of scope.
+ *          This ensures proper cleanup even in the presence of exceptions.
+ */
+class CuBlasSpm {
+    public:
+        /**
+         * @brief Constructor.
+         * @details Sets the pointer mode for the given CuBlasHandler and stores the previous mode.
+         * @param[in] cuBlasHandler The CuBlasHandler whose pointer mode will be modified.
+         * @param[in] mode The new pointer mode to set.
+         */
+        CuBlasSpm(CuBlasHandler& cuBlasHandler, cublasPointerMode_t mode);
+        
+        /**
+         * @brief Destructor.
+         * @details Restores the pointer mode that was active before the constructor was called.
+         */
+        ~CuBlasSpm();
+
+    private:
+        CuBlasHandler& m_handler;
+        cublasPointerMode_t m_oldMode;
+};  
+
+/*-------------------------------------------------*/
+
 /**
  * @nosubgrouping
  * @brief The cuBlas handler class.
@@ -63,6 +97,23 @@ class CuBlasHandler {
          * @return The cuBlas handle.
          */
         cublasHandle_t handle() { return m_handle; }
+
+        /**
+         * @brief Set the pointer mode for cuBLAS operations.
+         * @details Changes the pointer mode and returns the previous mode. The pointer mode
+         *          determines whether scalar values (alpha, beta) are passed by reference
+         *          on the host or device.
+         * @param[in] mode The new pointer mode to set.
+         * @return The pointer mode that was active before this call.
+         */
+        cublasPointerMode_t setPointerMode(cublasPointerMode_t mode);
+        
+        /**
+         * @brief Get the current pointer mode.
+         * @details Returns the current pointer mode setting for cuBLAS operations.
+         * @return The current pointer mode.
+         */
+        cublasPointerMode_t pointerMode();
 
         /**
          * @brief Finds the index of the maximum absolute value element.

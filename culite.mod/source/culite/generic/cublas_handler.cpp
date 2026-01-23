@@ -28,6 +28,19 @@
 /*-------------------------------------------------*/
 namespace culite {
 /*-------------------------------------------------*/
+CuBlasSpm::CuBlasSpm(CuBlasHandler& cuBlasHandler, cublasPointerMode_t mode)
+    : m_handler(cuBlasHandler)
+{
+    m_oldMode = m_handler.setPointerMode(mode);
+}
+/*-------------------------------------------------*/
+CuBlasSpm::~CuBlasSpm()
+{
+    m_handler.setPointerMode(m_oldMode);
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 CuBlasHandler::CuBlasHandler()
 {
     cublasStatus_t cublasStatus = cublasCreate(&m_handle);
@@ -38,6 +51,24 @@ CuBlasHandler::~CuBlasHandler()
 {
     cublasStatus_t cublasStatus = cublasDestroy(m_handle);
     err::check_cublas(cublasStatus);
+}
+/*-------------------------------------------------*/
+cublasPointerMode_t CuBlasHandler::setPointerMode(cublasPointerMode_t mode)
+{
+    cublasPointerMode_t ret = pointerMode();
+    if (ret != mode) {
+        cublasStatus_t status = cublasSetPointerMode(m_handle, mode);
+        err::check_cublas(status);
+    }
+    return ret;
+}
+/*-------------------------------------------------*/
+cublasPointerMode_t CuBlasHandler::pointerMode()
+{
+    cublasPointerMode_t ret;
+    cublasStatus_t status = cublasGetPointerMode(m_handle, &ret);
+    err::check_cublas(status);
+    return ret;
 }
 /*-------------------------------------------------*/
 } // namespace culite
