@@ -23,7 +23,7 @@ set(CULITE_HPP
 	error.hpp
 	support.hpp
 	dense.hpp
-	#sparse.hpp
+	sparse.hpp
 	#perms.hpp
 	#virtuals.hpp
 	#algebra.hpp
@@ -50,7 +50,7 @@ add_subdirectory(proxies)
 add_subdirectory(support)
 add_subdirectory(generic)
 add_subdirectory(dense)
-#add_subdirectory(sparse)
+add_subdirectory(sparse)
 #add_subdirectory(perms)
 #add_subdirectory(virtuals)
 #add_subdirectory(algebra)
