@@ -149,8 +149,8 @@ class XiVector : public ::cla3p::Meta1D<int_t>, public XxContainer<T_Scalar> {
 		/** @} */
 
 	private:
-		void moveFrom(XiVector<T_Scalar>& other);
-		void copyFromExisting(const XiVector<T_Scalar>& other);
+		XiVector<T_Scalar>& moveFrom(XiVector<T_Scalar>& other);
+		XiVector<T_Scalar>& copyFromExisting(const XiVector<T_Scalar>& other);
 		void checker() const;
 };
 

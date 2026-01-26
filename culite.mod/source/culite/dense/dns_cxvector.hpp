@@ -47,9 +47,9 @@ class CxVector : public XxVector<T_Scalar> {
 		// Move convertors intentionally left as non-explicit
 		//
 		explicit CxVector(const XiVector<T_Scalar>& other);
-		CxVector(XiVector<T_Scalar>&& other);
+        CxVector<T_Scalar>& operator=(const XiVector<T_Scalar>& other);
 
-    	CxVector<T_Scalar>& operator=(const XiVector<T_Scalar>& other);
+		CxVector(XiVector<T_Scalar>&& other);
     	CxVector<T_Scalar>& operator=(XiVector<T_Scalar>&& other);
 
 		/**

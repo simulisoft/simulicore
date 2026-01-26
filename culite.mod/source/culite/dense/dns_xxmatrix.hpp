@@ -404,8 +404,8 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
 
 		void setLd(int_t ld);
 
-		void moveFrom(XxMatrix<T_Scalar>& other);
-		void copyFromExisting(const XxMatrix<T_Scalar>& other);
+		XxMatrix<T_Scalar>& moveFrom(XxMatrix<T_Scalar>& other);
+		XxMatrix<T_Scalar>& copyFromExisting(const XxMatrix<T_Scalar>& other);
 		void checker() const;
 };
 

@@ -47,9 +47,9 @@ class CxMatrix : public XxMatrix<T_Scalar> {
 		// Move convertors intentionally left as non-explicit
 		//
 		explicit CxMatrix(const XxMatrix<T_Scalar>& other);
-		CxMatrix(XxMatrix<T_Scalar>&& other);
+        CxMatrix<T_Scalar>& operator=(const XxMatrix<T_Scalar>& other);
 
-		CxMatrix<T_Scalar>& operator=(const XxMatrix<T_Scalar>& other);
+		CxMatrix(XxMatrix<T_Scalar>&& other);		
 		CxMatrix<T_Scalar>& operator=(XxMatrix<T_Scalar>&& other);
 
 		/**

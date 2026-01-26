@@ -84,8 +84,7 @@ XxMatrix<T_Scalar>& XxMatrix<T_Scalar>::operator=(const XxMatrix<T_Scalar>& othe
 	if(!(*this)) {
 		*this = XxMatrix<T_Scalar>(other.nrows(), other.ncols(), other.prop());
 	}
-	copyFromExisting(other);
-	return *this;
+	return copyFromExisting(other);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -97,8 +96,7 @@ XxMatrix<T_Scalar>::XxMatrix(XxMatrix<T_Scalar>&& other)
 template <typename T_Scalar>
 XxMatrix<T_Scalar>& XxMatrix<T_Scalar>::operator=(XxMatrix<T_Scalar>&& other)
 {
-	moveFrom(other);
-	return *this;
+	return moveFrom(other);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -166,8 +164,8 @@ XxMatrix<T_Scalar> XxMatrix<T_Scalar>::move()
 template <typename T_Scalar>
 void XxMatrix<T_Scalar>::iscale(T_Scalar val)
 {
-	T_Cla3pScalar valHost = TypeTraits<T_Scalar>::toHostType(val);
-	::cla3p::hermitian_coeff_check<T_Cla3pScalar>(prop(), valHost);
+	T_Cla3pScalar cla3pVal = TypeTraits<T_Scalar>::toCla3pType(val);
+	::cla3p::hermitian_coeff_check<T_Cla3pScalar>(prop(), cla3pVal);
 	blk::dns::scale2D(
 		prop().uplo(),
 		nrows(),
@@ -399,7 +397,7 @@ void XxMatrix<T_Scalar>::checker() const
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void XxMatrix<T_Scalar>::moveFrom(XxMatrix<T_Scalar>& other)
+XxMatrix<T_Scalar>& XxMatrix<T_Scalar>::moveFrom(XxMatrix<T_Scalar>& other)
 {
 	if(this != &other) {
 
@@ -415,10 +413,12 @@ void XxMatrix<T_Scalar>::moveFrom(XxMatrix<T_Scalar>& other)
 		other.clear();
 
 	} // do not apply on self
+
+    return *this;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void XxMatrix<T_Scalar>::copyFromExisting(const XxMatrix<T_Scalar>& other)
+XxMatrix<T_Scalar>& XxMatrix<T_Scalar>::copyFromExisting(const XxMatrix<T_Scalar>& other)
 {
 	if(this != &other) {
 
@@ -438,6 +438,8 @@ void XxMatrix<T_Scalar>::copyFromExisting(const XxMatrix<T_Scalar>& other)
 						 ld());
 
 	} // do not apply on self
+
+    return *this;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
