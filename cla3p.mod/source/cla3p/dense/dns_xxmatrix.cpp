@@ -39,7 +39,6 @@
 #include "cla3p/checks/perm_checks.hpp"
 #include "cla3p/checks/block_ops_checks.hpp"
 #include "cla3p/checks/hermitian_coeff_checks.hpp"
-#include "cla3p/algebra/operators_scale.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -165,7 +164,7 @@ const T_Scalar& XxMatrix<T_Scalar>::operator()(int_t i, int_t j) const
 template <typename T_Scalar>
 alias::VirtualScal_dns<T_Scalar> XxMatrix<T_Scalar>::operator-() const
 {
-	return (T_Scalar(-1) * (*this));
+	return alias::VirtualScal_dns<T_Scalar>(virtualize(), T_Scalar(-1));
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>

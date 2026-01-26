@@ -37,6 +37,7 @@ class HeapBuffer {
 		}
 
 		HeapBuffer(std::size_t nmemb)
+        : HeapBuffer()
 		{
 			resize(nmemb);
 		}

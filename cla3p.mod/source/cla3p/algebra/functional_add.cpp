@@ -25,6 +25,7 @@
 #include "cla3p/checks/basic_checks.hpp"
 #include "cla3p/proxies/blas_proxy.hpp"
 #include "cla3p/bulk/dns_math.hpp"
+#include "cla3p/bulk/csr_math.hpp"
 #include "cla3p/bulk/csc_math.hpp"
 #include "cla3p/lra/lra_math.hpp"
 
@@ -95,13 +96,59 @@ instantiate_add(complex8_t);
 #undef instantiate_add
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
+csr::XxMatrix<T_Int,T_Scalar> add(
+		T_Scalar alpha, const csr::XxMatrix<T_Int,T_Scalar>& A,
+		T_Scalar beta, const csr::XxMatrix<T_Int,T_Scalar>& B)
+{
+    	similarity_check(A, B);
+
+	csr::XxMatrix<T_Int,T_Scalar> ret;
+
+	if(beta == T_Scalar(0) && alpha != T_Scalar(0)) {
+		ret = A;
+		ret.iscale(alpha);
+		return ret;
+	} else if(alpha == T_Scalar(0) && beta != T_Scalar(0)) {
+		ret = B;
+		ret.iscale(beta);
+		return ret;
+	} else if(alpha == T_Scalar(0) && beta == T_Scalar(0)) {
+		return ret;
+	} // alpha/beta
+
+	int_t     nrowsC  = A.nrows();
+	int_t     ncolsC  = A.ncols();
+	Property  propC   = A.prop();
+	int_t*    rowptrC = nullptr;
+	int_t*    colidxC = nullptr;
+	T_Scalar* valuesC = nullptr;
+
+	blk::csr::add(nrowsC, ncolsC, 
+			alpha, A.rowptr(), A.colidx(), A.values(),
+			beta, B.rowptr(), B.colidx(), B.values(),
+			&rowptrC, &colidxC, &valuesC);
+
+	ret = csr::XxMatrix<T_Int,T_Scalar>(nrowsC, ncolsC, rowptrC, colidxC, valuesC, true, propC);
+
+	return ret;
+}
+/*-------------------------------------------------*/
+#define instantiate_add(T_Int,T_Scl) \
+template csr::XxMatrix<T_Int,T_Scl> add( \
+		T_Scl, const csr::XxMatrix<T_Int,T_Scl>&, \
+		T_Scl, const csr::XxMatrix<T_Int,T_Scl>&)
+instantiate_add(int_t,real_t);
+instantiate_add(int_t,real4_t);
+instantiate_add(int_t,complex_t);
+instantiate_add(int_t,complex8_t);
+#undef instantiate_add
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
 csc::XxMatrix<T_Int,T_Scalar> add(
 		T_Scalar alpha, const csc::XxMatrix<T_Int,T_Scalar>& A,
 		T_Scalar beta, const csc::XxMatrix<T_Int,T_Scalar>& B)
 {
-	similarity_check(
-			A.prop(), A.nrows(), A.ncols(),
-			B.prop(), B.nrows(), B.ncols());
+	similarity_check(A, B);
 
 	csc::XxMatrix<T_Int,T_Scalar> ret;
 
@@ -117,8 +164,8 @@ csc::XxMatrix<T_Int,T_Scalar> add(
 		return ret;
 	} // alpha/beta
 
-	int_t    nrowsC  = A.nrows();
-	int_t    ncolsC  = A.ncols();
+	int_t     nrowsC  = A.nrows();
+	int_t     ncolsC  = A.ncols();
 	Property  propC   = A.prop();
 	int_t*    colptrC = nullptr;
 	int_t*    rowidxC = nullptr;

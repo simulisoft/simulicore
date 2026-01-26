@@ -23,8 +23,10 @@
 
 // cla3p
 #include "cla3p/bulk/dns.hpp"
+#include "cla3p/bulk/csr.hpp"
 #include "cla3p/bulk/csc.hpp"
 #include "cla3p/dense/dns_xxvector.hpp"
+#include "cla3p/sparse/csr_xxmatrix.hpp"
 #include "cla3p/sparse/csc_xxmatrix.hpp"
 #include "cla3p/algebra/functional_update.hpp"
 
@@ -94,6 +96,73 @@ template void VirtualTransposeAccumulateOnExistingSpec(const dns::XxMatrix<real_
 template void VirtualTransposeAccumulateOnExistingSpec(const dns::XxMatrix<real4_t   >&, bool, dns::XxMatrix<real4_t   >&, real4_t   );
 template void VirtualTransposeAccumulateOnExistingSpec(const dns::XxMatrix<complex_t >&, bool, dns::XxMatrix<complex_t >&, complex_t );
 template void VirtualTransposeAccumulateOnExistingSpec(const dns::XxMatrix<complex8_t>&, bool, dns::XxMatrix<complex8_t>&, complex8_t);
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+void VirtualTransposeEvaluateOnNewSpec(
+		const csr::XxMatrix<T_Int,T_Scalar>& src,
+		bool conj,
+		csr::XxMatrix<T_Int, T_Scalar>& dest)
+{
+	dest.clear();
+	dest = csr::XxMatrix<T_Int,T_Scalar>(src.ncols(), src.nrows(), src.nnz(), src.prop().transpose());
+	VirtualTransposeEvaluateOnExistingSpec(src, conj, dest);
+}
+/*-------------------------------------------------*/
+template void VirtualTransposeEvaluateOnNewSpec(const csr::XxMatrix<int_t,real_t    >&, bool, csr::XxMatrix<int_t,real_t    >&);
+template void VirtualTransposeEvaluateOnNewSpec(const csr::XxMatrix<int_t,real4_t   >&, bool, csr::XxMatrix<int_t,real4_t   >&);
+template void VirtualTransposeEvaluateOnNewSpec(const csr::XxMatrix<int_t,complex_t >&, bool, csr::XxMatrix<int_t,complex_t >&);
+template void VirtualTransposeEvaluateOnNewSpec(const csr::XxMatrix<int_t,complex8_t>&, bool, csr::XxMatrix<int_t,complex8_t>&);
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+void VirtualTransposeEvaluateOnExistingSpec(
+		const csr::XxMatrix<T_Int,T_Scalar>& src,
+		bool conj,
+		csr::XxMatrix<T_Int, T_Scalar>& dest)
+{
+	if(conj) {
+		blk::csr::conjugate_transpose(
+				src.nrows(),
+				src.ncols(),
+				src.rowptr(),
+				src.colidx(),
+				src.values(),
+				dest.rowptr(),
+				dest.colidx(),
+				dest.values());
+	} else {
+		blk::csr::transpose(
+				src.nrows(),
+				src.ncols(),
+				src.rowptr(),
+				src.colidx(),
+				src.values(),
+				dest.rowptr(),
+				dest.colidx(),
+				dest.values());
+	} // conj
+}
+/*-------------------------------------------------*/
+template void VirtualTransposeEvaluateOnExistingSpec(const csr::XxMatrix<int_t,real_t    >&, bool, csr::XxMatrix<int_t,real_t    >&);
+template void VirtualTransposeEvaluateOnExistingSpec(const csr::XxMatrix<int_t,real4_t   >&, bool, csr::XxMatrix<int_t,real4_t   >&);
+template void VirtualTransposeEvaluateOnExistingSpec(const csr::XxMatrix<int_t,complex_t >&, bool, csr::XxMatrix<int_t,complex_t >&);
+template void VirtualTransposeEvaluateOnExistingSpec(const csr::XxMatrix<int_t,complex8_t>&, bool, csr::XxMatrix<int_t,complex8_t>&);
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+void VirtualTransposeAccumulateOnExistingSpec(
+		const csr::XxMatrix<T_Int,T_Scalar>& src,
+		bool conj,
+		csr::XxMatrix<T_Int, T_Scalar>& dest,
+		T_Scalar coeff)
+{
+	csr::XxMatrix<T_Int,T_Scalar> tmp;
+	VirtualTransposeEvaluateOnNewSpec(src, conj, tmp);
+	ops::update(coeff, tmp, dest);
+}
+/*-------------------------------------------------*/
+template void VirtualTransposeAccumulateOnExistingSpec(const csr::XxMatrix<int_t,real_t    >&, bool, csr::XxMatrix<int_t,real_t    >&, real_t    );
+template void VirtualTransposeAccumulateOnExistingSpec(const csr::XxMatrix<int_t,real4_t   >&, bool, csr::XxMatrix<int_t,real4_t   >&, real4_t   );
+template void VirtualTransposeAccumulateOnExistingSpec(const csr::XxMatrix<int_t,complex_t >&, bool, csr::XxMatrix<int_t,complex_t >&, complex_t );
+template void VirtualTransposeAccumulateOnExistingSpec(const csr::XxMatrix<int_t,complex8_t>&, bool, csr::XxMatrix<int_t,complex8_t>&, complex8_t);
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 void VirtualTransposeEvaluateOnNewSpec(

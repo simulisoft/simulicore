@@ -28,6 +28,7 @@
 namespace cla3p {
 namespace dns { template <typename T_Scalar> class XxVector; }
 namespace dns { template <typename T_Scalar> class XxMatrix; }
+namespace csr { template <typename T_Int, typename T_Scalar> class XxMatrix; }
 namespace csc { template <typename T_Int, typename T_Scalar> class XxMatrix; }
 } // namespace cla3p
 /*-------------------------------------------------*/
@@ -124,11 +125,45 @@ void operator-=(
 
 /**
  * @ingroup cla3p_module_index_math_operators_update
- * @brief Adds a sparse matrix to another.
+ * @brief Adds a CSR sparse matrix to another.
  * @details Performs the in-place addition @f$ A = A + B @f$. Matrices must
  *          have compatible dimensions and properties.
- * @param[in,out] A The sparse matrix to be updated.
- * @param[in] B The sparse matrix to add.
+ * @param[in,out] A The CSR sparse matrix to be updated.
+ * @param[in] B The CSR sparse matrix to add.
+ */
+template <typename T_Int, typename T_Scalar>
+void operator+=(
+		cla3p::csr::XxMatrix<T_Int,T_Scalar>& A,
+		const cla3p::csr::XxMatrix<T_Int,T_Scalar>& B)
+{
+	cla3p::ops::update(T_Scalar(1), B, A);
+}
+
+/**
+ * @ingroup cla3p_module_index_math_operators_update
+ * @brief Subtracts a CSR sparse matrix from another.
+ * @details Performs the in-place subtraction @f$ A = A - B @f$. Matrices must
+ *          have compatible dimensions and properties.
+ * @param[in,out] A The CSR sparse matrix to be updated.
+ * @param[in] B The CSR sparse matrix to subtract.
+ */
+template <typename T_Int, typename T_Scalar>
+void operator-=(
+		cla3p::csr::XxMatrix<T_Int,T_Scalar>& A,
+		const cla3p::csr::XxMatrix<T_Int,T_Scalar>& B)
+{
+	cla3p::ops::update(T_Scalar(-1), B, A);
+}
+
+/*-------------------------------------------------*/
+
+/**
+ * @ingroup cla3p_module_index_math_operators_update
+ * @brief Adds a CSC sparse matrix to another.
+ * @details Performs the in-place addition @f$ A = A + B @f$. Matrices must
+ *          have compatible dimensions and properties.
+ * @param[in,out] A The CSC sparse matrix to be updated.
+ * @param[in] B The CSC sparse matrix to add.
  */
 template <typename T_Int, typename T_Scalar>
 void operator+=(
@@ -140,11 +175,11 @@ void operator+=(
 
 /**
  * @ingroup cla3p_module_index_math_operators_update
- * @brief Subtracts a sparse matrix from another.
+ * @brief Subtracts a CSC sparse matrix from another.
  * @details Performs the in-place subtraction @f$ A = A - B @f$. Matrices must
  *          have compatible dimensions and properties.
- * @param[in,out] A The sparse matrix to be updated.
- * @param[in] B The sparse matrix to subtract.
+ * @param[in,out] A The CSC sparse matrix to be updated.
+ * @param[in] B The CSC sparse matrix to subtract.
  */
 template <typename T_Int, typename T_Scalar>
 void operator-=(

@@ -23,6 +23,7 @@
 
 #include "cla3p/dense/dns_xxvector.hpp"
 #include "cla3p/dense/dns_xxmatrix.hpp"
+#include "cla3p/sparse/csr_xxmatrix.hpp"
 #include "cla3p/sparse/csc_xxmatrix.hpp"
 
 #include "cla3p/virtuals/virtual_object.hpp"
@@ -81,6 +82,21 @@ operator*(T_Scalar val, const cla3p::dns::XxMatrix<T_Scalar>& A)
  * @return The virtually scaled matrix.
  */
 template <typename T_Int, typename T_Scalar>
+cla3p::alias::VirtualScal_csr<T_Int,T_Scalar>
+operator*(T_Scalar val, const cla3p::csr::XxMatrix<T_Int,T_Scalar>& A) 
+{ 
+	return cla3p::alias::VirtualScal_csr<T_Int,T_Scalar>(A.virtualize(), val);
+}
+
+/**
+ * @ingroup cla3p_module_index_math_operators_scal
+ * @brief Scalar-matrix multiplication for sparse matrices.
+ * @details Performs the operation @f$ \alpha \cdot A @f$.
+ * @param[in] val The scalar coefficient.
+ * @param[in] A The input sparse matrix.
+ * @return The virtually scaled matrix.
+ */
+template <typename T_Int, typename T_Scalar>
 cla3p::alias::VirtualScal_csc<T_Int,T_Scalar>
 operator*(T_Scalar val, const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A) 
 { 
@@ -116,6 +132,21 @@ void operator*=(
 template <typename T_Scalar>
 void operator*=(
 		cla3p::dns::XxMatrix<T_Scalar>& A, 
+		T_Scalar val)
+{
+	A.iscale(val);
+}
+
+/**
+ * @ingroup cla3p_module_index_math_operators_scal
+ * @brief In-place sparse matrix scaling.
+ * @details Scales @p A by @p val, performing @f$ A = \alpha \cdot A @f$.
+ * @param[in,out] A The sparse matrix to scale.
+ * @param[in] val The scaling coefficient.
+ */
+template <typename T_Int, typename T_Scalar>
+void operator*=(
+		cla3p::csr::XxMatrix<T_Int,T_Scalar>& A, 
 		T_Scalar val)
 {
 	A.iscale(val);

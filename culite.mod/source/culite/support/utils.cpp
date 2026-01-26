@@ -43,7 +43,7 @@ void memCopyX2X(std::size_t elemSize, std::size_t m, std::size_t n,
 	            const void *src, std::size_t lds, 
 				void *dest, std::size_t ldd, cudaMemcpyKind kind)
 {
-	size_t copy_width_bytes = m * elemSize; // Height of column in bytes
+	size_t copy_width_bytes = m * elemSize; // Bytes per column (m elements)
 	size_t src_pitch_bytes  = lds * elemSize;   // Total column stride
 	size_t dest_pitch_bytes = ldd * elemSize;  // Total column stride
 
@@ -56,7 +56,7 @@ void memCopyX2X(std::size_t elemSize, std::size_t m, std::size_t n,
 	    n,                 // Number of columns to copy
 	    kind); 		       // Type of transfer
 
-		err::check_cuda(cudaError);	
+	err::check_cuda(cudaError);	
 }
 /*-------------------------------------------------*/
 } // namespace culite

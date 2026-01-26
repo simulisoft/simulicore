@@ -28,9 +28,9 @@
 #include "cla3p/checks/hermitian_coeff_checks.hpp"
 #include "cla3p/proxies/blas_proxy.hpp"
 #include "cla3p/bulk/dns_math.hpp"
+#include "cla3p/bulk/csr_math.hpp"
 #include "cla3p/bulk/csc_math.hpp"
 #include "cla3p/dense/dns_xxmatrix.hpp"
-#include "cla3p/sparse/csc_xxmatrix.hpp"
 #include "cla3p/algebra/functional_update.hpp"
 
 /*-------------------------------------------------*/
@@ -38,10 +38,9 @@ namespace cla3p {
 namespace ops {
 /*-------------------------------------------------*/
 template <typename T_Rhs, typename T_Lhs, typename T_Ret>
-static void throw_prop_compatibility_error(
-		const T_Rhs& A, 
-		const T_Lhs& B, 
-		const T_Ret& C)
+static void throw_prop_compatibility_error(const T_Rhs& A, 
+		                                   const T_Lhs& B, 
+		                                   const T_Ret& C)
 {
 	std::string message = "Bad matrix property combo:\n";
 	message = message + "A: " + A.prop().name() + "\n";
@@ -52,9 +51,8 @@ static void throw_prop_compatibility_error(
 }
 /*-------------------------------------------------*/
 template <typename T_Rhs, typename T_Lhs>
-static void throw_prop_compatibility_error(
-		const T_Rhs& A, 
-		const T_Lhs& B) 
+static void throw_prop_compatibility_error(const T_Rhs& A, 
+                                           const T_Lhs& B) 
 {
 	std::string message = "Bad matrix property combo:\n";
 	message = message + "A: " + A.prop().name() + "\n";
@@ -63,11 +61,13 @@ static void throw_prop_compatibility_error(
 	throw err::InvalidOp(message);
 }
 /*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 template <typename T_Scalar>
 void mult(T_Scalar alpha,
-    op_t opA, const dns::XxMatrix<T_Scalar>& A,
-    op_t opB, const dns::XxMatrix<T_Scalar>& B,
-		T_Scalar beta, dns::XxMatrix<T_Scalar>& C)
+          op_t opA, const dns::XxMatrix<T_Scalar>& A,
+          op_t opB, const dns::XxMatrix<T_Scalar>& B,
+	      T_Scalar beta, dns::XxMatrix<T_Scalar>& C)
 {
 	if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = op_t::N;
 	if(B.prop().isSymmetric() || B.prop().isHermitian()) opB = op_t::N;
@@ -78,10 +78,9 @@ void mult(T_Scalar alpha,
 	Operation _opA(opA);
 	Operation _opB(opB);
 
-	mult_dim_check(
-			A.nrows(), A.ncols(), _opA, 
-			B.nrows(), B.ncols(), _opB, 
-			C.nrows(), C.ncols());
+	mult_dim_check(A.nrows(), A.ncols(), _opA, 
+			       B.nrows(), B.ncols(), _opB, 
+			       C.nrows(), C.ncols());
 
 	hermitian_coeff_check(C.prop(), alpha);
 	hermitian_coeff_check(C.prop(), beta);
@@ -229,9 +228,9 @@ void mult(T_Scalar alpha,
 /*-------------------------------------------------*/
 #define instantiate_mult(T_Scl) \
 template void mult(T_Scl, \
-	op_t, const dns::XxMatrix<T_Scl>&, \
-	op_t, const dns::XxMatrix<T_Scl>&, \
-	T_Scl, dns::XxMatrix<T_Scl>&)
+	               op_t, const dns::XxMatrix<T_Scl>&, \
+	               op_t, const dns::XxMatrix<T_Scl>&, \
+	               T_Scl, dns::XxMatrix<T_Scl>&)
 instantiate_mult(real_t);
 instantiate_mult(real4_t);
 instantiate_mult(complex_t);
@@ -240,25 +239,24 @@ instantiate_mult(complex8_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 static void trimult(T_Scalar alpha, side_t sideA, 
-		op_t opA, const  dns::XxMatrix<T_Scalar>& A,
-		dns::XxMatrix<T_Scalar>& B)
+		            op_t opA, const  dns::XxMatrix<T_Scalar>& A,
+		            dns::XxMatrix<T_Scalar>& B)
 {
   Operation _opA(opA);
 
   trimat_mult_replace_check(sideA,
-      A.prop(), A.nrows(), A.ncols(), _opA,
-      B.prop(), B.nrows(), B.ncols());
+                            A.prop(), A.nrows(), A.ncols(), _opA,
+                            B.prop(), B.nrows(), B.ncols());
 
-  blas::trmm(
-      static_cast<char>(sideA), A.prop().cuplo(), _opA.ctype(), 'N',
-      B.nrows(), B.ncols(), alpha, A.values(), A.ld(),
-      B.values(), B.ld());
+  blas::trmm(static_cast<char>(sideA), A.prop().cuplo(), _opA.ctype(), 'N',
+             B.nrows(), B.ncols(), alpha, A.values(), A.ld(),
+             B.values(), B.ld());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void trimult(T_Scalar alpha, op_t opA,
-		const dns::XxMatrix<T_Scalar>& A,
-		dns::XxMatrix<T_Scalar>& B)
+		     const dns::XxMatrix<T_Scalar>& A,
+		     dns::XxMatrix<T_Scalar>& B)
 {
 	trimult(alpha, side_t::Left, opA, A, B);
 }
@@ -273,8 +271,8 @@ instantiate_trimult(complex8_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void trimult(T_Scalar alpha,
-		dns::XxMatrix<T_Scalar>& B,
-		op_t opA, const dns::XxMatrix<T_Scalar>& A)
+		     dns::XxMatrix<T_Scalar>& B,
+		     op_t opA, const dns::XxMatrix<T_Scalar>& A)
 {
 	trimult(alpha, side_t::Right, opA, A, B);
 }
@@ -297,19 +295,18 @@ static void trisol(T_Scalar alpha, side_t sideA,
 	Operation _opA(opA);
 
 	trimat_mult_replace_check(sideA,
-			A.prop(), A.nrows(), A.ncols(), _opA,
-			B.prop(), B.nrows(), B.ncols());
+			                  A.prop(), A.nrows(), A.ncols(), _opA,
+			                  B.prop(), B.nrows(), B.ncols());
 
-	blas::trsm(
-			static_cast<char>(sideA), A.prop().cuplo(), _opA.ctype(), 'N',
-			B.nrows(), B.ncols(), alpha, A.values(), A.ld(),
-			B.values(), B.ld());
+	blas::trsm(static_cast<char>(sideA), A.prop().cuplo(), _opA.ctype(), 'N',
+			   B.nrows(), B.ncols(), alpha, A.values(), A.ld(),
+			   B.values(), B.ld());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void trisol(T_Scalar alpha, op_t opA,
-		const dns::XxMatrix<T_Scalar>& A,
-		dns::XxMatrix<T_Scalar>& B)
+		    const dns::XxMatrix<T_Scalar>& A,
+		    dns::XxMatrix<T_Scalar>& B)
 {
 	trisol(alpha, side_t::Left, opA, A, B);
 }
@@ -346,9 +343,81 @@ instantiate_trisol(complex8_t);
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 void mult(T_Scalar alpha, op_t opA,
-	const csc::XxMatrix<T_Int,T_Scalar>& A,
-	const dns::XxMatrix<T_Scalar>& B,
-	T_Scalar beta, dns::XxMatrix<T_Scalar>& C)
+	      const csr::XxMatrix<T_Int,T_Scalar>& A,
+	      const dns::XxMatrix<T_Scalar>& B,
+	      T_Scalar beta, dns::XxMatrix<T_Scalar>& C)
+{
+	if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = op_t::N;
+
+	opA = (TypeTraits<T_Scalar>::is_real() && opA == op_t::C ? op_t::T : opA);
+
+	Operation _opA(opA);
+	Operation _opB(op_t::N);
+
+	mult_dim_check(
+			A.nrows(), A.ncols(), _opA, 
+			B.nrows(), B.ncols(), _opB, 
+			C.nrows(), C.ncols());
+
+	if((A.prop().isGeneral() || A.prop().isTriangular()) && B.prop().isGeneral() && C.prop().isGeneral()) {
+
+		int_t k = (_opA.isTranspose() ? A.nrows() : A.ncols());
+
+			blk::csr::gem_x_gem(opA, 
+					C.nrows(), 
+					C.ncols(), 
+					k, 
+					alpha,
+					A.rowptr(), A.colidx(), A.values(),
+					B.values(), B.ld(), 
+					beta, 
+					C.values(), C.ld());
+
+	} else if(A.prop().isSymmetric() && B.prop().isGeneral() && C.prop().isGeneral()) {
+
+		blk::csr::sym_x_gem(A.prop().uplo(),
+				C.nrows(),
+				C.ncols(),
+				alpha,
+				A.rowptr(), A.colidx(), A.values(),
+				B.values(), B.ld(), 
+				beta, 
+				C.values(), C.ld());
+
+	} else if(A.prop().isHermitian() && B.prop().isGeneral() && C.prop().isGeneral()) {
+
+		blk::csr::hem_x_gem(A.prop().uplo(),
+				C.nrows(),
+				C.ncols(),
+				alpha,
+				A.rowptr(), A.colidx(), A.values(),
+				B.values(), B.ld(), 
+				beta, 
+				C.values(), C.ld());
+
+	} else {
+
+		throw_prop_compatibility_error(A, B, C);
+
+	} // property combos
+}
+/*-------------------------------------------------*/
+#define instantiate_mult(T_Int, T_Scl) \
+template void mult(T_Scl, op_t, \
+	          const csr::XxMatrix<T_Int,T_Scl>&, \
+	          const dns::XxMatrix<T_Scl>&, \
+	          T_Scl, dns::XxMatrix<T_Scl>&)
+instantiate_mult(int_t, real_t);
+instantiate_mult(int_t, real4_t);
+instantiate_mult(int_t, complex_t);
+instantiate_mult(int_t, complex8_t);
+#undef instantiate_mult
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+void mult(T_Scalar alpha, op_t opA,
+	      const csc::XxMatrix<T_Int,T_Scalar>& A,
+	      const dns::XxMatrix<T_Scalar>& B,
+	      T_Scalar beta, dns::XxMatrix<T_Scalar>& C)
 {
 	if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = op_t::N;
 
@@ -407,20 +476,22 @@ void mult(T_Scalar alpha, op_t opA,
 /*-------------------------------------------------*/
 #define instantiate_mult(T_Int, T_Scl) \
 template void mult(T_Scl, op_t, \
-	const csc::XxMatrix<T_Int,T_Scl>&, \
-	const dns::XxMatrix<T_Scl>&, \
-	T_Scl, dns::XxMatrix<T_Scl>&)
+	               const csc::XxMatrix<T_Int,T_Scl>&, \
+	               const dns::XxMatrix<T_Scl>&, \
+	               T_Scl, dns::XxMatrix<T_Scl>&)
 instantiate_mult(int_t, real_t);
 instantiate_mult(int_t, real4_t);
 instantiate_mult(int_t, complex_t);
 instantiate_mult(int_t, complex8_t);
 #undef instantiate_mult
 /*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 void mult(T_Scalar alpha,
-	op_t opA, const csc::XxMatrix<T_Int,T_Scalar>& A,
-	op_t opB, const csc::XxMatrix<T_Int,T_Scalar>& B,
-	T_Scalar beta, dns::XxMatrix<T_Scalar>& C)
+	      op_t opA, const csr::XxMatrix<T_Int,T_Scalar>& A,
+	      op_t opB, const csr::XxMatrix<T_Int,T_Scalar>& B,
+	      T_Scalar beta, dns::XxMatrix<T_Scalar>& C)
 {
 	opA = (TypeTraits<T_Scalar>::is_real() && opA == op_t::C ? op_t::T : opA);
 	opB = (TypeTraits<T_Scalar>::is_real() && opB == op_t::C ? op_t::T : opB);
@@ -428,19 +499,18 @@ void mult(T_Scalar alpha,
 	Operation _opA(opA);
 	Operation _opB(opB);
 
-	mult_dim_check(
-			A.nrows(), A.ncols(), _opA, 
-			B.nrows(), B.ncols(), _opB, 
-			C.nrows(), C.ncols());
+	mult_dim_check(A.nrows(), A.ncols(), _opA, 
+			       B.nrows(), B.ncols(), _opB, 
+			       C.nrows(), C.ncols());
 
-	if(A.prop().isGeneral() && A.prop().isGeneral() && A.prop().isGeneral()) {
+	if(A.prop().isGeneral() && B.prop().isGeneral() && C.prop().isGeneral()) {
 
 		int_t k = (_opA.isTranspose() ? A.nrows() : A.ncols());
 
-		blk::csc::gem_x_gem(C.nrows(), C.ncols(), k, alpha,
-				opA, A.colptr(), A.rowidx(), A.values(),
-				opB, B.colptr(), B.rowidx(), B.values(),
-				beta, C.values(), C.ld());
+		blk::csr::gem_x_gem(C.nrows(), C.ncols(), k, alpha,
+				            opA, A.rowptr(), A.colidx(), A.values(),
+				            opB, B.rowptr(), B.colidx(), B.values(),
+				            beta, C.values(), C.ld());
 
 	} else {
 
@@ -451,9 +521,9 @@ void mult(T_Scalar alpha,
 /*-------------------------------------------------*/
 #define instantiate_mult(T_Int, T_Scl) \
 template void mult(T_Scl, \
-		op_t, const csc::XxMatrix<T_Int,T_Scl>&, \
-		op_t, const csc::XxMatrix<T_Int,T_Scl>&, \
-		T_Scl, dns::XxMatrix<T_Scl>&)
+		           op_t, const csr::XxMatrix<T_Int,T_Scl>&, \
+		           op_t, const csr::XxMatrix<T_Int,T_Scl>&, \
+		           T_Scl, dns::XxMatrix<T_Scl>&)
 instantiate_mult(int_t, real_t);
 instantiate_mult(int_t, real4_t);
 instantiate_mult(int_t, complex_t);
@@ -461,9 +531,54 @@ instantiate_mult(int_t, complex8_t);
 #undef instantiate_mult
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-csc::XxMatrix<T_Int,T_Scalar> mult(T_Scalar alpha,
-    op_t opA, const csc::XxMatrix<T_Int,T_Scalar>& A,
-    op_t opB, const csc::XxMatrix<T_Int,T_Scalar>& B)
+void mult(T_Scalar alpha,
+	      op_t opA, const csc::XxMatrix<T_Int,T_Scalar>& A,
+	      op_t opB, const csc::XxMatrix<T_Int,T_Scalar>& B,
+	      T_Scalar beta, dns::XxMatrix<T_Scalar>& C)
+{
+	opA = (TypeTraits<T_Scalar>::is_real() && opA == op_t::C ? op_t::T : opA);
+	opB = (TypeTraits<T_Scalar>::is_real() && opB == op_t::C ? op_t::T : opB);
+
+	Operation _opA(opA);
+	Operation _opB(opB);
+
+	mult_dim_check(A.nrows(), A.ncols(), _opA, 
+			       B.nrows(), B.ncols(), _opB, 
+			       C.nrows(), C.ncols());
+
+	if(A.prop().isGeneral() && B.prop().isGeneral() && C.prop().isGeneral()) {
+
+		int_t k = (_opA.isTranspose() ? A.nrows() : A.ncols());
+
+		blk::csc::gem_x_gem(C.nrows(), C.ncols(), k, alpha,
+				            opA, A.colptr(), A.rowidx(), A.values(),
+				            opB, B.colptr(), B.rowidx(), B.values(),
+				            beta, C.values(), C.ld());
+
+	} else {
+
+		throw_prop_compatibility_error(A, B, C);
+
+	} // property combos
+}
+/*-------------------------------------------------*/
+#define instantiate_mult(T_Int, T_Scl) \
+template void mult(T_Scl, \
+		           op_t, const csc::XxMatrix<T_Int,T_Scl>&, \
+		           op_t, const csc::XxMatrix<T_Int,T_Scl>&, \
+		           T_Scl, dns::XxMatrix<T_Scl>&)
+instantiate_mult(int_t, real_t);
+instantiate_mult(int_t, real4_t);
+instantiate_mult(int_t, complex_t);
+instantiate_mult(int_t, complex8_t);
+#undef instantiate_mult
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+csr::XxMatrix<T_Int,T_Scalar> mult(T_Scalar alpha,
+                                   op_t opA, const csr::XxMatrix<T_Int,T_Scalar>& A,
+                                   op_t opB, const csr::XxMatrix<T_Int,T_Scalar>& B)
 {
 	opA = (TypeTraits<T_Scalar>::is_real() && opA == op_t::C ? op_t::T : opA);
 	opB = (TypeTraits<T_Scalar>::is_real() && opB == op_t::C ? op_t::T : opB);
@@ -475,10 +590,63 @@ csc::XxMatrix<T_Int,T_Scalar> mult(T_Scalar alpha,
 	int_t n = (_opB.isTranspose() ? B.nrows() : B.ncols());
 	int_t k = (_opA.isTranspose() ? A.nrows() : A.ncols());
 
-	mult_dim_check(
-			A.nrows(), A.ncols(), _opA, 
-			B.nrows(), B.ncols(), _opB, 
-			m, n);
+	mult_dim_check(A.nrows(), A.ncols(), _opA, 
+			       B.nrows(), B.ncols(), _opB, 
+			       m, n);
+
+	csr::XxMatrix<T_Int,T_Scalar> ret;
+
+	if(A.prop().isGeneral() && B.prop().isGeneral()) {
+
+		int_t    *rowptrC = nullptr;
+		int_t    *colidxC = nullptr;
+		T_Scalar *valuesC = nullptr;
+
+		blk::csr::gem_x_gem(m, n, k,
+				            opA, A.rowptr(), A.colidx(), A.values(),
+				            opB, B.rowptr(), B.colidx(), B.values(),
+				            &rowptrC, &colidxC, &valuesC);
+
+		ret = csr::XxMatrix<T_Int,T_Scalar>(m, n, rowptrC, colidxC, valuesC, true);
+		ret.iscale(alpha);
+
+	} else {
+
+		throw_prop_compatibility_error(A, B);
+
+	} // property combos
+
+	return ret;
+}
+/*-------------------------------------------------*/
+#define instantiate_mult(T_Int, T_Scl) \
+template csr::XxMatrix<T_Int,T_Scl> mult(T_Scl, \
+                                         op_t, const csr::XxMatrix<T_Int,T_Scl>&, \
+                                         op_t, const csr::XxMatrix<T_Int,T_Scl>&)
+instantiate_mult(int_t, real_t);
+instantiate_mult(int_t, real4_t);
+instantiate_mult(int_t, complex_t);
+instantiate_mult(int_t, complex8_t);
+#undef instantiate_mult
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+csc::XxMatrix<T_Int,T_Scalar> mult(T_Scalar alpha,
+                                   op_t opA, const csc::XxMatrix<T_Int,T_Scalar>& A,
+                                   op_t opB, const csc::XxMatrix<T_Int,T_Scalar>& B)
+{
+	opA = (TypeTraits<T_Scalar>::is_real() && opA == op_t::C ? op_t::T : opA);
+	opB = (TypeTraits<T_Scalar>::is_real() && opB == op_t::C ? op_t::T : opB);
+
+	Operation _opA(opA);
+	Operation _opB(opB);
+
+	int_t m = (_opA.isTranspose() ? A.ncols() : A.nrows());
+	int_t n = (_opB.isTranspose() ? B.nrows() : B.ncols());
+	int_t k = (_opA.isTranspose() ? A.nrows() : A.ncols());
+
+	mult_dim_check(A.nrows(), A.ncols(), _opA, 
+			       B.nrows(), B.ncols(), _opB, 
+			       m, n);
 
 	csc::XxMatrix<T_Int,T_Scalar> ret;
 
@@ -489,9 +657,9 @@ csc::XxMatrix<T_Int,T_Scalar> mult(T_Scalar alpha,
 		T_Scalar *valuesC = nullptr;
 
 		blk::csc::gem_x_gem(m, n, k,
-				opA, A.colptr(), A.rowidx(), A.values(),
-				opB, B.colptr(), B.rowidx(), B.values(),
-				&colptrC, &rowidxC, &valuesC);
+				            opA, A.colptr(), A.rowidx(), A.values(),
+				            opB, B.colptr(), B.rowidx(), B.values(),
+				            &colptrC, &rowidxC, &valuesC);
 
 		ret = csc::XxMatrix<T_Int,T_Scalar>(m, n, colptrC, rowidxC, valuesC, true);
 		ret.iscale(alpha);
@@ -507,8 +675,8 @@ csc::XxMatrix<T_Int,T_Scalar> mult(T_Scalar alpha,
 /*-------------------------------------------------*/
 #define instantiate_mult(T_Int, T_Scl) \
 template csc::XxMatrix<T_Int,T_Scl> mult(T_Scl, \
-    op_t, const csc::XxMatrix<T_Int,T_Scl>&, \
-    op_t, const csc::XxMatrix<T_Int,T_Scl>&)
+                                         op_t, const csc::XxMatrix<T_Int,T_Scl>&, \
+                                         op_t, const csc::XxMatrix<T_Int,T_Scl>&)
 instantiate_mult(int_t, real_t);
 instantiate_mult(int_t, real4_t);
 instantiate_mult(int_t, complex_t);

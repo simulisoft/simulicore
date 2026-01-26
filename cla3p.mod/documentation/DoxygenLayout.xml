@@ -96,14 +96,6 @@
         <tab type="user" url="@ref cla3p_module_index_math_op_matmat" title="Matrix-Matrix"/>
       </tab>
 
-      <tab type="usergroup" url="@ref cla3p_module_index_linsol" title="Linear Solvers">
-        <tab type="user" url="@ref cla3p_module_index_linsol_dense" title="Dense"/>
-        <tab type="user" url="@ref cla3p_module_index_linsol_sparse" title="Sparse"/>
-      </tab>
-
-      <tab type="user" url="@ref cla3p_module_index_qr" title="QR Decomposition"/>
-      <tab type="user" url="@ref cla3p_module_index_svd" title="Singular Value Decomposition"/>
-
       <tab type="usergroup" url="@ref cla3p_module_index_math_operators" title="Algebra Operators">
         <tab type="user" url="@ref cla3p_module_index_math_operators_add" title="Add/Subtract"/>
         <tab type="user" url="@ref cla3p_module_index_math_operators_update" title="Update"/>
@@ -111,6 +103,14 @@
         <tab type="user" url="@ref cla3p_module_index_math_operators_mult" title="Multiply"/>
         <tab type="user" url="@ref cla3p_module_index_math_operators_perm" title="Permute"/>
       </tab>
+
+      <tab type="usergroup" url="@ref cla3p_module_index_linsol" title="Linear Solvers">
+        <tab type="user" url="@ref cla3p_module_index_linsol_dense" title="Dense"/>
+        <tab type="user" url="@ref cla3p_module_index_linsol_sparse" title="Sparse"/>
+      </tab>
+
+      <tab type="user" url="@ref cla3p_module_index_qr" title="QR Decomposition"/>
+      <tab type="user" url="@ref cla3p_module_index_svd" title="Singular Value Decomposition"/>
 
       <tab type="user" url="@ref cla3p_module_index_stream_operators" title="Stream Operators"/>
       <tab type="user" url="@ref cla3p_module_index_exceptions" title="Exceptions"/>

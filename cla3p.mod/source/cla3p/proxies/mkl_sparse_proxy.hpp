@@ -21,11 +21,48 @@
  * @file
  */
 
-#include "cla3p/types.hpp"
+#include "cla3p/types/integer.hpp"
+#include "cla3p/types/scalar.hpp"
+#include "cla3p/types/enums.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
 namespace mkl {
+/*-------------------------------------------------*/
+
+// C(m x n)
+template <typename T_Scalar>
+void csr_add(int_t m, int_t n, T_Scalar alpha, op_t opA,
+		const int_t* rowptrA, const int_t* colidxA, const T_Scalar* valuesA, 
+		const int_t* rowptrB, const int_t* colidxB, const T_Scalar* valuesB,
+		int_t **rowptrC, int_t **colidxC, T_Scalar **valuesC);
+
+// A(m x n)
+template <typename T_Scalar>
+void csr_mv(prop_t propA, uplo_t uploA, int_t m, int_t n, T_Scalar alpha, op_t opA,
+		const int_t* rowptrA, const int_t* colidxA, const T_Scalar* valuesA, 
+		const T_Scalar* x, T_Scalar beta, T_Scalar *y);
+
+// A(m x n) B(? x k) C(? x k)
+template <typename T_Scalar>
+void csr_mm(prop_t propA, uplo_t uploA, int_t m, int_t n, T_Scalar alpha, op_t opA,
+		const int_t* rowptrA, const int_t* colidxA, const T_Scalar* valuesA, 
+		int_t k, const T_Scalar* b, int_t ldb, T_Scalar beta, T_Scalar *c, int_t ldc);
+
+// A(mA x nA) B(mB x nB) C(? x ?)
+template <typename T_Scalar>
+void csr_sp2m(
+    op_t opA, int_t mA, int_t nA, const int_t* rowptrA, const int_t* colidxA, const T_Scalar* valuesA,
+    op_t opB, int_t mB, int_t nB, const int_t* rowptrB, const int_t* colidxB, const T_Scalar* valuesB,
+    int_t** rowptrC, int_t** colidxC, T_Scalar** valuesC);
+
+// A(mA x nA) B(mB x nB) C(? x ?)
+template <typename T_Scalar>
+void csr_sp2md(T_Scalar alpha,
+    op_t opA, int_t mA, int_t nA, const int_t* rowptrA, const int_t* colidxA, const T_Scalar* valuesA,
+    op_t opB, int_t mB, int_t nB, const int_t* rowptrB, const int_t* colidxB, const T_Scalar* valuesB,
+    T_Scalar beta, T_Scalar* c, int_t ldc);
+
 /*-------------------------------------------------*/
 
 // C(m x n)

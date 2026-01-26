@@ -27,7 +27,7 @@
 #include <cla3p/sparse/csc_xxmatrix.hpp>
 
 #include "culite/types/integer.hpp"
-#include "culite/sparse/csc_xxcontainer.hpp"
+#include "culite/sparse/csx_xxcontainer.hpp"
 
 /*-------------------------------------------------*/
 namespace culite { 
@@ -42,7 +42,7 @@ namespace csc {
  * @tparam T_Scalar The scalar type (e.g., float, double, complex).
  */
 template <typename T_Int, typename T_Scalar>
-class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public XxContainer<T_Int,T_Scalar> {
+class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public csx::XxContainer<T_Int,T_Scalar> {
 
 	private:
 		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
@@ -142,6 +142,34 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public XxContainer<T_Int,T_S
 		 * @name Arguments
 		 * @{
 		 */
+
+        /**
+		 * @brief Access the column pointer array.
+		 * @details Returns a pointer to the column pointer array (CSC format).
+		 * @return Pointer to the column pointer array.
+		 */
+		T_Int* colptr();
+
+		/**
+		 * @brief Access the column pointer array.
+		 * @details Returns a pointer to the column pointer array (CSC format).
+		 * @return Pointer to the column pointer array.
+		 */
+		const T_Int* colptr() const;
+
+		/**
+		 * @brief Access the row index array.
+		 * @details Returns a pointer to the row index array (CSC format).
+		 * @return Pointer to the row index array.
+		 */
+		T_Int* rowidx();
+
+		/**
+		 * @brief Access the row index array.
+		 * @details Returns a pointer to the row index array (CSC format).
+		 * @return Pointer to the row index array.
+		 */
+		const T_Int* rowidx() const;
 
 		/**
 		 * @brief Get the number of non-zero elements.

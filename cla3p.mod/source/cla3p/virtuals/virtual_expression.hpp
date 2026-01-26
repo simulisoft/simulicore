@@ -28,6 +28,7 @@
 namespace cla3p {
 namespace dns { template <typename T_Scalar> class XxVector; }
 namespace dns { template <typename T_Scalar> class XxMatrix; }
+namespace csr { template <typename T_Int, typename T_Scalar> class XxMatrix; }
 namespace csc { template <typename T_Int, typename T_Scalar> class XxMatrix; }
 } // namespace cla3p
 
@@ -94,6 +95,9 @@ using VirtualExpr_vec = VirtualExpression<dns::XxVector<T_Scalar>, T_Virtual>;
 
 template <typename T_Scalar, typename T_Virtual>
 using VirtualExpr_dns = VirtualExpression<dns::XxMatrix<T_Scalar>, T_Virtual>;
+
+template <typename T_Int, typename T_Scalar, typename T_Virtual>
+using VirtualExpr_csr = VirtualExpression<csr::XxMatrix<T_Int,T_Scalar>, T_Virtual>;
 
 template <typename T_Int, typename T_Scalar, typename T_Virtual>
 using VirtualExpr_csc = VirtualExpression<csc::XxMatrix<T_Int,T_Scalar>, T_Virtual>;

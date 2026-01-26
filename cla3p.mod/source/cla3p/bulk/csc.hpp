@@ -23,7 +23,7 @@
 
 #include <iostream>
 
-#include "cla3p/types.hpp"
+#include "cla3p/bulk/csx.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -31,21 +31,16 @@ namespace blk {
 namespace csc {
 /*-------------------------------------------------*/
 
-void roll(int_t n, int_t *colptr);
-
-void unroll(int_t n, int_t *colptr);
-
-int_t maxrlen(int_t n, const int_t *colptr);
-
-void check(prop_t ptype, uplo_t uplo, int_t m, int_t n, const int_t *colptr, const int_t *rowidx);
-
-void sort(int_t n, const int_t *colptr, int_t *rowidx);
+inline void check(prop_t ptype, uplo_t uplo, int_t m, int_t n, const int_t *colptr, const int_t *rowidx)
+{
+    csx::check(ptype, uplo, csx::csx_t::CSC, n, m, colptr, rowidx);
+}
 
 template <typename T_Scalar>
-void sort(int_t n, const int_t *colptr, int_t *rowidx, T_Scalar *values);
-
-template <typename T_Scalar>
-void print_to_stream(std::ostream& os, int_t n, const int_t *colptr, const int_t *rowidx, const T_Scalar *values, std::streamsize prec = 0);
+void print_to_stream(std::ostream& os, int_t n, const int_t *colptr, const int_t *rowidx, const T_Scalar *values, std::streamsize prec = 0)
+{
+    csx::print_to_stream(os, csx::csx_t::CSC, n, colptr, rowidx, values, prec);
+}
 
 template <typename T_Scalar>
 void print(int_t n, const int_t *colptr, const int_t *rowidx, const T_Scalar *values, std::streamsize prec = 0)
@@ -54,46 +49,78 @@ void print(int_t n, const int_t *colptr, const int_t *rowidx, const T_Scalar *va
 }
 
 template <typename T_Scalar>
-void transpose(int_t m, int_t n, const int_t *colptr, const int_t *rowidx, const T_Scalar *values,
-		int_t *colptr_out, int_t *rowidx_out, T_Scalar *values_out, T_Scalar coeff = 1);
+void transpose(int_t m, int_t n, const int_t *icolptr, const int_t *irowidx, const T_Scalar *ivalues,
+		       int_t *ocolptr, int_t *orowidx, T_Scalar *ovalues, T_Scalar coeff = 1)
+{
+    csx::transpose(n, icolptr, irowidx, ivalues,
+                   m, ocolptr, orowidx, ovalues, coeff);
+}
 
 template <typename T_Scalar>
-void conjugate_transpose(int_t m, int_t n, const int_t *colptr, const int_t *rowidx, const T_Scalar *values,
-		int_t *colptr_out, int_t *rowidx_out, T_Scalar *values_out, T_Scalar coeff = 1);
+void conjugate_transpose(int_t m, int_t n, const int_t *icolptr, const int_t *irowidx, const T_Scalar *ivalues,
+		                 int_t *ocolptr, int_t *orowidx, T_Scalar *ovalues, T_Scalar coeff = 1)
+{
+    csx::conjugate_transpose(n, icolptr, irowidx, ivalues,
+                             m, ocolptr, orowidx, ovalues, coeff);
+}
 
-void uplo2ge_colptr(uplo_t uplo, int_t n, const int_t *colptr, const int_t *rowidx, int_t *colptr_out);
+inline void uplo2ge_colptr(uplo_t uplo, int_t n, const int_t *icolptr, const int_t *irowidx, int_t *ocolptr)
+{
+    csx::uplo2ge_xxptr(uplo, csx::csx_t::CSC, n, icolptr, irowidx, ocolptr);
+}
 
 template <typename T_Scalar>
-void sy2ge(uplo_t uplo, int_t n, const int_t *colptr, const int_t *rowidx, const T_Scalar *values,
-		int_t *colptr_out, int_t *rowidx_out, T_Scalar *values_out);
+void sy2ge(uplo_t uplo, int_t n, 
+           const int_t *icolptr, const int_t *irowidx, const T_Scalar *ivalues,
+		   int_t *ocolptr, int_t *orowidx, T_Scalar *ovalues)
+{
+    csx::sy2ge(uplo, csx::csx_t::CSC, n, 
+               icolptr, irowidx, ivalues,
+               ocolptr, orowidx, ovalues);
+}
 
 template <typename T_Scalar>
-void he2ge(uplo_t uplo, int_t n, const int_t *colptr, const int_t *rowidx, const T_Scalar *values,
-		int_t *colptr_out, int_t *rowidx_out, T_Scalar *values_out);
-
-template <typename T_Scalar>
-void remove_duplicates(int_t n, int_t *colptr, int_t *rowidx, T_Scalar *values, dup_t op);
+void he2ge(uplo_t uplo, int_t n, 
+           const int_t *icolptr, const int_t *irowidx, const T_Scalar *ivalues,
+		   int_t *ocolptr, int_t *orowidx, T_Scalar *ovalues)
+{
+    csx::he2ge(uplo, csx::csx_t::CSC, n, 
+               icolptr, irowidx, ivalues,
+               ocolptr, orowidx, ovalues);
+}
 
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type 
-norm_one(prop_t ptype, int_t n, const int_t *colptr, const int_t *rowidx, const T_Scalar *values);
+norm_one(prop_t ptype, int_t n, const int_t *colptr, const int_t *rowidx, const T_Scalar *values)
+{
+    return csx::idx_max_asum(ptype, n, colptr, rowidx, values);
+}
 
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type 
-norm_inf(prop_t ptype, int_t m, int_t n, const int_t *colptr, const int_t *rowidx, const T_Scalar *values);
+norm_inf(prop_t ptype, int_t m, int_t n, const int_t *colptr, const int_t *rowidx, const T_Scalar *values)
+{
+    return csx::ptr_max_asum(ptype, n, m, colptr, rowidx, values);
+}
 
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type 
-norm_max(int_t n, const int_t *colptr, const T_Scalar *values);
+norm_max(int_t n, const int_t *colptr, const T_Scalar *values)
+{
+    return csx::norm_max(n, colptr, values);
+}
 
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type 
-norm_fro(prop_t ptype, int_t n, const int_t *colptr, const int_t *rowidx, const T_Scalar *values);
+norm_fro(prop_t ptype, int_t n, const int_t *colptr, const int_t *rowidx, const T_Scalar *values)
+{
+    return csx::norm_fro(ptype, n, colptr, rowidx, values);
+}
 
 template <typename T_Scalar>
 void permute(prop_t ptype, uplo_t uplo, int_t m, int_t n, 
-		const int_t *colptr, const int_t *rowidx, const T_Scalar *values,
-		int_t *colptr_out, int_t *rowidx_out, T_Scalar *values_out, const int_t *P, const int_t *Q);
+		     const int_t *icolptr, const int_t *irowidx, const T_Scalar *ivalues,
+		     int_t *ocolptr, int_t *orowidx, T_Scalar *ovalues, const int_t *P, const int_t *Q);
 
 /*-------------------------------------------------*/
 } // namespace csc

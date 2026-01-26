@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_BULK_CSC_MATH_HPP_
-#define CLA3P_BULK_CSC_MATH_HPP_
+#ifndef CLA3P_BULK_CSR_MATH_HPP_
+#define CLA3P_BULK_CSR_MATH_HPP_
 
 /**
  * @file
@@ -27,97 +27,97 @@
 /*-------------------------------------------------*/
 namespace cla3p {
 namespace blk {
-namespace csc {
+namespace csr {
 /*-------------------------------------------------*/
 
 //
-// Update: cscC = alpha * cscA + cscB
-// cscC(m x n)
+// Update: csrC = alpha * csrA + csrB
+// csrC(m x n)
 //
 template <typename T_Scalar>
 void add(int_t m, int_t n,
-		T_Scalar alpha, const int_t *colptrA, const int_t *rowidxA, const T_Scalar *valuesA,
-		T_Scalar beta, const int_t *colptrB, const int_t *rowidxB, const T_Scalar *valuesB,
-		int_t **colptrC, int_t **rowidxC, T_Scalar **valuesC);
+		T_Scalar alpha, const int_t *rowptrA, const int_t *colidxA, const T_Scalar *valuesA,
+		T_Scalar beta, const int_t *rowptrB, const int_t *colidxB, const T_Scalar *valuesB,
+		int_t **rowptrC, int_t **colidxC, T_Scalar **valuesC);
 
 //
-// Update: dnsY = beta * dnsY + alpha * op(cscA) * dnsX
+// Update: dnsY = beta * dnsY + alpha * op(csrA) * dnsX
 // A(m x n)
 //
 template <typename T_Scalar>
 void gem_x_vec(op_t opA, int_t m, int_t n, T_Scalar alpha, 
-		const int_t *colptr, const int_t *rowidx, const T_Scalar *values, 
+		const int_t *rowptr, const int_t *colidx, const T_Scalar *values, 
 		const T_Scalar *x, T_Scalar beta, T_Scalar *y);
 
 //
-// Update: dnsY = beta * dnsY + alpha * cscA * dnsX
+// Update: dnsY = beta * dnsY + alpha * csrA * dnsX
 // A(n x n)
 //
 template <typename T_Scalar>
 void sym_x_vec(uplo_t uplo, int_t n, T_Scalar alpha, 
-		const int_t *colptr, const int_t *rowidx, const T_Scalar *values, 
+		const int_t *rowptr, const int_t *colidx, const T_Scalar *values, 
 		const T_Scalar *x, T_Scalar beta, T_Scalar *y);
 
 //
-// Update: dnsY = beta * dnsY + alpha * cscA * dnsX
+// Update: dnsY = beta * dnsY + alpha * csrA * dnsX
 // A(n x n)
 //
 template <typename T_Scalar>
 void hem_x_vec(uplo_t uplo, int_t n, T_Scalar alpha, 
-		const int_t *colptr, const int_t *rowidx, const T_Scalar *values, 
+		const int_t *rowptr, const int_t *colidx, const T_Scalar *values, 
 		const T_Scalar *x, T_Scalar beta, T_Scalar *y);
 
 //
-// Update: dnsC = beta * dnsC + alpha * opA(cscA) * dnsB
+// Update: dnsC = beta * dnsC + alpha * opA(csrA) * dnsB
 // C(m x n)
 //
 template <typename T_Scalar>
 void gem_x_gem(op_t opA, int_t m, int_t n, int_t k, T_Scalar alpha,
-		const int_t *colptr, const int_t *rowidx, const T_Scalar *values, 
+		const int_t *rowptr, const int_t *colidx, const T_Scalar *values, 
 		const T_Scalar *b, int_t ldb, T_Scalar beta, T_Scalar *c, int_t ldc);
 
 //
-// Update: dnsC = beta * dnsC + alpha * cscA * dnsB
+// Update: dnsC = beta * dnsC + alpha * csrA * dnsB
 // C(m x n)
 //
 template <typename T_Scalar>
 void sym_x_gem(uplo_t uplo, int_t m, int_t n, T_Scalar alpha,
-		const int_t *colptr, const int_t *rowidx, const T_Scalar *values, 
+		const int_t *rowptr, const int_t *colidx, const T_Scalar *values, 
 		const T_Scalar *b, int_t ldb, T_Scalar beta, T_Scalar *c, int_t ldc);
 
 //
-// Update: dnsC = beta * dnsC + alpha * cscA * dnsB
+// Update: dnsC = beta * dnsC + alpha * csrA * dnsB
 // C(m x n)
 //
 template <typename T_Scalar>
 void hem_x_gem(uplo_t uplo, int_t m, int_t n, T_Scalar alpha,
-		const int_t *colptr, const int_t *rowidx, const T_Scalar *values, 
+		const int_t *rowptr, const int_t *colidx, const T_Scalar *values, 
 		const T_Scalar *b, int_t ldb, T_Scalar beta, T_Scalar *c, int_t ldc);
 
 //
-// Update: dnsC = beta * dnsC + alpha * pA(cscA) * opB(cscB)
+// Update: dnsC = beta * dnsC + alpha * opA(csrA) * opB(csrB)
 // C(m x n)
 //
 template <typename T_Scalar>
 void gem_x_gem(int_t m, int_t n, int_t k, T_Scalar alpha,
-		op_t opA, const int_t *colptrA, const int_t *rowidxA, const T_Scalar *valuesA, 
-		op_t opB, const int_t *colptrB, const int_t *rowidxB, const T_Scalar *valuesB, 
+		op_t opA, const int_t *rowptrA, const int_t *colidxA, const T_Scalar *valuesA, 
+		op_t opB, const int_t *rowptrB, const int_t *colidxB, const T_Scalar *valuesB, 
 		T_Scalar beta, T_Scalar *c, int_t ldc); 
 
 //
-// Update: cscC = opA(cscA) * opB(cscB)
+// Update: csrC = opA(csrA) * opB(csrB)
 // C(m x n)
 //
 template <typename T_Scalar>
 void gem_x_gem(int_t m, int_t n, int_t k,
-		op_t opA, const int_t *colptrA, const int_t *rowidxA, const T_Scalar *valuesA, 
-		op_t opB, const int_t *colptrB, const int_t *rowidxB, const T_Scalar *valuesB, 
-		int_t **colptrC, int_t **rowidxC, T_Scalar **valuesC); 
+		op_t opA, const int_t *rowptrA, const int_t *colidxA, const T_Scalar *valuesA, 
+		op_t opB, const int_t *rowptrB, const int_t *colidxB, const T_Scalar *valuesB, 
+		int_t **rowptrC, int_t **colidxC, T_Scalar **valuesC); 
 
 /*-------------------------------------------------*/
-} // namespace csc
+} // namespace csr
 } // namespace blk
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_BULK_CSC_MATH_HPP_
+#endif // CLA3P_BULK_CSX_MATH_HPP_

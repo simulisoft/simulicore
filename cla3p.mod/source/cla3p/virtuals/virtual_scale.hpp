@@ -86,6 +86,11 @@ using VirtualScal_dns = VirtualScale<
 	alias::VirtualObj_dns<T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
+using VirtualScal_csr = VirtualScale<
+	csr::XxMatrix<T_Int,T_Scalar>,
+	alias::VirtualObj_csr<T_Int,T_Scalar>>;
+
+template <typename T_Int, typename T_Scalar>
 using VirtualScal_csc = VirtualScale<
 	csc::XxMatrix<T_Int,T_Scalar>,
 	alias::VirtualObj_csc<T_Int,T_Scalar>>;

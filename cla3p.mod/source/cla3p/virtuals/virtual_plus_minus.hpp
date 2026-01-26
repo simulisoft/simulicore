@@ -79,6 +79,17 @@ template <typename T_Int, typename T_Left, typename T_Right>
 void VirtualPlusEvaluateOnExistingSpec(
 	const VirtualExpression<typename T_Left::result_type,T_Left>& left, 
 	const VirtualExpression<typename T_Right::result_type,T_Right>& right, 
+	csr::XxMatrix<T_Int,typename T_Right::return_type::value_type>& dest)
+{ 
+	csr::XxMatrix<T_Int,typename T_Right::return_type::value_type> tmp;
+	evaluateOnNew(tmp);
+	dest = tmp;
+}
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Left, typename T_Right>
+void VirtualPlusEvaluateOnExistingSpec(
+	const VirtualExpression<typename T_Left::result_type,T_Left>& left, 
+	const VirtualExpression<typename T_Right::result_type,T_Right>& right, 
 	csc::XxMatrix<T_Int,typename T_Right::return_type::value_type>& dest)
 { 
 	csc::XxMatrix<T_Int,typename T_Right::return_type::value_type> tmp;
@@ -144,6 +155,17 @@ template <typename T_Int, typename T_Left, typename T_Right>
 void VirtualMinusEvaluateOnExistingSpec(
 	const VirtualExpression<typename T_Left::result_type,T_Left>& left, 
 	const VirtualExpression<typename T_Right::result_type,T_Right>& right, 
+	csr::XxMatrix<T_Int,typename T_Right::return_type::value_type>& dest)
+{ 
+	csr::XxMatrix<T_Int,typename T_Right::return_type::value_type> tmp;
+	evaluateOnNew(tmp);
+	dest = tmp;
+}
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Left, typename T_Right>
+void VirtualMinusEvaluateOnExistingSpec(
+	const VirtualExpression<typename T_Left::result_type,T_Left>& left, 
+	const VirtualExpression<typename T_Right::result_type,T_Right>& right, 
 	csc::XxMatrix<T_Int,typename T_Right::return_type::value_type>& dest)
 { 
 	csc::XxMatrix<T_Int,typename T_Right::return_type::value_type> tmp;
@@ -173,6 +195,12 @@ using VirtualPlus_dns = VirtualPlus<
 	VirtualObj_dns<T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
+using VirtualPlus_csr = VirtualPlus<
+	csr::XxMatrix<T_Int,T_Scalar>,
+	VirtualObj_csr<T_Int,T_Scalar>,
+	VirtualObj_csr<T_Int,T_Scalar>>;
+
+template <typename T_Int, typename T_Scalar>
 using VirtualPlus_csc = VirtualPlus<
 	csc::XxMatrix<T_Int,T_Scalar>,
 	VirtualObj_csc<T_Int,T_Scalar>,
@@ -189,6 +217,12 @@ using VirtualMinus_dns = VirtualMinus<
 	dns::XxMatrix<T_Scalar>,
 	VirtualObj_dns<T_Scalar>,
 	VirtualObj_dns<T_Scalar>>;
+
+template <typename T_Int, typename T_Scalar>
+using VirtualMinus_csr = VirtualMinus<
+	csr::XxMatrix<T_Int,T_Scalar>,
+	VirtualObj_csr<T_Int,T_Scalar>,
+	VirtualObj_csr<T_Int,T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
 using VirtualMinus_csc = VirtualMinus<

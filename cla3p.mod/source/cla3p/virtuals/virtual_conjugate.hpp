@@ -78,6 +78,9 @@ template <typename T_Scalar>
 using VirtualConj_dns = VirtualConjugate<dns::XxMatrix<T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
+using VirtualConj_csr = VirtualConjugate<csr::XxMatrix<T_Int, T_Scalar>>;
+
+template <typename T_Int, typename T_Scalar>
 using VirtualConj_csc = VirtualConjugate<csc::XxMatrix<T_Int, T_Scalar>>;
 
 } // namespace alias

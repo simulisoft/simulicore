@@ -17,64 +17,118 @@
 #ifndef CLA3P_SPARSE_HPP_
 #define CLA3P_SPARSE_HPP_
 
+#include "cla3p/sparse/csr_xxmatrix.hpp"
 #include "cla3p/sparse/csc_xxmatrix.hpp"
 #include "cla3p/sparse/coo_xxmatrix.hpp"
+
+namespace cla3p {
+namespace csr {
+
+/**
+ * @ingroup cla3p_module_index_matrices_sparse
+ * @brief Double precision real CSR (Compressed Sparse Row) matrix.
+ * @details CSR format is row-oriented and optimized for row-wise access patterns
+ *          and operations that traverse matrix rows efficiently.
+ */
+using RdMatrix = XxMatrix<int_t,real_t>;
+
+/**
+ * @ingroup cla3p_module_index_matrices_sparse
+ * @brief Single precision real CSR (Compressed Sparse Row) matrix.
+ * @details CSR format is row-oriented and optimized for row-wise access patterns
+ *          and operations that traverse matrix rows efficiently.
+ */
+using RfMatrix = XxMatrix<int_t,real4_t>;
+
+/**
+ * @ingroup cla3p_module_index_matrices_sparse
+ * @brief Double precision complex CSR (Compressed Sparse Row) matrix.
+ * @details CSR format is row-oriented and optimized for row-wise access patterns
+ *          and operations that traverse matrix rows efficiently.
+ */
+using CdMatrix = XxMatrix<int_t,complex_t>;
+
+/**
+ * @ingroup cla3p_module_index_matrices_sparse
+ * @brief Single precision complex CSR (Compressed Sparse Row) matrix.
+ * @details CSR format is row-oriented and optimized for row-wise access patterns
+ *          and operations that traverse matrix rows efficiently.
+ */
+using CfMatrix = XxMatrix<int_t,complex8_t>;
+
+} // namespace csr
+} // namespace cla3p
 
 namespace cla3p {
 namespace csc {
 
 /**
  * @ingroup cla3p_module_index_matrices_sparse
- * @brief Double precision real matrix.
+ * @brief Double precision real CSC (Compressed Sparse Column) matrix.
+ * @details CSC format is column-oriented and optimized for column-wise access patterns
+ *          and operations that traverse matrix columns efficiently.
  */
 using RdMatrix = XxMatrix<int_t,real_t>;
 
 /**
  * @ingroup cla3p_module_index_matrices_sparse
- * @brief Single precision real matrix.
+ * @brief Single precision real CSC (Compressed Sparse Column) matrix.
+ * @details CSC format is column-oriented and optimized for column-wise access patterns
+ *          and operations that traverse matrix columns efficiently.
  */
 using RfMatrix = XxMatrix<int_t,real4_t>;
 
 /**
  * @ingroup cla3p_module_index_matrices_sparse
- * @brief Double precision complex matrix.
+ * @brief Double precision complex CSC (Compressed Sparse Column) matrix.
+ * @details CSC format is column-oriented and optimized for column-wise access patterns
+ *          and operations that traverse matrix columns efficiently.
  */
 using CdMatrix = XxMatrix<int_t,complex_t>;
 
 /**
  * @ingroup cla3p_module_index_matrices_sparse
- * @brief Single precision complex matrix.
+ * @brief Single precision complex CSC (Compressed Sparse Column) matrix.
+ * @details CSC format is column-oriented and optimized for column-wise access patterns
+ *          and operations that traverse matrix columns efficiently.
  */
 using CfMatrix = XxMatrix<int_t,complex8_t>;
 
 } // namespace csc
 } // namespace cla3p
 
-
 namespace cla3p {
 namespace coo {
 
 /**
  * @ingroup cla3p_module_index_matrices_sparse
- * @brief Double precision real matrix.
+ * @brief Double precision real COO (Coordinate) matrix.
+ * @details COO format uses triplet-based storage (row, col, value) designed for
+ *          flexible matrix construction and efficient element insertion.
  */
 using RdMatrix = XxMatrix<int_t,real_t>;
 
 /**
  * @ingroup cla3p_module_index_matrices_sparse
- * @brief Single precision real matrix.
+ * @brief Single precision real COO (Coordinate) matrix.
+ * @details COO format uses triplet-based storage (row, col, value) designed for
+ *          flexible matrix construction and efficient element insertion.
  */
 using RfMatrix = XxMatrix<int_t,real4_t>;
 
 /**
  * @ingroup cla3p_module_index_matrices_sparse
- * @brief Double precision complex matrix.
+ * @brief Double precision complex COO (Coordinate) matrix.
+ * @details COO format uses triplet-based storage (row, col, value) designed for
+ *          flexible matrix construction and efficient element insertion.
  */
 using CdMatrix = XxMatrix<int_t,complex_t>;
 
 /**
  * @ingroup cla3p_module_index_matrices_sparse
- * @brief Single precision complex matrix.
+ * @brief Single precision complex COO (Coordinate) matrix.
+ * @details COO format uses triplet-based storage (row, col, value) designed for
+ *          flexible matrix construction and efficient element insertion.
  */
 using CfMatrix = XxMatrix<int_t,complex8_t>;
 

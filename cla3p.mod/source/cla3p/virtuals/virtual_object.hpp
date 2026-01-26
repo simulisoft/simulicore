@@ -76,6 +76,9 @@ template <typename T_Scalar>
 using VirtualObj_dns = VirtualObject<dns::XxMatrix<T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
+using VirtualObj_csr = VirtualObject<csr::XxMatrix<T_Int, T_Scalar>>;
+
+template <typename T_Int, typename T_Scalar>
 using VirtualObj_csc = VirtualObject<csc::XxMatrix<T_Int, T_Scalar>>;
 
 } // namespace alias

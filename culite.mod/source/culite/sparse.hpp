@@ -17,10 +17,10 @@
 #ifndef CULITE_SPARSE_HPP_
 #define CULITE_SPARSE_HPP_
 
+#include "culite/sparse/csr_xxmatrix.hpp"
 #include "culite/sparse/csc_xxmatrix.hpp"
 
 namespace culite {
-
 namespace csr {
 
 /**
@@ -48,7 +48,9 @@ using CdMatrix = XxMatrix<int_t,complex_t>;
 using CfMatrix = XxMatrix<int_t,complex8_t>;
 
 } // namespace csr
+} // namespace culite
 
+namespace culite {
 namespace csc {
 
 /**
@@ -76,7 +78,6 @@ using CdMatrix = XxMatrix<int_t,complex_t>;
 using CfMatrix = XxMatrix<int_t,complex8_t>;
 
 } // namespace csc
-
 } // namespace culite
 
 #endif // CULITE_SPARSE_HPP_

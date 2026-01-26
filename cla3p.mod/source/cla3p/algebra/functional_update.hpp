@@ -26,6 +26,7 @@
 namespace cla3p {
 namespace dns { template <typename T_Scalar> class XxVector; }
 namespace dns { template <typename T_Scalar> class XxMatrix; }
+namespace csr { template <typename T_Int, typename T_Scalar> class XxMatrix; }
 namespace csc { template <typename T_Int, typename T_Scalar> class XxMatrix; }
 } // namespace cla3p
 
@@ -45,8 +46,8 @@ namespace ops {
  */
 template <typename T_Scalar>
 void update(T_Scalar alpha,
-    const dns::XxVector<T_Scalar>& x,
-    dns::XxVector<T_Scalar>& y);
+            const dns::XxVector<T_Scalar>& x,
+            dns::XxVector<T_Scalar>& y);
 
 /**
  * @ingroup cla3p_module_index_math_op_add
@@ -59,8 +60,8 @@ void update(T_Scalar alpha,
  */
 template <typename T_Scalar>
 void update(T_Scalar alpha,
-    const dns::XxMatrix<T_Scalar>& A,
-    dns::XxMatrix<T_Scalar>& B);
+            const dns::XxMatrix<T_Scalar>& A,
+            dns::XxMatrix<T_Scalar>& B);
 
 /**
  * @ingroup cla3p_module_index_math_op_add
@@ -74,8 +75,23 @@ void update(T_Scalar alpha,
  */
 template <typename T_Int, typename T_Scalar>
 void update(T_Scalar alpha,
-    const csc::XxMatrix<T_Int,T_Scalar>& A,
-    csc::XxMatrix<T_Int,T_Scalar>& B);
+            const csr::XxMatrix<T_Int,T_Scalar>& A,
+            csr::XxMatrix<T_Int,T_Scalar>& B);
+
+/**
+ * @ingroup cla3p_module_index_math_op_add
+ * @brief Update a sparse matrix with a compatible scaled sparse matrix.
+ * @details Performs the operation @f$ B = B + \alpha \cdot A @f$.
+ * @tparam T_Int The integer type for indexing.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
+ * @param[in] alpha The scaling coefficient.
+ * @param[in] A The input sparse matrix.
+ * @param[in,out] B The sparse matrix to be updated.
+ */
+template <typename T_Int, typename T_Scalar>
+void update(T_Scalar alpha,
+            const csc::XxMatrix<T_Int,T_Scalar>& A,
+            csc::XxMatrix<T_Int,T_Scalar>& B);
 
 /*-------------------------------------------------*/
 } // namespace ops

@@ -23,6 +23,7 @@
 
 #include "cla3p/dense/dns_xxvector.hpp"
 #include "cla3p/dense/dns_xxmatrix.hpp"
+#include "cla3p/sparse/csr_xxmatrix.hpp"
 #include "cla3p/sparse/csc_xxmatrix.hpp"
 
 #include "cla3p/virtuals/virtual_product.hpp"
@@ -66,6 +67,23 @@ operator*(
 	const cla3p::dns::XxVector<T_Scalar>& x) 
 { 
 	return cla3p::alias::VirtualProd_dnsmv<T_Scalar>(A.virtualize(), x.virtualize());
+}
+
+/**
+ * @ingroup cla3p_module_index_math_operators_mult
+ * @brief Matrix-vector multiplication for sparse matrices.
+ * @details Performs the operation @f$ A \cdot x @f$.
+ * @param[in] A The input sparse matrix.
+ * @param[in] x The input vector.
+ * @return The virtual product representing the multiplication.
+ */
+template <typename T_Int, typename T_Scalar>
+cla3p::alias::VirtualProd_csrmv<T_Int,T_Scalar>
+operator*(
+	const cla3p::csr::XxMatrix<T_Int,T_Scalar>& A, 
+	const cla3p::dns::XxVector<T_Scalar>& x) 
+{ 
+	return cla3p::alias::VirtualProd_csrmv<T_Int,T_Scalar>(A.virtualize(), x.virtualize());
 }
 
 /**

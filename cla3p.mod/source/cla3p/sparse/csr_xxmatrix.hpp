@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_CSC_XXMATRIX_HPP_
-#define CLA3P_CSC_XXMATRIX_HPP_
+#ifndef CLA3P_CSR_XXMATRIX_HPP_
+#define CLA3P_CSR_XXMATRIX_HPP_
 
 /**
  * @file
@@ -41,12 +41,12 @@ namespace cla3p{ namespace prm { template <typename T_Int> class PxMatrix; } }
 
 /*-------------------------------------------------*/
 namespace cla3p { 
-namespace csc {
+namespace csr {
 /*-------------------------------------------------*/
 
 /**
  * @nosubgrouping 
- * @brief The sparse matrix class (compressed sparse column format).
+ * @brief The sparse matrix class (compressed sparse row format).
  */
 template <typename T_Int, typename T_Scalar>
 class XxMatrix : public MatrixMeta<T_Int>, public csx::XxContainer<T_Int,T_Scalar> {
@@ -62,12 +62,12 @@ class XxMatrix : public MatrixMeta<T_Int>, public csx::XxContainer<T_Int,T_Scala
 		 */
 
 		template <typename T_Virtual>
-		XxMatrix(const alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>& v) { operator=(v); }
+		XxMatrix(const alias::VirtualExpr_csr<T_Int,T_Scalar,T_Virtual>& v) { operator=(v); }
         
         template <typename T_Virtual>
-		XxMatrix<T_Int,T_Scalar>& operator=(const alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>& v) { return evaluateFrom(v); }
+		XxMatrix<T_Int,T_Scalar>& operator=(const alias::VirtualExpr_csr<T_Int,T_Scalar,T_Virtual>& v) { return evaluateFrom(v); }
 
-		alias::VirtualObj_csc<T_Int,T_Scalar> virtualize() const { return alias::VirtualObj_csc<T_Int,T_Scalar>(*this); }
+		alias::VirtualObj_csr<T_Int,T_Scalar> virtualize() const { return alias::VirtualObj_csr<T_Int,T_Scalar>(*this); }
 
         /** @} */
 
@@ -84,7 +84,7 @@ class XxMatrix : public MatrixMeta<T_Int>, public csx::XxContainer<T_Int,T_Scala
 
 		/**
 		 * @brief Dimension constructor.
-		 * @details Creates a sparse matrix of the specified dimensions in CSC format and allocates memory.
+		 * @details Creates a sparse matrix of the specified dimensions in CSR format and allocates memory.
 		 * @param[in] nr The number of rows.
 		 * @param[in] nc The number of columns.
 		 * @param[in] nz The number of non-zero elements.
@@ -94,16 +94,16 @@ class XxMatrix : public MatrixMeta<T_Int>, public csx::XxContainer<T_Int,T_Scala
 
 		/**
 		 * @brief Auxiliary constructor.
-		 * @details Creates a sparse matrix using existing CSC format arrays.
+		 * @details Creates a sparse matrix using existing CSR format arrays.
 		 * @param[in] nr The number of rows.
 		 * @param[in] nc The number of columns.
-		 * @param[in] cptr Pointer to existing column pointer array.
-		 * @param[in] ridx Pointer to existing row index array.
+		 * @param[in] rptr Pointer to existing row pointer array.
+		 * @param[in] cidx Pointer to existing column index array.
 		 * @param[in] vals Pointer to existing values array.
 		 * @param[in] bind If true, the matrix does not take ownership of the memory.
 		 * @param[in] pr The matrix property (default: General).
 		 */
-		explicit XxMatrix(T_Int nr, T_Int nc, T_Int *cptr, T_Int *ridx, T_Scalar *vals, bool bind, const Property& pr = Property::General());
+		explicit XxMatrix(T_Int nr, T_Int nc, T_Int *rptr, T_Int *cidx, T_Scalar *vals, bool bind, const Property& pr = Property::General());
 
 		/**
 		 * @brief Copy constructor.
@@ -153,7 +153,7 @@ class XxMatrix : public MatrixMeta<T_Int>, public csx::XxContainer<T_Int,T_Scala
 		 * @details Returns a negated copy of the sparse matrix.
 		 * @return A virtual expression containing the negated elements.
 		 */
-		alias::VirtualScal_csc<T_Int,T_Scalar> operator-() const;
+		alias::VirtualScal_csr<T_Int,T_Scalar> operator-() const;
 
 		/** @} */
 
@@ -163,32 +163,32 @@ class XxMatrix : public MatrixMeta<T_Int>, public csx::XxContainer<T_Int,T_Scala
 		 */
 
         /**
-		 * @brief Access the column pointer array.
-		 * @details Returns a pointer to the column pointer array (CSC format).
-		 * @return Pointer to the column pointer array.
+		 * @brief Access the row pointer array.
+		 * @details Returns a pointer to the row pointer array (CSR format).
+		 * @return Pointer to the row pointer array.
 		 */
-		T_Int* colptr();
+		T_Int* rowptr();
+        
+		/**
+		 * @brief Access the row pointer array.
+		 * @details Returns a pointer to the row pointer array (CSR format).
+		 * @return Pointer to the row pointer array.
+		 */
+		const T_Int* rowptr() const;
 
 		/**
-		 * @brief Access the column pointer array.
-		 * @details Returns a pointer to the column pointer array (CSC format).
-		 * @return Pointer to the column pointer array.
+		 * @brief Access the column index array.
+		 * @details Returns a pointer to the column index array (CSR format).
+		 * @return Pointer to the column index array.
 		 */
-		const T_Int* colptr() const;
+		T_Int* colidx();
 
 		/**
-		 * @brief Access the row index array.
-		 * @details Returns a pointer to the row index array (CSC format).
-		 * @return Pointer to the row index array.
+		 * @brief Access the column index array.
+		 * @details Returns a pointer to the column index array (CSR format).
+		 * @return Pointer to the column index array.
 		 */
-		T_Int* rowidx();
-
-		/**
-		 * @brief Access the row index array.
-		 * @details Returns a pointer to the row index array (CSC format).
-		 * @return Pointer to the row index array.
-		 */
-		const T_Int* rowidx() const;
+		const T_Int* colidx() const;
 
 		/**
 		 * @brief Get the number of non-zero elements.
@@ -270,21 +270,21 @@ class XxMatrix : public MatrixMeta<T_Int>, public csx::XxContainer<T_Int,T_Scala
 		 * @details Returns a transposed view of the sparse matrix.
 		 * @return A virtual transpose expression.
 		 */
-		alias::VirtualTrans_csc<T_Int,T_Scalar> transpose() const;
+		alias::VirtualTrans_csr<T_Int,T_Scalar> transpose() const;
 
 		/**
 		 * @brief Conjugate transpose the sparse matrix.
 		 * @details Returns a conjugate transposed view of the sparse matrix.
 		 * @return A virtual conjugate transpose expression.
 		 */
-		alias::VirtualTrans_csc<T_Int,T_Scalar> ctranspose() const;
+		alias::VirtualTrans_csr<T_Int,T_Scalar> ctranspose() const;
 
 		/**
 		 * @brief Compute the complex conjugate.
 		 * @details Returns a virtual expression containing the complex conjugate of each non-zero element.
 		 * @return A virtual expression with conjugated elements.
 		 */
-		alias::VirtualConj_csc<T_Int,T_Scalar> conjugate() const;
+		alias::VirtualConj_csr<T_Int,T_Scalar> conjugate() const;
 
 		/**
 		 * @brief Conjugate the sparse matrix in-place.
@@ -402,20 +402,20 @@ class XxMatrix : public MatrixMeta<T_Int>, public csx::XxContainer<T_Int,T_Scala
 				                               T_RScalar lo = T_RScalar(0), T_RScalar hi = T_RScalar(1));
 
 		/**
-		 * @brief Create a view of existing CSC arrays.
-		 * @details Creates a guarded sparse matrix that references existing CSC format memory
+		 * @brief Create a view of existing CSR arrays.
+		 * @details Creates a guarded sparse matrix that references existing CSR format memory
 		 *          without taking ownership. The memory must remain valid for the lifetime
 		 *          of the returned view.
 		 * @param[in] nr The number of rows.
 		 * @param[in] nc The number of columns.
-		 * @param[in] cptr Pointer to the column pointer array.
-		 * @param[in] ridx Pointer to the row index array.
+		 * @param[in] rptr Pointer to the row pointer array.
+		 * @param[in] cidx Pointer to the column index array.
 		 * @param[in] vals Pointer to the values array.
 		 * @param[in] pr The matrix property (default: General).
-		 * @return A guarded sparse matrix that views the specified CSC arrays.
+		 * @return A guarded sparse matrix that views the specified CSR arrays.
 		 */
 		static Guard<XxMatrix<T_Int,T_Scalar>> view(T_Int nr, T_Int nc, 
-                                                    const T_Int *cptr, const T_Int *ridx, const T_Scalar *vals, 
+                                                    const T_Int *rptr, const T_Int *cidx, const T_Scalar *vals, 
                                                     const Property& pr = Property::General());
 
 		/** @} */
@@ -427,7 +427,7 @@ class XxMatrix : public MatrixMeta<T_Int>, public csx::XxContainer<T_Int,T_Scala
 
 	protected:
 		template <typename T_Virtual>
-		XxMatrix<T_Int,T_Scalar>& evaluateFrom(const alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>& v)
+		XxMatrix<T_Int,T_Scalar>& evaluateFrom(const alias::VirtualExpr_csr<T_Int,T_Scalar,T_Virtual>& v)
 		{
 			if(*this) {
 				v.evaluateOnExisting(*this);
@@ -440,7 +440,7 @@ class XxMatrix : public MatrixMeta<T_Int>, public csx::XxContainer<T_Int,T_Scala
 };
 
 /*-------------------------------------------------*/
-} // namespace csc
+} // namespace csr
 } // namespace cla3p
 /*-------------------------------------------------*/
 
@@ -449,7 +449,7 @@ class XxMatrix : public MatrixMeta<T_Int>, public csx::XxContainer<T_Int,T_Scala
  * @brief Writes to os the contents of mat.
  */
 template <typename T_Int, typename T_Scalar>
-std::ostream& operator<<(std::ostream& os, const cla3p::csc::XxMatrix<T_Int,T_Scalar>& mat)
+std::ostream& operator<<(std::ostream& os, const cla3p::csr::XxMatrix<T_Int,T_Scalar>& mat)
 {
 	mat.toStream(os);
 	return os;
@@ -457,4 +457,4 @@ std::ostream& operator<<(std::ostream& os, const cla3p::csc::XxMatrix<T_Int,T_Sc
 
 /*-------------------------------------------------*/
 
-#endif // CLA3P_CSC_XXMATRIX_HPP_
+#endif // CLA3P_CSR_XXMATRIX_HPP_

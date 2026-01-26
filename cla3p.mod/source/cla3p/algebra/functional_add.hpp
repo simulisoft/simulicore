@@ -23,6 +23,7 @@
 
 #include "cla3p/dense/dns_xxvector.hpp"
 #include "cla3p/dense/dns_xxmatrix.hpp"
+#include "cla3p/sparse/csr_xxmatrix.hpp"
 #include "cla3p/sparse/csc_xxmatrix.hpp"
 #include "cla3p/lra/lra_xxmatrix.hpp"
 
@@ -64,6 +65,23 @@ template <typename T_Scalar>
 dns::XxMatrix<T_Scalar> add(
 		T_Scalar alpha, const dns::XxMatrix<T_Scalar>& A,
 		T_Scalar beta , const dns::XxMatrix<T_Scalar>& B);
+
+/**
+ * @ingroup cla3p_module_index_math_op_add
+ * @brief Adds two compatible sparse matrices.
+ * @details Performs the operation @f$ \alpha \cdot A + \beta \cdot B @f$.
+ * @tparam T_Int The integer type for indexing.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
+ * @param[in] alpha The scaling coefficient for @p A.
+ * @param[in] A The first input sparse matrix.
+ * @param[in] beta The scaling coefficient for @p B.
+ * @param[in] B The second input sparse matrix.
+ * @return The result of the operation @f$ \alpha \cdot A + \beta \cdot B @f$.
+ */
+template <typename T_Int, typename T_Scalar>
+csr::XxMatrix<T_Int, T_Scalar> add(
+		T_Scalar alpha, const csr::XxMatrix<T_Int, T_Scalar>& A,
+		T_Scalar beta , const csr::XxMatrix<T_Int, T_Scalar>& B);
 
 /**
  * @ingroup cla3p_module_index_math_op_add

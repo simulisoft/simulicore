@@ -48,7 +48,7 @@
  *   @details Optimized for high-throughput BLAS/LAPACK operations.
  *
  *   @defgroup cla3p_module_index_matrices_sparse Sparse Matrices
- *   @brief Sparse matrix objects (COO and CSC formats).
+ *   @brief Sparse matrix objects (COO, CSR and CSC formats).
  *   @details Optimized for large-scale systems where most entries are zero.
  *
  *   @defgroup cla3p_module_index_matrices_lowrank Low-Rank Matrices
@@ -82,6 +82,38 @@
  *
  *   @defgroup cla3p_module_index_math_op_matmat Matrix-Matrix Operations
  *   @brief High-performance matrix multiplications (GEMM).
+ * @}
+ * 
+ * @addtogroup cla3p_module_index_math_operators Algebra Operators
+ * @brief Intuitive non-member algebraic operator definitions for matrix and vector calculus.
+ * @details This module provides overloaded C++ operators that allow users to write mathematical 
+ * expressions in a syntax closely resembling standard linear algebra notation. These operators 
+ * call optimized internal routines for performance while maintaining code readability.
+ * @{
+ *   @defgroup cla3p_module_index_math_operators_add Addition/Subtraction Operators
+ *   @brief Binary operators for summing or subtracting compatible numerical containers.
+ *   @details Implements `+` and `-` for vectors and matrices. These operators perform dimensional 
+ *   consistency checks before executing element-wise arithmetic.
+ *
+ *   @defgroup cla3p_module_index_math_operators_update Updating Operators
+ *   @brief Compound assignment operators for in-place data modification.
+ *   @details Implements `+=` and `-=` to update existing objects, reducing memory allocation 
+ *   overhead by reusing the destination buffer.
+ *
+ *   @defgroup cla3p_module_index_math_operators_scal Scaling Operators
+ *   @brief Scalar-container multiplication and division.
+ *   @details Implements `*` and `/` between scalars and CLA3P objects, allowing for uniform scaling 
+ *   of all elements in a vector or matrix.
+ *
+ *   @defgroup cla3p_module_index_math_operators_mult Multiplication Operators
+ *   @brief Matrix-vector and matrix-matrix product definitions.
+ *   @details Implements the `*` operator for dot products, matrix-vector multiplications, and 
+ *   matrix-matrix products (GEMM). These are mapped to high-performance BLAS backends.
+ *
+ *   @defgroup cla3p_module_index_math_operators_perm Permutation Operators
+ *   @brief Operator-based reordering of rows and columns.
+ *   @details Implements the `*` operator for applying @ref cla3p::prm::PxMatrix reordering 
+ *   to vectors and matrices, providing a clean syntax for row/column pivoting.
  * @}
  *
  * @addtogroup cla3p_module_index_linsol Linear Solvers
@@ -118,38 +150,6 @@
  * @details Tools for computing singular values and singular vectors.
  * Includes class:
  *  - @ref cla3p::DefaultSVD : Standard SVD interface.
- *
- * @addtogroup cla3p_module_index_math_operators Algebra Operators
- * @brief Intuitive non-member algebraic operator definitions for matrix and vector calculus.
- * @details This module provides overloaded C++ operators that allow users to write mathematical 
- * expressions in a syntax closely resembling standard linear algebra notation. These operators 
- * call optimized internal routines for performance while maintaining code readability.
- * @{
- *   @defgroup cla3p_module_index_math_operators_add Addition/Subtraction Operators
- *   @brief Binary operators for summing or subtracting compatible numerical containers.
- *   @details Implements `+` and `-` for vectors and matrices. These operators perform dimensional 
- *   consistency checks before executing element-wise arithmetic.
- *
- *   @defgroup cla3p_module_index_math_operators_update Updating Operators
- *   @brief Compound assignment operators for in-place data modification.
- *   @details Implements `+=` and `-=` to update existing objects, reducing memory allocation 
- *   overhead by reusing the destination buffer.
- *
- *   @defgroup cla3p_module_index_math_operators_scal Scaling Operators
- *   @brief Scalar-container multiplication and division.
- *   @details Implements `*` and `/` between scalars and CLA3P objects, allowing for uniform scaling 
- *   of all elements in a vector or matrix.
- *
- *   @defgroup cla3p_module_index_math_operators_mult Multiplication Operators
- *   @brief Matrix-vector and matrix-matrix product definitions.
- *   @details Implements the `*` operator for dot products, matrix-vector multiplications, and 
- *   matrix-matrix products (GEMM). These are mapped to high-performance BLAS backends.
- *
- *   @defgroup cla3p_module_index_math_operators_perm Permutation Operators
- *   @brief Operator-based reordering of rows and columns.
- *   @details Implements the `*` operator for applying @ref cla3p::prm::PxMatrix reordering 
- *   to vectors and matrices, providing a clean syntax for row/column pivoting.
- * @}
  *
  * @defgroup cla3p_module_index_stream_operators Stream Operators
  * @brief I/O stream integration.

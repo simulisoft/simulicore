@@ -27,6 +27,7 @@
 #include "cla3p/bulk/dns_math.hpp"
 #include "cla3p/dense/dns_xxvector.hpp"
 #include "cla3p/dense/dns_xxmatrix.hpp"
+#include "cla3p/sparse/csr_xxmatrix.hpp"
 #include "cla3p/sparse/csc_xxmatrix.hpp"
 #include "cla3p/algebra/functional_add.hpp"
 
@@ -67,6 +68,26 @@ instantiate_update(real_t);
 instantiate_update(real4_t);
 instantiate_update(complex_t);
 instantiate_update(complex8_t);
+#undef instantiate_update
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+void update(T_Scalar alpha, const csr::XxMatrix<T_Int,T_Scalar>& A, csr::XxMatrix<T_Int,T_Scalar>& B)
+{
+	similarity_check(
+			A.prop(), A.nrows(), A.ncols(),
+			B.prop(), B.nrows(), B.ncols());
+
+	csr::XxMatrix<T_Int,T_Scalar> tmp = add(alpha, A, T_Scalar(1), B);
+	B.clear();
+	B = tmp.move();
+}
+/*-------------------------------------------------*/
+#define instantiate_update(T_Int,T_Scl) \
+template void update(T_Scl, const csr::XxMatrix<T_Int,T_Scl>&, csr::XxMatrix<T_Int,T_Scl>&)
+instantiate_update(int_t, real_t);
+instantiate_update(int_t, real4_t);
+instantiate_update(int_t, complex_t);
+instantiate_update(int_t, complex8_t);
 #undef instantiate_update
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>

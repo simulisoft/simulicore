@@ -40,7 +40,8 @@ XxMatrix<T_Int,T_Scalar>::XxMatrix()
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 XxMatrix<T_Int,T_Scalar>::XxMatrix(T_Int nr, T_Int nc, T_Int nz, const ::cla3p::Property& pr)
-	: ::cla3p::MatrixMeta<T_Int>(nr, nc, ::cla3p::sanitizeProperty<T_Cla3pScalar>(pr)), XxContainer<T_Int,T_Scalar>(nc, nz)
+	: ::cla3p::MatrixMeta<T_Int>(nr, nc, ::cla3p::sanitizeProperty<T_Cla3pScalar>(pr)), 
+      csx::XxContainer<T_Int,T_Scalar>(nc, nz)
 {
 	if(nr > 0 && nc > 0) {
 		checker();
@@ -51,7 +52,8 @@ XxMatrix<T_Int,T_Scalar>::XxMatrix(T_Int nr, T_Int nc, T_Int nz, const ::cla3p::
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 XxMatrix<T_Int,T_Scalar>::XxMatrix(T_Int nr, T_Int nc, T_Int *cptr, T_Int *ridx, T_Scalar *vals, bool bind, const ::cla3p::Property& pr)
-	: ::cla3p::MatrixMeta<T_Int>(nr, nc, ::cla3p::sanitizeProperty<T_Cla3pScalar>(pr)), XxContainer<T_Int,T_Scalar>(cptr, ridx, vals, bind)
+	: ::cla3p::MatrixMeta<T_Int>(nr, nc, ::cla3p::sanitizeProperty<T_Cla3pScalar>(pr)), 
+      csx::XxContainer<T_Int,T_Scalar>(cptr, ridx, vals, bind)
 {
 	if(nr > 0 && nc > 0) {
 		checker();
@@ -98,7 +100,7 @@ template <typename T_Int, typename T_Scalar>
 void XxMatrix<T_Int,T_Scalar>::clear()
 {
 	::cla3p::MatrixMeta<T_Int>::clear();
-	XxContainer<T_Int,T_Scalar>::clear();
+	csx::XxContainer<T_Int,T_Scalar>::clear();
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
@@ -109,6 +111,16 @@ XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::operator-() const
     ret.iscale(coeff);
     return ret;
 }
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+T_Int* XxMatrix<T_Int,T_Scalar>::colptr() { return this->xxxptr(); }
+template <typename T_Int, typename T_Scalar>
+T_Int* XxMatrix<T_Int,T_Scalar>::rowidx() { return this->xxxidx(); }
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+const T_Int* XxMatrix<T_Int,T_Scalar>::colptr() const { return this->xxxptr(); }
+template <typename T_Int, typename T_Scalar>
+const T_Int* XxMatrix<T_Int,T_Scalar>::rowidx() const { return this->xxxidx(); }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 T_Int XxMatrix<T_Int,T_Scalar>::nnz() const
@@ -177,7 +189,7 @@ XxMatrix<T_Int,T_Scalar>& XxMatrix<T_Int,T_Scalar>::moveFrom(XxMatrix<T_Int,T_Sc
 			*this = other;
 		} else {
 			::cla3p::MatrixMeta<T_Int>::operator=(std::move(other));
-			XxContainer<T_Int,T_Scalar>::operator=(std::move(other));
+			csx::XxContainer<T_Int,T_Scalar>::operator=(std::move(other));
 			other.unbind();
 		} // similar
 

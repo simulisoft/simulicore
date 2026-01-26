@@ -396,12 +396,13 @@
  *
  * - **Coordinate Format (COO):** A triplet-based storage (`row`, `col`, `value`) designed for 
  *   flexible ad-hoc construction and efficient element insertion.
- * - **Compressed Sparse Column (CSC):** A column-oriented format optimized for high-performance 
- *   arithmetic operations and linear solvers.
- *
- * @note **Future Support:** While CSC is currently the primary format for algebraic operations, 
- * support for the **Compressed Sparse Row (CSR)** format is currently under development for 2026 
- * and will be available in a future release.
+ * - **Compressed Sparse Row (CSR):** A row-oriented compressed format that stores non-zero values
+ *   row by row. Optimized for operations that access matrix elements by row, such as row-wise
+ *   iteration and matrix-vector products where the matrix is accessed row by row.
+ * - **Compressed Sparse Column (CSC):** A column-oriented compressed format that stores non-zero values
+ *   column by column. Optimized for operations that access matrix elements by column, such as 
+ *   column-wise iteration and matrix-vector products where the matrix is accessed column by column.
+ *   This is the primary format for algebraic operations in CLA3P.
  *
  * ### Available Sparse Matrix Types
  *
@@ -413,6 +414,12 @@
  * cla3p::coo::RfMatrix As_coo; // Single precision real
  * cla3p::coo::CdMatrix Az_coo; // Double precision complex
  * cla3p::coo::CfMatrix Ac_coo; // Single precision complex
+ * 
+ *  * // Compressed Sparse Row Format (Main classes for algebra)
+ * cla3p::csr::RdMatrix Ad_csr; // Double precision real
+ * cla3p::csr::RfMatrix As_csr; // Single precision real
+ * cla3p::csr::CdMatrix Az_csr; // Double precision complex
+ * cla3p::csr::CfMatrix Ac_csr; // Single precision complex
  *
  * // Compressed Sparse Column Format (Main classes for algebra)
  * cla3p::csc::RdMatrix Ad_csc; // Double precision real
@@ -425,13 +432,15 @@
  *
  * For optimal performance, it is recommended to:
  * 1. **Build** the sparse structure using the **COO** format to facilitate easy data ingestion.
- * 2. **Convert** the COO matrix to **CSC** format to perform fast matrix-vector products and 
+ * 2. **Convert** the COO matrix to **CSR** or **CSC** format to perform fast matrix-vector products and 
  *    arithmetic operations.
+ *    - Use **CSR** when your algorithms primarily access matrices row by row.
+ *    - Use **CSC** when your algorithms primarily access matrices column by column..
  *
  *
  * @section cla3p_tutorial_matrices_sparse_create Creating matrices
  * In CLA3P, sparse matrices are typically constructed using the COO format for data ingestion 
- * and then converted to CSC for computational tasks. The following methods describe how to 
+ * and then converted to CSR/CSC for computational tasks. The following methods describe how to 
  * instantiate these structures:
  *
  *   @subsection cla3p_tutorial_matrices_sparse_create_default Default creation
@@ -457,7 +466,7 @@
  *   </table>
  *
  *   @subsection cla3p_tutorial_matrices_sparse_create_aux Create sparse matrix from aux data
- *   You can wrap existing CSC data (column pointers, row indices, and values) into a CLA3P object 
+ *   You can wrap existing CSR/CSC data (row/column pointers, row/column indices, and values) into a CLA3P object 
  *   without copying the underlying memory.
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
@@ -469,8 +478,10 @@
  *
  *
  * @section cla3p_tutorial_matrices_sparse_fill Inserting matrix elements
- * Since the CSC format is rigid and difficult to fill directly, it is typically created 
- * by converting a populated COO matrix.
+ * Since the CSR and CSC formats are compressed and rigid (non-zero values are stored contiguously
+ * in memory with pointer arrays for row/column indexing), they are difficult to fill directly. 
+ * Therefore, they are typically created by converting a populated COO matrix rather than being
+ * built incrementally.
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>

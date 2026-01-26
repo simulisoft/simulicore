@@ -28,7 +28,6 @@
 #include "cla3p/checks/basic_checks.hpp"
 #include "cla3p/checks/perm_checks.hpp"
 #include "cla3p/checks/block_ops_checks.hpp"
-#include "cla3p/algebra/operators_scale.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -85,7 +84,7 @@ XxVector<T_Scalar>& XxVector<T_Scalar>::operator=(XiVector<T_Scalar>&& other)
 template <typename T_Scalar>
 alias::VirtualScal_vec<T_Scalar> XxVector<T_Scalar>::operator-() const
 {	
-	return (T_Scalar(-1) * (*this));
+	return alias::VirtualScal_vec<T_Scalar>(virtualize(), T_Scalar(-1));
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>

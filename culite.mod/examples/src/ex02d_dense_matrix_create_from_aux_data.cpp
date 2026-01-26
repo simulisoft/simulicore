@@ -31,8 +31,8 @@ int main()
 	 */
 	culite::real_t *a_device = culite::device_alloc_t<culite::real_t>(lda * 4);
 	culite::real_t *b_device = culite::device_alloc_t<culite::real_t>(ldb * 5);
-	culite::memCopyD2H(3, 4, a_host, lda, a_device, lda);
-	culite::memCopyD2H(5, 5, b_host, ldb, b_device, ldb);
+	culite::memCopyH2D(3, 4, a_host, lda, a_device, lda);
+	culite::memCopyH2D(5, 5, b_host, ldb, b_device, ldb);
 
 	/*
 	 * Assign pointer a in matrix A but do not bind

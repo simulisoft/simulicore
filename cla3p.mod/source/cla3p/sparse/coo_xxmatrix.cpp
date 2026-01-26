@@ -158,7 +158,7 @@ csc::XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::toCsc(dup_t duplicatePol
 			colptr[tuple.col() + 1]++;
 			});
 
-	blk::csc::roll(this->ncols(), colptr);
+	blk::csx::roll(this->ncols(), colptr);
 
 	T_Int nnz = colptr[this->ncols()];
 
@@ -178,9 +178,9 @@ csc::XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::toCsc(dup_t duplicatePol
 				colptr[tuple.col()]++;
 				});
 
-		blk::csc::unroll(this->ncols(), colptr);
-		blk::csc::sort(this->ncols(), colptr, rowidx, values);
-		blk::csc::remove_duplicates(this->ncols(), colptr, rowidx, values, duplicatePolicy);
+		blk::csx::unroll(this->ncols(), colptr);
+		blk::csx::sort(this->ncols(), colptr, rowidx, values);
+		blk::csx::remove_duplicates(this->ncols(), colptr, rowidx, values, duplicatePolicy);
 
 		rowidx = i_realloc_t<T_Int>(rowidx, colptr[this->ncols()]);
 		values = i_realloc_t<T_Scalar>(values, colptr[this->ncols()]);
@@ -189,6 +189,55 @@ csc::XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::toCsc(dup_t duplicatePol
 
 	csc::XxMatrix<T_Int,T_Scalar> ret(this->nrows(), this->ncols(), colptr, rowidx, values, true, this->prop());
 
+	return ret;
+}
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+csr::XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::toCsr(dup_t duplicatePolicy) const
+{
+	if(!this->nrows() || !this->ncols())
+		return csr::XxMatrix<T_Int,T_Scalar>();
+
+	T_Int *rowptr = i_calloc_t<T_Int>(this->nrows() + 1);
+
+    // TODO: group csr/csc functionality into a utility function
+
+	std::for_each(tupleVec().begin(), tupleVec().end(), 
+			[&](const Tuple<T_Int,T_Scalar> &tuple) 
+			{ 
+			rowptr[tuple.row() + 1]++;
+			});
+
+	blk::csx::roll(this->nrows(), rowptr);
+
+	T_Int nnz = rowptr[this->nrows()];
+
+	T_Int    *colidx = nullptr;
+	T_Scalar *values = nullptr;
+
+	if(nnz) {
+
+		colidx = i_malloc_t<T_Int>(nnz);
+		values = i_malloc_t<T_Scalar>(nnz);
+
+		std::for_each(tupleVec().begin(), tupleVec().end(), 
+				[&](const Tuple<T_Int,T_Scalar> &tuple) 
+				{ 
+				colidx[rowptr[tuple.row()]] = tuple.col();
+				values[rowptr[tuple.row()]] = tuple.val();
+				rowptr[tuple.row()]++;
+				});
+
+		blk::csx::unroll(this->nrows(), rowptr);
+		blk::csx::sort(this->nrows(), rowptr, colidx, values);
+		blk::csx::remove_duplicates(this->nrows(), rowptr, colidx, values, duplicatePolicy);
+
+		rowptr = i_realloc_t<T_Int>(rowptr, rowptr[this->nrows()]);
+		values = i_realloc_t<T_Scalar>(values, rowptr[this->nrows()]);
+
+	} // nnz
+
+	csr::XxMatrix<T_Int,T_Scalar> ret(this->nrows(), this->ncols(), rowptr, colidx, values, true, this->prop());
 	return ret;
 }
 /*-------------------------------------------------*/

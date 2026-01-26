@@ -28,6 +28,7 @@
 #include "cla3p/types/enums.hpp"
 #include "cla3p/generic/matrix_meta.hpp"
 #include "cla3p/generic/tuple.hpp"
+#include "cla3p/sparse/csr_xxmatrix.hpp"
 #include "cla3p/sparse/csc_xxmatrix.hpp"
 
 /*-------------------------------------------------*/
@@ -187,6 +188,14 @@ class XxMatrix : public MatrixMeta<T_Int> {
 		 * @return A sparse matrix in CSC format.
 		 */
 		csc::XxMatrix<T_Int,T_Scalar> toCsc(dup_t duplicatePolicy = dup_t::Sum) const;
+
+		/**
+		 * @brief Convert to compressed sparse row (CSR) format.
+		 * @details Converts the coordinate format sparse matrix to CSR format.
+		 * @param[in] duplicatePolicy The policy for handling duplicate entries (default: Sum).
+		 * @return A sparse matrix in CSR format.
+		 */
+		csr::XxMatrix<T_Int,T_Scalar> toCsr(dup_t duplicatePolicy = dup_t::Sum) const;
 
 		/** @} */
 

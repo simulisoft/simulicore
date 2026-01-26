@@ -34,19 +34,12 @@ namespace armpl {
 /*-------------------------------------------------*/
 static void armpl_status_check(armpl_status_t info)
 {
-	if(info == ARMPL_STATUS_INPUT_PARAMETER_ERROR) { 
-
-		throw err::NoConsistency("ArmPL input parameter error"); 
-
-	} else if(info == ARMPL_STATUS_EXECUTION_FAILURE) { 
-
-		throw err::NoConsistency("ArmPL error during execution"); 
-
-	} else if(info != ARMPL_STATUS_SUCCESS) { 
-
-		throw err::NoConsistency("ArmPL unknown error");
-
-	}
+    switch(info) {
+        case ARMPL_STATUS_SUCCESS: break;
+        case ARMPL_STATUS_INPUT_PARAMETER_ERROR: throw err::NoConsistency("ArmPL input parameter error");
+        case ARMPL_STATUS_EXECUTION_FAILURE: throw err::NoConsistency("ArmPL error during execution");
+        default: throw err::NoConsistency("ArmPL unknown error");
+    }
 }
 /*-------------------------------------------------*/
 #define armpl_sparse_create_dns_macro(T_Scl, suffix) \
@@ -123,13 +116,14 @@ armpl_sparse_export_csr_macro(complex8_t, c)
 /*-------------------------------------------------*/
 static enum armpl_sparse_hint_value opToHint(op_t op)
 {
-	if(op == op_t::N) return ARMPL_SPARSE_OPERATION_NOTRANS;
-	if(op == op_t::T) return ARMPL_SPARSE_OPERATION_TRANS;
-	if(op == op_t::C) return ARMPL_SPARSE_OPERATION_CONJTRANS;
+	switch(op) {
+		case op_t::N: return ARMPL_SPARSE_OPERATION_NOTRANS;
+		case op_t::T: return ARMPL_SPARSE_OPERATION_TRANS;
+		case op_t::C: return ARMPL_SPARSE_OPERATION_CONJTRANS;
+		default: throw err::NoConsistency("Could not convert op_t to sparse hint");
+	}
 
-	throw err::NoConsistency("Could not convert op_t to sparse hint");
-
-	return ARMPL_SPARSE_OPERATION_NOTRANS;
+    return ARMPL_SPARSE_OPERATION_NOTRANS;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -153,11 +147,13 @@ static ArmplSparseMatrixHint propToHint(prop_t prop)
 {
 	ArmplSparseMatrixHint ret = {ARMPL_SPARSE_HINT_STRUCTURE, ARMPL_SPARSE_STRUCTURE_UNSTRUCTURED};
 
-	/**/ if(prop == prop_t::General   ) ret.value = ARMPL_SPARSE_STRUCTURE_UNSTRUCTURED;
-	else if(prop == prop_t::Symmetric ) ret.value = ARMPL_SPARSE_STRUCTURE_SYMMETRIC;
-	else if(prop == prop_t::Hermitian ) ret.value = ARMPL_SPARSE_STRUCTURE_HERMITIAN;
-	else if(prop == prop_t::Triangular) ret.value = ARMPL_SPARSE_STRUCTURE_TRIANGULAR;
-	else throw err::NoConsistency("Could not convert prop_t to sprse matrix hint");
+	switch(prop) {
+		case prop_t::General: ret.value = ARMPL_SPARSE_STRUCTURE_UNSTRUCTURED; break;
+		case prop_t::Symmetric: ret.value = ARMPL_SPARSE_STRUCTURE_SYMMETRIC; break;
+		case prop_t::Hermitian: ret.value = ARMPL_SPARSE_STRUCTURE_HERMITIAN; break;
+		case prop_t::Triangular: ret.value = ARMPL_SPARSE_STRUCTURE_TRIANGULAR; break;
+		default: throw err::NoConsistency("Could not convert prop_t to sprse matrix hint");
+	}
 
 	return ret;
 }
@@ -331,6 +327,52 @@ armpl_sparse_add_macro(complex8_t, c)
 #undef armpl_sparse_add_macro
 /*-------------------------------------------------*/
 template <typename T_Scalar>
+void csr_add(int_t m, int_t n,
+		T_Scalar alpha, op_t opA, const int_t* rowptrA, const int_t* colidxA, const T_Scalar* valuesA,
+		T_Scalar beta, op_t opB, const int_t* rowptrB, const int_t* colidxB, const T_Scalar* valuesB,
+		int_t **rowptrC, int_t **colidxC, T_Scalar **valuesC)
+{
+	int_t mA = (opA == op_t::N ? m : n);
+	int_t nA = (opA == op_t::N ? n : m);
+	int_t mB = (opB == op_t::N ? m : n);
+	int_t nB = (opB == op_t::N ? n : m);
+
+	CsrMatrix<T_Scalar> A(mA, nA, rowptrA, colidxA, valuesA);
+	CsrMatrix<T_Scalar> B(mB, nB, rowptrB, colidxB, valuesB);
+	CsrMatrix<T_Scalar> C(m, n);
+
+	enum armpl_sparse_hint_value transA = opToHint(opA);
+	enum armpl_sparse_hint_value transB = opToHint(opB);
+
+	armpl_status_t info = ARMPL_STATUS_SUCCESS;
+
+	// hints for A
+	info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPADD_OPERATION, transA); armpl_status_check(info);
+	info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPADD_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_SINGLE); armpl_status_check(info);
+
+	// hints for B
+	info = armpl_spmat_hint(B.mat(), ARMPL_SPARSE_HINT_SPADD_OPERATION, transB); armpl_status_check(info);
+	info = armpl_spmat_hint(B.mat(), ARMPL_SPARSE_HINT_SPADD_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_SINGLE); armpl_status_check(info);
+
+	info = armpl_spadd_optimize(transA, transB, scalarToHint(alpha), A.mat(), scalarToHint(beta), B.mat(), C.mat()); armpl_status_check(info);
+
+	armpl_sparse_add(alpha, transA, A.mat(), beta, transB, B.mat(), C.mat());
+
+	C.export3(rowptrC, colidxC, valuesC);
+}
+/*-------------------------------------------------*/
+#define instantiate_csr_add(T_Scl) \
+template void csr_add(int_t, int_t, \
+		T_Scl, op_t, const int_t*, const int_t*, const T_Scl*, \
+		T_Scl, op_t, const int_t*, const int_t*, const T_Scl*, \
+		int_t**, int_t**, T_Scl**)
+instantiate_csr_add(real_t);
+instantiate_csr_add(real4_t);
+instantiate_csr_add(complex_t);
+instantiate_csr_add(complex8_t);
+#undef instantiate_csr_add
+/*-------------------------------------------------*/
+template <typename T_Scalar>
 void csc_add(int_t m, int_t n,
 		T_Scalar alpha, op_t opA, const int_t* colptrA, const int_t* rowidxA, const T_Scalar* valuesA,
 		T_Scalar beta, op_t opB, const int_t* colptrB, const int_t* rowidxB, const T_Scalar* valuesB,
@@ -378,12 +420,12 @@ instantiate_csc_add(complex8_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 static void revert_duplicated_diagonal(bool conjop, int_t n, T_Scalar alpha,
-	const int_t *colptr, const int_t *rowidx, const T_Scalar *values, 
-	int_t k, const T_Scalar *b, int_t ldb, T_Scalar *c, int_t ldc)
+	                                   const int_t *xxxptr, const int_t *xxxidx, const T_Scalar *values, 
+	                                   int_t k, const T_Scalar *b, int_t ldb, T_Scalar *c, int_t ldc)
 {
-	for (int_t j = 0; j < static_cast<int_t>(n); j++) {
-		for (int_t irow = colptr[j]; irow < colptr[j + 1]; irow++) {
-			if (rowidx[irow] == j) {
+	for (int_t j = 0; j < n; j++) {
+		for (int_t irow = xxxptr[j]; irow < xxxptr[j + 1]; irow++) {
+			if (xxxidx[irow] == j) {
 				T_Scalar Ajj = conjop ? T_Scalar(arith::getRe(values[irow])): values[irow];
 				for (int_t l = 0; l < k; l++) {
 					blk::dns::entry(ldc, c, j, l) -= alpha * Ajj * blk::dns::entry(ldb, b, j, l);
@@ -410,6 +452,83 @@ armpl_sparse_mv_macro(real4_t, s)
 armpl_sparse_mv_macro(complex_t, z)
 armpl_sparse_mv_macro(complex8_t, c)
 #undef armpl_sparse_mv_macro
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void csr_mv(prop_t propA, uplo_t uploA, int_t m, int_t n, T_Scalar alpha, op_t opA,
+	const int_t* rowptrA, const int_t* colidxA, const T_Scalar* valuesA,
+	const T_Scalar* x, T_Scalar beta, T_Scalar *y)
+{
+	CsrMatrix<T_Scalar> A(m, n, rowptrA, colidxA, valuesA);
+
+	armpl_status_t info = ARMPL_STATUS_SUCCESS;
+	enum armpl_sparse_hint_value trans;
+
+	Property prA(propA, uploA);
+
+	if(prA.isGeneral() || prA.isTriangular()) {
+
+		trans = opToHint(opA);
+		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMV_OPERATION, trans); armpl_status_check(info);
+		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMV_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_SINGLE); armpl_status_check(info);
+		info = armpl_spmv_optimize(A.mat()); armpl_status_check(info);
+		armpl_sparse_mv(trans, alpha, A.mat(), x, beta, y);
+
+	} else if(prA.isSymmetric()) {
+
+		//info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_STRUCTURE, ARMPL_SPARSE_STRUCTURE_TRIANGULAR); armpl_status_check(info);
+		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMV_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_FEW); armpl_status_check(info);
+
+		// y := beta * y + alpha * tri(A) * x
+		trans = opToHint(op_t::N);
+		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMV_OPERATION, trans); armpl_status_check(info);
+		info = armpl_spmv_optimize(A.mat()); armpl_status_check(info);
+		armpl_sparse_mv(trans, alpha, A.mat(), x, beta, y);
+
+		// y := y + alpha * tri(A)' * x
+		trans = opToHint(op_t::T);
+		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMV_OPERATION, trans); armpl_status_check(info);
+		info = armpl_spmv_optimize(A.mat()); armpl_status_check(info);
+		armpl_sparse_mv(trans, alpha, A.mat(), x, T_Scalar(1), y);
+
+		// y := y - alpha * diag(A) * x
+		revert_duplicated_diagonal(false, m, alpha, rowptrA, colidxA, valuesA, 1, x, m, y, m); // m = n
+
+	} else if(prA.isHermitian()) {
+
+		//info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_STRUCTURE, ARMPL_SPARSE_STRUCTURE_TRIANGULAR); armpl_status_check(info);
+		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMV_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_FEW); armpl_status_check(info);
+
+		// y := beta * y + alpha * tri(A) * x
+		trans = opToHint(op_t::N);
+		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMV_OPERATION, trans); armpl_status_check(info);
+		info = armpl_spmv_optimize(A.mat()); armpl_status_check(info);
+		armpl_sparse_mv(trans, alpha, A.mat(), x, beta, y);
+
+		// y := y + alpha * tri(A)' * x
+		trans = opToHint(op_t::C);
+		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMV_OPERATION, trans); armpl_status_check(info);
+		info = armpl_spmv_optimize(A.mat()); armpl_status_check(info);
+		armpl_sparse_mv(trans, alpha, A.mat(), x, T_Scalar(1), y);
+
+		// y := y - alpha * diag(A) * x
+		revert_duplicated_diagonal(true, m, alpha, rowptrA, colidxA, valuesA, 1, x, m, y, m); // m = n
+
+	} else {
+
+		throw err::NoConsistency(prA.name() + " matrices are not supported in sparse algebra");
+
+	} // prop
+}
+/*-------------------------------------------------*/
+#define instantiate_csr_mv(T_Scl) \
+template void csr_mv(prop_t, uplo_t, int_t, int_t, T_Scl, op_t, \
+		             const int_t*, const int_t*, const T_Scl*, \
+		             const T_Scl*, T_Scl, T_Scl*)
+instantiate_csr_mv(real_t);
+instantiate_csr_mv(real4_t);
+instantiate_csr_mv(complex_t);
+instantiate_csr_mv(complex8_t);
+#undef instantiate_csr_mv
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void csc_mv(prop_t propA, uplo_t uploA, int_t m, int_t n, T_Scalar alpha, op_t opA,
@@ -506,6 +625,97 @@ armpl_sparse_spmm_macro(real4_t, s)
 armpl_sparse_spmm_macro(complex_t, z)
 armpl_sparse_spmm_macro(complex8_t, c)
 #undef armpl_sparse_spmm_macro
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void csr_mm(prop_t propA, uplo_t uploA, int_t m, int_t n, T_Scalar alpha, op_t opA,
+		const int_t* rowptrA, const int_t* colidxA, const T_Scalar* valuesA,
+		int_t k, const T_Scalar* b, int_t ldb, T_Scalar beta, T_Scalar *c, int_t ldc)
+{
+	CsrMatrix<T_Scalar> A(m, n, rowptrA, colidxA, valuesA);
+
+	armpl_status_t info = ARMPL_STATUS_SUCCESS;
+	enum armpl_sparse_hint_value transA;
+
+	Property prA(propA, uploA);
+
+	if (prA.isGeneral() || prA.isTriangular()) {
+
+		transA = opToHint(opA);
+		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMV_OPERATION, transA); armpl_status_check(info);
+		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMV_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_MANY); armpl_status_check(info);
+		info = armpl_spmv_optimize(A.mat()); armpl_status_check(info);
+		// TODO: omp
+		for (int_t l = 0; l < k; l++) {
+			armpl_sparse_mv(transA, alpha, A.mat(), blk::dns::ptrmv(ldb, b, 0, l), beta, blk::dns::ptrmv(ldc, c, 0, l));
+		} // l
+
+	} else if (prA.isSymmetric()) {
+
+		//info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_STRUCTURE, ARMPL_SPARSE_STRUCTURE_TRIANGULAR); armpl_status_check(info);
+		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMM_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_FEW); armpl_status_check(info);
+
+		// y := beta * y + alpha * tri(A) * x
+		transA = opToHint(op_t::N);
+		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMM_OPERATION, transA); armpl_status_check(info);
+		info = armpl_spmv_optimize(A.mat()); armpl_status_check(info);
+		// TODO: omp
+		for (int_t l = 0; l < k; l++) {
+			armpl_sparse_mv(transA, alpha, A.mat(), blk::dns::ptrmv(ldb, b, 0, l), beta, blk::dns::ptrmv(ldc, c, 0, l));
+		} // l
+
+		// y := y + alpha * tri(A)' * x
+		transA = opToHint(op_t::T);
+		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMM_OPERATION, transA); armpl_status_check(info);
+		info = armpl_spmv_optimize(A.mat()); armpl_status_check(info);
+		// TODO: omp
+		for (int_t l = 0; l < k; l++) {
+			armpl_sparse_mv(transA, alpha, A.mat(), blk::dns::ptrmv(ldb, b, 0, l), T_Scalar(1), blk::dns::ptrmv(ldc, c, 0, l));
+		} // l
+
+		// y := y - alpha * diag(A) * x
+		revert_duplicated_diagonal(false, m, alpha, rowptrA, colidxA, valuesA, k, b, ldb, c, ldc);
+
+	} else if (prA.isHermitian()) {
+
+		//info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_STRUCTURE, ARMPL_SPARSE_STRUCTURE_TRIANGULAR); armpl_status_check(info);
+		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMM_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_FEW); armpl_status_check(info);
+
+		// y := beta * y + alpha * tri(A) * x
+		transA = opToHint(op_t::N);
+		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMM_OPERATION, transA); armpl_status_check(info);
+		info = armpl_spmv_optimize(A.mat()); armpl_status_check(info);
+		// TODO: omp
+		for (int_t l = 0; l < k; l++) {
+			armpl_sparse_mv(transA, alpha, A.mat(), blk::dns::ptrmv(ldb, b, 0, l), beta, blk::dns::ptrmv(ldc, c, 0, l));
+		} // l
+
+		// y := y + alpha * tri(A)' * x
+		transA = opToHint(op_t::C);
+		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMM_OPERATION, transA); armpl_status_check(info);
+		info = armpl_spmv_optimize(A.mat()); armpl_status_check(info);
+		// TODO: omp
+		for (int_t l = 0; l < k; l++) {
+			armpl_sparse_mv(transA, alpha, A.mat(), blk::dns::ptrmv(ldb, b, 0, l), T_Scalar(1), blk::dns::ptrmv(ldc, c, 0, l));
+		} // l
+
+		// y := y - alpha * diag(A) * x
+		revert_duplicated_diagonal(true, m, alpha, rowptrA, colidxA, valuesA, k, b, ldb, c, ldc);
+
+	} else {
+
+		throw err::NoConsistency(prA.name() + " matrices are not supported in sparse algebra");
+
+	} // prop
+}
+/*-------------------------------------------------*/
+#define instantiate_csr_mm(T_Scl) \
+template void csr_mm(prop_t, uplo_t, int_t, int_t, T_Scl, op_t, \
+		const int_t*, const int_t*, const T_Scl*, \
+		int_t, const T_Scl*, int_t, T_Scl, T_Scl*, int_t)
+instantiate_csr_mm(real_t);
+instantiate_csr_mm(real4_t);
+instantiate_csr_mm(complex_t);
+instantiate_csr_mm(complex8_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void csc_mm(prop_t propA, uplo_t uploA, int_t m, int_t n, T_Scalar alpha, op_t opA,
@@ -686,6 +896,52 @@ instantiate_csc_mm(complex_t);
 instantiate_csc_mm(complex8_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
+void csr_spmm(T_Scalar alpha,
+    op_t opA, int_t mA, int_t nA, const int_t* rowptrA, const int_t* colidxA, const T_Scalar* valuesA,
+    op_t opB, int_t mB, int_t nB, const int_t* rowptrB, const int_t* colidxB, const T_Scalar* valuesB,
+    int_t** rowptrC, int_t** colidxC, T_Scalar** valuesC)
+{
+	int_t mC = (opA == op_t::N ? mA : nA);
+	int_t nC = (opB == op_t::N ? nB : mB);
+
+	CsrMatrix<T_Scalar> A(mA, nA, rowptrA, colidxA, valuesA);
+	CsrMatrix<T_Scalar> B(mB, nB, rowptrB, colidxB, valuesB);
+	CsrMatrix<T_Scalar> C(mC, nC);
+
+	T_Scalar beta = T_Scalar(0);
+
+	enum armpl_sparse_hint_value transA = opToHint(opA);
+	enum armpl_sparse_hint_value transB = opToHint(opB);
+
+	armpl_status_t info = ARMPL_STATUS_SUCCESS;
+
+	// hints for A
+	info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMM_OPERATION, transA); armpl_status_check(info);
+	info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMM_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_SINGLE); armpl_status_check(info);
+
+	// hints for B
+	info = armpl_spmat_hint(B.mat(), ARMPL_SPARSE_HINT_SPMM_OPERATION, transB); armpl_status_check(info);
+	info = armpl_spmat_hint(B.mat(), ARMPL_SPARSE_HINT_SPMM_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_SINGLE); armpl_status_check(info);
+
+	info = armpl_spmm_optimize(transA, transB, scalarToHint(alpha), A.mat(), B.mat(), scalarToHint(beta), C.mat()); armpl_status_check(info);
+
+	armpl_sparse_spmm(alpha, transA, A.mat(), transB, B.mat(), beta, C.mat());
+
+	C.export3(rowptrC, colidxC, valuesC);
+}
+/*-------------------------------------------------*/
+#define instantiate_csr_spmm(T_Scl) \
+template void csr_spmm( T_Scl, \
+		op_t, int_t, int_t, const int_t*, const int_t*, const T_Scl*, \
+		op_t, int_t, int_t, const int_t*, const int_t*, const T_Scl*, \
+		int_t**, int_t**, T_Scl**)
+instantiate_csr_spmm(real_t);
+instantiate_csr_spmm(real4_t);
+instantiate_csr_spmm(complex_t);
+instantiate_csr_spmm(complex8_t);
+#undef instantiate_csr_spmm
+/*-------------------------------------------------*/
+template <typename T_Scalar>
 void csc_spmm(T_Scalar alpha,
     op_t opA, int_t mA, int_t nA, const int_t* colptrA, const int_t* rowidxA, const T_Scalar* valuesA,
     op_t opB, int_t mB, int_t nB, const int_t* colptrB, const int_t* rowidxB, const T_Scalar* valuesB,
@@ -734,6 +990,31 @@ instantiate_spmm(complex8_t);
 #undef instantiate_spmm
 /*-------------------------------------------------*/
 template <typename T_Scalar>
+static void add_to_zero_dense(const CsrMatrix<T_Scalar>& C, T_Scalar *c, int_t ldc)
+{
+	int_t m = 0;
+	int_t n = 0;
+	int_t *rowptr = nullptr;
+	int_t *colidx = nullptr;
+	T_Scalar* values = nullptr;
+	C.export3(&m, &n, &rowptr, &colidx, &values);
+
+	blk::dns::zero(uplo_t::Full, m, n, c, ldc);
+
+	for (int_t i = 0; i < static_cast<int_t>(m); i++) {
+		for (int_t jcol = rowptr[i]; jcol < rowptr[i + 1]; jcol++) {
+			int_t j = colidx[jcol];
+			T_Scalar v = values[jcol];
+			blk::dns::entry(ldc,c,i,j) += v;
+		} // jcol
+	} // i
+
+	std::free(rowptr);
+	std::free(colidx);
+	std::free(values);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
 static void add_to_zero_dense(const CscMatrix<T_Scalar>& C, T_Scalar *c, int_t ldc)
 {
 	int_t m = 0;
@@ -757,6 +1038,55 @@ static void add_to_zero_dense(const CscMatrix<T_Scalar>& C, T_Scalar *c, int_t l
 	std::free(rowidx);
 	std::free(values);
 }
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void csr_spmm(T_Scalar alpha,
+    op_t opA, int_t mA, int_t nA, const int_t* rowptrA, const int_t* colidxA, const T_Scalar* valuesA,
+    op_t opB, int_t mB, int_t nB, const int_t* rowptrB, const int_t* colidxB, const T_Scalar* valuesB,
+    T_Scalar beta, T_Scalar *c, int_t ldc)
+{
+	int_t mC = (opA == op_t::N ? mA : nA);
+	int_t nC = (opB == op_t::N ? nB : mB);
+
+	CsrMatrix<T_Scalar> A(mA, nA, rowptrA, colidxA, valuesA);
+	CsrMatrix<T_Scalar> B(mB, nB, rowptrB, colidxB, valuesB);
+
+	enum armpl_sparse_hint_value transA = opToHint(opA);
+	enum armpl_sparse_hint_value transB = opToHint(opB);
+
+	armpl_status_t info = ARMPL_STATUS_SUCCESS;
+
+	// hints for A
+	info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMM_OPERATION, transA); armpl_status_check(info);
+	info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMM_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_SINGLE); armpl_status_check(info);
+
+	// hints for B
+	info = armpl_spmat_hint(B.mat(), ARMPL_SPARSE_HINT_SPMM_OPERATION, transB); armpl_status_check(info);
+	info = armpl_spmat_hint(B.mat(), ARMPL_SPARSE_HINT_SPMM_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_SINGLE); armpl_status_check(info);
+
+	if(beta == T_Scalar(0)) {
+		CsrMatrix<T_Scalar> C(mC, nC);
+		info = armpl_spmm_optimize(transA, transB, scalarToHint(alpha), A.mat(), B.mat(), scalarToHint(T_Scalar(0)), C.mat()); armpl_status_check(info);
+		armpl_sparse_spmm(alpha, transA, A.mat(), transB, B.mat(), T_Scalar(0), C.mat());
+		add_to_zero_dense(C, c, ldc);
+	} else {
+		DnsMatrix<T_Scalar> C(mC, nC, c, ldc);
+		info = armpl_spmm_optimize(transA, transB, scalarToHint(alpha), A.mat(), B.mat(), scalarToHint(beta), C.mat()); armpl_status_check(info);
+		armpl_sparse_spmm(alpha, transA, A.mat(), transB, B.mat(), beta, C.mat());
+		C.exportd(c, ldc);
+	} // beta
+}
+/*-------------------------------------------------*/
+#define instantiate_csr_spmm(T_Scl) \
+template void csr_spmm(T_Scl, \
+		op_t, int_t, int_t, const int_t*, const int_t*, const T_Scl*, \
+		op_t, int_t, int_t, const int_t*, const int_t*, const T_Scl*, \
+		T_Scl, T_Scl*, int_t)
+instantiate_csr_spmm(real_t);
+instantiate_csr_spmm(real4_t);
+instantiate_csr_spmm(complex_t);
+instantiate_csr_spmm(complex8_t);
+#undef instantiate_csr_spmm
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void csc_spmm(T_Scalar alpha,

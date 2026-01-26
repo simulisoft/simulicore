@@ -35,35 +35,16 @@ namespace mkl {
 /*-------------------------------------------------*/
 static void mkl_sparse_status_check(sparse_status_t ierr)
 {
-	if(ierr == SPARSE_STATUS_NOT_INITIALIZED) { 
-
-		throw err::NoConsistency("MKL sparse handle is empty"); 
-
-	} else if(ierr == SPARSE_STATUS_ALLOC_FAILED) { 
-
-		throw err::OutOfMemory("MKL sparse handle not enough memory"); 
-
-	} else if(ierr == SPARSE_STATUS_INVALID_VALUE) { 
-
-		throw err::NoConsistency("MKL sparse handle input error"); 
-
-	} else if(ierr == SPARSE_STATUS_EXECUTION_FAILED) { 
-
-		throw err::NoConsistency("MKL sparse handle numerical error"); 
-
-	} else if(ierr == SPARSE_STATUS_INTERNAL_ERROR) { 
-
-		throw err::NoConsistency("MKL sparse handle internal error"); 
-
-	} else if(ierr == SPARSE_STATUS_NOT_SUPPORTED) { 
-
-		throw err::NoConsistency("MKL sparse handle operation not supported"); 
-
-	} else if(ierr != SPARSE_STATUS_SUCCESS) { 
-
-		throw err::NoConsistency("MKL sparse handle unknown error");
-
-	}
+    switch(ierr) {
+        case SPARSE_STATUS_SUCCESS: break;
+        case SPARSE_STATUS_NOT_INITIALIZED: throw err::NoConsistency("MKL sparse handle is empty");
+        case SPARSE_STATUS_ALLOC_FAILED: throw err::OutOfMemory("MKL sparse handle not enough memory");
+        case SPARSE_STATUS_INVALID_VALUE: throw err::NoConsistency("MKL sparse handle input error");
+        case SPARSE_STATUS_EXECUTION_FAILED: throw err::NoConsistency("MKL sparse handle numerical error");
+        case SPARSE_STATUS_INTERNAL_ERROR: throw err::NoConsistency("MKL sparse handle internal error");
+        case SPARSE_STATUS_NOT_SUPPORTED: throw err::NoConsistency("MKL sparse handle operation not supported");
+        default: throw err::NoConsistency("MKL sparse handle unknown error");
+    }
 }
 /*-------------------------------------------------*/
 #define mkl_sparse_create_csc_macro(T_Scl, prefix) \
@@ -72,9 +53,9 @@ static void mkl_sparse_create_csc(sparse_matrix_t* mat, int_t m, int_t n, int_t 
 	sparse_status_t ierr = mkl_sparse_##prefix##_create_csc(mat, SPARSE_INDEX_BASE_ZERO, m, n, colptr, colptr + 1, rowidx, values); \
 	mkl_sparse_status_check(ierr); \
 }
-mkl_sparse_create_csc_macro(real_t, d)
-mkl_sparse_create_csc_macro(real4_t, s)
-mkl_sparse_create_csc_macro(complex_t, z)
+mkl_sparse_create_csc_macro(real_t    , d)
+mkl_sparse_create_csc_macro(real4_t   , s)
+mkl_sparse_create_csc_macro(complex_t , z)
 mkl_sparse_create_csc_macro(complex8_t, c)
 #undef mkl_sparse_create_csc_macro
 /*-------------------------------------------------*/
@@ -84,41 +65,42 @@ static void mkl_sparse_create_csr(sparse_matrix_t* mat, int_t m, int_t n, int_t 
 	sparse_status_t ierr = mkl_sparse_##prefix##_create_csr(mat, SPARSE_INDEX_BASE_ZERO, m, n, rowptr, rowptr + 1, colidx, values); \
 	mkl_sparse_status_check(ierr); \
 }
-mkl_sparse_create_csr_macro(real_t, d)
-mkl_sparse_create_csr_macro(real4_t, s)
-mkl_sparse_create_csr_macro(complex_t, z)
+mkl_sparse_create_csr_macro(real_t    , d)
+mkl_sparse_create_csr_macro(real4_t   , s)
+mkl_sparse_create_csr_macro(complex_t , z)
 mkl_sparse_create_csr_macro(complex8_t, c)
 #undef mkl_sparse_create_csr_macro
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-static void copy_csx4_to_csx3(int_t n, sparse_index_base_t indexing,
-		const int_t    *csxbgn4, 
-		const int_t    *csxend4, 
-		const int_t    *csxidx4, 
-		const T_Scalar *values4,
-		int_t    **csxptr, 
-		int_t    **csxidx, 
-		T_Scalar **values)
+static void copy_csx4_to_csx3(int_t               n, 
+                              sparse_index_base_t indexing,
+		                      const int_t*        csxbgn4, 
+		                      const int_t*        csxend4, 
+		                      const int_t*        csxidx4, 
+		                      const T_Scalar*     values4,
+		                      int_t**             csxptr, 
+		                      int_t**             csxidx, 
+		                      T_Scalar**          values)
 {
 	int_t *csxptr3 = i_malloc_t<int_t>(n+1);
 
 	csxptr3[0] = 0;
-	for(int_t j = 0; j < n; j++) {
-		csxptr3[j+1] = csxptr3[j] + (csxend4[j] - csxbgn4[j]);
-	} // j
+	for(int_t k = 0; k < n; k++) {
+		csxptr3[k+1] = csxptr3[k] + (csxend4[k] - csxbgn4[k]);
+	} // k
 
 	int_t nnz = csxptr3[n];
 
 	int_t    *csxidx3 = i_malloc_t<int_t>(nnz);
 	T_Scalar *values3 = i_malloc_t<T_Scalar>(nnz);
 
-	for(int_t j = 0; j < n; j++) {
-		int_t ibgn4 = csxbgn4[j] - csxbgn4[0];
-		int_t iend4 = csxend4[j] - csxbgn4[0];
-		int_t ibgn3 = csxptr3[j];
+	for(int_t k = 0; k < n; k++) {
+		int_t ibgn4 = csxbgn4[k] - csxbgn4[0];
+		int_t iend4 = csxend4[k] - csxbgn4[0];
+		int_t ibgn3 = csxptr3[k];
 		std::copy(csxidx4 + ibgn4, csxidx4 + iend4, csxidx3 + ibgn3);
 		std::copy(values4 + ibgn4, values4 + iend4, values3 + ibgn3);
-	} // j
+	} // k
 	
 	if(indexing == SPARSE_INDEX_BASE_ONE) {
 		std::for_each(csxidx3, csxidx3 + nnz, [](int_t& i) { i--; });
@@ -141,9 +123,9 @@ static void mkl_sparse_export_csc(const sparse_matrix_t mat, int_t *m, int_t *n,
 	mkl_sparse_status_check(ierr); \
 	copy_csx4_to_csx3(*n, indexing, colbgn4, colend4, rowidx4, values4, colptr, rowidx, values); \
 }
-mkl_sparse_export_csc_macro(real_t, d)
-mkl_sparse_export_csc_macro(real4_t, s)
-mkl_sparse_export_csc_macro(complex_t, z)
+mkl_sparse_export_csc_macro(real_t    , d)
+mkl_sparse_export_csc_macro(real4_t   , s)
+mkl_sparse_export_csc_macro(complex_t , z)
 mkl_sparse_export_csc_macro(complex8_t, c)
 #undef mkl_sparse_export_csc_macro
 /*-------------------------------------------------*/
@@ -167,36 +149,39 @@ mkl_sparse_export_csr_macro(complex8_t, c)
 /*-------------------------------------------------*/
 static sparse_operation_t opToSparseTrans(op_t op)
 {
-	if(op == op_t::N) return SPARSE_OPERATION_NON_TRANSPOSE;
-	if(op == op_t::T) return SPARSE_OPERATION_TRANSPOSE;
-	if(op == op_t::C) return SPARSE_OPERATION_CONJUGATE_TRANSPOSE;
+    switch(op) {
+        case op_t::N: return SPARSE_OPERATION_NON_TRANSPOSE;
+        case op_t::T: return SPARSE_OPERATION_TRANSPOSE;
+        case op_t::C: return SPARSE_OPERATION_CONJUGATE_TRANSPOSE;
+        default: throw err::NoConsistency("Could not convert op_t to sparse operation");
+    }
 
-	throw err::NoConsistency("Could not convert op_t to sparse operation");
-
-	return SPARSE_OPERATION_NON_TRANSPOSE;
+    return SPARSE_OPERATION_NON_TRANSPOSE;
 }
 /*-------------------------------------------------*/
 static sparse_matrix_type_t propToDescrType(prop_t prop)
 {
-	if(prop == prop_t::General   ) return SPARSE_MATRIX_TYPE_GENERAL   ;
-	if(prop == prop_t::Symmetric ) return SPARSE_MATRIX_TYPE_SYMMETRIC ;
-	if(prop == prop_t::Hermitian ) return SPARSE_MATRIX_TYPE_HERMITIAN ;
-	if(prop == prop_t::Triangular) return SPARSE_MATRIX_TYPE_TRIANGULAR;
-
-	throw err::NoConsistency("Could not convert prop_t to matrix descriptor");
+    switch(prop) {
+        case prop_t::General:    return SPARSE_MATRIX_TYPE_GENERAL;
+        case prop_t::Symmetric:  return SPARSE_MATRIX_TYPE_SYMMETRIC;
+        case prop_t::Hermitian:  return SPARSE_MATRIX_TYPE_HERMITIAN;
+        case prop_t::Triangular: return SPARSE_MATRIX_TYPE_TRIANGULAR;
+        default: throw err::NoConsistency("Could not convert prop_t to matrix descriptor");
+    }
 
 	return SPARSE_MATRIX_TYPE_GENERAL;
 }
 /*-------------------------------------------------*/
 static sparse_fill_mode_t uploToDescrMode(uplo_t uplo)
 {
-	if(uplo == uplo_t::Full ) return SPARSE_FILL_MODE_FULL ;
-	if(uplo == uplo_t::Upper) return SPARSE_FILL_MODE_UPPER;
-	if(uplo == uplo_t::Lower) return SPARSE_FILL_MODE_LOWER;
+    switch(uplo) {
+        case uplo_t::Full:  return SPARSE_FILL_MODE_FULL;
+        case uplo_t::Upper: return SPARSE_FILL_MODE_UPPER;
+        case uplo_t::Lower: return SPARSE_FILL_MODE_LOWER;
+        default: throw err::NoConsistency("Could not convert uplo_t to matrix descriptor");
+    }
 
-	throw err::NoConsistency("Could not convert uplo_t to matrix descriptor");
-
-	return SPARSE_FILL_MODE_FULL;
+    return SPARSE_FILL_MODE_FULL;
 }
 /*-------------------------------------------------*/
 static struct matrix_descr create_descriptor(const Property& pr)
@@ -338,6 +323,39 @@ mkl_sparse_add_macro(complex8_t, c)
 #undef mkl_sparse_add_macro
 /*-------------------------------------------------*/
 template <typename T_Scalar>
+void csr_add(int_t m, int_t n, T_Scalar alpha, op_t opA,
+		const int_t* rowptrA, const int_t* colidxA, const T_Scalar* valuesA,
+		const int_t* rowptrB, const int_t* colidxB, const T_Scalar* valuesB,
+		int_t **rowptrC, int_t **colidxC, T_Scalar **valuesC)
+{
+	// 
+	// Csr/Csc operations are the same, only csr is supported (like working with the transposes)
+	//
+	CsrMatrix<T_Scalar> A(m, n, const_cast<int_t*>(rowptrA), const_cast<int_t*>(colidxA), const_cast<T_Scalar*>(valuesA));
+	CsrMatrix<T_Scalar> B(m, n, const_cast<int_t*>(rowptrB), const_cast<int_t*>(colidxB), const_cast<T_Scalar*>(valuesB));
+	CsrMatrix<T_Scalar> C;
+
+	sparse_operation_t transA = opToSparseTrans(opA);
+
+	mkl_sparse_add(transA, A.mat(), alpha, B.mat(), &C.mat());
+
+	int_t mC = 0;
+	int_t nC = 0;
+	C.export3(&mC, &nC, rowptrC, colidxC, valuesC);
+}
+/*-------------------------------------------------*/
+#define instantiate_csr_add(T_Scl) \
+template void csr_add(int_t, int_t, T_Scl, op_t, \
+		const int_t*, const int_t*, const T_Scl*, \
+		const int_t*, const int_t*, const T_Scl*, \
+		int_t**, int_t**, T_Scl**)
+instantiate_csr_add(real_t);
+instantiate_csr_add(real4_t);
+instantiate_csr_add(complex_t);
+instantiate_csr_add(complex8_t);
+#undef instantiate_csr_add
+/*-------------------------------------------------*/
+template <typename T_Scalar>
 void csc_add(int_t m, int_t n, T_Scalar alpha, op_t opA,
 		const int_t* colptrA, const int_t* rowidxA, const T_Scalar* valuesA,
 		const int_t* colptrB, const int_t* rowidxB, const T_Scalar* valuesB,
@@ -390,6 +408,28 @@ mkl_sparse_mv_macro(complex8_t, c)
 #undef mkl_sparse_mv_macro
 /*-------------------------------------------------*/
 template <typename T_Scalar>
+void csr_mv(prop_t propA, uplo_t uploA, int_t m, int_t n, T_Scalar alpha, op_t opA,
+		const int_t* rowptrA, const int_t* colidxA, const T_Scalar* valuesA,
+		const T_Scalar* x, T_Scalar beta, T_Scalar *y)
+{
+	Property prA(propA, uploA);
+	CsrMatrix<T_Scalar> A(m, n, const_cast<int_t*>(rowptrA), const_cast<int_t*>(colidxA), const_cast<T_Scalar*>(valuesA), prA);
+	sparse_operation_t op = opToSparseTrans(opA);
+
+	mkl_sparse_mv(op, alpha, A.mat(), A.descr(), x, beta, y);
+}
+/*-------------------------------------------------*/
+#define instantiate_csr_mv(T_Scl) \
+template void csr_mv(prop_t, uplo_t, int_t, int_t, T_Scl, op_t, \
+		const int_t*, const int_t*, const T_Scl*, \
+		const T_Scl*, T_Scl, T_Scl*)
+instantiate_csr_mv(real_t);
+instantiate_csr_mv(real4_t);
+instantiate_csr_mv(complex_t);
+instantiate_csr_mv(complex8_t);
+#undef instantiate_csr_mv
+/*-------------------------------------------------*/
+template <typename T_Scalar>
 void csc_mv(prop_t propA, uplo_t uploA, int_t m, int_t n, T_Scalar alpha, op_t opA,
 		const int_t* colptrA, const int_t* rowidxA, const T_Scalar* valuesA,
 		const T_Scalar* x, T_Scalar beta, T_Scalar *y)
@@ -432,6 +472,27 @@ mkl_sparse_mm_macro(real4_t, s)
 mkl_sparse_mm_macro(complex_t, z)
 mkl_sparse_mm_macro(complex8_t, c)
 #undef mkl_sparse_mm_macro
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void csr_mm(prop_t propA, uplo_t uploA, int_t m, int_t n, T_Scalar alpha, op_t opA,
+		const int_t* rowptrA, const int_t* colidxA, const T_Scalar* valuesA,
+		int_t k, const T_Scalar* b, int_t ldb, T_Scalar beta, T_Scalar *c, int_t ldc)
+{
+	Property prA(propA, uploA);
+
+    CsrMatrix<T_Scalar> A(m, n, const_cast<int_t*>(rowptrA), const_cast<int_t*>(colidxA), const_cast<T_Scalar*>(valuesA), prA);
+	sparse_operation_t op = opToSparseTrans(opA);
+	mkl_sparse_mm(op, alpha, A.mat(), A.descr(), b, k, ldb, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+#define instantiate_csr_mm(T_Scl) \
+template void csr_mm(prop_t, uplo_t, int_t, int_t, T_Scl, op_t, \
+		const int_t*, const int_t*, const T_Scl*, \
+		int_t, const T_Scl*, int_t, T_Scl, T_Scl*, int_t)
+instantiate_csr_mm(real_t);
+instantiate_csr_mm(real4_t);
+instantiate_csr_mm(complex_t);
+instantiate_csr_mm(complex8_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void csc_mm(prop_t propA, uplo_t uploA, int_t m, int_t n, T_Scalar alpha, op_t opA,
@@ -518,7 +579,7 @@ void csc_spmm(op_t opA,
 	int_t nC = 0;
 	C.export3(&mC, &nC, colptrC, rowidxC, valuesC);
 
-	blk::csc::sort(nC, *colptrC, *rowidxC, *valuesC);
+	blk::csx::sort(nC, *colptrC, *rowidxC, *valuesC);
 }
 /*-------------------------------------------------*/
 #define instantiate_spmm(T_Scl) \
@@ -531,7 +592,7 @@ instantiate_spmm(real4_t);
 instantiate_spmm(complex_t);
 instantiate_spmm(complex8_t);
 #undef instantiate_spmm
-#endif
+#endif // 0
 /*-------------------------------------------------*/
 #define mkl_sparse_sp2md_macro(T_Scl, prefix) \
 static void mkl_sparse_sp2md( \
@@ -557,6 +618,32 @@ mkl_sparse_sp2md_macro(real4_t, s)
 mkl_sparse_sp2md_macro(complex_t, z)
 mkl_sparse_sp2md_macro(complex8_t, c)
 #undef mkl_sparse_sp2md_macro
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void csr_sp2md(T_Scalar alpha, 
+		op_t opA, int_t mA, int_t nA, const int_t* rowptrA, const int_t* colidxA, const T_Scalar* valuesA,
+		op_t opB, int_t mB, int_t nB, const int_t* rowptrB, const int_t* colidxB, const T_Scalar* valuesB,
+		T_Scalar beta, T_Scalar* c, int_t ldc)
+{
+	CsrMatrix<T_Scalar> A(mA, nA, const_cast<int_t*>(rowptrA), const_cast<int_t*>(colidxA), const_cast<T_Scalar*>(valuesA));
+	CsrMatrix<T_Scalar> B(mB, nB, const_cast<int_t*>(rowptrB), const_cast<int_t*>(colidxB), const_cast<T_Scalar*>(valuesB));
+
+	mkl_sparse_sp2md(
+			opToSparseTrans(opA), A.descr(), A.mat(), 
+			opToSparseTrans(opB), B.descr(), B.mat(), 
+			alpha, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+#define instantiate_sp2md(T_Scl) \
+template void csr_sp2md(T_Scl, \
+		op_t, int_t, int_t, const int_t*, const int_t*, const T_Scl*, \
+		op_t, int_t, int_t, const int_t*, const int_t*, const T_Scl*, \
+		T_Scl, T_Scl*, int_t)
+instantiate_sp2md(real_t);
+instantiate_sp2md(real4_t);
+instantiate_sp2md(complex_t);
+instantiate_sp2md(complex8_t);
+#undef instantiate_sp2md
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void csc_sp2md(T_Scalar alpha, 
@@ -585,6 +672,41 @@ instantiate_sp2md(complex8_t);
 #undef instantiate_sp2md
 /*-------------------------------------------------*/
 template <typename T_Scalar>
+void csr_sp2m(
+    op_t opA, int_t mA, int_t nA, const int_t* rowptrA, const int_t* colidxA, const T_Scalar* valuesA,
+    op_t opB, int_t mB, int_t nB, const int_t* rowptrB, const int_t* colidxB, const T_Scalar* valuesB,
+    int_t** rowptrC, int_t** colidxC, T_Scalar** valuesC)
+{
+	CsrMatrix<T_Scalar> A(mA, nA, const_cast<int_t*>(rowptrA), const_cast<int_t*>(colidxA), const_cast<T_Scalar*>(valuesA));
+	CsrMatrix<T_Scalar> B(mB, nB, const_cast<int_t*>(rowptrB), const_cast<int_t*>(colidxB), const_cast<T_Scalar*>(valuesB));
+	CsrMatrix<T_Scalar> C;
+
+	sparse_status_t ierr = mkl_sparse_sp2m(
+			opToSparseTrans(opA), A.descr(), A.mat(),
+			opToSparseTrans(opB), B.descr(), B.mat(),
+			SPARSE_STAGE_FULL_MULT,
+			&C.mat());
+	mkl_sparse_status_check(ierr);
+
+	int_t mC = 0;
+	int_t nC = 0;
+	C.export3(&mC, &nC, rowptrC, colidxC, valuesC);
+
+	blk::csx::sort(mC, *rowptrC, *colidxC, *valuesC);
+}
+/*-------------------------------------------------*/
+#define instantiate_sp2m(T_Scl) \
+template void csr_sp2m( \
+		op_t, int_t, int_t, const int_t*, const int_t*, const T_Scl*, \
+		op_t, int_t, int_t, const int_t*, const int_t*, const T_Scl*, \
+		int_t**, int_t**, T_Scl**)
+instantiate_sp2m(real_t);
+instantiate_sp2m(real4_t);
+instantiate_sp2m(complex_t);
+instantiate_sp2m(complex8_t);
+#undef instantiate_sp2m
+/*-------------------------------------------------*/
+template <typename T_Scalar>
 void csc_sp2m(
     op_t opA, int_t mA, int_t nA, const int_t* colptrA, const int_t* rowidxA, const T_Scalar* valuesA,
     op_t opB, int_t mB, int_t nB, const int_t* colptrB, const int_t* rowidxB, const T_Scalar* valuesB,
@@ -605,7 +727,7 @@ void csc_sp2m(
 	int_t nC = 0;
 	C.export3(&mC, &nC, colptrC, rowidxC, valuesC);
 
-	blk::csc::sort(nC, *colptrC, *rowidxC, *valuesC);
+	blk::csx::sort(nC, *colptrC, *rowidxC, *valuesC);
 }
 /*-------------------------------------------------*/
 #define instantiate_sp2m(T_Scl) \

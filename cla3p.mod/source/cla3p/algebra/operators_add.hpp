@@ -23,6 +23,7 @@
 
 #include "cla3p/dense/dns_xxvector.hpp"
 #include "cla3p/dense/dns_xxmatrix.hpp"
+#include "cla3p/sparse/csr_xxmatrix.hpp"
 #include "cla3p/sparse/csc_xxmatrix.hpp"
 
 #include "cla3p/virtuals/virtual_expression.hpp"
@@ -37,9 +38,8 @@
 
 template <typename T_Result, typename T_Left, typename T_Right>
 cla3p::VirtualPlus<T_Result,T_Left,T_Right>
-operator+(
-	const cla3p::VirtualExpression<T_Result, T_Left>& A, 
-	const cla3p::VirtualExpression<T_Result, T_Right>& B)
+operator+(const cla3p::VirtualExpression<T_Result, T_Left>& A, 
+	      const cla3p::VirtualExpression<T_Result, T_Right>& B)
 {
 	return cla3p::VirtualPlus<T_Result,T_Left,T_Right>(A, B);
 }
@@ -60,9 +60,8 @@ operator+(
  */
 template <typename T_Scalar>
 cla3p::alias::VirtualPlus_vec<T_Scalar>
-operator+(
-		const cla3p::dns::XxVector<T_Scalar>& x,
-		const cla3p::dns::XxVector<T_Scalar>& y)
+operator+(const cla3p::dns::XxVector<T_Scalar>& x,
+		  const cla3p::dns::XxVector<T_Scalar>& y)
 {
 	return (x.virtualize() + y.virtualize());
 }
@@ -78,9 +77,25 @@ operator+(
  */
 template <typename T_Scalar>
 cla3p::alias::VirtualPlus_dns<T_Scalar>
-operator+(
-		const cla3p::dns::XxMatrix<T_Scalar>& A,
-		const cla3p::dns::XxMatrix<T_Scalar>& B)
+operator+(const cla3p::dns::XxMatrix<T_Scalar>& A,
+		  const cla3p::dns::XxMatrix<T_Scalar>& B)
+{
+	return (A.virtualize() + B.virtualize());
+}
+
+/**
+ * @ingroup cla3p_module_index_math_operators_add
+ * @brief Adds two sparse matrices.
+ * @details Performs the operation @f$ A + B @f$. Matrices must have compatible
+ *          dimensions and properties.
+ * @param[in] A The first sparse matrix.
+ * @param[in] B The second sparse matrix.
+ * @return The virtual matrix sum representing the addition.
+ */
+template <typename T_Int, typename T_Scalar>
+cla3p::alias::VirtualPlus_csr<T_Int,T_Scalar>
+operator+(const cla3p::csr::XxMatrix<T_Int,T_Scalar>& A,
+		  const cla3p::csr::XxMatrix<T_Int,T_Scalar>& B)
 {
 	return (A.virtualize() + B.virtualize());
 }
@@ -96,9 +111,8 @@ operator+(
  */
 template <typename T_Int, typename T_Scalar>
 cla3p::alias::VirtualPlus_csc<T_Int,T_Scalar>
-operator+(
-		const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A,
-		const cla3p::csc::XxMatrix<T_Int,T_Scalar>& B)
+operator+(const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A,
+		  const cla3p::csc::XxMatrix<T_Int,T_Scalar>& B)
 {
 	return (A.virtualize() + B.virtualize());
 }
@@ -129,6 +143,18 @@ cla3p::VirtualPlus<
 operator+(
 		const cla3p::dns::XxMatrix<T_Scalar>& A,
 		const cla3p::alias::VirtualExpr_dns<T_Scalar,T_Right>& B)
+{
+	return (A.virtualize() + B);
+}
+
+template <typename T_Int, typename T_Scalar, typename T_Right>
+cla3p::VirtualPlus<
+	cla3p::csr::XxMatrix<T_Int,T_Scalar>,
+	cla3p::alias::VirtualObj_csr<T_Int,T_Scalar>,
+	T_Right>
+operator+(
+		const cla3p::csr::XxMatrix<T_Int,T_Scalar>& A,
+		const cla3p::alias::VirtualExpr_csr<T_Int,T_Scalar,T_Right>& B)
 {
 	return (A.virtualize() + B);
 }
@@ -171,6 +197,18 @@ cla3p::VirtualPlus<
 operator+(
 		const cla3p::alias::VirtualExpr_dns<T_Scalar, T_Left>& A,
 		const cla3p::dns::XxMatrix<T_Scalar>& B)
+{
+	return (A + B.virtualize());
+}
+
+template <typename T_Int, typename T_Scalar, typename T_Left>
+cla3p::VirtualPlus<
+	cla3p::csr::XxMatrix<T_Int,T_Scalar>,
+	T_Left,
+	cla3p::alias::VirtualObj_csr<T_Int,T_Scalar>>
+operator+(
+		const cla3p::alias::VirtualExpr_csr<T_Int,T_Scalar,T_Left>& A,
+		const cla3p::csr::XxMatrix<T_Int,T_Scalar>& B)
 {
 	return (A + B.virtualize());
 }
@@ -255,6 +293,24 @@ operator-(
  * @return The virtual matrix difference representing the subtraction.
  */
 template <typename T_Int, typename T_Scalar>
+cla3p::alias::VirtualMinus_csr<T_Int,T_Scalar>
+operator-(
+		const cla3p::csr::XxMatrix<T_Int,T_Scalar>& A,
+		const cla3p::csr::XxMatrix<T_Int,T_Scalar>& B)
+{
+	return (A.virtualize() - B.virtualize());
+}
+
+/**
+ * @ingroup cla3p_module_index_math_operators_add
+ * @brief Subtracts two sparse matrices.
+ * @details Performs the operation @f$ A - B @f$. Matrices must have compatible
+ *          dimensions and properties.
+ * @param[in] A The first sparse matrix.
+ * @param[in] B The second sparse matrix.
+ * @return The virtual matrix difference representing the subtraction.
+ */
+template <typename T_Int, typename T_Scalar>
 cla3p::alias::VirtualMinus_csc<T_Int,T_Scalar>
 operator-(
 		const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A,
@@ -289,6 +345,18 @@ cla3p::VirtualMinus<
 operator-(
 		const cla3p::dns::XxMatrix<T_Scalar>& A,
 		const cla3p::alias::VirtualExpr_dns<T_Scalar,T_Right>& B)
+{
+	return (A.virtualize() - B);
+}
+
+template <typename T_Int, typename T_Scalar, typename T_Right>
+cla3p::VirtualMinus<
+	cla3p::csr::XxMatrix<T_Int,T_Scalar>,
+	cla3p::alias::VirtualObj_csr<T_Int,T_Scalar>,
+	T_Right>
+operator-(
+		const cla3p::csr::XxMatrix<T_Int,T_Scalar>& A,
+		const cla3p::alias::VirtualExpr_csr<T_Int,T_Scalar,T_Right>& B)
 {
 	return (A.virtualize() - B);
 }
@@ -331,6 +399,18 @@ cla3p::VirtualMinus<
 operator-(
 		const cla3p::alias::VirtualExpr_dns<T_Scalar,T_Left>& A,
 		const cla3p::dns::XxMatrix<T_Scalar>& B)
+{
+	return (A - B.virtualize());
+}
+
+template <typename T_Int, typename T_Scalar, typename T_Left>
+cla3p::VirtualMinus<
+	cla3p::csr::XxMatrix<T_Int,T_Scalar>,
+	T_Left,
+	cla3p::alias::VirtualObj_csr<T_Int,T_Scalar>>
+operator-(
+		const cla3p::alias::VirtualExpr_csr<T_Int,T_Scalar,T_Left>& A,
+		const cla3p::csr::XxMatrix<T_Int,T_Scalar>& B)
 {
 	return (A - B.virtualize());
 }

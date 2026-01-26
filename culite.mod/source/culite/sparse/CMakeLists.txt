@@ -7,9 +7,8 @@ set(CULITE_SRC ${CULITE_SRC}
 	PARENT_SCOPE)
 
 set(CULITE_SPARSE_HPP 
-    csr_xxcontainer.hpp
+    csx_xxcontainer.hpp
     csr_xxmatrix.hpp
-	csc_xxcontainer.hpp
 	csc_xxmatrix.hpp
 	)
 

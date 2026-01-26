@@ -40,6 +40,13 @@ template <typename T_Scalar>
 void VirtualTransposeAccumulateOnExistingSpec(const dns::XxMatrix<T_Scalar>& src, bool conj, dns::XxMatrix<T_Scalar>& dest, T_Scalar coeff);
 
 template <typename T_Int, typename T_Scalar>
+void VirtualTransposeEvaluateOnNewSpec(const csr::XxMatrix<T_Int,T_Scalar>& src, bool conj, csr::XxMatrix<T_Int, T_Scalar>& dest);
+template <typename T_Int, typename T_Scalar>
+void VirtualTransposeEvaluateOnExistingSpec(const csr::XxMatrix<T_Int,T_Scalar>& src, bool conj, csr::XxMatrix<T_Int, T_Scalar>& dest);
+template <typename T_Int, typename T_Scalar>
+void VirtualTransposeAccumulateOnExistingSpec(const csr::XxMatrix<T_Int,T_Scalar>& src, bool conj, csr::XxMatrix<T_Int, T_Scalar>& dest, T_Scalar coeff);
+
+template <typename T_Int, typename T_Scalar>
 void VirtualTransposeEvaluateOnNewSpec(const csc::XxMatrix<T_Int,T_Scalar>& src, bool conj, csc::XxMatrix<T_Int, T_Scalar>& dest);
 template <typename T_Int, typename T_Scalar>
 void VirtualTransposeEvaluateOnExistingSpec(const csc::XxMatrix<T_Int,T_Scalar>& src, bool conj, csc::XxMatrix<T_Int, T_Scalar>& dest);
@@ -80,6 +87,9 @@ namespace alias {
 
 template <typename T_Scalar>
 using VirtualTrans_dns = VirtualTranspose<dns::XxMatrix<T_Scalar>>;
+
+template <typename T_Int, typename T_Scalar>
+using VirtualTrans_csr = VirtualTranspose<csr::XxMatrix<T_Int, T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
 using VirtualTrans_csc = VirtualTranspose<csc::XxMatrix<T_Int, T_Scalar>>;
