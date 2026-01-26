@@ -76,10 +76,7 @@ class XxContainerBase {
    		const T_Int* xxxptr() const { return m_xxxptr; }
 		const T_Int* xxxidx() const { return m_xxxidx; }
 
-		void clear()
-		{
-			defaults();
-		}
+		void clear() { defaults(); }
 
 	private:
 		T_Int*    m_xxxptr;

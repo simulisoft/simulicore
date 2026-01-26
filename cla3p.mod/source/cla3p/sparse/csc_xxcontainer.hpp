@@ -60,20 +60,10 @@ class XxContainer : public XxContainerBase<T_Int, T_Scalar>, public Ownership {
 		XxContainer(XxContainer<T_Int,T_Scalar>&) = delete;
 		XxContainer<T_Int,T_Scalar>& operator=(XxContainer<T_Int,T_Scalar>&) = delete;
 
-		XxContainer(XxContainer<T_Int,T_Scalar>&& other)
-		{
-			moveFrom(other);
-		}
+		XxContainer(XxContainer<T_Int,T_Scalar>&& other) { moveFrom(other); }
+		XxContainer<T_Int,T_Scalar>& operator=(XxContainer<T_Int,T_Scalar>&& other) { return moveFrom(other); }
 
-		XxContainer<T_Int,T_Scalar>& operator=(XxContainer<T_Int,T_Scalar>&& other)
-		{
-			return moveFrom(other);
-		}
-
-		~XxContainer()
-		{
-			clear();
-		}
+		~XxContainer() { clear(); }
 
 	protected:
 		void clear()
