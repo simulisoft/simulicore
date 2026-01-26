@@ -59,20 +59,20 @@ class XxVector : public XiVector<T_Scalar> {
 		// Move convertors intentionally left as non-explicit
 		//
 		explicit XxVector(const XiVector<T_Scalar>& other);
+        XxVector<T_Scalar>& operator=(const XiVector<T_Scalar>& other);
+
 		XxVector(XiVector<T_Scalar>&& other);
-
 		XxVector<T_Scalar>& operator=(XiVector<T_Scalar>&& other);
-		XxVector<T_Scalar>& operator=(const XiVector<T_Scalar>& other);
 
 		template <typename T_Virtual>
-		explicit XxVector(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v) { operator=(v); }
+		XxVector(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v) { operator=(v); }
 		template <typename T_Virtual>
-		XxVector(alias::VirtualExpr_vec<T_Scalar,T_Virtual>&& v) { operator=(std::move(v)); }
+		XxVector<T_Scalar>& operator=(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v) { return evaluateFrom(v); }
 
-		template <typename T_Virtual>
-		XxVector<T_Scalar>& operator=(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v) { evaluateFrom(v); return *this; }
-		template <typename T_Virtual>
-		XxVector<T_Scalar>& operator=(alias::VirtualExpr_vec<T_Scalar,T_Virtual>&& v) { evaluateFrom(v); return *this; }
+		//template <typename T_Virtual>
+		//XxVector(alias::VirtualExpr_vec<T_Scalar,T_Virtual>&& v) { operator=(std::move(v)); }
+		//template <typename T_Virtual>
+		//XxVector<T_Scalar>& operator=(alias::VirtualExpr_vec<T_Scalar,T_Virtual>&& v) { return evaluateFrom(v); }
 
 		alias::VirtualObj_vec<T_Scalar> virtualize() const { return alias::VirtualObj_vec<T_Scalar>(*this); }
 
@@ -294,13 +294,14 @@ class XxVector : public XiVector<T_Scalar> {
 
 	protected:
 		template <typename T_Virtual>
-		void evaluateFrom(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v)
+		XxVector<T_Scalar>& evaluateFrom(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v)
 		{
 			if(*this) {
 				v.evaluateOnExisting(*this);
 			} else {
 				v.evaluateOnNew(*this);
 			}
+            return *this;
 		}
 
 };

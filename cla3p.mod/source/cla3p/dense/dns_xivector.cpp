@@ -83,8 +83,7 @@ XiVector<T_Scalar>& XiVector<T_Scalar>::operator=(const XiVector<T_Scalar>& othe
 	if(!(*this)) {
 		*this = XiVector<T_Scalar>(other.size());
 	}
-	copyFromExisting(other);
-	return *this;
+	return copyFromExisting(other);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -96,8 +95,7 @@ XiVector<T_Scalar>::XiVector(XiVector<T_Scalar>&& other)
 template <typename T_Scalar>
 XiVector<T_Scalar>& XiVector<T_Scalar>::operator=(XiVector<T_Scalar>&& other)
 {
-	moveFrom(other);
-	return *this;
+	return moveFrom(other);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -202,7 +200,7 @@ void XiVector<T_Scalar>::checker() const
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void XiVector<T_Scalar>::moveFrom(XiVector<T_Scalar>& other)
+XiVector<T_Scalar>& XiVector<T_Scalar>::moveFrom(XiVector<T_Scalar>& other)
 {
 	if(this != &other) {
 
@@ -217,15 +215,19 @@ void XiVector<T_Scalar>::moveFrom(XiVector<T_Scalar>& other)
 		other.clear();
 
 	} // do not apply on self
+
+    return *this;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void XiVector<T_Scalar>::copyFromExisting(const XiVector<T_Scalar>& other)
+XiVector<T_Scalar>& XiVector<T_Scalar>::copyFromExisting(const XiVector<T_Scalar>& other)
 {
 	if(this != &other) {
 		similarity_dim_check(size(), other.size());
 		std::copy(other.values(), other.values() + size(), this->values());
 	} // do not apply on self
+
+    return *this;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>

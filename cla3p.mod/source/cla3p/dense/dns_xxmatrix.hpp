@@ -62,21 +62,21 @@ class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
 		// Move convertors intentionally left as non-explicit
 		//
 		template <typename T_Virtual>
-		explicit XxMatrix(const alias::VirtualExpr_dns<T_Scalar,T_Virtual>& v) { operator=(v); }
+		XxMatrix(const alias::VirtualExpr_dns<T_Scalar,T_Virtual>& v) { operator=(v); }
 		template <typename T_Virtual>
-		XxMatrix(alias::VirtualExpr_dns<T_Scalar,T_Virtual>&& v) { operator=(std::move(v)); }
+		XxMatrix<T_Scalar>& operator=(const alias::VirtualExpr_dns<T_Scalar,T_Virtual>& v) { return evaluateFrom(v); }
 
-		template <typename T_Virtual>
-		XxMatrix<T_Scalar>& operator=(const alias::VirtualExpr_dns<T_Scalar,T_Virtual>& v) { evaluateFrom(v); return *this; }
-		template <typename T_Virtual>
-		XxMatrix<T_Scalar>& operator=(alias::VirtualExpr_dns<T_Scalar,T_Virtual>&& v) { evaluateFrom(v); return *this; }
+		//template <typename T_Virtual>
+		//XxMatrix(alias::VirtualExpr_dns<T_Scalar,T_Virtual>&& v) { operator=(std::move(v)); }
+		//template <typename T_Virtual>
+		//XxMatrix<T_Scalar>& operator=(alias::VirtualExpr_dns<T_Scalar,T_Virtual>&& v) { return evaluateFrom(v); }
 
-		explicit XxMatrix(const VirtualRowvec<T_Scalar>& rv) { operator=(rv); }
-		XxMatrix(VirtualRowvec<T_Scalar>&& rv) { operator=(std::move(rv)); }
-
-		XxMatrix<T_Scalar>& operator=(const VirtualRowvec<T_Scalar>& rv) { evaluateFrom(rv); return *this; }
-		XxMatrix<T_Scalar>& operator=(VirtualRowvec<T_Scalar>&& rv) { evaluateFrom(rv); return *this;  }
-
+		XxMatrix(const VirtualRowvec<T_Scalar>& rv) { operator=(rv); }
+        XxMatrix<T_Scalar>& operator=(const VirtualRowvec<T_Scalar>& rv) { return evaluateFrom(rv); }
+        
+		//XxMatrix(VirtualRowvec<T_Scalar>&& rv) { operator=(std::move(rv)); }
+		//XxMatrix<T_Scalar>& operator=(VirtualRowvec<T_Scalar>&& rv) { return evaluateFrom(rv);  }
+		
 		alias::VirtualObj_dns<T_Scalar> virtualize() const { return alias::VirtualObj_dns<T_Scalar>(*this); }
 	
 		/**
@@ -558,28 +558,30 @@ class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
 
 		void setLd(int_t ld);
 
-		void moveFrom(XxMatrix<T_Scalar>& other);
-		void copyFromExisting(const XxMatrix<T_Scalar>& other);
+		XxMatrix<T_Scalar>& moveFrom(XxMatrix<T_Scalar>& other);
+		XxMatrix<T_Scalar>& copyFromExisting(const XxMatrix<T_Scalar>& other);
 		void checker() const;
 
 	protected:
 		template <typename T_Virtual>
-		void evaluateFrom(const alias::VirtualExpr_dns<T_Scalar,T_Virtual>& v)
+		XxMatrix<T_Scalar>& evaluateFrom(const alias::VirtualExpr_dns<T_Scalar,T_Virtual>& v)
 		{
 			if(*this) {
 				v.evaluateOnExisting(*this);
 			} else {
 				v.evaluateOnNew(*this);
 			}
+            return *this;
 		}
 
-		void evaluateFrom(const VirtualRowvec<T_Scalar>& rv)
+		XxMatrix<T_Scalar>& evaluateFrom(const VirtualRowvec<T_Scalar>& rv)
 		{
 			if(*this) {
 				rv.evaluateOnExisting(*this);
 			} else {
 				rv.evaluateOnNew(*this);
 			}
+            return *this;
 		}
 };
 

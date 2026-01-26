@@ -47,16 +47,15 @@ class CxVector : public XxVector<T_Scalar> {
 		// Move convertors intentionally left as non-explicit
 		//
 		explicit CxVector(const XiVector<T_Scalar>& other);
+        CxVector<T_Scalar>& operator=(const XiVector<T_Scalar>& other);
+
 		CxVector(XiVector<T_Scalar>&& other);
-
-    	CxVector<T_Scalar>& operator=(const XiVector<T_Scalar>& other);
-    	CxVector<T_Scalar>& operator=(XiVector<T_Scalar>&& other);
-
+        CxVector<T_Scalar>& operator=(XiVector<T_Scalar>&& other);
+    	
 		template <typename T_Virtual>
-		CxVector(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v) { operator=(v); }
-
+		CxVector(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v) : XxVector<T_Scalar>(v) {}
 		template <typename T_Virtual>
-		CxVector<T_Scalar>& operator=(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v) { XxVector<T_Scalar>::evaluateFrom(v); return *this; }
+		CxVector<T_Scalar>& operator=(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v) { XxVector<T_Scalar>::operator=(v); return *this; }
 
 		/**
 		 * @name Constructors

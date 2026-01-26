@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_CSC_XXCONTAINER_BASE_HPP_
-#define CLA3P_CSC_XXCONTAINER_BASE_HPP_
+#ifndef CLA3P_CSR_XXCONTAINER_BASE_HPP_
+#define CLA3P_CSR_XXCONTAINER_BASE_HPP_
 
 /**
  * @file
  */
 
-#include "cla3p/sparse/csx_xxcontainer_base.hpp"
+ #include "cla3p/sparse/csx_xxcontainer_base.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
-namespace csc {
+namespace csr {
 /*-------------------------------------------------*/
 
 /**
  * @nosubgrouping 
- * @brief The sparse container base class (compressed sparse column).
+ * @brief The sparse container base class (compressed sparse row).
  */
 template <typename T_Int, typename T_Scalar>
 class XxContainerBase : public csx::XxContainerBase<T_Int,T_Scalar> {
@@ -38,8 +38,8 @@ class XxContainerBase : public csx::XxContainerBase<T_Int,T_Scalar> {
 	public:
 		XxContainerBase() {}
 
-		explicit XxContainerBase(T_Int *cptr, T_Int *ridx, T_Scalar *vals)
-        : csx::XxContainerBase<T_Int,T_Scalar>(cptr, ridx, vals) {}
+		explicit XxContainerBase(T_Int *rptr, T_Int *cidx, T_Scalar *vals)
+        : csx::XxContainerBase<T_Int,T_Scalar>(rptr, cidx, vals) {}
 
 		XxContainerBase(XxContainerBase<T_Int,T_Scalar>&) = delete;
 		XxContainerBase<T_Int,T_Scalar>& operator=(XxContainerBase<T_Int,T_Scalar>&) = delete;
@@ -50,37 +50,37 @@ class XxContainerBase : public csx::XxContainerBase<T_Int,T_Scalar> {
 		{
             csx::XxContainerBase<T_Int,T_Scalar>::operator=(std::move(other));
             return *this;
-		}
+        }
 
 		~XxContainerBase() { clear(); }
 
 		/**
-		 * @brief Access the column pointer array.
-		 * @details Returns a pointer to the column pointer array (CSC format).
-		 * @return Pointer to the column pointer array.
+		 * @brief Access the row pointer array.
+		 * @details Returns a pointer to the row pointer array (CSR format).
+		 * @return Pointer to the row pointer array.
 		 */
-		T_Int* colptr() { return this->xxxptr(); }
+		T_Int* rowptr() { return this->xxxptr(); }
 
 		/**
-		 * @brief Access the column pointer array.
-		 * @details Returns a pointer to the column pointer array (CSC format).
-		 * @return Pointer to the column pointer array.
+		 * @brief Access the row pointer array.
+		 * @details Returns a pointer to the row pointer array (CSR format).
+		 * @return Pointer to the row pointer array.
 		 */
-		const T_Int* colptr() const { return this->xxxptr(); }
+		const T_Int* rowptr() const { return this->xxxptr(); }
 
 		/**
-		 * @brief Access the row index array.
-		 * @details Returns a pointer to the row index array (CSC format).
-		 * @return Pointer to the row index array.
+		 * @brief Access the column index array.
+		 * @details Returns a pointer to the column index array (CSR format).
+		 * @return Pointer to the column index array.
 		 */
-		T_Int* rowidx() { return this->xxxidx(); }
+		T_Int* colidx() { return this->xxxidx(); }
 
 		/**
-		 * @brief Access the row index array.
-		 * @details Returns a pointer to the row index array (CSC format).
-		 * @return Pointer to the row index array.
+		 * @brief Access the column index array.
+		 * @details Returns a pointer to the column index array (CSR format).
+		 * @return Pointer to the column index array.
 		 */
-		const T_Int* rowidx() const { return this->xxxidx(); }
+		const T_Int* colidx() const { return this->xxxidx(); }
 
 	protected:
 		void clear()
@@ -90,8 +90,8 @@ class XxContainerBase : public csx::XxContainerBase<T_Int,T_Scalar> {
 };
 
 /*-------------------------------------------------*/
-} // namespace csc
+} // namespace csr
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_CSC_XXCONTAINER_BASE_HPP_
+#endif // CLA3P_CSR_XXCONTAINER_BASE_HPP_

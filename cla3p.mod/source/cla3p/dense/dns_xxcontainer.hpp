@@ -53,21 +53,10 @@ class XxContainer : public XxContainerBase<T_Scalar>, public Ownership {
 		XxContainer(XxContainer<T_Scalar>&) = delete;
 		XxContainer<T_Scalar>& operator=(XxContainer<T_Scalar>&) = delete;
 
-		XxContainer(XxContainer<T_Scalar>&& other)
-		{
-			moveFrom(other);
-		}
+		XxContainer(XxContainer<T_Scalar>&& other) { moveFrom(other); }
+		XxContainer<T_Scalar>& operator=(XxContainer<T_Scalar>&& other) { return moveFrom(other); }
 
-		XxContainer<T_Scalar>& operator=(XxContainer<T_Scalar>&& other)
-		{
-			moveFrom(other);
-			return *this;
-		}
-
-		~XxContainer()
-		{
-			clear();
-		}
+		~XxContainer() { clear(); }
 
 	protected:
 		void clear()
@@ -80,7 +69,7 @@ class XxContainer : public XxContainerBase<T_Scalar>, public Ownership {
 		}
 
 	private:
-		void moveFrom(XxContainer<T_Scalar>& other)
+		XxContainer<T_Scalar>& moveFrom(XxContainer<T_Scalar>& other)
 		{
 			if(this != &other) {
 				clear();
@@ -89,6 +78,7 @@ class XxContainer : public XxContainerBase<T_Scalar>, public Ownership {
 				other.unbind();
 				other.clear();
 			} // do not apply on self
+			return *this;
 		}
 };
 

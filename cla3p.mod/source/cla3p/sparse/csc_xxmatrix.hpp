@@ -59,14 +59,14 @@ class XxMatrix : public MatrixMeta<T_Int>, public XxContainer<T_Int,T_Scalar> {
 		// Move convertors intentionally left as non-explicit
 		//
 		template <typename T_Virtual>
-		explicit XxMatrix(const alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>& v) { operator=(v); }
-		template <typename T_Virtual>
-		XxMatrix(alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>&& v) { operator=(std::move(v)); }
+		XxMatrix(const alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>& v) { operator=(v); }
+        template <typename T_Virtual>
+		XxMatrix<T_Int,T_Scalar>& operator=(const alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>& v) { evaluateFrom(v); }
 
-		template <typename T_Virtual>
-		XxMatrix<T_Int,T_Scalar>& operator=(const alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>& v) { evaluateFrom(v); return *this; }
-		template <typename T_Virtual>
-		XxMatrix<T_Int,T_Scalar>& operator=(alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>&& v) { evaluateFrom(v); return *this; }
+		//template <typename T_Virtual>
+		//XxMatrix(alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>&& v) { operator=(std::move(v)); }
+		//template <typename T_Virtual>
+		//XxMatrix<T_Int,T_Scalar>& operator=(alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>&& v) { return evaluateFrom(v); }
 
 		alias::VirtualObj_csc<T_Int,T_Scalar> virtualize() const { return alias::VirtualObj_csc<T_Int,T_Scalar>(*this); }
 
@@ -392,19 +392,20 @@ class XxMatrix : public MatrixMeta<T_Int>, public XxContainer<T_Int,T_Scalar> {
 		/** @} */
 
 	private:
-		void copyFromExisting(const XxMatrix<T_Int,T_Scalar>& other);
-		void moveFrom(XxMatrix<T_Int,T_Scalar>& other);
+		XxMatrix<T_Int,T_Scalar>& copyFromExisting(const XxMatrix<T_Int,T_Scalar>& other);
+		XxMatrix<T_Int,T_Scalar>& moveFrom(XxMatrix<T_Int,T_Scalar>& other);
 		void checker() const;
 
 	protected:
 		template <typename T_Virtual>
-		void evaluateFrom(const alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>& v)
+		XxMatrix<T_Int,T_Scalar>& evaluateFrom(const alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>& v)
 		{
 			if(*this) {
 				v.evaluateOnExisting(*this);
 			} else {
 				v.evaluateOnNew(*this);
 			}
+            return *this;
 		}
 
 };

@@ -37,10 +37,7 @@ class XxContainerBase {
 		using value_type = T_Scalar;
 
 	protected:
-		XxContainerBase()
-		{
-			defaults();
-		}
+		XxContainerBase() { defaults(); }
 
 		XxContainerBase(T_Scalar *vals)
 			: XxContainerBase<T_Scalar>()
@@ -51,21 +48,10 @@ class XxContainerBase {
 		XxContainerBase(XxContainerBase<T_Scalar>&) = delete;
 		XxContainerBase<T_Scalar>& operator=(XxContainerBase<T_Scalar>&) = delete;
 
-		XxContainerBase(XxContainerBase<T_Scalar>&& other)
-		{
-			moveFrom(other);
-		}
+		XxContainerBase(XxContainerBase<T_Scalar>&& other) { moveFrom(other); }
+		XxContainerBase<T_Scalar>& operator=(XxContainerBase<T_Scalar>&& other) { return moveFrom(other);}
 
-		XxContainerBase<T_Scalar>& operator=(XxContainerBase<T_Scalar>&& other)
-		{
-			moveFrom(other);
-			return *this;
-		}
-
-		~XxContainerBase()
-		{
-			clear();
-		}
+		~XxContainerBase() { clear(); }
 
 	public:
 
@@ -96,13 +82,14 @@ class XxContainerBase {
 
 		void defaults() { setValues(nullptr); }
 
-		void moveFrom(XxContainerBase<T_Scalar>& other)
+		XxContainerBase<T_Scalar>& moveFrom(XxContainerBase<T_Scalar>& other)
 		{
 			if(this != &other) {
 				clear();
 				setValues(other.values());
 				other.clear();
 			} // do not apply on self
+			return *this;
 		}
 };
 

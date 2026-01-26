@@ -67,8 +67,7 @@ class XxContainer : public XxContainerBase<T_Int, T_Scalar>, public Ownership {
 
 		XxContainer<T_Int,T_Scalar>& operator=(XxContainer<T_Int,T_Scalar>&& other)
 		{
-			moveFrom(other);
-			return *this;
+			return moveFrom(other);
 		}
 
 		~XxContainer()
@@ -89,7 +88,7 @@ class XxContainer : public XxContainerBase<T_Int, T_Scalar>, public Ownership {
 		}
 
 	private:
-		void moveFrom(XxContainer<T_Int,T_Scalar>& other)
+		XxContainer<T_Int,T_Scalar>& moveFrom(XxContainer<T_Int,T_Scalar>& other)
 		{
 			if(this != &other) {
 				clear();
@@ -98,6 +97,7 @@ class XxContainer : public XxContainerBase<T_Int, T_Scalar>, public Ownership {
 				other.unbind();
 				other.clear();
 			} // do not apply on self
+            return *this;
 		}
 };
 

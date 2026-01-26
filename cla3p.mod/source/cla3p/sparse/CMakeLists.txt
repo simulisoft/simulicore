@@ -7,6 +7,8 @@ set(CLA3P_SRC ${CLA3P_SRC}
 	PARENT_SCOPE)
 
 set(CLA3P_SPARSE_HPP 
+    csx_xxcontainer_base.hpp
+	csr_xxcontainer_base.hpp
 	csc_xxcontainer_base.hpp
 	csc_xxcontainer.hpp
 	csc_xxmatrix.hpp

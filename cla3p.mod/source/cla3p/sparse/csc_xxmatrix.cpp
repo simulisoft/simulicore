@@ -90,8 +90,7 @@ XxMatrix<T_Int,T_Scalar>& XxMatrix<T_Int,T_Scalar>::operator=(const XxMatrix<T_I
 	if(!(*this)) {
 		*this = XxMatrix<T_Int,T_Scalar>(other.nrows(), other.ncols(), other.nnz(), other.prop());
 	}
-	copyFromExisting(other);
-	return *this;
+	return copyFromExisting(other);
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
@@ -103,8 +102,7 @@ XxMatrix<T_Int,T_Scalar>::XxMatrix(XxMatrix<T_Int,T_Scalar>&& other)
 template <typename T_Int, typename T_Scalar>
 XxMatrix<T_Int,T_Scalar>& XxMatrix<T_Int,T_Scalar>::operator=(XxMatrix<T_Int,T_Scalar>&& other)
 {
-	moveFrom(other);
-	return (*this);
+	return moveFrom(other);
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
@@ -157,7 +155,7 @@ std::string XxMatrix<T_Int,T_Scalar>::info(const std::string& header) const
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-void XxMatrix<T_Int,T_Scalar>::copyFromExisting(const XxMatrix<T_Int,T_Scalar>& other)
+XxMatrix<T_Int,T_Scalar>& XxMatrix<T_Int,T_Scalar>::copyFromExisting(const XxMatrix<T_Int,T_Scalar>& other)
 {
 	if(this != &other) {
 
@@ -175,10 +173,12 @@ void XxMatrix<T_Int,T_Scalar>::copyFromExisting(const XxMatrix<T_Int,T_Scalar>& 
 		blk::dns::copy(uplo_t::Full, nz, 1, other.values(), nz, this->values(), nz);
 
 	} // do not apply on self
+
+    return *this;
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-void XxMatrix<T_Int,T_Scalar>::moveFrom(XxMatrix<T_Int,T_Scalar>& other)
+XxMatrix<T_Int,T_Scalar>& XxMatrix<T_Int,T_Scalar>::moveFrom(XxMatrix<T_Int,T_Scalar>& other)
 {
 	if(this != &other) {
 
@@ -193,6 +193,8 @@ void XxMatrix<T_Int,T_Scalar>::moveFrom(XxMatrix<T_Int,T_Scalar>& other)
 		other.clear();
 
 	} // do not apply on self
+
+    return *this;
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>

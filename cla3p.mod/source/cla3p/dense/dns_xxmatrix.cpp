@@ -94,8 +94,7 @@ XxMatrix<T_Scalar>& XxMatrix<T_Scalar>::operator=(const XxMatrix<T_Scalar>& othe
 	if(!(*this)) {
 		*this = XxMatrix<T_Scalar>(other.nrows(), other.ncols(), other.prop());
 	}
-	copyFromExisting(other);
-	return *this;
+	return copyFromExisting(other);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -107,8 +106,7 @@ XxMatrix<T_Scalar>::XxMatrix(XxMatrix<T_Scalar>&& other)
 template <typename T_Scalar>
 XxMatrix<T_Scalar>& XxMatrix<T_Scalar>::operator=(XxMatrix<T_Scalar>&& other)
 {
-	moveFrom(other);
-	return *this;
+	return moveFrom(other);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -548,7 +546,7 @@ void XxMatrix<T_Scalar>::checker() const
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void XxMatrix<T_Scalar>::moveFrom(XxMatrix<T_Scalar>& other)
+XxMatrix<T_Scalar>& XxMatrix<T_Scalar>::moveFrom(XxMatrix<T_Scalar>& other)
 {
 	if(this != &other) {
 
@@ -564,15 +562,18 @@ void XxMatrix<T_Scalar>::moveFrom(XxMatrix<T_Scalar>& other)
 		other.clear();
 
 	} // do not apply on self
+
+    return *this;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void XxMatrix<T_Scalar>::copyFromExisting(const XxMatrix<T_Scalar>& other)
+XxMatrix<T_Scalar>& XxMatrix<T_Scalar>::copyFromExisting(const XxMatrix<T_Scalar>& other)
 {
 	if(this != &other) {
 		similarity_check(prop(), nrows(), ncols(), other.prop(), other.nrows(), other.ncols());
 		blk::dns::copy(other.prop().uplo(), other.nrows(), other.ncols(), other.values(), other.ld(), this->values(), ld());
 	} // do not apply on self
+	return *this;
 }
 /*-------------------------------------------------*/
 template class XxMatrix<real_t>;
