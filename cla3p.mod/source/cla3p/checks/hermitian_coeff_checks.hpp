@@ -21,14 +21,25 @@
  * @file
  */
 
-#include "cla3p/types.hpp"
+#include <sstream>
+#include <iomanip>
+
+#include "cla3p/types/property.hpp"
+#include "cla3p/error/exceptions.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
 
 template <typename T_Scalar>
-void hermitian_coeff_check(const Property& pr, T_Scalar coeff);
+void hermitian_coeff_check(const Property& pr, T_Scalar coeff)
+{
+    if(pr.isHermitian() && arith::getIm(coeff)) {
+        std::ostringstream oss;
+        oss << std::scientific << coeff;
+        throw err::InvalidOp("Coefficient for Hermitian matrix must be real, but got complex value " + oss.str() + ".");
+    }
+}
 
 /*-------------------------------------------------*/
 } // namespace cla3p

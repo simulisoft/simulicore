@@ -33,7 +33,7 @@
 #include "cla3p/support/utils.hpp"
 
 #include "cla3p/checks/basic_checks.hpp"
-#include "cla3p/checks/csc_checks.hpp"
+#include "cla3p/checks/csx_checks.hpp"
 #include "cla3p/checks/block_ops_checks.hpp"
 #include "cla3p/checks/transp_checks.hpp"
 #include "cla3p/checks/perm_checks.hpp"
@@ -484,7 +484,7 @@ XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::block(T_Int ibgn, T_Int jbgn,
 template <typename T_Int, typename T_Scalar>
 void XxMatrix<T_Int,T_Scalar>::checker() const
 {
-	csc_consistency_check(this->prop(), this->nrows(), this->ncols(), nnz(), this->colptr(), this->rowidx(), this->values());
+	csx_consistency_check(this->nrows(), this->ncols(), nnz(), this->colptr(), this->rowidx(), this->values(), this->prop());
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
