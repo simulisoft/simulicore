@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef CULITE_CSC_XXMATRIX_HPP_
-#define CULITE_CSC_XXMATRIX_HPP_
+#ifndef CULITE_CSR_XXMATRIX_HPP_
+#define CULITE_CSR_XXMATRIX_HPP_
 
 /**
  * @file
@@ -24,20 +24,22 @@
 #include <ostream>
 #include <string>
 
-#include <cla3p/sparse/csc_xxmatrix.hpp>
+#include <cla3p/generic/guard.hpp> // TODO: delete when csr_xxmatrix is included
+#include <cla3p/generic/matrix_meta.hpp> // TODO: delete when csr_xxmatrix is included
+// #include <cla3p/sparse/csr_xxmatrix.hpp>
 
 #include "culite/types/integer.hpp"
-#include "culite/sparse/csc_xxcontainer.hpp"
+#include "culite/sparse/csr_xxcontainer.hpp"
 
 /*-------------------------------------------------*/
 namespace culite { 
-namespace csc {
+namespace csr {
 /*-------------------------------------------------*/
 
 /**
  * @nosubgrouping 
- * @brief The device sparse matrix class (compressed sparse column format).
- * @details Represents a sparse matrix stored on the GPU device in CSC format.
+ * @brief The device sparse matrix class (compressed sparse row format).
+ * @details Represents a sparse matrix stored on the GPU device in CSR format.
  * @tparam T_Int The integer type for indexing (e.g., int32_t, int64_t).
  * @tparam T_Scalar The scalar type (e.g., float, double, complex).
  */
@@ -64,7 +66,7 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public XxContainer<T_Int,T_S
 
 		/**
 		 * @brief Dimension constructor.
-		 * @details Creates a device sparse matrix of the specified dimensions in CSC format and allocates device memory.
+		 * @details Creates a device sparse matrix of the specified dimensions in CSR format and allocates device memory.
 		 * @param[in] nr The number of rows.
 		 * @param[in] nc The number of columns.
 		 * @param[in] nz The number of non-zero elements.
@@ -74,16 +76,16 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public XxContainer<T_Int,T_S
 
 		/**
 		 * @brief Auxiliary constructor.
-		 * @details Creates a device sparse matrix using existing device memory CSC format arrays.
+		 * @details Creates a device sparse matrix using existing device memory CSR format arrays.
 		 * @param[in] nr The number of rows.
 		 * @param[in] nc The number of columns.
-		 * @param[in] cptr Pointer to existing device column pointer array.
-		 * @param[in] ridx Pointer to existing device row index array.
+		 * @param[in] rptr Pointer to existing device row pointer array.
+		 * @param[in] cidx Pointer to existing device column index array.
 		 * @param[in] vals Pointer to existing device values array.
 		 * @param[in] bind If true, the matrix does not take ownership of the device memory.
 		 * @param[in] pr The matrix property (default: General).
 		 */
-		explicit XxMatrix(T_Int nr, T_Int nc, T_Int *cptr, T_Int *ridx, T_Scalar *vals, bool bind, 
+		explicit XxMatrix(T_Int nr, T_Int nc, T_Int *rptr, T_Int *cidx, T_Scalar *vals, bool bind, 
                           const ::cla3p::Property& pr = ::cla3p::Property::General());
 
 		/**
@@ -223,20 +225,19 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public XxContainer<T_Int,T_S
 		 */
 		void iconjugate();
 
-		/**
+		/* TODO: implement when cla3p supports csr
 		 * @brief Copy the device sparse matrix to host memory.
 		 * @details Transfers the device sparse matrix data to a host sparse matrix.
 		 * @param[out] dest The host sparse matrix destination.
 		 */
-        void copyToHost(::cla3p::csc::XxMatrix<T_Cla3pInt, T_Cla3pScalar>& dest) const;
+        // void copyToHost(::cla3p::csr::XxMatrix<T_Cla3pInt, T_Cla3pScalar>& dest) const;
 
-		/**
+		/* TODO: implement when cla3p supports csr
 		 * @brief Copy a host sparse matrix to this device sparse matrix.
 		 * @details Transfers data from a host sparse matrix to this device sparse matrix.
 		 * @param[in] src The host sparse matrix source.
 		 */
-        void copyFromHost(const ::cla3p::csc::XxMatrix<T_Cla3pInt, T_Cla3pScalar>& src);
-
+        // void copyFromHost(const ::cla3p::csr::XxMatrix<T_Cla3pInt, T_Cla3pScalar>& src);
 
 		/** @} */
 
@@ -246,21 +247,21 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public XxContainer<T_Int,T_S
 		 */
 
 		/**
-		 * @brief Create a view of existing device CSC arrays.
-		 * @details Creates a guarded device sparse matrix that references existing device CSC format memory
+		 * @brief Create a view of existing device CSR arrays.
+		 * @details Creates a guarded device sparse matrix that references existing device CSR format memory
 		 *          without taking ownership. The device memory must remain valid for the lifetime
 		 *          of the returned view.
 		 * @param[in] nr The number of rows.
 		 * @param[in] nc The number of columns.
-		 * @param[in] cptr Pointer to the device column pointer array.
-		 * @param[in] ridx Pointer to the device row index array.
+		 * @param[in] rptr Pointer to the device row pointer array.
+		 * @param[in] cidx Pointer to the device column index array.
 		 * @param[in] vals Pointer to the device values array.
 		 * @param[in] pr The matrix property (default: General).
-		 * @return A guarded device sparse matrix that views the specified device CSC arrays.
+		 * @return A guarded device sparse matrix that views the specified device CSR arrays.
 		 */
 		static ::cla3p::Guard<XxMatrix<T_Int,T_Scalar>> 
         view(T_Int nr, T_Int nc, 
-             const T_Int *cptr, const T_Int *ridx, const T_Scalar *vals, 
+             const T_Int *rptr, const T_Int *cidx, const T_Scalar *vals, 
              const ::cla3p::Property& pr = ::cla3p::Property::General());
 
 		/** @} */
@@ -272,63 +273,63 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public XxContainer<T_Int,T_S
 };
 
 /*-------------------------------------------------*/
-} // namespace csc
+} // namespace csr
 } // namespace culite
 /*-------------------------------------------------*/
 
-/**
- * @ingroup culite_module_index_stream_operators
- * @brief Stream operator for copying device sparse matrix to host.
- * @details Transfers the contents of a device sparse matrix to a host sparse matrix.
- *          This operator enables convenient syntax for device-to-host memory transfers.
- * @tparam T_Int The integer type for indexing.
- * @tparam T_Scalar The scalar type.
- * @param[in] src The source device sparse matrix.
- * @param[out] dest The destination host sparse matrix.
- */
-template <typename T_Int, typename T_Scalar>
-void operator>>(const culite::csc::XxMatrix<T_Int,T_Scalar>& src,
-	            ::cla3p::csc::XxMatrix<typename culite::TypeTraits<T_Int>::cla3p_type,
-                                       typename culite::TypeTraits<T_Scalar>::cla3p_type>& dest)
-{
-	src.copyToHost(dest);
-}
+// /**
+//  * @ingroup culite_module_index_stream_operators
+ // * @brief Stream operator for copying device sparse matrix to host.
+ // * @details Transfers the contents of a device sparse matrix to a host sparse matrix.
+ // *          This operator enables convenient syntax for device-to-host memory transfers.
+ // * @tparam T_Int The integer type for indexing.
+ // * @tparam T_Scalar The scalar type.
+ // * @param[in] src The source device sparse matrix.
+ // * @param[out] dest The destination host sparse matrix.
+//  */
+// template <typename T_Int, typename T_Scalar>
+// void operator>>(const culite::csr::XxMatrix<T_Int,T_Scalar>& src,
+// 	            ::cla3p::csr::XxMatrix<typename culite::TypeTraits<T_Int>::cla3p_type,
+//                                        typename culite::TypeTraits<T_Scalar>::cla3p_type>& dest)
+// {
+// 	src.copyToHost(dest);
+// }
 
 /*-------------------------------------------------*/
 
-/**
- * @ingroup culite_module_index_stream_operators
- * @brief Stream operator for copying host sparse matrix to device.
- * @details Transfers the contents of a host sparse matrix to a device sparse matrix.
- *          This operator enables convenient syntax for host-to-device memory transfers.
- * @tparam T_Int The integer type for indexing.
- * @tparam T_Scalar The scalar type.
- * @param[in] src The source host sparse matrix.
- * @param[out] dest The destination device sparse matrix.
- */
-template <typename T_Int, typename T_Scalar>
-void operator>>(const ::cla3p::csc::XxMatrix<typename culite::TypeTraits<T_Int>::cla3p_type,
-                                             typename culite::TypeTraits<T_Scalar>::cla3p_type>& src,
-	            culite::csc::XxMatrix<T_Int,T_Scalar>& dest)
-{
-	dest.copyFromHost(src);
-}
+// /**
+//  * @ingroup culite_module_index_stream_operators
+ // * @brief Stream operator for copying host sparse matrix to device.
+ // * @details Transfers the contents of a host sparse matrix to a device sparse matrix.
+ // *          This operator enables convenient syntax for host-to-device memory transfers.
+ // * @tparam T_Int The integer type for indexing.
+ // * @tparam T_Scalar The scalar type.
+ // * @param[in] src The source host sparse matrix.
+ // * @param[out] dest The destination device sparse matrix.
+//  */
+// template <typename T_Int, typename T_Scalar>
+// void operator>>(const ::cla3p::csr::XxMatrix<typename culite::TypeTraits<T_Int>::cla3p_type,
+//                                              typename culite::TypeTraits<T_Scalar>::cla3p_type>& src,
+// 	            culite::csr::XxMatrix<T_Int,T_Scalar>& dest)
+// {
+// 	dest.copyFromHost(src);
+// }
 
 /*-------------------------------------------------*/
 
-/**
- * @ingroup culite_module_index_stream_operators
- * @brief Writes to os the contents of mat.
- */
-template <typename T_Int, typename T_Scalar>
-std::ostream& operator<<(std::ostream& os, const culite::csc::XxMatrix<T_Int,T_Scalar>& mat)
-{
-    ::cla3p::csc::XxMatrix<T_Int,T_Scalar> hostMat;
-    mat >> hostMat;
-    os << hostMat;
-	return os;
-}
+// /**
+//  * @ingroup culite_module_index_stream_operators
+//  * @brief Writes to os the contents of mat.
+//  */
+// template <typename T_Int, typename T_Scalar>
+// std::ostream& operator<<(std::ostream& os, const culite::csr::XxMatrix<T_Int,T_Scalar>& mat)
+// {
+//     ::cla3p::csr::XxMatrix<T_Int,T_Scalar> hostMat;
+//     mat >> hostMat;
+//     os << hostMat;
+// 	return os;
+// }
 
 /*-------------------------------------------------*/
 
-#endif // CULITE_CSC_XXMATRIX_HPP_
+#endif // CULITE_CSR_XXMATRIX_HPP_

@@ -2,13 +2,13 @@
 # source setup
 #-----------------------------------------------
 set(CULITE_SRC ${CULITE_SRC}
-    #sparse/csr_xxmatrix.cpp
+    sparse/csr_xxmatrix.cpp
 	sparse/csc_xxmatrix.cpp
 	PARENT_SCOPE)
 
 set(CULITE_SPARSE_HPP 
     csr_xxcontainer.hpp
-    #csr_xxmatrix.hpp
+    csr_xxmatrix.hpp
 	csc_xxcontainer.hpp
 	csc_xxmatrix.hpp
 	)
