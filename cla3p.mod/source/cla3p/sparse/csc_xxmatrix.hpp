@@ -61,7 +61,7 @@ class XxMatrix : public MatrixMeta<T_Int>, public XxContainer<T_Int,T_Scalar> {
 		template <typename T_Virtual>
 		XxMatrix(const alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>& v) { operator=(v); }
         template <typename T_Virtual>
-		XxMatrix<T_Int,T_Scalar>& operator=(const alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>& v) { evaluateFrom(v); }
+		XxMatrix<T_Int,T_Scalar>& operator=(const alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>& v) { return evaluateFrom(v); }
 
 		//template <typename T_Virtual>
 		//XxMatrix(alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>&& v) { operator=(std::move(v)); }
