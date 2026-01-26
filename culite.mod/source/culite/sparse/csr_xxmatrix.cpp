@@ -271,7 +271,8 @@ void XxMatrix<T_Int,T_Scalar>::copyToHost(::cla3p::csr::XxMatrix<T_Cla3pInt,T_Cl
 		dest = ::cla3p::csr::XxMatrix<T_Cla3pInt,T_Cla3pScalar>(this->nrows(), this->ncols(), nnz(), this->prop());
 	}
 
-	::cla3p::similarity_check<T_Int>(*this, dest);
+	::cla3p::similarity_check<T_Int>(this->prop(), this->nrows(), this->ncols(), 
+                                     dest.prop(), dest.nrows(), dest.ncols());
     ::cla3p::similarity_dim_check<T_Int>(nnz(), dest.nnz());
 
     T_Int nr = nrows() + 1;
@@ -289,7 +290,8 @@ void XxMatrix<T_Int,T_Scalar>::copyFromHost(const ::cla3p::csr::XxMatrix<T_Cla3p
 		*this = XxMatrix<T_Int,T_Scalar>(src.nrows(), src.ncols(), src.nnz(), src.prop());
 	}
 
-	::cla3p::similarity_check<T_Int>(*this, src);
+	::cla3p::similarity_check<T_Int>(this->prop(), this->nrows(), this->ncols(), 
+                                     src.prop(), src.nrows(), src.ncols());
     ::cla3p::similarity_dim_check<T_Int>(nnz(), src.nnz());
 
     T_Int nr = src.nrows() + 1;
