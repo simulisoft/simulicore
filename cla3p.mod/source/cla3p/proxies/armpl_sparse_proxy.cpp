@@ -24,7 +24,7 @@
 
 // cla3p
 #include "cla3p/bulk/dns.hpp"
-#include "cla3p/bulk/csc.hpp"
+#include "cla3p/bulk/csx.hpp"
 #include "cla3p/error/exceptions.hpp"
 #include "cla3p/error/literals.hpp"
 
@@ -975,7 +975,7 @@ void csc_spmm(T_Scalar alpha,
 
 	C.export3(colptrC, rowidxC, valuesC);
 
-	blk::csc::sort(nC, *colptrC, *rowidxC, *valuesC);
+	blk::csx::sort(nC, *colptrC, *rowidxC, *valuesC);
 }
 /*-------------------------------------------------*/
 #define instantiate_spmm(T_Scl) \
