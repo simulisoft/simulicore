@@ -628,7 +628,7 @@ norm_fro(prop_t ptype, int_t np, const int_t *xxxptr, const int_t *xxxidx, const
 
 			} else if(ptype == prop_t::Symmetric || ptype == prop_t::Hermitian || ptype == prop_t::Skew) {
 
-				ret += (xxxidx[xidx] == k ? av2 : 2.0 * av2);
+				ret += (xxxidx[xidx] == k ? av2 : T_RScalar(2) * av2);
 
 			} // ptype
 

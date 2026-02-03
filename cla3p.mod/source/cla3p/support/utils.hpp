@@ -77,7 +77,7 @@ void streamValue(std::ostream& os, const T_Scalar& v);
 class OstreamSettings {
 
 	public:
-		OstreamSettings(std::ostream& os) : m_os(os) {}
+		OstreamSettings(std::ostream& os) : m_os(os) { backup(); }
 		~OstreamSettings() {}
 
 		void backup() 
