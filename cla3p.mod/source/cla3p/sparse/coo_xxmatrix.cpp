@@ -232,7 +232,7 @@ csr::XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::toCsr(dup_t duplicatePol
 		blk::csx::sort(this->nrows(), rowptr, colidx, values);
 		blk::csx::remove_duplicates(this->nrows(), rowptr, colidx, values, duplicatePolicy);
 
-		rowptr = i_realloc_t<T_Int>(rowptr, rowptr[this->nrows()]);
+		colidx = i_realloc_t<T_Int>(colidx, rowptr[this->nrows()]);
 		values = i_realloc_t<T_Scalar>(values, rowptr[this->nrows()]);
 
 	} // nnz
