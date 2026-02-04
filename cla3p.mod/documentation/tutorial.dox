@@ -402,7 +402,6 @@
  * - **Compressed Sparse Column (CSC):** A column-oriented compressed format that stores non-zero values
  *   column by column. Optimized for operations that access matrix elements by column, such as 
  *   column-wise iteration and matrix-vector products where the matrix is accessed column by column.
- *   This is the primary format for algebraic operations in CLA3P.
  *
  * ### Available Sparse Matrix Types
  *

@@ -17,6 +17,8 @@
 #ifndef CULITE_SPARSE_HPP_
 #define CULITE_SPARSE_HPP_
 
+#include "culite/types/integer.hpp"
+#include "culite/types/scalar.hpp"
 #include "culite/sparse/csr_xxmatrix.hpp"
 #include "culite/sparse/csc_xxmatrix.hpp"
 

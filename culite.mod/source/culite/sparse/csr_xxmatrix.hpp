@@ -24,11 +24,8 @@
 #include <ostream>
 #include <string>
 
-#include <cla3p/generic/guard.hpp> // TODO: delete when csr_xxmatrix is included
-#include <cla3p/generic/matrix_meta.hpp> // TODO: delete when csr_xxmatrix is included
-// #include <cla3p/sparse/csr_xxmatrix.hpp>
+#include <cla3p/sparse/csr_xxmatrix.hpp>
 
-#include "culite/types/integer.hpp"
 #include "culite/sparse/csx_xxcontainer.hpp"
 
 /*-------------------------------------------------*/

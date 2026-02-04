@@ -135,7 +135,7 @@ Formal **cuLite** linear algebra operations and operators are currently under ac
 
 ```cpp
 // Get the global cuBLAS handler
-CuBlasHandler& cuBlasHandler = culite::globalCuBlasHandler();
+culite::CuBlasHandler& cuBlasHandler = culite::globalCuBlasHandler();
 
 // Compute vector norm on GPU
 culite::real_t norm_result;

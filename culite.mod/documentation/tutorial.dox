@@ -185,10 +185,72 @@
  * 
  * @page culite_tutorial_matrices_sparse Sparse Matrices
  * 
- * @note Sparse matrix support is currently under active development. This module will provide
- * specialized classes for efficient storage and manipulation of matrices with predominantly
- * zero elements, including Coordinate (COO), Compressed Sparse Row (CSR), and Compressed
- * Sparse Column (CSC) formats optimized for CUDA-accelerated operations.
+ * cuLite provides specialized classes for managing sparse matrices on NVIDIA GPU devices, 
+ * optimized for matrices where most elements are zero. These classes support multiple 
+ * compressed storage formats and leverage cuSPARSE for accelerated sparse linear algebra operations.
+ * 
+ * @warning Sparse matrix support is currently under active development. Features may be incomplete
+ * or subject to change in future releases.
+ * 
+ * ### Available Sparse Matrix Formats
+ *
+ * The following storage formats are defined within the `culite::csr` and `culite::csc` namespaces:
+ *
+ * | Format | Description |
+ * | :--- | :--- |
+ * | CSR (Compressed Sparse Row) | Row-compressed format, efficient for row-wise operations and SpMV |
+ * | CSC (Compressed Sparse Column) | Column-compressed format, efficient for column-wise operations |
+ *
+ * ### Available Sparse Matrix Types
+ *
+ * | cuLite Class | Numeric Type | Precision |
+ * | :--- | :--- | :--- |
+ * | @ref culite::csr::RdMatrix, @ref culite::csc::RdMatrix | `double` | Double precision real |
+ * | @ref culite::csr::RfMatrix, @ref culite::csc::RfMatrix | `float` | Single precision real |
+ * | @ref culite::csr::CdMatrix, @ref culite::csc::CdMatrix | `cuDoubleComplex` | Double precision complex |
+ * | @ref culite::csr::CfMatrix, @ref culite::csc::CfMatrix | `cuFloatComplex` | Single precision complex |
+ *
+ * Example:
+ * @code{.cpp}
+ * // Instantiate a double precision real matrix (e.g., 3x3)
+ * culite::csr::RdMatrix A(3, 3, 5); // 5 non-zeros
+ * 
+ * // Instantiate a single precision complex matrix (e.g., 5x2)
+ * culite::csc::CfMatrix Ac(5, 2, 7); // 7 non-zeros
+ * @endcode
+ *
+ * 
+ * @section culite_tutorial_matrices_sparse_create Creating matrices
+ * In cuLite, sparse matrices can be instantiated through various methods, 
+ * depending on the storage format and whether you require fresh device memory allocation 
+ * or a wrapper for existing GPU memory.
+ *
+ *   @subsection culite_tutorial_matrices_sparse_create_default Default creation
+ *   1) **Default Declaration**: Creates an empty sparse matrix object with zero rows, columns, and non-zeros. 
+ *      No device memory is allocated.@n
+ *   2) **Sized Declaration**: Allocates device memory for a sparse matrix of size (m x n) with a specified 
+ *      number of non-zero elements (nnz). The compressed storage arrays are allocated but contain 
+ *      uninitialized values.
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex06a_sparse_matrix_create.cpp </td>
+ *       <td> @include i32/out/ex06a_sparse_matrix_create.out </td>
+ *     </tr>
+ *   </table>
+ * 
+ *   @subsection culite_tutorial_matrices_sparse_create_aux Create sparse matrix from aux data
+ *   Creates a sparse matrix that "views" existing device memory buffers containing the compressed 
+ *   storage arrays (row/column pointers, indices, and values). This avoids copying large datasets 
+ *   and allows wrapping pre-allocated GPU memory.
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex06d_sparse_matrix_create_from_aux_data.cpp </td>
+ *       <td> @include i32/out/ex06d_sparse_matrix_create_from_aux_data.out </td>
+ *     </tr>
+ *   </table>
+ *
  * 
  * 
  * 

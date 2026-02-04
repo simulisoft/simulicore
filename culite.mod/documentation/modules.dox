@@ -55,7 +55,8 @@
  *   @details This module provides support for matrices where most elements are zero. It includes 
  *   Coordinate (COO) format for construction, Compressed Sparse Row (CSR), and Compressed Sparse 
  *   Column (CSC) formats for accelerated sparse-dense arithmetic.
- *   @note Sparse matrix support is currently under active development.
+ *   @warning Currently, only matrices with General property are supported. Support for structured
+ *   matrix types (Symmetric, Hermitian, etc.) is planned for future releases.
  * @}
  *
  * @addtogroup culite_module_index_cuda_utils CUDA Module Utilities

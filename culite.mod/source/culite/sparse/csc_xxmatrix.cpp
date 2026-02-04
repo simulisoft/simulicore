@@ -26,7 +26,9 @@
 #include <cla3p/checks/csx_checks.hpp>
 
 // culite
+#include "culite/types/integer.hpp"
 #include "culite/types/scalar.hpp"
+#include "culite/error/exceptions.hpp"
 #include "culite/bulk/dns1D.hpp"
 
 /*-------------------------------------------------*/
@@ -253,6 +255,10 @@ void XxMatrix<T_Int,T_Scalar>::iconjugate()
 template <typename T_Int, typename T_Scalar>
 void XxMatrix<T_Int,T_Scalar>::checker() const
 {
+    if(!this->prop().isGeneral()) {
+		throw err::CudaException("Only the 'General' matrix property is supported currently.");
+	}
+
 	::cla3p::csx_consistency_check(this->nrows(), this->ncols(), nnz(), 
                                    this->colptr(), 
                                    this->rowidx(), 

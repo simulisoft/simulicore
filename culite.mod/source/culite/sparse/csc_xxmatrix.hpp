@@ -26,7 +26,6 @@
 
 #include <cla3p/sparse/csc_xxmatrix.hpp>
 
-#include "culite/types/integer.hpp"
 #include "culite/sparse/csx_xxcontainer.hpp"
 
 /*-------------------------------------------------*/
