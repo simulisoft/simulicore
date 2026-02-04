@@ -97,39 +97,41 @@ Before proceeding with the installation, please review the [Prerequisites](READM
 
    For additional information, please consult the [CUDA & cuDSS Linking Guide](cmake/3rd/cuda.md).
 
-   > **Warning:** Microsoft Visual Studio may fail to configure the project with CUDA 13. If you encounter configuration issues, please use the alternative BASH-based workflow below (steps 4-7) instead of the Visual Studio approach.
+   > **Warning:** Microsoft Visual Studio may fail to configure the project with CUDA 13. If you encounter configuration issues, please use the alternative BASH-based workflow below (Option B) instead of the Visual Studio approach.
 
-   **Option A (Visual Studio):** Launch Microsoft Visual Studio and open the `simulicore_root` directory.
+4. Choose one of the following installation methods:
+
+   **Option A (Visual Studio):**
+
+   a. Launch Microsoft Visual Studio and open the `simulicore_root` directory.
 
    <a name="windows-cmake-config"></a>
-   4a. Configure CMake within Microsoft Visual Studio by navigating to **Project > CMake Settings for SimuliCore**.
+   b. Configure CMake within Microsoft Visual Studio by navigating to **Project > CMake Settings for SimuliCore**.
+      
+      For additional configuration options, please refer to the [Additional Configuration Arguments](#extra-configuration-arguments) section below.
    
-   For additional configuration options, please refer to the [Additional Configuration Arguments](#extra-configuration-arguments) section below.
+   c. Compile the project by selecting **Build > Build All**.
    
-   5a. Compile the project by selecting **Build > Build All**.
-   
-   6a. Install the project by selecting **Build > Install SimuliCore**.
+   d. Install the project by selecting **Build > Install SimuliCore**.
 
    **Option B (Windows BASH - Alternative for CUDA 13 compatibility):**
 
-   4b. Open a Windows BASH terminal (e.g., Git Bash).
+   a. Open a Windows BASH terminal (e.g., Git Bash).
 
-   5b. Select a build directory `build_dir` and execute the CMake command to configure the project:
-   
-   ```sh
-   cmake -S <simulicore_root> -B <build_dir>
-   ```
-   
-   For additional configuration options, please refer to the [Additional Configuration Arguments](#extra-configuration-arguments) section below.
+   b. Select a build directory `build_dir` and execute the CMake command to configure the project:
+      
+      ```sh
+      cmake -S <simulicore_root> -B <build_dir>
+      ```
+      
+      For additional configuration options, please refer to the [Additional Configuration Arguments](#extra-configuration-arguments) section below.
 
-   6b. Compile and install the project:
-    
-   ```sh
-   cmake --build <build_dir> --config Release
-   cmake --install <build_dir> --config Release
-   ```
-
-7. The installation will be complete once the build and install commands finish successfully.
+   c. Compile and install the project:
+      
+      ```sh
+      cmake --build <build_dir> --config Release
+      cmake --install <build_dir> --config Release
+      ```
 
 
 
