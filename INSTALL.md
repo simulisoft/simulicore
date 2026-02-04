@@ -12,6 +12,7 @@ Before proceeding with the installation, please review the [Prerequisites](READM
 
 
 
+<a name="linux-installation"></a>
 ## Linux Installation
 
 1. Open a terminal window.
@@ -64,6 +65,7 @@ Before proceeding with the installation, please review the [Prerequisites](READM
 
 
 
+<a name="windows-installation"></a>
 ## Windows Installation
 
 1. Clone the repository using your preferred cloning method:
@@ -95,24 +97,24 @@ Before proceeding with the installation, please review the [Prerequisites](READM
 
    For additional information, please consult the [CUDA & cuDSS Linking Guide](cmake/3rd/cuda.md).
 
-   > **Note:** Microsoft Visual Studio may fail to configure the project with CUDA 13. If you encounter configuration issues, please use the alternative BASH-based workflow below (steps 4-7) instead of the Visual Studio approach.
+   > **Warning:** Microsoft Visual Studio may fail to configure the project with CUDA 13. If you encounter configuration issues, please use the alternative BASH-based workflow below (steps 4-7) instead of the Visual Studio approach.
 
-4. **Option A (Visual Studio):** Launch Microsoft Visual Studio and open the `simulicore_root` directory.
+   **Option A (Visual Studio):** Launch Microsoft Visual Studio and open the `simulicore_root` directory.
 
    <a name="windows-cmake-config"></a>
-5. **Option A (Visual Studio):** Configure CMake within Microsoft Visual Studio by navigating to **Project > CMake Settings for SimuliCore**.
+   4a. Configure CMake within Microsoft Visual Studio by navigating to **Project > CMake Settings for SimuliCore**.
    
    For additional configuration options, please refer to the [Additional Configuration Arguments](#extra-configuration-arguments) section below.
-
-6. **Option A (Visual Studio):** Compile the project by selecting **Build > Build All**.
-
-7. **Option A (Visual Studio):** Install the project by selecting **Build > Install SimuliCore**.
+   
+   5a. Compile the project by selecting **Build > Build All**.
+   
+   6a. Install the project by selecting **Build > Install SimuliCore**.
 
    **Option B (Windows BASH - Alternative for CUDA 13 compatibility):**
 
-4. Open a Windows BASH terminal (e.g., Git Bash, WSL, or MSYS2).
+   4b. Open a Windows BASH terminal (e.g., Git Bash).
 
-5. Select a build directory `build_dir` and execute the CMake command to configure the project:
+   5b. Select a build directory `build_dir` and execute the CMake command to configure the project:
    
    ```sh
    cmake -S <simulicore_root> -B <build_dir>
@@ -120,7 +122,7 @@ Before proceeding with the installation, please review the [Prerequisites](READM
    
    For additional configuration options, please refer to the [Additional Configuration Arguments](#extra-configuration-arguments) section below.
 
-6. Compile and install the project:
+   6b. Compile and install the project:
     
    ```sh
    cmake --build <build_dir> --config Release
@@ -132,6 +134,7 @@ Before proceeding with the installation, please review the [Prerequisites](READM
 
 
 
+<a name="macos-installation"></a>
 ## macOS Installation
 
 1. Open a terminal window.
@@ -173,7 +176,7 @@ Before proceeding with the installation, please review the [Prerequisites](READM
 
 
 
-
+<a name="extra-configuration-arguments"></a>
 ## Additional Configuration Arguments
 
 The following list presents configuration arguments applicable to the entire project.
