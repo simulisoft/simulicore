@@ -95,16 +95,39 @@ Before proceeding with the installation, please review the [Prerequisites](READM
 
    For additional information, please consult the [CUDA & cuDSS Linking Guide](cmake/3rd/cuda.md).
 
-4. Launch Microsoft Visual Studio and open the `simulicore_root` directory.
+   > **Note:** Microsoft Visual Studio may fail to configure the project with CUDA 13. If you encounter configuration issues, please use the alternative BASH-based workflow below (steps 4-7) instead of the Visual Studio approach.
+
+4. **Option A (Visual Studio):** Launch Microsoft Visual Studio and open the `simulicore_root` directory.
 
    <a name="windows-cmake-config"></a>
-5. Configure CMake within Microsoft Visual Studio by navigating to **Project > CMake Settings for SimuliCore**.
+5. **Option A (Visual Studio):** Configure CMake within Microsoft Visual Studio by navigating to **Project > CMake Settings for SimuliCore**.
    
    For additional configuration options, please refer to the [Additional Configuration Arguments](#extra-configuration-arguments) section below.
 
-6. Compile the project by selecting **Build > Build All**.
+6. **Option A (Visual Studio):** Compile the project by selecting **Build > Build All**.
 
-7. Install the project by selecting **Build > Install SimuliCore**.
+7. **Option A (Visual Studio):** Install the project by selecting **Build > Install SimuliCore**.
+
+   **Option B (Windows BASH - Alternative for CUDA 13 compatibility):**
+
+4. Open a Windows BASH terminal (e.g., Git Bash, WSL, or MSYS2).
+
+5. Select a build directory `build_dir` and execute the CMake command to configure the project:
+   
+   ```sh
+   cmake -S <simulicore_root> -B <build_dir>
+   ```
+   
+   For additional configuration options, please refer to the [Additional Configuration Arguments](#extra-configuration-arguments) section below.
+
+6. Compile and install the project:
+    
+   ```sh
+   cmake --build <build_dir> --config Release
+   cmake --install <build_dir> --config Release
+   ```
+
+7. The installation will be complete once the build and install commands finish successfully.
 
 
 
