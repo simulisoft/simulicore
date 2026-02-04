@@ -40,7 +40,7 @@
 
 ## cuLite Module
 
-### New Features (Initial Release)
+### New Features (Initial Release, Linux/Windows)
 - **CUDA-Accelerated Dense Linear Algebra (BETA)**: Complete GPU-based dense matrix and vector operations
   - Dense vector and matrix classes with GPU memory management
   - Support for real and complex arithmetic (float, double, complex types)
@@ -58,7 +58,7 @@
   - cuSPARSE handler and proxies for sparse operations
 - **Utility Classes and Infrastructure**:
   - CUDA stream management for asynchronous operations
-  - Scoped Pointer Mode (SPM) utility for cuBLAS pointer mode handling
+  - Scoped Pointer Mode (SPM) utility for cuBLAS and cuSPARSE pointer mode handling
   - Device memory allocators with automatic cleanup
   - Custom CUDA kernels for specialized operations
 - **Matrix Operations**: Comprehensive set of GPU operations
