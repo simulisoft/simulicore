@@ -29,7 +29,7 @@ int main()
 	 * A simply hosts, need to manually dealloc csr vectors
 	 */
 
-	culite::csr::RdMatrix A = culite::csr::RdMatrix(nr, nc, rowptrA, colidxA, valuesA, false);
+	culite::csr::RdMatrix A(nr, nc, rowptrA, colidxA, valuesA, false);
 
 	std::cout << A.info("A");
 
@@ -39,8 +39,8 @@ int main()
 	 * B takes ownership of csc vectors, no free call for the csc vectors is required
 	 */
 
-	cla3p::Property prB = cla3p::Property::SymmetricLower();
-	culite::csc::RdMatrix B = culite::csc::RdMatrix(nc, nc, colptrB, rowidxB, valuesB, true, prB);
+	cla3p::Property prB = cla3p::Property::General();
+	culite::csc::RdMatrix B(nc, nc, colptrB, rowidxB, valuesB, true, prB);
 
 	std::cout << B.info("B");
 

@@ -31,7 +31,7 @@ int main()
 	 * A simply hosts a, need to manually dealloc a
 	 */
 
-	cla3p::dns::RdMatrix A = cla3p::dns::RdMatrix(3, 4, a, lda, false);
+	cla3p::dns::RdMatrix A(3, 4, a, lda, false);
 
 	std::cout << A.info("A") << A;
 
@@ -41,7 +41,7 @@ int main()
 	 */
 
 	cla3p::Property prB = cla3p::Property::SymmetricLower();
-	cla3p::dns::RdMatrix B = cla3p::dns::RdMatrix(5, 5, b, ldb, true, prB);
+	cla3p::dns::RdMatrix B(5, 5, b, ldb, true, prB);
 
 	std::cout << B.info("B") << B;
 

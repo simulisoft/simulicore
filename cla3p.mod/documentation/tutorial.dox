@@ -408,19 +408,25 @@
  * The following classes are available for real and complex data across both formats:
  *
  * @code{.cpp}
+ * //
  * // Coordinate Format (Utility classes for construction)
+ * //
  * cla3p::coo::RdMatrix Ad_coo; // Double precision real
  * cla3p::coo::RfMatrix As_coo; // Single precision real
  * cla3p::coo::CdMatrix Az_coo; // Double precision complex
  * cla3p::coo::CfMatrix Ac_coo; // Single precision complex
  * 
- *  * // Compressed Sparse Row Format (Main classes for algebra)
+ * //
+ * // Compressed Sparse Row Format (Main classes for algebra)
+ * //
  * cla3p::csr::RdMatrix Ad_csr; // Double precision real
  * cla3p::csr::RfMatrix As_csr; // Single precision real
  * cla3p::csr::CdMatrix Az_csr; // Double precision complex
  * cla3p::csr::CfMatrix Ac_csr; // Single precision complex
  *
+ * //
  * // Compressed Sparse Column Format (Main classes for algebra)
+ * //
  * cla3p::csc::RdMatrix Ad_csc; // Double precision real
  * cla3p::csc::RfMatrix As_csc; // Single precision real
  * cla3p::csc::CdMatrix Az_csc; // Double precision complex
@@ -431,7 +437,7 @@
  *
  * For optimal performance, it is recommended to:
  * 1. **Build** the sparse structure using the **COO** format to facilitate easy data ingestion.
- * 2. **Convert** the COO matrix to **CSR** or **CSC** format to perform fast matrix-vector products and 
+ * 2. **Convert** the **COO** matrix to **CSR** or **CSC** format to perform fast matrix-vector products and 
  *    arithmetic operations.
  *    - Use **CSR** when your algorithms primarily access matrices row by row.
  *    - Use **CSC** when your algorithms primarily access matrices column by column..

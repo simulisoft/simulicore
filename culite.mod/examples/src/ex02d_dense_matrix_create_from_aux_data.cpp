@@ -38,7 +38,7 @@ int main()
 	 * Assign pointer a in matrix A but do not bind
 	 * A simply hosts a, need to manually dealloc a
 	 */
-	culite::dns::RdMatrix A = culite::dns::RdMatrix(3, 4, a_device, lda, false);
+	culite::dns::RdMatrix A(3, 4, a_device, lda, false);
 	std::cout << A.info("A") << A;
 
 	/*
@@ -46,7 +46,7 @@ int main()
 	 * B takes ownership of b, no free call for b is required
 	 */
 	cla3p::Property prB = cla3p::Property::General();
-	culite::dns::RdMatrix B = culite::dns::RdMatrix(5, 5, b_device, ldb, true, prB);
+	culite::dns::RdMatrix B(5, 5, b_device, ldb, true, prB);
 	std::cout << B.info("B") << B;
 
 	/* 

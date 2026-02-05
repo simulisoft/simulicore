@@ -54,5 +54,6 @@ int main()
 	cla3p::i_free(y_host);
 	culite::device_free(x_device);
 	// y_device is freed by y's destructor
+    
 	return 0;
 }

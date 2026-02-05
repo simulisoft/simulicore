@@ -26,15 +26,5 @@ int main()
 		std::cout << A.info("A") << B.info("B") << C.info("C");
 	}
 
-	/*
-	 * Use the init() function to allocate space with property
-	 */
-
-	{
-		cla3p::coo::RfMatrix A = cla3p::coo::RfMatrix(3, 4, prA);
-		cla3p::coo::RfMatrix B = cla3p::coo::RfMatrix(3, 3, prB);
-		cla3p::coo::CdMatrix C = cla3p::coo::CdMatrix(3, 3, prC);
-	}
-
 	return 0;
 }

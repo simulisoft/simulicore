@@ -29,7 +29,7 @@ int main()
 	 * A simply hosts, need to manually dealloc csc vectors
 	 */
 
-	cla3p::csc::RdMatrix A = cla3p::csc::RdMatrix(nr, nc, colptrA, rowidxA, valuesA, false);
+	cla3p::csc::RdMatrix A(nr, nc, colptrA, rowidxA, valuesA, false);
 
 	std::cout << A.info("A");
 
@@ -40,7 +40,7 @@ int main()
 	 */
 
 	cla3p::Property prB = cla3p::Property::SymmetricLower();
-	cla3p::csc::RdMatrix B = cla3p::csc::RdMatrix(nc, nc, colptrB, rowidxB, valuesB, true, prB);
+	cla3p::csc::RdMatrix B(nc, nc, colptrB, rowidxB, valuesB, true, prB);
 
 	std::cout << B.info("B");
 

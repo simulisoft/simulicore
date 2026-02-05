@@ -27,13 +27,16 @@ int main()
 	}
 
 	/*
-	 * Allocate space with property
+	 * Allocate space with property on existing matrices
 	 */
-
 	{
-		cla3p::dns::RfMatrix A = cla3p::dns::RfMatrix(3, 4, prA);
-		cla3p::dns::RfMatrix B = cla3p::dns::RfMatrix(3, 3, prB);
-		cla3p::dns::CdMatrix C = cla3p::dns::CdMatrix(3, 3, prC);
+        cla3p::dns::RfMatrix A;
+		cla3p::dns::RfMatrix B;
+		cla3p::dns::CdMatrix C;
+
+		A = cla3p::dns::RfMatrix(3, 4, prA);
+		B = cla3p::dns::RfMatrix(3, 3, prB);
+		C = cla3p::dns::CdMatrix(3, 3, prC);
 	}
 
 	return 0;
