@@ -155,7 +155,7 @@ cla3p::ops::mult(1., cla3p::op_t::T, A, tmp, 1., y); // y += A' * tmp
 <a name="documentation"></a>
 ## Documentation
 
-You can find the latest **CLA3P** version documentation [here](https://www.simulisoft.com/simulicore/v0.1.0/cla3p/html/index.html).
+You can find the latest **CLA3P** version documentation [here](https://www.simulisoft.com/simulicore/v0.2.0/cla3p/html/index.html).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

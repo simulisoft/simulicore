@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12.0)
 
-project("CULITE Examples" VERSION "0.1.0" LANGUAGES CXX)
+project("CULITE Examples" LANGUAGES CXX)
 
 #-----------------------------------------------
 # set global definitions

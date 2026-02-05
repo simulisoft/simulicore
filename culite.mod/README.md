@@ -180,7 +180,7 @@ The library is designed to work seamlessly with **CLA3P** for hybrid CPU-GPU com
 <a name="documentation"></a>
 ## Documentation
 
-You can find the latest **cuLite** version documentation [here](https://www.simulisoft.com/simulicore/v0.1.0/culite/html/index.html).
+You can find the latest **cuLite** version documentation [here](https://www.simulisoft.com/simulicore/v0.2.0/culite/html/index.html).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
