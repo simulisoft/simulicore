@@ -142,7 +142,7 @@ T* pinned_alloc_t(std::size_t n) {
 void auto_free(void *ptr);
 
 /**
- * @ingroup culite_module_index_allocators
+ * @nosubgrouping 
  * @brief A RAII wrapper for untyped device memory allocation.
  * @details This class manages a dynamically allocated buffer of raw bytes on the device.
  *          It automatically handles memory allocation and deallocation following RAII principles,
@@ -238,7 +238,7 @@ class DeviceBufferVoid {
 };
 
 /**
- * @ingroup culite_module_index_allocators
+ * @nosubgrouping 
  * @brief A RAII wrapper for device memory allocation.
  * @details This class manages a dynamically allocated buffer on the device.
  *          It automatically handles memory allocation and deallocation following RAII principles,

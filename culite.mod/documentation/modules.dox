@@ -21,6 +21,10 @@
  * routines for standard device allocation, unified memory (managed) access, and pinned host memory 
  * to optimize data transfer throughput between the CPU and GPU.
  * 
+ * Classes:
+ * - @ref culite::DeviceBufferVoid : Base class for device memory buffer management
+ * - @ref culite::DeviceBuffer : Templated device memory buffer with type-safe operations
+ * 
  * @defgroup culite_module_index_copying Transfer/Copy Data Between Memory Spaces
  * @brief Utility functions for transferring data between host and device memory.
  * @details This module offers a suite of functions and operators to facilitate efficient copying of
