@@ -1,0 +1,6 @@
+install(FILES simulicore.png       DESTINATION images)
+install(FILES simulicore_16x16.png DESTINATION images)
+install(FILES simulicore_96x96.png DESTINATION images)
+install(FILES simulisoft.png       DESTINATION images)
+install(FILES simulisoft_16x16.png DESTINATION images)
+install(FILES simulisoft_96x96.png DESTINATION images)

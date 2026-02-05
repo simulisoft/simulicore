@@ -42,6 +42,7 @@ message(STATUS "${SIMULICORE_NAME} Install Directory: ${CMAKE_INSTALL_PREFIX}")
 #-----------------------------------------------
 add_subdirectory(cmake)
 add_subdirectory(licensing)
+add_subdirectory(images)
 add_subdirectory(cla3p.mod)
 add_subdirectory(cmpi.mod)
 if(${SIMULICORE_SYSTEM_LINUX} OR ${SIMULICORE_SYSTEM_WIN32})
