@@ -56,12 +56,12 @@ class Meta1D {
 		 */
 		bool empty() const { return !size(); }
 
-		/**
+		/* No need for impl
 		 * @brief Logical negation operator.
 		 * @details Equivalent to @ref empty(); returns @c true if object has zero dimension.
 		 * @return @c true if the object is empty, @c false otherwise.
 		 */
-		bool operator!() const { return empty(); } 
+		// bool operator!() const { return empty(); } 
 
 		/**
 		 * @brief Boolean conversion operator.
@@ -69,7 +69,7 @@ class Meta1D {
 		 *          has non-zero dimension.
 		 * @return @c true if the object is not empty, @c false otherwise.
 		 */
-		operator bool() const { return !empty(); }
+		explicit operator bool() const { return !empty(); }
 
 	protected:
 		void clear() { defaults(); }
