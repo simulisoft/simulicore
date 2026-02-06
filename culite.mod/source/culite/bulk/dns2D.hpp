@@ -182,11 +182,12 @@ void transpose2D(int_t m, int_t n, const T_Scalar *a, int_t lda, T_Scalar* b, in
 {
 	T_Scalar alpha = makeScalar<T_Scalar>(1);
 	T_Scalar beta  = makeScalar<T_Scalar>(0);
+    T_Scalar *p_null = nullptr;
 	globalCuBlasHandler().geam(::cla3p::op_t::T,
 					           ::cla3p::op_t::N,
 								n, m,
 					            &alpha, a, lda,
-					            &beta, a, n, // unused since beta is zero, but must be a valid pointer & ld
+					            &beta, p_null, n,
 					            b, ldb);
 }
 /*-------------------------------------------------*/
@@ -198,11 +199,12 @@ void ctranspose2D(int_t m, int_t n, const T_Scalar *a, int_t lda, T_Scalar* b, i
 {
 	T_Scalar alpha = makeScalar<T_Scalar>(1);
 	T_Scalar beta  = makeScalar<T_Scalar>(0);
+    T_Scalar *p_null = nullptr;
 	globalCuBlasHandler().geam<T_Scalar>(::cla3p::op_t::C,
 					                     ::cla3p::op_t::N,
 								         n, m,
 					                     &alpha, a, lda,
-					                     &beta, a, n, // unused since beta is zero, but must be a valid pointer & ld
+					                     &beta, p_null, n,
 					                     b, ldb);
 }
 /*-------------------------------------------------*/
