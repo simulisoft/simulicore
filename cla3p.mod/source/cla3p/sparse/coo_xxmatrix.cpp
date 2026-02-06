@@ -117,6 +117,7 @@ std::string XxMatrix<T_Int,T_Scalar>::info(const std::string& header) const
 
 	ss << "  Datatype............. " << TypeTraits<T_Scalar>::type_name() << "\n";
 	ss << "  Precision............ " << TypeTraits<T_Scalar>::prec_name() << "\n";
+    ss << "  Index Precision...... " << TypeTraits<T_Int>::prec_name() << "\n";
 	ss << "  Number of rows....... " << this->nrows() << "\n";
 	ss << "  Number of columns.... " << this->ncols() << "\n";
 	ss << "  Number of non zeros.. " << nnz() << "\n";
