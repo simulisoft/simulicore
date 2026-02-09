@@ -30,6 +30,8 @@
 #include "culite/dense/dns_xxcontainer.hpp"
 #include "culite/dense/dns_xxvector.hpp"
 
+#include "culite/virtuals/virtual_transpose.hpp"
+
 /*-------------------------------------------------*/
 namespace culite { 
 namespace dns {
@@ -211,14 +213,14 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
 		 * @details Returns a transposed copy of the device matrix.
 		 * @return A device matrix containing the transposed elements.
 		 */
-		XxMatrix<T_Scalar> transpose() const; // TODO: use virtuals
+		alias::VirtualTrans_dns<T_Scalar> transpose() const;
 
 		/**
 		 * @brief Conjugate transpose the device matrix.
 		 * @details Returns a conjugate transposed copy of the device matrix.
 		 * @return A device matrix containing the conjugate transposed elements.
 		 */
-		XxMatrix<T_Scalar> ctranspose() const; // TODO: use virtuals
+		alias::VirtualTrans_dns<T_Scalar> ctranspose() const;
 
 		/**
 		 * @brief Compute the complex conjugate.

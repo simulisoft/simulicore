@@ -52,12 +52,11 @@ add_subdirectory(generic)
 add_subdirectory(dense)
 add_subdirectory(sparse)
 #add_subdirectory(perms)
-#add_subdirectory(virtuals)
+add_subdirectory(virtuals)
 #add_subdirectory(algebra)
 add_subdirectory(linsol)
 #add_subdirectory(svd)
 #add_subdirectory(qr)
-#add_subdirectory(lra)
 
 #-----------------------------------------------
 # target setup

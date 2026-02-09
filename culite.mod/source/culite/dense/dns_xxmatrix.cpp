@@ -200,31 +200,37 @@ std::string XxMatrix<T_Scalar>::info(const std::string& header) const
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-XxMatrix<T_Scalar> XxMatrix<T_Scalar>::transpose() const
+alias::VirtualTrans_dns<T_Scalar> XxMatrix<T_Scalar>::transpose() const
 {
-	XxMatrix<T_Scalar> ret(ncols(), nrows(), prop().transpose());
-	blk::dns::transpose2D(
-		nrows(),
-		ncols(),
-		this->values(),
-		ld(),
-		ret.values(),
-		ret.ld());
-	return ret;
+    // TODO: move this to visrtuals once they are implemented.
+	//XxMatrix<T_Scalar> ret(ncols(), nrows(), prop().transpose());
+	//blk::dns::transpose2D(
+	//	nrows(),
+	//	ncols(),
+	//	this->values(),
+	//	ld(),
+	//	ret.values(),
+	//	ret.ld());
+	//return ret;
+
+    return alias::VirtualTrans_dns<T_Scalar>(*this, false);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-XxMatrix<T_Scalar> XxMatrix<T_Scalar>::ctranspose() const
+alias::VirtualTrans_dns<T_Scalar> XxMatrix<T_Scalar>::ctranspose() const
 {
-	XxMatrix<T_Scalar> ret(ncols(), nrows(), prop().transpose());
-	blk::dns::ctranspose2D(
-		nrows(),
-		ncols(),
-		this->values(),
-		ld(),
-		ret.values(),
-		ret.ld());
-	return ret;
+    // TODO: move this to visrtuals once they are implemented.
+	//XxMatrix<T_Scalar> ret(ncols(), nrows(), prop().transpose());
+	//blk::dns::ctranspose2D(
+	//	nrows(),
+	//	ncols(),
+	//	this->values(),
+	//	ld(),
+	//	ret.values(),
+	//	ret.ld());
+	//return ret;
+
+    return alias::VirtualTrans_dns<T_Scalar>(*this, true);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>

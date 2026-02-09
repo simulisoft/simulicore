@@ -192,7 +192,7 @@ void transpose2D(int_t m, int_t n, const T_Scalar *a, int_t lda, T_Scalar* b, in
 }
 /*-------------------------------------------------*/
 //
-// Transpose 2D
+// Conjugate-transpose 2D
 //
 template <typename T_Scalar>
 void ctranspose2D(int_t m, int_t n, const T_Scalar *a, int_t lda, T_Scalar* b, int_t ldb)
@@ -206,6 +206,21 @@ void ctranspose2D(int_t m, int_t n, const T_Scalar *a, int_t lda, T_Scalar* b, i
 					                     &alpha, a, lda,
 					                     &beta, p_null, n,
 					                     b, ldb);
+}
+/*-------------------------------------------------*/
+//
+// Update 2D (C += alpha * op(A)) C (m x n)
+//
+template <typename T_Scalar>
+void update2D(int_t m, int_t n, ::cla3p::op_t opA, T_Scalar alpha, const T_Scalar *a, int_t lda, T_Scalar* c, int_t ldc)
+{
+	T_Scalar beta = makeScalar<T_Scalar>(1);
+	globalCuBlasHandler().geam<T_Scalar>(opA,
+					                     ::cla3p::op_t::N,
+								         m, n,
+					                     &alpha, a, lda,
+					                     &beta, c, ldc,
+					                     c, ldc);
 }
 /*-------------------------------------------------*/
 //
