@@ -24,8 +24,9 @@
 // 3rd
 
 // cla3p
-#include "cla3p/dense.hpp"
 #include "cla3p/sparse.hpp"
+#include "cla3p/dense/dns_xxvector.hpp"
+#include "cla3p/dense/dns_xxmatrix.hpp"
 #include "cla3p/support/utils.hpp"
 #include "cla3p/error/exceptions.hpp"
 #include "cla3p/error/literals.hpp"
@@ -79,8 +80,8 @@ void PardisoBase<T_Matrix>::defaults()
 	m_msglvl = 0;
 
 	m_dim = 0;
-	m_colptr = nullptr;
-	m_rowidx = nullptr;
+	m_rowptr = nullptr;
+	m_colidx = nullptr;
 	m_values = nullptr;
 }
 /*-------------------------------------------------*/
@@ -204,34 +205,17 @@ void PardisoBase<T_Matrix>::updateIparmSolve()
 {
 	pardiso::GlobalParams::setToIparm(m_iparm);
 	pardiso::SolveParams::setToIparm(m_iparm);
-
-	if(m_mtype == mtype_t::RealNonSymmetric || m_mtype == mtype_t::RealStructurallySymmetric)
-		m_iparm[11] = 2;
-	else if( m_mtype == mtype_t::ComplexNonSymmetric || m_mtype == mtype_t::ComplexStructurallySymmetric)
-		m_iparm[11] = 2;
-	else
-		m_iparm[11] = 0;
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::prepareForSolution(const dns::XxMatrix<T_Scalar>& rhs, dns::XxMatrix<T_Scalar>& sol)
 {
-	similarity_check(
-    rhs.prop(), rhs.nrows(), rhs.ncols(),
-    sol.prop(), sol.nrows(), sol.ncols());
+	similarity_check(rhs, sol);
 
 	default_solve_input_check(m_dim, rhs);
 	default_solve_input_check(m_dim, sol);
 
 	updateIparmSolve();
-}
-/*-------------------------------------------------*/
-template <typename T_Matrix>
-static void applyConjugationIfNeeded(bool conjop, const T_Matrix& A)
-{
-	if(conjop) {
-		const_cast<T_Matrix&>(A).iconjugate();
-	}
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
@@ -242,26 +226,14 @@ void PardisoBase<T_Matrix>::solve(const dns::XxMatrix<T_Scalar>& rhs, dns::XxMat
 
 	if(rhs.nrows() == rhs.ld() && sol.nrows() == sol.ld()) {
 
-		bool conjop = (m_mtype == mtype_t::ComplexHermitianPosdef || m_mtype == mtype_t::ComplexHermitianIndef);
-		applyConjugationIfNeeded(conjop, rhs);
-
-		try {
-			prepareForSolution(rhs, sol);
-			callDriver(phase_t::Solve, rhs.ncols(), const_cast<T_Scalar*>(rhs.values()), sol.values());
-		} catch (...) {
-			applyConjugationIfNeeded(conjop, rhs);
-			throw;
-		}
-
-		applyConjugationIfNeeded(conjop, rhs);
-		applyConjugationIfNeeded(conjop, sol);
+	    prepareForSolution(rhs, sol);
+	    callDriver(phase_t::Solve, rhs.ncols(), const_cast<T_Scalar*>(rhs.values()), sol.values());
 
 	} else {
 
 		for(int_t j = 0; j < rhs.ncols(); j++) {
-			Guard<dns::XxVector<T_Scalar>> grdBj = rhs.rcolumn(j);
-			dns::XxVector<T_Scalar> Xj = sol.rcolumn(j);
-			solve(grdBj.get(), Xj);
+            dns::XxVector<T_Scalar> Xj = sol.rcolumn(j);
+			solve(rhs.rcolumn(j).get(), Xj);
 		} // j
 
 	} // ld checks
@@ -273,9 +245,9 @@ void PardisoBase<T_Matrix>::solve(const dns::XxVector<T_Scalar>& rhs, dns::XxVec
 	if(!sol)
 		sol = dns::XxVector<T_Scalar>(rhs.size());
 
-	Guard<dns::XxMatrix<T_Scalar>> grdRhs = dns::XxMatrix<T_Scalar>::view(rhs.size(), 1, rhs.values(), rhs.size());
-	dns::XxMatrix<T_Scalar> tmpSol(sol.size(), 1, sol.values(), sol.size(), false);
-	solve(grdRhs.get(), tmpSol);
+	Guard<dns::XxMatrix<T_Scalar>> rhsView = dns::XxMatrix<T_Scalar>::view(rhs.size(), 1, rhs.values(), rhs.size());
+	dns::XxMatrix<T_Scalar> solView(sol.size(), 1, sol.values(), sol.size(), false);
+	solve(rhsView.get(), solView);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
@@ -296,16 +268,16 @@ PardisoBase<T_Matrix>::deduceMtype(const T_Matrix& mat)
 
 	if(TypeTraits<typename T_Matrix::value_type>::is_real()) {
 
-		if(mat.prop().isSymmetric() && mat.prop().isLower() && dtype == decomp_t::LLT        ) return mtype_t::RealSymmetricPosdef;
-		if(mat.prop().isSymmetric() && mat.prop().isLower() && dtype == decomp_t::LDLT       ) return mtype_t::RealSymmetricIndef;
+		if(mat.prop().isSymmetric() && mat.prop().isUpper() && dtype == decomp_t::LLT        ) return mtype_t::RealSymmetricPosdef;
+		if(mat.prop().isSymmetric() && mat.prop().isUpper() && dtype == decomp_t::LDLT       ) return mtype_t::RealSymmetricIndef;
 		if(mat.prop().isGeneral()                           && dtype == decomp_t::LU         ) return mtype_t::RealNonSymmetric;
 		if(mat.prop().isGeneral()                           && dtype == decomp_t::SymmetricLU) return mtype_t::RealStructurallySymmetric;
 
 	} else if(TypeTraits<typename T_Matrix::value_type>::is_complex()) {
 
-		if(mat.prop().isHermitian() && mat.prop().isLower() && dtype == decomp_t::LLT        ) return mtype_t::ComplexHermitianPosdef;
-		if(mat.prop().isHermitian() && mat.prop().isLower() && dtype == decomp_t::LDLT       ) return mtype_t::ComplexHermitianIndef;
-		if(mat.prop().isSymmetric() && mat.prop().isLower() && dtype == decomp_t::LDLT       ) return mtype_t::ComplexSymmetric;
+		if(mat.prop().isHermitian() && mat.prop().isUpper() && dtype == decomp_t::LLT        ) return mtype_t::ComplexHermitianPosdef;
+		if(mat.prop().isHermitian() && mat.prop().isUpper() && dtype == decomp_t::LDLT       ) return mtype_t::ComplexHermitianIndef;
+		if(mat.prop().isSymmetric() && mat.prop().isUpper() && dtype == decomp_t::LDLT       ) return mtype_t::ComplexSymmetric;
 		if(mat.prop().isGeneral()                           && dtype == decomp_t::LU         ) return mtype_t::ComplexNonSymmetric;
 		if(mat.prop().isGeneral()                           && dtype == decomp_t::SymmetricLU) return mtype_t::ComplexStructurallySymmetric;
 
@@ -317,9 +289,9 @@ PardisoBase<T_Matrix>::deduceMtype(const T_Matrix& mat)
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::updateMatrixInfo(const T_Matrix& mat)
 {
-	m_dim = mat.ncols();
-	m_colptr = mat.colptr();
-	m_rowidx = mat.rowidx();
+	m_dim = mat.nrows();
+	m_rowptr = mat.rowptr();
+	m_colidx = mat.colidx();
 	m_values = mat.values();
 }
 /*-------------------------------------------------*/
@@ -407,8 +379,8 @@ void PardisoBase<T_Matrix>::callDriver(phase_t phase, int_t nrhs, T_Scalar *b, T
     static_cast<int_t>(phase),
     static_cast<int_t>(m_dim),
     m_values,
-    m_colptr,
-    m_rowidx,
+    m_rowptr,
+    m_colidx,
     m_permMatrix.values(),
     nrhs,
     m_iparm,
@@ -541,10 +513,10 @@ int_t PardisoBase<T_Matrix>::inertiaNegative() const
 	return m_iparm[22];
 }
 /*-------------------------------------------------*/
-template class PardisoBase<csc::RdMatrix>;
-template class PardisoBase<csc::RfMatrix>;
-template class PardisoBase<csc::CdMatrix>;
-template class PardisoBase<csc::CfMatrix>;
+template class PardisoBase<csr::RdMatrix>;
+template class PardisoBase<csr::RfMatrix>;
+template class PardisoBase<csr::CdMatrix>;
+template class PardisoBase<csr::CfMatrix>;
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

@@ -9,26 +9,26 @@
 #include <cla3p/algebra.hpp>
 
 /*--------------------------------------------------------------------*/
-static cla3p::csc::RdMatrix DefaultSparseMatrix()
+static cla3p::csr::RdMatrix DefaultSparseMatrix()
 {
-	static cla3p::int_t  colptr[] = {0, 3, 5, 8, 11, 13};
-	static cla3p::int_t  rowidx[] = {0,  1,  3,  0, 1, 2, 3, 4,  0, 2, 3, 1,  4};
+	static cla3p::int_t  rowptr[] = {0, 3, 5, 8, 11, 13};
+	static cla3p::int_t  colidx[] = {0,  1,  3,  0, 1, 2, 3, 4,  0, 2, 3, 1,  4};
 	static cla3p::real_t values[] = {1, -1, -3, -2, 5, 4, 6, 4, -4, 2, 7, 8, -5};
 
-	return cla3p::csc::RdMatrix(5, 5, colptr, rowidx, values, false);
+	return cla3p::csr::RdMatrix(5, 5, rowptr, colidx, values, false);
 }
 /*--------------------------------------------------*/
-static cla3p::csc::RdMatrix DefaultSymmetricSparseMatrix()
+static cla3p::csr::RdMatrix DefaultSymmetricSparseMatrix()
 {
-	static cla3p::int_t  colptr[] = {0, 3, 5, 7,  8, 9};
-	static cla3p::int_t  rowidx[] = {0,  1,  3, 1, 4, 2, 3, 3,  4};
+	static cla3p::int_t  rowptr[] = {0, 3, 5, 7,  8, 9};
+	static cla3p::int_t  colidx[] = {0,  1,  3, 1, 4, 2, 3, 3,  4};
 	static cla3p::real_t values[] = {1, -2, -4, 5, 8, 4, 2, 7, -5};
 
-	return cla3p::csc::RdMatrix(5, 5, colptr, rowidx, values, false, cla3p::Property::SymmetricLower());
+	return cla3p::csr::RdMatrix(5, 5, rowptr, colidx, values, false, cla3p::Property::SymmetricUpper());
 }
 /*--------------------------------------------------------------------*/
 template <typename T_Rhs>
-static void solve_linear_system(const cla3p::csc::RdMatrix& A, const T_Rhs& B)
+static void solve_linear_system(const cla3p::csr::RdMatrix& A, const T_Rhs& B)
 {
 	{
 		/*
@@ -61,13 +61,13 @@ int main()
 	 * Create a random general matrix
 	 */
 
-	const cla3p::csc::RdMatrix Agen = DefaultSparseMatrix();
+	const cla3p::csr::RdMatrix Agen = DefaultSparseMatrix();
 
 	/*
 	 * Create a random symmetric matrix
 	 */
 
-	const cla3p::csc::RdMatrix Asym = DefaultSymmetricSparseMatrix();
+	const cla3p::csr::RdMatrix Asym = DefaultSymmetricSparseMatrix();
 
 	/*
 	 * Create random right hand sides

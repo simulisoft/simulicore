@@ -23,9 +23,10 @@
 
 #include <string>
 
-#include "cla3p/types.hpp"
-#include "cla3p/perms.hpp"
+#include "cla3p/types/integer.hpp"
 #include "cla3p/linsol/pardiso_options.hpp"
+
+#include "cla3p/perms.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -226,8 +227,8 @@ class PardisoBase :
 		int_t m_msglvl;	
 
 		int_t m_dim;
-		const int_t *m_colptr;
-		const int_t *m_rowidx;
+		const int_t *m_rowptr;
+		const int_t *m_colidx;
 		const T_Scalar *m_values;
 		prm::PiMatrix m_permBuffer;
 		prm::PiMatrix m_permMatrix;

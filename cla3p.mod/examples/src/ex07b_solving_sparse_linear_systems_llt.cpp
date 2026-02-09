@@ -9,24 +9,24 @@
 #include <cla3p/algebra.hpp>
 
 /*--------------------------------------------------*/
-static cla3p::csc::RdMatrix DefaultSymmetricSparseMatrix()
+static cla3p::csr::RdMatrix DefaultSymmetricSparseMatrix()
 {
-	static cla3p::int_t  colptr[] = {0, 3, 5, 7,  8, 9};
-	static cla3p::int_t  rowidx[] = { 0,  1,  3,  1, 4,  2, 3,  3,  4};
+	static cla3p::int_t  rowptr[] = {0, 3, 5, 7,  8, 9};
+	static cla3p::int_t  colidx[] = { 0,  1,  3,  1, 4,  2, 3,  3,  4};
 	static cla3p::real_t values[] = {10, -2, -4, 50, 8, 40, 2, 70, 50};
 
-	return cla3p::csc::RdMatrix(5, 5, colptr, rowidx, values, false, cla3p::Property::SymmetricLower());
+	return cla3p::csr::RdMatrix(5, 5, rowptr, colidx, values, false, cla3p::Property::SymmetricUpper());
 }
 /*--------------------------------------------------*/
 int main()
 {
-	const cla3p::csc::RdMatrix A = DefaultSymmetricSparseMatrix();
+	const cla3p::csr::RdMatrix A = DefaultSymmetricSparseMatrix();
 	const cla3p::dns::RdVector B1 = cla3p::dns::RdVector::random(5);
 	const cla3p::dns::RdMatrix B2 = cla3p::dns::RdMatrix::random(5,3);
 	cla3p::dns::RdVector X1; // X1 will be created in solve
 	cla3p::dns::RdMatrix X2(5,3); // Preallocate space for X2
 
-	cla3p::PardisoLLt<cla3p::csc::RdMatrix> lltSolver;
+	cla3p::PardisoLLt<cla3p::csr::RdMatrix> lltSolver;
 
 	/*
 	 * Perform analysis & symbolic decomposition on A
