@@ -66,17 +66,9 @@ class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
 		template <typename T_Virtual>
 		XxMatrix<T_Scalar>& operator=(const alias::VirtualExpr_dns<T_Scalar,T_Virtual>& v) { return evaluateFrom(v); }
 
-		//template <typename T_Virtual>
-		//XxMatrix(alias::VirtualExpr_dns<T_Scalar,T_Virtual>&& v) { operator=(std::move(v)); }
-		//template <typename T_Virtual>
-		//XxMatrix<T_Scalar>& operator=(alias::VirtualExpr_dns<T_Scalar,T_Virtual>&& v) { return evaluateFrom(v); }
-
 		XxMatrix(const VirtualRowvec<T_Scalar>& rv) { operator=(rv); }
         XxMatrix<T_Scalar>& operator=(const VirtualRowvec<T_Scalar>& rv) { return evaluateFrom(rv); }
         
-		//XxMatrix(VirtualRowvec<T_Scalar>&& rv) { operator=(std::move(rv)); }
-		//XxMatrix<T_Scalar>& operator=(VirtualRowvec<T_Scalar>&& rv) { return evaluateFrom(rv);  }
-		
 		alias::VirtualObj_dns<T_Scalar> virtualize() const { return alias::VirtualObj_dns<T_Scalar>(*this); }
 	
 		/**
@@ -287,14 +279,14 @@ class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
 		 * @details Returns a transposed view of the matrix.
 		 * @return A virtual transpose expression.
 		 */
-		VirtualTranspose<XxMatrix<T_Scalar>> transpose() const;
+        alias::VirtualTrans_dns<T_Scalar> transpose() const;
 
 		/**
 		 * @brief Conjugate transpose the matrix.
 		 * @details Returns a conjugate transposed view of the matrix.
 		 * @return A virtual conjugate transpose expression.
 		 */
-		VirtualTranspose<XxMatrix<T_Scalar>> ctranspose() const;
+        alias::VirtualTrans_dns<T_Scalar> ctranspose() const;
 
 		/**
 		 * @brief Compute the complex conjugate.

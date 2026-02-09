@@ -28,6 +28,7 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 namespace dns { template <typename T_Scalar> class XxMatrix; }
+namespace csr { template <typename T_Int, typename T_Scalar> class XxMatrix; }
 namespace csc { template <typename T_Int, typename T_Scalar> class XxMatrix; }
 
 /*-------------------------------------------------*/

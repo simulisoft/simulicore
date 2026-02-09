@@ -57,7 +57,7 @@ class VirtualObject : public VirtualExpression<T_Result, VirtualObject<T_Result>
 		void accumulateOnExisting(T_Result& dest, T_Scalar coeff) const override
 		{ 
 			ops::update(coeff, m_obj, dest); 
-		};
+		}
 
 		const T_Result& get() const { return m_obj; }
 

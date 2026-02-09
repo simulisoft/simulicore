@@ -69,11 +69,6 @@ class XxVector : public XiVector<T_Scalar> {
 		template <typename T_Virtual>
 		XxVector<T_Scalar>& operator=(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v) { return evaluateFrom(v); }
 
-		//template <typename T_Virtual>
-		//XxVector(alias::VirtualExpr_vec<T_Scalar,T_Virtual>&& v) { operator=(std::move(v)); }
-		//template <typename T_Virtual>
-		//XxVector<T_Scalar>& operator=(alias::VirtualExpr_vec<T_Scalar,T_Virtual>&& v) { return evaluateFrom(v); }
-
 		alias::VirtualObj_vec<T_Scalar> virtualize() const { return alias::VirtualObj_vec<T_Scalar>(*this); }
 
 		/**

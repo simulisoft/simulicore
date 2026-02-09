@@ -254,13 +254,13 @@ std::string XxMatrix<T_Scalar>::info(const std::string& header) const
 template <typename T_Scalar>
 VirtualTranspose<XxMatrix<T_Scalar>> XxMatrix<T_Scalar>::transpose() const
 {
-	return VirtualTranspose<XxMatrix<T_Scalar>>(*this, false);
+	return alias::VirtualTrans_dns<T_Scalar>(*this, false);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 VirtualTranspose<XxMatrix<T_Scalar>> XxMatrix<T_Scalar>::ctranspose() const
 {
-	return VirtualTranspose<XxMatrix<T_Scalar>>(*this, true);
+	return alias::VirtualTrans_dns<T_Scalar>(*this, true);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>

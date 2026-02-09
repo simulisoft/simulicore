@@ -25,7 +25,7 @@
 #include "cla3p/bulk/dns.hpp"
 #include "cla3p/bulk/csr.hpp"
 #include "cla3p/bulk/csc.hpp"
-#include "cla3p/dense/dns_xxvector.hpp"
+#include "cla3p/dense/dns_xxmatrix.hpp"
 #include "cla3p/sparse/csr_xxmatrix.hpp"
 #include "cla3p/sparse/csc_xxmatrix.hpp"
 #include "cla3p/algebra/functional_update.hpp"
