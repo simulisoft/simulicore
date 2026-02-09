@@ -181,6 +181,58 @@ class CuBlasHandler {
         }
 
         /**
+         * @brief Computes the dot product of two vectors.
+         * @details Computes @f$ result = x^T \cdot y = \sum_{i=1}^{n} x_i \cdot y_i @f$.
+         * @tparam T_Scalar The scalar type of the vector elements.
+         * @param[in] n The number of elements in the vectors.
+         * @param[in] x Pointer to the first vector on device.
+         * @param[in] incx The stride between consecutive elements of @p x.
+         * @param[in] y Pointer to the second vector on device.
+         * @param[in] incy The stride between consecutive elements of @p y.
+         * @param[out] result Pointer to store the dot product result.
+         */
+        template <typename T_Scalar>
+        void dot(int_t n, const T_Scalar *x, int_t incx, const T_Scalar *y, int_t incy, T_Scalar *result)
+        {
+            cublas::dot(handle(), n, x, incx, y, incy, result);
+        }
+
+        /**
+         * @brief Computes the conjugate dot product of two vectors.
+         * @details Computes @f$ result = x^H \cdot y = \sum_{i=1}^{n} \overline{x_i} \cdot y_i @f$,
+         *          where @f$ \overline{x_i} @f$ denotes the complex conjugate of @f$ x_i @f$.
+         * @tparam T_Scalar The scalar type of the vector elements.
+         * @param[in] n The number of elements in the vectors.
+         * @param[in] x Pointer to the first vector on device (will be conjugated).
+         * @param[in] incx The stride between consecutive elements of @p x.
+         * @param[in] y Pointer to the second vector on device.
+         * @param[in] incy The stride between consecutive elements of @p y.
+         * @param[out] result Pointer to store the conjugate dot product result.
+         */
+        template <typename T_Scalar>
+        void dotc(int_t n, const T_Scalar *x, int_t incx, const T_Scalar *y, int_t incy, T_Scalar *result)
+        {
+            cublas::dot(handle(), n, x, incx, y, incy, result);
+        }
+
+        /**
+         * @brief Computes a vector plus scalar times a vector.
+         * @details Computes @f$ y = \alpha \cdot x + y @f$, updating vector @p y in-place.
+         * @tparam T_Scalar The scalar type of the vector elements.
+         * @param[in] n The number of elements in the vectors.
+         * @param[in] alpha Pointer to the scalar multiplier.
+         * @param[in] x Pointer to the input vector on device.
+         * @param[in] incx The stride between consecutive elements of @p x.
+         * @param[in,out] y Pointer to the vector on device (modified in-place).
+         * @param[in] incy The stride between consecutive elements of @p y.
+         */
+        template <typename T_Scalar>
+        void axpy(int_t n, const T_Scalar *alpha, const T_Scalar *x, int_t incx, T_Scalar *y, int_t incy)
+        {
+            cublas::axpy(handle(), n, alpha, x, incx, y, incy);
+        }
+
+        /**
          * @brief Performs parametrized matrix addition.
          * @details Computes @f$ C = \alpha \cdot op_A(A) + \beta \cdot op_B(B) @f$, where
          *          @f$ op_A @f$ and @f$ op_B @f$ can independently be no-transpose, transpose,
@@ -245,6 +297,103 @@ class CuBlasHandler {
                          a, lda,
                          x, incx,
                          c, ldc);
+        }
+
+        /**
+         * @brief Performs general rank-1 update (unconjugated).
+         * @details Computes @f$ A = \alpha \cdot x \cdot y^T + A @f$.
+         * @tparam T_Scalar The scalar type of the vector and matrix elements.
+         * @param[in] m The number of rows in matrix @p a.
+         * @param[in] n The number of columns in matrix @p a.
+         * @param[in] alpha Pointer to the scalar multiplier.
+         * @param[in] x Pointer to the first vector on device.
+         * @param[in] incx The stride between consecutive elements of @p x.
+         * @param[in] y Pointer to the second vector on device.
+         * @param[in] incy The stride between consecutive elements of @p y.
+         * @param[in,out] a Pointer to matrix @p a on device (modified in-place).
+         * @param[in] lda The leading dimension of matrix @p a.
+         */
+        template <typename T_Scalar>
+        void ger(int_t m, int_t n,
+                 const T_Scalar *alpha,
+                 const T_Scalar *x, int_t incx,
+                 const T_Scalar *y, int_t incy,
+                 T_Scalar *a, int_t lda)
+        {
+            cublas::ger(handle(), m, n, alpha, x, incx, y, incy, a, lda);
+        }
+
+        /**
+         * @brief Performs general rank-1 update (conjugated).
+         * @details Computes @f$ A = \alpha \cdot x \cdot y^H + A @f$, where @f$ y^H @f$ denotes
+         *          the conjugate transpose of vector @p y.
+         * @tparam T_Scalar The scalar type of the vector and matrix elements.
+         * @param[in] m The number of rows in matrix @p a.
+         * @param[in] n The number of columns in matrix @p a.
+         * @param[in] alpha Pointer to the scalar multiplier.
+         * @param[in] x Pointer to the first vector on device.
+         * @param[in] incx The stride between consecutive elements of @p x.
+         * @param[in] y Pointer to the second vector on device (will be conjugated).
+         * @param[in] incy The stride between consecutive elements of @p y.
+         * @param[in,out] a Pointer to matrix @p a on device (modified in-place).
+         * @param[in] lda The leading dimension of matrix @p a.
+         */
+        template <typename T_Scalar>
+        void gerc(int_t m, int_t n,
+                  const T_Scalar *alpha,
+                  const T_Scalar *x, int_t incx,
+                  const T_Scalar *y, int_t incy,
+                  T_Scalar *a, int_t lda)
+        {
+            cublas::gerc(handle(), m, n, alpha, x, incx, y, incy, a, lda);
+        }
+
+        /**
+         * @brief Performs symmetric rank-1 update.
+         * @details Computes @f$ A = \alpha \cdot x \cdot x^T + A @f$, where @f$ A @f$ is symmetric.
+         * @tparam T_Scalar The scalar type of the vector and matrix elements.
+         * @param[in] uplo Specifies whether the upper or lower triangular part of @p a is referenced.
+         * @param[in] n The number of rows and columns in matrix @p a.
+         * @param[in] alpha Pointer to the scalar multiplier.
+         * @param[in] x Pointer to the vector on device.
+         * @param[in] incx The stride between consecutive elements of @p x.
+         * @param[in,out] a Pointer to the symmetric matrix @p a on device (modified in-place).
+         * @param[in] lda The leading dimension of matrix @p a.
+         */
+        template <typename T_Scalar>
+        void syr(::cla3p::uplo_t uplo,
+                 int_t n,
+                 const T_Scalar *alpha,
+                 const T_Scalar *x, int_t incx,
+                 T_Scalar *a, int_t lda)
+        {
+            cublas::syr(handle(),
+                        cublas::cla3pUplo2cublasUplo(uplo),
+                        n, alpha, x, incx, a, lda);
+        }
+
+        /**
+         * @brief Performs Hermitian rank-1 update.
+         * @details Computes @f$ A = \alpha \cdot x \cdot x^H + A @f$, where @f$ A @f$ is Hermitian.
+         * @tparam T_Scalar The scalar type of the vector and matrix elements.
+         * @param[in] uplo Specifies whether the upper or lower triangular part of @p a is referenced.
+         * @param[in] n The number of rows and columns in matrix @p a.
+         * @param[in] alpha Pointer to the real scalar multiplier.
+         * @param[in] x Pointer to the vector on device.
+         * @param[in] incx The stride between consecutive elements of @p x.
+         * @param[in,out] a Pointer to the Hermitian matrix @p a on device (modified in-place).
+         * @param[in] lda The leading dimension of matrix @p a.
+         */
+        template <typename T_Scalar>
+        void her(::cla3p::uplo_t uplo,
+                 int_t n,
+                 const typename TypeTraits<T_Scalar>::real_type *alpha,
+                 const T_Scalar *x, int_t incx,
+                 T_Scalar *a, int_t lda)
+        {
+            cublas::her(handle(),
+                        cublas::cla3pUplo2cublasUplo(uplo),
+                        n, alpha, x, incx, a, lda);
         }
 
         /**

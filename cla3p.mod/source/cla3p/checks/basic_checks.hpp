@@ -22,6 +22,7 @@
  */
 #include <string>
 
+#include "cla3p/types/enums.hpp"
 #include "cla3p/generic/matrix_meta.hpp"
 #include "cla3p/error/exceptions.hpp"
 
@@ -98,6 +99,20 @@ void similarity_check(const MatrixMeta<T_Int>& meta1,
 {
 	similarity_check(meta1.prop(), meta1.nrows(), meta1.ncols(),
 					 meta2.prop(), meta2.nrows(), meta2.ncols());
+}
+
+template <typename T_Int>
+void similarity_check(op_t op1, const MatrixMeta<T_Int>& meta1,
+					  op_t op2, const MatrixMeta<T_Int>& meta2)
+{
+    T_Int m1 = (op1 == op_t::N ? meta1.nrows() : meta1.ncols());
+    T_Int n1 = (op1 == op_t::N ? meta1.ncols() : meta1.nrows());
+
+    T_Int m2 = (op2 == op_t::N ? meta2.nrows() : meta2.ncols());
+    T_Int n2 = (op2 == op_t::N ? meta2.ncols() : meta2.nrows());
+
+	similarity_check(meta1.prop(), m1, n1,
+					 meta2.prop(), m2, n2);
 }
 
 /*-------------------------------------------------*/

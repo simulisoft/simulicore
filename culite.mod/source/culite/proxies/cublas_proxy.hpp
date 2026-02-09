@@ -235,6 +235,64 @@ geam_macro(complex8_t);
 
 /*-------------------------------------------------*/
 
+#define ger_macro(typein) \
+void ger(cublasHandle_t handle, \
+         int_t m, int_t n, \
+         const typein *alpha, \
+         const typein *x, int_t incx, \
+         const typein *y, int_t incy, \
+         typein *a, int_t lda)
+ger_macro(real_t);
+ger_macro(real4_t);
+ger_macro(complex_t);
+ger_macro(complex8_t);
+#undef ger_macro
+
+#define gerc_macro(typein) \
+void gerc(cublasHandle_t handle, \
+         int_t m, int_t n, \
+         const typein *alpha, \
+         const typein *x, int_t incx, \
+         const typein *y, int_t incy, \
+         typein *a, int_t lda)
+gerc_macro(real_t);
+gerc_macro(real4_t);
+gerc_macro(complex_t);
+gerc_macro(complex8_t);
+#undef gerc_macro
+
+/*-------------------------------------------------*/
+
+#define syr_macro(typein) \
+void syr(cublasHandle_t handle, \
+         cublasFillMode_t uplo, \
+         int_t n, \
+         const typein *alpha, \
+         const typein *x, int_t incx, \
+         typein *a, int_t lda)
+syr_macro(real_t);
+syr_macro(real4_t);
+syr_macro(complex_t);
+syr_macro(complex8_t);
+#undef syr_macro
+
+/*-------------------------------------------------*/
+
+#define her_macro(typein) \
+void her(cublasHandle_t handle, \
+         cublasFillMode_t uplo, \
+         int_t n, \
+         const typename TypeTraits<typein>::real_type *alpha, \
+         const typein *x, int_t incx, \
+         typein *a, int_t lda)
+her_macro(real_t);
+her_macro(real4_t);
+her_macro(complex_t);
+her_macro(complex8_t);
+#undef her_macro
+
+/*-------------------------------------------------*/
+
 #define dgmm_macro(typein) \
 void dgmm(cublasHandle_t handle, \
 	      cublasSideMode_t mode, \

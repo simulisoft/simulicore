@@ -27,7 +27,7 @@
 #include "cla3p/sparse/csc_xxmatrix.hpp"
 #include "cla3p/lra/lra_xxmatrix.hpp"
 
-namespace cla3p{ namespace lra { template <typename T_Matrix> class RankModerator; } }
+namespace cla3p { namespace lra { template <typename T_Matrix> class RankModerator; } }
 
 /*-------------------------------------------------*/
 namespace cla3p { 

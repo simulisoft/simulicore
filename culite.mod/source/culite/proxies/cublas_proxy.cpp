@@ -326,6 +326,74 @@ geam_macro(complex_t , Z);
 geam_macro(complex8_t, C);
 #undef geam_macro
 /*-------------------------------------------------*/
+#define ger_macro(typein, prefix, suffix) \
+void ger(cublasHandle_t handle, \
+         int_t m, int_t n, \
+         const typein *alpha, \
+         const typein *x, int_t incx, \
+         const typein *y, int_t incy, \
+         typein *a, int_t lda) \
+{ \
+	cublasStatus_t cublasStatus = cublas_func_name(prefix##ger##suffix)(handle, m, n, alpha, x, incx, y, incy, a, lda); \
+	err::check_cublas(cublasStatus); \
+}
+ger_macro(real_t    , D,  );
+ger_macro(real4_t   , S,  );
+ger_macro(complex_t , Z, u);
+ger_macro(complex8_t, C, u);
+#undef ger_macro
+/*-------------------------------------------------*/
+#define gerc_macro(typein, prefix, suffix) \
+void gerc(cublasHandle_t handle, \
+         int_t m, int_t n, \
+         const typein *alpha, \
+         const typein *x, int_t incx, \
+         const typein *y, int_t incy, \
+         typein *a, int_t lda) \
+{ \
+	cublasStatus_t cublasStatus = cublas_func_name(prefix##ger##suffix)(handle, m, n, alpha, x, incx, y, incy, a, lda); \
+	err::check_cublas(cublasStatus); \
+}
+gerc_macro(real_t    , D,  );
+gerc_macro(real4_t   , S,  );
+gerc_macro(complex_t , Z, c);
+gerc_macro(complex8_t, C, c);
+#undef gerc_macro
+/*-------------------------------------------------*/
+#define syr_macro(typein, prefix) \
+void syr(cublasHandle_t handle, \
+         cublasFillMode_t uplo, \
+         int_t n, \
+         const typein *alpha, \
+         const typein *x, int_t incx, \
+         typein *a, int_t lda) \
+{ \
+	cublasStatus_t cublasStatus = cublas_func_name(prefix##syr)(handle, uplo, n, alpha, x, incx, a, lda); \
+	err::check_cublas(cublasStatus); \
+}
+syr_macro(real_t    , D);
+syr_macro(real4_t   , S);
+syr_macro(complex_t , Z);
+syr_macro(complex8_t, C);
+#undef syr_macro
+/*-------------------------------------------------*/
+#define her_macro(typein, prefix) \
+void her(cublasHandle_t handle, \
+         cublasFillMode_t uplo, \
+         int_t n, \
+         const typename TypeTraits<typein>::real_type *alpha, \
+         const typein *x, int_t incx, \
+         typein *a, int_t lda) \
+{ \
+	cublasStatus_t cublasStatus = cublas_func_name(prefix##r)(handle, uplo, n, alpha, x, incx, a, lda); \
+	err::check_cublas(cublasStatus); \
+}
+her_macro(real_t    , Dsy);
+her_macro(real4_t   , Ssy);
+her_macro(complex_t , Zhe);
+her_macro(complex8_t, Che);
+#undef her_macro
+/*-------------------------------------------------*/
 #define dgmm_macro(typein, prefix) \
 void dgmm(cublasHandle_t handle, \
 	      cublasSideMode_t mode, \
