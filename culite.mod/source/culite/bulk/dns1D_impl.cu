@@ -32,7 +32,8 @@ namespace blk {
 namespace dns {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-__global__ void conjugate_kernel_1d(std::size_t n, T_Scalar* z) {
+__global__ void conjugate_kernel_1d(std::size_t n, T_Scalar* z)
+{
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx < n) z[idx] = arith::conj(z[idx]);
 }

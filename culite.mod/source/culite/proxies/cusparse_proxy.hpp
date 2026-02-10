@@ -175,13 +175,21 @@ class DnVec {
 
         DnVec(cuSparseInt size, T_Scalar *vals) 
         {
-            cusparseStatus_t cusparseStatus = cusparseCreateDnVec(m_descr, size, vals, TypeTraits<T_Scalar>::cuda_type());
+            cusparseStatus_t cusparseStatus = 
+            cusparseCreateDnVec(&m_descr, 
+                                size, 
+                                vals, 
+                                TypeTraits<T_Scalar>::cuda_type());
             err::check_cusparse(cusparseStatus);
         }
 
         DnVec(cuSparseInt size, const T_Scalar *vals) 
         {
-            cusparseStatus_t cusparseStatus = cusparseCreateConstDnVec(m_descr, size, vals, TypeTraits<T_Scalar>::cuda_type());
+            cusparseStatus_t cusparseStatus = 
+            cusparseCreateConstDnVec(const_cast<cusparseConstDnVecDescr_t*>(&m_descr), 
+                                     size, 
+                                     vals, 
+                                     TypeTraits<T_Scalar>::cuda_type());
             err::check_cusparse(cusparseStatus);
         }
 
@@ -212,14 +220,28 @@ class DnMat {
         DnMat(cuSparseInt rows, cuSparseInt cols, T_Scalar *vals, cuSparseInt ld, 
               cusparseOrder_t order = cusparseOrder_t::CUSPARSE_ORDER_COL)
         {
-            cusparseStatus_t cusparseStatus = cusparseCreateDnMat(&m_descr, rows, cols, ld, vals, TypeTraits<T_Scalar>::cuda_type(), order);
+            cusparseStatus_t cusparseStatus = 
+            cusparseCreateDnMat(&m_descr, 
+                                rows, 
+                                cols, 
+                                ld, 
+                                vals, 
+                                TypeTraits<T_Scalar>::cuda_type(), 
+                                order);
             err::check_cusparse(cusparseStatus);
         }
 
         DnMat(cuSparseInt rows, cuSparseInt cols, const T_Scalar *vals, cuSparseInt ld, 
               cusparseOrder_t order = cusparseOrder_t::CUSPARSE_ORDER_COL)
         {
-            cusparseStatus_t cusparseStatus = cusparseCreateConstDnMat(&m_descr, rows, cols, ld, vals, TypeTraits<T_Scalar>::cuda_type(), order);
+            cusparseStatus_t cusparseStatus = 
+            cusparseCreateConstDnMat(const_cast<cusparseConstDnMatDescr_t*>(&m_descr), 
+                                     rows, 
+                                     cols, 
+                                     ld, 
+                                     vals, 
+                                     TypeTraits<T_Scalar>::cuda_type(), 
+                                     order);
             err::check_cusparse(cusparseStatus);
         }
 
@@ -281,17 +303,18 @@ class SpMatCsr : public SpMatBase {
                  T_Scalar*           values,
                  cusparseIndexBase_t idxBase = cusparseIndexBase_t::CUSPARSE_INDEX_BASE_ZERO)
         {
-            cusparseStatus_t cusparseStatus = cusparseCreateCsr(&m_descr,
-                                                                rows,
-                                                                cols,
-                                                                nnz,
-                                                                rowptr,
-                                                                colidx,
-                                                                values,
-                                                                indexType(),
-                                                                indexType(),
-                                                                idxBase,
-                                                                TypeTraits<T_Scalar>::cuda_type());
+            cusparseStatus_t cusparseStatus = 
+            cusparseCreateCsr(&m_descr,
+                              rows,
+                              cols,
+                              nnz,
+                              rowptr,
+                              colidx,
+                              values,
+                              indexType(),
+                              indexType(),
+                              idxBase,
+                              TypeTraits<T_Scalar>::cuda_type());
             err::check_cusparse(cusparseStatus);
         }
 
@@ -303,17 +326,18 @@ class SpMatCsr : public SpMatBase {
                  const T_Scalar*     values,
                  cusparseIndexBase_t idxBase = cusparseIndexBase_t::CUSPARSE_INDEX_BASE_ZERO)
         {
-            cusparseStatus_t cusparseStatus = cusparseCreateConstCsr(&m_descr,
-                                                                     rows,
-                                                                     cols,
-                                                                     nnz,
-                                                                     rowptr,
-                                                                     colidx,
-                                                                     values,
-                                                                     indexType(),
-                                                                     indexType(),
-                                                                     idxBase,
-                                                                     TypeTraits<T_Scalar>::cuda_type());
+            cusparseStatus_t cusparseStatus = 
+            cusparseCreateConstCsr(const_cast<cusparseConstSpMatDescr_t*>(&m_descr),
+                                   rows,
+                                   cols,
+                                   nnz,
+                                   rowptr,
+                                   colidx,
+                                   values,
+                                   indexType(),
+                                   indexType(),
+                                   idxBase,
+                                   TypeTraits<T_Scalar>::cuda_type());
             err::check_cusparse(cusparseStatus);
         }
 
@@ -339,17 +363,18 @@ class SpMatCsc : public SpMatBase {
                  T_Scalar*           values,
                  cusparseIndexBase_t idxBase = cusparseIndexBase_t::CUSPARSE_INDEX_BASE_ZERO)
         {
-            cusparseStatus_t cusparseStatus = cusparseCreateCsc(&m_descr,
-                                                                rows,
-                                                                cols,
-                                                                nnz,
-                                                                colptr,
-                                                                rowidx,
-                                                                values,
-                                                                indexType(),
-                                                                indexType(),
-                                                                idxBase,
-                                                                TypeTraits<T_Scalar>::cuda_type());
+            cusparseStatus_t cusparseStatus = 
+            cusparseCreateCsc(&m_descr,
+                              rows,
+                              cols,
+                              nnz,
+                              colptr,
+                              rowidx,
+                              values,
+                              indexType(),
+                              indexType(),
+                              idxBase,
+                              TypeTraits<T_Scalar>::cuda_type());
             err::check_cusparse(cusparseStatus);
         }
 
@@ -361,17 +386,18 @@ class SpMatCsc : public SpMatBase {
                  const T_Scalar*     values,
                  cusparseIndexBase_t idxBase = cusparseIndexBase_t::CUSPARSE_INDEX_BASE_ZERO)
         {
-            cusparseStatus_t cusparseStatus = cusparseCreateConstCsc(&m_descr,
-                                                                     rows,
-                                                                     cols,
-                                                                     nnz,
-                                                                     colptr,
-                                                                     rowidx,
-                                                                     values,
-                                                                     indexType(),
-                                                                     indexType(),
-                                                                     idxBase,
-                                                                     TypeTraits<T_Scalar>::cuda_type());
+            cusparseStatus_t cusparseStatus = 
+            cusparseCreateConstCsc(const_cast<cusparseConstSpMatDescr_t*>(&m_descr),
+                                   rows,
+                                   cols,
+                                   nnz,
+                                   colptr,
+                                   rowidx,
+                                   values,
+                                   indexType(),
+                                   indexType(),
+                                   idxBase,
+                                   TypeTraits<T_Scalar>::cuda_type());
             err::check_cusparse(cusparseStatus);
         }
 

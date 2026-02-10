@@ -92,8 +92,6 @@ template <typename T_Scalar>
 void conjugate1D(int_t n, T_Scalar* x)
 {
 	launch_conjugate_kernel_1d(n, x);
-	//cudaError_t cudaStatus = cudaGetLastError();
-	//err::check_cuda(cudaStatus);
 }
 /*-------------------------------------------------*/
 //
@@ -103,8 +101,6 @@ template <typename T_Scalar>
 void getReal1D(int_t n, const T_Scalar* x, typename TypeTraits<T_Scalar>::real_type* y)
 {
 	launch_get_real_kernel_1d<T_Scalar>(n, x, y);
-	//cudaError_t cudaStatus = cudaGetLastError();
-	//err::check_cuda(cudaStatus);
 }
 /*-------------------------------------------------*/
 //
@@ -114,8 +110,6 @@ template <typename T_Scalar>
 void getImag1D(int_t n, const T_Scalar* x, typename TypeTraits<T_Scalar>::real_type* y)
 {
 	launch_get_imag_kernel_1d<T_Scalar>(n, x, y);
-	//cudaError_t cudaStatus = cudaGetLastError();
-	//err::check_cuda(cudaStatus);
 }
 /*-------------------------------------------------*/
 } // namespace dns
