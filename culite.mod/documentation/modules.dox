@@ -7,6 +7,7 @@
  * - @subpage culite_module_index_allocators
  * - @subpage culite_module_index_vectors
  * - @subpage culite_module_index_matrices
+ * - @subpage culite_module_index_math_op
  *
  * @defgroup culite_module_index_datatypes Datatypes
  * @brief The basic cuLite datatypes and precision aliases.
@@ -61,6 +62,24 @@
  *   Column (CSC) formats for accelerated sparse-dense arithmetic.
  *   @warning Currently, only matrices with General property are supported. Support for structured
  *   matrix types (Symmetric, Hermitian, etc.) is planned for future releases.
+ * @}
+ * 
+ * @addtogroup culite_module_index_math_op Functional Algebra
+ * @brief Functional-style algebraic operations.
+ * @details Provides a functional interface (typically via the `culite::ops` namespace) for performing 
+ * linear algebra without relying solely on operator overloading.
+ * @{
+ *   @defgroup culite_module_index_math_op_add Add/Update Operations
+ *   @brief Operations for summing or updating existing containers.
+ *
+ *   @defgroup culite_module_index_math_op_vecvec Inner/Outer product Operations
+ *   @brief Dot products and rank-1 updates.
+ *
+ *   @defgroup culite_module_index_math_op_matvec Matrix-Vector Operations
+ *   @brief Efficient products between matrices and vectors.
+ *
+ *   @defgroup culite_module_index_math_op_matmat Matrix-Matrix Operations
+ *   @brief High-performance matrix multiplications (GEMM).
  * @}
  *
  * @addtogroup culite_module_index_cuda_utils CUDA Module Utilities

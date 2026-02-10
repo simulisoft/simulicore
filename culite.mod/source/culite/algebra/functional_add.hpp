@@ -41,13 +41,14 @@ namespace ops {
  * @param[in] x The first input dense vector.
  * @param[in] beta The scaling coefficient for @p y.
  * @param[in] y The second input dense vector.
+ * @param[out] z The output dense vector.
  * @param[in] cublasHandler The cuBLAS handler for GPU operations (defaults to global handler).
- * @return The result of the operation @f$ \alpha \cdot x + \beta \cdot y @f$.
  */
 template <typename T_Scalar>
-dns::XxVector<T_Scalar> add(T_Scalar alpha, const dns::XxVector<T_Scalar>& x,
-		                    T_Scalar beta , const dns::XxVector<T_Scalar>& y,
-                            CuBlasHandler& cublasHandler = globalCuBlasHandler());
+void add(T_Scalar alpha, const dns::XxVector<T_Scalar>& x,
+		 T_Scalar beta , const dns::XxVector<T_Scalar>& y,
+         dns::XxVector<T_Scalar>& z,
+         CuBlasHandler& cublasHandler = globalCuBlasHandler());
 
 /**
  * @ingroup culite_module_index_math_op_add
@@ -61,36 +62,14 @@ dns::XxVector<T_Scalar> add(T_Scalar alpha, const dns::XxVector<T_Scalar>& x,
  * @param[in] opB The operation to apply to matrix @p B (no-transpose, transpose, or conjugate transpose).
  * @param[in] beta The scaling coefficient for @p B.
  * @param[in] B The second input dense matrix.
+ * @param[out] C The output dense matrix.
  * @param[in] cublasHandler The cuBLAS handler for GPU operations (defaults to global handler).
- * @return The result of the operation @f$ \alpha \cdot op_A(A) + \beta \cdot op_B(B) @f$.
  */
 template <typename T_Scalar>
-dns::XxMatrix<T_Scalar> add(::cla3p::op_t opA, T_Scalar alpha, const dns::XxMatrix<T_Scalar>& A,
-		                    ::cla3p::op_t opB, T_Scalar beta , const dns::XxMatrix<T_Scalar>& B,
-                            CuBlasHandler& cublasHandler = globalCuBlasHandler());
-
-/**
- * @ingroup culite_module_index_math_op_add
- * @brief Adds two compatible scaled dense matrices.
- * @details Performs the operation @f$ \alpha \cdot A + \beta \cdot B @f$.
- * @tparam T_Scalar The scalar type (e.g., float, double, complex).
- * @param[in] alpha The scaling coefficient for @p A.
- * @param[in] A The first input dense matrix.
- * @param[in] beta The scaling coefficient for @p B.
- * @param[in] B The second input dense matrix.
- * @param[in] cublasHandler The cuBLAS handler for GPU operations (defaults to global handler).
- * @return The result of the operation @f$ \alpha \cdot A + \beta \cdot B @f$.
- */
-template <typename T_Scalar>
-dns::XxMatrix<T_Scalar> add(T_Scalar alpha, const dns::XxMatrix<T_Scalar>& A,
-		                    T_Scalar beta , const dns::XxMatrix<T_Scalar>& B,
-                            CuBlasHandler& cublasHandler = globalCuBlasHandler())
-{
-    return add(::cla3p::op_t::N, alpha, A,
-               ::cla3p::op_t::N, beta, B,
-               cublasHandler);
-}
-
+void add(::cla3p::op_t opA, T_Scalar alpha, const dns::XxMatrix<T_Scalar>& A,
+		 ::cla3p::op_t opB, T_Scalar beta , const dns::XxMatrix<T_Scalar>& B,
+         dns::XxMatrix<T_Scalar>& C,
+         CuBlasHandler& cublasHandler = globalCuBlasHandler());
 
 /*-------------------------------------------------*/
 } // namespace ops

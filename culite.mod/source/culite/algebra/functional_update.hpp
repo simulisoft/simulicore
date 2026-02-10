@@ -45,6 +45,7 @@ namespace ops {
  * @param[in] alpha The scaling coefficient.
  * @param[in] x The input dense vector.
  * @param[in,out] y The dense vector to be updated.
+ * @param[in] cublasHandler The cuBLAS handler for GPU operations (defaults to global handler).
  */
 template <typename T_Scalar>
 void update(T_Scalar alpha,
@@ -52,6 +53,17 @@ void update(T_Scalar alpha,
             dns::XxVector<T_Scalar>& y,
             CuBlasHandler& cublasHandler = globalCuBlasHandler());
 
+/**
+ * @ingroup culite_module_index_math_op_add
+ * @brief Update a dense matrix with a compatible scaled dense matrix with optional transposition.
+ * @details Performs the operation @f$ B = B + \alpha \cdot op(A) @f$, where @f$ op(A) @f$ can be @f$ A @f$, @f$ A^T @f$, or @f$ A^H @f$.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
+ * @param[in] opA The operation to apply to matrix A (N for none, T for transpose, H for conjugate transpose).
+ * @param[in] alpha The scaling coefficient.
+ * @param[in] A The input dense matrix.
+ * @param[in,out] B The dense matrix to be updated.
+ * @param[in] cublasHandler The cuBLAS handler for GPU operations (defaults to global handler).
+ */
 template <typename T_Scalar>
 void update(::cla3p::op_t opA,
             T_Scalar alpha,
@@ -67,6 +79,7 @@ void update(::cla3p::op_t opA,
  * @param[in] alpha The scaling coefficient.
  * @param[in] A The input dense matrix.
  * @param[in,out] B The dense matrix to be updated.
+ * @param[in] cublasHandler The cuBLAS handler for GPU operations (defaults to global handler).
  */
 template <typename T_Scalar>
 void update(T_Scalar alpha,

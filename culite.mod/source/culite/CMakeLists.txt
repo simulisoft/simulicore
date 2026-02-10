@@ -24,13 +24,11 @@ set(CULITE_HPP
 	support.hpp
 	dense.hpp
 	sparse.hpp
-	#perms.hpp
 	#virtuals.hpp
-	#algebra.hpp
+	algebra.hpp
 	linsol.hpp
 	#svd.hpp
 	#qr.hpp
-	#lra.hpp
 	)
 
 set(CULITE_CUSRC
@@ -45,13 +43,11 @@ set(CULITE_CUH
 add_subdirectory(types)
 add_subdirectory(error)
 add_subdirectory(bulk)
-#add_subdirectory(checks)
 add_subdirectory(proxies)
 add_subdirectory(support)
 add_subdirectory(generic)
 add_subdirectory(dense)
 add_subdirectory(sparse)
-#add_subdirectory(perms)
 add_subdirectory(virtuals)
 add_subdirectory(algebra)
 add_subdirectory(linsol)

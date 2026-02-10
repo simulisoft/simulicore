@@ -14,42 +14,31 @@
  * limitations under the License.
  */
 
-// this file inc
-#include "cla3p/checks/outer_checks.hpp"
+#ifndef CULITE_BULK_CSX_IMPL_HPP_
+#define CULITE_BULK_CSX_IMPL_HPP_
 
-// system
-
-// 3rd
-
-// cla3p
-#include "cla3p/error/exceptions.hpp"
-#include "cla3p/error/literals.hpp"
+/**
+ * @file
+ */
 
 /*-------------------------------------------------*/
-namespace cla3p {
+namespace culite {
+namespace blk {
+namespace csx {
 /*-------------------------------------------------*/
-void outer_product_consistency_check(bool /*conjop*/, 
-		int_t nrowsA, int_t ncolsA, const Property& prA, 
-		int_t sizeX, int_t sizeY)
-{
-	if(nrowsA != sizeX || ncolsA != sizeY) {
-		throw err::NoConsistency(msg::InvalidDimensions());
-	}
 
-	if(!(prA.isGeneral() || prA.isSymmetric() || prA.isHermitian())) {
-		throw err::NoConsistency(msg::InvalidProperty());
-	} // valid props
+template <typename T_Int, typename T_Scalar>
+void launch_csx_diag_times_vec_kernel(const T_Scalar* alpha, T_Int np, 
+                                      const T_Int* xxxptr, 
+                                      const T_Int* xxxidx, 
+                                      const T_Scalar* values, 
+                                      const T_Scalar*x, T_Int incx,
+                                      T_Scalar *y, T_Int incy);
 
-#if 0
-	if(prA.isHermitian() && !conjop) {
-		throw err::NoConsistency(msg::OpNotAllowed());
-	}
-
-	if(prA.isSymmetric() && conjop) {
-		throw err::NoConsistency(msg::OpNotAllowed());
-	}
-#endif
-}
 /*-------------------------------------------------*/
-} // namespace cla3p
+} // namespace csx
+} // namespace blk
+} // namespace culite
 /*-------------------------------------------------*/
+
+#endif // CULITE_BULK_CSX_IMPL_HPP_
