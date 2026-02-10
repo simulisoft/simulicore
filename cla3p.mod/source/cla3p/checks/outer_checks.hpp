@@ -21,15 +21,51 @@
  * @file
  */
 
-#include "cla3p/types.hpp"
+#include <sstream>
+
+#include "cla3p/types/property.hpp"
+#include "cla3p/generic/meta1d.hpp"
+#include "cla3p/generic/meta2d.hpp"
+#include "cla3p/generic/matrix_meta.hpp"
+#include "cla3p/error/exceptions.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
 
-void outer_product_consistency_check(bool conjop, 
-		int_t nrowsA, int_t ncolsA, const Property& prA, 
-		int_t sizeX, int_t sizeY);
+template <typename T_Int>
+void outer_product_consistency_check(const MatrixMeta<T_Int>& metaA, 
+                                     const Meta1D<T_Int>& metaX, 
+                                     const Meta1D<T_Int>& metaY)
+{
+    if(metaA.nrows() != metaX.size() || metaA.ncols() != metaY.size()) {
+        std::stringstream ss;
+        ss << "Inconsistent dimensions for outer product: A" << metaA << " x" << metaX << ", y" << metaY;
+        throw err::NoConsistency(ss.str());
+	}
+
+	if(!(metaA.prop().isGeneral() || metaA.prop().isSymmetric() || metaA.prop().isHermitian())) {
+        std::stringstream ss;
+        ss << "Invalid matrix property for outer product: " << metaA.prop();
+        throw err::NoConsistency(ss.str());
+	} // valid props
+}
+
+/*-------------------------------------------------*/
+
+template <typename T_Int>
+void outer_product_consistency_check(bool /*conjop*/, 
+		                             T_Int nrowsA, 
+                                     T_Int ncolsA, 
+                                     const Property& prA, 
+		                             T_Int sizeX, 
+                                     T_Int sizeY)
+{
+    MatrixMeta<T_Int> metaA(nrowsA, ncolsA, prA);
+    Meta1D<T_Int> metaX(sizeX);
+    Meta1D<T_Int> metaY(sizeY);
+    outer_product_consistency_check(metaA, metaX, metaY);
+}
 
 /*-------------------------------------------------*/
 } // namespace cla3p
