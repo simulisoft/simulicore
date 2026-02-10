@@ -21,7 +21,7 @@
  * @file
  */
 
-#include "cla3p/types/integer.hpp"
+#include <ostream>
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -101,6 +101,23 @@ class Meta2D {
 
 /*-------------------------------------------------*/
 } // namespace cla3p
+/*-------------------------------------------------*/
+
+/**
+ * @brief Output stream operator for Meta2D.
+ * @details Writes the dimension metadata to an output stream in a human-readable format.
+ * @tparam T_Int Integer type for storing dimension values.
+ * @param[in,out] os The output stream.
+ * @param[in] meta The Meta2D object to output.
+ * @return Reference to the output stream.
+ */
+template <typename T_Int>
+std::ostream& operator<<(std::ostream& os, const cla3p::Meta2D<T_Int>& meta)
+{
+    os << "(" << meta.nrows() << " x " << meta.ncols() << ")";
+    return os;
+}
+
 /*-------------------------------------------------*/
 
 #endif // CLA3P_META2D_HPP_

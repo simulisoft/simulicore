@@ -21,6 +21,8 @@
  * @file
  */
 
+#include <ostream>
+
 #include "cla3p/generic/meta2d.hpp"
 #include "cla3p/types/property.hpp"
 
@@ -66,6 +68,24 @@ class MatrixMeta : public Meta2D<T_Int> {
 
 /*-------------------------------------------------*/
 } // namespace cla3p
+/*-------------------------------------------------*/
+
+/**
+ * @brief Output stream operator for MatrixMeta.
+ * @details Writes the matrix metadata to an output stream in a human-readable format,
+ *          including dimensions and property information.
+ * @tparam T_Int Integer type for dimension values.
+ * @param[in,out] os The output stream.
+ * @param[in] meta The MatrixMeta object to output.
+ * @return Reference to the output stream.
+ */
+template <typename T_Int>
+std::ostream& operator<<(std::ostream& os, const cla3p::MatrixMeta<T_Int>& meta)
+{
+    os << "Dimensions: " << static_cast<cla3p::Meta2D<T_Int>>(meta) << ", Property: " << meta.prop();
+    return os;
+}
+
 /*-------------------------------------------------*/
 
 #endif // CLA3P_MATRIX_META_HPP_

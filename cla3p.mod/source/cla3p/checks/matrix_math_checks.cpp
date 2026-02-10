@@ -23,7 +23,6 @@
 
 // cla3p
 #include "cla3p/checks/basic_checks.hpp"
-#include "cla3p/error/exceptions.hpp"
 #include "cla3p/error/literals.hpp"
 
 /*-------------------------------------------------*/

@@ -25,8 +25,8 @@
 #include <string>
 #include <vector>
 
-#include "cla3p/types/scalar.hpp"
 #include "cla3p/types/enums.hpp"
+#include "cla3p/types/scalar.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -305,11 +305,11 @@ std::vector<Property> allProperties();
 /**
  * @ingroup cla3p_module_index_stream_operators
  * @brief Outputs the property information to an output stream.
- * @param[in,out] so The output stream to write to.
+ * @param[in,out] os The output stream to write to.
  * @param[in] pr The property object to output.
  * @return A reference to the output stream.
  */
-std::ostream& operator<<(std::ostream& so, const cla3p::Property& pr);
+std::ostream& operator<<(std::ostream& os, const cla3p::Property& pr);
 
 /*-------------------------------------------------*/
 

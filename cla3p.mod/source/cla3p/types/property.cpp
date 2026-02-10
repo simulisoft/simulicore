@@ -238,26 +238,26 @@ Property Property::SkewLower()
 /*-------------------------------------------------*/
 std::vector<Property> allProperties()
 {
-	std::vector<cla3p::Property> ret(9);
+	std::vector<Property> ret(9);
 
-	ret[0] = cla3p::Property::General();
-	ret[1] = cla3p::Property::SymmetricUpper();
-	ret[2] = cla3p::Property::SymmetricLower();
-	ret[3] = cla3p::Property::HermitianUpper();
-	ret[4] = cla3p::Property::HermitianLower();
-	ret[5] = cla3p::Property::TriangularUpper();
-	ret[6] = cla3p::Property::TriangularLower();
-	ret[7] = cla3p::Property::SkewUpper();
-	ret[8] = cla3p::Property::SkewLower();
+	ret[0] = Property::General();
+	ret[1] = Property::SymmetricUpper();
+	ret[2] = Property::SymmetricLower();
+	ret[3] = Property::HermitianUpper();
+	ret[4] = Property::HermitianLower();
+	ret[5] = Property::TriangularUpper();
+	ret[6] = Property::TriangularLower();
+	ret[7] = Property::SkewUpper();
+	ret[8] = Property::SkewLower();
 
 	return ret;
 }
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
-std::ostream& operator<<(std::ostream& os, const cla3p::Property& prop)
+std::ostream& operator<<(std::ostream& os, const cla3p::Property& pr)
 {
-	os << prop.name();
+	os << pr.name();
 	return os;
 }
 /*-------------------------------------------------*/
