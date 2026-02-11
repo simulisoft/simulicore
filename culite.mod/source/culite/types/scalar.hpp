@@ -200,6 +200,9 @@ CULITE_HOST CULITE_DEVICE inline void setIm(complex8_t* c, const real4_t s) { c-
 } // namespace culite
 /*-------------------------------------------------*/
 
+CULITE_HOST CULITE_DEVICE inline culite::complex_t operator-(const culite::complex_t z) { return culite::makeComplex(-cuCreal(z), -cuCimag(z)); }
+CULITE_HOST CULITE_DEVICE inline culite::complex8_t operator-(const culite::complex8_t c) { return culite::makeComplex(-cuCrealf(c), -cuCimagf(c)); }
+
 CULITE_HOST CULITE_DEVICE inline culite::complex_t operator+(const culite::complex_t z1, const culite::complex_t z2) { return cuCadd(z1, z2); }
 CULITE_HOST CULITE_DEVICE inline culite::complex8_t operator+(const culite::complex8_t c1, const culite::complex8_t c2) { return cuCaddf(c1, c2); }
 
