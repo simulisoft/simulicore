@@ -56,16 +56,17 @@ syn keyword cTypeCustomDatatype ThreadManager
 syn keyword cTypeCustomDatatype Timer
 syn keyword cTypeCustomDatatype RealTimer
 
-syn keyword cTypeCustomDatatype VirtualExpression
-syn keyword cTypeCustomDatatype VirtualObject
+syn keyword cTypeCustomDatatype VirtualExpression VirtualExpr_vec VirtualExpr_dns VirtualExpr_csr VirtualExpr_csc
+syn keyword cTypeCustomDatatype VirtualObject VirtualObj_vec VirtualObj_dns VirtualObj_csr VirtualObj_csc
 syn keyword cTypeCustomDatatype VirtualRowvec
-syn keyword cTypeCustomDatatype VirtualTranspose
-syn keyword cTypeCustomDatatype VirtualConjugate
-syn keyword cTypeCustomDatatype VirtualPlus
-syn keyword cTypeCustomDatatype VirtualMinus
-syn keyword cTypeCustomDatatype VirtualScale
+syn keyword cTypeCustomDatatype VirtualTranspose VirtualTrans_dns VirtualTrans_csr VirtualTrans_csc
+syn keyword cTypeCustomDatatype VirtualConjugate VirtualConj_vec VirtualConj_dns VirtualConj_csr VirtualConj_csc
+syn keyword cTypeCustomDatatype VirtualPlus VirtualPlus_vec VirtualPlus_dns VirtualPlus_csr VirtualPlus_csc
+syn keyword cTypeCustomDatatype VirtualMinus VirtualMinus_vec VirtualMinus_dns VirtualMinus_csr VirtualMinus_csc
+syn keyword cTypeCustomDatatype VirtualScale VirtualScal_vec VirtualScal_dns VirtualScal_csr VirtualScal_csc
 syn keyword cTypeCustomDatatype VirtualOuter
-syn keyword cTypeCustomDatatype VirtualProduct
+syn keyword cTypeCustomDatatype VirtualProduct VirtualProd_dnsmv VirtualProd_csrmv VirtualProd_cscmv
+syn keyword cTypeCustomDatatype VirtualProd_dnsmm VirtualProd_csrmm VirtualProd_cscmm VirtualProd_csrspmm VirtualProd_cscspmm
 
 syn keyword cTypeCustomDatatype PxMatrix
 syn keyword cTypeCustomDatatype PiMatrix
@@ -152,6 +153,7 @@ syn keyword cTypeCustomNSpace pardiso
 syn keyword cTypeCustomNSpace mt
 syn keyword cTypeCustomNSpace blk
 syn keyword cTypeCustomNSpace dns
+syn keyword cTypeCustomNSpace csx
 syn keyword cTypeCustomNSpace csr
 syn keyword cTypeCustomNSpace csc
 syn keyword cTypeCustomNSpace coo

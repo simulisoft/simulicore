@@ -57,16 +57,8 @@ class CxMatrix : public XxMatrix<T_Scalar> {
         template <typename T_Virtual>
 		CxMatrix<T_Scalar>& operator=(const alias::VirtualExpr_dns<T_Scalar,T_Virtual>& v) { XxMatrix<T_Scalar>::operator=(v); return *this; }
 
-		//template <typename T_Virtual>
-		//CxMatrix(alias::VirtualExpr_dns<T_Scalar,T_Virtual>&& v) : XxMatrix<T_Scalar>(v) {}
-		//template <typename T_Virtual>
-		//CxMatrix<T_Scalar>& operator=(alias::VirtualExpr_dns<T_Scalar,T_Virtual>&& v) { XxMatrix<T_Scalar>::operator=(v); return *this; }
-
 		CxMatrix(const VirtualRowvec<T_Scalar>& rv) : XxMatrix<T_Scalar>(rv) {}
 		CxMatrix<T_Scalar>& operator=(const VirtualRowvec<T_Scalar>& rv) { XxMatrix<T_Scalar>::operator=(rv); return *this; }
-
-		//CxMatrix(VirtualRowvec<T_Scalar>&& rv) : XxMatrix<T_Scalar>(std::move(rv)) {}
-		//CxMatrix<T_Scalar>& operator=(VirtualRowvec<T_Scalar>&& rv) { XxMatrix<T_Scalar>::operator=(std::move(rv)); return *this; }
 
 		/**
 		 * @name Constructors

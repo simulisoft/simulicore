@@ -34,27 +34,36 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 template <typename T_Int>
-void outer_product_consistency_check(const MatrixMeta<T_Int>& metaA, 
+void outer_product_consistency_check(bool conjop,
+                                     const MatrixMeta<T_Int>& metaA, 
                                      const Meta1D<T_Int>& metaX, 
                                      const Meta1D<T_Int>& metaY)
 {
-    if(metaA.nrows() != metaX.size() || metaA.ncols() != metaY.size()) {
-        std::stringstream ss;
-        ss << "Inconsistent dimensions for outer product: A" << metaA << " x" << metaX << ", y" << metaY;
-        throw err::NoConsistency(ss.str());
-	}
-
 	if(!(metaA.prop().isGeneral() || metaA.prop().isSymmetric() || metaA.prop().isHermitian())) {
         std::stringstream ss;
         ss << "Invalid matrix property for outer product: " << metaA.prop();
         throw err::NoConsistency(ss.str());
 	} // valid props
+
+    if (metaA.prop().isSymmetric() && conjop) {
+        throw err::NoConsistency("For Symmetric matrices, the transpose outer product must be used.");
+    }
+
+    if(metaA.prop().isHermitian() && !conjop) {
+        throw err::NoConsistency("For Hermitian matrices, the conjugate outer product must be used.");
+    }
+
+    if(metaA.nrows() != metaX.size() || metaA.ncols() != metaY.size()) {
+        std::stringstream ss;
+        ss << "Inconsistent dimensions for outer product: A" << metaA << " x" << metaX << ", y" << metaY;
+        throw err::NoConsistency(ss.str());
+	}
 }
 
 /*-------------------------------------------------*/
 
 template <typename T_Int>
-void outer_product_consistency_check(bool /*conjop*/, 
+void outer_product_consistency_check(bool conjop, 
 		                             T_Int nrowsA, 
                                      T_Int ncolsA, 
                                      const Property& prA, 
@@ -64,7 +73,7 @@ void outer_product_consistency_check(bool /*conjop*/,
     MatrixMeta<T_Int> metaA(nrowsA, ncolsA, prA);
     Meta1D<T_Int> metaX(sizeX);
     Meta1D<T_Int> metaY(sizeY);
-    outer_product_consistency_check(metaA, metaX, metaY);
+    outer_product_consistency_check(conjop, metaA, metaX, metaY);
 }
 
 /*-------------------------------------------------*/

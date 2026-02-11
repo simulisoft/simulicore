@@ -78,22 +78,22 @@ namespace alias {
 template <typename T_Scalar>
 using VirtualScal_vec = VirtualScale<
 	dns::XxVector<T_Scalar>,
-	alias::VirtualObj_vec<T_Scalar>>;
+	VirtualObj_vec<T_Scalar>>;
 
 template <typename T_Scalar>
 using VirtualScal_dns = VirtualScale<
 	dns::XxMatrix<T_Scalar>,
-	alias::VirtualObj_dns<T_Scalar>>;
+	VirtualObj_dns<T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
 using VirtualScal_csr = VirtualScale<
 	csr::XxMatrix<T_Int,T_Scalar>,
-	alias::VirtualObj_csr<T_Int,T_Scalar>>;
+	VirtualObj_csr<T_Int,T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
 using VirtualScal_csc = VirtualScale<
 	csc::XxMatrix<T_Int,T_Scalar>,
-	alias::VirtualObj_csc<T_Int,T_Scalar>>;
+	VirtualObj_csc<T_Int,T_Scalar>>;
 
 } // namespace alias
 

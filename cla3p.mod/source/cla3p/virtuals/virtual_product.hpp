@@ -62,50 +62,50 @@ namespace alias {
 template <typename T_Scalar>
 using VirtualProd_dnsmv = VirtualProduct<
 	dns::XxVector<T_Scalar>,
-	alias::VirtualObj_dns<T_Scalar>,
-	alias::VirtualObj_vec<T_Scalar>>;
+	VirtualObj_dns<T_Scalar>,
+	VirtualObj_vec<T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
 using VirtualProd_csrmv = VirtualProduct<
 	dns::XxVector<T_Scalar>,
-	alias::VirtualObj_csr<T_Int,T_Scalar>,
-	alias::VirtualObj_vec<T_Scalar>>;
+	VirtualObj_csr<T_Int,T_Scalar>,
+	VirtualObj_vec<T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
 using VirtualProd_cscmv = VirtualProduct<
 	dns::XxVector<T_Scalar>,
-	alias::VirtualObj_csc<T_Int,T_Scalar>,
-	alias::VirtualObj_vec<T_Scalar>>;
+	VirtualObj_csc<T_Int,T_Scalar>,
+	VirtualObj_vec<T_Scalar>>;
 
 template <typename T_Scalar>
 using VirtualProd_dnsmm = VirtualProduct<
 	dns::XxMatrix<T_Scalar>,
-	alias::VirtualObj_dns<T_Scalar>,
-	alias::VirtualObj_dns<T_Scalar>>;
+	VirtualObj_dns<T_Scalar>,
+	VirtualObj_dns<T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
 using VirtualProd_csrmm = VirtualProduct<
 	dns::XxMatrix<T_Scalar>,
-	alias::VirtualObj_csr<T_Int,T_Scalar>,
-	alias::VirtualObj_dns<T_Scalar>>;
+	VirtualObj_csr<T_Int,T_Scalar>,
+	VirtualObj_dns<T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
 using VirtualProd_cscmm = VirtualProduct<
 	dns::XxMatrix<T_Scalar>,
-	alias::VirtualObj_csc<T_Int,T_Scalar>,
-	alias::VirtualObj_dns<T_Scalar>>;
+	VirtualObj_csc<T_Int,T_Scalar>,
+	VirtualObj_dns<T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
 using VirtualProd_csrspmm = VirtualProduct<
 	csr::XxMatrix<T_Int,T_Scalar>,
-	alias::VirtualObj_csr<T_Int,T_Scalar>,
-	alias::VirtualObj_csr<T_Int,T_Scalar>>;
+	VirtualObj_csr<T_Int,T_Scalar>,
+	VirtualObj_csr<T_Int,T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
 using VirtualProd_cscspmm = VirtualProduct<
 	csc::XxMatrix<T_Int,T_Scalar>,
-	alias::VirtualObj_csc<T_Int,T_Scalar>,
-	alias::VirtualObj_csc<T_Int,T_Scalar>>;
+	VirtualObj_csc<T_Int,T_Scalar>,
+	VirtualObj_csc<T_Int,T_Scalar>>;
 
 } // namespace alias
 
