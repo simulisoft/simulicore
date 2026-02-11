@@ -40,9 +40,6 @@
 namespace culite {
 namespace ops {
 /*-------------------------------------------------*/
-// 
-// TODO: replace with matrix  metas
-//
 template <typename T_Int>
 static void throw_prop_compatibility_error(const ::cla3p::MatrixMeta<T_Int>& A, 
 		                                   const ::cla3p::MatrixMeta<T_Int>& B, 
