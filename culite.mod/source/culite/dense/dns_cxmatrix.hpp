@@ -23,6 +23,9 @@
 
 #include "culite/dense/dns_xxmatrix.hpp"
 
+#include "culite/virtuals/virtual_expression.hpp"
+#include "culite/virtuals/virtual_rowvec.hpp"
+
 /*-------------------------------------------------*/
 namespace culite { 
 namespace dns {
@@ -51,6 +54,29 @@ class CxMatrix : public XxMatrix<T_Scalar> {
 
 		CxMatrix(XxMatrix<T_Scalar>&& other);		
 		CxMatrix<T_Scalar>& operator=(XxMatrix<T_Scalar>&& other);
+
+        /**
+         * @name Virtual Convertors
+         * @{
+         */
+
+        template <typename T_Virtual>
+        CxMatrix(const alias::VirtualExpr_dns<T_Scalar,T_Virtual>& v) : XxMatrix<T_Scalar>(v) {}
+        template <typename T_Virtual>
+        CxMatrix<T_Scalar>& operator=(const alias::VirtualExpr_dns<T_Scalar,T_Virtual>& v)
+        { 
+            XxMatrix<T_Scalar>::operator=(v); 
+            return *this; 
+        }
+
+        CxMatrix(const VirtualRowvec<T_Scalar>& rv) : XxMatrix<T_Scalar>(rv) {}
+        CxMatrix<T_Scalar>& operator=(const VirtualRowvec<T_Scalar>& rv)
+        { 
+            XxMatrix<T_Scalar>::operator=(rv); 
+            return *this; 
+        }
+
+        /** @} */
 
 		/**
 		 * @name Constructors

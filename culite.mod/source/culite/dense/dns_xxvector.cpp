@@ -80,11 +80,9 @@ XxVector<T_Scalar>& XxVector<T_Scalar>::operator=(XiVector<T_Scalar>&& other)
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-XxVector<T_Scalar> XxVector<T_Scalar>::operator-() const
-{	
-	XxVector<T_Scalar> ret = *this;
-	ret.iscale(makeScalar<T_Scalar>(-1));
-	return ret;
+alias::VirtualScal_vec<T_Scalar> XxVector<T_Scalar>::operator-() const
+{
+    return alias::VirtualScal_vec<T_Scalar>(virtualize(), makeScalar<T_Scalar>(-1));
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -93,7 +91,6 @@ void XxVector<T_Scalar>::iscale(const T_Scalar& val)
 	blk::dns::scale1D(this->size(), val, this->values());
 }
 /*-------------------------------------------------*/
-#if 0
 template <typename T_Scalar>
 VirtualRowvec<T_Scalar> XxVector<T_Scalar>::transpose() const
 {
@@ -105,14 +102,11 @@ VirtualRowvec<T_Scalar> XxVector<T_Scalar>::ctranspose() const
 {
 	return VirtualRowvec<T_Scalar>(this->size(), this->values(), 1, true);
 }
-#endif // 0
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-XxVector<T_Scalar> XxVector<T_Scalar>::conjugate() const
+alias::VirtualConj_vec<T_Scalar> XxVector<T_Scalar>::conjugate() const
 {
-	XxVector<T_Scalar> ret = *this;
-	ret.iconjugate();
-	return ret;
+    return alias::VirtualConj_vec<T_Scalar>(*this);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>

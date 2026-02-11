@@ -23,12 +23,9 @@
 
 // culite
 #include "culite/bulk/dns2D.hpp"
-//#include "culite/bulk/csr.hpp"
-//#include "culite/bulk/csc.hpp"
 #include "culite/dense/dns_xxmatrix.hpp"
-//#include "culite/sparse/csr_xxmatrix.hpp"
-//#include "culite/sparse/csc_xxmatrix.hpp"
-//#include "culite/algebra/functional_update.hpp"
+#include "culite/sparse/csr_xxmatrix.hpp"
+#include "culite/sparse/csc_xxmatrix.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -101,139 +98,141 @@ template void VirtualTransposeAccumulateOnExistingSpec(const dns::XxMatrix<real4
 template void VirtualTransposeAccumulateOnExistingSpec(const dns::XxMatrix<complex_t >&, bool, dns::XxMatrix<complex_t >&, complex_t );
 template void VirtualTransposeAccumulateOnExistingSpec(const dns::XxMatrix<complex8_t>&, bool, dns::XxMatrix<complex8_t>&, complex8_t);
 /*-------------------------------------------------*/
-//template <typename T_Int, typename T_Scalar>
-//void VirtualTransposeEvaluateOnNewSpec(
-//		const csr::XxMatrix<T_Int,T_Scalar>& src,
-//		bool conj,
-//		csr::XxMatrix<T_Int, T_Scalar>& dest)
-//{
-//	dest.clear();
-//	dest = csr::XxMatrix<T_Int,T_Scalar>(src.ncols(), src.nrows(), src.nnz(), src.prop().transpose());
-//	VirtualTransposeEvaluateOnExistingSpec(src, conj, dest);
-//}
-///*-------------------------------------------------*/
-//template void VirtualTransposeEvaluateOnNewSpec(const csr::XxMatrix<int_t,real_t    >&, bool, csr::XxMatrix<int_t,real_t    >&);
-//template void VirtualTransposeEvaluateOnNewSpec(const csr::XxMatrix<int_t,real4_t   >&, bool, csr::XxMatrix<int_t,real4_t   >&);
-//template void VirtualTransposeEvaluateOnNewSpec(const csr::XxMatrix<int_t,complex_t >&, bool, csr::XxMatrix<int_t,complex_t >&);
-//template void VirtualTransposeEvaluateOnNewSpec(const csr::XxMatrix<int_t,complex8_t>&, bool, csr::XxMatrix<int_t,complex8_t>&);
-///*-------------------------------------------------*/
-//template <typename T_Int, typename T_Scalar>
-//void VirtualTransposeEvaluateOnExistingSpec(
-//		const csr::XxMatrix<T_Int,T_Scalar>& src,
-//		bool conj,
-//		csr::XxMatrix<T_Int, T_Scalar>& dest)
-//{
-//	if(conj) {
-//		blk::csr::conjugate_transpose(
-//				src.nrows(),
-//				src.ncols(),
-//				src.rowptr(),
-//				src.colidx(),
-//				src.values(),
-//				dest.rowptr(),
-//				dest.colidx(),
-//				dest.values());
-//	} else {
-//		blk::csr::transpose(
-//				src.nrows(),
-//				src.ncols(),
-//				src.rowptr(),
-//				src.colidx(),
-//				src.values(),
-//				dest.rowptr(),
-//				dest.colidx(),
-//				dest.values());
-//	} // conj
-//}
-///*-------------------------------------------------*/
-//template void VirtualTransposeEvaluateOnExistingSpec(const csr::XxMatrix<int_t,real_t    >&, bool, csr::XxMatrix<int_t,real_t    >&);
-//template void VirtualTransposeEvaluateOnExistingSpec(const csr::XxMatrix<int_t,real4_t   >&, bool, csr::XxMatrix<int_t,real4_t   >&);
-//template void VirtualTransposeEvaluateOnExistingSpec(const csr::XxMatrix<int_t,complex_t >&, bool, csr::XxMatrix<int_t,complex_t >&);
-//template void VirtualTransposeEvaluateOnExistingSpec(const csr::XxMatrix<int_t,complex8_t>&, bool, csr::XxMatrix<int_t,complex8_t>&);
-///*-------------------------------------------------*/
-//template <typename T_Int, typename T_Scalar>
-//void VirtualTransposeAccumulateOnExistingSpec(
-//		const csr::XxMatrix<T_Int,T_Scalar>& src,
-//		bool conj,
-//		csr::XxMatrix<T_Int, T_Scalar>& dest,
-//		T_Scalar coeff)
-//{
-//	csr::XxMatrix<T_Int,T_Scalar> tmp;
-//	VirtualTransposeEvaluateOnNewSpec(src, conj, tmp);
-//	ops::update(coeff, tmp, dest);
-//}
-///*-------------------------------------------------*/
-//template void VirtualTransposeAccumulateOnExistingSpec(const csr::XxMatrix<int_t,real_t    >&, bool, csr::XxMatrix<int_t,real_t    >&, real_t    );
-//template void VirtualTransposeAccumulateOnExistingSpec(const csr::XxMatrix<int_t,real4_t   >&, bool, csr::XxMatrix<int_t,real4_t   >&, real4_t   );
-//template void VirtualTransposeAccumulateOnExistingSpec(const csr::XxMatrix<int_t,complex_t >&, bool, csr::XxMatrix<int_t,complex_t >&, complex_t );
-//template void VirtualTransposeAccumulateOnExistingSpec(const csr::XxMatrix<int_t,complex8_t>&, bool, csr::XxMatrix<int_t,complex8_t>&, complex8_t);
-///*-------------------------------------------------*/
-//template <typename T_Int, typename T_Scalar>
-//void VirtualTransposeEvaluateOnNewSpec(
-//		const csc::XxMatrix<T_Int,T_Scalar>& src,
-//		bool conj,
-//		csc::XxMatrix<T_Int, T_Scalar>& dest)
-//{
-//	dest.clear();
-//	dest = csc::XxMatrix<T_Int,T_Scalar>(src.ncols(), src.nrows(), src.nnz(), src.prop().transpose());
-//	VirtualTransposeEvaluateOnExistingSpec(src, conj, dest);
-//}
-///*-------------------------------------------------*/
-//template void VirtualTransposeEvaluateOnNewSpec(const csc::XxMatrix<int_t,real_t    >&, bool, csc::XxMatrix<int_t,real_t    >&);
-//template void VirtualTransposeEvaluateOnNewSpec(const csc::XxMatrix<int_t,real4_t   >&, bool, csc::XxMatrix<int_t,real4_t   >&);
-//template void VirtualTransposeEvaluateOnNewSpec(const csc::XxMatrix<int_t,complex_t >&, bool, csc::XxMatrix<int_t,complex_t >&);
-//template void VirtualTransposeEvaluateOnNewSpec(const csc::XxMatrix<int_t,complex8_t>&, bool, csc::XxMatrix<int_t,complex8_t>&);
-///*-------------------------------------------------*/
-//template <typename T_Int, typename T_Scalar>
-//void VirtualTransposeEvaluateOnExistingSpec(
-//		const csc::XxMatrix<T_Int,T_Scalar>& src,
-//		bool conj,
-//		csc::XxMatrix<T_Int, T_Scalar>& dest)
-//{
-//	if(conj) {
-//		blk::csc::conjugate_transpose(
-//				src.nrows(),
-//				src.ncols(),
-//				src.colptr(),
-//				src.rowidx(),
-//				src.values(),
-//				dest.colptr(),
-//				dest.rowidx(),
-//				dest.values());
-//	} else {
-//		blk::csc::transpose(
-//				src.nrows(),
-//				src.ncols(),
-//				src.colptr(),
-//				src.rowidx(),
-//				src.values(),
-//				dest.colptr(),
-//				dest.rowidx(),
-//				dest.values());
-//	} // conj
-//}
-///*-------------------------------------------------*/
-//template void VirtualTransposeEvaluateOnExistingSpec(const csc::XxMatrix<int_t,real_t    >&, bool, csc::XxMatrix<int_t,real_t    >&);
-//template void VirtualTransposeEvaluateOnExistingSpec(const csc::XxMatrix<int_t,real4_t   >&, bool, csc::XxMatrix<int_t,real4_t   >&);
-//template void VirtualTransposeEvaluateOnExistingSpec(const csc::XxMatrix<int_t,complex_t >&, bool, csc::XxMatrix<int_t,complex_t >&);
-//template void VirtualTransposeEvaluateOnExistingSpec(const csc::XxMatrix<int_t,complex8_t>&, bool, csc::XxMatrix<int_t,complex8_t>&);
-///*-------------------------------------------------*/
-//template <typename T_Int, typename T_Scalar>
-//void VirtualTransposeAccumulateOnExistingSpec(
-//		const csc::XxMatrix<T_Int,T_Scalar>& src,
-//		bool conj,
-//		csc::XxMatrix<T_Int, T_Scalar>& dest,
-//		T_Scalar coeff)
-//{
-//	csc::XxMatrix<T_Int,T_Scalar> tmp;
-//	VirtualTransposeEvaluateOnNewSpec(src, conj, tmp);
-//	ops::update(coeff, tmp, dest);
-//}
-///*-------------------------------------------------*/
-//template void VirtualTransposeAccumulateOnExistingSpec(const csc::XxMatrix<int_t,real_t    >&, bool, csc::XxMatrix<int_t,real_t    >&, real_t    );
-//template void VirtualTransposeAccumulateOnExistingSpec(const csc::XxMatrix<int_t,real4_t   >&, bool, csc::XxMatrix<int_t,real4_t   >&, real4_t   );
-//template void VirtualTransposeAccumulateOnExistingSpec(const csc::XxMatrix<int_t,complex_t >&, bool, csc::XxMatrix<int_t,complex_t >&, complex_t );
-//template void VirtualTransposeAccumulateOnExistingSpec(const csc::XxMatrix<int_t,complex8_t>&, bool, csc::XxMatrix<int_t,complex8_t>&, complex8_t);
+template <typename T_Int, typename T_Scalar>
+void VirtualTransposeEvaluateOnNewSpec(
+		const csr::XxMatrix<T_Int,T_Scalar>& src,
+		bool conj,
+		csr::XxMatrix<T_Int, T_Scalar>& dest)
+{
+	dest.clear();
+	dest = csr::XxMatrix<T_Int,T_Scalar>(src.ncols(), src.nrows(), src.nnz(), src.prop().transpose());
+	VirtualTransposeEvaluateOnExistingSpec(src, conj, dest);
+}
+/*-------------------------------------------------*/
+template void VirtualTransposeEvaluateOnNewSpec(const csr::XxMatrix<int_t,real_t    >&, bool, csr::XxMatrix<int_t,real_t    >&);
+template void VirtualTransposeEvaluateOnNewSpec(const csr::XxMatrix<int_t,real4_t   >&, bool, csr::XxMatrix<int_t,real4_t   >&);
+template void VirtualTransposeEvaluateOnNewSpec(const csr::XxMatrix<int_t,complex_t >&, bool, csr::XxMatrix<int_t,complex_t >&);
+template void VirtualTransposeEvaluateOnNewSpec(const csr::XxMatrix<int_t,complex8_t>&, bool, csr::XxMatrix<int_t,complex8_t>&);
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+void VirtualTransposeEvaluateOnExistingSpec(
+		const csr::XxMatrix<T_Int,T_Scalar>& /*src*/,
+		bool /*conj*/,
+		csr::XxMatrix<T_Int, T_Scalar>& /*dest*/)
+{
+	//if(conj) {
+	//	blk::csr::conjugate_transpose(
+	//			src.nrows(),
+	//			src.ncols(),
+	//			src.rowptr(),
+	//			src.colidx(),
+	//			src.values(),
+	//			dest.rowptr(),
+	//			dest.colidx(),
+	//			dest.values());
+	//} else {
+	//	blk::csr::transpose(
+	//			src.nrows(),
+	//			src.ncols(),
+	//			src.rowptr(),
+	//			src.colidx(),
+	//			src.values(),
+	//			dest.rowptr(),
+	//			dest.colidx(),
+	//			dest.values());
+	//} // conj
+    throw err::CudaException("Explicit CSR Matrix transposition not supported yet.");
+}
+/*-------------------------------------------------*/
+template void VirtualTransposeEvaluateOnExistingSpec(const csr::XxMatrix<int_t,real_t    >&, bool, csr::XxMatrix<int_t,real_t    >&);
+template void VirtualTransposeEvaluateOnExistingSpec(const csr::XxMatrix<int_t,real4_t   >&, bool, csr::XxMatrix<int_t,real4_t   >&);
+template void VirtualTransposeEvaluateOnExistingSpec(const csr::XxMatrix<int_t,complex_t >&, bool, csr::XxMatrix<int_t,complex_t >&);
+template void VirtualTransposeEvaluateOnExistingSpec(const csr::XxMatrix<int_t,complex8_t>&, bool, csr::XxMatrix<int_t,complex8_t>&);
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+void VirtualTransposeAccumulateOnExistingSpec(
+		const csr::XxMatrix<T_Int,T_Scalar>& src,
+		bool conj,
+		csr::XxMatrix<T_Int, T_Scalar>& dest,
+		T_Scalar coeff)
+{
+	csr::XxMatrix<T_Int,T_Scalar> tmp;
+	VirtualTransposeEvaluateOnNewSpec(src, conj, tmp);
+	ops::update(coeff, tmp, dest);
+}
+/*-------------------------------------------------*/
+template void VirtualTransposeAccumulateOnExistingSpec(const csr::XxMatrix<int_t,real_t    >&, bool, csr::XxMatrix<int_t,real_t    >&, real_t    );
+template void VirtualTransposeAccumulateOnExistingSpec(const csr::XxMatrix<int_t,real4_t   >&, bool, csr::XxMatrix<int_t,real4_t   >&, real4_t   );
+template void VirtualTransposeAccumulateOnExistingSpec(const csr::XxMatrix<int_t,complex_t >&, bool, csr::XxMatrix<int_t,complex_t >&, complex_t );
+template void VirtualTransposeAccumulateOnExistingSpec(const csr::XxMatrix<int_t,complex8_t>&, bool, csr::XxMatrix<int_t,complex8_t>&, complex8_t);
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+void VirtualTransposeEvaluateOnNewSpec(
+		const csc::XxMatrix<T_Int,T_Scalar>& src,
+		bool conj,
+		csc::XxMatrix<T_Int, T_Scalar>& dest)
+{
+	dest.clear();
+	dest = csc::XxMatrix<T_Int,T_Scalar>(src.ncols(), src.nrows(), src.nnz(), src.prop().transpose());
+	VirtualTransposeEvaluateOnExistingSpec(src, conj, dest);
+}
+/*-------------------------------------------------*/
+template void VirtualTransposeEvaluateOnNewSpec(const csc::XxMatrix<int_t,real_t    >&, bool, csc::XxMatrix<int_t,real_t    >&);
+template void VirtualTransposeEvaluateOnNewSpec(const csc::XxMatrix<int_t,real4_t   >&, bool, csc::XxMatrix<int_t,real4_t   >&);
+template void VirtualTransposeEvaluateOnNewSpec(const csc::XxMatrix<int_t,complex_t >&, bool, csc::XxMatrix<int_t,complex_t >&);
+template void VirtualTransposeEvaluateOnNewSpec(const csc::XxMatrix<int_t,complex8_t>&, bool, csc::XxMatrix<int_t,complex8_t>&);
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+void VirtualTransposeEvaluateOnExistingSpec(
+		const csc::XxMatrix<T_Int,T_Scalar>& /*src*/,
+		bool /*conj*/,
+		csc::XxMatrix<T_Int, T_Scalar>& /*dest*/)
+{
+	//if(conj) {
+	//	blk::csc::conjugate_transpose(
+	//			src.nrows(),
+	//			src.ncols(),
+	//			src.colptr(),
+	//			src.rowidx(),
+	//			src.values(),
+	//			dest.colptr(),
+	//			dest.rowidx(),
+	//			dest.values());
+	//} else {
+	//	blk::csc::transpose(
+	//			src.nrows(),
+	//			src.ncols(),
+	//			src.colptr(),
+	//			src.rowidx(),
+	//			src.values(),
+	//			dest.colptr(),
+	//			dest.rowidx(),
+	//			dest.values());
+	//} // conj
+    throw err::CudaException("Explicit CSC Matrix transposition not supported yet.");
+}
+/*-------------------------------------------------*/
+template void VirtualTransposeEvaluateOnExistingSpec(const csc::XxMatrix<int_t,real_t    >&, bool, csc::XxMatrix<int_t,real_t    >&);
+template void VirtualTransposeEvaluateOnExistingSpec(const csc::XxMatrix<int_t,real4_t   >&, bool, csc::XxMatrix<int_t,real4_t   >&);
+template void VirtualTransposeEvaluateOnExistingSpec(const csc::XxMatrix<int_t,complex_t >&, bool, csc::XxMatrix<int_t,complex_t >&);
+template void VirtualTransposeEvaluateOnExistingSpec(const csc::XxMatrix<int_t,complex8_t>&, bool, csc::XxMatrix<int_t,complex8_t>&);
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+void VirtualTransposeAccumulateOnExistingSpec(
+		const csc::XxMatrix<T_Int,T_Scalar>& src,
+		bool conj,
+		csc::XxMatrix<T_Int, T_Scalar>& dest,
+		T_Scalar coeff)
+{
+	csc::XxMatrix<T_Int,T_Scalar> tmp;
+	VirtualTransposeEvaluateOnNewSpec(src, conj, tmp);
+	ops::update(coeff, tmp, dest);
+}
+/*-------------------------------------------------*/
+template void VirtualTransposeAccumulateOnExistingSpec(const csc::XxMatrix<int_t,real_t    >&, bool, csc::XxMatrix<int_t,real_t    >&, real_t    );
+template void VirtualTransposeAccumulateOnExistingSpec(const csc::XxMatrix<int_t,real4_t   >&, bool, csc::XxMatrix<int_t,real4_t   >&, real4_t   );
+template void VirtualTransposeAccumulateOnExistingSpec(const csc::XxMatrix<int_t,complex_t >&, bool, csc::XxMatrix<int_t,complex_t >&, complex_t );
+template void VirtualTransposeAccumulateOnExistingSpec(const csc::XxMatrix<int_t,complex8_t>&, bool, csc::XxMatrix<int_t,complex8_t>&, complex8_t);
 /*-------------------------------------------------*/
 } // namespace culite
 /*-------------------------------------------------*/

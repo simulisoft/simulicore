@@ -24,7 +24,7 @@ set(CULITE_HPP
 	support.hpp
 	dense.hpp
 	sparse.hpp
-	#virtuals.hpp
+	virtuals.hpp
 	algebra.hpp
 	linsol.hpp
 	#svd.hpp

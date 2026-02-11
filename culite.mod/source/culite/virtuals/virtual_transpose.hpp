@@ -22,15 +22,16 @@
  */
 
 #include <cla3p/types/enums.hpp>
-#include <cla3p/virtuals/virtual_expression.hpp>
+
+#include "culite/virtuals/virtual_expression.hpp"
 
 /*-------------------------------------------------*/
 namespace culite { 
 /*-------------------------------------------------*/
 
 namespace dns { template <typename T_Scalar> class XxMatrix; }
-//namespace csr { template <typename T_Int, typename T_Scalar> class XxMatrix; }
-//namespace csc { template <typename T_Int, typename T_Scalar> class XxMatrix; }
+namespace csr { template <typename T_Int, typename T_Scalar> class XxMatrix; }
+namespace csc { template <typename T_Int, typename T_Scalar> class XxMatrix; }
 
 /*-------------------------------------------------*/
 
@@ -41,19 +42,19 @@ void VirtualTransposeEvaluateOnExistingSpec(const dns::XxMatrix<T_Scalar>& src, 
 template <typename T_Scalar>
 void VirtualTransposeAccumulateOnExistingSpec(const dns::XxMatrix<T_Scalar>& src, bool conj, dns::XxMatrix<T_Scalar>& dest, T_Scalar coeff);
 
-//template <typename T_Int, typename T_Scalar>
-//void VirtualTransposeEvaluateOnNewSpec(const csr::XxMatrix<T_Int,T_Scalar>& src, bool conj, csr::XxMatrix<T_Int, T_Scalar>& dest);
-//template <typename T_Int, typename T_Scalar>
-//void VirtualTransposeEvaluateOnExistingSpec(const csr::XxMatrix<T_Int,T_Scalar>& src, bool conj, csr::XxMatrix<T_Int, T_Scalar>& dest);
-//template <typename T_Int, typename T_Scalar>
-//void VirtualTransposeAccumulateOnExistingSpec(const csr::XxMatrix<T_Int,T_Scalar>& src, bool conj, csr::XxMatrix<T_Int, T_Scalar>& dest, T_Scalar coeff);
+template <typename T_Int, typename T_Scalar>
+void VirtualTransposeEvaluateOnNewSpec(const csr::XxMatrix<T_Int,T_Scalar>& src, bool conj, csr::XxMatrix<T_Int, T_Scalar>& dest);
+template <typename T_Int, typename T_Scalar>
+void VirtualTransposeEvaluateOnExistingSpec(const csr::XxMatrix<T_Int,T_Scalar>& src, bool conj, csr::XxMatrix<T_Int, T_Scalar>& dest);
+template <typename T_Int, typename T_Scalar>
+void VirtualTransposeAccumulateOnExistingSpec(const csr::XxMatrix<T_Int,T_Scalar>& src, bool conj, csr::XxMatrix<T_Int, T_Scalar>& dest, T_Scalar coeff);
 
-//template <typename T_Int, typename T_Scalar>
-//void VirtualTransposeEvaluateOnNewSpec(const csc::XxMatrix<T_Int,T_Scalar>& src, bool conj, csc::XxMatrix<T_Int, T_Scalar>& dest);
-//template <typename T_Int, typename T_Scalar>
-//void VirtualTransposeEvaluateOnExistingSpec(const csc::XxMatrix<T_Int,T_Scalar>& src, bool conj, csc::XxMatrix<T_Int, T_Scalar>& dest);
-//template <typename T_Int, typename T_Scalar>
-//void VirtualTransposeAccumulateOnExistingSpec(const csc::XxMatrix<T_Int,T_Scalar>& src, bool conj, csc::XxMatrix<T_Int, T_Scalar>& dest, T_Scalar coeff);
+template <typename T_Int, typename T_Scalar>
+void VirtualTransposeEvaluateOnNewSpec(const csc::XxMatrix<T_Int,T_Scalar>& src, bool conj, csc::XxMatrix<T_Int, T_Scalar>& dest);
+template <typename T_Int, typename T_Scalar>
+void VirtualTransposeEvaluateOnExistingSpec(const csc::XxMatrix<T_Int,T_Scalar>& src, bool conj, csc::XxMatrix<T_Int, T_Scalar>& dest);
+template <typename T_Int, typename T_Scalar>
+void VirtualTransposeAccumulateOnExistingSpec(const csc::XxMatrix<T_Int,T_Scalar>& src, bool conj, csc::XxMatrix<T_Int, T_Scalar>& dest, T_Scalar coeff);
 
 /*-------------------------------------------------*/
 
@@ -62,7 +63,7 @@ void VirtualTransposeAccumulateOnExistingSpec(const dns::XxMatrix<T_Scalar>& src
  * @brief The virtual (conjugate-)transpose class.
  */
 template <typename T_Result>
-class VirtualTranspose : public ::cla3p::VirtualExpression<T_Result, VirtualTranspose<T_Result>> {
+class VirtualTranspose : public VirtualExpression<T_Result, VirtualTranspose<T_Result>> {
 
 	private:
 		using T_Scalar = typename T_Result::value_type;
@@ -90,11 +91,11 @@ namespace alias {
 template <typename T_Scalar>
 using VirtualTrans_dns = VirtualTranspose<dns::XxMatrix<T_Scalar>>;
 
-//template <typename T_Int, typename T_Scalar>
-//using VirtualTrans_csr = VirtualTranspose<csr::XxMatrix<T_Int, T_Scalar>>;
+template <typename T_Int, typename T_Scalar>
+using VirtualTrans_csr = VirtualTranspose<csr::XxMatrix<T_Int, T_Scalar>>;
 
-//template <typename T_Int, typename T_Scalar>
-//using VirtualTrans_csc = VirtualTranspose<csc::XxMatrix<T_Int, T_Scalar>>;
+template <typename T_Int, typename T_Scalar>
+using VirtualTrans_csc = VirtualTranspose<csc::XxMatrix<T_Int, T_Scalar>>;
 
 } // namespace alias
 

@@ -28,6 +28,12 @@
 
 #include "culite/sparse/csx_xxcontainer.hpp"
 
+#include "culite/virtuals/virtual_expression.hpp"
+#include "culite/virtuals/virtual_object.hpp"
+#include "culite/virtuals/virtual_transpose.hpp"
+#include "culite/virtuals/virtual_conjugate.hpp"
+#include "culite/virtuals/virtual_scale.hpp"
+
 /*-------------------------------------------------*/
 namespace culite { 
 namespace csr {
@@ -49,6 +55,21 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public csx::XxContainer<T_In
         using T_Cla3pScalar = typename TypeTraits<T_Scalar>::cla3p_type;
 
 	public:
+
+        /**
+         * @name Virtual Convertors
+         * @{
+         */
+
+        template <typename T_Virtual>
+        XxMatrix(const alias::VirtualExpr_csr<T_Int,T_Scalar,T_Virtual>& v) { evaluateFrom(v); }
+
+        template <typename T_Virtual>
+        XxMatrix<T_Int,T_Scalar>& operator=(const alias::VirtualExpr_csr<T_Int,T_Scalar,T_Virtual>& v) { return evaluateFrom(v); }
+
+        alias::VirtualObj_csr<T_Int,T_Scalar> virtualize() const { return alias::VirtualObj_csr<T_Int,T_Scalar>(*this); }
+
+        /** @} */
 
 		/**
 		 * @name Constructors
@@ -133,7 +154,7 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public csx::XxContainer<T_In
 		 * @details Returns a negated copy of the device sparse matrix.
 		 * @return A device sparse matrix containing the negated elements.
 		 */
-        XxMatrix<T_Int,T_Scalar> operator-() const; // TODO: use virtuals
+        alias::VirtualScal_csr<T_Int,T_Scalar> operator-() const;
 
 		/** @} */
 
@@ -238,11 +259,30 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public csx::XxContainer<T_In
 		void iscale(T_Scalar val);
 
 		/**
+		 * @brief Compute the transpose.
+		 * @details Returns a virtual expression representing the transpose of the device sparse matrix.
+		 *          Rows and columns are swapped.
+		 * @return A virtual expression for the transposed matrix.
+         * @warning Explicit calculation is not supported. Evaluating the returned expression on an existing matrix will throw an exception.
+		 */
+        alias::VirtualTrans_csr<T_Int,T_Scalar> transpose() const;
+
+		/**
+		 * @brief Compute the conjugate transpose (Hermitian transpose).
+		 * @details Returns a virtual expression representing the conjugate transpose of the device sparse matrix.
+		 *          Rows and columns are swapped, and complex elements are conjugated.
+		 *          For real matrices, this is equivalent to transpose().
+		 * @return A virtual expression for the conjugate transposed matrix.
+         * @warning Explicit calculation is not supported. Evaluating the returned expression on an existing matrix will throw an exception.
+		 */
+        alias::VirtualTrans_csr<T_Int,T_Scalar> ctranspose() const;
+
+		/**
 		 * @brief Compute the complex conjugate.
 		 * @details Returns a device matrix containing the complex conjugate of each non-zero element.
 		 * @return A device sparse matrix with conjugated elements.
 		 */
-        XxMatrix<T_Int,T_Scalar> conjugate() const; // TODO: use virtuals
+        alias::VirtualConj_csr<T_Int,T_Scalar> conjugate() const;
 
 		/**
 		 * @brief Conjugate the device sparse matrix in-place.
@@ -250,19 +290,19 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public csx::XxContainer<T_In
 		 */
 		void iconjugate();
 
-		/* TODO: implement when cla3p supports csr
+		/**
 		 * @brief Copy the device sparse matrix to host memory.
 		 * @details Transfers the device sparse matrix data to a host sparse matrix.
 		 * @param[out] dest The host sparse matrix destination.
 		 */
-        // void copyToHost(::cla3p::csr::XxMatrix<T_Cla3pInt, T_Cla3pScalar>& dest) const;
+        void copyToHost(::cla3p::csr::XxMatrix<T_Cla3pInt, T_Cla3pScalar>& dest) const;
 
-		/* TODO: implement when cla3p supports csr
+		/** 
 		 * @brief Copy a host sparse matrix to this device sparse matrix.
 		 * @details Transfers data from a host sparse matrix to this device sparse matrix.
 		 * @param[in] src The host sparse matrix source.
 		 */
-        // void copyFromHost(const ::cla3p::csr::XxMatrix<T_Cla3pInt, T_Cla3pScalar>& src);
+        void copyFromHost(const ::cla3p::csr::XxMatrix<T_Cla3pInt, T_Cla3pScalar>& src);
 
 		/** @} */
 
@@ -295,6 +335,17 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public csx::XxContainer<T_In
 		XxMatrix<T_Int,T_Scalar>& copyFromExisting(const XxMatrix<T_Int,T_Scalar>& other);
 		XxMatrix<T_Int,T_Scalar>& moveFrom(XxMatrix<T_Int,T_Scalar>& other);
 		void checker() const;
+
+        template <typename T_Virtual>
+        XxMatrix<T_Int,T_Scalar>& evaluateFrom(const alias::VirtualExpr_csr<T_Int,T_Scalar,T_Virtual>& v)
+        {
+            if(*this) {
+                v.evaluateOnExisting(*this);
+            } else {
+                v.evaluateOnNew(*this);
+            }
+            return *this;
+        }
 };
 
 /*-------------------------------------------------*/
@@ -302,58 +353,58 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public csx::XxContainer<T_In
 } // namespace culite
 /*-------------------------------------------------*/
 
-// /**
-//  * @ingroup culite_module_index_stream_operators
- // * @brief Stream operator for copying device sparse matrix to host.
- // * @details Transfers the contents of a device sparse matrix to a host sparse matrix.
- // *          This operator enables convenient syntax for device-to-host memory transfers.
- // * @tparam T_Int The integer type for indexing.
- // * @tparam T_Scalar The scalar type.
- // * @param[in] src The source device sparse matrix.
- // * @param[out] dest The destination host sparse matrix.
-//  */
-// template <typename T_Int, typename T_Scalar>
-// void operator>>(const culite::csr::XxMatrix<T_Int,T_Scalar>& src,
-// 	            ::cla3p::csr::XxMatrix<typename culite::TypeTraits<T_Int>::cla3p_type,
-//                                        typename culite::TypeTraits<T_Scalar>::cla3p_type>& dest)
-// {
-// 	src.copyToHost(dest);
-// }
+/**
+ * @ingroup culite_module_index_stream_operators
+ * @brief Stream operator for copying device sparse matrix to host.
+ * @details Transfers the contents of a device sparse matrix to a host sparse matrix.
+ *          This operator enables convenient syntax for device-to-host memory transfers.
+ * @tparam T_Int The integer type for indexing.
+ * @tparam T_Scalar The scalar type.
+ * @param[in] src The source device sparse matrix.
+ * @param[out] dest The destination host sparse matrix.
+ */
+template <typename T_Int, typename T_Scalar>
+void operator>>(const culite::csr::XxMatrix<T_Int,T_Scalar>& src,
+	            ::cla3p::csr::XxMatrix<typename culite::TypeTraits<T_Int>::cla3p_type,
+                                       typename culite::TypeTraits<T_Scalar>::cla3p_type>& dest)
+{
+	src.copyToHost(dest);
+}
 
 /*-------------------------------------------------*/
 
-// /**
-//  * @ingroup culite_module_index_stream_operators
- // * @brief Stream operator for copying host sparse matrix to device.
- // * @details Transfers the contents of a host sparse matrix to a device sparse matrix.
- // *          This operator enables convenient syntax for host-to-device memory transfers.
- // * @tparam T_Int The integer type for indexing.
- // * @tparam T_Scalar The scalar type.
- // * @param[in] src The source host sparse matrix.
- // * @param[out] dest The destination device sparse matrix.
-//  */
-// template <typename T_Int, typename T_Scalar>
-// void operator>>(const ::cla3p::csr::XxMatrix<typename culite::TypeTraits<T_Int>::cla3p_type,
-//                                              typename culite::TypeTraits<T_Scalar>::cla3p_type>& src,
-// 	            culite::csr::XxMatrix<T_Int,T_Scalar>& dest)
-// {
-// 	dest.copyFromHost(src);
-// }
+/**
+ * @ingroup culite_module_index_stream_operators
+* @brief Stream operator for copying host sparse matrix to device.
+* @details Transfers the contents of a host sparse matrix to a device sparse matrix.
+*          This operator enables convenient syntax for host-to-device memory transfers.
+* @tparam T_Int The integer type for indexing.
+* @tparam T_Scalar The scalar type.
+* @param[in] src The source host sparse matrix.
+* @param[out] dest The destination device sparse matrix.
+ */
+template <typename T_Int, typename T_Scalar>
+void operator>>(const ::cla3p::csr::XxMatrix<typename culite::TypeTraits<T_Int>::cla3p_type,
+                                             typename culite::TypeTraits<T_Scalar>::cla3p_type>& src,
+	            culite::csr::XxMatrix<T_Int,T_Scalar>& dest)
+{
+	dest.copyFromHost(src);
+}
 
 /*-------------------------------------------------*/
 
-// /**
-//  * @ingroup culite_module_index_stream_operators
-//  * @brief Writes to os the contents of mat.
-//  */
-// template <typename T_Int, typename T_Scalar>
-// std::ostream& operator<<(std::ostream& os, const culite::csr::XxMatrix<T_Int,T_Scalar>& mat)
-// {
-//     ::cla3p::csr::XxMatrix<T_Int,T_Scalar> hostMat;
-//     mat >> hostMat;
-//     os << hostMat;
-// 	return os;
-// }
+/**
+ * @ingroup culite_module_index_stream_operators
+ * @brief Writes to os the contents of mat.
+ */
+template <typename T_Int, typename T_Scalar>
+std::ostream& operator<<(std::ostream& os, const culite::csr::XxMatrix<T_Int,T_Scalar>& mat)
+{
+    ::cla3p::csr::XxMatrix<T_Int,T_Scalar> hostMat;
+    mat >> hostMat;
+    os << hostMat;
+	return os;
+}
 
 /*-------------------------------------------------*/
 

@@ -425,7 +425,6 @@ class XxMatrix : public MatrixMeta<T_Int>, public csx::XxContainer<T_Int,T_Scala
 		XxMatrix<T_Int,T_Scalar>& moveFrom(XxMatrix<T_Int,T_Scalar>& other);
 		void checker() const;
 
-	protected:
 		template <typename T_Virtual>
 		XxMatrix<T_Int,T_Scalar>& evaluateFrom(const alias::VirtualExpr_csr<T_Int,T_Scalar,T_Virtual>& v)
 		{

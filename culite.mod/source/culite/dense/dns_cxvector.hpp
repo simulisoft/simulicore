@@ -52,6 +52,22 @@ class CxVector : public XxVector<T_Scalar> {
 		CxVector(XiVector<T_Scalar>&& other);
     	CxVector<T_Scalar>& operator=(XiVector<T_Scalar>&& other);
 
+        /**
+         * @name Virtual Convertors
+         * @{
+         */
+
+        template <typename T_Virtual>
+        CxVector(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v) : XxVector<T_Scalar>(v) {}
+        template <typename T_Virtual>
+        CxVector<T_Scalar>& operator=(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v) 
+        { 
+            XxVector<T_Scalar>::operator=(v); 
+            return *this; 
+        }
+
+        /** @} */
+
 		/**
 		 * @name Constructors
 		 * @{

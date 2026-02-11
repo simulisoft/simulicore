@@ -554,7 +554,6 @@ class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
 		XxMatrix<T_Scalar>& copyFromExisting(const XxMatrix<T_Scalar>& other);
 		void checker() const;
 
-	protected:
 		template <typename T_Virtual>
 		XxMatrix<T_Scalar>& evaluateFrom(const alias::VirtualExpr_dns<T_Scalar,T_Virtual>& v)
 		{

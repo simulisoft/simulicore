@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef CULITE_VIRTUAL_OBJECT_HPP_
-#define CULITE_VIRTUAL_OBJECT_HPP_
+#ifndef CULITE_VIRTUAL_CONJUGATE_HPP_
+#define CULITE_VIRTUAL_CONJUGATE_HPP_
 
 /**
  * @file
@@ -28,41 +28,48 @@
 namespace culite { 
 /*-------------------------------------------------*/
 
+namespace dns { template <typename T_Scalar> class XxVector; }
+namespace dns { template <typename T_Scalar> class XxMatrix; }
+namespace csr { template <typename T_Int, typename T_Scalar> class XxMatrix; }
+namespace csc { template <typename T_Int, typename T_Scalar> class XxMatrix; }
+
 /**
  * @nosubgrouping
- * @brief The virtual object class.
- * @details Virtualizes a non-virtual object, making it compatible with all virtual expressions.
+ * @brief The virtual conjugate class.
  */
 template <typename T_Result>
-class VirtualObject : public VirtualExpression<T_Result, VirtualObject<T_Result>> {
+class VirtualConjugate : public VirtualExpression<T_Result, VirtualConjugate<T_Result>> {
 
 	private:
 		using T_Scalar = typename T_Result::value_type;
-		
-	public:
-		explicit VirtualObject(const T_Result& obj) : m_obj(obj) {}
-		~VirtualObject() {}
 
-		void evaluateOnNew(T_Result& dest) const override
+	public:
+		explicit VirtualConjugate(const T_Result& src) : m_src(src) {}
+		~VirtualConjugate() {}
+
+		void evaluateOnNew(T_Result& dest) const override 
 		{ 
-			dest.clear(); 
-			dest = m_obj; 
+			dest.clear();
+			dest = m_src;
+			dest.iconjugate();
 		}
 
 		void evaluateOnExisting(T_Result& dest) const override
-		{ 
-			dest = m_obj; 
+		{
+			dest = m_src;
+			dest.iconjugate();
 		}
 
 		void accumulateOnExisting(T_Result& dest, T_Scalar coeff) const override
 		{ 
-			ops::update(coeff, m_obj, dest);
+			T_Result tmp;
+			evaluateOnNew(tmp);
+			ops::update(coeff, tmp, dest);
 		}
 
-		const T_Result& get() const { return m_obj; }
 
 	private:
-		const T_Result& m_obj;
+		const T_Result& m_src;
 };
 
 /*-------------------------------------------------*/
@@ -70,16 +77,16 @@ class VirtualObject : public VirtualExpression<T_Result, VirtualObject<T_Result>
 namespace alias { 
 
 template <typename T_Scalar>
-using VirtualObj_vec = VirtualObject<dns::XxVector<T_Scalar>>;
+using VirtualConj_vec = VirtualConjugate<dns::XxVector<T_Scalar>>;
 
 template <typename T_Scalar>
-using VirtualObj_dns = VirtualObject<dns::XxMatrix<T_Scalar>>;
+using VirtualConj_dns = VirtualConjugate<dns::XxMatrix<T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
-using VirtualObj_csr = VirtualObject<csr::XxMatrix<T_Int, T_Scalar>>;
+using VirtualConj_csr = VirtualConjugate<csr::XxMatrix<T_Int, T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
-using VirtualObj_csc = VirtualObject<csc::XxMatrix<T_Int, T_Scalar>>;
+using VirtualConj_csc = VirtualConjugate<csc::XxMatrix<T_Int, T_Scalar>>;
 
 } // namespace alias
 
@@ -87,4 +94,4 @@ using VirtualObj_csc = VirtualObject<csc::XxMatrix<T_Int, T_Scalar>>;
 } // namespace culite
 /*-------------------------------------------------*/
 
-#endif // CULITE_VIRTUAL_OBJECT_HPP_
+#endif // CULITE_VIRTUAL_CONJUGATE_HPP_

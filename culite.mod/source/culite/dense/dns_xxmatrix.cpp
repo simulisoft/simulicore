@@ -126,11 +126,9 @@ void XxMatrix<T_Scalar>::clear()
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-XxMatrix<T_Scalar> XxMatrix<T_Scalar>::operator-() const
+alias::VirtualScal_dns<T_Scalar> XxMatrix<T_Scalar>::operator-() const
 {
-	XxMatrix<T_Scalar> ret = *this;
-	ret.iscale(makeScalar<T_Scalar>(-1));
-	return ret;
+    return alias::VirtualScal_dns<T_Scalar>(virtualize(), makeScalar<T_Scalar>(-1));
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -202,43 +200,19 @@ std::string XxMatrix<T_Scalar>::info(const std::string& header) const
 template <typename T_Scalar>
 alias::VirtualTrans_dns<T_Scalar> XxMatrix<T_Scalar>::transpose() const
 {
-    // TODO: move this to visrtuals once they are implemented.
-	//XxMatrix<T_Scalar> ret(ncols(), nrows(), prop().transpose());
-	//blk::dns::transpose2D(
-	//	nrows(),
-	//	ncols(),
-	//	this->values(),
-	//	ld(),
-	//	ret.values(),
-	//	ret.ld());
-	//return ret;
-
     return alias::VirtualTrans_dns<T_Scalar>(*this, false);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 alias::VirtualTrans_dns<T_Scalar> XxMatrix<T_Scalar>::ctranspose() const
 {
-    // TODO: move this to visrtuals once they are implemented.
-	//XxMatrix<T_Scalar> ret(ncols(), nrows(), prop().transpose());
-	//blk::dns::ctranspose2D(
-	//	nrows(),
-	//	ncols(),
-	//	this->values(),
-	//	ld(),
-	//	ret.values(),
-	//	ret.ld());
-	//return ret;
-
     return alias::VirtualTrans_dns<T_Scalar>(*this, true);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-XxMatrix<T_Scalar> XxMatrix<T_Scalar>::conjugate() const
+alias::VirtualConj_dns<T_Scalar> XxMatrix<T_Scalar>::conjugate() const
 {
-	XxMatrix<T_Scalar> ret(nrows(), ncols(), prop().transpose());
-	ret.iconjugate();
-	return ret;
+    return alias::VirtualConj_dns<T_Scalar>(*this);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -377,13 +351,12 @@ template <typename T_Scalar>
 	return rblock(i, 0, 1, ncols());
 }
 /*-------------------------------------------------*/
-// TODO: use virtuals
-//template <typename T_Scalar>
-//VirtualRowvec<T_Scalar> XxMatrix<T_Scalar>::rrowvec(int_t i) const
-//{
-//	::cla3p::Guard<XxMatrix<T_Scalar>> tmp = rrow(i);
-//	return VirtualRowvec<T_Scalar>(tmp.get().ncols(), tmp.get().values(), tmp.get().ld(), false);
-//}
+template <typename T_Scalar>
+VirtualRowvec<T_Scalar> XxMatrix<T_Scalar>::rrowvec(int_t i) const
+{
+	::cla3p::Guard<XxMatrix<T_Scalar>> tmp = rrow(i);
+	return VirtualRowvec<T_Scalar>(tmp.get().ncols(), tmp.get().values(), tmp.get().ld(), false);
+}
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 ::cla3p::Guard<XxMatrix<T_Scalar>> XxMatrix<T_Scalar>::view(int_t nr, int_t nc, const T_Scalar *vals, int_t ldv, const ::cla3p::Property& pr)

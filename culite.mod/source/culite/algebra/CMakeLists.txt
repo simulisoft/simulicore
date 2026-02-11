@@ -17,14 +17,14 @@ set(CULITE_ALGEBRA_HPP
 	functional_update.hpp
 	functional_multmv.hpp
 	functional_multmm.hpp
-	#operators_mult_inner.hpp
-	#operators_mult_outer.hpp
-	#operators_scale.hpp
-	#operators_update.hpp
-	#operators_add.hpp
-	#operators_multxx.hpp
-	#operators_multmv.hpp
-	#operators_multmm.hpp
+	operators_mult_inner.hpp
+	operators_mult_outer.hpp
+	operators_scale.hpp
+	operators_update.hpp
+	operators_add.hpp
+	operators_multxx.hpp
+	operators_multmv.hpp
+	operators_multmm.hpp
 	)
 
 #-----------------------------------------------

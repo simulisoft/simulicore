@@ -287,7 +287,8 @@ class XxVector : public XiVector<T_Scalar> {
 
 		/** @} */
 
-	protected:
+	private:
+    
 		template <typename T_Virtual>
 		XxVector<T_Scalar>& evaluateFrom(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v)
 		{

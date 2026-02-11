@@ -106,12 +106,9 @@ void XxMatrix<T_Int,T_Scalar>::clear()
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::operator-() const
+alias::VirtualScal_csc<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::operator-() const
 {
-    T_Scalar coeff = makeScalar<T_Scalar>(-1);
-    XxMatrix<T_Int,T_Scalar> ret = *this;
-    ret.iscale(coeff);
-    return ret;
+    return alias::VirtualScal_csc<T_Int,T_Scalar>(virtualize(), makeScalar<T_Scalar>(-1));
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
@@ -240,11 +237,21 @@ void XxMatrix<T_Int,T_Scalar>::iscale(T_Scalar val)
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::conjugate() const
+alias::VirtualTrans_csc<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::transpose() const
 {
-    XxMatrix<T_Int,T_Scalar> ret = *this;
-    ret.iconjugate();
-    return ret;
+    return alias::VirtualTrans_csc<T_Int,T_Scalar>(*this, false);
+}
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+alias::VirtualTrans_csc<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::ctranspose() const
+{
+    return alias::VirtualTrans_csc<T_Int,T_Scalar>(*this, true);
+}
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+alias::VirtualConj_csc<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::conjugate() const
+{
+    return alias::VirtualConj_csc<T_Int,T_Scalar>(*this);
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>

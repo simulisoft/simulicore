@@ -14,39 +14,39 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_OPERATORS_MULT_OUTER_HPP_
-#define CLA3P_OPERATORS_MULT_OUTER_HPP_
+#ifndef CULITE_OPERATORS_MULT_OUTER_HPP_
+#define CULITE_OPERATORS_MULT_OUTER_HPP_
 
 /**
  * @file
  */
 
-#include "cla3p/virtuals/virtual_expression.hpp"
-#include "cla3p/virtuals/virtual_object.hpp"
-#include "cla3p/virtuals/virtual_rowvec.hpp"
-#include "cla3p/virtuals/virtual_outer.hpp"
+#include "culite/virtuals/virtual_expression.hpp"
+#include "culite/virtuals/virtual_object.hpp"
+#include "culite/virtuals/virtual_rowvec.hpp"
+#include "culite/virtuals/virtual_outer.hpp"
 
 /*-------------------------------------------------*/
-namespace cla3p { 
+namespace culite { 
 namespace dns { template <typename T_Scalar> class XxVector; }
-namespace dns { template <typename T_Scalar> class XxMatrix; }
-} // namespace cla3p
+namespace dns { template <typename T_Scalar> class XxMatrix; } 
+} // namespace culite
 /*-------------------------------------------------*/
 
 /*
  * XxVector x VirtualRowvec
  */
 template <typename T_Scalar>
-cla3p::VirtualOuter<
-	cla3p::dns::XxMatrix<T_Scalar>,
-	cla3p::alias::VirtualObj_vec<T_Scalar>>
+culite::VirtualOuter<
+	culite::dns::XxMatrix<T_Scalar>,
+	culite::alias::VirtualObj_vec<T_Scalar>>
 operator*(
-		const cla3p::dns::XxVector<T_Scalar>& x,
-		const cla3p::VirtualRowvec<T_Scalar>& vy)
+		const culite::dns::XxVector<T_Scalar>& x,
+		const culite::VirtualRowvec<T_Scalar>& vy)
 {
-	return cla3p::VirtualOuter<
-		cla3p::dns::XxMatrix<T_Scalar>,
-		cla3p::alias::VirtualObj_vec<T_Scalar>>(x.virtualize(), vy);
+	return culite::VirtualOuter<
+		culite::dns::XxMatrix<T_Scalar>,
+		culite::alias::VirtualObj_vec<T_Scalar>>(x.virtualize(), vy);
 }
 
 /*
@@ -54,14 +54,14 @@ operator*(
  */
 template <typename T_Scalar, typename T_Virtual>
 
-cla3p::VirtualOuter<cla3p::dns::XxMatrix<T_Scalar>,T_Virtual>
+culite::VirtualOuter<culite::dns::XxMatrix<T_Scalar>,T_Virtual>
 operator*(
-		const cla3p::alias::VirtualExpr_vec<T_Scalar, T_Virtual>& vx,
-		const cla3p::VirtualRowvec<T_Scalar>& vy)
+		const culite::alias::VirtualExpr_vec<T_Scalar, T_Virtual>& vx,
+		const culite::VirtualRowvec<T_Scalar>& vy)
 {
-	return cla3p::VirtualOuter<cla3p::dns::XxMatrix<T_Scalar>,T_Virtual>(vx, vy);
+	return culite::VirtualOuter<culite::dns::XxMatrix<T_Scalar>,T_Virtual>(vx, vy);
 }
 
 /*-------------------------------------------------*/
 
-#endif // CLA3P_OPERATORS_MULT_OUTER_HPP_
+#endif // CULITE_OPERATORS_MULT_OUTER_HPP_

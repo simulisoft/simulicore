@@ -26,6 +26,12 @@
 
 #include "culite/dense/dns_xivector.hpp"
 
+#include "culite/virtuals/virtual_expression.hpp"
+#include "culite/virtuals/virtual_object.hpp"
+#include "culite/virtuals/virtual_rowvec.hpp"
+#include "culite/virtuals/virtual_conjugate.hpp"
+#include "culite/virtuals/virtual_scale.hpp"
+
 /*-------------------------------------------------*/
 namespace culite { 
 namespace dns {
@@ -54,6 +60,20 @@ class XxVector : public XiVector<T_Scalar> {
 
 		XxVector(XiVector<T_Scalar>&& other);
 		XxVector<T_Scalar>& operator=(XiVector<T_Scalar>&& other);
+
+         /**
+         * @name Virtual Convertors
+         * @{
+         */
+
+        template <typename T_Virtual>
+        XxVector(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v) { evaluateFrom(v); }
+        template <typename T_Virtual>
+        XxVector<T_Scalar>& operator=(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v) { return evaluateFrom(v); }
+
+        alias::VirtualObj_vec<T_Scalar> virtualize() const { return alias::VirtualObj_vec<T_Scalar>(*this); }
+
+        /** @} */
 
 		/**
 		 * @name Constructors
@@ -130,7 +150,7 @@ class XxVector : public XiVector<T_Scalar> {
 		 * @details Returns a negated copy of the device vector.
 		 * @return A device vector containing the negated elements.
 		 */
-		XxVector<T_Scalar> operator-() const; // TODO: use virtuals
+		alias::VirtualScal_vec<T_Scalar> operator-() const;
 
 		/** @} */
 
@@ -140,28 +160,32 @@ class XxVector : public XiVector<T_Scalar> {
 		 */
 
 		/**
-		 * @brief Scale the device vector in-place.
+         * @brief Scale the device vector in-place.
 		 * @details Multiplies all elements of the device vector by a scalar value.
 		 * @param[in] val The scalar value to multiply by.
 		 */
 		void iscale(const T_Scalar& val);
 
-		/* TODO: use virtuals
-		 * @copydoc standard_vector_docs::virtual_transpose()
+		/**
+		 * @brief Transpose the vector.
+		 * @details Returns a row vector view of this column vector.
+		 * @return A virtual row vector expression.
 		 */
-		// VirtualRowvec<T_Scalar> transpose() const;
+		VirtualRowvec<T_Scalar> transpose() const;
 
-		/* TODO: use virtuals
-		 * @copydoc standard_vector_docs::virtual_ctranspose()
+		/**
+		 * @brief Conjugate transpose the vector.
+		 * @details Returns a conjugate transposed row vector view of this column vector.
+		 * @return A virtual row vector expression.
 		 */
-		//VirtualRowvec<T_Scalar> ctranspose() const;
+		VirtualRowvec<T_Scalar> ctranspose() const;
 
 		/**
 		 * @brief Compute the complex conjugate.
 		 * @details Returns a device vector containing the complex conjugate of each element.
 		 * @return A device vector with conjugated elements.
 		 */
-		XxVector<T_Scalar> conjugate() const; // TODO: use virtuals
+		alias::VirtualConj_vec<T_Scalar> conjugate() const;
 
 		/**
 		 * @brief Conjugate the device vector in-place.
@@ -225,6 +249,18 @@ class XxVector : public XiVector<T_Scalar> {
 		 */
 		void setBlock(int_t ibgn, const XxVector<T_Scalar>& src);
 
+    private:
+    
+        template <typename T_Virtual>
+        XxVector<T_Scalar>& evaluateFrom(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v)
+        {
+            if(*this) {
+                v.evaluateOnExisting(*this);
+            } else {
+                v.evaluateOnNew(*this);
+            }
+            return *this;
+        }
 };
 
 /*-------------------------------------------------*/

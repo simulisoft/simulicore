@@ -90,7 +90,7 @@ void update(T_Scalar alpha,
             dns::XxMatrix<T_Scalar>& B,
             CuBlasHandler& cublasHandler = globalCuBlasHandler())
 {
-    update(::cla3p::op_t::N, alpha, A, B);
+    update(::cla3p::op_t::N, alpha, A, B, cublasHandler);
 }
 
 /**
@@ -103,7 +103,7 @@ void update(T_Scalar alpha,
  * @param[in] A The input sparse matrix.
  * @param[in,out] B The sparse matrix to be updated.
  * @param[in] cuSparseHandler The cuSPARSE handler for GPU operations (defaults to global handler).
- * @note Sparse matrix updates are not yet implemented and will throw an exception if called.
+ * @warning Sparse matrix updates are not yet implemented and will throw an exception if called.
  */
 template <typename T_Int, typename T_Scalar>
 void update(T_Scalar alpha,
@@ -121,7 +121,7 @@ void update(T_Scalar alpha,
  * @param[in] A The input sparse matrix.
  * @param[in,out] B The sparse matrix to be updated.
  * @param[in] cuSparseHandler The cuSPARSE handler for GPU operations (defaults to global handler).
- * @note Sparse matrix updates are not yet implemented and will throw an exception if called.
+ * @warning Sparse matrix updates are not yet implemented and will throw an exception if called.
  */
 template <typename T_Int, typename T_Scalar>
 void update(T_Scalar alpha,

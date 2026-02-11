@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_OPERATORS_MULT_INNER_HPP_
-#define CLA3P_OPERATORS_MULT_INNER_HPP_
+#ifndef CULITE_OPERATORS_MULT_INNER_HPP_
+#define CULITE_OPERATORS_MULT_INNER_HPP_
 
 /**
  * @file
  */
 
-#include "cla3p/virtuals/virtual_expression.hpp"
-#include "cla3p/virtuals/virtual_rowvec.hpp"
+#include "culite/virtuals/virtual_expression.hpp"
+#include "culite/virtuals/virtual_rowvec.hpp"
 
 /*-------------------------------------------------*/
-namespace cla3p { namespace dns { template <typename T_Scalar> class XxVector; } } // namespace cla3p
+namespace culite { namespace dns { template <typename T_Scalar> class XxVector; } } // namespace culite::dns
 /*-------------------------------------------------*/
 
 /*
@@ -33,8 +33,8 @@ namespace cla3p { namespace dns { template <typename T_Scalar> class XxVector; }
  */
 template <typename T_Scalar>
 T_Scalar operator*(
-		const cla3p::VirtualRowvec<T_Scalar>& vx,
-		const cla3p::dns::XxVector<T_Scalar>& y)
+		const culite::VirtualRowvec<T_Scalar>& vx,
+		const culite::dns::XxVector<T_Scalar>& y)
 {
 	return vx.evaluateInner(y);
 }
@@ -44,12 +44,12 @@ T_Scalar operator*(
  */
 template <typename T_Scalar, typename T_Virtual>
 T_Scalar operator*(
-		const cla3p::VirtualRowvec<T_Scalar>& vx,
-		const cla3p::alias::VirtualExpr_vec<T_Scalar, T_Virtual>& vy)
+		const culite::VirtualRowvec<T_Scalar>& vx,
+		const culite::alias::VirtualExpr_vec<T_Scalar, T_Virtual>& vy)
 {
 	return (vx * vy.evaluate());
 }
 
 /*-------------------------------------------------*/
 
-#endif // CLA3P_OPERATORS_MULT_INNER_HPP_
+#endif // CULITE_OPERATORS_MULT_INNER_HPP_

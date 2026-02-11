@@ -106,12 +106,9 @@ void XxMatrix<T_Int,T_Scalar>::clear()
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::operator-() const
+alias::VirtualScal_csr<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::operator-() const
 {
-    T_Scalar coeff = makeScalar<T_Scalar>(-1);
-    XxMatrix<T_Int,T_Scalar> ret = *this;
-    ret.iscale(coeff);
-    return ret;
+    return alias::VirtualScal_csr<T_Int,T_Scalar>(virtualize(), makeScalar<T_Scalar>(-1));
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
@@ -240,11 +237,21 @@ void XxMatrix<T_Int,T_Scalar>::iscale(T_Scalar val)
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::conjugate() const
+alias::VirtualTrans_csr<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::transpose() const
 {
-    XxMatrix<T_Int,T_Scalar> ret = *this;
-    ret.iconjugate();
-    return ret;
+    return alias::VirtualTrans_csr<T_Int,T_Scalar>(*this, false);
+}
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+alias::VirtualTrans_csr<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::ctranspose() const
+{
+    return alias::VirtualTrans_csr<T_Int,T_Scalar>(*this, true);
+}
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+alias::VirtualConj_csr<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::conjugate() const
+{
+    return alias::VirtualConj_csr<T_Int,T_Scalar>(*this);
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
@@ -282,7 +289,6 @@ template <typename T_Int, typename T_Scalar>
 	return ret;
 }
 /*-------------------------------------------------*/
-#if 0
 template <typename T_Int, typename T_Scalar>
 void XxMatrix<T_Int,T_Scalar>::copyToHost(::cla3p::csr::XxMatrix<T_Cla3pInt,T_Cla3pScalar>& dest) const
 {
@@ -294,7 +300,7 @@ void XxMatrix<T_Int,T_Scalar>::copyToHost(::cla3p::csr::XxMatrix<T_Cla3pInt,T_Cl
                                      dest.prop(), dest.nrows(), dest.ncols());
     ::cla3p::similarity_dim_check<T_Int>(nnz(), dest.nnz());
 
-    T_Int nr = nrows() + 1;
+    T_Int nr = this->nrows() + 1;
     T_Int nz = nnz();
 
     memCopyD2H(nr, this->rowptr(), dest.rowptr());
@@ -320,7 +326,6 @@ void XxMatrix<T_Int,T_Scalar>::copyFromHost(const ::cla3p::csr::XxMatrix<T_Cla3p
     memCopyH2D(nz, src.colidx(), this->colidx());
     memCopyH2D(nz, src.values(), this->values());
 }
-#endif // 0
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

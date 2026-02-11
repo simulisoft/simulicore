@@ -30,7 +30,12 @@
 #include "culite/dense/dns_xxcontainer.hpp"
 #include "culite/dense/dns_xxvector.hpp"
 
+#include "culite/virtuals/virtual_expression.hpp"
+#include "culite/virtuals/virtual_object.hpp"
 #include "culite/virtuals/virtual_transpose.hpp"
+#include "culite/virtuals/virtual_conjugate.hpp"
+#include "culite/virtuals/virtual_rowvec.hpp"
+#include "culite/virtuals/virtual_scale.hpp"
 
 /*-------------------------------------------------*/
 namespace culite { 
@@ -51,6 +56,23 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
 		using T_Cla3pScalar = typename TypeTraits<T_Scalar>::cla3p_type;
 
 	public:
+
+        /**
+         * @name Virtual Convertors
+         * @{
+         */
+
+        template <typename T_Virtual>
+        XxMatrix(const alias::VirtualExpr_dns<T_Scalar,T_Virtual>& v) { evaluateFrom(v); }
+        template <typename T_Virtual>
+        XxMatrix<T_Scalar>& operator=(const alias::VirtualExpr_dns<T_Scalar,T_Virtual>& v) { return evaluateFrom(v); }
+
+        XxMatrix(const VirtualRowvec<T_Scalar>& rv) { evaluateFrom(rv); }
+        XxMatrix<T_Scalar>& operator=(const VirtualRowvec<T_Scalar>& rv) { return evaluateFrom(rv); }
+
+        alias::VirtualObj_dns<T_Scalar> virtualize() const { return alias::VirtualObj_dns<T_Scalar>(*this); }
+
+        /** @} */
 	
 		/**
 		 * @name Constructors
@@ -132,7 +154,7 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
 		 * @details Returns a negated copy of the device matrix.
 		 * @return A device matrix containing the negated elements.
 		 */
-		XxMatrix<T_Scalar> operator-() const; // TODO: use virtuals
+		alias::VirtualScal_dns<T_Scalar> operator-() const;
 
 		/** @} */
 
@@ -227,7 +249,7 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
 		 * @details Returns a device matrix containing the complex conjugate of each element.
 		 * @return A device matrix with conjugated elements.
 		 */
-		XxMatrix<T_Scalar> conjugate() const; // TODO: use virtuals
+		alias::VirtualConj_dns<T_Scalar> conjugate() const;
 
 		/**
 		 * @brief Conjugate the device matrix in-place.
@@ -353,10 +375,13 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
 		 */
 		::cla3p::Guard<XxMatrix<T_Scalar>> rrow(int_t i) const;
 
-		/* TODO: use virtuals
-		 * @copydoc standard_matrix_docs::rrowvec()
+		/**
+		 * @brief Extract a row as a virtual row vector.
+		 * @details Creates a virtual row vector expression that references a row of this matrix's device memory.
+		 * @param[in] i The row index.
+		 * @return A virtual row vector expression.
 		 */
-		//VirtualRowvec<T_Scalar> rrowvec(int_t i) const;
+		VirtualRowvec<T_Scalar> rrowvec(int_t i) const;
 
 		/**
 		 * @brief Copies the device matrix to a host matrix.
@@ -409,6 +434,27 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
 		XxMatrix<T_Scalar>& moveFrom(XxMatrix<T_Scalar>& other);
 		XxMatrix<T_Scalar>& copyFromExisting(const XxMatrix<T_Scalar>& other);
 		void checker() const;
+
+        template <typename T_Virtual>
+        XxMatrix<T_Scalar>& evaluateFrom(const alias::VirtualExpr_dns<T_Scalar,T_Virtual>& v)
+        {
+            if(*this) {
+                v.evaluateOnExisting(*this);
+            } else {
+                v.evaluateOnNew(*this);
+            }
+            return *this;
+        }
+
+        XxMatrix<T_Scalar>& evaluateFrom(const VirtualRowvec<T_Scalar>& rv)
+        {
+            if(*this) {
+                rv.evaluateOnExisting(*this);
+            } else {
+                rv.evaluateOnNew(*this);
+            }
+            return *this;
+        }
 };
 
 /*-------------------------------------------------*/

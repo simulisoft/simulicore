@@ -28,6 +28,12 @@
 
 #include "culite/sparse/csx_xxcontainer.hpp"
 
+#include "culite/virtuals/virtual_expression.hpp"
+#include "culite/virtuals/virtual_object.hpp"
+#include "culite/virtuals/virtual_transpose.hpp"
+#include "culite/virtuals/virtual_conjugate.hpp"
+#include "culite/virtuals/virtual_scale.hpp"
+
 /*-------------------------------------------------*/
 namespace culite { 
 namespace csc {
@@ -49,6 +55,21 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public csx::XxContainer<T_In
         using T_Cla3pScalar = typename TypeTraits<T_Scalar>::cla3p_type;
 
 	public:
+
+        /**
+         * @name Virtual Convertors
+         * @{
+         */
+
+        template <typename T_Virtual>
+        XxMatrix(const alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>& v) { evaluateFrom(v); }
+
+        template <typename T_Virtual>
+        XxMatrix<T_Int,T_Scalar>& operator=(const alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>& v) { return evaluateFrom(v); }
+
+        alias::VirtualObj_csc<T_Int,T_Scalar> virtualize() const { return alias::VirtualObj_csc<T_Int,T_Scalar>(*this); }
+
+        /** @} */
 
 		/**
 		 * @name Constructors
@@ -133,7 +154,7 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public csx::XxContainer<T_In
 		 * @details Returns a negated copy of the device sparse matrix.
 		 * @return A device sparse matrix containing the negated elements.
 		 */
-        XxMatrix<T_Int,T_Scalar> operator-() const; // TODO: use virtuals
+        alias::VirtualScal_csc<T_Int,T_Scalar> operator-() const;
 
 		/** @} */
 
@@ -237,12 +258,31 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public csx::XxContainer<T_In
 		 */
 		void iscale(T_Scalar val);
 
+        /**
+		 * @brief Compute the transpose.
+		 * @details Returns a virtual expression representing the transpose of the device sparse matrix.
+		 *          Rows and columns are swapped.
+		 * @return A virtual expression for the transposed matrix.
+         * @warning Explicit calculation is not supported. Evaluating the returned expression on an existing matrix will throw an exception.
+		 */
+        alias::VirtualTrans_csc<T_Int,T_Scalar> transpose() const;
+
+		/**
+		 * @brief Compute the conjugate transpose (Hermitian transpose).
+		 * @details Returns a virtual expression representing the conjugate transpose of the device sparse matrix.
+		 *          Rows and columns are swapped, and complex elements are conjugated.
+		 *          For real matrices, this is equivalent to transpose().
+		 * @return A virtual expression for the conjugate transposed matrix.
+         * @warning Explicit calculation is not supported. Evaluating the returned expression on an existing matrix will throw an exception.
+		 */
+        alias::VirtualTrans_csc<T_Int,T_Scalar> ctranspose() const;
+
 		/**
 		 * @brief Compute the complex conjugate.
 		 * @details Returns a device matrix containing the complex conjugate of each non-zero element.
 		 * @return A device sparse matrix with conjugated elements.
 		 */
-        XxMatrix<T_Int,T_Scalar> conjugate() const; // TODO: use virtuals
+        alias::VirtualConj_csc<T_Int,T_Scalar> conjugate() const;
 
 		/**
 		 * @brief Conjugate the device sparse matrix in-place.
@@ -296,6 +336,17 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public csx::XxContainer<T_In
 		XxMatrix<T_Int,T_Scalar>& copyFromExisting(const XxMatrix<T_Int,T_Scalar>& other);
 		XxMatrix<T_Int,T_Scalar>& moveFrom(XxMatrix<T_Int,T_Scalar>& other);
 		void checker() const;
+
+        template <typename T_Virtual>
+        XxMatrix<T_Int,T_Scalar>& evaluateFrom(const alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>& v)
+        {
+            if(*this) {
+                v.evaluateOnExisting(*this);
+            } else {
+                v.evaluateOnNew(*this);
+            }
+            return *this;
+        }
 };
 
 /*-------------------------------------------------*/

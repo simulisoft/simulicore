@@ -21,6 +21,8 @@
  * @file
  */
 
+#include <cla3p/virtuals/virtual_expression.hpp>
+
 /*-------------------------------------------------*/
 
 namespace culite {
@@ -34,19 +36,71 @@ namespace csc { template <typename T_Int, typename T_Scalar> class XxMatrix; }
 namespace culite { 
 /*-------------------------------------------------*/
 
+/**
+ * @nosubgrouping
+ * @brief The virtual expression base class.
+ */
+template <typename T_Result, typename T_Virtual>
+class VirtualExpression {
+
+	private:
+		using T_Scalar = typename T_Result::value_type;
+		using virtual_type = T_Virtual;
+
+	public:
+		using result_type = T_Result;
+
+	public:
+		VirtualExpression() {}
+		~VirtualExpression() {}
+
+		const T_Virtual& self() const { return static_cast<const T_Virtual&>(*this); }
+
+		/**
+		 * @brief Evaluates the expression.
+		 * @details Evaluates the expression and stores the result in a new object.
+		 */
+		virtual T_Result evaluate() const 
+		{
+			T_Result ret;
+			evaluateOnNew(ret);
+			return ret; 
+		}
+
+		/**
+		 * @brief Evaluates the expression on a return object.
+		 * @details Clears existing data in @p dest, reallocates and evaluates the expression.
+		 */
+		virtual void evaluateOnNew(T_Result& dest) const = 0;
+
+		/**
+		 * @brief Evaluates the expression on a return object.
+		 * @details Evaluates the expression on the pre-allocated & compatible @p dest.
+		 */
+		virtual void evaluateOnExisting(T_Result& dest) const = 0;
+
+		/**
+		 * @brief Adds the expression on a return object.
+		 * @details Adds the scaled expression result to the pre-allocated & compatible @p dest.
+		 */
+		virtual void accumulateOnExisting(T_Result& dest, T_Scalar coeff) const = 0;
+};
+
+/*-------------------------------------------------*/
+
 namespace alias { 
 
 template <typename T_Scalar, typename T_Virtual>
-using VirtualExpr_vec = ::cla3p::VirtualExpression<dns::XxVector<T_Scalar>, T_Virtual>;
+using VirtualExpr_vec = VirtualExpression<dns::XxVector<T_Scalar>, T_Virtual>;
 
 template <typename T_Scalar, typename T_Virtual>
-using VirtualExpr_dns = ::cla3p::VirtualExpression<dns::XxMatrix<T_Scalar>, T_Virtual>;
+using VirtualExpr_dns = VirtualExpression<dns::XxMatrix<T_Scalar>, T_Virtual>;
 
 template <typename T_Int, typename T_Scalar, typename T_Virtual>
-using VirtualExpr_csr = ::cla3p::VirtualExpression<csr::XxMatrix<T_Int,T_Scalar>, T_Virtual>;
+using VirtualExpr_csr = VirtualExpression<csr::XxMatrix<T_Int,T_Scalar>, T_Virtual>;
 
 template <typename T_Int, typename T_Scalar, typename T_Virtual>
-using VirtualExpr_csc = ::cla3p::VirtualExpression<csc::XxMatrix<T_Int,T_Scalar>, T_Virtual>;
+using VirtualExpr_csc = VirtualExpression<csc::XxMatrix<T_Int,T_Scalar>, T_Virtual>;
 
 } // namespace alias
 

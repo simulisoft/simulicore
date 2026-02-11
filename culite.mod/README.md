@@ -38,9 +38,9 @@ Utilizing a foundational framework of GPU memory management and accelerated comp
 - [x] GPU memory management (device/host allocation and transfers)
 - [x] Dense vector/matrix management
 - [x] Sparse matrix management
-- [ ] Dense vector/matrix algebra
-- [ ] Sparse matrix algebra
-- [ ] Virtual operation layer compatible with CLA3P
+- [x] Dense vector/matrix algebra
+- [x] Sparse matrix algebra (limited)
+- [x] Virtual operation layer compatible with CLA3P
 - [x] Dense linear system solvers (LU)
 - [ ] Sparse linear system solvers (cuDSS)
 - [ ] QR decomposition
