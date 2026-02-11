@@ -189,8 +189,8 @@
  * optimized for matrices where most elements are zero. These classes support multiple 
  * compressed storage formats and leverage cuSPARSE for accelerated sparse linear algebra operations.
  * 
- * @warning Sparse matrix support is currently under active development. Features may be incomplete
- * or subject to change in future releases.
+ * @warning Currently, only matrices with General property are supported. Support for structured
+ * matrix types (Symmetric, Hermitian, etc.) is planned for future releases.
  * 
  * ### Available Sparse Matrix Formats
  *

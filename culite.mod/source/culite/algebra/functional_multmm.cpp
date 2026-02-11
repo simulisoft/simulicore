@@ -28,13 +28,9 @@
 
 
 // culite
+#include "culite/bulk/csx.hpp"
 #include "culite/error/exceptions.hpp"
-//#include "cla3p/proxies/blas_proxy.hpp"
-//#include "cla3p/bulk/dns_math.hpp"
-//#include "cla3p/bulk/csr_math.hpp"
-//#include "cla3p/bulk/csc_math.hpp"
 #include "culite/dense/dns_xxmatrix.hpp"
-//#include "cla3p/algebra/functional_update.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -102,6 +98,79 @@ void mult(T_Scalar alpha,
                            &beta,
                            C.values(), C.ld());
 
+    } else if(A.prop().isSymmetric() && B.prop().isGeneral() && C.prop().isGeneral()) {
+
+        cuBlasHandler.symm(::cla3p::side_t::Left,
+                           A.prop().uplo(),
+                           C.nrows(), C.ncols(),
+                           &alpha,
+                           A.values(), A.ld(),
+                           B.values(), B.ld(),
+                           &beta,
+                           C.values(), C.ld());
+
+    } else if(A.prop().isHermitian() && B.prop().isGeneral() && C.prop().isGeneral()) {
+
+        cuBlasHandler.hemm(::cla3p::side_t::Left,
+                           A.prop().uplo(),
+                           C.nrows(), C.ncols(),
+                           &alpha,
+                           A.values(), A.ld(),
+                           B.values(), B.ld(),
+                           &beta,
+                           C.values(), C.ld());
+
+    } else if(A.prop().isGeneral() && B.prop().isGeneral() && C.prop().isSymmetric()) {
+
+        ::cla3p::op_t op = ::cla3p::op_t::N;
+
+        if(opA == ::cla3p::op_t::N && opB == ::cla3p::op_t::T) {
+            op = ::cla3p::op_t::N;
+        } else if(opA == ::cla3p::op_t::T && opB == ::cla3p::op_t::N) {
+            op = ::cla3p::op_t::T;
+        } else {
+            std::stringstream ss;
+            ss << "Invalid opA/opB combo for symmetric rank-k update: opA=" << opA << ", opB=" << opB;
+            throw err::CudaException(ss.str());
+        }
+
+        int_t k = (opA == ::cla3p::op_t::N ? A.ncols() : A.nrows());
+
+        cuBlasHandler.syrkx(C.prop().uplo(),
+                            op,
+                            C.ncols(), k,
+                            &alpha,
+                            A.values(), A.ld(),
+                            B.values(), B.ld(),
+                            &beta,
+                            C.values(), C.ld());
+
+    } else if(A.prop().isGeneral() && B.prop().isGeneral() && C.prop().isHermitian()) {
+
+        ::cla3p::op_t op = ::cla3p::op_t::N;
+
+        if(opA == ::cla3p::op_t::N && opB == ::cla3p::op_t::C) {
+            op = ::cla3p::op_t::N;
+        } else if(opA == ::cla3p::op_t::C && opB == ::cla3p::op_t::N) {
+            op = ::cla3p::op_t::C;
+        } else {
+            std::stringstream ss;
+            ss << "Invalid opA/opB combo for Hermitian rank-k update: opA=" << opA << ", opB=" << opB;
+            throw err::CudaException(ss.str());
+        }
+
+        int_t k = (opA == ::cla3p::op_t::N ? A.ncols() : A.nrows());
+        typename TypeTraits<T_Scalar>::real_type realBeta = arith::getRe(beta);
+
+        cuBlasHandler.herkx(C.prop().uplo(),
+                            op,
+                            C.ncols(), k,
+                            &alpha,
+                            A.values(), A.ld(),
+                            B.values(), B.ld(),
+                            &realBeta,
+                            C.values(), C.ld());
+
 	} else {
 
 		throw_prop_compatibility_error(A, B, C);
@@ -137,15 +206,45 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
 
 	::cla3p::mult_dim_check(opA, A, opB, B, C);
 
-	if(A.prop().isGeneral() && B.prop().isGeneral() && C.prop().isGeneral()) {
+    cusparse::SpMatCsr<T_Scalar> csrA(A.nrows(), A.ncols(), A.nnz(), A.rowptr(), A.colidx(), A.values());
+    cusparse::DnMat<T_Scalar> dnsB(B.nrows(), B.ncols(), B.values(), B.ld());
+    cusparse::DnMat<T_Scalar> dnsC(C.nrows(), C.ncols(), C.values(), C.ld());
 
-        cusparse::SpMatCsr<T_Scalar> csrA(A.nrows(), A.ncols(), A.nnz(), A.rowptr(), A.colidx(), A.values());
-        cusparse::DnMat<T_Scalar> dnsB(B.nrows(), B.ncols(), B.values(), B.ld());
-        cusparse::DnMat<T_Scalar> dnsC(C.nrows(), C.ncols(), C.values(), C.ld());
+	if(A.prop().isGeneral() && B.prop().isGeneral() && C.prop().isGeneral()) {
 
         cuSparseHandler.reserveSpmm(opA, opB, &alpha, csrA, dnsB, &beta, dnsC);
         cuSparseHandler.preprocessSpmm(opA, opB, &alpha, csrA, dnsB, &beta, dnsC);
         cuSparseHandler.performSpmm(opA, opB, &alpha, csrA, dnsB, &beta, dnsC);
+
+    } else if((A.prop().isSymmetric() || A.prop().isHermitian()) && B.prop().isGeneral() && C.prop().isGeneral()) {
+
+        {
+            // C = beta * C + alpha * A{uplo} * B
+            ::cla3p::op_t op = ::cla3p::op_t::N;
+            cuSparseHandler.reserveSpmm(op, opB, &alpha, csrA, dnsB, &beta, dnsC);
+            cuSparseHandler.preprocessSpmm(op, opB, &alpha, csrA, dnsB, &beta, dnsC);
+            cuSparseHandler.performSpmm(op, opB, &alpha, csrA, dnsB, &beta, dnsC);
+        }
+        {
+            // C = C + alpha * A{uplo}.transpose() * B
+            T_Scalar betaOne = makeScalar<T_Scalar>(1);
+            ::cla3p::op_t op = (A.prop().isSymmetric() ? ::cla3p::op_t::T : ::cla3p::op_t::C);
+            cuSparseHandler.reserveSpmm(op, opB, &alpha, csrA, dnsB, &betaOne, dnsC);
+            cuSparseHandler.preprocessSpmm(op, opB, &alpha, csrA, dnsB, &betaOne, dnsC);
+            cuSparseHandler.performSpmm(op, opB, &alpha, csrA, dnsB, &betaOne, dnsC);
+        }
+        {
+            // y = y - alpha * A{diag} * x
+            T_Scalar alphaMinus = -alpha;
+            blk::csx::csx_diag_times_mat<T_Int, T_Scalar>(&alphaMinus, 
+                                                          A.nrows(), 
+                                                          A.rowptr(), 
+                                                          A.colidx(), 
+                                                          A.values(), 
+                                                          C.ncols(),
+                                                          B.values(), B.ld(), 
+                                                          C.values(), C.ld());
+        }
 
 	} else {
 
@@ -180,15 +279,45 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
 
 	::cla3p::mult_dim_check(opA, A, opB, B, C);
 
-	if(A.prop().isGeneral() && B.prop().isGeneral() && C.prop().isGeneral()) {
+    cusparse::SpMatCsc<T_Scalar> cscA(A.nrows(), A.ncols(), A.nnz(), A.colptr(), A.rowidx(), A.values());
+    cusparse::DnMat<T_Scalar> dnsB(B.nrows(), B.ncols(), B.values(), B.ld());
+    cusparse::DnMat<T_Scalar> dnsC(C.nrows(), C.ncols(), C.values(), C.ld());
 
-        cusparse::SpMatCsc<T_Scalar> cscA(A.nrows(), A.ncols(), A.nnz(), A.colptr(), A.rowidx(), A.values());
-        cusparse::DnMat<T_Scalar> dnsB(B.nrows(), B.ncols(), B.values(), B.ld());
-        cusparse::DnMat<T_Scalar> dnsC(C.nrows(), C.ncols(), C.values(), C.ld());
+	if(A.prop().isGeneral() && B.prop().isGeneral() && C.prop().isGeneral()) {
 
         cuSparseHandler.reserveSpmm(opA, opB, &alpha, cscA, dnsB, &beta, dnsC);
         cuSparseHandler.preprocessSpmm(opA, opB, &alpha, cscA, dnsB, &beta, dnsC);
         cuSparseHandler.performSpmm(opA, opB, &alpha, cscA, dnsB, &beta, dnsC);
+
+    } else if((A.prop().isSymmetric() || A.prop().isHermitian()) && B.prop().isGeneral() && C.prop().isGeneral()) {
+
+        {
+            // C = beta * C + alpha * A{uplo} * B
+            ::cla3p::op_t op = ::cla3p::op_t::N;
+            cuSparseHandler.reserveSpmm(op, opB, &alpha, cscA, dnsB, &beta, dnsC);
+            cuSparseHandler.preprocessSpmm(op, opB, &alpha, cscA, dnsB, &beta, dnsC);
+            cuSparseHandler.performSpmm(op, opB, &alpha, cscA, dnsB, &beta, dnsC);
+        }
+        {
+            // C = C + alpha * A{uplo}.transpose() * B
+            T_Scalar betaOne = makeScalar<T_Scalar>(1);
+            ::cla3p::op_t op = (A.prop().isSymmetric() ? ::cla3p::op_t::T : ::cla3p::op_t::C);
+            cuSparseHandler.reserveSpmm(op, opB, &alpha, cscA, dnsB, &betaOne, dnsC);
+            cuSparseHandler.preprocessSpmm(op, opB, &alpha, cscA, dnsB, &betaOne, dnsC);
+            cuSparseHandler.performSpmm(op, opB, &alpha, cscA, dnsB, &betaOne, dnsC);
+        }
+        {
+            // y = y - alpha * A{diag} * x
+            T_Scalar alphaMinus = -alpha;
+            blk::csx::csx_diag_times_mat<T_Int, T_Scalar>(&alphaMinus, 
+                                                          A.ncols(), 
+                                                          A.colptr(), 
+                                                          A.rowidx(), 
+                                                          A.values(), 
+                                                          C.ncols(),
+                                                          B.values(), B.ld(), 
+                                                          C.values(), C.ld());
+        }
 
 	} else {
 

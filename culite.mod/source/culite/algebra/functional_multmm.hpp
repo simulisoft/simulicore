@@ -46,7 +46,11 @@ namespace ops {
  *
  *          | A | B | opA | opB | C |
  *          |---|---|-----|-----|---|
- *          | General | General | unconstrained | unconstrained | General/Symmetric/Hermitian |
+ *          | General | General | unconstrained | unconstrained | General |
+ *          | Symmetric | General | N | unconstrained | General |
+ *          | Hermitian | General | N | unconstrained | General |
+ *          | General | General | N or T | T or N | Symmetric |
+ *          | General | General | N or C | C or N | Hermitian |
  *
  * @tparam T_Scalar The scalar type (e.g., float, double, complex).
  * @param[in] alpha The scaling coefficient.
@@ -73,9 +77,11 @@ void mult(T_Scalar alpha,
  * @details Performs the operation @f$ C = \beta \cdot C + \alpha \cdot op_A(A) \cdot B @f$.
  *          Valid combinations are the following:
  *
- *          | A | B | opA | C |
- *          |---|---|-----|---|
- *          | General | General | unconstrained | General |
+ *          | A | B | opA | opB | C |
+ *          |---|---|-----|-----|---|
+ *          | General | General | unconstrained | N | General |
+ *          | Symmetric | General | N | N | General |
+ *          | Hermitian | General | N | N | General |
  *
  * @tparam T_Int The integer type for indexing.
  * @tparam T_Scalar The scalar type (e.g., float, double, complex).
@@ -100,9 +106,11 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
  * @details Performs the operation @f$ C = \beta \cdot C + \alpha \cdot op_A(A) \cdot B @f$.
  *          Valid combinations are the following:
  *
- *          | A | B | opA | C |
- *          |---|---|-----|---|
- *          | General | General | unconstrained | General |
+ *          | A | B | opA | opB | C |
+ *          |---|---|-----|-----|---|
+ *          | General | General | unconstrained | N | General |
+ *          | Symmetric | General | N | N | General |
+ *          | Hermitian | General | N | N | General |
  *
  * @tparam T_Int The integer type for indexing.
  * @tparam T_Scalar The scalar type (e.g., float, double, complex).

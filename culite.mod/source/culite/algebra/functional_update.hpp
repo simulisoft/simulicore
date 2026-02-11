@@ -24,12 +24,15 @@
 #include <cla3p/types/enums.hpp>
 
 #include "culite/generic/cublas_handler.hpp"
+#include "culite/generic/cusparse_handler.hpp"
 
 /*-------------------------------------------------*/
 
 namespace culite {
 namespace dns { template <typename T_Scalar> class XxVector; }
 namespace dns { template <typename T_Scalar> class XxMatrix; }
+namespace csr { template <typename T_Int, typename T_Scalar> class XxMatrix; }
+namespace csc { template <typename T_Int, typename T_Scalar> class XxMatrix; }
 } // namespace culite
 
 /*-------------------------------------------------*/
@@ -89,6 +92,42 @@ void update(T_Scalar alpha,
 {
     update(::cla3p::op_t::N, alpha, A, B);
 }
+
+/**
+ * @ingroup culite_module_index_math_op_add
+ * @brief Update a sparse matrix with a compatible scaled sparse matrix.
+ * @details Performs the operation @f$ B = B + \alpha \cdot A @f$.
+ * @tparam T_Int The integer type for indexing.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
+ * @param[in] alpha The scaling coefficient.
+ * @param[in] A The input sparse matrix.
+ * @param[in,out] B The sparse matrix to be updated.
+ * @param[in] cuSparseHandler The cuSPARSE handler for GPU operations (defaults to global handler).
+ * @note Sparse matrix updates are not yet implemented and will throw an exception if called.
+ */
+template <typename T_Int, typename T_Scalar>
+void update(T_Scalar alpha,
+            const csr::XxMatrix<T_Int,T_Scalar>& A,
+            csr::XxMatrix<T_Int,T_Scalar>& B,
+            CuSparseHandler& cuSparseHandler = globalCuSparseHandler());
+
+/**
+ * @ingroup culite_module_index_math_op_add
+ * @brief Update a sparse matrix with a compatible scaled sparse matrix.
+ * @details Performs the operation @f$ B = B + \alpha \cdot A @f$.
+ * @tparam T_Int The integer type for indexing.
+ * @tparam T_Scalar The scalar type (e.g., float, double, complex).
+ * @param[in] alpha The scaling coefficient.
+ * @param[in] A The input sparse matrix.
+ * @param[in,out] B The sparse matrix to be updated.
+ * @param[in] cuSparseHandler The cuSPARSE handler for GPU operations (defaults to global handler).
+ * @note Sparse matrix updates are not yet implemented and will throw an exception if called.
+ */
+template <typename T_Int, typename T_Scalar>
+void update(T_Scalar alpha,
+            const csc::XxMatrix<T_Int,T_Scalar>& A,
+            csc::XxMatrix<T_Int,T_Scalar>& B,
+            CuSparseHandler& cuSparseHandler = globalCuSparseHandler());
 
 /*-------------------------------------------------*/
 } // namespace ops

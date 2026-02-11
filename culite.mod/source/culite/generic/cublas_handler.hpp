@@ -166,6 +166,22 @@ class CuBlasHandler {
         }
 
         /**
+         * @brief Copies a vector to another vector.
+         * @details Copies vector @p x to vector @p y, computing @f$ y = x @f$.
+         * @tparam T_Scalar The scalar type of the vector elements.
+         * @param[in] n The number of elements in the vectors.
+         * @param[in] x Pointer to the source device vector.
+         * @param[in] incx The stride between consecutive elements of @p x.
+         * @param[out] y Pointer to the destination device vector.
+         * @param[in] incy The stride between consecutive elements of @p y.
+         */
+        template <typename T_Scalar>
+        void copy(int_t n, const T_Scalar *x, int_t incx, T_Scalar *y, int_t incy)
+        {
+            cublas::copy(handle(), n, x, incx, y, incy);
+        }
+
+        /**
          * @brief Scales a vector by a scalar.
          * @details Computes @f$ x = \alpha \cdot x @f$ for vector @p x.
          * @tparam T_Scalar The scalar type of the vector elements.

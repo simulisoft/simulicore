@@ -25,6 +25,7 @@
 #include <cla3p/checks/matrix_math_checks.hpp>
 
 // culite
+#include "culite/bulk/csx.hpp"
 #include "culite/error/exceptions.hpp"
 #include "culite/dense/dns_xxvector.hpp"
 #include "culite/dense/dns_xxmatrix.hpp"
@@ -107,38 +108,55 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
           dns::XxVector<T_Scalar>& y,
           CuSparseHandler& cuSparseHandler)
 {
+     // ignore opA for symmetric/hermitian matrices
+    if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = ::cla3p::op_t::N;
+
 	::cla3p::mult_dim_check(opA, A, x, y);
+
+    cusparse::SpMatCsr<T_Scalar> csrA(A.nrows(), A.ncols(), A.nnz(), A.rowptr(), A.colidx(), A.values());
+    cusparse::DnVec<T_Scalar> vecX(x.size(), x.values());
+    cusparse::DnVec<T_Scalar> vecY(y.size(), y.values());
 
 	if(A.prop().isGeneral()) {
 
-        cusparse::SpMatCsr<T_Scalar> csrA(A.nrows(), A.ncols(), A.nnz(), A.rowptr(), A.colidx(), A.values());
-        cusparse::DnVec<T_Scalar> vecX(x.size(), x.values());
-        cusparse::DnVec<T_Scalar> vecY(y.size(), y.values());
+        cuSparseHandler.reserveSpmv(opA, &alpha, csrA, vecX, &beta, vecY);
+        cuSparseHandler.preprocessSpmv(opA, &alpha, csrA, vecX, &beta, vecY);
+        cuSparseHandler.performSpmv(opA, &alpha, csrA, vecX, &beta, vecY);
 
-        cuSparseHandler.reserveSpmv(opA,
-                                    &alpha,
-                                    csrA,
-                                    vecX,
-                                    &beta,
-                                    vecY);
+    } else if(A.prop().isSymmetric() || A.prop().isHermitian()) {
 
-        cuSparseHandler.preprocessSpmv(opA,
-                                       &alpha,
-                                       csrA,
-                                       vecX,
-                                       &beta,
-                                       vecY);
-
-        cuSparseHandler.performSpmv(opA,
-                                    &alpha,
-                                    csrA,
-                                    vecX,
-                                    &beta,
-                                    vecY);
+        {
+            // y = beta * y + alpha * A{uplo} * x
+            ::cla3p::op_t op = ::cla3p::op_t::N;
+            cuSparseHandler.reserveSpmv(op, &alpha, csrA, vecX, &beta, vecY);
+            cuSparseHandler.preprocessSpmv(op, &alpha, csrA, vecX, &beta, vecY);
+            cuSparseHandler.performSpmv(op, &alpha, csrA, vecX, &beta, vecY);
+        }
+        {
+            // y = y + alpha * A{uplo}.transpose() * x
+            T_Scalar betaOne = makeScalar<T_Scalar>(1);
+            ::cla3p::op_t op = (A.prop().isSymmetric() ? ::cla3p::op_t::T : ::cla3p::op_t::C);
+            cuSparseHandler.reserveSpmv(op, &alpha, csrA, vecX, &betaOne, vecY);
+            cuSparseHandler.preprocessSpmv(op, &alpha, csrA, vecX, &betaOne, vecY);
+            cuSparseHandler.performSpmv(op, &alpha, csrA, vecX, &betaOne, vecY);
+        }
+        {
+            // y = y - alpha * A{diag} * x
+            T_Scalar alphaMinus = -alpha;
+            blk::csx::csx_diag_times_vec<T_Int, T_Scalar>(&alphaMinus, 
+                                                          A.nrows(), 
+                                                          A.rowptr(), 
+                                                          A.colidx(), 
+                                                          A.values(), 
+                                                          x.values(), 1, 
+                                                          y.values(), 1);
+        }
 
 	} else {
 
-        throw err::CudaException("Only general matrices are supported for matrix-vector multiplication.");
+        std::stringstream ss;
+        ss << "Invalid matrix property for matrix-vector multiplication: " << A.prop();
+        throw err::CudaException(ss.str());
 
 	} // property 
 }
@@ -164,39 +182,56 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
           dns::XxVector<T_Scalar>& y,
           CuSparseHandler& cuSparseHandler)
 {
+    // ignore opA for symmetric/hermitian matrices
+    if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = ::cla3p::op_t::N;
+
 	::cla3p::mult_dim_check(opA, A, x, y);
+
+    cusparse::SpMatCsc<T_Scalar> cscA(A.nrows(), A.ncols(), A.nnz(), A.colptr(), A.rowidx(), A.values());
+    cusparse::DnVec<T_Scalar> vecX(x.size(), x.values());
+    cusparse::DnVec<T_Scalar> vecY(y.size(), y.values());
+
 
 	if(A.prop().isGeneral()) {
 
-        cusparse::SpMatCsc<T_Scalar> cscA(A.nrows(), A.ncols(), A.nnz(), A.colptr(), A.rowidx(), A.values());
-        cusparse::DnVec<T_Scalar> vecX(x.size(), x.values());
-        cusparse::DnVec<T_Scalar> vecY(y.size(), y.values());
+        cuSparseHandler.reserveSpmv(opA, &alpha, cscA, vecX, &beta, vecY);
+        cuSparseHandler.preprocessSpmv(opA, &alpha, cscA, vecX, &beta, vecY);
+        cuSparseHandler.performSpmv(opA, &alpha, cscA, vecX, &beta, vecY);
 
-        cuSparseHandler.reserveSpmv(opA,
-                                    &alpha,
-                                    cscA,
-                                    vecX,
-                                    &beta,
-                                    vecY);
+    } else if(A.prop().isSymmetric() || A.prop().isHermitian()) {
 
-        cuSparseHandler.preprocessSpmv(opA,
-                                       &alpha,
-                                       cscA,
-                                       vecX,
-                                       &beta,
-                                       vecY);
-
-        cuSparseHandler.performSpmv(opA,
-                                    &alpha,
-                                    cscA,
-                                    vecX,
-                                    &beta,
-                                    vecY);
-
+        {
+            // y = beta * y + alpha * A{uplo} * x
+            ::cla3p::op_t op = ::cla3p::op_t::N;
+            cuSparseHandler.reserveSpmv(op, &alpha, cscA, vecX, &beta, vecY);
+            cuSparseHandler.preprocessSpmv(op, &alpha, cscA, vecX, &beta, vecY);
+            cuSparseHandler.performSpmv(op, &alpha, cscA, vecX, &beta, vecY);
+        }
+        {
+            // y = y + alpha * A{uplo}.transpose() * x
+            T_Scalar betaOne = makeScalar<T_Scalar>(1);
+            ::cla3p::op_t op = (A.prop().isSymmetric() ? ::cla3p::op_t::T : ::cla3p::op_t::C);
+            cuSparseHandler.reserveSpmv(op, &alpha, cscA, vecX, &betaOne, vecY);
+            cuSparseHandler.preprocessSpmv(op, &alpha, cscA, vecX, &betaOne, vecY);
+            cuSparseHandler.performSpmv(op, &alpha, cscA, vecX, &betaOne, vecY);
+        }
+        {
+            // y = y - alpha * A{diag} * x
+            T_Scalar alphaMinus = -alpha;
+            blk::csx::csx_diag_times_vec<T_Int, T_Scalar>(&alphaMinus, 
+                                                          A.ncols(), 
+                                                          A.colptr(), 
+                                                          A.rowidx(), 
+                                                          A.values(), 
+                                                          x.values(), 1, 
+                                                          y.values(), 1);
+        }
 
 	} else {
 
-        throw err::CudaException("Only general matrices are supported for matrix-vector multiplication.");
+        std::stringstream ss;
+        ss << "Invalid matrix property for matrix-vector multiplication: " << A.prop();
+        throw err::CudaException(ss.str());
 
 	} // property 
 }

@@ -29,6 +29,12 @@ namespace blk {
 namespace csx {
 /*-------------------------------------------------*/
 
+// 
+// A(np x np)
+// x(np)
+// y(np)
+// y = y + alpha * diag(A) * x
+//
 template <typename T_Int, typename T_Scalar>
 void csx_diag_times_vec(const T_Scalar* alpha, int_t np, 
                         const T_Int* xxxptr, 
@@ -39,6 +45,26 @@ void csx_diag_times_vec(const T_Scalar* alpha, int_t np,
 {
 	if(np > 0) {
 		launch_csx_diag_times_vec_kernel(alpha, np, xxxptr, xxxidx, values, x, incx, y, incy);
+	}
+}
+
+// 
+// A(np x np)
+// B(np x nc)
+// C(np x nc)
+// C = C + alpha * diag(A) * B
+//
+template <typename T_Int, typename T_Scalar>
+void csx_diag_times_mat(const T_Scalar* alpha, int_t np, 
+                        const T_Int* xxxptr, 
+                        const T_Int* xxxidx, 
+                        const T_Scalar* values, 
+                        T_Int nc, 
+                        const T_Scalar*b, T_Int ldb, 
+                        T_Scalar *c, T_Int ldc)
+{
+	if(nc > 0 && np > 0) {
+		launch_csx_diag_times_mat_kernel(alpha, np, xxxptr, xxxidx, values, nc, b, ldb, c, ldc);
 	}
 }
 

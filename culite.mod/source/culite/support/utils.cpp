@@ -59,5 +59,18 @@ void memCopyX2X(std::size_t elemSize, std::size_t m, std::size_t n,
 	err::check_cuda(cudaError);	
 }
 /*-------------------------------------------------*/
+void memSetZeroX(std::size_t n, void *x, std::size_t elemSize)
+{
+    cudaError_t cudaError = cudaMemset(x, 0, n * elemSize);
+    err::check_cuda(cudaError);
+}
+/*-------------------------------------------------*/
+void memSetZeroX(std::size_t m, std::size_t n, void *a, std::size_t lda, std::size_t elemSize)
+{
+    std::size_t pitchBytes = lda * elemSize;
+    cudaError_t cudaError = cudaMemset2D(a, pitchBytes, 0, m * elemSize, n);
+    err::check_cuda(cudaError);
+}
+/*-------------------------------------------------*/
 } // namespace culite
 /*-------------------------------------------------*/

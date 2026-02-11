@@ -26,6 +26,8 @@
 #include "culite/error/exceptions.hpp"
 #include "culite/dense/dns_xxvector.hpp"
 #include "culite/dense/dns_xxmatrix.hpp"
+#include "culite/sparse/csr_xxmatrix.hpp"
+#include "culite/sparse/csc_xxmatrix.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -80,6 +82,40 @@ instantiate_update(real_t);
 instantiate_update(real4_t);
 instantiate_update(complex_t);
 instantiate_update(complex8_t);
+#undef instantiate_update
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+void update(T_Scalar /*alpha*/,
+            const csr::XxMatrix<T_Int,T_Scalar>& /*A*/,
+            csr::XxMatrix<T_Int,T_Scalar>& /*B*/,
+            CuSparseHandler& /*cuSparseHandler*/)
+{
+    throw err::CudaException("CSR matrix update not supported yet.");
+}
+/*-------------------------------------------------*/
+#define instantiate_update(T_Int,T_Scl) \
+template void update(T_Scl, const csr::XxMatrix<T_Int,T_Scl>&, csr::XxMatrix<T_Int,T_Scl>&, CuSparseHandler&)
+instantiate_update(int_t,real_t);
+instantiate_update(int_t,real4_t);
+instantiate_update(int_t,complex_t);
+instantiate_update(int_t,complex8_t);
+#undef instantiate_update
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+void update(T_Scalar /*alpha*/,
+            const csc::XxMatrix<T_Int,T_Scalar>& /*A*/,
+            csc::XxMatrix<T_Int,T_Scalar>& /*B*/,
+            CuSparseHandler& /*cuSparseHandler*/)
+{
+    throw err::CudaException("CSC matrix update not supported yet.");
+}
+/*-------------------------------------------------*/
+#define instantiate_update(T_Int,T_Scl) \
+template void update(T_Scl, const csc::XxMatrix<T_Int,T_Scl>&, csc::XxMatrix<T_Int,T_Scl>&, CuSparseHandler&)
+instantiate_update(int_t,real_t);
+instantiate_update(int_t,real4_t);
+instantiate_update(int_t,complex_t);
+instantiate_update(int_t,complex8_t);
 #undef instantiate_update
 /*-------------------------------------------------*/
 } // namespace ops

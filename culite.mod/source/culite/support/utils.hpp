@@ -266,6 +266,56 @@ inline void memCopyD2H(std::size_t m, std::size_t n,
 }
 
 /*-------------------------------------------------*/
+
+/**
+ * @ingroup culite_module_index_copying
+ * @brief Sets a vector in device memory to zero.
+ * @param n Number of elements to set to zero.
+ * @param x Pointer to device memory vector.
+ * @param elemSize Size of each element in bytes.
+ */
+void memSetZeroX(std::size_t n, void *x, std::size_t elemSize);
+
+/**
+ * @ingroup culite_module_index_copying
+ * @brief Sets a vector in device memory to zero.
+ * @tparam T_Scalar The scalar type of the vector elements.
+ * @param n Number of elements to set to zero.
+ * @param x Pointer to device memory vector.
+ */
+template <typename T_Scalar>
+void memSetZero(std::size_t n, T_Scalar *x)
+{
+    memSetZeroX(n, x, sizeof(T_Scalar));
+}
+
+/**
+ * @ingroup culite_module_index_copying
+ * @brief Sets a 2D matrix in device memory to zero.
+ * @param m Number of rows to set to zero.
+ * @param n Number of columns to set to zero.
+ * @param a Pointer to device memory matrix.
+ * @param lda Leading dimension of the matrix.
+ * @param elemSize Size of each element in bytes.
+ */
+void memSetZeroX(std::size_t m, std::size_t n, void *a, std::size_t lda, std::size_t elemSize);
+
+/**
+ * @ingroup culite_module_index_copying
+ * @brief Sets a 2D matrix in device memory to zero.
+ * @tparam T_Scalar The scalar type of the matrix elements.
+ * @param m Number of rows to set to zero.
+ * @param n Number of columns to set to zero.
+ * @param a Pointer to device memory matrix.
+ * @param lda Leading dimension of the matrix.
+ */
+template <typename T_Scalar>
+void memSetZero(std::size_t m, std::size_t n, T_Scalar *a, std::size_t lda)
+{
+    memSetZeroX(m, n, a, lda, sizeof(T_Scalar));
+}
+
+/*-------------------------------------------------*/
 } // namespace culite
 /*-------------------------------------------------*/
 
