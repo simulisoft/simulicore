@@ -36,7 +36,7 @@ namespace csx {
 // y = y + alpha * diag(A) * x
 //
 template <typename T_Int, typename T_Scalar>
-void csx_diag_times_vec(const T_Scalar* alpha, int_t np, 
+void diag_times_vec(const T_Scalar* alpha, int_t np, 
                         const T_Int* xxxptr, 
                         const T_Int* xxxidx, 
                         const T_Scalar* values, 
@@ -44,9 +44,11 @@ void csx_diag_times_vec(const T_Scalar* alpha, int_t np,
                         T_Scalar *y, T_Int incy)
 {
 	if(np > 0) {
-		launch_csx_diag_times_vec_kernel(alpha, np, xxxptr, xxxidx, values, x, incx, y, incy);
+		launch_diag_times_vec_kernel(alpha, np, xxxptr, xxxidx, values, x, incx, y, incy);
 	}
 }
+
+/*-------------------------------------------------*/
 
 // 
 // A(np x np)
@@ -55,17 +57,44 @@ void csx_diag_times_vec(const T_Scalar* alpha, int_t np,
 // C = C + alpha * diag(A) * B
 //
 template <typename T_Int, typename T_Scalar>
-void csx_diag_times_mat(const T_Scalar* alpha, int_t np, 
-                        const T_Int* xxxptr, 
-                        const T_Int* xxxidx, 
-                        const T_Scalar* values, 
-                        T_Int nc, 
-                        const T_Scalar*b, T_Int ldb, 
-                        T_Scalar *c, T_Int ldc)
+void diag_times_mat(const T_Scalar* alpha, int_t np, 
+                    const T_Int* xxxptr, 
+                    const T_Int* xxxidx, 
+                    const T_Scalar* values, 
+                    T_Int nc, 
+                    const T_Scalar*b, T_Int ldb, 
+                    T_Scalar *c, T_Int ldc)
 {
 	if(nc > 0 && np > 0) {
-		launch_csx_diag_times_mat_kernel(alpha, np, xxxptr, xxxidx, values, nc, b, ldb, c, ldc);
+		launch_diag_times_mat_kernel(alpha, np, xxxptr, xxxidx, values, nc, b, ldb, c, ldc);
 	}
+}
+
+/*-------------------------------------------------*/
+
+template <typename T_Int>
+void add_xxptr(T_Int np, 
+               const T_Int* xxxptrA, const T_Int *xxxidxA,
+               const T_Int* xxxptrB, const T_Int *xxxidxB,
+               T_Int* nnzC, T_Int* xxxptrC)
+{
+    if(np > 0) {
+        launch_add_xxptr_kernel(np, xxxptrA, xxxidxA, xxxptrB, xxxidxB, nnzC, xxxptrC);
+    }
+}
+
+template <typename T_Int, typename T_Scalar>
+void add(T_Int np, T_Scalar alpha, T_Scalar beta,
+         const T_Int* xxxptrA, const T_Int *xxxidxA, const T_Scalar* valuesA, 
+         const T_Int* xxxptrB, const T_Int *xxxidxB, const T_Scalar* valuesB,
+         T_Int* xxxptrC, T_Int *xxxidxC, T_Scalar* valuesC)
+{
+    if(np > 0) {
+        launch_add_kernel(np, alpha, beta,
+                          xxxptrA, xxxidxA, valuesA, 
+                          xxxptrB, xxxidxB, valuesB, 
+                          xxxptrC, xxxidxC, valuesC);
+    }
 }
 
 /*-------------------------------------------------*/

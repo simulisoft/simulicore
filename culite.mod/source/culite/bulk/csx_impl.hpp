@@ -28,21 +28,34 @@ namespace csx {
 /*-------------------------------------------------*/
 
 template <typename T_Int, typename T_Scalar>
-void launch_csx_diag_times_vec_kernel(const T_Scalar* alpha, T_Int np, 
-                                      const T_Int* xxxptr, 
-                                      const T_Int* xxxidx, 
-                                      const T_Scalar* values, 
-                                      const T_Scalar*x, T_Int incx,
-                                      T_Scalar *y, T_Int incy);
+void launch_diag_times_vec_kernel(const T_Scalar* alpha, T_Int np, 
+                                  const T_Int* xxxptr, 
+                                  const T_Int* xxxidx, 
+                                  const T_Scalar* values, 
+                                  const T_Scalar*x, T_Int incx,
+                                  T_Scalar *y, T_Int incy);
 
 template <typename T_Int, typename T_Scalar>
-void launch_csx_diag_times_mat_kernel(const T_Scalar* alpha, T_Int np, 
-                                      const T_Int* xxxptr, 
-                                      const T_Int* xxxidx, 
-                                      const T_Scalar* values, 
-                                      T_Int nc,
-                                      const T_Scalar*b, T_Int ldb,
-                                      T_Scalar *c, T_Int ldc);
+void launch_diag_times_mat_kernel(const T_Scalar* alpha, T_Int np, 
+                                  const T_Int* xxxptr, 
+                                  const T_Int* xxxidx, 
+                                  const T_Scalar* values, 
+                                  T_Int nc,
+                                  const T_Scalar*b, T_Int ldb,
+                                  T_Scalar *c, T_Int ldc);
+
+template <typename T_Int>
+void launch_add_xxptr_kernel(T_Int np, 
+                             const T_Int* xxxptrA, const T_Int *xxxidxA,
+                             const T_Int* xxxptrB, const T_Int *xxxidxB,
+                             T_Int* nnzC, T_Int* xxxptrC);
+
+template <typename T_Int, typename T_Scalar>
+void launch_add_kernel(T_Int np, T_Scalar alpha, T_Scalar beta,
+                       const T_Int* xxxptrA, const T_Int *xxxidxA, const T_Scalar* valuesA, 
+                       const T_Int* xxxptrB, const T_Int *xxxidxB, const T_Scalar* valuesB,
+                       T_Int* xxxptrC, T_Int *xxxidxC, T_Scalar* valuesC);
+
 
 /*-------------------------------------------------*/
 } // namespace csx

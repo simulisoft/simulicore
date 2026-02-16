@@ -23,6 +23,7 @@
 #include <cla3p/checks/basic_checks.hpp>
 
 // culite
+#include "culite/bulk/csx.hpp"
 #include "culite/error/exceptions.hpp"
 #include "culite/dense/dns_xxvector.hpp"
 #include "culite/dense/dns_xxmatrix.hpp"
@@ -85,12 +86,31 @@ instantiate_update(complex8_t);
 #undef instantiate_update
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-void update(T_Scalar /*alpha*/,
-            const csr::XxMatrix<T_Int,T_Scalar>& /*A*/,
-            csr::XxMatrix<T_Int,T_Scalar>& /*B*/,
+void update(T_Scalar alpha,
+            const csr::XxMatrix<T_Int,T_Scalar>& A,
+            csr::XxMatrix<T_Int,T_Scalar>& B,
             CuSparseHandler& /*cuSparseHandler*/)
 {
-    throw err::CudaException("CSR matrix update not supported yet.");
+    ::cla3p::similarity_check(A, B);
+
+    T_Int *rowptrC = device_alloc_t<T_Int>(A.nrows() + 1);
+
+    T_Int nnzC = 0;
+    blk::csx::add_xxptr(A.nrows(), 
+                        A.rowptr(), A.colidx(), 
+                        B.rowptr(), B.colidx(), 
+                        &nnzC, rowptrC);
+
+    T_Int    *colidxC = (nnzC > 0 ? device_alloc_t<T_Int   >(nnzC) : nullptr);
+    T_Scalar *valuesC = (nnzC > 0 ? device_alloc_t<T_Scalar>(nnzC) : nullptr);
+    
+    blk::csx::add(A.nrows(), alpha, makeScalar<T_Scalar>(1),
+                  A.rowptr(), A.colidx(), A.values(),
+                  B.rowptr(), B.colidx(), B.values(),
+                  rowptrC, colidxC, valuesC);
+
+    B.clear();
+    B = csr::XxMatrix<T_Int,T_Scalar>(A.nrows(), A.ncols(), rowptrC, colidxC, valuesC, true);
 }
 /*-------------------------------------------------*/
 #define instantiate_update(T_Int,T_Scl) \
@@ -102,12 +122,31 @@ instantiate_update(int_t,complex8_t);
 #undef instantiate_update
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-void update(T_Scalar /*alpha*/,
-            const csc::XxMatrix<T_Int,T_Scalar>& /*A*/,
-            csc::XxMatrix<T_Int,T_Scalar>& /*B*/,
+void update(T_Scalar alpha,
+            const csc::XxMatrix<T_Int,T_Scalar>& A,
+            csc::XxMatrix<T_Int,T_Scalar>& B,
             CuSparseHandler& /*cuSparseHandler*/)
 {
-    throw err::CudaException("CSC matrix update not supported yet.");
+    ::cla3p::similarity_check(A, B);
+
+    T_Int *colptrC = device_alloc_t<T_Int>(A.ncols() + 1);
+
+    T_Int nnzC = 0;
+    blk::csx::add_xxptr(A.ncols(), 
+                        A.colptr(), A.rowidx(), 
+                        B.colptr(), B.rowidx(), 
+                        &nnzC, colptrC);
+
+    T_Int    *rowidxC = (nnzC > 0 ? device_alloc_t<T_Int   >(nnzC) : nullptr);
+    T_Scalar *valuesC = (nnzC > 0 ? device_alloc_t<T_Scalar>(nnzC) : nullptr);
+    
+    blk::csx::add(A.ncols(), alpha, makeScalar<T_Scalar>(1),
+                  A.colptr(), A.rowidx(), A.values(),
+                  B.colptr(), B.rowidx(), B.values(),
+                  colptrC, rowidxC, valuesC);
+
+    B.clear();
+    B = csc::XxMatrix<T_Int,T_Scalar>(A.nrows(), A.ncols(), colptrC, rowidxC, valuesC, true);
 }
 /*-------------------------------------------------*/
 #define instantiate_update(T_Int,T_Scl) \

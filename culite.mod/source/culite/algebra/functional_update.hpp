@@ -102,8 +102,9 @@ void update(T_Scalar alpha,
  * @param[in] alpha The scaling coefficient.
  * @param[in] A The input sparse matrix.
  * @param[in,out] B The sparse matrix to be updated.
- * @param[in] cuSparseHandler The cuSPARSE handler for GPU operations (defaults to global handler).
- * @warning Sparse matrix updates are not yet implemented and will throw an exception if called.
+ * @param[in] cuSparseHandler The cuSPARSE handler for GPU operations (defaults to global handler, currently unused).
+ * @warning This function currently does not utilize the cuSparseHandler and may not be optimized for performance. 
+ *          Use with caution for large sparse matrices as it allocates memory on the device internally.
  */
 template <typename T_Int, typename T_Scalar>
 void update(T_Scalar alpha,
@@ -120,8 +121,9 @@ void update(T_Scalar alpha,
  * @param[in] alpha The scaling coefficient.
  * @param[in] A The input sparse matrix.
  * @param[in,out] B The sparse matrix to be updated.
- * @param[in] cuSparseHandler The cuSPARSE handler for GPU operations (defaults to global handler).
- * @warning Sparse matrix updates are not yet implemented and will throw an exception if called.
+ * @param[in] cuSparseHandler The cuSPARSE handler for GPU operations (defaults to global handler, currently unused).
+ * @warning This function currently does not utilize the cuSparseHandler and may not be optimized for performance. 
+ *          Use with caution for large sparse matrices as it allocates memory on the device internally.
  */
 template <typename T_Int, typename T_Scalar>
 void update(T_Scalar alpha,

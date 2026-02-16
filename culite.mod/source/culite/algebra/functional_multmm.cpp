@@ -236,14 +236,14 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
         {
             // y = y - alpha * A{diag} * x
             T_Scalar alphaMinus = -alpha;
-            blk::csx::csx_diag_times_mat<T_Int, T_Scalar>(&alphaMinus, 
-                                                          A.nrows(), 
-                                                          A.rowptr(), 
-                                                          A.colidx(), 
-                                                          A.values(), 
-                                                          C.ncols(),
-                                                          B.values(), B.ld(), 
-                                                          C.values(), C.ld());
+            blk::csx::diag_times_mat<T_Int, T_Scalar>(&alphaMinus, 
+                                                      A.nrows(), 
+                                                      A.rowptr(), 
+                                                      A.colidx(), 
+                                                      A.values(), 
+                                                      C.ncols(),
+                                                      B.values(), B.ld(), 
+                                                      C.values(), C.ld());
         }
 
 	} else {
@@ -309,14 +309,14 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
         {
             // y = y - alpha * A{diag} * x
             T_Scalar alphaMinus = -alpha;
-            blk::csx::csx_diag_times_mat<T_Int, T_Scalar>(&alphaMinus, 
-                                                          A.ncols(), 
-                                                          A.colptr(), 
-                                                          A.rowidx(), 
-                                                          A.values(), 
-                                                          C.ncols(),
-                                                          B.values(), B.ld(), 
-                                                          C.values(), C.ld());
+            blk::csx::diag_times_mat<T_Int, T_Scalar>(&alphaMinus, 
+                                                      A.ncols(), 
+                                                      A.colptr(), 
+                                                      A.rowidx(), 
+                                                      A.values(), 
+                                                      C.ncols(),
+                                                      B.values(), B.ld(), 
+                                                      C.values(), C.ld());
         }
 
 	} else {

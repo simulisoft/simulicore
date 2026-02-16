@@ -143,13 +143,13 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
         {
             // y = y - alpha * A{diag} * x
             T_Scalar alphaMinus = -alpha;
-            blk::csx::csx_diag_times_vec<T_Int, T_Scalar>(&alphaMinus, 
-                                                          A.nrows(), 
-                                                          A.rowptr(), 
-                                                          A.colidx(), 
-                                                          A.values(), 
-                                                          x.values(), 1, 
-                                                          y.values(), 1);
+            blk::csx::diag_times_vec<T_Int, T_Scalar>(&alphaMinus, 
+                                                      A.nrows(), 
+                                                      A.rowptr(), 
+                                                      A.colidx(), 
+                                                      A.values(), 
+                                                      x.values(), 1, 
+                                                      y.values(), 1);
         }
 
 	} else {
@@ -218,13 +218,13 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
         {
             // y = y - alpha * A{diag} * x
             T_Scalar alphaMinus = -alpha;
-            blk::csx::csx_diag_times_vec<T_Int, T_Scalar>(&alphaMinus, 
-                                                          A.ncols(), 
-                                                          A.colptr(), 
-                                                          A.rowidx(), 
-                                                          A.values(), 
-                                                          x.values(), 1, 
-                                                          y.values(), 1);
+            blk::csx::diag_times_vec<T_Int, T_Scalar>(&alphaMinus, 
+                                                      A.ncols(), 
+                                                      A.colptr(), 
+                                                      A.rowidx(), 
+                                                      A.values(), 
+                                                      x.values(), 1, 
+                                                      y.values(), 1);
         }
 
 	} else {
