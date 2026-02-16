@@ -400,7 +400,8 @@ void operator>>(const ::cla3p::csr::XxMatrix<typename culite::TypeTraits<T_Int>:
 template <typename T_Int, typename T_Scalar>
 std::ostream& operator<<(std::ostream& os, const culite::csr::XxMatrix<T_Int,T_Scalar>& mat)
 {
-    ::cla3p::csr::XxMatrix<T_Int,T_Scalar> hostMat;
+    ::cla3p::csr::XxMatrix<typename culite::TypeTraits<T_Int>::cla3p_type,
+                           typename culite::TypeTraits<T_Scalar>::cla3p_type> hostMat;
     mat >> hostMat;
     os << hostMat;
 	return os;
