@@ -8,6 +8,11 @@
  * - @subpage culite_module_index_vectors
  * - @subpage culite_module_index_matrices
  * - @subpage culite_module_index_math_op
+ * - @subpage culite_module_index_math_operators
+ * - @subpage culite_module_index_cuda_utils
+ * - @subpage culite_module_index_host2device_operators
+ * - @subpage culite_module_index_device2host_operators
+ * - @subpage culite_module_index_stream_operators
  *
  * @defgroup culite_module_index_datatypes Datatypes
  * @brief The basic cuLite datatypes and precision aliases.
@@ -80,6 +85,33 @@
  *
  *   @defgroup culite_module_index_math_op_matmat Matrix-Matrix Operations
  *   @brief High-performance matrix multiplications (GEMM).
+ * @}
+ * 
+ * @addtogroup culite_module_index_math_operators Algebra Operators
+ * @brief Intuitive non-member algebraic operator definitions for cuLite matrix and vector calculus.
+ * @details This module provides overloaded C++ operators that allow users to write mathematical 
+ * expressions in a syntax closely resembling standard linear algebra notation. These operators 
+ * call optimized cuBLAS routines for performance while maintaining code readability.
+ * @{
+ *   @defgroup culite_module_index_math_operators_add Addition/Subtraction Operators
+ *   @brief Binary operators for summing or subtracting compatible cuLite numerical containers.
+ *   @details Implements `+` and `-` for cuLite vectors and matrices. These operators perform dimensional 
+ *   consistency checks before executing element-wise arithmetic on the GPU.
+ *
+ *   @defgroup culite_module_index_math_operators_update Updating Operators
+ *   @brief Compound assignment operators for in-place device data modification.
+ *   @details Implements `+=` and `-=` to update existing cuLite objects, reducing memory allocation 
+ *   overhead by reusing the destination device buffer.
+ *
+ *   @defgroup culite_module_index_math_operators_scal Scaling Operators
+ *   @brief Scalar-container multiplication and division.
+ *   @details Implements `*` and `/` between scalars and cuLite objects, allowing for uniform scaling 
+ *   of all elements in a vector or matrix on the device.
+ *
+ *   @defgroup culite_module_index_math_operators_mult Multiplication Operators
+ *   @brief Matrix-vector and matrix-matrix product definitions.
+ *   @details Implements the `*` operator for dot products, matrix-vector multiplications, and 
+ *   matrix-matrix products (GEMM). These are mapped to high-performance cuBLAS routines.
  * @}
  *
  * @addtogroup culite_module_index_cuda_utils CUDA Module Utilities

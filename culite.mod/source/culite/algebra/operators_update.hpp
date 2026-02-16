@@ -58,7 +58,7 @@ void operator-=(
 /*-------------------------------------------------*/
 
 /**
- * @ingroup cla3p_module_index_math_operators_update
+ * @ingroup culite_module_index_math_operators_update
  * @brief Adds a dense vector to another.
  * @details Performs the in-place addition @f$ y = y + x @f$.
  * @param[in,out] y The vector to be updated.
@@ -73,7 +73,7 @@ void operator+=(
 }
 
 /**
- * @ingroup cla3p_module_index_math_operators_update
+ * @ingroup culite_module_index_math_operators_update
  * @brief Subtracts a dense vector from another.
  * @details Performs the in-place subtraction @f$ y = y - x @f$.
  * @param[in,out] y The vector to be updated.
@@ -90,7 +90,7 @@ void operator-=(
 /*-------------------------------------------------*/
 
 /**
- * @ingroup cla3p_module_index_math_operators_update
+ * @ingroup culite_module_index_math_operators_update
  * @brief Adds a dense matrix to another.
  * @details Performs the in-place addition @f$ A = A + B @f$. Matrices must
  *          have compatible dimensions and properties.
@@ -106,7 +106,7 @@ void operator+=(
 }
 
 /**
- * @ingroup cla3p_module_index_math_operators_update
+ * @ingroup culite_module_index_math_operators_update
  * @brief Subtracts a dense matrix from another.
  * @details Performs the in-place subtraction @f$ A = A - B @f$. Matrices must
  *          have compatible dimensions and properties.
@@ -124,7 +124,7 @@ void operator-=(
 /*-------------------------------------------------*/
 
 /**
- * @ingroup cla3p_module_index_math_operators_update
+ * @ingroup culite_module_index_math_operators_update
  * @brief Adds a CSR sparse matrix to another.
  * @details Performs the in-place addition @f$ A = A + B @f$. Matrices must
  *          have compatible dimensions and properties.
@@ -140,7 +140,7 @@ void operator+=(
 }
 
 /**
- * @ingroup cla3p_module_index_math_operators_update
+ * @ingroup culite_module_index_math_operators_update
  * @brief Subtracts a CSR sparse matrix from another.
  * @details Performs the in-place subtraction @f$ A = A - B @f$. Matrices must
  *          have compatible dimensions and properties.
@@ -158,7 +158,7 @@ void operator-=(
 /*-------------------------------------------------*/
 
 /**
- * @ingroup cla3p_module_index_math_operators_update
+ * @ingroup culite_module_index_math_operators_update
  * @brief Adds a CSC sparse matrix to another.
  * @details Performs the in-place addition @f$ A = A + B @f$. Matrices must
  *          have compatible dimensions and properties.
@@ -174,7 +174,7 @@ void operator+=(
 }
 
 /**
- * @ingroup cla3p_module_index_math_operators_update
+ * @ingroup culite_module_index_math_operators_update
  * @brief Subtracts a CSC sparse matrix from another.
  * @details Performs the in-place subtraction @f$ A = A - B @f$. Matrices must
  *          have compatible dimensions and properties.
