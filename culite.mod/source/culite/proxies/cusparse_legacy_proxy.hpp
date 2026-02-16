@@ -34,6 +34,8 @@ namespace cusparse {
 
 #if !defined (CULITE_I64)
 
+/*-------------------------------------------------*/
+
 class LegacyMatDescr {
 
     public:
@@ -60,9 +62,8 @@ class LegacyMatDescr {
         cusparseMatDescr_t m_descr{nullptr};
 };
 
-//
-// At the moment only 32bit integers are supported by legacy cuSparse
-//
+/*-------------------------------------------------*/
+
 #define csr_geam2_reserve_macro(typein) \
 void csr_geam2_reserve(cusparseHandle_t         handle, \
                        int_t                    m, \
@@ -132,6 +133,52 @@ csr_geam2_macro(real4_t);
 csr_geam2_macro(complex_t);
 csr_geam2_macro(complex8_t);
 #undef csr_geam2_macro
+
+/*-------------------------------------------------*/
+
+#define csr2csc_reserve(typein) \
+void csr2csc_reserve(cusparseHandle_t     handle, \
+                     int_t                m, \
+                     int_t                n, \
+                     int_t                nnz, \
+                     const typein*        csrVal, \
+                     const int_t*         csrRowPtr, \
+                     const int_t*         csrColInd, \
+                     typein*              cscVal, \
+                     int_t*               cscColPtr, \
+                     int_t*               cscRowInd, \
+                     cusparseAction_t     copyValues, \
+                     cusparseIndexBase_t  idxBase, \
+                     cusparseCsr2CscAlg_t alg, \
+                     size_t*              bufferSize)
+csr2csc_reserve(real_t);
+csr2csc_reserve(real4_t);
+csr2csc_reserve(complex_t);
+csr2csc_reserve(complex8_t);
+#undef csr2csc_reserve
+
+#define csr2csc(typein) \
+void csr2csc(cusparseHandle_t     handle, \
+             int_t                m, \
+             int_t                n, \
+             int_t                nnz, \
+             const typein*        csrVal, \
+             const int_t*         csrRowPtr, \
+             const int_t*         csrColInd, \
+             typein*              cscVal, \
+             int_t*               cscColPtr, \
+             int_t*               cscRowInd, \
+             cusparseAction_t     copyValues, \
+             cusparseIndexBase_t  idxBase, \
+             cusparseCsr2CscAlg_t alg, \
+             void*                buffer)
+csr2csc(real_t);
+csr2csc(real4_t);
+csr2csc(complex_t);
+csr2csc(complex8_t);
+#undef csr2csc
+
+/*-------------------------------------------------*/
 
 #endif // CULITE_I64
 

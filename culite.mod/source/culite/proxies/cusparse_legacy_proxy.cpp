@@ -165,6 +165,86 @@ csr_geam2_macro(complex_t , Z);
 csr_geam2_macro(complex8_t, C);
 #undef csr_geam2_macro
 /*-------------------------------------------------*/
+#define csr2csc_reserve(typein) \
+void csr2csc_reserve(cusparseHandle_t     handle, \
+                     int_t                m, \
+                     int_t                n, \
+                     int_t                nnz, \
+                     const typein*        csrVal, \
+                     const int_t*         csrRowPtr, \
+                     const int_t*         csrColInd, \
+                     typein*              cscVal, \
+                     int_t*               cscColPtr, \
+                     int_t*               cscRowInd, \
+                     cusparseAction_t     copyValues, \
+                     cusparseIndexBase_t  idxBase, \
+                     cusparseCsr2CscAlg_t alg, \
+                     size_t*              bufferSize) \
+{ \
+    cusparseStatus_t cusparseStatus = \
+    cusparseCsr2cscEx2_bufferSize(handle, \
+                                  m, \
+                                  n, \
+                                  nnz, \
+                                  csrVal, \
+                                  csrRowPtr, \
+                                  csrColInd, \
+                                  cscVal, \
+                                  cscColPtr, \
+                                  cscRowInd, \
+                                  TypeTraits<typein>::cuda_type(), \
+                                  copyValues, \
+                                  idxBase, \
+                                  alg, \
+                                  bufferSize); \
+    err::check_cusparse(cusparseStatus); \
+}
+csr2csc_reserve(real_t);
+csr2csc_reserve(real4_t);
+csr2csc_reserve(complex_t);
+csr2csc_reserve(complex8_t);
+#undef csr2csc_reserve
+/*-------------------------------------------------*/
+#define csr2csc(typein) \
+void csr2csc(cusparseHandle_t     handle, \
+             int_t                m, \
+             int_t                n, \
+             int_t                nnz, \
+             const typein*        csrVal, \
+             const int_t*         csrRowPtr, \
+             const int_t*         csrColInd, \
+             typein*              cscVal, \
+             int_t*               cscColPtr, \
+             int_t*               cscRowInd, \
+             cusparseAction_t     copyValues, \
+             cusparseIndexBase_t  idxBase, \
+             cusparseCsr2CscAlg_t alg, \
+             void*                buffer) \
+{ \
+    cusparseStatus_t cusparseStatus = \
+    cusparseCsr2cscEx2(handle, \
+                      m, \
+                      n, \
+                      nnz, \
+                      csrVal, \
+                      csrRowPtr, \
+                      csrColInd, \
+                      cscVal, \
+                      cscColPtr, \
+                      cscRowInd, \
+                      TypeTraits<typein>::cuda_type(), \
+                      copyValues, \
+                      idxBase, \
+                      alg, \
+                      buffer); \
+    err::check_cusparse(cusparseStatus); \
+}
+csr2csc(real_t);
+csr2csc(real4_t);
+csr2csc(complex_t);
+csr2csc(complex8_t);
+#undef csr2csc
+/*-------------------------------------------------*/
 #endif // CULITE_I64
 /*-------------------------------------------------*/
 } // namespace cusparse
