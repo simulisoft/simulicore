@@ -27,7 +27,7 @@ hi cTypeCustomTemplate ctermfg=lightcyan guifg=darkblue
 
 "---------------------------------------------------------------------------
 
-syn keyword cTypeCustomNSpace culite
+syn keyword cTypeCustomNSpace culite cublas cusparse
 
 hi cTypeCustomNSpace ctermfg=yellow guifg=darkblue
 
