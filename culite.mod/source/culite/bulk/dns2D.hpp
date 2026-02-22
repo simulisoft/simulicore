@@ -257,6 +257,15 @@ void getImag2D(::cla3p::uplo_t uplo,
 	}
 }
 /*-------------------------------------------------*/
+template <typename T_Scalar>
+void geevCalculateComplexEigenvectors(int_t n, 
+                                      const T_Scalar *w, 
+                                      const typename TypeTraits<T_Scalar>::real_type* vr, int_t ldvr,
+                                      T_Scalar *vc, int_t ldvc)
+{
+    launch_geev_calculate_complex_eigenvectors_kernel(n, w, vr, ldvr, vc, ldvc);
+}
+/*-------------------------------------------------*/
 } // namespace dns
 } // namespace blk
 } // namespace culite

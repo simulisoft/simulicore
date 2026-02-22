@@ -32,14 +32,14 @@ namespace blk {
 namespace dns {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-__global__ void conjugate_kernel_1d(std::size_t n, T_Scalar* z)
+__global__ void conjugate_kernel_1d(int_t n, T_Scalar* z)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx < n) z[idx] = arith::conj(z[idx]);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void launch_conjugate_kernel_1d(std::size_t n, T_Scalar* z)
+void launch_conjugate_kernel_1d(int_t n, T_Scalar* z)
 { 
     if(n <= 0) return;
     if(TypeTraits<T_Scalar>::is_real()) return;
@@ -51,15 +51,15 @@ void launch_conjugate_kernel_1d(std::size_t n, T_Scalar* z)
     syncDevice();
 }
 /*-------------------------------------------------*/
-template void launch_conjugate_kernel_1d(std::size_t, real4_t*);
-template void launch_conjugate_kernel_1d(std::size_t, real_t*);
-template void launch_conjugate_kernel_1d(std::size_t, complex_t*);
-template void launch_conjugate_kernel_1d(std::size_t, complex8_t*);
+template void launch_conjugate_kernel_1d(int_t, real4_t*);
+template void launch_conjugate_kernel_1d(int_t, real_t*);
+template void launch_conjugate_kernel_1d(int_t, complex_t*);
+template void launch_conjugate_kernel_1d(int_t, complex8_t*);
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-__global__ void get_real_kernel_1d(std::size_t n, const T_Scalar* z, 
+__global__ void get_real_kernel_1d(int_t n, const T_Scalar* z, 
                                    typename TypeTraits<T_Scalar>::real_type *d)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -67,7 +67,7 @@ __global__ void get_real_kernel_1d(std::size_t n, const T_Scalar* z,
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void launch_get_real_kernel_1d(std::size_t n, const T_Scalar* x, 
+void launch_get_real_kernel_1d(int_t n, const T_Scalar* x, 
                                typename TypeTraits<T_Scalar>::real_type* y)
 {
     int threads = 256;
@@ -76,13 +76,13 @@ void launch_get_real_kernel_1d(std::size_t n, const T_Scalar* x,
     syncDevice();
 }
 /*-------------------------------------------------*/
-template void launch_get_real_kernel_1d<complex_t>(std::size_t, const complex_t*, real_t*);
-template void launch_get_real_kernel_1d<complex8_t>(std::size_t, const complex8_t*, real4_t*);
+template void launch_get_real_kernel_1d<complex_t>(int_t, const complex_t*, real_t*);
+template void launch_get_real_kernel_1d<complex8_t>(int_t, const complex8_t*, real4_t*);
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-__global__ void get_imag_kernel_1d(std::size_t n, const T_Scalar* z, 
+__global__ void get_imag_kernel_1d(int_t n, const T_Scalar* z, 
                                    typename TypeTraits<T_Scalar>::real_type *d)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -90,7 +90,7 @@ __global__ void get_imag_kernel_1d(std::size_t n, const T_Scalar* z,
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void launch_get_imag_kernel_1d(std::size_t n, const T_Scalar* x, 
+void launch_get_imag_kernel_1d(int_t n, const T_Scalar* x, 
                                typename TypeTraits<T_Scalar>::real_type* y)
 {
     int threads = 256;
@@ -99,8 +99,40 @@ void launch_get_imag_kernel_1d(std::size_t n, const T_Scalar* x,
     syncDevice();
 }
 /*-------------------------------------------------*/
-template void launch_get_imag_kernel_1d<complex_t>(std::size_t, const complex_t*, real_t*);
-template void launch_get_imag_kernel_1d<complex8_t>(std::size_t, const complex8_t*, real4_t*);
+template void launch_get_imag_kernel_1d<complex_t>(int_t, const complex_t*, real_t*);
+template void launch_get_imag_kernel_1d<complex8_t>(int_t, const complex8_t*, real4_t*);
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+__global__ void geev_order_eigs_kernel(int_t n, T_Scalar* w)
+{
+    using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
+    int tid = blockIdx.x * blockDim.x + threadIdx.x;
+
+    if (tid == 0) {
+        for(int_t i = 0; i < n; ++i) {
+            T_RScalar re = arith::getRe(w[i]);
+            T_RScalar im = arith::getIm(w[i]);
+            if(im != 0) {
+                w[i] = makeComplex(re, arith::abs(im));
+                w[i+1] = arith::conj(w[i]);
+                ++i; // Skip the next one since it's already set
+            } // im cases
+        } // i
+    } // tid
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void launch_geev_order_eigs_kernel(int_t n, T_Scalar* w)
+{
+    //int threads = 256;
+    //int blocks = (n + threads - 1) / threads;
+    geev_order_eigs_kernel<T_Scalar><<<1, 1>>>(n, w);
+    syncDevice();
+}
+/*-------------------------------------------------*/
+template void launch_geev_order_eigs_kernel(int_t, complex_t*);
+template void launch_geev_order_eigs_kernel(int_t, complex8_t*);
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace blk

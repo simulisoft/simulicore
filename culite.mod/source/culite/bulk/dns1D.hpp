@@ -112,6 +112,12 @@ void getImag1D(int_t n, const T_Scalar* x, typename TypeTraits<T_Scalar>::real_t
 	launch_get_imag_kernel_1d<T_Scalar>(n, x, y);
 }
 /*-------------------------------------------------*/
+template <typename T_Scalar>
+void geev_order_eigs(int_t n, T_Scalar* w)
+{
+    launch_geev_order_eigs_kernel(n, w);
+}
+/*-------------------------------------------------*/
 } // namespace dns
 } // namespace blk
 } // namespace culite

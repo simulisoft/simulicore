@@ -345,26 +345,59 @@ template void launch_conjugate_2d<real4_t>(int_t, int_t, real4_t*, int_t);
 template void launch_conjugate_2d<complex_t>(int_t, int_t, complex_t*, int_t);
 template void launch_conjugate_2d<complex8_t>(int_t, int_t, complex8_t*, int_t);
 /*-------------------------------------------------*/
+template <typename T_Scalar>
+__global__ void geev_calculate_complex_eigenvectors_kernel(int_t n, 
+                                                           const T_Scalar *w, 
+                                                           const typename TypeTraits<T_Scalar>::real_type* vr, int_t ldvr,
+                                                           T_Scalar *vc, int_t ldvc)
+{
+    using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+ 
+    int_t i = blockIdx.y * blockDim.y + threadIdx.y;
+    int_t j = blockIdx.x * blockDim.x + threadIdx.x;
 
+    if (i < n && j < n) {
 
+        T_RScalar im = arith::getIm(w[j]);
 
+        if (im == 0) {
 
+            vc[j * ldvc + i] = makeScalar<T_Scalar>(vr[j * ldvr + i]);
 
+        } else if (im > 0) {
 
+            T_RScalar u = vr[ j      * ldvr + i];
+            T_RScalar v = vr[(j + 1) * ldvr + i];
+            vc[j * ldvc + i] = makeComplex(u, v);
 
+        } else {
 
+            T_RScalar u = vr[(j - 1) * ldvr + i];
+            T_RScalar v = vr[ j      * ldvr + i];
+            vc[j * ldvc + i] = makeComplex(u, -v);
 
+        } // im cases
 
+    } // dim check
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void launch_geev_calculate_complex_eigenvectors_kernel(int_t n, 
+                                                       const T_Scalar *w, 
+                                                       const typename TypeTraits<T_Scalar>::real_type* vr, int_t ldvr,
+                                                       T_Scalar *vc, int_t ldvc)
+{
+    dim3 threadsPerBlock(16, 16);
+    dim3 numBlocks((n + threadsPerBlock.x - 1) / threadsPerBlock.x,
+                   (n + threadsPerBlock.y - 1) / threadsPerBlock.y);
+    
+    geev_calculate_complex_eigenvectors_kernel<T_Scalar><<<numBlocks, threadsPerBlock>>>(n, w, vr, ldvr, vc, ldvc);
 
-
-
-
-
-
-
-
-
-
+    syncDevice();
+}
+/*-------------------------------------------------*/
+template void launch_geev_calculate_complex_eigenvectors_kernel<complex_t>(int_t, const complex_t*, const real_t*, int_t, complex_t*, int_t);
+template void launch_geev_calculate_complex_eigenvectors_kernel<complex8_t>(int_t, const complex8_t*, const real4_t*, int_t, complex8_t*, int_t);
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace blk

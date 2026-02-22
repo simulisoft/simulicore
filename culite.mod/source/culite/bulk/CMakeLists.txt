@@ -5,6 +5,10 @@ set(CULITE_SRC ${CULITE_SRC}
 	PARENT_SCOPE)
 
 set(CULITE_BULK_HPP 
+    dns1D.hpp
+    dns1D_impl.hpp
+    dns2D.hpp
+    dns2D_impl.hpp
 	)
 
 set(CULITE_CUSRC ${CULITE_CUSRC}

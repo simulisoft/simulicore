@@ -44,15 +44,15 @@ void CuSolverHandler::defaults()
 {
     m_workspaceInBytesOnDevice = 0;
     m_workspaceInBytesOnHost = 0;
-    m_factorCudaType = cudaDataType::CUDA_R_32I; // set to an unsupported type
-    m_factorDim = 0;
+    m_problemCudaType = cudaDataType::CUDA_R_32I; // set to an unsupported type
+    m_problemDim = 0;
 }
 /*-------------------------------------------------*/
 void CuSolverHandler::clear()
 {
     ipiv().clear();
     info().clear();
-    factorWork().clear();
+    customWork().clear();
     deviceWork().clear();
     hostWork().clear();
 

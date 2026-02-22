@@ -59,6 +59,12 @@ void launch_get_imag_2d(int_t m, int_t n, const T_Scalar* a, int_t lda,
 template <typename T_Scalar>
 void launch_conjugate_2d(int_t m, int_t n, T_Scalar* a, int_t lda);
 
+template <typename T_Scalar>
+void launch_geev_calculate_complex_eigenvectors_kernel(int_t n, 
+                                                       const T_Scalar *w, 
+                                                       const typename TypeTraits<T_Scalar>::real_type* vr, int_t ldvr,
+                                                       T_Scalar *vc, int_t ldvc);
+
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace blk
