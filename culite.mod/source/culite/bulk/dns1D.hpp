@@ -113,9 +113,11 @@ void getImag1D(int_t n, const T_Scalar* x, typename TypeTraits<T_Scalar>::real_t
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void geev_order_eigs(int_t n, T_Scalar* w)
+void geevCalculateComplexEigenvalues(int_t n, 
+                                     const typename TypeTraits<T_Scalar>::real_type* wri, 
+                                     T_Scalar *w)
 {
-    launch_geev_order_eigs_kernel(n, w);
+    launch_geev_calculate_complex_eigenvalues_kernel(n, wri, w);
 }
 /*-------------------------------------------------*/
 } // namespace dns

@@ -24,12 +24,14 @@
 #include <cusolverDn.h>
 #include <cla3p/checks/basic_checks.hpp>
 
-#include "culite/types/traits.hpp"
+#include "culite/types/scalar.hpp"
 #include "culite/error/cuda.hpp"
+#include "culite/error/exceptions.hpp"
 #include "culite/support/imalloc.hpp"
 #include "culite/support/utils.hpp"
 #include "culite/bulk/dns1D.hpp"
 #include "culite/bulk/dns2D.hpp"
+#include "culite/proxies/cusolver_proxy.hpp"
 #include "culite/dense/dns_cxvector.hpp"
 #include "culite/dense/dns_cxmatrix.hpp"
 
@@ -43,6 +45,9 @@ namespace culite {
  * @details This class provides a wrapper around the cuSOLVER library for performing
  *          linear algebra operations on GPU devices. It manages the cuSOLVER handle
  *          and internal workspace buffers required for factorization and solve operations.
+ * 
+ *          The handler uses both device memory buffers and pinned host memory buffers
+ *          to optimize performance and meet cuSOLVER requirements.
  */
 class CuSolverHandler {
 
@@ -76,6 +81,12 @@ class CuSolverHandler {
         cusolverDnHandle_t handle() { return m_handle; }
 
         /**
+         * @brief Get the cuSolver parameters object.
+         * @return The cuSolver DN parameters handle.
+         */
+        cusolverDnParams_t params() const { return m_params.get(); }
+
+        /**
          * @brief Clears all internal workspace buffers.
          * @details Releases memory allocated for pivot indices, info arrays, and workspace buffers,
          *          resetting the handler to its initial state.
@@ -94,15 +105,16 @@ class CuSolverHandler {
         void reserveLU(const T_Matrix& A)
         {
             using T_Scalar = typename T_Matrix::value_type;
-            cusolverDnParams_t params = nullptr;
+
             cusolverStatus_t cusolverStatus = 
             cusolverDnXgetrf_bufferSize(handle(),
-                                        params,
+                                        params(),
                                         A.nrows(), A.ncols(),
                                         TypeTraits<T_Scalar>::cuda_type(), A.values(), A.ld(),
                                         TypeTraits<T_Scalar>::cuda_type(),
                                         &m_workspaceInBytesOnDevice,
                                         &m_workspaceInBytesOnHost);
+
             err::check_cusolver(cusolverStatus);
 
             ipiv().reserve(std::min(A.nrows(), A.ncols()));
@@ -124,14 +136,16 @@ class CuSolverHandler {
         void decomposeLU(const T_Matrix& A)
         {
             using T_Scalar = typename T_Matrix::value_type;
+
             cuSolverInt n = A.nrows();
+
             memCopyD2D<T_Scalar>(A.nrows(), A.ncols(), 
                                  A.values(), A.ld(), 
                                  static_cast<T_Scalar*>(customWork().data()), n);
-            cusolverDnParams_t params = nullptr;
+
             cusolverStatus_t cusolverStatus = 
             cusolverDnXgetrf(handle(),
-                             params,
+                             params(),
                              A.nrows(), A.ncols(),
                              TypeTraits<T_Scalar>::cuda_type(), customWork().data(), n,
                              ipiv().data(),
@@ -139,6 +153,7 @@ class CuSolverHandler {
                              deviceWork().data(), m_workspaceInBytesOnDevice,
                              hostWork().data(), m_workspaceInBytesOnHost,
                              info().data());
+
             err::check_cusolver(cusolverStatus);
 
             m_problemCudaType = TypeTraits<T_Scalar>::cuda_type();
@@ -155,19 +170,21 @@ class CuSolverHandler {
         template <typename T_Matrix>
         void solveLU(T_Matrix& B)
         {
+            using T_Scalar = typename T_Matrix::value_type;
+
             cuSolverInt n = B.nrows();
             ::cla3p::similarity_dim_check(m_problemDim, n);
-            using T_Scalar = typename T_Matrix::value_type;
-            cusolverDnParams_t params = nullptr;
+
             cusolverStatus_t cusolverStatus = 
             cusolverDnXgetrs(handle(),
-                             params,
+                             params(),
                              CUBLAS_OP_N,
                              n, B.ncols(),
                              m_problemCudaType, customWork().data(), n,
                              ipiv().data(),
                              TypeTraits<T_Scalar>::cuda_type(), B.values(), B.ld(),
                              info().data());
+            
             err::check_cusolver(cusolverStatus);
         }
 
@@ -176,39 +193,48 @@ class CuSolverHandler {
          * @details Computes the required workspace size and allocates buffers for performing
          *          eigenvalue decomposition on matrix @p A. This includes memory for eigenvalues,
          *          eigenvectors (if requested), and device/host workspaces.
+         * 
+         *          Memory layout in customWork buffer: W | A | VL | VR
+         *          - W: eigenvalues (complex)
+         *          - A: working copy of input matrix
+         *          - VL: left eigenvectors (if calcLeft = true)
+         *          - VR: right eigenvectors (if calcRight = true)
+         * 
          * @tparam T_Matrix The matrix type.
          * @param[in] A The matrix for which to reserve workspace.
          * @param[in] calcLeft If true, reserves memory for left eigenvectors.
          * @param[in] calcRight If true, reserves memory for right eigenvectors.
+         * 
+         * @note This must be called before @ref executeGeev with the same calcLeft/calcRight parameters.
          */
         template <typename T_Matrix>
         void reserveGeev(const T_Matrix& A, bool calcLeft, bool calcRight)
         {
             using T_Scalar = typename T_Matrix::value_type;
-            using T_CScalar = typename TypeTraits<T_Scalar>::complex_type;
-            cusolverDnParams_t params = nullptr;
+            bool realCase = TypeTraits<T_Scalar>::is_real();
 
             cuSolverInt n = A.nrows();
-            cuSolverInt sizeA = n * n * sizeof(T_Scalar);
-            //cuSolverInt sizeW = (TypeTraits<T_Scalar>::is_real() ? 2 * n : n) * sizeof(T_Scalar);
-            cuSolverInt sizeW = n * sizeof(T_CScalar);
-            cuSolverInt sizeVL = calcLeft ? sizeA : 0;
-            cuSolverInt sizeVR = calcRight ? sizeA : 0;
+            cuSolverInt sizeW = (realCase ? 2 * n : n) * sizeof(T_Scalar);
+            cuSolverInt sizeN2 = n * n * sizeof(T_Scalar);
+            cuSolverInt sizevA = sizeN2;
+            cuSolverInt sizeVL = calcLeft ? sizeN2 : 0;
+            cuSolverInt sizeVR = calcRight ? sizeN2 : 0;
 
-            customWork().reserve(sizeA + sizeW + sizeVL + sizeVR);
+            customWork().reserve(sizeW + sizeVL + sizeVR + sizevA);
 
-            const void *W = customWork().data();
-            const void *VL = calcLeft ? W + sizeW : nullptr;
-            const void *VR = calcRight ? W + sizeW + sizeVL : nullptr;
+            T_Scalar *W  = nullptr;
+            T_Scalar *VL = nullptr;
+            T_Scalar *VR = nullptr;
+            geevAssignInternalPointers<T_Scalar>(calcLeft, calcRight, n, &W, nullptr, &VL, &VR);
 
             cusolverStatus_t cusolverStatus = 
             cusolverDnXgeev_bufferSize(handle(),
-                                       params,
-                                       calcLeft ? cusolverEigMode_t::CUSOLVER_EIG_MODE_VECTOR : cusolverEigMode_t::CUSOLVER_EIG_MODE_NOVECTOR,
-                                       calcRight ? cusolverEigMode_t::CUSOLVER_EIG_MODE_VECTOR : cusolverEigMode_t::CUSOLVER_EIG_MODE_NOVECTOR,
+                                       params(),
+                                       cusolver::bool2cusolverEigMode(calcLeft),
+                                       cusolver::bool2cusolverEigMode(calcRight),
                                        n,
                                        TypeTraits<T_Scalar>::cuda_type(), A.values(), A.ld(),
-                                       TypeTraits<T_CScalar>::cuda_type(), W,
+                                       TypeTraits<T_Scalar>::cuda_type(), W,
                                        TypeTraits<T_Scalar>::cuda_type(), VL, n,
                                        TypeTraits<T_Scalar>::cuda_type(), VR, n,
                                        TypeTraits<T_Scalar>::cuda_type(),
@@ -228,42 +254,43 @@ class CuSolverHandler {
          *          and optionally left and/or right eigenvectors. For a matrix @f$ A @f$,
          *          computes eigenvalues @f$ \lambda @f$ and eigenvectors such that
          *          @f$ A v = \lambda v @f$ (right) or @f$ w^H A = \lambda w^H @f$ (left).
+         * 
+         *          This method uses cusolverDnXgeev() internally. The input matrix is copied
+         *          to internal workspace before decomposition (original matrix is not modified).
+         *          Results are stored internally and can be retrieved using @ref geevGetEigenvalues
+         *          and @ref geevGetEigenvectors.
+         * 
          * @tparam T_Matrix The matrix type.
          * @param[in] A The matrix for which to compute eigenvalues/eigenvectors.
          * @param[in] calcLeft If true, computes left eigenvectors.
          * @param[in] calcRight If true, computes right eigenvectors.
+         * 
+         * @note @ref reserveGeev must be called first with matching parameters.
+         * @note The input matrix A is not modified; an internal copy is made.
          */
         template <typename T_Matrix>
         void executeGeev(const T_Matrix& A, bool calcLeft, bool calcRight)
         {
             using T_Scalar = typename T_Matrix::value_type;
-            using T_CScalar = typename TypeTraits<T_Scalar>::complex_type;
-            cusolverDnParams_t params = nullptr;
 
             cuSolverInt n = A.nrows();
-            cuSolverInt sizeA = n * n * sizeof(T_Scalar);
-            //cuSolverInt sizeW = (TypeTraits<T_Scalar>::is_real() ? 2 * n : n) * sizeof(T_Scalar);
-            cuSolverInt sizeW = n * sizeof(T_CScalar);
-            cuSolverInt sizeVL = calcLeft ? sizeA : 0;
-            cuSolverInt sizeVR = calcRight ? sizeA : 0;
 
-            void *W  = customWork().data();
-            void *VL = calcLeft ? W + sizeW : nullptr;
-            void *VR = calcRight ? W + sizeW + sizeVL : nullptr;
-            void *vA = W + sizeW + sizeVL + sizeVR; // reuse space after W, VL, VR
+            T_Scalar *W  = nullptr;
+            T_Scalar *vA = nullptr;
+            T_Scalar *VL = nullptr;
+            T_Scalar *VR = nullptr;
+            geevAssignInternalPointers<T_Scalar>(calcLeft, calcRight, n, &W, &vA, &VL, &VR);
 
-            memCopyD2D<T_Scalar>(n, n, 
-                                 A.values(), A.ld(), 
-                                 static_cast<T_Scalar*>(vA), n);
+            memCopyD2D<T_Scalar>(n, n, A.values(), A.ld(), vA, n);
 
             cusolverStatus_t cusolverStatus = 
             cusolverDnXgeev(handle(),
-                            params,
-                            calcLeft ? cusolverEigMode_t::CUSOLVER_EIG_MODE_VECTOR : cusolverEigMode_t::CUSOLVER_EIG_MODE_NOVECTOR,
-                            calcRight ? cusolverEigMode_t::CUSOLVER_EIG_MODE_VECTOR : cusolverEigMode_t::CUSOLVER_EIG_MODE_NOVECTOR,
+                            params(),
+                            cusolver::bool2cusolverEigMode(calcLeft),
+                            cusolver::bool2cusolverEigMode(calcRight),
                             n,
                             TypeTraits<T_Scalar>::cuda_type(), vA, n, // vA is overwritten 
-                            TypeTraits<T_CScalar>::cuda_type(), W,
+                            TypeTraits<T_Scalar>::cuda_type(), W,
                             TypeTraits<T_Scalar>::cuda_type(), VL, n,
                             TypeTraits<T_Scalar>::cuda_type(), VR, n,
                             TypeTraits<T_Scalar>::cuda_type(),
@@ -273,9 +300,6 @@ class CuSolverHandler {
 
             err::check_cusolver(cusolverStatus);
 
-            // This is not needed if conjugate eigenvalues has positive imaginary part first
-            // blk::dns::geev_order_eigs(n, static_cast<T_CScalar*>(W));
-
             m_problemCudaType = TypeTraits<T_Scalar>::cuda_type();
             m_problemDim = n;
         }
@@ -283,73 +307,130 @@ class CuSolverHandler {
         /**
          * @brief Retrieves computed eigenvalues from the eigenvalue decomposition.
          * @details Extracts the eigenvalues computed by a previous @ref executeGeev call
-         *          and stores them in the provided vector. The eigenvalues are returned
-         *          as complex values.
-         * @tparam T_Scalar The scalar type (real or complex).
-         * @param[out] eigs Vector to store the computed eigenvalues.
+         *          and stores them in the provided vector. Eigenvalues are always returned
+         *          as complex values, even for real input matrices.
+         * @tparam T_Vector The vector type (must be a complex vector type).
+         * @param[out] eigs Complex vector to store the computed eigenvalues.
+         * @throws CudaException if T_Vector contains real scalars instead of complex.
+         * @note The output vector must have complex value type (e.g., CdVector for double precision).
          */
-        template <typename T_Scalar>
-        void geevGetEigenvalues(dns::CxVector<T_Scalar>& eigs) const
+        template <typename T_Vector>
+        void geevGetEigenvalues(T_Vector& eigs)
         {
+            using T_Scalar = typename T_Vector::value_type;
+
+            if(TypeTraits<T_Scalar>::is_real()) {
+                throw err::CudaException("Geev only returns complex eigenpairs.");
+            }
+
             int_t n = m_problemDim;
-            const void *W = customWork().data();
-            ::cla3p::Guard<dns::CxVector<T_Scalar>> internalEigs = dns::CxVector<T_Scalar>::view(n, static_cast<const T_Scalar*>(W));
-            eigs = internalEigs.get();
+
+            if(!eigs) eigs = T_Vector(n);
+            ::cla3p::similarity_dim_check(eigs.size(), n);
+
+            if(m_problemCudaType == cudaDataType::CUDA_R_32F || m_problemCudaType == cudaDataType::CUDA_R_64F) {
+
+                using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
+                T_RScalar *W = nullptr;
+                geevAssignInternalPointers<T_RScalar>(false, false, n, &W, nullptr, nullptr, nullptr);
+
+                blk::dns::geevCalculateComplexEigenvalues(n, W, eigs.values());
+
+            } else if(m_problemCudaType == cudaDataType::CUDA_C_32F || m_problemCudaType == cudaDataType::CUDA_C_64F) {
+
+                T_Scalar *W = nullptr;
+                geevAssignInternalPointers<T_Scalar>(false, false, n, &W, nullptr, nullptr, nullptr);
+
+                memCopyD2D<T_Scalar>(n, W, eigs.values());
+
+            } else {
+
+                throw err::CudaException("Unsupported data type for eigenvalue retrieval.");
+
+            } // problem cuda type
         }
 
         /**
          * @brief Retrieves computed eigenvectors from the eigenvalue decomposition.
          * @details Extracts the left and/or right eigenvectors computed by a previous
-         *          @ref executeGeev call. For real matrices with complex eigenvalues,
-         *          this method converts the compact real representation to full complex eigenvectors.
-         * @tparam T_Scalar The scalar type (real or complex).
-         * @param[in] calcLeft If true, retrieves left eigenvectors.
-         * @param[in] calcRight If true, retrieves right eigenvectors.
-         * @param[out] leftEigenvectors Matrix to store the left eigenvectors (if calcLeft is true).
-         * @param[out] rightEigenvectors Matrix to store the right eigenvectors (if calcRight is true).
+         *          @ref executeGeev call. Eigenvectors are always returned as complex matrices.
+         *          
+         *          For real input matrices with complex eigenvalues, this method automatically
+         *          converts the compact real representation (where conjugate pairs share storage)
+         *          to full complex eigenvectors. For complex input matrices, eigenvectors are
+         *          returned directly without conversion.
+         * 
+         * @tparam T_Matrix The matrix type (must be a complex matrix type).
+         * @param[in] calcLeft If true, retrieves left eigenvectors (must match executeGeev parameters).
+         * @param[in] calcRight If true, retrieves right eigenvectors (must match executeGeev parameters).
+         * @param[out] leftEigenvectors Complex matrix to store the left eigenvectors (if calcLeft is true).
+         * @param[out] rightEigenvectors Complex matrix to store the right eigenvectors (if calcRight is true).
+         * 
+         * @note The output matrices must have complex value type (e.g., CdMatrix for double precision).
+         * @note The calcLeft and calcRight parameters must match those used in the executeGeev call.
          */
-        template <typename T_Scalar>
+        template <typename T_Matrix>
         void geevGetEigenvectors(bool calcLeft, 
                                  bool calcRight, 
-                                 dns::CxMatrix<T_Scalar>& leftEigenvectors, 
-                                 dns::CxMatrix<T_Scalar>& rightEigenvectors) const
+                                 T_Matrix& leftEigenvectors, 
+                                 T_Matrix& rightEigenvectors)
         {
-            using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+            using T_Scalar = typename T_Matrix::value_type;
+
+            if(TypeTraits<T_Scalar>::is_real()) {
+                throw err::CudaException("Geev only returns complex eigenpairs.");
+            }
 
             int_t n = m_problemDim;
 
             if(calcLeft) {
-                if(!leftEigenvectors) leftEigenvectors = dns::CxMatrix<T_Scalar>(n, n);
+                if(!leftEigenvectors) leftEigenvectors = T_Matrix(n, n);
                 ::cla3p::similarity_dim_check(leftEigenvectors.nrows(), n);
                 ::cla3p::similarity_dim_check(leftEigenvectors.ncols(), n);
             }
 
             if(calcRight) {
-                if(!rightEigenvectors) rightEigenvectors = dns::CxMatrix<T_Scalar>(n, n);
+                if(!rightEigenvectors) rightEigenvectors = T_Matrix(n, n);
                 ::cla3p::similarity_dim_check(rightEigenvectors.nrows(), n);
                 ::cla3p::similarity_dim_check(rightEigenvectors.ncols(), n);
             }
 
-            cuSolverInt sizeW = n * sizeof(T_Scalar);
-            cuSolverInt sizeVL = n * n * sizeof(T_RScalar);
+            if(m_problemCudaType == cudaDataType::CUDA_R_32F || m_problemCudaType == cudaDataType::CUDA_R_64F) {
 
-            const void *W  = customWork().data();
-            const void *VL = calcLeft ? W + sizeW : nullptr;
-            const void *VR = calcRight ? W + sizeW + sizeVL : nullptr;
+                using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
-            if(calcLeft) {
-                blk::dns::geevCalculateComplexEigenvectors(n, 
-                                                           static_cast<const T_Scalar*>(W), 
-                                                           static_cast<const T_RScalar*>(VL), n,
-                                                           leftEigenvectors.values(), leftEigenvectors.ld());
-            } // calcLeft
+                T_RScalar *W  = nullptr;
+                T_RScalar *VL = nullptr;
+                T_RScalar *VR = nullptr;
+                geevAssignInternalPointers<T_RScalar>(calcLeft, calcRight, n, &W, nullptr, &VL, &VR);
 
-            if(calcRight) {
-                blk::dns::geevCalculateComplexEigenvectors(n, 
-                                                           static_cast<const T_Scalar*>(W), 
-                                                           static_cast<const T_RScalar*>(VR), n,
-                                                           rightEigenvectors.values(), rightEigenvectors.ld());
-            } // calcRight
+                if(calcLeft) {
+                    blk::dns::geevCalculateComplexEigenvectors(n, W, VL, n,
+                                                               leftEigenvectors.values(), 
+                                                               leftEigenvectors.ld());
+                } // calcLeft
+
+                if(calcRight) {
+                    blk::dns::geevCalculateComplexEigenvectors(n, W, VR, n,
+                                                               rightEigenvectors.values(), 
+                                                               rightEigenvectors.ld());
+                } // calcRight
+
+            } else if(m_problemCudaType == cudaDataType::CUDA_C_32F || m_problemCudaType == cudaDataType::CUDA_C_64F) {
+
+                T_Scalar *VL = nullptr;
+                T_Scalar *VR = nullptr;
+                geevAssignInternalPointers<T_Scalar>(calcLeft, calcRight, n, nullptr, nullptr, &VL, &VR);
+
+                if(calcLeft)  memCopyD2D<T_Scalar>(n, n, VL, n, leftEigenvectors.values(), leftEigenvectors.ld());
+                if(calcRight) memCopyD2D<T_Scalar>(n, n, VR, n, rightEigenvectors.values(), rightEigenvectors.ld());
+
+            } else {
+
+                throw err::CudaException("Unsupported data type for eigenvector retrieval.");
+
+            } // problem cuda type
         }
 
     private:
@@ -357,16 +438,47 @@ class CuSolverHandler {
         DeviceBuffer<infoInt>& info() { return m_info; }
         DeviceBufferVoid& customWork() { return m_customBuffer; }
         DeviceBufferVoid& deviceWork() { return m_deviceBuffer; }
-        DeviceBufferVoid& hostWork() { return m_hostBuffer; }
+        PinnedBufferVoid& hostWork() { return m_hostBuffer; }
 
         const DeviceBuffer<cuSolverInt>& ipiv() const { return m_ipiv; }
         const DeviceBuffer<infoInt>& info() const { return m_info; }
         const DeviceBufferVoid& customWork() const { return m_customBuffer; }
         const DeviceBufferVoid& deviceWork() const { return m_deviceBuffer; }
-        const DeviceBufferVoid& hostWork() const { return m_hostBuffer; }
+        const PinnedBufferVoid& hostWork() const { return m_hostBuffer; }
+
+        template <typename T_Scalar>
+        void geevAssignInternalPointers(bool calcLeft, 
+                                        bool calcRight, 
+                                        int_t n,
+                                        T_Scalar** W, 
+                                        T_Scalar** A,
+                                        T_Scalar** VL, 
+                                        T_Scalar** VR)
+        {
+            bool realCase = TypeTraits<T_Scalar>::is_real();
+
+            if(W)  *W  = nullptr;
+            if(A)  *A  = nullptr;
+            if(VL) *VL = nullptr;
+            if(VR) *VR = nullptr;
+            
+            char *charBuffer = static_cast<char*>(customWork().data());
+
+            std::size_t sizeW  = (realCase ? 2 * n : n) * sizeof(T_Scalar);
+            std::size_t sizeN2 = n * n * sizeof(T_Scalar);
+            std::size_t sizeA  = sizeN2;
+            std::size_t sizeVL = calcLeft ? sizeN2 : 0;
+            std::size_t sizeVR = calcRight ? sizeN2 : 0;
+
+            if(W)               { *W  = reinterpret_cast<T_Scalar*>(charBuffer); } charBuffer += sizeW ;
+            if(A)               { *A  = reinterpret_cast<T_Scalar*>(charBuffer); } charBuffer += sizeA ;
+            if(calcLeft  && VL) { *VL = reinterpret_cast<T_Scalar*>(charBuffer); } charBuffer += sizeVL;
+            if(calcRight && VR) { *VR = reinterpret_cast<T_Scalar*>(charBuffer); } charBuffer += sizeVR;
+        }
 
     private:
         cusolverDnHandle_t m_handle{nullptr};
+        cusolver::DnParams m_params;
 
         size_t m_workspaceInBytesOnDevice;
         size_t m_workspaceInBytesOnHost;
@@ -377,7 +489,7 @@ class CuSolverHandler {
         DeviceBuffer<infoInt> m_info;
         DeviceBufferVoid m_customBuffer;
         DeviceBufferVoid m_deviceBuffer;
-        DeviceBufferVoid m_hostBuffer;
+        PinnedBufferVoid m_hostBuffer;
 
         void defaults();
 };

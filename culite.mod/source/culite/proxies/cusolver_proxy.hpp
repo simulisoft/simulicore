@@ -23,11 +23,6 @@
 
 #include <cusolverDn.h>
 
-//#include <cla3p/types/enums.hpp>
-//
-//#include "culite/types/integer.hpp"
-//#include "culite/types/scalar.hpp"
-
 /*-------------------------------------------------*/
 namespace culite {
 namespace cusolver {

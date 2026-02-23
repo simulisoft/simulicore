@@ -347,18 +347,21 @@ template void launch_conjugate_2d<complex8_t>(int_t, int_t, complex8_t*, int_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 __global__ void geev_calculate_complex_eigenvectors_kernel(int_t n, 
-                                                           const T_Scalar *w, 
+                                                           const typename TypeTraits<T_Scalar>::real_type* w, 
                                                            const typename TypeTraits<T_Scalar>::real_type* vr, int_t ldvr,
                                                            T_Scalar *vc, int_t ldvc)
 {
     using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
+    const T_RScalar *wr = w;
+    const T_RScalar *wi = wr + n;
  
-    int_t i = blockIdx.y * blockDim.y + threadIdx.y;
-    int_t j = blockIdx.x * blockDim.x + threadIdx.x;
+    int_t i = blockIdx.x * blockDim.x + threadIdx.x;
+    int_t j = blockIdx.y * blockDim.y + threadIdx.y;
 
     if (i < n && j < n) {
 
-        T_RScalar im = arith::getIm(w[j]);
+        T_RScalar im = wi[j];
 
         if (im == 0) {
 
@@ -383,7 +386,7 @@ __global__ void geev_calculate_complex_eigenvectors_kernel(int_t n,
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void launch_geev_calculate_complex_eigenvectors_kernel(int_t n, 
-                                                       const T_Scalar *w, 
+                                                       const typename TypeTraits<T_Scalar>::real_type* w, 
                                                        const typename TypeTraits<T_Scalar>::real_type* vr, int_t ldvr,
                                                        T_Scalar *vc, int_t ldvc)
 {
@@ -396,8 +399,8 @@ void launch_geev_calculate_complex_eigenvectors_kernel(int_t n,
     syncDevice();
 }
 /*-------------------------------------------------*/
-template void launch_geev_calculate_complex_eigenvectors_kernel<complex_t>(int_t, const complex_t*, const real_t*, int_t, complex_t*, int_t);
-template void launch_geev_calculate_complex_eigenvectors_kernel<complex8_t>(int_t, const complex8_t*, const real4_t*, int_t, complex8_t*, int_t);
+template void launch_geev_calculate_complex_eigenvectors_kernel<complex_t>(int_t, const real_t*, const real_t*, int_t, complex_t*, int_t);
+template void launch_geev_calculate_complex_eigenvectors_kernel<complex8_t>(int_t, const real4_t*, const real4_t*, int_t, complex8_t*, int_t);
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace blk

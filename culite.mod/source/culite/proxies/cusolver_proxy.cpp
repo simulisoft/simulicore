@@ -23,7 +23,6 @@
 
 // culite
 #include "culite/error/cuda.hpp"
-//#include "culite/error/exceptions.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {

@@ -103,36 +103,36 @@ template void launch_get_imag_kernel_1d<complex_t>(int_t, const complex_t*, real
 template void launch_get_imag_kernel_1d<complex8_t>(int_t, const complex8_t*, real4_t*);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-__global__ void geev_order_eigs_kernel(int_t n, T_Scalar* w)
+__global__ void geev_calculate_complex_eigenvalues_kernel(int_t n, 
+                                                          const typename TypeTraits<T_Scalar>::real_type* wri, 
+                                                          T_Scalar *w)
 {
     using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
-    int tid = blockIdx.x * blockDim.x + threadIdx.x;
+    const T_RScalar *wr = wri;
+    const T_RScalar *wi = wr + n;
+ 
+    int_t i = blockIdx.x * blockDim.x + threadIdx.x;
 
-    if (tid == 0) {
-        for(int_t i = 0; i < n; ++i) {
-            T_RScalar re = arith::getRe(w[i]);
-            T_RScalar im = arith::getIm(w[i]);
-            if(im != 0) {
-                w[i] = makeComplex(re, arith::abs(im));
-                w[i+1] = arith::conj(w[i]);
-                ++i; // Skip the next one since it's already set
-            } // im cases
-        } // i
-    } // tid
+    if (i < n) {
+        w[i] = makeComplex(wr[i], wi[i]);
+    } // dim check
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void launch_geev_order_eigs_kernel(int_t n, T_Scalar* w)
+void launch_geev_calculate_complex_eigenvalues_kernel(int_t n, 
+                                                      const typename TypeTraits<T_Scalar>::real_type* wri, 
+                                                      T_Scalar *w)
 {
-    //int threads = 256;
-    //int blocks = (n + threads - 1) / threads;
-    geev_order_eigs_kernel<T_Scalar><<<1, 1>>>(n, w);
+    int threads = 256;
+    int blocks = (n + threads - 1) / threads;
+    geev_calculate_complex_eigenvalues_kernel<T_Scalar><<<blocks, threads>>>(n, wri, w);
+
     syncDevice();
 }
 /*-------------------------------------------------*/
-template void launch_geev_order_eigs_kernel(int_t, complex_t*);
-template void launch_geev_order_eigs_kernel(int_t, complex8_t*);
+template void launch_geev_calculate_complex_eigenvalues_kernel<complex_t>(int_t, const real_t*, complex_t*);
+template void launch_geev_calculate_complex_eigenvalues_kernel<complex8_t>(int_t, const real4_t*, complex8_t*);
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace blk

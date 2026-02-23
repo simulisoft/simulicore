@@ -40,7 +40,9 @@ template <typename T_Scalar>
 void launch_get_imag_kernel_1d(int_t n, const T_Scalar* x, typename TypeTraits<T_Scalar>::real_type* y);
 
 template <typename T_Scalar>
-void launch_geev_order_eigs_kernel(int_t n, T_Scalar* w);
+void launch_geev_calculate_complex_eigenvalues_kernel(int_t n, 
+                                                      const typename TypeTraits<T_Scalar>::real_type* wri, 
+                                                      T_Scalar *w);
 
 /*-------------------------------------------------*/
 } // namespace dns
