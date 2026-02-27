@@ -180,6 +180,68 @@
  *   </table>
  * 
  * 
+ * @section culite_tutorial_matrices_dense_algebra Algebra
+ * cuLite provides a high-performance interface for dense matrix algebra on GPU, 
+ * leveraging optimized CUDA backends including cuBLAS and cuSOLVER. Operations include 
+ * standard arithmetic, linear combinations, and matrix-vector/matrix-matrix multiplications.
+ *
+ *   @subsection culite_tutorial_matrices_dense_algebra_scale Scale
+ *   Matrices support in-place scaling and linear combinations using standard operators.
+ *   GPU-accelerated scaling operations are performed efficiently via cuBLAS kernels.
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex02k_dense_matrix_algebra_scale.cpp </td>
+ *       <td> @include i32/out/ex02k_dense_matrix_algebra_scale.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection culite_tutorial_matrices_dense_algebra_add Add
+ *   Matrices can be added together using overloaded operators or member functions.
+ *   These operations leverage cuBLAS for high-performance GPU acceleration.
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex02l_dense_matrix_algebra_add.cpp </td>
+ *       <td> @include i32/out/ex02l_dense_matrix_algebra_add.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection culite_tutorial_matrices_dense_algebra_mvmult Matrix-Vector Product
+ *   You can perform matrix-vector products using the `*` operator. 
+ *   The resulting object is a dense vector on GPU of the appropriate precision.
+ *   These operations are accelerated via cuBLAS GEMV routines.
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex02m_dense_matrix_algebra_vmult.cpp </td>
+ *       <td> @include i32/out/ex02m_dense_matrix_algebra_vmult.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection culite_tutorial_matrices_dense_algebra_mmmult Matrix-Matrix Product
+ *   Dense matrices can be multiplied together on GPU, provided their dimensions are compatible.
+ *   Matrix multiplication is performed using high-performance cuBLAS GEMM routines.
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex02n_dense_matrix_algebra_mmult.cpp </td>
+ *       <td> @include i32/out/ex02n_dense_matrix_algebra_mmult.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection culite_tutorial_matrices_dense_algebra_mtmmult Transposed Matrix-Matrix Product
+ *   You can perform matrix-matrix products involving the transpose or conjugate transpose 
+ *   of matrices without explicitly forming the transposed matrix in memory.
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex02o_dense_matrix_algebra_mtmult.cpp </td>
+ *       <td> @include i32/out/ex02o_dense_matrix_algebra_mtmult.out </td>
+ *     </tr>
+ *   </table>
+ * 
+ * 
  * 
  * 
  * 
@@ -251,6 +313,60 @@
  *     </tr>
  *   </table>
  *
+ * 
+ * @section culite_tutorial_matrices_sparse_algebra Algebra
+ * In cuLite, sparse algebraic operations are performed using matrices in CSR or CSC format. 
+ * These operations are highly optimized for matrices with a large percentage of zero entries and 
+ * leverage cuSPARSE for GPU acceleration.
+ *
+ *   @subsection culite_tutorial_matrices_sparse_algebra_scale Scale
+ *   Sparse matrices support in-place scaling using standard operators.
+ *   GPU-accelerated scaling operations are performed efficiently via cuSPARSE kernels.
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex06k_sparse_matrix_algebra_scale.cpp </td>
+ *       <td> @include i32/out/ex06k_sparse_matrix_algebra_scale.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection culite_tutorial_matrices_sparse_algebra_add Add
+ *   Sparse matrices can be added together using overloaded operators or member functions.
+ *   These operations leverage cuSPARSE for high-performance sparse-sparse addition.
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex06l_sparse_matrix_algebra_add.cpp </td>
+ *       <td> @include i32/out/ex06l_sparse_matrix_algebra_add.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection culite_tutorial_matrices_sparse_algebra_mvmult Matrix-Vector Product
+ *   You can perform multiplication between a sparse matrix and a dense vector using the * operator. 
+ *   The result is always a dense vector on GPU. These operations use cuSPARSE SpMV routines.
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex06m_sparse_matrix_algebra_vmult.cpp </td>
+ *       <td> @include i32/out/ex06m_sparse_matrix_algebra_vmult.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection culite_tutorial_matrices_sparse_algebra_mmmult Matrix-Matrix Product
+ *   Sparse matrices can be multiplied with other matrices, provided their dimensions are compatible.
+ *   cuSPARSE provides optimized kernels for various sparse-dense and sparse-sparse products.@n
+ *   1) Multiplication between a sparse matrix and a dense matrix is supported, resulting in a dense matrix.@n
+ *   2) Multiplication involving the transpose of a sparse matrix is also supported.
+ *   
+ *   @note Sparse-sparse matrix multiplication is currently not available. Support for this operation is planned for an upcoming release.
+ *   
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex06n_sparse_matrix_algebra_mmult.cpp </td>
+ *       <td> @include i32/out/ex06n_sparse_matrix_algebra_mmult.out </td>
+ *     </tr>
+ *   </table>
  * 
  * 
  * 

@@ -19,9 +19,11 @@
       <tab type="usergroup" url="@ref culite_tutorial_matrices" title="Matrices">
         <tab type="usergroup" url="@ref culite_tutorial_matrices_dense" title="Dense">
           <tab type="user" url="@ref culite_tutorial_matrices_dense_create" title="Create"/>
+          <tab type="user" url="@ref culite_tutorial_matrices_dense_algebra" title="Algebra"/>
         </tab>
         <tab type="usergroup" url="@ref culite_tutorial_matrices_sparse" title="Sparse">
           <tab type="user" url="@ref culite_tutorial_matrices_sparse_create" title="Create"/>
+          <tab type="user" url="@ref culite_tutorial_matrices_sparse_algebra" title="Algebra"/>
         </tab>
       </tab>
 
