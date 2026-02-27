@@ -91,7 +91,7 @@ class CxVector : public XxVector<T_Scalar> {
 		 * @details Creates a complex device vector using existing device memory.
 		 * @param[in] n The number of elements in the vector.
 		 * @param[in] vals Pointer to existing device memory.
-		 * @param[in] bind If true, the vector does not take ownership of the memory.
+		 * @param[in] bind If true, the vector takes ownership of the memory.
 		 */
 		explicit CxVector(int_t n, T_Scalar *vals, bool bind);
 

@@ -101,7 +101,7 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
 		 * @param[in] nc The number of columns.
 		 * @param[in] vals Pointer to existing device memory.
 		 * @param[in] ldv The leading dimension.
-		 * @param[in] bind If true, the matrix does not take ownership of the memory.
+		 * @param[in] bind If true, the matrix takes ownership of the memory.
 		 * @param[in] pr The matrix property (default: General).
 		 */
 		explicit XxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const ::cla3p::Property& pr = ::cla3p::Property::General());

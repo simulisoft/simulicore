@@ -94,7 +94,7 @@ class XxVector : public XiVector<T_Scalar> {
 		 * @details Creates a vector using existing memory.
 		 * @param[in] n The number of elements.
 		 * @param[in] vals Pointer to existing memory.
-		 * @param[in] bind If true, the vector does not take ownership of the memory.
+		 * @param[in] bind If true, the vector takes ownership of the memory.
 		 */
 		explicit XxVector(int_t n, T_Scalar *vals, bool bind);
 

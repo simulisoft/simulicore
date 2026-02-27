@@ -100,7 +100,7 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public csx::XxContainer<T_In
 		 * @param[in] cptr Pointer to existing device column pointer array.
 		 * @param[in] ridx Pointer to existing device row index array.
 		 * @param[in] vals Pointer to existing device values array.
-		 * @param[in] bind If true, the matrix does not take ownership of the device memory.
+		 * @param[in] bind If true, the matrix takes ownership of the device memory.
 		 * @param[in] pr The matrix property (default: General).
 		 */
 		explicit XxMatrix(T_Int nr, T_Int nc, T_Int *cptr, T_Int *ridx, T_Scalar *vals, bool bind, 

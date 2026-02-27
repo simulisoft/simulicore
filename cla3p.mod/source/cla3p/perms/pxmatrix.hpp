@@ -69,8 +69,7 @@ class PxMatrix : public dns::XiVector<T_Int> {
 		 *          storage or copies from provided values.
 		 * @param[in] n The permutation matrix size.
 		 * @param[in] vals Pointer to @p n entries holding the permutation values.
-		 * @param[in] bind If @c true, binds to @p vals without ownership;
-		 *                 otherwise copies the values.
+		 * @param[in] bind If @c true, takes ownership of @p vals and manages its lifetime.
 		 */
 		explicit PxMatrix(int_t n, T_Int *vals, bool bind);
 
