@@ -20,7 +20,6 @@ int main()
 	/*
 	 * Perform the operation (x' * y) using operators and the dot function respectively
 	 */
-
 	cla3p::real_t d1 = x.transpose() * y;
 	std::cout << "d1: " << d1 << std::endl;
 

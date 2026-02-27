@@ -17,13 +17,11 @@ int main()
 	Acoo.insert(0,0,5.0);
 
 	cla3p::csc::RdMatrix A = Acoo.toCsc();
-
 	std::cout << "A:\n" << A << "\n";
 
 	/*
 	 * Scale A using operators and the scale function respectively
 	 */
-
 	A *= 2.;
 	std::cout << "A *= 2:\n" << A << "\n";
 
@@ -31,7 +29,6 @@ int main()
 	std::cout << "A.iscale(.5):\n" << A << "\n";
 
 	cla3p::csc::RdMatrix B = 2. * A ;
-
 	std::cout << "B:\n" << B << "\n";
 
 	return 0;

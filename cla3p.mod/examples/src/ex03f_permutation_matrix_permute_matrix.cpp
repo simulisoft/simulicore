@@ -31,42 +31,33 @@ int main()
 	std::cout << "Q:\n" << Q << "\n";
 
 	/*
-	 * Perform the operation (P * A) 
-	 * using operators and the permute member function respectively
+	 * Perform the operation (P * A).
+	 * using operators and the permute member function respectively.
 	 */
-
 	cla3p::dns::RdMatrix PA1 = P * A;
-
 	std::cout << "PA1:\n" << PA1;
 
 	cla3p::dns::RdMatrix PA2 = A.permuteLeft(P);
-
 	std::cout << "PA2:\n" << PA2 << "\n";
 
 	/*
-	 * Perform the operation (A * Q) 
-	 * using operators and the permute member function respectively
+	 * Perform the operation (A * Q).
+	 * using operators and the permute member function respectively.
 	 */
-
 	cla3p::dns::RdMatrix AQ1 = A * Q;
-
 	std::cout << "AQ1:\n" << AQ1;
 
 	cla3p::dns::RdMatrix AQ2 = A.permuteRight(Q);
-
 	std::cout << "AQ2:\n" << AQ2 << "\n";
 
 	/*
-	 * Perform the operation (P * A * Q) 
-	 * using operators and the permute member function respectively
+	 * Perform the operation (P * A * Q).
+	 * using operators and the permute member function respectively.
 	 */
-
 	cla3p::dns::RdMatrix PAQ1 = P * A * Q;
-
 	std::cout << "PAQ1:\n" << PAQ1;
 
 	cla3p::dns::RdMatrix PAQ2 = A.permuteLeftRight(P, Q);
-
 	std::cout << "PAQ2:\n" << PAQ2;
 
 	return 0;

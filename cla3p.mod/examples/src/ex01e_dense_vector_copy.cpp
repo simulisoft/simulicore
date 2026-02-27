@@ -13,8 +13,8 @@ int main()
 	std::cout << x.info("x") << x;
 
 	/*
-	 * Copy x to y using assignment
-	 * Copy x to z using copy()
+	 * Copy x to y using assignment.
+	 * Copy x to z using copy().
 	 */
 	cla3p::dns::RfVector y = x;
 	cla3p::dns::RfVector z = x.copy();
@@ -22,10 +22,10 @@ int main()
 	std::cout << z.info("z") << z;
 
 	/*
-	 * Copy y to z using assignment
-	 * z is already allocated 
-	 * No re-allocation performed 
-	 * Needs matching sizes
+	 * Copy y to z using assignment.
+	 * z is already allocated.
+	 * No re-allocation performed.
+	 * Needs matching sizes.
 	 */
 	z = y;
 	std::cout << z.info("z") << z;

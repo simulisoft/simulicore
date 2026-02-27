@@ -8,7 +8,7 @@
 #include <cla3p/linsol.hpp>
 #include <cla3p/algebra.hpp>
 
-/*--------------------------------------------------*/
+/*-----------------------------------------------------*/
 static cla3p::csr::RdMatrix DefaultSymmetricSparseMatrix()
 {
 	static cla3p::int_t  rowptr[] = {0, 3, 5, 7,  8, 9};
@@ -17,50 +17,46 @@ static cla3p::csr::RdMatrix DefaultSymmetricSparseMatrix()
 
 	return cla3p::csr::RdMatrix(5, 5, rowptr, colidx, values, false, cla3p::Property::SymmetricUpper());
 }
-/*--------------------------------------------------*/
+/*-----------------------------------------------------*/
 int main()
 {
 	const cla3p::csr::RdMatrix A = DefaultSymmetricSparseMatrix();
-	const cla3p::dns::RdVector B1 = cla3p::dns::RdVector::random(5);
-	const cla3p::dns::RdMatrix B2 = cla3p::dns::RdMatrix::random(5,3);
-	cla3p::dns::RdVector X1; // X1 will be created in solve
-	cla3p::dns::RdMatrix X2(5,3); // Preallocate space for X2
+	const cla3p::dns::RdVector b = cla3p::dns::RdVector::random(5);
+	const cla3p::dns::RdMatrix B = cla3p::dns::RdMatrix::random(5, 3);
+	cla3p::dns::RdVector x; // x will be created in solve
+	cla3p::dns::RdMatrix X(5, 3); // Preallocate space for X
 
 	cla3p::PardisoLLt<cla3p::csr::RdMatrix> lltSolver;
 
 	/*
-	 * Perform analysis & symbolic decomposition on A
+	 * Perform analysis & symbolic decomposition on A.
 	 */
 	lltSolver.analysis(A);
 
 	/*
-	 * Decompose A into LL' product
+	 * Decompose A into LL' product.
 	 */
-
 	lltSolver.decompose(A);
 
 	{
 		/*
-		 * Single column (vector) rhs
-		 * Calculate X1 = (A^{-1} * B1)
+		 * Single column (vector) rhs.
+		 * Calculate x = (A^{-1} * b).
 		 */
 
-		lltSolver.solve(B1,X1);
-
+		lltSolver.solve(b, x);
 		std::cout << "Dense Vector rhs::Absolute Error: "
-			<< (B1 - A * X1).evaluate().normOne() << std::endl;
+			      << (b - A * x).evaluate().normOne() << std::endl;
 	}
 
 	{
 		/*
-		 * Multiple column (matrix) rhs
-		 * Calculate X2 = (A^{-1} * B2)
+		 * Multiple column (matrix) rhs.
+		 * Calculate X = (A^{-1} * B).
 		 */
-
-		lltSolver.solve(B2,X2);
-
+		lltSolver.solve(B, X);
 		std::cout << "Dense Matrix rhs::Absolute Error: "
-			<< (B2 - A * X2).evaluate().normOne() << std::endl;
+			      << (B - A * X).evaluate().normOne() << std::endl;
 	}
 
 	return 0;

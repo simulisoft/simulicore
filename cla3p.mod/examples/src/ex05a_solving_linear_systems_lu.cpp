@@ -9,44 +9,43 @@
 
 int main()
 {
-	const cla3p::dns::RdMatrix A  = cla3p::dns::RdMatrix::random(5,5);
-	const cla3p::dns::RdVector B1 = cla3p::dns::RdVector::random(5);
-	const cla3p::dns::RdMatrix B2 = cla3p::dns::RdMatrix::random(5,3);
+	const cla3p::dns::RdMatrix A = cla3p::dns::RdMatrix::random(5, 5);
+	const cla3p::dns::RdVector b = cla3p::dns::RdVector::random(5);
+	const cla3p::dns::RdMatrix B = cla3p::dns::RdMatrix::random(5, 3);
 
 	cla3p::LapackLU<cla3p::dns::RdMatrix> luSolver;
 
 	/*
-	 * Decompose A into LU product
+	 * Decompose A into LU product.
 	 */
-
 	luSolver.decompose(A);
 
 	{
 		/*
-		 * Single column (vector) rhs
-		 * Overwrite X with the solution (A^{-1} * B1)
+		 * Single column (vector) rhs.
+		 * Overwrite x with the solution (A^{-1} * b).
 		 */
 
-		cla3p::dns::RdVector X = B1;
+		cla3p::dns::RdVector x = b;
 
-		luSolver.solve(X);
+		luSolver.solve(x);
 
 		std::cout << "Dense Vector rhs::Absolute Error: "
-			<< (B1 - A * X).evaluate().normOne() << std::endl;
+			      << (b - A * x).evaluate().normOne() << std::endl;
 	}
 
 	{
 		/*
-		 * Multiple column (matrix) rhs
-		 * Overwrite X with the solution (A^{-1} * B2)
+		 * Multiple column (matrix) rhs.
+		 * Overwrite X with the solution (A^{-1} * B).
 		 */
 
-		cla3p::dns::RdMatrix X = B2;
+		cla3p::dns::RdMatrix X = B;
 
 		luSolver.solve(X);
 
 		std::cout << "Dense Matrix rhs::Absolute Error: "
-			<< (B2 - A * X).evaluate().normOne() << std::endl;
+			      << (B - A * X).evaluate().normOne() << std::endl;
 	}
 
 	return 0;

@@ -9,15 +9,12 @@ int main()
 {
 	cla3p::dns::RfVector x(3);
 	x = 1;
-
 	std::cout << x.info("x") << x;
 
 	/*
-	 * Shallow copy x to y (x & y share contents)
+	 * Shallow copy x to y (x & y share contents).
 	 */
-
 	cla3p::dns::RfVector y = x.rcopy();
-
 	std::cout << y.info("y") << y << "\n";
 
 	y(0) = 0;

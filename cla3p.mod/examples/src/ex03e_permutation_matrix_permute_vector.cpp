@@ -23,10 +23,9 @@ int main()
 	std::cout << "P:\n" << P << "\n";
 
 	/*
-	 * Perform the operation (P * x) 
-	 * using operators and the permute member function respectively
+	 * Perform the operation (P * x).
+	 * using operators and the permute member function respectively.
 	 */
-
 	cla3p::dns::RdVector PX1 = P * x;
 	std::cout << "PX1:\n" << PX1 << "\n";
 

@@ -10,7 +10,7 @@
 int main()
 {
 	/*
-	 * Create a (3x3) random symmetric lower matrix
+	 * Create a (3x3) random symmetric lower matrix.
 	 */
 
 	cla3p::dns::RdMatrix A(3, 3, cla3p::Property::SymmetricLower());
@@ -20,7 +20,7 @@ int main()
 			A(i,j) = icnt++;
 
 	/*
-	 * Create a (3x3) random permutation matrix
+	 * Create a (3x3) random permutation matrix.
 	 */
 
 	cla3p::prm::PiMatrix P(3);
@@ -42,13 +42,10 @@ int main()
 	 *
 	 * Using permuteMirror() the resulting matrix will be symmetric.
 	 */
-
 	cla3p::dns::RdMatrix PAPT1 = P * A.general() * P.inverse();
-
 	std::cout << "PAPT1:\n" << PAPT1;
 
 	cla3p::dns::RdMatrix PAPT2 = A.permuteMirror(P);
-
 	std::cout << "PAPT2:\n" << PAPT2;
 
 	return 0;

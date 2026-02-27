@@ -10,25 +10,19 @@ int main()
 	/*
 	 * Double precision real empty matrix
 	 */
-
 	cla3p::dns::RdMatrix A;
-
 	std::cout << A.info("A");
 
 	/*
 	 * (3x4) single precision real matrix (uninitialized values)
 	 */
-
-	cla3p::dns::RfMatrix B(3,4);
-
+	cla3p::dns::RfMatrix B(3, 4);
 	std::cout << B.info("B");
 
 	/*
 	 * Allocate space for A (5x2, uninitialized values)
 	 */
-
-	A = cla3p::dns::RdMatrix(5,2);
-
+	A = cla3p::dns::RdMatrix(5, 2);
 	std::cout << A.info("A");
 
 	return 0;

@@ -10,7 +10,6 @@ int main()
 	/*
 	 * Create properties for A, B and C
 	 */
-
 	cla3p::Property prA = cla3p::Property::General();
 	cla3p::Property prB = cla3p::Property::SymmetricLower();
 	cla3p::Property prC = cla3p::Property::HermitianUpper();
@@ -18,13 +17,10 @@ int main()
 	/*
 	 * Declare matrices with a property
 	 */
-
-	{
-		cla3p::coo::RfMatrix A(30, 40, prA);
-		cla3p::coo::RfMatrix B(30, 30, prB);
-		cla3p::coo::CdMatrix C(30, 30, prC);
-		std::cout << A.info("A") << B.info("B") << C.info("C");
-	}
+	cla3p::coo::RfMatrix A(30, 40, prA);
+	cla3p::coo::RfMatrix B(30, 30, prB);
+	cla3p::coo::CdMatrix C(30, 30, prC);
+	std::cout << A.info("A") << B.info("B") << C.info("C");
 
 	return 0;
 }

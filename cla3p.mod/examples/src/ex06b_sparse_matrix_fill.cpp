@@ -12,13 +12,11 @@ int main()
 	/*
 	 * Reserve space for insertions (optional)
 	 */
-
 	A.reserve(10);
 
-	/* 
-	 * Insert values in A
+	/*
+	 * Insert values in A.
 	 */
-
 	A.insert(0,0,1.0); // insert a '1' in A(0,0)
 	A.insert(1,1,2.0); // insert a '2' in A(1,1)
 	A.insert(2,1,3.0); // insert a '3' in A(2,1)
@@ -27,22 +25,18 @@ int main()
 
 	std::cout << A.info("A") << A << "\n";
 
-	/* 
-	 * Create a csc matrix from the coo matrix 
+	/*
+	 * Create a CSC matrix from the COO matrix.
 	 * (double entries will be added together)
 	 */
-
 	cla3p::csc::RdMatrix B = A.toCsc();
-
 	std::cout << B.info("B") << B << "\n";
 
-	/* 
-	 * Create a csc matrix from the coo matrix 
+	/*
+	 * Create a CSC matrix from the COO matrix.
 	 * (the absolute maximum of double entries will be kept)
 	 */
-
 	cla3p::csc::RdMatrix C = A.toCsc(cla3p::dup_t::Amax);
-
 	std::cout << C.info("C") << C << "\n";
 
 	return 0;

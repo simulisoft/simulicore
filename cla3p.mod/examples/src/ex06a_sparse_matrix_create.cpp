@@ -10,7 +10,6 @@ int main()
 	/*
 	 * Double precision real empty matrix
 	 */
-
 	cla3p::csc::RdMatrix A;
 	cla3p::coo::RdMatrix B;
 
@@ -20,17 +19,13 @@ int main()
 	/*
 	 * (3x4) single precision real matrix
 	 */
-
-	cla3p::coo::RfMatrix C(3,4);
-
+	cla3p::coo::RfMatrix C(3, 4);
 	std::cout << C.info("C");
 
 	/*
 	 * Initialize a (5x2) empty sparse matrix
 	 */
-
-	B = cla3p::coo::RdMatrix(5,2);
-
+	B = cla3p::coo::RdMatrix(5, 2);
 	std::cout << B.info("B");
 
 	return 0;

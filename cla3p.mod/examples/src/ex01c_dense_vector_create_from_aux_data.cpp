@@ -20,24 +20,22 @@ int main()
 		p_y[i] = 3 - i;
 
 	/*
-	 * Assign pointer p_x in vector x but do not bind
-	 * x simply hosts p_x, need to manually dealloc p_x
+	 * Assign pointer p_x to vector x but do not bind.
+	 * (bind = false) x does not take ownership of p_x, need to manually deallocate p_x.
 	 */
 	cla3p::dns::RdVector x(5, p_x, false);
 	std::cout << x.info("x") << x;
 
 	/*
-	 * Assign pointer p_y in vector y and bind
-	 * y takes ownership of p_y, no free call for p_y is required
+	 * Assign pointer p_y to vector y with bind.
+	 * (bind = true) y takes ownership of p_y, no free call for p_y is required.
 	 */
-
 	cla3p::dns::RdVector y(3, p_y, true);
-
 	std::cout << y.info("y") << y;
-	/* 
-	 * Free x and exit
-	 */
 
+	/*
+	 * Free p_x and exit.
+	 */
 	cla3p::i_free(p_x);
 
 	return 0;

@@ -20,7 +20,6 @@ int main()
 	/*
 	 * Perform the operation (x + 2 * y) using operators and the add function respectively
 	 */
-
 	cla3p::dns::RdVector z1 = x + 2. * y;
 	std::cout << "z1:\n" << z1;
 
@@ -30,7 +29,6 @@ int main()
 	/*
 	 * Perform the operation (z1 += 3 * x) using operators and the update function respectively
 	 */
-
 	z1 += 3. * x;
 	std::cout << "z1:\n" << z1;
 

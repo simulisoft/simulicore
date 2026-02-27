@@ -32,7 +32,6 @@ int main()
 	/*
 	 * Perform the operation (A + 2 * B) using operators and the add function respectively
 	 */
-
 	cla3p::csc::RdMatrix C1 = 3. * A + 2. * B;
 	std::cout << "C1:\n" << C1 << "\n";
 
@@ -42,7 +41,6 @@ int main()
 	/*
 	 * Perform the operation (Cx += 3 * A) using operators and the update function respectively
 	 */
-
 	C1 += 3. * A;
 	std::cout << "C1:\n" << C1 << "\n";
 

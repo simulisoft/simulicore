@@ -34,7 +34,6 @@ static void solve_linear_system(const cla3p::csr::RdMatrix& A, const T_Rhs& B)
 		/*
 		 * Solve using operator /
 		 */
-
 		T_Rhs X = A / B;
 
 		std::cout << "  " << cla3p::TypeTraits<T_Rhs>::type_name() << " rhs::";
@@ -60,29 +59,26 @@ int main()
 	/*
 	 * Create a random general matrix
 	 */
-
-	const cla3p::csr::RdMatrix Agen = DefaultSparseMatrix();
+	const cla3p::csr::RdMatrix Age = DefaultSparseMatrix();
 
 	/*
 	 * Create a random symmetric matrix
 	 */
-
-	const cla3p::csr::RdMatrix Asym = DefaultSymmetricSparseMatrix();
+	const cla3p::csr::RdMatrix Asy = DefaultSymmetricSparseMatrix();
 
 	/*
 	 * Create random right hand sides
 	 */
-
-	const cla3p::dns::RdVector B1 = cla3p::dns::RdVector::random(5);
-	const cla3p::dns::RdMatrix B2 = cla3p::dns::RdMatrix::random(5, 3);
-
+	const cla3p::dns::RdVector b = cla3p::dns::RdVector::random(5);
+	const cla3p::dns::RdMatrix B = cla3p::dns::RdMatrix::random(5, 3);
+    
 	std::cout << "General lhs\n";
-	solve_linear_system(Agen, B1);
-	solve_linear_system(Agen, B2);
+	solve_linear_system(Age, b);
+	solve_linear_system(Age, B);
 
 	std::cout << "\nSymmetric lhs\n";
-	solve_linear_system(Asym, B1);
-	solve_linear_system(Asym, B2);
+	solve_linear_system(Asy, b);
+	solve_linear_system(Asy, B);
 
 	return 0;
 }

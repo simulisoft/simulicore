@@ -15,35 +15,35 @@ int main()
 	std::cout << "x:\n" << x << "\n";
 
 	/*
-	 * Get a copy of x[1:3) in xb
-	 * Get a reference of x[2:5) in xr
+	 * Get a copy of x[1:3) in xb.
+	 * Get a reference of x[2:5) in xr.
 	 */
 	cla3p::dns::RdVector xb = x.block(1, 2);
 	cla3p::dns::RdVector xr = x.rblock(2, 3);
 	std::cout << "xb:\n" << xb;
 	std::cout << "xr:\n" << xr;
 	/*
-	 * Get a guarded reference of xref[2:5) in xg
+	 * Get a guarded reference of xref[2:5) in xg.
 	 */
 	const cla3p::dns::RdVector& xref = x;
 	cla3p::Guard<cla3p::dns::RdVector> xg = xref.rblock(2, 3);
 	std::cout << "xg:\n" << xg.get() << "\n";
 
 	/*
-	 * Change values in blocks
+	 * Change values in blocks.
 	 */
-	xr = -1;
+	xr =-1;
 	std::cout << "x:\n" << x;
 
 	/*
-	 * Set values of xb to x, starting at index 1
+	 * Set values of xb to x, starting at index 1.
 	 */
 	xb = -2;
 	x.setBlock(1, xb);
 	std::cout << "x:\n" << x;
 
 	/*
-	 * Set values of xb to x, starting at index 2
+	 * Set values of xb to x, starting at index 2.
 	 */
 	xb = -3;
 	x.rblock(2, 2) = xb;

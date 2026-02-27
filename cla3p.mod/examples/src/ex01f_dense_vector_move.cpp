@@ -13,19 +13,17 @@ int main()
 	std::cout << x.info("x") << x;
 
 	/*
-	 * Move x to y
+	 * Move x to y.
 	 */
-
 	cla3p::dns::RfVector y = x.move();
 
 	std::cout << x.info("x") << x;
 	std::cout << y.info("y") << y;
 
 	/*
-	 * Move y to z
-	 * z is non-empty with non matching dimension, so operation will fail
+	 * Move y to z.
+	 * z is non-empty with non matching dimension, so operation will fail.
 	 */
-
 	cla3p::dns::RfVector z(2);
 
 	try {

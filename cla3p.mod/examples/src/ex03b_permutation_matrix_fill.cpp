@@ -11,14 +11,13 @@ int main()
 	cla3p::prm::PiMatrix P2(3);
 	cla3p::prm::PiMatrix P3(3);
 
-	/* 
-	 * Set all values in P1 to 0 (not a valid permutation matrix)
-	 * Set all values in P2 to -1 (not a valid permutation matrix)
-	 * Insert values in P3
+	/*
+	 * Set all values in P1 to 0 (not a valid permutation matrix).
+	 * Set all values in P2 to -1 (not a valid permutation matrix).
+	 * Insert values in P3.
 	 */
-
 	P1.fill(0);
-
+    
 	P2 = -1;
 
 	P3(0) = 2;

@@ -8,8 +8,8 @@
 
 int main()
 {
-	const cla3p::dns::RdMatrix A = cla3p::dns::RdMatrix::random(5,3);
-	const cla3p::dns::RdMatrix B = cla3p::dns::RdMatrix::random(3,5);
+	const cla3p::dns::RdMatrix A = cla3p::dns::RdMatrix::random(5, 3);
+	const cla3p::dns::RdMatrix B = cla3p::dns::RdMatrix::random(3, 5);
 
 	std::cout << "A:\n" << A << "B:\n" << B;
 
@@ -28,7 +28,6 @@ int main()
 	/*
 	 * Decompose A & B into QR products
 	 */
-
 	qrA.decompose(A);
 	qrB.decompose(B);
 

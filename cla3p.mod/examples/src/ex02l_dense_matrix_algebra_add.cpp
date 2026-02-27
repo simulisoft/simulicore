@@ -8,8 +8,8 @@
 
 int main()
 {
-	cla3p::dns::RdMatrix A(3,3);
-	cla3p::dns::RdMatrix B(3,3);
+	cla3p::dns::RdMatrix A(3, 3);
+	cla3p::dns::RdMatrix B(3, 3);
 
 	A = 3.;
 	B = 2.;
@@ -19,7 +19,6 @@ int main()
 	/*
 	 * Perform the operation (A + 2 * B) using operators and the add function respectively
 	 */
-
 	cla3p::dns::RdMatrix C1 = A + 2. * B;
 	std::cout << "C1:\n" << C1;
 
@@ -29,7 +28,6 @@ int main()
 	/*
 	 * Perform the operation (Cx += 3 * A) using operators and the update function respectively
 	 */
-
 	C1 += 3. * A;
 	std::cout << "C1:\n" << C1;
 

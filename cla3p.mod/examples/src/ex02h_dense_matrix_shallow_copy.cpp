@@ -7,17 +7,14 @@
 
 int main()
 {
-	cla3p::dns::RfMatrix A(3,3);
+	cla3p::dns::RfMatrix A(3, 3);
 	A = 2;
-
 	std::cout << A.info("A") << A;
 
 	/*
-	 * Shallow copy A to B (A & B share contents)
+	 * Shallow copy A to B (A & B share contents).
 	 */
-
 	cla3p::dns::RfMatrix B = A.rcopy();
-
 	std::cout << B.info("B") << B << "\n";
 
 	B(0,1) = 0;

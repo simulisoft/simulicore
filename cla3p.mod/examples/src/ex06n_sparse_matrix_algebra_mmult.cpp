@@ -30,10 +30,8 @@ int main()
 	std::cout << "A:\n" << Acsc << "\n";
 	std::cout << "B:\n" << Bcsc << "\n";
 
-	cla3p::dns::RdMatrix Bdns(5,3);
-
+	cla3p::dns::RdMatrix Bdns(5, 3);
 	Bdns = 2.;
-
 	std::cout << "B:\n" << Bdns << "\n";
 
 	/*
@@ -59,7 +57,6 @@ int main()
 	/*
 	 * Perform the operation (Cx += A * B) using operators and the mult function respectively
 	 */
-
 	C1 += Acsc * Bdns;
 	std::cout << "C1:\n" << C1;
 

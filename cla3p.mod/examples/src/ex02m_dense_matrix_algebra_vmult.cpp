@@ -8,7 +8,7 @@
 
 int main()
 {
-	cla3p::dns::RdMatrix A(3,3);
+	cla3p::dns::RdMatrix A(3, 3);
 	cla3p::dns::RdVector x(3);
 
 	A = 3.;
@@ -19,7 +19,6 @@ int main()
 	/*
 	 * Perform the operation (A * x) using operators and the mult function respectively
 	 */
-
 	cla3p::dns::RdVector y1 = A * x;
 	std::cout << "y1:\n" << y1;
 
@@ -30,7 +29,6 @@ int main()
 	/*
 	 * Perform the operation (y1 += A * x) using operators and the mult function respectively
 	 */
-
 	y1 += A * x;
 	std::cout << "y1:\n" << y1;
 

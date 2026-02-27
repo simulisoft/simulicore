@@ -27,10 +27,10 @@ int main()
 	}
 
 	/*
-	 * Allocate space with property on existing matrices
+	 * Allocate space with property for existing matrices.
 	 */
 	{
-        cla3p::dns::RfMatrix A;
+		cla3p::dns::RfMatrix A;
 		cla3p::dns::RfMatrix B;
 		cla3p::dns::CdMatrix C;
 

@@ -9,14 +9,12 @@
 int main()
 {
 	cla3p::dns::RdVector x(3);
-
 	x = 3.;
 	std::cout << "x:\n" << x << "\n";
 
 	/*
 	 * Scale x using operators and the scale function respectively
 	 */
-
 	x *= 2.;
 	std::cout << "x *= 2:\n" << x << "\n";
 
@@ -24,7 +22,6 @@ int main()
 	std::cout << "x.iscale(.5):\n" << x << "\n";
 
 	cla3p::dns::RdVector y = 2. * x;
-
 	std::cout << "y:\n" << y;
 
 	return 0;
