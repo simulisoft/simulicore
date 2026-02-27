@@ -40,12 +40,12 @@ Utilizing a foundational framework of GPU memory management and accelerated comp
 - [x] Sparse matrix management
 - [x] Dense vector/matrix algebra
 - [x] Sparse matrix algebra (limited)
-- [x] Virtual operation layer compatible with CLA3P
+- [x] Virtual operation layer
 - [x] Dense linear system solvers (LU)
 - [ ] Sparse linear system solvers (cuDSS)
 - [ ] QR decomposition
 - [ ] Singular Value Decomposition (SVD)
-- [ ] Eigenvalue problems
+- [x] Eigenvalue problems (limited support)
 - [x] CUDA stream management (limited support)
 - [x] cuBLAS integration (Basic Linear Algebra Subprograms on GPU - limited support)
 - [x] cuSOLVER integration (Dense linear system solvers on GPU - limited support)
