@@ -1,3 +1,95 @@
+# [v0.3.0] - TBD
+
+## CLA3P Module
+
+### New Features
+- **Enhanced CSR Matrix Support**: Pardiso now accepts CSR matrices in Full and Upper storage formats
+- **Template-Only Checks System**: Outer checks now use meta classes and template-only implementations for improved compile-time optimization
+
+### Improvements
+- **Code Maintenance**: General code cleanup and refactoring
+  - Use type aliases throughout codebase
+  - Removed obsolete comments
+  - Enhanced virtual expression system maintenance
+  - Added extra validation in outer product operations
+  - Updated namespace usage in syntax
+- **Examples**: Tidied up example programs for better clarity
+- **Documentation**: 
+  - Fixed documentation regarding the "bind" parameter
+  - Updated syntax documentation
+
+### Bug Fixes
+- Improved dimension checking using meta classes in `mult_dim_check()`
+- Enhanced property validation code
+
+---
+
+## cuLite Module
+
+### New Features
+- **Eigenvalue Decomposition (GEEV)**: Complete eigenvalue/eigenvector computation for general matrices
+  - Added `geev()` support in CuSolverHandler
+  - New eigenvalue solver directory and solver implementations
+  - LapackGeev proxy functions for CPU-based eigenvalue decomposition
+  - Dedicated cuSolver proxy file for eigenvalue operations
+  - Support for both eigenvalues-only and full eigenpair computation
+- **Virtual Expression System**: Lazy evaluation for GPU matrices and vectors
+  - Virtual row vector class for transposed views
+  - Virtual conjugate operations
+  - Virtual transpose and conjugate transpose
+  - Virtual arithmetic operations (+, -, scaling)
+  - Outer product virtual expressions
+  - Constructor support for creating objects from virtual expressions
+  - Transpose and conjugate-transpose members for sparse matrices
+- **Functional Algebra Operations**: High-level functional API for common linear algebra operations
+  - Inner product (dot, dotc)
+  - Vector addition and scaling (axpy)
+  - Matrix-vector multiplication for symmetric/Hermitian matrices
+  - Matrix-matrix multiplication for symmetric/Hermitian matrices
+  - Outer product operations (ger, gerc, syr, her)
+  - Rank-1 updates for symmetric/Hermitian matrices
+  - Functional update operations for dense and sparse matrices
+  - Diagonal matrix-vector multiplication for CSX matrices
+- **Sparse Matrix Operations**:
+  - CSR to CSC conversion via cuSPARSE proxy
+  - Custom CSX addition kernels for sparse matrix arithmetic
+  - Host-device copy operations for CSR matrices
+  - Inner and outer algebra operators for sparse matrices
+- **cuBLAS Handler Enhancements**: Added multiple new operations
+  - `copy()` member for array copying
+  - `dotc()` for conjugate dot product
+  - `axpy()` for vector scaling and addition
+  - `ger()`, `gerc()` for rank-1 updates
+  - `syr()`, `her()` for symmetric/Hermitian rank-1 updates
+
+### Improvements
+- **Documentation**: 
+  - Added comprehensive Doxygen documentation for modules
+  - Enhanced documentation for update operations
+  - Added documentation for LapackGeev functions
+  - Fixed various documentation references
+- **Code Organization**:
+  - Extracted legacy cuSPARSE proxies to separate file for better maintainability
+  - Improved visibility control for virtual expressions
+  - Enhanced dns1D code structure
+- **Utilities**:
+  - Added `memSetZero()` utility function for GPU memory initialization
+  - Added complex number arithmetic operators (+, -)
+
+### Bug Fixes
+- Fixed compilation error in `operator>>()` for stream operations
+- Fixed CuSolver GEEV implementation issues
+- Added const casts to fix compilation issues in cuSPARSE proxies
+- Resolved virtual expression conflicts by reimplementing Virtual Expression system
+- Fixed argument handling in update operations
+
+### API Changes
+- Modified `add()` function argument lists for consistency
+- Enhanced operator support for update operations (+=, -=, *=)
+- Added multiplication operators for matrix-vector and matrix-matrix operations
+
+---
+
 # [v0.2.0] - 2026-02-07
 
 ## CLA3P Module
