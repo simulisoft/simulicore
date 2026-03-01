@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.12.0)
 cmake_policy(SET CMP0074 NEW)
 
 set(SIMULICORE_NAME "SimuliCore")
-set(SIMULICORE_VERSION "0.2.0")
+set(SIMULICORE_VERSION "0.3.0")
 project(${SIMULICORE_NAME} VERSION ${SIMULICORE_VERSION} LANGUAGES CXX)
 
 #-----------------------------------------------
@@ -23,7 +23,7 @@ message(STATUS "${SIMULICORE_NAME} Root Directory: ${SIMULICORE_ROOT}")
 #-----------------------------------------------
 # set global project definitions
 #-----------------------------------------------
-option(SIMULICORE_DEVELOPER_MODE "Install all ${SIMULICORE_NAME} featues for developers" OFF)
+option(SIMULICORE_DEVELOPER_MODE "Install all ${SIMULICORE_NAME} features for developers" OFF)
 
 #-----------------------------------------------
 # build & install setup
