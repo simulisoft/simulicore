@@ -25,6 +25,7 @@
 // culite
 #include "culite/types/scalar.hpp"
 #include "culite/support/utils.hpp"
+#include "culite/support/grid.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -34,7 +35,7 @@ namespace dns {
 template <typename T_Scalar>
 __global__ void fill_1d_kernel(int_t n, T_Scalar* x, T_Scalar val)
 {
-    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    int_t idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx < n) x[idx] = val;
 }
 /*-------------------------------------------------*/
@@ -43,9 +44,8 @@ void launch_fill_kernel(int_t n, T_Scalar* x, T_Scalar val)
 { 
     if(n <= 0) return;
 
-	int threads = 256;
-	int blocks = (n + threads - 1) / threads;
-	fill_1d_kernel<T_Scalar><<<blocks, threads>>>(n, x, val);
+    Grid1D grid(n);
+	fill_1d_kernel<T_Scalar><<<grid.numBlocks(), grid.threadsPerBlock()>>>(n, x, val);
 
     syncDevice();
 }
@@ -58,7 +58,7 @@ template void launch_fill_kernel(int_t, complex8_t*, complex8_t);
 template <typename T_Scalar>
 __global__ void conjugate_1d_kernel(int_t n, T_Scalar* x)
 {
-    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    int_t idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx < n) x[idx] = arith::conj(x[idx]);
 }
 /*-------------------------------------------------*/
@@ -67,9 +67,8 @@ void launch_conjugate_kernel(int_t n, T_Scalar* x)
 { 
     if(n <= 0 || TypeTraits<T_Scalar>::is_real()) return;
 
-	int threads = 256;
-	int blocks = (n + threads - 1) / threads;
-	conjugate_1d_kernel<T_Scalar><<<blocks, threads>>>(n, x);
+    Grid1D grid(n);
+    conjugate_1d_kernel<T_Scalar><<<grid.numBlocks(), grid.threadsPerBlock()>>>(n, x);
 
     syncDevice();
 }
@@ -85,7 +84,7 @@ template <typename T_Scalar>
 __global__ void get_real_1d_kernel(int_t n, const T_Scalar* x, 
                                    typename TypeTraits<T_Scalar>::real_type *y)
 {
-    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    int_t idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx < n) y[idx] = arith::getRe(x[idx]);
 }
 /*-------------------------------------------------*/
@@ -95,9 +94,8 @@ void launch_get_real_kernel(int_t n, const T_Scalar* x,
 {
     if(n <= 0) return;
 
-    int threads = 256;
-    int blocks = (n + threads - 1) / threads;
-    get_real_1d_kernel<T_Scalar><<<blocks, threads>>>(n, x, y);
+    Grid1D grid(n);
+    get_real_1d_kernel<T_Scalar><<<grid.numBlocks(), grid.threadsPerBlock()>>>(n, x, y);
     syncDevice();
 }
 /*-------------------------------------------------*/
@@ -110,7 +108,7 @@ template <typename T_Scalar>
 __global__ void get_imag_1d_kernel(int_t n, const T_Scalar* x, 
                                    typename TypeTraits<T_Scalar>::real_type *y)
 {
-    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    int_t idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx < n) y[idx] = arith::getIm(x[idx]);
 }
 /*-------------------------------------------------*/
@@ -120,9 +118,8 @@ void launch_get_imag_kernel(int_t n, const T_Scalar* x,
 {
     if(n <= 0) return;
 
-    int threads = 256;
-    int blocks = (n + threads - 1) / threads;
-    get_imag_1d_kernel<T_Scalar><<<blocks, threads>>>(n, x, y);
+    Grid1D grid(n);
+    get_imag_1d_kernel<T_Scalar><<<grid.numBlocks(), grid.threadsPerBlock()>>>(n, x, y);
     syncDevice();
 }
 /*-------------------------------------------------*/
@@ -152,10 +149,9 @@ void launch_geev_calculate_complex_eigenvalues_kernel(int_t n,
                                                       T_Scalar *w)
 {
     if(n <= 0) return;
-    
-    int threads = 256;
-    int blocks = (n + threads - 1) / threads;
-    geev_calculate_complex_eigenvalues_kernel<T_Scalar><<<blocks, threads>>>(n, wri, w);
+
+    Grid1D grid(n);
+    geev_calculate_complex_eigenvalues_kernel<T_Scalar><<<grid.numBlocks(), grid.threadsPerBlock()>>>(n, wri, w);
 
     syncDevice();
 }

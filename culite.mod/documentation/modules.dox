@@ -120,6 +120,22 @@
  * handles. It provides convenient RAII-based management of CUDA streams, cuBLAS contexts, and cuSOLVER
  * handles, ensuring proper resource lifecycle and exception safety.
  * @{
+ *   @defgroup culite_module_index_grid_utils Grid Utilities
+ *   @brief CUDA kernel grid and block dimension configuration utilities.
+ *   @details Provides helper classes for configuring CUDA kernel launch parameters with automatic
+ *   grid dimension calculation, overflow checking, and validation. These classes simplify the process
+ *   of determining optimal block and grid sizes for 1D and 2D computational problems.
+ *   
+ *   The Grid classes automatically calculate the number of blocks needed to cover all elements,
+ *   handle small problem sizes gracefully, and provide safety guarantees through input validation
+ *   and overflow detection. Grid2D is optimized for column-major matrix operations with intelligent
+ *   block dimension selection based on problem size.
+ * 
+ *   Classes:
+ *   - @ref culite::GridXD : Base class for CUDA kernel grid configuration
+ *   - @ref culite::Grid1D : 1D CUDA kernel grid configuration with automatic block calculation
+ *   - @ref culite::Grid2D : 2D CUDA kernel grid configuration with adaptive block sizing
+ * 
  *   @defgroup culite_module_index_stream_utils Stream Utilities
  *   @brief CUDA stream management and synchronization.
  *   @details Provides RAII-based management of CUDA streams that enable asynchronous kernel execution

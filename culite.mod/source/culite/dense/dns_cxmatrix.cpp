@@ -85,13 +85,12 @@ XxMatrix<typename TypeTraits<T_Scalar>::real_type> CxMatrix<T_Scalar>::real() co
 		: this->prop());
 
 	XxMatrix<T_RScalar> ret(this->nrows(), this->ncols(), retProp);
-	blk::dns::getReal2D(
-			this->prop().uplo(), 
-			this->nrows(), 
-			this->ncols(), 
-			this->values(), 
-			this->ld(), 
-			ret.values(), ret.ld());
+	blk::dns::getReal(this->prop().uplo(), 
+			          this->nrows(), 
+			          this->ncols(), 
+			          this->values(), 
+			          this->ld(), 
+			          ret.values(), ret.ld());
 
 	return ret;
 }
@@ -104,13 +103,12 @@ XxMatrix<typename TypeTraits<T_Scalar>::real_type> CxMatrix<T_Scalar>::imag() co
 		: this->prop());
 
 	XxMatrix<T_RScalar> ret(this->nrows(), this->ncols(), retProp);
-	blk::dns::getImag2D(
-			this->prop().uplo(), 
-			this->nrows(), 
-			this->ncols(), 
-			this->values(), 
-			this->ld(), 
-			ret.values(), ret.ld());
+	blk::dns::getImag(this->prop().uplo(), 
+			          this->nrows(), 
+			          this->ncols(), 
+			          this->values(), 
+			          this->ld(), 
+			          ret.values(), ret.ld());
 
 	return ret;
 }

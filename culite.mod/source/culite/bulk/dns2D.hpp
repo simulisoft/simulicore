@@ -35,150 +35,130 @@ namespace culite {
 namespace blk {
 namespace dns {
 /*-------------------------------------------------*/
-
-//
-// Set pointer (column-major)
-//
 template <typename T_Scalar>
 inline T_Scalar* ptrmv(int_t lda, T_Scalar *a, int_t i, int_t j)
 {
 	return (a + i + j * lda);
 }
 /*-------------------------------------------------*/
-//
-// Get value (column-major)
-//
 template <typename T_Scalar>
-inline T_Scalar& entry(int_t lda, T_Scalar *a, int_t i, int_t j)
+inline const T_Scalar* ptrmv(int_t lda, const T_Scalar *a, int_t i, int_t j)
 {
-	return *ptrmv(lda,a,i,j);
+	return (a + i + j * lda);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void copy2D(::cla3p::uplo_t uplo, int_t m, int_t n, const T_Scalar *a, int_t lda, T_Scalar *b, int_t ldb)
+inline T_Scalar& entry(int_t lda, T_Scalar *a, int_t i, int_t j)
+{
+	return *ptrmv(lda, a, i, j);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+inline const T_Scalar& entry(int_t lda, const T_Scalar *a, int_t i, int_t j)
+{
+	return *ptrmv(lda, a, i, j);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void copy(::cla3p::uplo_t uplo, int_t m, int_t n, const T_Scalar *a, int_t lda, T_Scalar *b, int_t ldb)
 {
 	if(m > 0 && n > 0) {
 		if(uplo == ::cla3p::uplo_t::Full) {
 			memCopyD2D(m, n, a, lda, b, ldb);
 		} else {
-			err::CudaException("blk::dns::copy2D for Upper/Lower is not implemented yet.");
+            launch_copy_kernel(uplo, m, n, a, lda, b, ldb);
 		}
 	}
 }
 /*-------------------------------------------------*/
-//
-// Scale
-//
 template <typename T_Scalar>
-void scale2D(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda, T_Scalar coeff)
+void fill(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda, T_Scalar val)
 {
-	if(uplo == ::cla3p::uplo_t::Full) {
-		launch_scale_matrix_kernel<T_Scalar>(m, n, a, lda, coeff);
-	} else {
-		// TODO: implement
-		throw err::CudaException("blk::dns::scale2D is only implemented for full matrices.");
-	}	
+    launch_fill_kernel(uplo, m, n, a, lda, val);
 }
 /*-------------------------------------------------*/
-//
-// Norm 1
-//
 template <typename T_Scalar>
-typename TypeTraits<T_Scalar>::real_type normOne2D(::cla3p::prop_t ptype, 
-                                                   ::cla3p::uplo_t uplo,
-                                                   int_t m, int_t n, 
-                                                   const T_Scalar* a, 
-                                                   int_t lda)
+void scale(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda, T_Scalar alpha)
+{
+	launch_scale_kernel<T_Scalar>(uplo, m, n, a, lda, alpha);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+typename TypeTraits<T_Scalar>::real_type normOne(::cla3p::prop_t ptype, 
+                                                 ::cla3p::uplo_t uplo,
+                                                 int_t m, int_t n, 
+                                                 const T_Scalar* a, 
+                                                 int_t lda)
 {
 	typename TypeTraits<T_Scalar>::real_type ret = 0;
 	if(ptype == ::cla3p::prop_t::General && uplo == ::cla3p::uplo_t::Full) {
-		ret = launch_matrix_1_norm(m, n, a, lda);
+		ret = launch_matrix_one_norm_kernel(m, n, a, lda);
 	} else {
 		// TODO: implement
-		throw err::CudaException("blk::dns::normOne2D is only implemented for full matrices.");
+		throw err::CudaException("blk::dns::normOne is only implemented for full matrices.");
 	}
 	return ret;
 }
 /*-------------------------------------------------*/
-//
-// Norm Inf
-//
 template <typename T_Scalar>
-typename TypeTraits<T_Scalar>::real_type normInf2D(::cla3p::prop_t ptype, 
-												  ::cla3p::uplo_t uplo,
-												  int_t m, int_t n, 
-												  const T_Scalar* a, 
-												  int_t lda)
+typename TypeTraits<T_Scalar>::real_type normInf(::cla3p::prop_t ptype, 
+										         ::cla3p::uplo_t uplo,
+										         int_t m, int_t n, 
+										         const T_Scalar* a, 
+										         int_t lda)
 {
 	typename TypeTraits<T_Scalar>::real_type ret = 0;
 	if(ptype == ::cla3p::prop_t::General && uplo == ::cla3p::uplo_t::Full) {
-		ret = launch_matrix_inf_norm(m, n, a, lda);
+		ret = launch_matrix_inf_norm_kernel(m, n, a, lda);
 	} else {
 		// TODO: implement
-		throw err::CudaException("blk::dns::normInf2D is only implemented for full matrices.");
+		throw err::CudaException("blk::dns::normInf is only implemented for full matrices.");
 	}
 	return ret;
 }
 /*-------------------------------------------------*/
-//
-// Norm Max
-//
 template <typename T_Scalar>
-typename TypeTraits<T_Scalar>::real_type normMax2D(::cla3p::prop_t ptype, 
-	                                               ::cla3p::uplo_t uplo,
-                                                   int_t m, int_t n, 
-                                                   const T_Scalar* a, 
-                                                   int_t lda)
+typename TypeTraits<T_Scalar>::real_type normMax(::cla3p::prop_t ptype, 
+	                                             ::cla3p::uplo_t uplo,
+                                                 int_t m, int_t n, 
+                                                 const T_Scalar* a, 
+                                                 int_t lda)
 {
 	typename TypeTraits<T_Scalar>::real_type ret = 0;
 	if(ptype == ::cla3p::prop_t::General && uplo == ::cla3p::uplo_t::Full) {
-		ret = launch_matrix_max_norm(m, n, a, lda);
+		ret = launch_matrix_max_norm_kernel(m, n, a, lda);
 	} else {
 		// TODO: implement
-		throw err::CudaException("blk::dns::normMax2D is only implemented for full matrices.");
+		throw err::CudaException("blk::dns::normMax is only implemented for full matrices.");
 	}
 	return ret;
 }
 /*-------------------------------------------------*/
-//
-// Norm Frobenius
-//
 template <typename T_Scalar>
-typename TypeTraits<T_Scalar>::real_type normFro2D(::cla3p::prop_t ptype, 
-                                                   ::cla3p::uplo_t uplo,
-                                                   int_t m, int_t n, 
-                                                   const T_Scalar* a, 
-                                                   int_t lda)
+typename TypeTraits<T_Scalar>::real_type normFro(::cla3p::prop_t ptype, 
+                                                 ::cla3p::uplo_t uplo,
+                                                 int_t m, int_t n, 
+                                                 const T_Scalar* a, 
+                                                 int_t lda)
 {
 	typename TypeTraits<T_Scalar>::real_type ret = 0;
 	if(ptype == ::cla3p::prop_t::General && uplo == ::cla3p::uplo_t::Full) {
-		ret = launch_matrix_fro_norm(m, n, a, lda);
+		ret = launch_matrix_fro_norm_kernel(m, n, a, lda);
 	} else {
 		// TODO: implement
-		throw err::CudaException("blk::dns::normFro2D is only implemented for full matrices.");
+		throw err::CudaException("blk::dns::normFro is only implemented for full matrices.");
 	}
 	return ret;
 }
 /*-------------------------------------------------*/
-//
-// Conjugate 2D
-//
 template <typename T_Scalar>
-void conjugate2D(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda)
+void conjugate(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda)
 {
-	if(uplo == ::cla3p::uplo_t::Full) {
-		launch_conjugate_2d(m, n, a, lda);
-	} else {
-		// TODO: implement
-		throw err::CudaException("blk::dns::conjugate2D is only implemented for full matrices.");
-	}
+	launch_conjugate_kernel<T_Scalar>(uplo, m, n, a, lda);
 }
 /*-------------------------------------------------*/
-//
-// Transpose 2D
-//
 template <typename T_Scalar>
-void transpose2D(int_t m, int_t n, const T_Scalar *a, int_t lda, T_Scalar* b, int_t ldb)
+void transpose(int_t m, int_t n, const T_Scalar *a, int_t lda, T_Scalar* b, int_t ldb)
 {
 	T_Scalar alpha = makeScalar<T_Scalar>(1);
 	T_Scalar beta  = makeScalar<T_Scalar>(0);
@@ -191,11 +171,8 @@ void transpose2D(int_t m, int_t n, const T_Scalar *a, int_t lda, T_Scalar* b, in
 					            b, ldb);
 }
 /*-------------------------------------------------*/
-//
-// Conjugate-transpose 2D
-//
 template <typename T_Scalar>
-void ctranspose2D(int_t m, int_t n, const T_Scalar *a, int_t lda, T_Scalar* b, int_t ldb)
+void ctranspose(int_t m, int_t n, const T_Scalar *a, int_t lda, T_Scalar* b, int_t ldb)
 {
 	T_Scalar alpha = makeScalar<T_Scalar>(1);
 	T_Scalar beta  = makeScalar<T_Scalar>(0);
@@ -209,10 +186,10 @@ void ctranspose2D(int_t m, int_t n, const T_Scalar *a, int_t lda, T_Scalar* b, i
 }
 /*-------------------------------------------------*/
 //
-// Update 2D (C += alpha * op(A)) C (m x n)
+// Update: C += alpha * op(A), C (m x n)
 //
 template <typename T_Scalar>
-void update2D(int_t m, int_t n, ::cla3p::op_t opA, T_Scalar alpha, const T_Scalar *a, int_t lda, T_Scalar* c, int_t ldc)
+void update(int_t m, int_t n, ::cla3p::op_t opA, T_Scalar alpha, const T_Scalar *a, int_t lda, T_Scalar* c, int_t ldc)
 {
 	T_Scalar beta = makeScalar<T_Scalar>(1);
 	globalCuBlasHandler().geam<T_Scalar>(opA,
@@ -223,38 +200,22 @@ void update2D(int_t m, int_t n, ::cla3p::op_t opA, T_Scalar alpha, const T_Scala
 					                     c, ldc);
 }
 /*-------------------------------------------------*/
-//
-// get Real 2D
-//
 template <typename T_Scalar>
-void getReal2D(::cla3p::uplo_t uplo, 
+void getReal(::cla3p::uplo_t uplo, 
 	           int_t m, int_t n, 
 			   const T_Scalar* a, int_t lda, 
-			   typename TypeTraits<T_Scalar>::real_type* r, int_t ldr)
+			   typename TypeTraits<T_Scalar>::real_type* b, int_t ldb)
 {
-	if(uplo == ::cla3p::uplo_t::Full) {
-		launch_get_real_2d(m, n, a, lda, r, ldr);
-	} else {
-		// TODO: implement
-		throw err::CudaException("blk::dns::getReal2D is only implemented for full matrices.");
-	}
+	launch_get_real_kernel(uplo, m, n, a, lda, b, ldb);
 }
 /*-------------------------------------------------*/
-//
-// get Imag 2D
-//
 template <typename T_Scalar>
-void getImag2D(::cla3p::uplo_t uplo, 
+void getImag(::cla3p::uplo_t uplo, 
 	            int_t m, int_t n, 
 				const T_Scalar* a, int_t lda, 
-				typename TypeTraits<T_Scalar>::real_type* r, int_t ldr)
+				typename TypeTraits<T_Scalar>::real_type* b, int_t ldb)
 {
-	if(uplo == ::cla3p::uplo_t::Full) {
-		launch_get_imag_2d(m, n, a, lda, r, ldr);
-	} else {
-		// TODO: implement
-		throw err::CudaException("blk::dns::getImag2D is only implemented for full matrices.");
-	}
+	launch_get_imag_kernel(uplo, m, n, a, lda, b, ldb);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>

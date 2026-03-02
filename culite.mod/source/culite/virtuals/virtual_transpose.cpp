@@ -53,21 +53,19 @@ void VirtualTransposeEvaluateOnExistingSpec(
 		dns::XxMatrix<T_Scalar>& dest)
 {
 	if(conj) {
-		blk::dns::ctranspose2D(
-				src.nrows(),
-				src.ncols(),
-				src.values(),
-				src.ld(),
-				dest.values(),
-				dest.ld());
+		blk::dns::ctranspose(src.nrows(),
+				             src.ncols(),
+				             src.values(),
+				             src.ld(),
+				             dest.values(),
+				             dest.ld());
 	} else {
-		blk::dns::transpose2D(
-				src.nrows(),
-				src.ncols(),
-				src.values(),
-				src.ld(),
-				dest.values(), 
-				dest.ld());
+		blk::dns::transpose(src.nrows(),
+				            src.ncols(),
+				            src.values(),
+				            src.ld(),
+				            dest.values(), 
+				            dest.ld());
 	} // conj
 }
 /*-------------------------------------------------*/
@@ -83,14 +81,14 @@ void VirtualTransposeAccumulateOnExistingSpec(
 		dns::XxMatrix<T_Scalar>& dest,
 		T_Scalar coeff)
 {
-    blk::dns::update2D(dest.nrows(), 
-                       dest.ncols(), 
-                       conj ? ::cla3p::op_t::C : ::cla3p::op_t::T, 
-                       coeff, 
-                       src.values(), 
-                       src.ld(), 
-                       dest.values(), 
-                       dest.ld());
+    blk::dns::update(dest.nrows(), 
+                     dest.ncols(), 
+                     conj ? ::cla3p::op_t::C : ::cla3p::op_t::T, 
+                     coeff, 
+                     src.values(), 
+                     src.ld(), 
+                     dest.values(), 
+                     dest.ld());
 }
 /*-------------------------------------------------*/
 template void VirtualTransposeAccumulateOnExistingSpec(const dns::XxMatrix<real_t    >&, bool, dns::XxMatrix<real_t    >&, real_t    );

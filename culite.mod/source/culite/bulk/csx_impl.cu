@@ -26,6 +26,7 @@
 #include "culite/types/integer.hpp"
 #include "culite/types/scalar.hpp"
 #include "culite/support/utils.hpp"
+#include "culite/support/grid.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -59,11 +60,12 @@ void launch_diag_times_vec_kernel(const T_Scalar* alpha, T_Int np,
                                   const T_Scalar* values, 
                                   const T_Scalar*x, T_Int incx,
                                   T_Scalar *y, T_Int incy)
-{ 
-    int threadsPerBlock = 256;
-    int blocksPerGrid = (np + threadsPerBlock - 1) / threadsPerBlock;
+{
+    if(np <= 0) return;
 
-    diag_times_vec_kernel<<<blocksPerGrid, threadsPerBlock>>>(alpha, np, xxxptr, xxxidx, values, x, incx, y, incy);
+    Grid1D grid(np);
+    diag_times_vec_kernel<<<grid.numBlocks(), 
+                            grid.threadsPerBlock()>>>(alpha, np, xxxptr, xxxidx, values, x, incx, y, incy);
 
     syncDevice();
 }
@@ -104,12 +106,12 @@ void launch_diag_times_mat_kernel(const T_Scalar* alpha, T_Int np,
                                   const T_Scalar*b, T_Int ldb,
                                   T_Scalar *c, T_Int ldc)
 { 
-    // TODO: check if nc is large enough to warrant a 2D grid, otherwise use a 1D grid
-    dim3 blockSize(16, 16);
-    dim3 gridSize((np + blockSize.x - 1) / blockSize.x, 
-                  (nc  + blockSize.y - 1) / blockSize.y);
+    if(np <= 0 || nc <= 0) return;
 
-    diag_times_mat_kernel<<<gridSize, blockSize>>>(alpha, np, xxxptr, xxxidx, values, nc, b, ldb, c, ldc);
+    // TODO: check if nc is large enough to warrant a 2D grid, otherwise use a 1D grid
+    Grid2D grid(np, nc);
+    diag_times_mat_kernel<<<grid.numBlocks(), 
+                            grid.threadsPerBlock()>>>(alpha, np, xxxptr, xxxidx, values, nc, b, ldb, c, ldc);
 
     syncDevice();
 }
@@ -197,12 +199,17 @@ void launch_add_xxptr_kernel(T_Int np,
                              const T_Int* xxxptrB, const T_Int *xxxidxB,
                              T_Int* nnzC, T_Int* xxxptrC)
 {
+    if(np <= 0) return;
+
     memSetZero(np + 1, xxxptrC);
 
-    int threadsPerBlock = 256;
-    int blocksPerGrid = (np + threadsPerBlock - 1) / threadsPerBlock;
+    Grid1D grid(np);
+    add_xxptr_kernel<<<grid.numBlocks(), 
+                       grid.threadsPerBlock()>>>(np, 
+                                                 xxxptrA, xxxidxA, 
+                                                 xxxptrB, xxxidxB, 
+                                                 xxxptrC);
 
-    add_xxptr_kernel<<<blocksPerGrid, threadsPerBlock>>>(np, xxxptrA, xxxidxA, xxxptrB, xxxidxB, xxxptrC);
     roll_xxptr_kernel<<<1, 1>>>(np, xxxptrC);
 
     memCopyD2H(1, xxxptrC + np, nnzC);
@@ -274,13 +281,14 @@ void launch_add_kernel(T_Int np, T_Scalar alpha, T_Scalar beta,
                        const T_Int* xxxptrB, const T_Int *xxxidxB, const T_Scalar* valuesB,
                        T_Int* xxxptrC, T_Int *xxxidxC, T_Scalar* valuesC)
 {
-    int threadsPerBlock = 256;
-    int blocksPerGrid = (np + threadsPerBlock - 1) / threadsPerBlock;
-
-    add_kernel<<<blocksPerGrid, threadsPerBlock>>>(np, alpha, beta, 
-                                                   xxxptrA, xxxidxA, valuesA, 
-                                                   xxxptrB, xxxidxB, valuesB, 
-                                                   xxxptrC, xxxidxC, valuesC);
+    if(np <= 0) return;
+    
+    Grid1D grid(np);
+    add_kernel<<<grid.numBlocks(), 
+                 grid.threadsPerBlock()>>>(np, alpha, beta, 
+                                           xxxptrA, xxxidxA, valuesA, 
+                                           xxxptrB, xxxidxB, valuesB, 
+                                           xxxptrC, xxxidxC, valuesC);
 
     unroll_xxptr_kernel<<<1, 1>>>(np, xxxptrC);
 

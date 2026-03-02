@@ -164,12 +164,11 @@ void XxMatrix<T_Scalar>::iscale(T_Scalar val)
 {
 	T_Cla3pScalar cla3pVal = TypeTraits<T_Scalar>::toCla3pType(val);
 	::cla3p::hermitian_coeff_check<T_Cla3pScalar>(prop(), cla3pVal);
-	blk::dns::scale2D(
-		prop().uplo(),
-		nrows(),
-		ncols(),
-		this->values(),
-		ld(), val);
+	blk::dns::scale(prop().uplo(),
+		            nrows(),
+		            ncols(),
+		            this->values(),
+		            ld(), val);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -218,60 +217,55 @@ alias::VirtualConj_dns<T_Scalar> XxMatrix<T_Scalar>::conjugate() const
 template <typename T_Scalar>
 void XxMatrix<T_Scalar>::iconjugate()
 {
-	blk::dns::conjugate2D(
-		prop().uplo(),
-		nrows(),
-		ncols(),
-		this->values(),
-		ld());
+	blk::dns::conjugate(prop().uplo(),
+		                nrows(),
+		                ncols(),
+		                this->values(),
+		                ld());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 typename XxMatrix<T_Scalar>::T_RScalar XxMatrix<T_Scalar>::normOne() const
 {
-	return blk::dns::normOne2D(
-		prop().type(),
-		prop().uplo(),
-		nrows(),
-		ncols(),
-		this->values(),
-		ld());
+	return blk::dns::normOne(prop().type(),
+		                     prop().uplo(),
+		                     nrows(),
+		                     ncols(),
+		                     this->values(),
+		                     ld());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 typename XxMatrix<T_Scalar>::T_RScalar XxMatrix<T_Scalar>::normInf() const
 {
-	return blk::dns::normInf2D(
-		prop().type(),
-		prop().uplo(),
-		nrows(),
-		ncols(),
-		this->values(),
-		ld());
+	return blk::dns::normInf(prop().type(),
+		                     prop().uplo(),
+		                     nrows(),
+		                     ncols(),
+		                     this->values(),
+		                     ld());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 typename XxMatrix<T_Scalar>::T_RScalar XxMatrix<T_Scalar>::normMax() const
 {
-	return blk::dns::normMax2D(
-		prop().type(),
-		prop().uplo(),
-		nrows(),
-		ncols(),
-		this->values(),
-		ld());
+	return blk::dns::normMax(prop().type(),
+		                     prop().uplo(),
+		                     nrows(),
+		                     ncols(),
+		                     this->values(),
+		                     ld());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 typename XxMatrix<T_Scalar>::T_RScalar XxMatrix<T_Scalar>::normFro() const
 {
-	return blk::dns::normFro2D(
-		prop().type(),
-		prop().uplo(),
-		nrows(),
-		ncols(),
-		this->values(),
-		ld());
+	return blk::dns::normFro(prop().type(),
+		                     prop().uplo(),
+		                     nrows(),
+		                     ncols(),
+		                     this->values(),
+		                     ld());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -408,13 +402,13 @@ XxMatrix<T_Scalar>& XxMatrix<T_Scalar>::copyFromExisting(const XxMatrix<T_Scalar
 								  static_cast<int_t>(other.nrows()), 
 								  static_cast<int_t>(other.ncols()));
 
-		blk::dns::copy2D(other.prop().uplo(), 
-				         other.nrows(), 
-						 other.ncols(), 
-						 other.values(), 
-						 other.ld(), 
-						 this->values(), 
-						 ld());
+		blk::dns::copy(other.prop().uplo(), 
+                       other.nrows(), 
+                       other.ncols(),
+                       other.values(),
+					   other.ld(), 
+					   this->values(), 
+					   ld());
 
 	} // do not apply on self
 

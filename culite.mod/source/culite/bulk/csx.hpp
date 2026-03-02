@@ -43,9 +43,7 @@ void diag_times_vec(const T_Scalar* alpha, int_t np,
                         const T_Scalar*x, T_Int incx,
                         T_Scalar *y, T_Int incy)
 {
-	if(np > 0) {
-		launch_diag_times_vec_kernel(alpha, np, xxxptr, xxxidx, values, x, incx, y, incy);
-	}
+	launch_diag_times_vec_kernel(alpha, np, xxxptr, xxxidx, values, x, incx, y, incy);
 }
 
 /*-------------------------------------------------*/
@@ -65,9 +63,7 @@ void diag_times_mat(const T_Scalar* alpha, int_t np,
                     const T_Scalar*b, T_Int ldb, 
                     T_Scalar *c, T_Int ldc)
 {
-	if(nc > 0 && np > 0) {
-		launch_diag_times_mat_kernel(alpha, np, xxxptr, xxxidx, values, nc, b, ldb, c, ldc);
-	}
+	launch_diag_times_mat_kernel(alpha, np, xxxptr, xxxidx, values, nc, b, ldb, c, ldc);
 }
 
 /*-------------------------------------------------*/
@@ -78,9 +74,7 @@ void add_xxptr(T_Int np,
                const T_Int* xxxptrB, const T_Int *xxxidxB,
                T_Int* nnzC, T_Int* xxxptrC)
 {
-    if(np > 0) {
-        launch_add_xxptr_kernel(np, xxxptrA, xxxidxA, xxxptrB, xxxidxB, nnzC, xxxptrC);
-    }
+    launch_add_xxptr_kernel(np, xxxptrA, xxxidxA, xxxptrB, xxxidxB, nnzC, xxxptrC);
 }
 
 template <typename T_Int, typename T_Scalar>
@@ -89,12 +83,10 @@ void add(T_Int np, T_Scalar alpha, T_Scalar beta,
          const T_Int* xxxptrB, const T_Int *xxxidxB, const T_Scalar* valuesB,
          T_Int* xxxptrC, T_Int *xxxidxC, T_Scalar* valuesC)
 {
-    if(np > 0) {
-        launch_add_kernel(np, alpha, beta,
-                          xxxptrA, xxxidxA, valuesA, 
-                          xxxptrB, xxxidxB, valuesB, 
-                          xxxptrC, xxxidxC, valuesC);
-    }
+    launch_add_kernel(np, alpha, beta,
+                      xxxptrA, xxxidxA, valuesA, 
+                      xxxptrB, xxxidxB, valuesB, 
+                      xxxptrC, xxxidxC, valuesC);
 }
 
 /*-------------------------------------------------*/

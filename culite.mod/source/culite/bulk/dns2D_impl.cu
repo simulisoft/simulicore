@@ -27,6 +27,7 @@
 // culite
 #include "culite/types/scalar.hpp"
 #include "culite/support/utils.hpp"
+#include "culite/support/grid.hpp"
 #include "culite/support/imalloc.hpp"
 
 /*-------------------------------------------------*/
@@ -35,30 +36,93 @@ namespace blk {
 namespace dns {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-__global__ void scale_matrix_kernel(int_t m, int_t n, T_Scalar* v, int_t ldv, T_Scalar alpha)
+__global__ void copy_2d_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, 
+                               const T_Scalar* a, int_t lda, 
+                               T_Scalar* b, int_t ldb)
 {
     int_t i = blockIdx.x * blockDim.x + threadIdx.x;
     int_t j = blockIdx.y * blockDim.y + threadIdx.y;
+
     if (i < m && j < n) {
-        v[j * ldv + i] = alpha * v[j * ldv + i];
+        if(uplo == ::cla3p::uplo_t::Upper && i > j) return;
+        if(uplo == ::cla3p::uplo_t::Lower && i < j) return;
+        b[j * ldb + i] = a[j * lda + i];
     }
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void launch_scale_matrix_kernel(int_t m, int_t n, T_Scalar* v, int_t ldv, T_Scalar alpha)
+void launch_copy_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, 
+                        const T_Scalar *a, int_t lda, 
+                        T_Scalar *b, int_t ldb)
 {
     if(m <= 0 || n <= 0) return;
 
-    dim3 threads(16, 16);
-    dim3 blocks((m + threads.x - 1) / threads.x, (n + threads.y - 1) / threads.y);
-    scale_matrix_kernel<T_Scalar><<<blocks, threads>>>(m, n, v, ldv, alpha);
+    Grid2D grid(m, n);
+    copy_2d_kernel<T_Scalar><<<grid.numBlocks(), grid.threadsPerBlock()>>>(uplo, m, n, a, lda, b, ldb);
+
     syncDevice();
 }
 /*-------------------------------------------------*/
-template void launch_scale_matrix_kernel<real_t>(int_t, int_t, real_t*, int_t, real_t);
-template void launch_scale_matrix_kernel<real4_t>(int_t, int_t, real4_t*, int_t, real4_t);
-template void launch_scale_matrix_kernel<complex_t>(int_t, int_t, complex_t*, int_t, complex_t);
-template void launch_scale_matrix_kernel<complex8_t>(int_t, int_t, complex8_t*, int_t, complex8_t);
+template void launch_copy_kernel(::cla3p::uplo_t, int_t, int_t, const real_t*, int_t, real_t*, int_t);
+template void launch_copy_kernel(::cla3p::uplo_t, int_t, int_t, const real4_t*, int_t, real4_t*, int_t);
+template void launch_copy_kernel(::cla3p::uplo_t, int_t, int_t, const complex_t*, int_t, complex_t*, int_t);
+template void launch_copy_kernel(::cla3p::uplo_t, int_t, int_t, const complex8_t*, int_t, complex8_t*, int_t);
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+__global__ void fill_2d_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda, T_Scalar val)
+{
+    int_t i = blockIdx.x * blockDim.x + threadIdx.x;
+    int_t j = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if (i < m && j < n) {
+        if(uplo == ::cla3p::uplo_t::Upper && i > j) return;
+        if(uplo == ::cla3p::uplo_t::Lower && i < j) return;
+        a[j * lda + i] = val;
+    }
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void launch_fill_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda, T_Scalar val)
+{
+    if(m <= 0 || n <= 0) return;
+
+    Grid2D grid(m, n);
+    fill_2d_kernel<T_Scalar><<<grid.numBlocks(), grid.threadsPerBlock()>>>(uplo, m, n, a, lda, val);
+    syncDevice();
+}
+/*-------------------------------------------------*/
+template void launch_fill_kernel(::cla3p::uplo_t, int_t, int_t, real_t*, int_t, real_t);
+template void launch_fill_kernel(::cla3p::uplo_t, int_t, int_t, real4_t*, int_t, real4_t);
+template void launch_fill_kernel(::cla3p::uplo_t, int_t, int_t, complex_t*, int_t, complex_t);
+template void launch_fill_kernel(::cla3p::uplo_t, int_t, int_t, complex8_t*, int_t, complex8_t);
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+__global__ void scale_2d_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar* a, int_t lda, T_Scalar alpha)
+{
+    int_t i = blockIdx.x * blockDim.x + threadIdx.x;
+    int_t j = blockIdx.y * blockDim.y + threadIdx.y;
+    
+    if (i < m && j < n) {
+        if(uplo == ::cla3p::uplo_t::Upper && i > j) return;
+        if(uplo == ::cla3p::uplo_t::Lower && i < j) return;
+        a[j * lda + i] = alpha * a[j * lda + i];
+    }
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void launch_scale_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar* a, int_t lda, T_Scalar alpha)
+{
+    if(m <= 0 || n <= 0) return;
+
+    Grid2D grid(m, n);
+    scale_2d_kernel<T_Scalar><<<grid.numBlocks(), grid.threadsPerBlock()>>>(uplo, m, n, a, lda, alpha);
+    syncDevice();
+}
+/*-------------------------------------------------*/
+template void launch_scale_kernel<real_t>(::cla3p::uplo_t, int_t, int_t, real_t*, int_t, real_t);
+template void launch_scale_kernel<real4_t>(::cla3p::uplo_t, int_t, int_t, real4_t*, int_t, real4_t);
+template void launch_scale_kernel<complex_t>(::cla3p::uplo_t, int_t, int_t, complex_t*, int_t, complex_t);
+template void launch_scale_kernel<complex8_t>(::cla3p::uplo_t, int_t, int_t, complex8_t*, int_t, complex8_t);
 /*-------------------------------------------------*/
 __device__ static double atomicMax(double* address, double val) {
     unsigned long long int* address_as_ull = (unsigned long long int*)address;
@@ -83,7 +147,7 @@ __device__ static float atomicMax(float* address, float val) {
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-__global__ void matrix_1_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_t lda, typename TypeTraits<T_Scalar>::real_type* ret)
+__global__ void matrix_one_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_t lda, typename TypeTraits<T_Scalar>::real_type* ret)
 {
     using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
@@ -100,7 +164,7 @@ __global__ void matrix_1_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_t 
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type
-launch_matrix_1_norm(int_t m, int_t n, const T_Scalar* a, int_t lda)
+launch_matrix_one_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_t lda)
 {
     using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
     
@@ -108,9 +172,8 @@ launch_matrix_1_norm(int_t m, int_t n, const T_Scalar* a, int_t lda)
     T_RScalar* retDevice = device_alloc_t<T_RScalar>(1);
     cudaMemset(retDevice, 0, sizeof(T_RScalar));
 
-    int threads = 256;
-    int blocks = (n + threads - 1) / threads;
-    matrix_1_norm_kernel<T_Scalar><<<blocks, threads>>>(m, n, a, lda, retDevice);
+    Grid1D grid(n);
+    matrix_one_norm_kernel<T_Scalar><<<grid.numBlocks(), grid.threadsPerBlock()>>>(m, n, a, lda, retDevice);
 
     memCopyD2H(1, retDevice, &retHost);
     device_free(retDevice);
@@ -119,18 +182,19 @@ launch_matrix_1_norm(int_t m, int_t n, const T_Scalar* a, int_t lda)
     return retHost;
 }
 /*-------------------------------------------------*/
-template real_t launch_matrix_1_norm<real_t>(int_t, int_t, const real_t*, int_t);
-template real4_t  launch_matrix_1_norm<real4_t>(int_t, int_t, const real4_t*, int_t);
-template real_t launch_matrix_1_norm<complex_t>(int_t, int_t, const complex_t*, int_t);
-template real4_t  launch_matrix_1_norm<complex8_t>(int_t, int_t, const complex8_t*, int_t);
+template real_t launch_matrix_one_norm_kernel<real_t>(int_t, int_t, const real_t*, int_t);
+template real4_t launch_matrix_one_norm_kernel<real4_t>(int_t, int_t, const real4_t*, int_t);
+template real_t launch_matrix_one_norm_kernel<complex_t>(int_t, int_t, const complex_t*, int_t);
+template real4_t launch_matrix_one_norm_kernel<complex8_t>(int_t, int_t, const complex8_t*, int_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-__global__ void fill_row_sums(int_t m, int_t n, const T_Scalar* v, int_t ldv, typename TypeTraits<T_Scalar>::real_type* rowSums) 
+__global__ void fill_row_sums(int_t m, int_t n, const T_Scalar* a, int_t lda, typename TypeTraits<T_Scalar>::real_type* rowSums) 
 {
     int_t i = blockIdx.x * blockDim.x + threadIdx.x;
     int_t j = blockIdx.y * blockDim.y + threadIdx.y;
+
     if (i < m && j < n) {
-        atomicAdd(&rowSums[i], arith::abs(v[j * ldv + i]));
+        atomicAdd(&rowSums[i], arith::abs(a[j * lda + i]));
     }
 }
 /*-------------------------------------------------*/
@@ -145,7 +209,7 @@ __global__ void find_max_sum(int_t m, T_RScalar* rowSums, T_RScalar* globalMax)
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type
-launch_matrix_inf_norm(int_t m, int_t n, const T_Scalar* a, int_t lda) 
+launch_matrix_inf_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_t lda) 
 {
     using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
@@ -158,12 +222,11 @@ launch_matrix_inf_norm(int_t m, int_t n, const T_Scalar* a, int_t lda)
     cudaMemset(rowSums, 0, m * sizeof(T_RScalar));
     cudaMemset(retDevice, 0, sizeof(T_RScalar));
 
-    dim3 threads(16, 16);
-    dim3 blocks((m + 15)/16, (n + 15)/16);
-    fill_row_sums<T_Scalar><<<blocks, threads>>>(m, n, a, lda, rowSums);
+    Grid2D grid2d(m, n);
+    fill_row_sums<T_Scalar><<<grid2d.numBlocks(), grid2d.threadsPerBlock()>>>(m, n, a, lda, rowSums);
 
-    int r_threads = 256;
-    find_max_sum<T_RScalar><<<(m + r_threads - 1)/r_threads, r_threads>>>(m, rowSums, retDevice);
+    Grid1D grid1d(m);
+    find_max_sum<T_RScalar><<<grid1d.numBlocks(), grid1d.threadsPerBlock()>>>(m, rowSums, retDevice);
 
     memCopyD2H(1, retDevice, &retHost);
     device_free(rowSums);
@@ -173,10 +236,10 @@ launch_matrix_inf_norm(int_t m, int_t n, const T_Scalar* a, int_t lda)
     return retHost;
 }
 /*-------------------------------------------------*/
-template real_t launch_matrix_inf_norm<real_t>(int_t, int_t, const real_t*, int_t);
-template real4_t  launch_matrix_inf_norm<real4_t>(int_t, int_t, const real4_t*, int_t);
-template real_t launch_matrix_inf_norm<complex_t>(int_t, int_t, const complex_t*, int_t);
-template real4_t  launch_matrix_inf_norm<complex8_t>(int_t, int_t, const complex8_t*, int_t);
+template real_t launch_matrix_inf_norm_kernel<real_t>(int_t, int_t, const real_t*, int_t);
+template real4_t  launch_matrix_inf_norm_kernel<real4_t>(int_t, int_t, const real4_t*, int_t);
+template real_t launch_matrix_inf_norm_kernel<complex_t>(int_t, int_t, const complex_t*, int_t);
+template real4_t  launch_matrix_inf_norm_kernel<complex8_t>(int_t, int_t, const complex8_t*, int_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 __global__ void matrix_max_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_t lda, typename TypeTraits<T_Scalar>::real_type* globalMax) 
@@ -184,6 +247,7 @@ __global__ void matrix_max_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_
     using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
     int_t j = blockIdx.x * blockDim.x + threadIdx.x;
+
     if (j < n) {
         T_RScalar localMax = 0;
         for (int_t i = 0; i < m; ++i) {
@@ -195,7 +259,7 @@ __global__ void matrix_max_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type
-launch_matrix_max_norm(int_t m, int_t n, const T_Scalar* a, int_t lda) 
+launch_matrix_max_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_t lda) 
 {
     using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
@@ -205,9 +269,8 @@ launch_matrix_max_norm(int_t m, int_t n, const T_Scalar* a, int_t lda)
     T_RScalar* retDevice = device_alloc_t<T_RScalar>(1);
     cudaMemset(retDevice, 0, sizeof(T_RScalar));
 
-    int threads = 256;
-    int blocks = (n + threads - 1) / threads;
-    matrix_max_norm_kernel<T_Scalar><<<blocks, threads>>>(m, n, a, lda, retDevice);
+    Grid1D grid(n);
+    matrix_max_norm_kernel<T_Scalar><<<grid.numBlocks(), grid.threadsPerBlock()>>>(m, n, a, lda, retDevice);
 
     memCopyD2H(1, retDevice, &retHost);
     device_free(retDevice);
@@ -216,10 +279,10 @@ launch_matrix_max_norm(int_t m, int_t n, const T_Scalar* a, int_t lda)
     return retHost;
 }
 /*-------------------------------------------------*/
-template real_t launch_matrix_max_norm<real_t>(int_t, int_t, const real_t*, int_t);
-template real4_t  launch_matrix_max_norm<real4_t>(int_t, int_t, const real4_t*, int_t);
-template real_t launch_matrix_max_norm<complex_t>(int_t, int_t, const complex_t*, int_t);
-template real4_t  launch_matrix_max_norm<complex8_t>(int_t, int_t, const complex8_t*, int_t);
+template real_t launch_matrix_max_norm_kernel<real_t>(int_t, int_t, const real_t*, int_t);
+template real4_t  launch_matrix_max_norm_kernel<real4_t>(int_t, int_t, const real4_t*, int_t);
+template real_t launch_matrix_max_norm_kernel<complex_t>(int_t, int_t, const complex_t*, int_t);
+template real4_t  launch_matrix_max_norm_kernel<complex8_t>(int_t, int_t, const complex8_t*, int_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 __global__ void matrix_fro_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_t lda, typename TypeTraits<T_Scalar>::real_type* globalSum)
@@ -227,6 +290,7 @@ __global__ void matrix_fro_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_
     using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
     int_t j = blockIdx.x * blockDim.x + threadIdx.x;
+
     if (j < n) {
         T_RScalar colSum = 0;
         for (int_t i = 0; i < m; ++i) {
@@ -238,7 +302,7 @@ __global__ void matrix_fro_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type
-launch_matrix_fro_norm(int_t m, int_t n, const T_Scalar* a, int_t lda) 
+launch_matrix_fro_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_t lda) 
 {
     using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
@@ -248,9 +312,8 @@ launch_matrix_fro_norm(int_t m, int_t n, const T_Scalar* a, int_t lda)
     T_RScalar* retDevice = device_alloc_t<T_RScalar>(1);
     cudaMemset(retDevice, 0, sizeof(T_RScalar));
 
-    int threads = 256;
-    int blocks = (n + threads - 1) / threads;
-    matrix_fro_norm_kernel<T_Scalar><<<blocks, threads>>>(m, n, a, lda, retDevice);
+    Grid1D grid(n);
+    matrix_fro_norm_kernel<T_Scalar><<<grid.numBlocks(), grid.threadsPerBlock()>>>(m, n, a, lda, retDevice);
 
     memCopyD2H(1, retDevice, &retHost);
     device_free(retDevice);
@@ -259,91 +322,101 @@ launch_matrix_fro_norm(int_t m, int_t n, const T_Scalar* a, int_t lda)
     return std::sqrt(retHost);
 }
 /*-------------------------------------------------*/
-template real_t launch_matrix_fro_norm<real_t>(int_t, int_t, const real_t*, int_t);
-template real4_t  launch_matrix_fro_norm<real4_t>(int_t, int_t, const real4_t*, int_t);
-template real_t launch_matrix_fro_norm<complex_t>(int_t, int_t, const complex_t*, int_t);
-template real4_t  launch_matrix_fro_norm<complex8_t>(int_t, int_t, const complex8_t*, int_t);
+template real_t launch_matrix_fro_norm_kernel<real_t>(int_t, int_t, const real_t*, int_t);
+template real4_t  launch_matrix_fro_norm_kernel<real4_t>(int_t, int_t, const real4_t*, int_t);
+template real_t launch_matrix_fro_norm_kernel<complex_t>(int_t, int_t, const complex_t*, int_t);
+template real4_t  launch_matrix_fro_norm_kernel<complex8_t>(int_t, int_t, const complex8_t*, int_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-__global__ void get_real_kernel_2d(int_t m, int_t n, const T_Scalar* a, int_t lda, 
-                                   typename TypeTraits<T_Scalar>::real_type* r, int_t ldr)
+__global__ void get_real_2d_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, 
+                                   const T_Scalar* a, int_t lda, 
+                                   typename TypeTraits<T_Scalar>::real_type* b, int_t ldb)
 {
     int_t i = blockIdx.x * blockDim.x + threadIdx.x;
     int_t j = blockIdx.y * blockDim.y + threadIdx.y;
 
     if (i < m && j < n) {
-        r[j * ldr + i] = arith::getRe(a[j * lda + i]);
+        if(uplo == ::cla3p::uplo_t::Upper && i > j) return;
+        if(uplo == ::cla3p::uplo_t::Lower && i < j) return;
+        b[j * ldb + i] = arith::getRe(a[j * lda + i]);
     }
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void launch_get_real_2d(int_t m, int_t n, const T_Scalar* a, int_t lda, 
-                        typename TypeTraits<T_Scalar>::real_type* r, int_t ldr)
+void launch_get_real_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, 
+                            const T_Scalar* a, int_t lda, 
+                            typename TypeTraits<T_Scalar>::real_type* b, int_t ldb)
 {
-    dim3 threadsPerBlock(16, 16);
-    dim3 numBlocks((m + threadsPerBlock.x - 1) / threadsPerBlock.x,
-                   (n + threadsPerBlock.y - 1) / threadsPerBlock.y);
+    if(m <= 0 || n <= 0) return;
 
-    get_real_kernel_2d<<<numBlocks, threadsPerBlock>>>(m, n, a, lda, r, ldr);
+    Grid2D grid(m, n);
+    get_real_2d_kernel<<<grid.numBlocks(), grid.threadsPerBlock()>>>(uplo, m, n, a, lda, b, ldb);
+
     syncDevice();
 }
 /*-------------------------------------------------*/
-template void launch_get_real_2d<complex_t>(int_t, int_t, const complex_t*, int_t, real_t*, int_t);
-template void launch_get_real_2d<complex8_t>(int_t, int_t, const complex8_t*, int_t, real4_t*, int_t);
+template void launch_get_real_kernel<complex_t>(::cla3p::uplo_t, int_t, int_t, const complex_t*, int_t, real_t*, int_t);
+template void launch_get_real_kernel<complex8_t>(::cla3p::uplo_t, int_t, int_t, const complex8_t*, int_t, real4_t*, int_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-__global__ void get_imag_kernel_2d(int_t m, int_t n, const T_Scalar* a, int_t lda, 
-                                   typename TypeTraits<T_Scalar>::real_type* r, int_t ldr)
+__global__ void get_imag_2d_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, 
+                                   const T_Scalar* a, int_t lda, 
+                                   typename TypeTraits<T_Scalar>::real_type* b, int_t ldb)
 {
     int_t i = blockIdx.x * blockDim.x + threadIdx.x;
     int_t j = blockIdx.y * blockDim.y + threadIdx.y;
 
     if (i < m && j < n) {
-        r[j * ldr + i] = arith::getIm(a[j * lda + i]);
+        if(uplo == ::cla3p::uplo_t::Upper && i > j) return;
+        if(uplo == ::cla3p::uplo_t::Lower && i < j) return;
+        b[j * ldb + i] = arith::getIm(a[j * lda + i]);
     }
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void launch_get_imag_2d(int_t m, int_t n, const T_Scalar* a, int_t lda, 
-                        typename TypeTraits<T_Scalar>::real_type* r, int_t ldr)
+void launch_get_imag_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, 
+                            const T_Scalar* a, int_t lda, 
+                            typename TypeTraits<T_Scalar>::real_type* b, int_t ldb)
 {
-    dim3 threadsPerBlock(16, 16);
-    dim3 numBlocks((m + threadsPerBlock.x - 1) / threadsPerBlock.x,
-                   (n + threadsPerBlock.y - 1) / threadsPerBlock.y);
+    if(m <= 0 || n <= 0) return;
 
-    get_imag_kernel_2d<<<numBlocks, threadsPerBlock>>>(m, n, a, lda, r, ldr);
+    Grid2D grid(m, n);
+    get_imag_2d_kernel<<<grid.numBlocks(), grid.threadsPerBlock()>>>(uplo, m, n, a, lda, b, ldb);
+
     syncDevice();
 }
 /*-------------------------------------------------*/
-template void launch_get_imag_2d<complex_t>(int_t, int_t, const complex_t*, int_t, real_t*, int_t);
-template void launch_get_imag_2d<complex8_t>(int_t, int_t, const complex8_t*, int_t, real4_t*, int_t);
+template void launch_get_imag_kernel<complex_t>(::cla3p::uplo_t, int_t, int_t, const complex_t*, int_t, real_t*, int_t);
+template void launch_get_imag_kernel<complex8_t>(::cla3p::uplo_t, int_t, int_t, const complex8_t*, int_t, real4_t*, int_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-__global__ void conjugate_kernel_2d(int_t m, int_t n, T_Scalar* a, int_t lda)
+__global__ void conjugate_2d_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar* a, int_t lda)
 {
     int_t i = blockIdx.x * blockDim.x + threadIdx.x;
     int_t j = blockIdx.y * blockDim.y + threadIdx.y;
 
     if (i < m && j < n) {
+        if(uplo == ::cla3p::uplo_t::Upper && i > j) return;
+        if(uplo == ::cla3p::uplo_t::Lower && i < j) return;
         a[j * lda + i] = arith::conj(a[j * lda + i]);
     }
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void launch_conjugate_2d(int_t m, int_t n, T_Scalar* a, int_t lda)
+void launch_conjugate_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar* a, int_t lda)
 {
-    dim3 threadsPerBlock(16, 16);
-    dim3 numBlocks((m + threadsPerBlock.x - 1) / threadsPerBlock.x,
-                   (n + threadsPerBlock.y - 1) / threadsPerBlock.y);
+    if(m <= 0 || n <= 0) return;
 
-    conjugate_kernel_2d<<<numBlocks, threadsPerBlock>>>(m, n, a, lda);
+    Grid2D grid(m, n);
+    conjugate_2d_kernel<<<grid.numBlocks(), grid.threadsPerBlock()>>>(uplo, m, n, a, lda);
+
     syncDevice();
 }
 /*-------------------------------------------------*/
-template void launch_conjugate_2d<real_t>(int_t, int_t, real_t*, int_t);
-template void launch_conjugate_2d<real4_t>(int_t, int_t, real4_t*, int_t);
-template void launch_conjugate_2d<complex_t>(int_t, int_t, complex_t*, int_t);
-template void launch_conjugate_2d<complex8_t>(int_t, int_t, complex8_t*, int_t);
+template void launch_conjugate_kernel<real_t>(::cla3p::uplo_t, int_t, int_t, real_t*, int_t);
+template void launch_conjugate_kernel<real4_t>(::cla3p::uplo_t, int_t, int_t, real4_t*, int_t);
+template void launch_conjugate_kernel<complex_t>(::cla3p::uplo_t, int_t, int_t, complex_t*, int_t);
+template void launch_conjugate_kernel<complex8_t>(::cla3p::uplo_t, int_t, int_t, complex8_t*, int_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 __global__ void geev_calculate_complex_eigenvectors_kernel(int_t n, 
@@ -390,11 +463,10 @@ void launch_geev_calculate_complex_eigenvectors_kernel(int_t n,
                                                        const typename TypeTraits<T_Scalar>::real_type* vr, int_t ldvr,
                                                        T_Scalar *vc, int_t ldvc)
 {
-    dim3 threadsPerBlock(16, 16);
-    dim3 numBlocks((n + threadsPerBlock.x - 1) / threadsPerBlock.x,
-                   (n + threadsPerBlock.y - 1) / threadsPerBlock.y);
-    
-    geev_calculate_complex_eigenvectors_kernel<T_Scalar><<<numBlocks, threadsPerBlock>>>(n, w, vr, ldvr, vc, ldvc);
+    if(n <= 0) return;
+
+    Grid2D grid(n, n);
+    geev_calculate_complex_eigenvectors_kernel<T_Scalar><<<grid.numBlocks(), grid.threadsPerBlock()>>>(n, w, vr, ldvr, vc, ldvc);
 
     syncDevice();
 }

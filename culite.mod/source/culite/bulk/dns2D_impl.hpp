@@ -20,6 +20,8 @@
 /**
  * @file
  */
+#include <cla3p/types/enums.hpp>
+
 #include "culite/types/traits.hpp"
 #include "culite/types/integer.hpp"
 
@@ -30,34 +32,44 @@ namespace dns {
 /*-------------------------------------------------*/
 
 template <typename T_Scalar>
-void launch_scale_matrix_kernel(int_t m, int_t n, T_Scalar* v, int_t ldv, T_Scalar alpha);
+void launch_copy_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, 
+                        const T_Scalar *a, int_t lda, 
+                        T_Scalar *b, int_t ldb);
+
+template <typename T_Scalar>
+void launch_fill_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda, T_Scalar val);
+
+template <typename T_Scalar>
+void launch_scale_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar* a, int_t lda, T_Scalar alpha);
 
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type
-launch_matrix_1_norm(int_t m, int_t n, const T_Scalar* a, int_t lda);
+launch_matrix_one_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_t lda);
 
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type
-launch_matrix_inf_norm(int_t m, int_t n, const T_Scalar* a, int_t lda);
+launch_matrix_inf_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_t lda);
 
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type
-launch_matrix_max_norm(int_t m, int_t n, const T_Scalar* a, int_t lda);
+launch_matrix_max_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_t lda);
 
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type
-launch_matrix_fro_norm(int_t m, int_t n, const T_Scalar* a, int_t lda);
+launch_matrix_fro_norm_kernel(int_t m, int_t n, const T_Scalar* a, int_t lda);
 
 template <typename T_Scalar>
-void launch_get_real_2d(int_t m, int_t n, const T_Scalar* a, int_t lda, 
-                        typename TypeTraits<T_Scalar>::real_type* r, int_t ldr);
+void launch_get_real_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, 
+                            const T_Scalar* a, int_t lda, 
+                            typename TypeTraits<T_Scalar>::real_type* b, int_t ldb);
 
 template <typename T_Scalar>
-void launch_get_imag_2d(int_t m, int_t n, const T_Scalar* a, int_t lda, 
-                        typename TypeTraits<T_Scalar>::real_type* r, int_t ldr);
+void launch_get_imag_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, 
+                            const T_Scalar* a, int_t lda, 
+                            typename TypeTraits<T_Scalar>::real_type* b, int_t ldb);
 
 template <typename T_Scalar>
-void launch_conjugate_2d(int_t m, int_t n, T_Scalar* a, int_t lda);
+void launch_conjugate_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar* a, int_t lda);
 
 template <typename T_Scalar>
 void launch_geev_calculate_complex_eigenvectors_kernel(int_t n, 
