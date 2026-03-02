@@ -182,7 +182,7 @@ XiVector<T_Scalar>& XiVector<T_Scalar>::copyFromExisting(const XiVector<T_Scalar
 {
 	if(this != &other) {
 		::cla3p::similarity_dim_check(size(), static_cast<int_t>(other.size()));
-		blk::dns::copy1D(size(), other.values(), this->values());
+		blk::dns::copy(size(), other.values(), this->values());
 	} // do not apply on self
     
     return *this;

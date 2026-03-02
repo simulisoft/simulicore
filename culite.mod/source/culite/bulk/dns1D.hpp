@@ -32,20 +32,22 @@ namespace culite {
 namespace blk {
 namespace dns {
 /*-------------------------------------------------*/
-
 template <typename T_Scalar>
-void copy1D(int_t n, const T_Scalar *x, T_Scalar *b)
+void copy(int_t n, const T_Scalar *x, T_Scalar *b)
 {
 	if(n > 0) {
 		memCopyD2D(n, x, b);
 	}
 }
 /*-------------------------------------------------*/
-//
-// Norm 1
-//
 template <typename T_Scalar>
-typename TypeTraits<T_Scalar>::real_type normOne1D(int_t n, const T_Scalar *x)
+void fill(int_t n, T_Scalar *x, T_Scalar val)
+{
+    launch_fill_kernel(n, x, val);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+typename TypeTraits<T_Scalar>::real_type normOne(int_t n, const T_Scalar *x)
 {
 	typename TypeTraits<T_Scalar>::real_type ret = 0;
 	globalCuBlasHandler().asum<T_Scalar>(n, x, 1, &ret);
@@ -56,7 +58,7 @@ typename TypeTraits<T_Scalar>::real_type normOne1D(int_t n, const T_Scalar *x)
 // Norm Inf (CAUTION: calls cudaMemcpy to move result from device to host)
 //
 template <typename T_Scalar>
-typename TypeTraits<T_Scalar>::real_type normInf1D(int_t n, const T_Scalar *x)
+typename TypeTraits<T_Scalar>::real_type normInf(int_t n, const T_Scalar *x)
 {
 	int_t idx = 0;
 	globalCuBlasHandler().iamax<T_Scalar>(n, x, 1, &idx);
@@ -65,51 +67,36 @@ typename TypeTraits<T_Scalar>::real_type normInf1D(int_t n, const T_Scalar *x)
 	return arith::abs(ret);
 }
 /*-------------------------------------------------*/
-//
-// Norm Euclidean
-//
 template <typename T_Scalar>
-typename TypeTraits<T_Scalar>::real_type normEuc1D(int_t n, const T_Scalar *x)
+typename TypeTraits<T_Scalar>::real_type normEuc(int_t n, const T_Scalar *x)
 {
 	typename TypeTraits<T_Scalar>::real_type ret = 0;
 	globalCuBlasHandler().nrm2<T_Scalar>(n, x, 1, &ret);
 	return ret;
 }
 /*-------------------------------------------------*/
-//
-// Scale 1D
-//
 template <typename T_Scalar>
-void scale1D(int_t n, const T_Scalar& alpha, T_Scalar *x)
+void scale(int_t n, const T_Scalar& alpha, T_Scalar *x)
 {
 	globalCuBlasHandler().scal<T_Scalar>(n, &alpha, x, 1);
 }
 /*-------------------------------------------------*/
-//
-// Conjugate 1D
-//
 template <typename T_Scalar>
-void conjugate1D(int_t n, T_Scalar* x)
+void conjugate(int_t n, T_Scalar* x)
 {
-	launch_conjugate_kernel_1d(n, x);
+    launch_conjugate_kernel(n, x);
 }
 /*-------------------------------------------------*/
-//
-// get Real 1D
-//
 template <typename T_Scalar>
-void getReal1D(int_t n, const T_Scalar* x, typename TypeTraits<T_Scalar>::real_type* y)
+void getReal(int_t n, const T_Scalar* x, typename TypeTraits<T_Scalar>::real_type* y)
 {
-	launch_get_real_kernel_1d<T_Scalar>(n, x, y);
+    launch_get_real_kernel(n, x, y);
 }
 /*-------------------------------------------------*/
-//
-// get Imag 1D
-//
 template <typename T_Scalar>
-void getImag1D(int_t n, const T_Scalar* x, typename TypeTraits<T_Scalar>::real_type* y)
+void getImag(int_t n, const T_Scalar* x, typename TypeTraits<T_Scalar>::real_type* y)
 {
-	launch_get_imag_kernel_1d<T_Scalar>(n, x, y);
+    launch_get_imag_kernel(n, x, y);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>

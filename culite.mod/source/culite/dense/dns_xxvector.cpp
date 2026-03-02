@@ -88,7 +88,7 @@ alias::VirtualScal_vec<T_Scalar> XxVector<T_Scalar>::operator-() const
 template <typename T_Scalar>
 void XxVector<T_Scalar>::iscale(const T_Scalar& val)
 {
-	blk::dns::scale1D(this->size(), val, this->values());
+	blk::dns::scale(this->size(), val, this->values());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -112,25 +112,25 @@ alias::VirtualConj_vec<T_Scalar> XxVector<T_Scalar>::conjugate() const
 template <typename T_Scalar>
 void XxVector<T_Scalar>::iconjugate()
 {
-	blk::dns::conjugate1D(this->size(), this->values());
+	blk::dns::conjugate(this->size(), this->values());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 typename XxVector<T_Scalar>::T_RScalar XxVector<T_Scalar>::normOne() const
 {
-	return blk::dns::normOne1D(this->size(), this->values());
+	return blk::dns::normOne(this->size(), this->values());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 typename XxVector<T_Scalar>::T_RScalar XxVector<T_Scalar>::normInf() const
 {
-	return blk::dns::normInf1D(this->size(), this->values());
+	return blk::dns::normInf(this->size(), this->values());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 typename XxVector<T_Scalar>::T_RScalar XxVector<T_Scalar>::normEuc() const
 { 
-	return blk::dns::normEuc1D(this->size(), this->values());
+	return blk::dns::normEuc(this->size(), this->values());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>

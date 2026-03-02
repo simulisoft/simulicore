@@ -233,7 +233,7 @@ void XxMatrix<T_Int,T_Scalar>::iscale(T_Scalar val)
 {
     T_Cla3pScalar cla3pVal = TypeTraits<T_Scalar>::toCla3pType(val);
     ::cla3p::hermitian_coeff_check<T_Cla3pScalar>(this->prop(), cla3pVal);
-	blk::dns::scale1D(nnz(), val, this->values());
+	blk::dns::scale(nnz(), val, this->values());
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
@@ -257,7 +257,7 @@ alias::VirtualConj_csc<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::conjugate() con
 template <typename T_Int, typename T_Scalar>
 void XxMatrix<T_Int,T_Scalar>::iconjugate()
 {
-    blk::dns::conjugate1D(nnz(), this->values());
+    blk::dns::conjugate(nnz(), this->values());
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>

@@ -32,75 +32,102 @@ namespace blk {
 namespace dns {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-__global__ void conjugate_kernel_1d(int_t n, T_Scalar* z)
+__global__ void fill_1d_kernel(int_t n, T_Scalar* x, T_Scalar val)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
-    if (idx < n) z[idx] = arith::conj(z[idx]);
+    if (idx < n) x[idx] = val;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void launch_conjugate_kernel_1d(int_t n, T_Scalar* z)
+void launch_fill_kernel(int_t n, T_Scalar* x, T_Scalar val)
 { 
     if(n <= 0) return;
-    if(TypeTraits<T_Scalar>::is_real()) return;
 
 	int threads = 256;
 	int blocks = (n + threads - 1) / threads;
-	conjugate_kernel_1d<T_Scalar><<<blocks, threads>>>(n, z);
+	fill_1d_kernel<T_Scalar><<<blocks, threads>>>(n, x, val);
 
     syncDevice();
 }
 /*-------------------------------------------------*/
-template void launch_conjugate_kernel_1d(int_t, real4_t*);
-template void launch_conjugate_kernel_1d(int_t, real_t*);
-template void launch_conjugate_kernel_1d(int_t, complex_t*);
-template void launch_conjugate_kernel_1d(int_t, complex8_t*);
-/*-------------------------------------------------*/
-/*-------------------------------------------------*/
+template void launch_fill_kernel(int_t, real4_t*, real4_t);
+template void launch_fill_kernel(int_t, real_t*, real_t);
+template void launch_fill_kernel(int_t, complex_t*, complex_t);
+template void launch_fill_kernel(int_t, complex8_t*, complex8_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-__global__ void get_real_kernel_1d(int_t n, const T_Scalar* z, 
-                                   typename TypeTraits<T_Scalar>::real_type *d)
+__global__ void conjugate_1d_kernel(int_t n, T_Scalar* x)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
-    if (idx < n) d[idx] = arith::getRe(z[idx]);
+    if (idx < n) x[idx] = arith::conj(x[idx]);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void launch_get_real_kernel_1d(int_t n, const T_Scalar* x, 
-                               typename TypeTraits<T_Scalar>::real_type* y)
-{
-    int threads = 256;
-    int blocks = (n + threads - 1) / threads;
-    get_real_kernel_1d<T_Scalar><<<blocks, threads>>>(n, x, y);
+void launch_conjugate_kernel(int_t n, T_Scalar* x)
+{ 
+    if(n <= 0 || TypeTraits<T_Scalar>::is_real()) return;
+
+	int threads = 256;
+	int blocks = (n + threads - 1) / threads;
+	conjugate_1d_kernel<T_Scalar><<<blocks, threads>>>(n, x);
+
     syncDevice();
 }
 /*-------------------------------------------------*/
-template void launch_get_real_kernel_1d<complex_t>(int_t, const complex_t*, real_t*);
-template void launch_get_real_kernel_1d<complex8_t>(int_t, const complex8_t*, real4_t*);
+template void launch_conjugate_kernel(int_t, real4_t*);
+template void launch_conjugate_kernel(int_t, real_t*);
+template void launch_conjugate_kernel(int_t, complex_t*);
+template void launch_conjugate_kernel(int_t, complex8_t*);
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-__global__ void get_imag_kernel_1d(int_t n, const T_Scalar* z, 
-                                   typename TypeTraits<T_Scalar>::real_type *d)
+__global__ void get_real_1d_kernel(int_t n, const T_Scalar* x, 
+                                   typename TypeTraits<T_Scalar>::real_type *y)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
-    if (idx < n) d[idx] = arith::getIm(z[idx]);
+    if (idx < n) y[idx] = arith::getRe(x[idx]);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void launch_get_imag_kernel_1d(int_t n, const T_Scalar* x, 
-                               typename TypeTraits<T_Scalar>::real_type* y)
+void launch_get_real_kernel(int_t n, const T_Scalar* x, 
+                            typename TypeTraits<T_Scalar>::real_type* y)
 {
+    if(n <= 0) return;
+
     int threads = 256;
     int blocks = (n + threads - 1) / threads;
-    get_imag_kernel_1d<T_Scalar><<<blocks, threads>>>(n, x, y);
+    get_real_1d_kernel<T_Scalar><<<blocks, threads>>>(n, x, y);
     syncDevice();
 }
 /*-------------------------------------------------*/
-template void launch_get_imag_kernel_1d<complex_t>(int_t, const complex_t*, real_t*);
-template void launch_get_imag_kernel_1d<complex8_t>(int_t, const complex8_t*, real4_t*);
+template void launch_get_real_kernel<complex_t>(int_t, const complex_t*, real_t*);
+template void launch_get_real_kernel<complex8_t>(int_t, const complex8_t*, real4_t*);
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+__global__ void get_imag_1d_kernel(int_t n, const T_Scalar* x, 
+                                   typename TypeTraits<T_Scalar>::real_type *y)
+{
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    if (idx < n) y[idx] = arith::getIm(x[idx]);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void launch_get_imag_kernel(int_t n, const T_Scalar* x, 
+                            typename TypeTraits<T_Scalar>::real_type* y)
+{
+    if(n <= 0) return;
+
+    int threads = 256;
+    int blocks = (n + threads - 1) / threads;
+    get_imag_1d_kernel<T_Scalar><<<blocks, threads>>>(n, x, y);
+    syncDevice();
+}
+/*-------------------------------------------------*/
+template void launch_get_imag_kernel<complex_t>(int_t, const complex_t*, real_t*);
+template void launch_get_imag_kernel<complex8_t>(int_t, const complex8_t*, real4_t*);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 __global__ void geev_calculate_complex_eigenvalues_kernel(int_t n, 
@@ -124,6 +151,8 @@ void launch_geev_calculate_complex_eigenvalues_kernel(int_t n,
                                                       const typename TypeTraits<T_Scalar>::real_type* wri, 
                                                       T_Scalar *w)
 {
+    if(n <= 0) return;
+    
     int threads = 256;
     int blocks = (n + threads - 1) / threads;
     geev_calculate_complex_eigenvalues_kernel<T_Scalar><<<blocks, threads>>>(n, wri, w);

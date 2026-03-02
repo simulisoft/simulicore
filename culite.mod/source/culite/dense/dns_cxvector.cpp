@@ -81,7 +81,7 @@ template <typename T_Scalar>
 XxVector<typename TypeTraits<T_Scalar>::real_type> CxVector<T_Scalar>::real() const
 {
 	XxVector<T_RScalar> ret(this->size());
-	blk::dns::getReal1D(this->size(), this->values(), ret.values());
+	blk::dns::getReal(this->size(), this->values(), ret.values());
 	return ret;
 }
 /*-------------------------------------------------*/
@@ -89,7 +89,7 @@ template <typename T_Scalar>
 XxVector<typename TypeTraits<T_Scalar>::real_type> CxVector<T_Scalar>::imag() const
 {
 	XxVector<T_RScalar> ret(this->size());
-	blk::dns::getImag1D(this->size(), this->values(), ret.values());
+	blk::dns::getImag(this->size(), this->values(), ret.values());
 	return ret;
 }
 /*-------------------------------------------------*/

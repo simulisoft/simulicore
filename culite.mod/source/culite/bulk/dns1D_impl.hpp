@@ -31,13 +31,16 @@ namespace dns {
 /*-------------------------------------------------*/
 
 template <typename T_Scalar>
-void launch_conjugate_kernel_1d(int_t n, T_Scalar* x);
+void launch_fill_kernel(int_t n, T_Scalar* x, T_Scalar val);
 
 template <typename T_Scalar>
-void launch_get_real_kernel_1d(int_t n, const T_Scalar* x, typename TypeTraits<T_Scalar>::real_type* y);
+void launch_conjugate_kernel(int_t n, T_Scalar* x);
 
 template <typename T_Scalar>
-void launch_get_imag_kernel_1d(int_t n, const T_Scalar* x, typename TypeTraits<T_Scalar>::real_type* y);
+void launch_get_real_kernel(int_t n, const T_Scalar* x, typename TypeTraits<T_Scalar>::real_type* y);
+
+template <typename T_Scalar>
+void launch_get_imag_kernel(int_t n, const T_Scalar* x, typename TypeTraits<T_Scalar>::real_type* y);
 
 template <typename T_Scalar>
 void launch_geev_calculate_complex_eigenvalues_kernel(int_t n, 
