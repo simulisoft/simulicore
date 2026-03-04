@@ -83,39 +83,51 @@ void CxMatrix<T_Scalar>::operator=(T_Scalar val)
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-XxMatrix<typename TypeTraits<T_Scalar>::real_type> CxMatrix<T_Scalar>::real() const
+alias::VirtualStrided_dns<typename TypeTraits<T_Scalar>::real_type> 
+CxMatrix<T_Scalar>::real()
 {
-	Property ret_prop = (this->prop().isHermitian() ? Property(prop_t::Symmetric, this->prop().uplo()) : this->prop());
-
-	XxMatrix<T_RScalar> ret(this->nrows(), this->ncols(), ret_prop);
-
-	blk::dns::get_real(
-			this->prop().uplo(), 
-			this->nrows(), 
-			this->ncols(), 
-			this->values(), 
-			this->ld(), 
-			ret.values(), ret.ld());
-
-	return ret;
+    T_RScalar *realValues = reinterpret_cast<T_RScalar*>(this->values());
+    return alias::VirtualStrided_dns<T_RScalar>(this->nrows(), 
+                                                this->ncols(),
+                                                realValues, 
+                                                2 * this->ld(), 
+                                                this->prop(), 2);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-XxMatrix<typename TypeTraits<T_Scalar>::real_type> CxMatrix<T_Scalar>::imag() const
+alias::VirtualStrided_dns<typename TypeTraits<T_Scalar>::real_type> 
+CxMatrix<T_Scalar>::imag()
 {
-	Property ret_prop = (this->prop().isHermitian() ? Property(prop_t::Skew, this->prop().uplo()) : this->prop());
-
-	XxMatrix<T_RScalar> ret(this->nrows(), this->ncols(), ret_prop);
-
-	blk::dns::get_imag(
-			this->prop().uplo(), 
-			this->nrows(), 
-			this->ncols(), 
-			this->values(), 
-			this->ld(), 
-			ret.values(), ret.ld());
-
-	return ret;
+    T_RScalar *imagValues = reinterpret_cast<T_RScalar*>(this->values()) + 1;
+    return alias::VirtualStrided_dns<T_RScalar>(this->nrows(), 
+                                                this->ncols(),
+                                                imagValues, 
+                                                2 * this->ld(), 
+                                                this->prop(), 2);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+alias::GuardedStrided_dns<typename TypeTraits<T_Scalar>::real_type> 
+CxMatrix<T_Scalar>::real() const
+{
+    const T_RScalar *realValues = reinterpret_cast<const T_RScalar*>(this->values());
+    return alias::VirtualStrided_dns<T_RScalar>::view(this->nrows(), 
+                                                      this->ncols(), 
+                                                      realValues, 
+                                                      2 * this->ld(), 
+                                                      this->prop(), 2);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+alias::GuardedStrided_dns<typename TypeTraits<T_Scalar>::real_type> 
+CxMatrix<T_Scalar>::imag() const
+{
+    const T_RScalar *imagValues = reinterpret_cast<const T_RScalar*>(this->values()) + 1;
+    return alias::VirtualStrided_dns<T_RScalar>::view(this->nrows(), 
+                                                      this->ncols(), 
+                                                      imagValues, 
+                                                      2 * this->ld(), 
+                                                      this->prop(), 2);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

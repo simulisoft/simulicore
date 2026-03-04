@@ -18,7 +18,9 @@
 #define CLA3P_SPARSE_HPP_
 
 #include "cla3p/sparse/csr_xxmatrix.hpp"
+#include "cla3p/sparse/csr_cxmatrix.hpp"
 #include "cla3p/sparse/csc_xxmatrix.hpp"
+#include "cla3p/sparse/csc_cxmatrix.hpp"
 #include "cla3p/sparse/coo_xxmatrix.hpp"
 
 namespace cla3p {
@@ -46,7 +48,7 @@ using RfMatrix = XxMatrix<int_t,real4_t>;
  * @details CSR format is row-oriented and optimized for row-wise access patterns
  *          and operations that traverse matrix rows efficiently.
  */
-using CdMatrix = XxMatrix<int_t,complex_t>;
+using CdMatrix = CxMatrix<int_t,complex_t>;
 
 /**
  * @ingroup cla3p_module_index_matrices_sparse
@@ -54,7 +56,7 @@ using CdMatrix = XxMatrix<int_t,complex_t>;
  * @details CSR format is row-oriented and optimized for row-wise access patterns
  *          and operations that traverse matrix rows efficiently.
  */
-using CfMatrix = XxMatrix<int_t,complex8_t>;
+using CfMatrix = CxMatrix<int_t,complex8_t>;
 
 } // namespace csr
 } // namespace cla3p
@@ -84,7 +86,7 @@ using RfMatrix = XxMatrix<int_t,real4_t>;
  * @details CSC format is column-oriented and optimized for column-wise access patterns
  *          and operations that traverse matrix columns efficiently.
  */
-using CdMatrix = XxMatrix<int_t,complex_t>;
+using CdMatrix = CxMatrix<int_t,complex_t>;
 
 /**
  * @ingroup cla3p_module_index_matrices_sparse
@@ -92,7 +94,7 @@ using CdMatrix = XxMatrix<int_t,complex_t>;
  * @details CSC format is column-oriented and optimized for column-wise access patterns
  *          and operations that traverse matrix columns efficiently.
  */
-using CfMatrix = XxMatrix<int_t,complex8_t>;
+using CfMatrix = CxMatrix<int_t,complex8_t>;
 
 } // namespace csc
 } // namespace cla3p

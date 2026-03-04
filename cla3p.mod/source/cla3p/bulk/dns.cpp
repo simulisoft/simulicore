@@ -24,6 +24,7 @@
 
 // cla3p
 #include "cla3p/types/scalar.hpp"
+#include "cla3p/bulk/dns1D.hpp"
 #include "cla3p/proxies/blas_proxy.hpp"
 #include "cla3p/proxies/lapack_proxy.hpp"
 #include "cla3p/error/exceptions.hpp"
@@ -113,12 +114,33 @@ template <> void fill(uplo_t uplo, int_t m, int_t n, real4_t    *a, int_t lda, r
 template <> void fill(uplo_t uplo, int_t m, int_t n, complex_t  *a, int_t lda, complex_t  val, complex_t  dval){ fill_lapack(uplo, m, n, a, lda, val, dval); }
 template <> void fill(uplo_t uplo, int_t m, int_t n, complex8_t *a, int_t lda, complex8_t val, complex8_t dval){ fill_lapack(uplo, m, n, a, lda, val, dval); }
 /*-------------------------------------------------*/
+template <typename T_Scalar>
+void fill_stride(uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda, int_t inca, T_Scalar val)
+{
+   	if(m <= 0 || n <= 0) return;
+
+    // TODO: consider a parallel for loop here
+	for(int_t j = 0; j < n; j++) {
+		RowRange ir = irange(uplo, m, j);
+        if(ir.ilen) {
+            T_Scalar *aj = blk::dns::ptrmv(lda, a, ir.ibgn * inca, j);
+            fill(ir.ilen, aj, val, inca);
+        } // ilen
+	} // j
+}
+/*-------------------------------------------------*/
+template void fill_stride(uplo_t uplo, int_t m, int_t n, int_t      *a, int_t lda, int_t inca, int_t      val);
+template void fill_stride(uplo_t uplo, int_t m, int_t n, real_t     *a, int_t lda, int_t inca, real_t     val);
+template void fill_stride(uplo_t uplo, int_t m, int_t n, real4_t    *a, int_t lda, int_t inca, real4_t    val);
+template void fill_stride(uplo_t uplo, int_t m, int_t n, complex_t  *a, int_t lda, int_t inca, complex_t  val);
+template void fill_stride(uplo_t uplo, int_t m, int_t n, complex8_t *a, int_t lda, int_t inca, complex8_t val);
+/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void rand(uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda, 
-		typename TypeTraits<T_Scalar>::real_type lo, 
-		typename TypeTraits<T_Scalar>::real_type hi) 
+		  typename TypeTraits<T_Scalar>::real_type lo, 
+		  typename TypeTraits<T_Scalar>::real_type hi) 
 {
 	if(!m || !n) return;
 

@@ -22,6 +22,7 @@
  */
 
 #include "cla3p/dense/dns_xxvector.hpp"
+#include "cla3p/virtuals/virtual_strided.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -142,18 +143,34 @@ class CxVector : public XxVector<T_Scalar> {
 		 */
 
 		/**
-		 * @brief Extract the real part.
-		 * @details Creates a new vector containing the real parts of all complex elements.
-		 * @return A vector containing the real components.
+		 * @brief Extract the real part (mutable).
+		 * @details Returns a strided view of the real parts of all complex elements.
+		 *          Modifications to the returned view will affect this vector.
+		 * @return A virtual strided vector view of the real components.
 		 */
-		XxVector<T_RScalar> real() const;
+		alias::VirtualStrided_vec<T_RScalar> real();
 
 		/**
-		 * @brief Extract the imaginary part.
-		 * @details Creates a new vector containing the imaginary parts of all complex elements.
-		 * @return A vector containing the imaginary components.
+		 * @brief Extract the imaginary part (mutable).
+		 * @details Returns a strided view of the imaginary parts of all complex elements.
+		 *          Modifications to the returned view will affect this vector.
+		 * @return A virtual strided vector view of the imaginary components.
 		 */
-		XxVector<T_RScalar> imag() const;
+        alias::VirtualStrided_vec<T_RScalar> imag();
+
+		/**
+		 * @brief Extract the real part (const).
+		 * @details Returns a guarded strided view of the real parts of all complex elements.
+		 * @return A guarded strided vector view of the real components.
+		 */
+        alias::GuardedStrided_vec<T_RScalar> real() const;
+
+		/**
+		 * @brief Extract the imaginary part (const).
+		 * @details Returns a guarded strided view of the imaginary parts of all complex elements.
+		 * @return A guarded strided vector view of the imaginary components.
+		 */
+        alias::GuardedStrided_vec<T_RScalar> imag() const;
 
 		/** @} */
 

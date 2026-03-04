@@ -3,7 +3,7 @@
 #-----------------------------------------------
 set(CLA3P_SRC ${CLA3P_SRC}
 	virtuals/virtual_rowvec.cpp
-    virtuals/virtual_strided_block.cpp
+    virtuals/virtual_strided.cpp
 	virtuals/virtual_transpose.cpp
 	PARENT_SCOPE)
 
@@ -11,7 +11,7 @@ set(CLA3P_VIRTUALS_HPP
 	virtual_expression.hpp
 	virtual_object.hpp
 	virtual_rowvec.hpp
-    virtual_strided_block.hpp
+    virtual_strided.hpp
 	virtual_transpose.hpp
 	virtual_conjugate.hpp
 	virtual_scale.hpp

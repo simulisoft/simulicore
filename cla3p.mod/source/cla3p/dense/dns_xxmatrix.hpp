@@ -33,6 +33,7 @@
 #include "cla3p/virtuals/virtual_transpose.hpp"
 #include "cla3p/virtuals/virtual_conjugate.hpp"
 #include "cla3p/virtuals/virtual_scale.hpp"
+#include "cla3p/virtuals/virtual_strided.hpp"
 
 /*-------------------------------------------------*/
 
@@ -68,9 +69,15 @@ class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
 
 		XxMatrix(const VirtualRowvec<T_Scalar>& rv) { operator=(rv); }
         XxMatrix<T_Scalar>& operator=(const VirtualRowvec<T_Scalar>& rv) { return evaluateFrom(rv); }
-        
-		alias::VirtualObj_dns<T_Scalar> virtualize() const { return alias::VirtualObj_dns<T_Scalar>(*this); }
+
+	    XxMatrix(const alias::VirtualStrided_dns<T_Scalar>& v) { evaluateFrom(v); }
+	    XxMatrix<T_Scalar>& operator=(const alias::VirtualStrided_dns<T_Scalar>& v) { return evaluateFrom(v); }
+
+	    XxMatrix(const alias::GuardedStrided_dns<T_Scalar>& gv) { evaluateFrom(gv); }
+	    XxMatrix<T_Scalar>& operator=(const alias::GuardedStrided_dns<T_Scalar>& gv) { return evaluateFrom(gv); }
 	
+		alias::VirtualObj_dns<T_Scalar> virtualize() const { return alias::VirtualObj_dns<T_Scalar>(*this); }
+
 		/**
 		 * @name Constructors
 		 * @{
@@ -574,6 +581,21 @@ class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
 			}
             return *this;
 		}
+
+        XxMatrix<T_Scalar>& evaluateFrom(const alias::VirtualStrided_dns<T_Scalar>& v)
+	    {
+	    	if(*this) {
+	    		v.evaluateOnExisting(*this);
+	    	} else {
+	    		v.evaluateOnNew(*this);
+	    	}
+	    	return *this;
+	    }
+
+	    XxMatrix<T_Scalar>& evaluateFrom(const alias::GuardedStrided_dns<T_Scalar>& gv)
+	    {
+	    	return evaluateFrom(gv.get());
+	    }
 };
 
 /*-------------------------------------------------*/

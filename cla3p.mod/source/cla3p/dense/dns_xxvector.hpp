@@ -32,6 +32,7 @@
 #include "cla3p/virtuals/virtual_transpose.hpp"
 #include "cla3p/virtuals/virtual_conjugate.hpp"
 #include "cla3p/virtuals/virtual_scale.hpp"
+#include "cla3p/virtuals/virtual_strided.hpp"
 
 /*-------------------------------------------------*/
 
@@ -65,9 +66,15 @@ class XxVector : public XiVector<T_Scalar> {
 		XxVector<T_Scalar>& operator=(XiVector<T_Scalar>&& other);
 
 		template <typename T_Virtual>
-		XxVector(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v) { operator=(v); }
+		XxVector(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v) { evaluateFrom(v); }
 		template <typename T_Virtual>
 		XxVector<T_Scalar>& operator=(const alias::VirtualExpr_vec<T_Scalar,T_Virtual>& v) { return evaluateFrom(v); }
+
+        XxVector(const alias::VirtualStrided_vec<T_Scalar>& v) { evaluateFrom(v); }
+        XxVector<T_Scalar>& operator=(const alias::VirtualStrided_vec<T_Scalar>& v) { return evaluateFrom(v); }
+
+        XxVector(const alias::GuardedStrided_vec<T_Scalar>& gv) { evaluateFrom(gv); }
+        XxVector<T_Scalar>& operator=(const alias::GuardedStrided_vec<T_Scalar>& gv) { return evaluateFrom(gv); }
 
 		alias::VirtualObj_vec<T_Scalar> virtualize() const { return alias::VirtualObj_vec<T_Scalar>(*this); }
 
@@ -299,6 +306,22 @@ class XxVector : public XiVector<T_Scalar> {
 			}
             return *this;
 		}
+
+        XxVector<T_Scalar>& evaluateFrom(const alias::VirtualStrided_vec<T_Scalar>& v)
+        {
+            if(*this) {
+                v.evaluateOnExisting(*this);
+            } else {
+                v.evaluateOnNew(*this);
+            }
+            return *this;
+        }
+
+        XxVector<T_Scalar>& evaluateFrom(const alias::GuardedStrided_vec<T_Scalar>& gv)
+        {
+            return evaluateFrom(gv.get());
+        }
+
 
 };
 

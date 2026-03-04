@@ -22,6 +22,7 @@
  */
 
 #include "cla3p/dense/dns_xxmatrix.hpp"
+#include "cla3p/virtuals/virtual_strided.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -150,21 +151,34 @@ class CxMatrix : public XxMatrix<T_Scalar> {
 		 */
 
 		/**
-		 * @brief Extract the real part.
-		 * @details Creates a new matrix containing the real parts of all complex elements.
-		 * @return A matrix containing the real components.
+		 * @brief Accesses the real part of the complex matrix.
+		 * @details Returns a strided view of the real components that can be used for both reading and writing.
+		 * @return A virtual strided view of the real part.
 		 */
-		XxMatrix<T_RScalar> real() const;
+        alias::VirtualStrided_dns<T_RScalar> real();
 
 		/**
-		 * @brief Extract the imaginary part.
-		 * @details Creates a new matrix containing the imaginary parts of all complex elements.
-		 * @return A matrix containing the imaginary components.
+		 * @brief Accesses the imaginary part of the complex matrix.
+		 * @details Returns a strided view of the imaginary components that can be used for both reading and writing.
+		 * @return A virtual strided view of the imaginary part.
 		 */
-		XxMatrix<T_RScalar> imag() const;
+        alias::VirtualStrided_dns<T_RScalar> imag();
 
-		/** @} */
+		/**
+		 * @brief Accesses the real part of the complex matrix (const).
+		 * @details Returns a read-only strided view of the real components.
+		 * @return A guarded strided view of the real part.
+		 */
+        alias::GuardedStrided_dns<T_RScalar> real() const;
 
+		/**
+		 * @brief Accesses the imaginary part of the complex matrix (const).
+		 * @details Returns a read-only strided view of the imaginary components.
+		 * @return A guarded strided view of the imaginary part.
+		 */
+        alias::GuardedStrided_dns<T_RScalar> imag() const;
+
+        /** @} */
 };
 
 /*-------------------------------------------------*/

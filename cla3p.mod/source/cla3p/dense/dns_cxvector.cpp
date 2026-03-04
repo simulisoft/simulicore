@@ -83,19 +83,35 @@ void CxVector<T_Scalar>::operator=(T_Scalar val)
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-XxVector<typename TypeTraits<T_Scalar>::real_type> CxVector<T_Scalar>::real() const
+alias::VirtualStrided_vec<typename TypeTraits<T_Scalar>::real_type> 
+CxVector<T_Scalar>::real()
 {
-	XxVector<T_RScalar> ret(this->size());
-	blk::dns::get_real(uplo_t::Full, this->size(), 1, this->values(), this->size(), ret.values(), ret.size());
-	return ret;
+    T_RScalar *realValues = reinterpret_cast<T_RScalar*>(this->values());
+    return alias::VirtualStrided_vec<T_RScalar>(this->size(), realValues, 2);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-XxVector<typename TypeTraits<T_Scalar>::real_type> CxVector<T_Scalar>::imag() const
+alias::VirtualStrided_vec<typename TypeTraits<T_Scalar>::real_type> 
+CxVector<T_Scalar>::imag()
 {
-	XxVector<T_RScalar> ret(this->size());
-	blk::dns::get_imag(uplo_t::Full, this->size(), 1, this->values(), this->size(), ret.values(), ret.size());
-	return ret;
+    T_RScalar *imagValues = reinterpret_cast<T_RScalar*>(this->values()) + 1;
+    return alias::VirtualStrided_vec<T_RScalar>(this->size(), imagValues, 2);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+alias::GuardedStrided_vec<typename TypeTraits<T_Scalar>::real_type> 
+CxVector<T_Scalar>::real() const
+{
+    const T_RScalar *realValues = reinterpret_cast<const T_RScalar*>(this->values());
+    return alias::VirtualStrided_vec<T_RScalar>::view(this->size(), realValues, 2);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+alias::GuardedStrided_vec<typename TypeTraits<T_Scalar>::real_type> 
+CxVector<T_Scalar>::imag() const
+{
+    const T_RScalar *imagValues = reinterpret_cast<const T_RScalar*>(this->values()) + 1;
+    return alias::VirtualStrided_vec<T_RScalar>::view(this->size(), imagValues, 2);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

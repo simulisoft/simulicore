@@ -34,19 +34,17 @@ namespace dns {
 // Set pointer (column-major)
 //
 template <typename T_Scalar>
-inline T_Scalar* ptrmv(int_t lda, T_Scalar *a, int_t i, int_t j)
-{
-	return (a + i + j * lda);
-}
+inline T_Scalar* ptrmv(int_t lda, T_Scalar *a, int_t i, int_t j) { return (a + i + j * lda); }
+template <typename T_Scalar>
+inline const T_Scalar* ptrmv(int_t lda, const T_Scalar *a, int_t i, int_t j) { return (a + i + j * lda); }
 
 //
 // Get value (column-major)
 //
 template <typename T_Scalar>
-inline T_Scalar& entry(int_t lda, T_Scalar *a, int_t i, int_t j)
-{
-	return *ptrmv(lda,a,i,j);
-}
+inline T_Scalar& entry(int_t lda, T_Scalar *a, int_t i, int_t j) { return *ptrmv(lda, a, i, j); }
+template <typename T_Scalar>
+inline const T_Scalar& entry(int_t lda, const T_Scalar *a, int_t i, int_t j) { return *ptrmv(lda, a, i, j); }
 
 //
 // Set zeros on diagonal depending on property
@@ -59,6 +57,9 @@ void set_diag_zeros(prop_t ptype, int_t n, T_Scalar *a, int_t lda);
 //
 template <typename T_Scalar>
 void fill(uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda, T_Scalar val);
+
+template <typename T_Scalar>
+void fill_stride(uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda, int_t inca, T_Scalar val);
 
 //
 // Set all entries to val (separate diagonal)

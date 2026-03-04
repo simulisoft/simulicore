@@ -34,6 +34,7 @@
 #include "cla3p/virtuals/virtual_object.hpp"
 #include "cla3p/virtuals/virtual_transpose.hpp"
 #include "cla3p/virtuals/virtual_scale.hpp"
+#include "cla3p/virtuals/virtual_strided.hpp"
 
 /*-------------------------------------------------*/
 
@@ -66,6 +67,12 @@ class XxMatrix : public MatrixMeta<T_Int>, public csx::XxContainer<T_Int,T_Scala
         
         template <typename T_Virtual>
 		XxMatrix<T_Int,T_Scalar>& operator=(const alias::VirtualExpr_csc<T_Int,T_Scalar,T_Virtual>& v) { return evaluateFrom(v); }
+
+        XxMatrix(const alias::VirtualStrided_csc<T_Int,T_Scalar>& v) { evaluateFrom(v); }
+		XxMatrix<T_Int,T_Scalar>& operator=(const alias::VirtualStrided_csc<T_Int,T_Scalar>& v) { return evaluateFrom(v); }
+
+        XxMatrix(const alias::GuardedStrided_csc<T_Int,T_Scalar>& gv) { evaluateFrom(gv); }
+	    XxMatrix<T_Int,T_Scalar>& operator=(const alias::GuardedStrided_csc<T_Int,T_Scalar>& gv) { return evaluateFrom(gv); }
 
 		alias::VirtualObj_csc<T_Int,T_Scalar> virtualize() const { return alias::VirtualObj_csc<T_Int,T_Scalar>(*this); }
 
@@ -436,6 +443,20 @@ class XxMatrix : public MatrixMeta<T_Int>, public csx::XxContainer<T_Int,T_Scala
             return *this;
 		}
 
+		XxMatrix<T_Int,T_Scalar>& evaluateFrom(const alias::VirtualStrided_csc<T_Int,T_Scalar>& v)
+		{
+			if(*this) {
+				v.evaluateOnExisting(*this);
+			} else {
+				v.evaluateOnNew(*this);
+			}
+			return *this;
+		}
+
+        XxMatrix<T_Int,T_Scalar>& evaluateFrom(const alias::GuardedStrided_csc<T_Int,T_Scalar>& gv)
+        {
+            return evaluateFrom(gv.get());
+        }
 };
 
 /*-------------------------------------------------*/
