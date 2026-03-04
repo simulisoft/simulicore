@@ -103,6 +103,12 @@ void XiVector<T_Scalar>::clear()
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
+void XiVector<T_Scalar>::fill(T_Scalar val)
+{
+    blk::dns::fill(this->size(), this->values(), val);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
 XiVector<T_Scalar> XiVector<T_Scalar>::copy() const
 {
 	XiVector<T_Scalar> ret(*this);

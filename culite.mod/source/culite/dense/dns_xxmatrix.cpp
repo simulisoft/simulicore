@@ -100,6 +100,12 @@ XxMatrix<T_Scalar>& XxMatrix<T_Scalar>::operator=(XxMatrix<T_Scalar>&& other)
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
+void XxMatrix<T_Scalar>::operator=(T_Scalar val)
+{
+	fill(val);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
 void XxMatrix<T_Scalar>::defaults()
 {
 	setLd(0);
@@ -123,6 +129,14 @@ void XxMatrix<T_Scalar>::clear()
 	::cla3p::MatrixMeta<int_t>::clear();
 	XxContainer<T_Scalar>::clear();
 	defaults();
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void XxMatrix<T_Scalar>::fill(T_Scalar val)
+{
+    blk::dns::fill(prop().uplo(), nrows(), ncols(), this->values(), ld(), val);
+    // TODO: set zeros on the diagonal if the matrix is non-diagonal and has a non-zero fill value
+    // blk::dns::set_diag_zeros(prop().type(), ncols(), this->values(), ld());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>

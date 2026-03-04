@@ -70,6 +70,13 @@ class XiVector : public ::cla3p::Meta1D<int_t>, public XxContainer<T_Scalar> {
 		 */
 		void clear();
 
+        /**
+         * @brief Fill all elements with a value.
+         * @details Sets all elements in the vector to the specified scalar value.
+         * @param[in] val The scalar value to fill with.
+         */
+        void fill(T_Scalar val);
+
 		/**
 		 * @brief Create a deep copy of the device vector.
 		 * @details Creates a new device vector with its own device memory allocation

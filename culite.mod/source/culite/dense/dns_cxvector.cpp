@@ -78,6 +78,12 @@ CxVector<T_Scalar>::~CxVector()
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
+void CxVector<T_Scalar>::operator=(T_Scalar val)
+{
+	this->fill(val);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
 XxVector<typename TypeTraits<T_Scalar>::real_type> CxVector<T_Scalar>::real() const
 {
 	XxVector<T_RScalar> ret(this->size());

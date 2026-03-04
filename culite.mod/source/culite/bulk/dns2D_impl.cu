@@ -86,6 +86,8 @@ void launch_fill_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar *a, int
 {
     if(m <= 0 || n <= 0) return;
 
+    // TODO: consider using memSetZero() for zero values --- IGNORE ---
+
     Grid2D grid(m, n);
     fill_2d_kernel<T_Scalar><<<grid.numBlocks(), grid.threadsPerBlock()>>>(uplo, m, n, a, lda, val);
     syncDevice();

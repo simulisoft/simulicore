@@ -146,6 +146,13 @@ class XxVector : public XiVector<T_Scalar> {
 		XxVector<T_Scalar>& operator=(XxVector<T_Scalar>&& other) = default;
 
 		/**
+		 * @brief Fill operator.
+		 * @details Fills all elements with the specified value.
+		 * @param[in] val The scalar value to fill with.
+		 */
+		void operator=(T_Scalar val);
+
+		/**
 		 * @brief Unary negation operator.
 		 * @details Returns a negated copy of the device vector.
 		 * @return A device vector containing the negated elements.

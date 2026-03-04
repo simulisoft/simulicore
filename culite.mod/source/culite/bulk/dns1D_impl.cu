@@ -44,12 +44,15 @@ void launch_fill_kernel(int_t n, T_Scalar* x, T_Scalar val)
 { 
     if(n <= 0) return;
 
+    // TODO: consider using memSetZero() for zero values --- IGNORE ---
+
     Grid1D grid(n);
 	fill_1d_kernel<T_Scalar><<<grid.numBlocks(), grid.threadsPerBlock()>>>(n, x, val);
 
     syncDevice();
 }
 /*-------------------------------------------------*/
+template void launch_fill_kernel(int_t, int_t*, int_t);
 template void launch_fill_kernel(int_t, real4_t*, real4_t);
 template void launch_fill_kernel(int_t, real_t*, real_t);
 template void launch_fill_kernel(int_t, complex_t*, complex_t);

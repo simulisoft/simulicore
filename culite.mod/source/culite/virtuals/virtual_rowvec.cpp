@@ -70,9 +70,8 @@ void VirtualRowvec<T_Scalar>::evaluateOuterOnNew(T_Scalar coeff, const dns::XxVe
 template <typename T_Scalar>
 void VirtualRowvec<T_Scalar>::evaluateOuterOnExisting(T_Scalar coeff, const dns::XxVector<T_Scalar>& vec, dns::XxMatrix<T_Scalar>& dest) const
 {
-  // TODO: replace with operator=() once implemented
-  // dest = 0;
-  memSetZero(dest.nrows(), dest.ncols(), dest.values(), dest.ld());
+  //memSetZero(dest.nrows(), dest.ncols(), dest.values(), dest.ld());
+  dest = makeScalar<T_Scalar>(0);
   accumulateOuterOnExisting(coeff, vec, dest);
 }
 /*-------------------------------------------------*/

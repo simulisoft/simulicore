@@ -150,6 +150,13 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
 		XxMatrix<T_Scalar>& operator=(XxMatrix<T_Scalar>&& other);
 
 		/**
+		 * @brief Fill operator.
+		 * @details Fills all elements with the specified value.
+		 * @param[in] val The scalar value to fill with.
+		 */
+		void operator=(T_Scalar val);
+
+		/**
 		 * @brief Unary negation operator.
 		 * @details Returns a negated copy of the device matrix.
 		 * @return A device matrix containing the negated elements.
@@ -182,6 +189,13 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
 		 * @details Releases all device memory and resets the matrix to an empty state.
 		 */
 		void clear();
+
+        /**
+         * @brief Fill all elements with a value.
+         * @details Sets all elements in the matrix to the specified scalar value.
+         * @param[in] val The scalar value to fill with.
+         */
+        void fill(T_Scalar val);
 
 		/**
 		 * @brief Create a deep copy of the device matrix.

@@ -78,6 +78,12 @@ CxMatrix<T_Scalar>::~CxMatrix()
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
+void CxMatrix<T_Scalar>::operator=(T_Scalar val)
+{
+	this->fill(val);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
 XxMatrix<typename TypeTraits<T_Scalar>::real_type> CxMatrix<T_Scalar>::real() const
 {
 	::cla3p::Property retProp = (this->prop().isHermitian()

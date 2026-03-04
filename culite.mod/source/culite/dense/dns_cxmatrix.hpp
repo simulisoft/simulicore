@@ -153,6 +153,13 @@ class CxMatrix : public XxMatrix<T_Scalar> {
 		 */
 		CxMatrix<T_Scalar>& operator=(CxMatrix<T_Scalar>&& other) = default;
 
+		/**
+		 * @brief Fill operator.
+		 * @details Fills all elements with the specified complex value.
+		 * @param[in] val The complex scalar value to fill with.
+		 */
+		void operator=(T_Scalar val);
+
 		/** @} */
 
 		/** 

@@ -138,6 +138,13 @@ class CxVector : public XxVector<T_Scalar> {
 		 */
 		CxVector<T_Scalar>& operator=(CxVector<T_Scalar>&& other) = default;
 
+		/**
+		 * @brief Fill operator.
+		 * @details Fills all elements with the specified complex value.
+		 * @param[in] val The complex scalar value to fill with.
+		 */
+		void operator=(T_Scalar val);
+
 		/** @} */
 
 		/** 

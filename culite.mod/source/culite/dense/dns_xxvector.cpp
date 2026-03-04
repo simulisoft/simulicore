@@ -80,6 +80,12 @@ XxVector<T_Scalar>& XxVector<T_Scalar>::operator=(XiVector<T_Scalar>&& other)
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
+void XxVector<T_Scalar>::operator=(T_Scalar val)
+{
+	this->fill(val);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
 alias::VirtualScal_vec<T_Scalar> XxVector<T_Scalar>::operator-() const
 {
     return alias::VirtualScal_vec<T_Scalar>(virtualize(), makeScalar<T_Scalar>(-1));
