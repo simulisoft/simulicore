@@ -21,10 +21,9 @@
  * @file
  */
 
-#include <cla3p/types/enums.hpp>
-
 #include "culite/types/integer.hpp"
 #include "culite/types/scalar.hpp"
+#include "culite/types/enums.hpp"
 #include "culite/support/utils.hpp"
 #include "culite/error/exceptions.hpp"
 #include "culite/bulk/dns2d_impl.hpp"
@@ -60,10 +59,10 @@ inline const T_Scalar& entry(int_t lda, const T_Scalar *a, int_t i, int_t j)
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void copy(::cla3p::uplo_t uplo, int_t m, int_t n, const T_Scalar *a, int_t lda, T_Scalar *b, int_t ldb)
+void copy(uplo_t uplo, int_t m, int_t n, const T_Scalar *a, int_t lda, T_Scalar *b, int_t ldb)
 {
     if(m > 0 && n > 0) {
-        if(uplo == ::cla3p::uplo_t::Full) {
+        if(uplo == uplo_t::Full) {
             memCopyD2D(m, n, a, lda, b, ldb);
         } else {
             launch_copy_kernel(uplo, m, n, a, lda, b, ldb);
@@ -72,26 +71,26 @@ void copy(::cla3p::uplo_t uplo, int_t m, int_t n, const T_Scalar *a, int_t lda, 
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void fill(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda, T_Scalar val)
+void fill(uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda, T_Scalar val)
 {
     launch_fill_kernel(uplo, m, n, a, lda, val);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void scale(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda, T_Scalar alpha)
+void scale(uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda, T_Scalar alpha)
 {
     launch_scale_kernel<T_Scalar>(uplo, m, n, a, lda, alpha);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-typename TypeTraits<T_Scalar>::real_type normOne(::cla3p::prop_t ptype, 
-                                                 ::cla3p::uplo_t uplo,
+typename TypeTraits<T_Scalar>::real_type normOne(prop_t ptype, 
+                                                 uplo_t uplo,
                                                  int_t m, int_t n, 
                                                  const T_Scalar* a, 
                                                  int_t lda)
 {
     typename TypeTraits<T_Scalar>::real_type ret = 0;
-    if(ptype == ::cla3p::prop_t::General && uplo == ::cla3p::uplo_t::Full) {
+    if(ptype == prop_t::General && uplo == uplo_t::Full) {
         ret = launch_matrix_one_norm_kernel(m, n, a, lda);
     } else {
         // TODO: implement
@@ -101,14 +100,14 @@ typename TypeTraits<T_Scalar>::real_type normOne(::cla3p::prop_t ptype,
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-typename TypeTraits<T_Scalar>::real_type normInf(::cla3p::prop_t ptype, 
-                                                 ::cla3p::uplo_t uplo,
+typename TypeTraits<T_Scalar>::real_type normInf(prop_t ptype, 
+                                                 uplo_t uplo,
                                                  int_t m, int_t n, 
                                                  const T_Scalar* a, 
                                                  int_t lda)
 {
     typename TypeTraits<T_Scalar>::real_type ret = 0;
-    if(ptype == ::cla3p::prop_t::General && uplo == ::cla3p::uplo_t::Full) {
+    if(ptype == prop_t::General && uplo == uplo_t::Full) {
         ret = launch_matrix_inf_norm_kernel(m, n, a, lda);
     } else {
         // TODO: implement
@@ -118,14 +117,14 @@ typename TypeTraits<T_Scalar>::real_type normInf(::cla3p::prop_t ptype,
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-typename TypeTraits<T_Scalar>::real_type normMax(::cla3p::prop_t ptype, 
-                                                 ::cla3p::uplo_t uplo,
+typename TypeTraits<T_Scalar>::real_type normMax(prop_t ptype, 
+                                                 uplo_t uplo,
                                                  int_t m, int_t n, 
                                                  const T_Scalar* a, 
                                                  int_t lda)
 {
     typename TypeTraits<T_Scalar>::real_type ret = 0;
-    if(ptype == ::cla3p::prop_t::General && uplo == ::cla3p::uplo_t::Full) {
+    if(ptype == prop_t::General && uplo == uplo_t::Full) {
         ret = launch_matrix_max_norm_kernel(m, n, a, lda);
     } else {
         // TODO: implement
@@ -135,14 +134,14 @@ typename TypeTraits<T_Scalar>::real_type normMax(::cla3p::prop_t ptype,
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-typename TypeTraits<T_Scalar>::real_type normFro(::cla3p::prop_t ptype, 
-                                                 ::cla3p::uplo_t uplo,
+typename TypeTraits<T_Scalar>::real_type normFro(prop_t ptype, 
+                                                 uplo_t uplo,
                                                  int_t m, int_t n, 
                                                  const T_Scalar* a, 
                                                  int_t lda)
 {
     typename TypeTraits<T_Scalar>::real_type ret = 0;
-    if(ptype == ::cla3p::prop_t::General && uplo == ::cla3p::uplo_t::Full) {
+    if(ptype == prop_t::General && uplo == uplo_t::Full) {
         ret = launch_matrix_fro_norm_kernel(m, n, a, lda);
     } else {
         // TODO: implement
@@ -152,7 +151,7 @@ typename TypeTraits<T_Scalar>::real_type normFro(::cla3p::prop_t ptype,
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void conjugate(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda)
+void conjugate(uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda)
 {
     launch_conjugate_kernel<T_Scalar>(uplo, m, n, a, lda);
 }
@@ -163,8 +162,8 @@ void transpose(int_t m, int_t n, const T_Scalar *a, int_t lda, T_Scalar* b, int_
     T_Scalar alpha = makeScalar<T_Scalar>(1);
     T_Scalar beta  = makeScalar<T_Scalar>(0);
     T_Scalar *p_null = nullptr;
-    globalCuBlasHandler().geam(::cla3p::op_t::T,
-                               ::cla3p::op_t::N,
+    globalCuBlasHandler().geam(op_t::T,
+                               op_t::N,
                                 n, m,
                                 &alpha, a, lda,
                                 &beta, p_null, n,
@@ -177,8 +176,8 @@ void ctranspose(int_t m, int_t n, const T_Scalar *a, int_t lda, T_Scalar* b, int
     T_Scalar alpha = makeScalar<T_Scalar>(1);
     T_Scalar beta  = makeScalar<T_Scalar>(0);
     T_Scalar *p_null = nullptr;
-    globalCuBlasHandler().geam<T_Scalar>(::cla3p::op_t::C,
-                                         ::cla3p::op_t::N,
+    globalCuBlasHandler().geam<T_Scalar>(op_t::C,
+                                         op_t::N,
                                          n, m,
                                          &alpha, a, lda,
                                          &beta, p_null, n,
@@ -189,11 +188,11 @@ void ctranspose(int_t m, int_t n, const T_Scalar *a, int_t lda, T_Scalar* b, int
 // Update: C += alpha * op(A), C (m x n)
 //
 template <typename T_Scalar>
-void update(int_t m, int_t n, ::cla3p::op_t opA, T_Scalar alpha, const T_Scalar *a, int_t lda, T_Scalar* c, int_t ldc)
+void update(int_t m, int_t n, op_t opA, T_Scalar alpha, const T_Scalar *a, int_t lda, T_Scalar* c, int_t ldc)
 {
     T_Scalar beta = makeScalar<T_Scalar>(1);
     globalCuBlasHandler().geam<T_Scalar>(opA,
-                                         ::cla3p::op_t::N,
+                                         op_t::N,
                                          m, n,
                                          &alpha, a, lda,
                                          &beta, c, ldc,
@@ -201,7 +200,7 @@ void update(int_t m, int_t n, ::cla3p::op_t opA, T_Scalar alpha, const T_Scalar 
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void getReal(::cla3p::uplo_t uplo, 
+void getReal(uplo_t uplo, 
                int_t m, int_t n, 
                const T_Scalar* a, int_t lda, 
                typename TypeTraits<T_Scalar>::real_type* b, int_t ldb)
@@ -210,7 +209,7 @@ void getReal(::cla3p::uplo_t uplo,
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void getImag(::cla3p::uplo_t uplo, 
+void getImag(uplo_t uplo, 
                 int_t m, int_t n, 
                 const T_Scalar* a, int_t lda, 
                 typename TypeTraits<T_Scalar>::real_type* b, int_t ldb)

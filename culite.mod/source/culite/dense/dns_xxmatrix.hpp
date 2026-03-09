@@ -23,8 +23,6 @@
 
 //#include <string>
 
-#include <cla3p/generic/guard.hpp>
-#include <cla3p/generic/matrix_meta.hpp>
 #include <cla3p/dense/dns_xxmatrix.hpp>
 
 #include "culite/dense/dns_xxcontainer.hpp"
@@ -36,6 +34,10 @@
 #include "culite/virtuals/virtual_conjugate.hpp"
 #include "culite/virtuals/virtual_rowvec.hpp"
 #include "culite/virtuals/virtual_scale.hpp"
+
+// forwards
+#include "culite/generic/cla3p_forwards.hpp"
+#include "culite/types/cla3p_forwards.hpp"
 
 /*-------------------------------------------------*/
 namespace culite { 
@@ -49,7 +51,7 @@ namespace dns {
  * @tparam T_Scalar The scalar type (e.g., float, double, complex).
  */
 template <typename T_Scalar>
-class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar> {
+class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
 
     private:
         using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
@@ -92,7 +94,7 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
          * @param[in] nc The number of columns.
          * @param[in] pr The matrix property (default: General).
          */
-        explicit XxMatrix(int_t nr, int_t nc, const ::cla3p::Property& pr = ::cla3p::Property::General());
+        explicit XxMatrix(int_t nr, int_t nc, const Property& pr = Property::General());
 
         /**
          * @brief Auxiliary constructor.
@@ -104,7 +106,7 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
          * @param[in] bind If true, the matrix takes ownership of the memory.
          * @param[in] pr The matrix property (default: General).
          */
-        explicit XxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const ::cla3p::Property& pr = ::cla3p::Property::General());
+        explicit XxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const Property& pr = Property::General());
 
         /**
          * @brief Copy constructor.
@@ -219,7 +221,7 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
          *          as this matrix. The guard ensures the reference is read-only.
          * @return A guarded device matrix that shares device memory with this matrix.
          */
-        ::cla3p::Guard<XxMatrix<T_Scalar>> rcopy() const;
+        Guard<XxMatrix<T_Scalar>> rcopy() const;
 
         /**
          * @brief Move the device matrix's resources.
@@ -330,7 +332,7 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
          * @param[in] nj The number of columns in the block.
          * @return A guarded device matrix that shares device memory with this matrix.
          */
-        ::cla3p::Guard<XxMatrix<T_Scalar>> rblock(int_t ibgn, int_t jbgn, int_t ni, int_t nj) const;
+        Guard<XxMatrix<T_Scalar>> rblock(int_t ibgn, int_t jbgn, int_t ni, int_t nj) const;
 
         /**
          * @brief Set a block of elements.
@@ -363,7 +365,7 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
          * @param[in] j The column index.
          * @return A guarded device vector that shares device memory with this matrix.
          */
-        ::cla3p::Guard<XxVector<T_Scalar>> rcolumn(int_t j) const;
+        Guard<XxVector<T_Scalar>> rcolumn(int_t j) const;
 
         /**
          * @brief Extract a row as a new device matrix.
@@ -387,7 +389,7 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
          * @param[in] i The row index.
          * @return A guarded device matrix that shares device memory with this matrix.
          */
-        ::cla3p::Guard<XxMatrix<T_Scalar>> rrow(int_t i) const;
+        Guard<XxMatrix<T_Scalar>> rrow(int_t i) const;
 
         /**
          * @brief Extract a row as a virtual row vector.
@@ -434,7 +436,8 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
          * @param[in] pr The matrix property (default: General).
          * @return A guarded device matrix that views the specified device memory.
          */
-        static ::cla3p::Guard<XxMatrix<T_Scalar>> view(int_t nr, int_t nc, const T_Scalar *vals, int_t ldv, const ::cla3p::Property& pr = ::cla3p::Property::General());
+        static Guard<XxMatrix<T_Scalar>> view(int_t nr, int_t nc, const T_Scalar *vals, int_t ldv, 
+                                               const Property& pr = Property::General());
 
         /** @} */
 
@@ -487,7 +490,7 @@ class XxMatrix : public ::cla3p::MatrixMeta<int_t>, public XxContainer<T_Scalar>
  */
 template <typename T_Scalar>
 void operator>>(const culite::dns::XxMatrix<T_Scalar>& src,
-                ::cla3p::dns::XxMatrix<typename culite::TypeTraits<T_Scalar>::cla3p_type>& dest)
+                cla3p::dns::XxMatrix<typename culite::TypeTraits<T_Scalar>::cla3p_type>& dest)
 {
     src.copyToHost(dest);
 }
@@ -524,7 +527,7 @@ void operator>>(const ::cla3p::dns::XxMatrix<typename culite::TypeTraits<T_Scala
 template <typename T_Scalar>
 std::ostream& operator<<(std::ostream& os, const culite::dns::XxMatrix<T_Scalar>& mat)
 {
-    ::cla3p::dns::XxMatrix<typename culite::TypeTraits<T_Scalar>::cla3p_type> hostMat;
+    cla3p::dns::XxMatrix<typename culite::TypeTraits<T_Scalar>::cla3p_type> hostMat;
     mat >> hostMat;
     os << hostMat;
     return os;

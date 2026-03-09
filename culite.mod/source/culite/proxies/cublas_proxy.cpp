@@ -35,87 +35,87 @@
 namespace culite {
 namespace cublas {
 /*-------------------------------------------------*/
-::cla3p::op_t cublasOp2cla3pOp(cublasOperation_t op)
+op_t cublasOp2cla3pOp(cublasOperation_t op)
 {
     switch(op) {
-        case CUBLAS_OP_N: return ::cla3p::op_t::N;
-        case CUBLAS_OP_T: return ::cla3p::op_t::T;
-        case CUBLAS_OP_C: return ::cla3p::op_t::C;
+        case CUBLAS_OP_N: return op_t::N;
+        case CUBLAS_OP_T: return op_t::T;
+        case CUBLAS_OP_C: return op_t::C;
         default:
             throw err::CudaException("Invalid cublasOperation_t value.");
     }
 }
 /*-------------------------------------------------*/
-cublasOperation_t cla3pOp2cublasOp(::cla3p::op_t op)
+cublasOperation_t cla3pOp2cublasOp(op_t op)
 {
     switch(op) {
-        case ::cla3p::op_t::N: return CUBLAS_OP_N;
-        case ::cla3p::op_t::T: return CUBLAS_OP_T;
-        case ::cla3p::op_t::C: return CUBLAS_OP_C;
+        case op_t::N: return CUBLAS_OP_N;
+        case op_t::T: return CUBLAS_OP_T;
+        case op_t::C: return CUBLAS_OP_C;
         default:
-            throw err::CudaException("Invalid (::cla3p::op_t) value.");
+            throw err::CudaException("Invalid (op_t) value.");
     }
 }
 /*-------------------------------------------------*/
-::cla3p::side_t cublasSide2cla3pSide(cublasSideMode_t side)
+side_t cublasSide2cla3pSide(cublasSideMode_t side)
 {
     switch(side) {
-        case CUBLAS_SIDE_LEFT:  return ::cla3p::side_t::Left;
-        case CUBLAS_SIDE_RIGHT: return ::cla3p::side_t::Right;
+        case CUBLAS_SIDE_LEFT:  return side_t::Left;
+        case CUBLAS_SIDE_RIGHT: return side_t::Right;
         default:
             throw err::CudaException("Invalid cublasSideMode_t value.");
     }
 }
 /*-------------------------------------------------*/
-cublasSideMode_t cla3pSide2cublasSide(::cla3p::side_t side)
+cublasSideMode_t cla3pSide2cublasSide(side_t side)
 {
     switch(side) {
-        case ::cla3p::side_t::Left: return CUBLAS_SIDE_LEFT;
-        case ::cla3p::side_t::Right: return CUBLAS_SIDE_RIGHT;
+        case side_t::Left: return CUBLAS_SIDE_LEFT;
+        case side_t::Right: return CUBLAS_SIDE_RIGHT;
         default:
-            throw err::CudaException("Invalid (::cla3p::side_t) value.");
+            throw err::CudaException("Invalid (side_t) value.");
     }
 }
 /*-------------------------------------------------*/
-::cla3p::uplo_t cublasUplo2cla3pUplo(cublasFillMode_t uplo)
+uplo_t cublasUplo2cla3pUplo(cublasFillMode_t uplo)
 {
     switch(uplo) {
-        case CUBLAS_FILL_MODE_UPPER: return ::cla3p::uplo_t::Upper;
-        case CUBLAS_FILL_MODE_LOWER: return ::cla3p::uplo_t::Lower;
-        case CUBLAS_FILL_MODE_FULL: return ::cla3p::uplo_t::Full;
+        case CUBLAS_FILL_MODE_UPPER: return uplo_t::Upper;
+        case CUBLAS_FILL_MODE_LOWER: return uplo_t::Lower;
+        case CUBLAS_FILL_MODE_FULL: return uplo_t::Full;
         default:
             throw err::CudaException("Invalid cublasFillMode_t value.");
     }
 }
 /*-------------------------------------------------*/
-cublasFillMode_t cla3pUplo2cublasUplo(::cla3p::uplo_t uplo)
+cublasFillMode_t cla3pUplo2cublasUplo(uplo_t uplo)
 {
     switch(uplo) {
-        case ::cla3p::uplo_t::Upper: return CUBLAS_FILL_MODE_UPPER;
-        case ::cla3p::uplo_t::Lower: return CUBLAS_FILL_MODE_LOWER;
-        case ::cla3p::uplo_t::Full: return CUBLAS_FILL_MODE_FULL;
+        case uplo_t::Upper: return CUBLAS_FILL_MODE_UPPER;
+        case uplo_t::Lower: return CUBLAS_FILL_MODE_LOWER;
+        case uplo_t::Full: return CUBLAS_FILL_MODE_FULL;
         default:
-            throw err::CudaException("Invalid (::cla3p::uplo_t) value.");
+            throw err::CudaException("Invalid (uplo_t) value.");
     }
 }
 /*-------------------------------------------------*/
-::cla3p::diag_t cublasDiag2cla3pDiag(cublasDiagType_t diag)
+diag_t cublasDiag2cla3pDiag(cublasDiagType_t diag)
 {
     switch(diag) {
-        case CUBLAS_DIAG_UNIT: return ::cla3p::diag_t::Unit;
-        case CUBLAS_DIAG_NON_UNIT: return ::cla3p::diag_t::NonUnit;
+        case CUBLAS_DIAG_UNIT: return diag_t::Unit;
+        case CUBLAS_DIAG_NON_UNIT: return diag_t::NonUnit;
         default:
             throw err::CudaException("Invalid cublasDiagType_t value.");
     }
 }
 /*-------------------------------------------------*/
-cublasDiagType_t cla3pDiag2cublasDiag(::cla3p::diag_t diag)
+cublasDiagType_t cla3pDiag2cublasDiag(diag_t diag)
 {
     switch(diag) {
-        case ::cla3p::diag_t::Unit: return CUBLAS_DIAG_UNIT;
-        case ::cla3p::diag_t::NonUnit: return CUBLAS_DIAG_NON_UNIT;
+        case diag_t::Unit: return CUBLAS_DIAG_UNIT;
+        case diag_t::NonUnit: return CUBLAS_DIAG_NON_UNIT;
         default:
-            throw err::CudaException("Invalid (::cla3p::diag_t) value.");
+            throw err::CudaException("Invalid (diag_t) value.");
     }
 }
 /*-------------------------------------------------*/

@@ -20,12 +20,9 @@
 // system
 
 // 3rd
-//#include <cla3p/checks/decomp_xx_checks.hpp>
-//#include <cla3p/checks/solve_checks.hpp>
 
 // culite
 #include "culite/dense.hpp"
-//#include "culite/error/exceptions.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {

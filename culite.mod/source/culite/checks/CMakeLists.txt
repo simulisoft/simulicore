@@ -2,26 +2,18 @@
 # source setup
 #-----------------------------------------------
 set(CULITE_SRC ${CULITE_SRC}
-    generic/cublas_handler.cpp
-    generic/cuda_stream.cpp
-    generic/cusolver_handler.cpp
-    generic/cusparse_handler.cpp
     PARENT_SCOPE)
 
-set(CULITE_GENERIC_HPP 
+set(CULITE_CHECKS_HPP 
     cla3p_forwards.hpp
-    cuda_stream.hpp
-    cublas_handler.hpp
-    cusolver_handler.hpp
-    cusparse_handler.hpp
     )
 
 #-----------------------------------------------
 # installation setup
 #-----------------------------------------------
-set(CULITE_GENERIC_HPP_INSTALL include/culite/generic)
+set(CULITE_CHECKS_HPP_INSTALL include/culite/checks)
 
-install(FILES ${CULITE_GENERIC_HPP} DESTINATION ${CULITE_GENERIC_HPP_INSTALL})
+install(FILES ${CULITE_CHECKS_HPP} DESTINATION ${CULITE_CHECKS_HPP_INSTALL})
 #-----------------------------------------------
 # end
 #-----------------------------------------------

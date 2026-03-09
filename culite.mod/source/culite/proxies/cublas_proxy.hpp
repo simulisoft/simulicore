@@ -23,27 +23,29 @@
 
 #include <cublas_v2.h>
 
-#include <cla3p/types/enums.hpp>
-
 #include "culite/types/integer.hpp"
 #include "culite/types/scalar.hpp"
+#include "culite/types/enums.hpp"
+
+// forwards
+#include "culite/types/cla3p_forwards.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
 namespace cublas {
 /*-------------------------------------------------*/
 
-::cla3p::op_t cublasOp2cla3pOp(cublasOperation_t op);
-cublasOperation_t cla3pOp2cublasOp(::cla3p::op_t op);
+op_t cublasOp2cla3pOp(cublasOperation_t op);
+cublasOperation_t cla3pOp2cublasOp(op_t op);
 
-::cla3p::side_t cublasSide2cla3pSide(cublasSideMode_t side);
-cublasSideMode_t cla3pSide2cublasSide(::cla3p::side_t side);
+side_t cublasSide2cla3pSide(cublasSideMode_t side);
+cublasSideMode_t cla3pSide2cublasSide(side_t side);
 
-::cla3p::uplo_t cublasUplo2cla3pUplo(cublasFillMode_t uplo);
-cublasFillMode_t cla3pUplo2cublasUplo(::cla3p::uplo_t uplo);
+uplo_t cublasUplo2cla3pUplo(cublasFillMode_t uplo);
+cublasFillMode_t cla3pUplo2cublasUplo(uplo_t uplo);
 
-::cla3p::diag_t cublasDiag2cla3pDiag(cublasDiagType_t diag);
-cublasDiagType_t cla3pDiag2cublasDiag(::cla3p::diag_t diag);
+diag_t cublasDiag2cla3pDiag(cublasDiagType_t diag);
+cublasDiagType_t cla3pDiag2cublasDiag(diag_t diag);
 
 /*-------------------------------------------------*/
 

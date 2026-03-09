@@ -28,65 +28,65 @@
 namespace culite {
 namespace cusparse {
 /*-------------------------------------------------*/
-::cla3p::op_t cusparseOp2cla3pOp(cusparseOperation_t op)
+op_t cusparseOp2cla3pOp(cusparseOperation_t op)
 {
     switch(op) {
-        case CUSPARSE_OPERATION_NON_TRANSPOSE: return ::cla3p::op_t::N;
-        case CUSPARSE_OPERATION_TRANSPOSE:     return ::cla3p::op_t::T;
-        case CUSPARSE_OPERATION_CONJUGATE_TRANSPOSE: return ::cla3p::op_t::C;
+        case CUSPARSE_OPERATION_NON_TRANSPOSE: return op_t::N;
+        case CUSPARSE_OPERATION_TRANSPOSE:     return op_t::T;
+        case CUSPARSE_OPERATION_CONJUGATE_TRANSPOSE: return op_t::C;
         default:
             throw err::CudaException("Invalid cusparseOperation_t value.");
     }
 }
 /*-------------------------------------------------*/
-cusparseOperation_t cla3pOp2cusparseOp(::cla3p::op_t op)
+cusparseOperation_t cla3pOp2cusparseOp(op_t op)
 {
     switch(op) {
-        case ::cla3p::op_t::N: return CUSPARSE_OPERATION_NON_TRANSPOSE;
-        case ::cla3p::op_t::T: return CUSPARSE_OPERATION_TRANSPOSE;
-        case ::cla3p::op_t::C: return CUSPARSE_OPERATION_CONJUGATE_TRANSPOSE;
+        case op_t::N: return CUSPARSE_OPERATION_NON_TRANSPOSE;
+        case op_t::T: return CUSPARSE_OPERATION_TRANSPOSE;
+        case op_t::C: return CUSPARSE_OPERATION_CONJUGATE_TRANSPOSE;
         default:
-            throw err::CudaException("Invalid (::cla3p::op_t) value.");
+            throw err::CudaException("Invalid (op_t) value.");
     }
 }
 /*-------------------------------------------------*/
-::cla3p::uplo_t cusparseUplo2cla3pUplo(cusparseFillMode_t uplo)
+uplo_t cusparseUplo2cla3pUplo(cusparseFillMode_t uplo)
 {
     switch(uplo) {
-        case CUSPARSE_FILL_MODE_LOWER: return ::cla3p::uplo_t::Lower;
-        case CUSPARSE_FILL_MODE_UPPER: return ::cla3p::uplo_t::Upper;
+        case CUSPARSE_FILL_MODE_LOWER: return uplo_t::Lower;
+        case CUSPARSE_FILL_MODE_UPPER: return uplo_t::Upper;
         default:
             throw err::CudaException("Invalid cusparseFillMode_t value.");
     }
 }
 /*-------------------------------------------------*/
-cusparseFillMode_t cla3pUplo2cusparseUplo(::cla3p::uplo_t uplo)
+cusparseFillMode_t cla3pUplo2cusparseUplo(uplo_t uplo)
 {
     switch(uplo) {
-        case ::cla3p::uplo_t::Lower: return CUSPARSE_FILL_MODE_LOWER;
-        case ::cla3p::uplo_t::Upper: return CUSPARSE_FILL_MODE_UPPER;
+        case uplo_t::Lower: return CUSPARSE_FILL_MODE_LOWER;
+        case uplo_t::Upper: return CUSPARSE_FILL_MODE_UPPER;
         default:
-            throw err::CudaException("Invalid (::cla3p::uplo_t) value.");
+            throw err::CudaException("Invalid (uplo_t) value.");
     }
 }
 /*-------------------------------------------------*/
-::cla3p::diag_t cusparseDiag2cla3pDiag(cusparseDiagType_t diag)
+diag_t cusparseDiag2cla3pDiag(cusparseDiagType_t diag)
 {
     switch(diag) {
-        case CUSPARSE_DIAG_TYPE_NON_UNIT: return ::cla3p::diag_t::NonUnit;
-        case CUSPARSE_DIAG_TYPE_UNIT:     return ::cla3p::diag_t::Unit;
+        case CUSPARSE_DIAG_TYPE_NON_UNIT: return diag_t::NonUnit;
+        case CUSPARSE_DIAG_TYPE_UNIT:     return diag_t::Unit;
         default:
             throw err::CudaException("Invalid cusparseDiagType_t value.");
     }
 }
 /*-------------------------------------------------*/
-cusparseDiagType_t cla3pDiag2cusparseDiag(::cla3p::diag_t diag)
+cusparseDiagType_t cla3pDiag2cusparseDiag(diag_t diag)
 {
     switch(diag) {
-        case ::cla3p::diag_t::NonUnit: return CUSPARSE_DIAG_TYPE_NON_UNIT;
-        case ::cla3p::diag_t::Unit:    return CUSPARSE_DIAG_TYPE_UNIT;
+        case diag_t::NonUnit: return CUSPARSE_DIAG_TYPE_NON_UNIT;
+        case diag_t::Unit:    return CUSPARSE_DIAG_TYPE_UNIT;
         default:
-            throw err::CudaException("Invalid (::cla3p::diag_t) value.");
+            throw err::CudaException("Invalid (diag_t) value.");
     }
 }
 /*-------------------------------------------------*/

@@ -20,7 +20,6 @@
 // system
 
 // 3rd
-#include <cla3p/checks/basic_checks.hpp>
 
 // culite
 #include "culite/bulk/csx.hpp"
@@ -29,6 +28,9 @@
 #include "culite/dense/dns_xxmatrix.hpp"
 #include "culite/sparse/csr_xxmatrix.hpp"
 #include "culite/sparse/csc_xxmatrix.hpp"
+
+// forwards
+#include "culite/checks/cla3p_forwards.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -51,20 +53,20 @@ instantiate_update(complex8_t);
 #undef instantiate_update
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void update(::cla3p::op_t opA,
+void update(op_t opA,
             T_Scalar alpha,
             const dns::XxMatrix<T_Scalar>& A,
             dns::XxMatrix<T_Scalar>& B,
             CuBlasHandler& cublasHandler)
 {
-    ::cla3p::similarity_check(opA, A, ::cla3p::op_t::N, B);
+    ::cla3p::similarity_check(opA, A, op_t::N, B);
 
     T_Scalar beta = makeScalar<T_Scalar>(1);
 
     if(B.prop().isGeneral()) {
 
         cublasHandler.geam<T_Scalar>(opA,
-                                     ::cla3p::op_t::N,
+                                     op_t::N,
                                      B.nrows(), B.ncols(),
                                      &alpha, A.values(), A.ld(),
                                      &beta, B.values(), B.ld(),
@@ -78,7 +80,7 @@ void update(::cla3p::op_t opA,
 }
 /*-------------------------------------------------*/
 #define instantiate_update(T_Scl) \
-template void update(::cla3p::op_t, T_Scl, const dns::XxMatrix<T_Scl>&, dns::XxMatrix<T_Scl>&, CuBlasHandler&)
+template void update(op_t, T_Scl, const dns::XxMatrix<T_Scl>&, dns::XxMatrix<T_Scl>&, CuBlasHandler&)
 instantiate_update(real_t);
 instantiate_update(real4_t);
 instantiate_update(complex_t);

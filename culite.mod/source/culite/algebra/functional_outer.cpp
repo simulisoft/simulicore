@@ -20,14 +20,15 @@
 // system
 
 // 3rd
-#include <cla3p/checks/outer_checks.hpp>
-#include <cla3p/checks/hermitian_coeff_checks.hpp>
 
 // culite
 #include "culite/types/scalar.hpp"
 #include "culite/error/exceptions.hpp"
 #include "culite/dense/dns_xxvector.hpp"
 #include "culite/dense/dns_xxmatrix.hpp"
+
+// forwards
+#include "culite/checks/cla3p_forwards.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -43,12 +44,7 @@ static void outerx(bool conjop, T_Scalar alpha,
     conjop = (TypeTraits<T_Scalar>::is_real() ? false : conjop);
 
     ::cla3p::outer_product_consistency_check(conjop, A, x, y);
-
-    {
-        using T_Cla3pScalar = typename TypeTraits<T_Scalar>::cla3p_type;
-        T_Cla3pScalar cla3pAlpha = TypeTraits<T_Scalar>::toCla3pType(alpha);
-        ::cla3p::hermitian_coeff_check<T_Cla3pScalar>(A.prop(), cla3pAlpha);
-    }
+    hermitian_coeff_check2<T_Scalar>(A.prop(), alpha);
 
     if(A.prop().isGeneral()) {
 
@@ -71,7 +67,7 @@ static void outerx(bool conjop, T_Scalar alpha,
 
             T_Scalar beta = makeScalar<T_Scalar>(1);
             cublasHandler.syrkx(A.prop().uplo(),
-                                ::cla3p::op_t::N,
+                                op_t::N,
                                 A.ncols(),
                                 1,
                                 &alpha,
@@ -98,7 +94,7 @@ static void outerx(bool conjop, T_Scalar alpha,
         } else {
 
             cublasHandler.herkx(A.prop().uplo(),
-                                ::cla3p::op_t::N,
+                                op_t::N,
                                 A.ncols(),
                                 1,
                                 &alpha,

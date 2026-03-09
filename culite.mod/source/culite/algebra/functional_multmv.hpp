@@ -21,8 +21,7 @@
  * @file
  */
 
-#include <cla3p/types/enums.hpp>
-
+#include "culite/types/enums.hpp"
 #include "culite/generic/cublas_handler.hpp"
 #include "culite/generic/cusparse_handler.hpp"
 
@@ -52,7 +51,7 @@ namespace ops {
  * @param[in] cuBlasHandler The cuBLAS handler for GPU operations (defaults to global handler).
  */
 template <typename T_Scalar>
-void mult(T_Scalar alpha, ::cla3p::op_t opA,
+void mult(T_Scalar alpha, op_t opA,
           const dns::XxMatrix<T_Scalar>& A,
           const dns::XxVector<T_Scalar>& x,
           T_Scalar beta, dns::XxVector<T_Scalar>& y,
@@ -77,7 +76,7 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
  * @param[in] cuSparseHandler The cuSPARSE handler for GPU operations (defaults to global handler).
  */
 template <typename T_Int, typename T_Scalar>
-void mult(T_Scalar alpha, ::cla3p::op_t opA,
+void mult(T_Scalar alpha, op_t opA,
           const csr::XxMatrix<T_Int,T_Scalar>& A,
           const dns::XxVector<T_Scalar>& x,
           T_Scalar beta,
@@ -99,7 +98,7 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
  * @param[in] cuSparseHandler The cuSPARSE handler for GPU operations (defaults to global handler).
  */
 template <typename T_Int, typename T_Scalar>
-void mult(T_Scalar alpha, ::cla3p::op_t opA,
+void mult(T_Scalar alpha, op_t opA,
           const csc::XxMatrix<T_Int,T_Scalar>& A,
           const dns::XxVector<T_Scalar>& x,
           T_Scalar beta,

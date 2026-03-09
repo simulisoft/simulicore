@@ -20,12 +20,14 @@
 // system
 
 // 3rd
-#include <cla3p/types/property.hpp>
-#include <cla3p/checks/block_ops_checks.hpp>
 
 // culite
 #include "culite/types/scalar.hpp"
 #include "culite/bulk/dns1d.hpp"
+
+// forwards
+#include "culite/types/cla3p_forwards.hpp"
+#include "culite/checks/cla3p_forwards.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -150,17 +152,17 @@ XxVector<T_Scalar> XxVector<T_Scalar>::block(int_t ibgn, int_t ni) const
 template <typename T_Scalar>
 XxVector<T_Scalar> XxVector<T_Scalar>::rblock(int_t ibgn, int_t ni)
 {
-    ::cla3p::block_op_consistency_check(::cla3p::Property::General(), this->size(), 1, ibgn, 0, ni, 1);
+    ::cla3p::block_op_consistency_check(Property::General(), this->size(), 1, ibgn, 0, ni, 1);
 
     return XxVector<T_Scalar>(ni, this->values() + ibgn, false);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-::cla3p::Guard<XxVector<T_Scalar>> XxVector<T_Scalar>::rblock(int_t ibgn, int_t ni) const
+Guard<XxVector<T_Scalar>> XxVector<T_Scalar>::rblock(int_t ibgn, int_t ni) const
 {
-    ::cla3p::block_op_consistency_check(::cla3p::Property::General(), this->size(), 1, ibgn, 0, ni, 1);
+    ::cla3p::block_op_consistency_check(Property::General(), this->size(), 1, ibgn, 0, ni, 1);
 
-    ::cla3p::Guard<XxVector<T_Scalar>> ret = this->view(ni, this->values() + ibgn);
+    Guard<XxVector<T_Scalar>> ret = this->view(ni, this->values() + ibgn);
     return ret;
 }
 /*-------------------------------------------------*/

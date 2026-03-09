@@ -20,15 +20,15 @@
 // system
 
 // 3rd
-#include <cla3p/checks/basic_checks.hpp>
-#include <cla3p/checks/outer_checks.hpp>
-#include <cla3p/checks/hermitian_coeff_checks.hpp>
 
 // culite
 #include "culite/support/utils.hpp"
 #include "culite/generic/cublas_handler.hpp"
 #include "culite/dense/dns_xxvector.hpp"
 #include "culite/dense/dns_xxmatrix.hpp"
+
+// forwards
+#include "culite/checks/cla3p_forwards.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -79,7 +79,7 @@ template <typename T_Scalar>
 void VirtualRowvec<T_Scalar>::accumulateOuterOnExisting(T_Scalar coeff, const dns::XxVector<T_Scalar>& vec, dns::XxMatrix<T_Scalar>& dest) const
 {
   ::cla3p::outer_product_consistency_check(this->isConj(), dest.nrows(), dest.ncols(), dest.prop(), vec.size(), this->size());
-  ::cla3p::hermitian_coeff_check(dest.prop(), TypeTraits<T_Scalar>::toCla3pType(coeff));
+  hermitian_coeff_check2<T_Scalar>(dest.prop(), coeff);
 
   if(dest.prop().isGeneral()) {
 
@@ -92,7 +92,7 @@ void VirtualRowvec<T_Scalar>::accumulateOuterOnExisting(T_Scalar coeff, const dn
   } else if(dest.prop().isSymmetric()) {
 
     T_Scalar beta = makeScalar<T_Scalar>(1);
-    globalCuBlasHandler().syrkx(dest.prop().uplo(), ::cla3p::op_t::N, dest.nrows(), 1, 
+    globalCuBlasHandler().syrkx(dest.prop().uplo(), op_t::N, dest.nrows(), 1, 
                                 &coeff, 
                                 this->values(), this->incv(), 
                                 vec.values(), 1, 
@@ -102,7 +102,7 @@ void VirtualRowvec<T_Scalar>::accumulateOuterOnExisting(T_Scalar coeff, const dn
 
     using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
     T_RScalar beta = makeScalar<T_RScalar>(1);
-    globalCuBlasHandler().herkx(dest.prop().uplo(), ::cla3p::op_t::N, dest.nrows(), 1, 
+    globalCuBlasHandler().herkx(dest.prop().uplo(), op_t::N, dest.nrows(), 1, 
                                 &coeff, 
                                 this->values(), this->incv(), 
                                 vec.values(), 1, 

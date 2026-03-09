@@ -156,7 +156,7 @@ void VirtualProductEvaluateOnExistingSpec(
     const alias::VirtualObj_vec<T_Scalar>& right, 
     dns::XxVector<T_Scalar>& dest)
 {
-    ops::mult(T_Scalar(1), ::cla3p::op_t::N, left.get(), right.get(), T_Scalar(0), dest);
+    ops::mult(T_Scalar(1), op_t::N, left.get(), right.get(), T_Scalar(0), dest);
 }
 
 template <typename T_Scalar>
@@ -166,7 +166,7 @@ void VirtualProductAccumulateOnExistingSpec(
     dns::XxVector<T_Scalar>& dest,
     T_Scalar coeff)
 {
-    ops::mult(coeff, ::cla3p::op_t::N, left.get(), right.get(), T_Scalar(1), dest);
+    ops::mult(coeff, op_t::N, left.get(), right.get(), T_Scalar(1), dest);
 }
 
 //
@@ -224,7 +224,7 @@ void VirtualProductEvaluateOnExistingSpec(
     const alias::VirtualObj_vec<T_Scalar>& right, 
     dns::XxVector<T_Scalar>& dest)
 {
-    ops::mult(T_Scalar(1), ::cla3p::op_t::N, left.get(), right.get(), T_Scalar(0), dest);
+    ops::mult(T_Scalar(1), op_t::N, left.get(), right.get(), T_Scalar(0), dest);
 }
 
 template <typename T_Int, typename T_Scalar>
@@ -234,7 +234,7 @@ void VirtualProductAccumulateOnExistingSpec(
     dns::XxVector<T_Scalar>& dest,
     T_Scalar coeff)
 {
-    ops::mult(coeff, ::cla3p::op_t::N, left.get(), right.get(), T_Scalar(1), dest);
+    ops::mult(coeff, op_t::N, left.get(), right.get(), T_Scalar(1), dest);
 }
 
 //
@@ -292,7 +292,7 @@ void VirtualProductEvaluateOnExistingSpec(
     const alias::VirtualObj_vec<T_Scalar>& right, 
     dns::XxVector<T_Scalar>& dest)
 {
-    ops::mult(T_Scalar(1), ::cla3p::op_t::N, left.get(), right.get(), T_Scalar(0), dest);
+    ops::mult(T_Scalar(1), op_t::N, left.get(), right.get(), T_Scalar(0), dest);
 }
 
 template <typename T_Int, typename T_Scalar>
@@ -302,7 +302,7 @@ void VirtualProductAccumulateOnExistingSpec(
     dns::XxVector<T_Scalar>& dest,
     T_Scalar coeff)
 {
-    ops::mult(coeff, ::cla3p::op_t::N, left.get(), right.get(), T_Scalar(1), dest);
+    ops::mult(coeff, op_t::N, left.get(), right.get(), T_Scalar(1), dest);
 }
 
 //
@@ -359,7 +359,7 @@ void VirtualProductEvaluateOnExistingSpec(
     const alias::VirtualObj_dns<T_Scalar>& right, 
     dns::XxMatrix<T_Scalar>& dest)
 {
-    ops::mult(T_Scalar(1), ::cla3p::op_t::N, left.get(), ::cla3p::op_t::N, right.get(), T_Scalar(0), dest);
+    ops::mult(T_Scalar(1), op_t::N, left.get(), op_t::N, right.get(), T_Scalar(0), dest);
 }
 
 template <typename T_Scalar>
@@ -369,7 +369,7 @@ void VirtualProductAccumulateOnExistingSpec(
     dns::XxMatrix<T_Scalar>& dest,
     T_Scalar coeff)
 {
-    ops::mult(coeff, ::cla3p::op_t::N, left.get(), ::cla3p::op_t::N, right.get(), T_Scalar(1), dest);
+    ops::mult(coeff, op_t::N, left.get(), op_t::N, right.get(), T_Scalar(1), dest);
 }
 
 //
@@ -391,7 +391,7 @@ void VirtualProductEvaluateOnExistingSpec(
     const alias::VirtualObj_dns<T_Scalar>& right, 
     dns::XxMatrix<T_Scalar>& dest)
 {
-    ops::mult(T_Scalar(1), left.op(), left.get(), ::cla3p::op_t::N, right.get(), T_Scalar(0), dest);
+    ops::mult(T_Scalar(1), left.op(), left.get(), op_t::N, right.get(), T_Scalar(0), dest);
 }
 
 template <typename T_Scalar>
@@ -401,7 +401,7 @@ void VirtualProductAccumulateOnExistingSpec(
     dns::XxMatrix<T_Scalar>& dest,
     T_Scalar coeff)
 {
-    ops::mult(coeff, left.op(), left.get(), ::cla3p::op_t::N, right.get(), T_Scalar(1), dest);
+    ops::mult(coeff, left.op(), left.get(), op_t::N, right.get(), T_Scalar(1), dest);
 }
 
 //
@@ -423,7 +423,7 @@ void VirtualProductEvaluateOnExistingSpec(
     const alias::VirtualTrans_dns<T_Scalar>& right, 
     dns::XxMatrix<T_Scalar>& dest)
 {
-    ops::mult(T_Scalar(1), ::cla3p::op_t::N, left.get(), right.op(), right.get(), T_Scalar(0), dest);
+    ops::mult(T_Scalar(1), op_t::N, left.get(), right.op(), right.get(), T_Scalar(0), dest);
 }
 
 template <typename T_Scalar>
@@ -433,7 +433,7 @@ void VirtualProductAccumulateOnExistingSpec(
     dns::XxMatrix<T_Scalar>& dest,
     T_Scalar coeff)
 {
-    ops::mult(coeff, ::cla3p::op_t::N, left.get(), right.op(), right.get(), T_Scalar(1), dest);
+    ops::mult(coeff, op_t::N, left.get(), right.op(), right.get(), T_Scalar(1), dest);
 }
 
 //
@@ -491,7 +491,7 @@ void VirtualProductEvaluateOnExistingSpec(
     const alias::VirtualObj_dns<T_Scalar>& right, 
     dns::XxMatrix<T_Scalar>& dest)
 {
-    ops::mult(T_Scalar(1), ::cla3p::op_t::N, left.get(), right.get(), T_Scalar(0), dest);
+    ops::mult(T_Scalar(1), op_t::N, left.get(), right.get(), T_Scalar(0), dest);
 }
 
 template <typename T_Int, typename T_Scalar>
@@ -501,7 +501,7 @@ void VirtualProductAccumulateOnExistingSpec(
     dns::XxMatrix<T_Scalar>& dest,
     T_Scalar coeff)
 {
-    ops::mult(coeff, ::cla3p::op_t::N, left.get(), right.get(), T_Scalar(1), dest);
+    ops::mult(coeff, op_t::N, left.get(), right.get(), T_Scalar(1), dest);
 }
 
 //
@@ -555,7 +555,7 @@ void VirtualProductEvaluateOnExistingSpec(
     const alias::VirtualTrans_dns<T_Scalar>& right, 
     dns::XxMatrix<T_Scalar>& dest)
 {
-    ops::mult(T_Scalar(1), ::cla3p::op_t::N, left.get(), right.evaluate(), T_Scalar(0), dest);
+    ops::mult(T_Scalar(1), op_t::N, left.get(), right.evaluate(), T_Scalar(0), dest);
 }
 
 template <typename T_Int, typename T_Scalar>
@@ -565,7 +565,7 @@ void VirtualProductAccumulateOnExistingSpec(
     dns::XxMatrix<T_Scalar>& dest,
     T_Scalar coeff)
 {
-    ops::mult(coeff, ::cla3p::op_t::N, left.get(), right.evaluate(), T_Scalar(1), dest);
+    ops::mult(coeff, op_t::N, left.get(), right.evaluate(), T_Scalar(1), dest);
 }
 
 //
@@ -623,7 +623,7 @@ void VirtualProductEvaluateOnExistingSpec(
     const alias::VirtualObj_dns<T_Scalar>& right, 
     dns::XxMatrix<T_Scalar>& dest)
 {
-    ops::mult(T_Scalar(1), ::cla3p::op_t::N, left.get(), right.get(), T_Scalar(0), dest);
+    ops::mult(T_Scalar(1), op_t::N, left.get(), right.get(), T_Scalar(0), dest);
 }
 
 template <typename T_Int, typename T_Scalar>
@@ -633,7 +633,7 @@ void VirtualProductAccumulateOnExistingSpec(
     dns::XxMatrix<T_Scalar>& dest,
     T_Scalar coeff)
 {
-    ops::mult(coeff, ::cla3p::op_t::N, left.get(), right.get(), T_Scalar(1), dest);
+    ops::mult(coeff, op_t::N, left.get(), right.get(), T_Scalar(1), dest);
 }
 
 //
@@ -687,7 +687,7 @@ void VirtualProductEvaluateOnExistingSpec(
     const alias::VirtualTrans_dns<T_Scalar>& right, 
     dns::XxMatrix<T_Scalar>& dest)
 {
-    ops::mult(T_Scalar(1), ::cla3p::op_t::N, left.get(), right.evaluate(), T_Scalar(0), dest);
+    ops::mult(T_Scalar(1), op_t::N, left.get(), right.evaluate(), T_Scalar(0), dest);
 }
 
 template <typename T_Int, typename T_Scalar>
@@ -697,7 +697,7 @@ void VirtualProductAccumulateOnExistingSpec(
     dns::XxMatrix<T_Scalar>& dest,
     T_Scalar coeff)
 {
-    ops::mult(coeff, ::cla3p::op_t::N, left.get(), right.evaluate(), T_Scalar(1), dest);
+    ops::mult(coeff, op_t::N, left.get(), right.evaluate(), T_Scalar(1), dest);
 }
 
 //
@@ -747,7 +747,7 @@ void VirtualProductEvaluateOnNewSpec(
     csr::XxMatrix<T_Int,T_Scalar>& dest)
 {
     dest.clear();
-    dest = ops::mult(T_Scalar(1), ::cla3p::op_t::N, left.get(), ::cla3p::op_t::N, right.get());
+    dest = ops::mult(T_Scalar(1), op_t::N, left.get(), op_t::N, right.get());
 }
 
 template <typename T_Int, typename T_Scalar>
@@ -756,7 +756,7 @@ void VirtualProductEvaluateOnExistingSpec(
     const alias::VirtualObj_csr<T_Int,T_Scalar>& right, 
     csr::XxMatrix<T_Int,T_Scalar>& dest)
 {
-    dest = ops::mult(T_Scalar(1), ::cla3p::op_t::N, left.get(), ::cla3p::op_t::N, right.get());
+    dest = ops::mult(T_Scalar(1), op_t::N, left.get(), op_t::N, right.get());
 }
 
 template <typename T_Int, typename T_Scalar>
@@ -766,7 +766,7 @@ void VirtualProductAccumulateOnExistingSpec(
     csr::XxMatrix<T_Int,T_Scalar>& dest,
     T_Scalar coeff)
 {
-    csr::XxMatrix<T_Int,T_Scalar> tmp = ops::mult(T_Scalar(1), ::cla3p::op_t::N, left.get(), ::cla3p::op_t::N, right.get());
+    csr::XxMatrix<T_Int,T_Scalar> tmp = ops::mult(T_Scalar(1), op_t::N, left.get(), op_t::N, right.get());
     ops::update(coeff, tmp, dest);
 }
 
@@ -781,7 +781,7 @@ void VirtualProductEvaluateOnNewSpec(
     csr::XxMatrix<T_Int,T_Scalar>& dest)
 {
     dest.clear();
-    dest = ops::mult(T_Scalar(1), left.op(), left.get(), ::cla3p::op_t::N, right.get());
+    dest = ops::mult(T_Scalar(1), left.op(), left.get(), op_t::N, right.get());
 }
 
 template <typename T_Int, typename T_Scalar>
@@ -790,7 +790,7 @@ void VirtualProductEvaluateOnExistingSpec(
     const alias::VirtualObj_csr<T_Int,T_Scalar>& right, 
     csr::XxMatrix<T_Int,T_Scalar>& dest)
 {
-    dest = ops::mult(T_Scalar(1), left.op(), left.get(), ::cla3p::op_t::N, right.get());
+    dest = ops::mult(T_Scalar(1), left.op(), left.get(), op_t::N, right.get());
 }
 
 template <typename T_Int, typename T_Scalar>
@@ -800,7 +800,7 @@ void VirtualProductAccumulateOnExistingSpec(
     csr::XxMatrix<T_Int,T_Scalar>& dest,
     T_Scalar coeff)
 {
-    csr::XxMatrix<T_Int,T_Scalar> tmp = ops::mult(T_Scalar(1), left.op(), left.get(), ::cla3p::op_t::N, right.get());
+    csr::XxMatrix<T_Int,T_Scalar> tmp = ops::mult(T_Scalar(1), left.op(), left.get(), op_t::N, right.get());
     ops::update(coeff, tmp, dest);
 }
 
@@ -815,7 +815,7 @@ void VirtualProductEvaluateOnNewSpec(
     csr::XxMatrix<T_Int,T_Scalar>& dest)
 {
     dest.clear();
-    dest = ops::mult(T_Scalar(1), ::cla3p::op_t::N, left.get(), right.op(), right.get());
+    dest = ops::mult(T_Scalar(1), op_t::N, left.get(), right.op(), right.get());
 }
 
 template <typename T_Int, typename T_Scalar>
@@ -824,7 +824,7 @@ void VirtualProductEvaluateOnExistingSpec(
     const alias::VirtualTrans_csr<T_Int,T_Scalar>& right, 
     csr::XxMatrix<T_Int,T_Scalar>& dest)
 {
-    dest = ops::mult(T_Scalar(1), ::cla3p::op_t::N, left.get(), right.op(), right.get());
+    dest = ops::mult(T_Scalar(1), op_t::N, left.get(), right.op(), right.get());
 }
 
 template <typename T_Int, typename T_Scalar>
@@ -834,7 +834,7 @@ void VirtualProductAccumulateOnExistingSpec(
     csr::XxMatrix<T_Int,T_Scalar>& dest,
     T_Scalar coeff)
 {
-    csr::XxMatrix<T_Int,T_Scalar> tmp = ops::mult(T_Scalar(1), ::cla3p::op_t::N, left.get(), right.op(), right.get());
+    csr::XxMatrix<T_Int,T_Scalar> tmp = ops::mult(T_Scalar(1), op_t::N, left.get(), right.op(), right.get());
     ops::update(coeff, tmp, dest);
 }
 
@@ -887,7 +887,7 @@ void VirtualProductEvaluateOnNewSpec(
     csc::XxMatrix<T_Int,T_Scalar>& dest)
 {
     dest.clear();
-    dest = ops::mult(T_Scalar(1), ::cla3p::op_t::N, left.get(), ::cla3p::op_t::N, right.get());
+    dest = ops::mult(T_Scalar(1), op_t::N, left.get(), op_t::N, right.get());
 }
 
 template <typename T_Int, typename T_Scalar>
@@ -896,7 +896,7 @@ void VirtualProductEvaluateOnExistingSpec(
     const alias::VirtualObj_csc<T_Int,T_Scalar>& right, 
     csc::XxMatrix<T_Int,T_Scalar>& dest)
 {
-    dest = ops::mult(T_Scalar(1), ::cla3p::op_t::N, left.get(), ::cla3p::op_t::N, right.get());
+    dest = ops::mult(T_Scalar(1), op_t::N, left.get(), op_t::N, right.get());
 }
 
 template <typename T_Int, typename T_Scalar>
@@ -906,7 +906,7 @@ void VirtualProductAccumulateOnExistingSpec(
     csc::XxMatrix<T_Int,T_Scalar>& dest,
     T_Scalar coeff)
 {
-    csc::XxMatrix<T_Int,T_Scalar> tmp = ops::mult(T_Scalar(1), ::cla3p::op_t::N, left.get(), ::cla3p::op_t::N, right.get());
+    csc::XxMatrix<T_Int,T_Scalar> tmp = ops::mult(T_Scalar(1), op_t::N, left.get(), op_t::N, right.get());
     ops::update(coeff, tmp, dest);
 }
 
@@ -921,7 +921,7 @@ void VirtualProductEvaluateOnNewSpec(
     csc::XxMatrix<T_Int,T_Scalar>& dest)
 {
     dest.clear();
-    dest = ops::mult(T_Scalar(1), left.op(), left.get(), ::cla3p::op_t::N, right.get());
+    dest = ops::mult(T_Scalar(1), left.op(), left.get(), op_t::N, right.get());
 }
 
 template <typename T_Int, typename T_Scalar>
@@ -930,7 +930,7 @@ void VirtualProductEvaluateOnExistingSpec(
     const alias::VirtualObj_csc<T_Int,T_Scalar>& right, 
     csc::XxMatrix<T_Int,T_Scalar>& dest)
 {
-    dest = ops::mult(T_Scalar(1), left.op(), left.get(), ::cla3p::op_t::N, right.get());
+    dest = ops::mult(T_Scalar(1), left.op(), left.get(), op_t::N, right.get());
 }
 
 template <typename T_Int, typename T_Scalar>
@@ -940,7 +940,7 @@ void VirtualProductAccumulateOnExistingSpec(
     csc::XxMatrix<T_Int,T_Scalar>& dest,
     T_Scalar coeff)
 {
-    csc::XxMatrix<T_Int,T_Scalar> tmp = ops::mult(T_Scalar(1), left.op(), left.get(), ::cla3p::op_t::N, right.get());
+    csc::XxMatrix<T_Int,T_Scalar> tmp = ops::mult(T_Scalar(1), left.op(), left.get(), op_t::N, right.get());
     ops::update(coeff, tmp, dest);
 }
 
@@ -955,7 +955,7 @@ void VirtualProductEvaluateOnNewSpec(
     csc::XxMatrix<T_Int,T_Scalar>& dest)
 {
     dest.clear();
-    dest = ops::mult(T_Scalar(1), ::cla3p::op_t::N, left.get(), right.op(), right.get());
+    dest = ops::mult(T_Scalar(1), op_t::N, left.get(), right.op(), right.get());
 }
 
 template <typename T_Int, typename T_Scalar>
@@ -964,7 +964,7 @@ void VirtualProductEvaluateOnExistingSpec(
     const alias::VirtualTrans_csc<T_Int,T_Scalar>& right, 
     csc::XxMatrix<T_Int,T_Scalar>& dest)
 {
-    dest = ops::mult(T_Scalar(1), ::cla3p::op_t::N, left.get(), right.op(), right.get());
+    dest = ops::mult(T_Scalar(1), op_t::N, left.get(), right.op(), right.get());
 }
 
 template <typename T_Int, typename T_Scalar>
@@ -974,7 +974,7 @@ void VirtualProductAccumulateOnExistingSpec(
     csc::XxMatrix<T_Int,T_Scalar>& dest,
     T_Scalar coeff)
 {
-    csc::XxMatrix<T_Int,T_Scalar> tmp = ops::mult(T_Scalar(1), ::cla3p::op_t::N, left.get(), right.op(), right.get());
+    csc::XxMatrix<T_Int,T_Scalar> tmp = ops::mult(T_Scalar(1), op_t::N, left.get(), right.op(), right.get());
     ops::update(coeff, tmp, dest);
 }
 

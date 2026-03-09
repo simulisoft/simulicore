@@ -22,7 +22,6 @@
  */
 
 #include <cusolverDn.h>
-#include <cla3p/checks/basic_checks.hpp>
 
 #include "culite/types/scalar.hpp"
 #include "culite/error/cuda.hpp"
@@ -34,6 +33,9 @@
 #include "culite/proxies/cusolver_proxy.hpp"
 #include "culite/dense/dns_cxvector.hpp"
 #include "culite/dense/dns_cxmatrix.hpp"
+
+// forwards
+#include "culite/checks/cla3p_forwards.hpp"
 
 /*-------------------------------------------------*/
 namespace culite { 

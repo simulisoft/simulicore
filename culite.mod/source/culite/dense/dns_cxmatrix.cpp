@@ -61,13 +61,13 @@ CxMatrix<T_Scalar>::CxMatrix()
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-CxMatrix<T_Scalar>::CxMatrix(int_t nr, int_t nc, const ::cla3p::Property& pr)
+CxMatrix<T_Scalar>::CxMatrix(int_t nr, int_t nc, const Property& pr)
     : CxMatrix<T_Scalar>::XxMatrix(nr, nc, pr)
 {
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-CxMatrix<T_Scalar>::CxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const ::cla3p::Property& pr)
+CxMatrix<T_Scalar>::CxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const Property& pr)
     : CxMatrix<T_Scalar>::XxMatrix(nr, nc, vals, ldv, bind, pr)
 {
 }
@@ -86,8 +86,8 @@ void CxMatrix<T_Scalar>::operator=(T_Scalar val)
 template <typename T_Scalar>
 XxMatrix<typename TypeTraits<T_Scalar>::real_type> CxMatrix<T_Scalar>::real() const
 {
-    ::cla3p::Property retProp = (this->prop().isHermitian()
-        ? ::cla3p::Property(::cla3p::prop_t::Symmetric, this->prop().uplo()) 
+    Property retProp = (this->prop().isHermitian()
+        ? Property(prop_t::Symmetric, this->prop().uplo()) 
         : this->prop());
 
     XxMatrix<T_RScalar> ret(this->nrows(), this->ncols(), retProp);
@@ -104,8 +104,8 @@ XxMatrix<typename TypeTraits<T_Scalar>::real_type> CxMatrix<T_Scalar>::real() co
 template <typename T_Scalar>
 XxMatrix<typename TypeTraits<T_Scalar>::real_type> CxMatrix<T_Scalar>::imag() const
 {
-    ::cla3p::Property retProp = (this->prop().isHermitian()
-        ? ::cla3p::Property(::cla3p::prop_t::Skew, this->prop().uplo()) 
+    Property retProp = (this->prop().isHermitian()
+        ? Property(prop_t::Skew, this->prop().uplo()) 
         : this->prop());
 
     XxMatrix<T_RScalar> ret(this->nrows(), this->ncols(), retProp);

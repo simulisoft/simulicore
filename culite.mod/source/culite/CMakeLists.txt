@@ -44,6 +44,7 @@ set(CULITE_CUH
 add_subdirectory(types)
 add_subdirectory(error)
 add_subdirectory(bulk)
+add_subdirectory(checks)
 add_subdirectory(proxies)
 add_subdirectory(support)
 add_subdirectory(generic)

@@ -22,7 +22,6 @@
 #include <sstream>
 
 // 3rd
-#include <cla3p/checks/matrix_math_checks.hpp>
 
 // culite
 #include "culite/bulk/csx.hpp"
@@ -32,12 +31,15 @@
 #include "culite/sparse/csr_xxmatrix.hpp"
 #include "culite/sparse/csc_xxmatrix.hpp"
 
+// forwards
+#include "culite/checks/cla3p_forwards.hpp"
+
 /*-------------------------------------------------*/
 namespace culite {
 namespace ops {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void mult(T_Scalar alpha, ::cla3p::op_t opA,
+void mult(T_Scalar alpha, op_t opA,
           const dns::XxMatrix<T_Scalar>& A,
           const dns::XxVector<T_Scalar>& x,
           T_Scalar beta,
@@ -86,7 +88,7 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
 }
 /*-------------------------------------------------*/
 #define instantiate_mult(T_Scl) \
-template void mult(T_Scl, ::cla3p::op_t, \
+template void mult(T_Scl, op_t, \
                    const dns::XxMatrix<T_Scl>&, \
                    const dns::XxVector<T_Scl>&, \
                    T_Scl, \
@@ -101,7 +103,7 @@ instantiate_mult(complex8_t);
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-void mult(T_Scalar alpha, ::cla3p::op_t opA,
+void mult(T_Scalar alpha, op_t opA,
           const csr::XxMatrix<T_Int,T_Scalar>& A,
           const dns::XxVector<T_Scalar>& x,
           T_Scalar beta,
@@ -109,7 +111,7 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
           CuSparseHandler& cuSparseHandler)
 {
      // ignore opA for symmetric/hermitian matrices
-    if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = ::cla3p::op_t::N;
+    if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = op_t::N;
 
     ::cla3p::mult_dim_check(opA, A, x, y);
 
@@ -127,7 +129,7 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
 
         {
             // y = beta * y + alpha * A{uplo} * x
-            ::cla3p::op_t op = ::cla3p::op_t::N;
+            op_t op = op_t::N;
             cuSparseHandler.reserveSpmv(op, &alpha, csrA, vecX, &beta, vecY);
             cuSparseHandler.preprocessSpmv(op, &alpha, csrA, vecX, &beta, vecY);
             cuSparseHandler.performSpmv(op, &alpha, csrA, vecX, &beta, vecY);
@@ -135,7 +137,7 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
         {
             // y = y + alpha * A{uplo}.transpose() * x
             T_Scalar betaOne = makeScalar<T_Scalar>(1);
-            ::cla3p::op_t op = (A.prop().isSymmetric() ? ::cla3p::op_t::T : ::cla3p::op_t::C);
+            op_t op = (A.prop().isSymmetric() ? op_t::T : op_t::C);
             cuSparseHandler.reserveSpmv(op, &alpha, csrA, vecX, &betaOne, vecY);
             cuSparseHandler.preprocessSpmv(op, &alpha, csrA, vecX, &betaOne, vecY);
             cuSparseHandler.performSpmv(op, &alpha, csrA, vecX, &betaOne, vecY);
@@ -162,7 +164,7 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
 }
 /*-------------------------------------------------*/
 #define instantiate_mult(T_Int, T_Scl) \
-template void mult(T_Scl, ::cla3p::op_t, \
+template void mult(T_Scl, op_t, \
                    const csr::XxMatrix<T_Int, T_Scl>&, \
                    const dns::XxVector<T_Scl>&, \
                    T_Scl, \
@@ -175,7 +177,7 @@ instantiate_mult(int_t, complex8_t);
 #undef instantiate_mult
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-void mult(T_Scalar alpha, ::cla3p::op_t opA,
+void mult(T_Scalar alpha, op_t opA,
           const csc::XxMatrix<T_Int,T_Scalar>& A,
           const dns::XxVector<T_Scalar>& x,
           T_Scalar beta, 
@@ -183,7 +185,7 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
           CuSparseHandler& cuSparseHandler)
 {
     // ignore opA for symmetric/hermitian matrices
-    if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = ::cla3p::op_t::N;
+    if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = op_t::N;
 
     ::cla3p::mult_dim_check(opA, A, x, y);
 
@@ -202,7 +204,7 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
 
         {
             // y = beta * y + alpha * A{uplo} * x
-            ::cla3p::op_t op = ::cla3p::op_t::N;
+            op_t op = op_t::N;
             cuSparseHandler.reserveSpmv(op, &alpha, cscA, vecX, &beta, vecY);
             cuSparseHandler.preprocessSpmv(op, &alpha, cscA, vecX, &beta, vecY);
             cuSparseHandler.performSpmv(op, &alpha, cscA, vecX, &beta, vecY);
@@ -210,7 +212,7 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
         {
             // y = y + alpha * A{uplo}.transpose() * x
             T_Scalar betaOne = makeScalar<T_Scalar>(1);
-            ::cla3p::op_t op = (A.prop().isSymmetric() ? ::cla3p::op_t::T : ::cla3p::op_t::C);
+            op_t op = (A.prop().isSymmetric() ? op_t::T : op_t::C);
             cuSparseHandler.reserveSpmv(op, &alpha, cscA, vecX, &betaOne, vecY);
             cuSparseHandler.preprocessSpmv(op, &alpha, cscA, vecX, &betaOne, vecY);
             cuSparseHandler.performSpmv(op, &alpha, cscA, vecX, &betaOne, vecY);
@@ -237,7 +239,7 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
 }
 /*-------------------------------------------------*/
 #define instantiate_mult(T_Int, T_Scl) \
-template void mult(T_Scl, ::cla3p::op_t, \
+template void mult(T_Scl, op_t, \
                    const csc::XxMatrix<T_Int, T_Scl>&, \
                    const dns::XxVector<T_Scl>&, \
                    T_Scl, \

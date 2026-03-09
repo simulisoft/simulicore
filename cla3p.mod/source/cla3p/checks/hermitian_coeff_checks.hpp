@@ -32,7 +32,7 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 template <typename T_Scalar>
-void hermitian_coeff_check(const Property& pr, T_Scalar coeff)
+void hermitian_coeff_check(const Property& pr, const T_Scalar& coeff)
 {
     if(pr.isHermitian() && arith::getIm(coeff)) {
         std::ostringstream oss;

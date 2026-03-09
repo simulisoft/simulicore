@@ -23,12 +23,13 @@
 
 #include <string>
 #include <ostream>
-#include <cla3p/generic/meta1d.hpp>
-#include <cla3p/generic/guard.hpp>
 #include <cla3p/dense/dns_xivector.hpp>
 
 #include "culite/types/integer.hpp"
 #include "culite/dense/dns_xxcontainer.hpp"
+
+// forwards
+#include "culite/generic/cla3p_forwards.hpp"
 
 /*-------------------------------------------------*/
 namespace culite { 
@@ -42,7 +43,7 @@ namespace dns {
  * @tparam T_Scalar The scalar type (e.g., float, double, complex).
  */
 template <typename T_Scalar>
-class XiVector : public ::cla3p::Meta1D<int_t>, public XxContainer<T_Scalar> {
+class XiVector : public Meta1D<int_t>, public XxContainer<T_Scalar> {
 
     private:
         using T_Cla3pScalar = typename TypeTraits<T_Scalar>::cla3p_type;
@@ -99,7 +100,7 @@ class XiVector : public ::cla3p::Meta1D<int_t>, public XxContainer<T_Scalar> {
          *          as this vector. The guard ensures the reference is read-only.
          * @return A guarded device vector that shares device memory with this vector.
          */
-        ::cla3p::Guard<XiVector<T_Scalar>> rcopy() const;
+        Guard<XiVector<T_Scalar>> rcopy() const;
 
         /**
          * @brief Move the device vector's resources.
@@ -151,7 +152,7 @@ class XiVector : public ::cla3p::Meta1D<int_t>, public XxContainer<T_Scalar> {
          * @param[in] vals Pointer to the device memory.
          * @return A guarded device vector that views the specified device memory.
          */
-        static ::cla3p::Guard<XiVector<T_Scalar>> view(int_t n, const T_Scalar *vals);
+        static Guard<XiVector<T_Scalar>> view(int_t n, const T_Scalar *vals);
 
         /** @} */
 
@@ -177,7 +178,7 @@ class XiVector : public ::cla3p::Meta1D<int_t>, public XxContainer<T_Scalar> {
  */
 template <typename T_Scalar>
 void operator>>(const culite::dns::XiVector<T_Scalar>& src,
-                ::cla3p::dns::XiVector<typename culite::TypeTraits<T_Scalar>::cla3p_type>& dest)
+                cla3p::dns::XiVector<typename culite::TypeTraits<T_Scalar>::cla3p_type>& dest)
 {
     src.copyToHost(dest);
 }
@@ -194,7 +195,7 @@ void operator>>(const culite::dns::XiVector<T_Scalar>& src,
  * @param[out] dest The destination device vector.
  */
 template <typename T_Scalar>
-void operator>>(const ::cla3p::dns::XiVector<typename culite::TypeTraits<T_Scalar>::cla3p_type>& src,
+void operator>>(const cla3p::dns::XiVector<typename culite::TypeTraits<T_Scalar>::cla3p_type>& src,
                 culite::dns::XiVector<T_Scalar>& dest)
 {
     dest.copyFromHost(src);
@@ -214,7 +215,7 @@ void operator>>(const ::cla3p::dns::XiVector<typename culite::TypeTraits<T_Scala
 template <typename T_Scalar>
 std::ostream& operator<<(std::ostream& os, const culite::dns::XiVector<T_Scalar>& vec)
 {
-    ::cla3p::dns::XiVector<typename culite::TypeTraits<T_Scalar>::cla3p_type> hostVec;
+    cla3p::dns::XiVector<typename culite::TypeTraits<T_Scalar>::cla3p_type> hostVec;
     vec >> hostVec;
     os << hostVec;
     return os;

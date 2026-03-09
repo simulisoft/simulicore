@@ -83,7 +83,7 @@ void VirtualTransposeAccumulateOnExistingSpec(
 {
     blk::dns::update(dest.nrows(), 
                      dest.ncols(), 
-                     conj ? ::cla3p::op_t::C : ::cla3p::op_t::T, 
+                     conj ? op_t::C : op_t::T, 
                      coeff, 
                      src.values(), 
                      src.ld(), 

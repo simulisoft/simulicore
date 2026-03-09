@@ -20,10 +20,12 @@
 // system
 
 // 3rd
-#include <cla3p/checks/basic_checks.hpp>
 
 // culite
 #include "culite/dense/dns_xxvector.hpp"
+
+// forwards
+#include "culite/checks/cla3p_forwards.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {

@@ -21,9 +21,8 @@
  * @file
  */
 
-#include <cla3p/types/enums.hpp>
-
 #include "culite/types/integer.hpp"
+#include "culite/types/enums.hpp"
 #include "culite/proxies/cublas_proxy.hpp"
 
 /*-------------------------------------------------*/
@@ -268,12 +267,12 @@ class CuBlasHandler {
          * @param[in] ldc The leading dimension of matrix @p c.
          */
         template <typename T_Scalar>
-        void geam(::cla3p::op_t opA,
-                  ::cla3p::op_t opB,
-                    int_t m, int_t n,
-                    const T_Scalar *alpha, const T_Scalar *a, int_t lda,
-                    const T_Scalar *beta,  const T_Scalar *b, int_t ldb,
-                    T_Scalar *c, int_t ldc)
+        void geam(op_t opA,
+                  op_t opB,
+                  int_t m, int_t n,
+                  const T_Scalar *alpha, const T_Scalar *a, int_t lda,
+                  const T_Scalar *beta,  const T_Scalar *b, int_t ldb,
+                  T_Scalar *c, int_t ldc)
         {
             cublas::geam(handle(),
                          cublas::cla3pOp2cublasOp(opA),
@@ -301,7 +300,7 @@ class CuBlasHandler {
          * @param[in] ldc The leading dimension of matrix @p c.
          */
         template <typename T_Scalar>
-        void dgmm(::cla3p::side_t side,
+        void dgmm(side_t side,
                   int_t m, int_t n,
                   const T_Scalar *a, int_t lda,
                   const T_Scalar *x, int_t incx,
@@ -377,7 +376,7 @@ class CuBlasHandler {
          * @param[in] lda The leading dimension of matrix @p a.
          */
         template <typename T_Scalar>
-        void syr(::cla3p::uplo_t uplo,
+        void syr(uplo_t uplo,
                  int_t n,
                  const T_Scalar *alpha,
                  const T_Scalar *x, int_t incx,
@@ -401,7 +400,7 @@ class CuBlasHandler {
          * @param[in] lda The leading dimension of matrix @p a.
          */
         template <typename T_Scalar>
-        void her(::cla3p::uplo_t uplo,
+        void her(uplo_t uplo,
                  int_t n,
                  const typename TypeTraits<T_Scalar>::real_type *alpha,
                  const T_Scalar *x, int_t incx,
@@ -429,7 +428,7 @@ class CuBlasHandler {
          * @param[in] incy The stride between consecutive elements of @p y.
          */
         template <typename T_Scalar>
-        void gemv(::cla3p::op_t op,
+        void gemv(op_t op,
                   int_t m, int_t n, const T_Scalar* alpha,
                   const T_Scalar *a, int_t lda,
                   const T_Scalar *x, int_t incx,
@@ -459,7 +458,7 @@ class CuBlasHandler {
          * @param[in] incy The stride between consecutive elements of @p y.
          */
         template <typename T_Scalar>
-        void symv(::cla3p::uplo_t uplo,
+        void symv(uplo_t uplo,
                   int_t n, const T_Scalar* alpha,
                   const T_Scalar *a, int_t lda,
                   const T_Scalar *x, int_t incx,
@@ -489,7 +488,7 @@ class CuBlasHandler {
          * @param[in] incy The stride between consecutive elements of @p y.
          */
         template <typename T_Scalar>
-        void hemv(::cla3p::uplo_t uplo,
+        void hemv(uplo_t uplo,
                   int_t n, const T_Scalar* alpha,
                   const T_Scalar *a, int_t lda,
                   const T_Scalar *x, int_t incx,
@@ -517,9 +516,9 @@ class CuBlasHandler {
          * @param[in] incx The stride between consecutive elements of @p x.
          */
         template <typename T_Scalar>
-        void trmv(::cla3p::uplo_t uplo,
-                  ::cla3p::op_t trans,
-                  ::cla3p::diag_t diag,
+        void trmv(uplo_t uplo,
+                  op_t trans,
+                  diag_t diag,
                   int_t n, const T_Scalar* a, int_t lda,
                   T_Scalar *x, int_t incx)
         {
@@ -545,9 +544,9 @@ class CuBlasHandler {
          * @param[in] incx The stride between consecutive elements of @p x.
          */
         template <typename T_Scalar>
-        void trsv(::cla3p::uplo_t uplo,
-                  ::cla3p::op_t trans,
-                  ::cla3p::diag_t diag,
+        void trsv(uplo_t uplo,
+                  op_t trans,
+                  diag_t diag,
                   int_t n, const T_Scalar* a, int_t lda,
                   T_Scalar *x, int_t incx)
         {
@@ -578,8 +577,8 @@ class CuBlasHandler {
          * @param[in] ldc The leading dimension of matrix @p c.
          */
         template <typename T_Scalar>
-        void gemm(::cla3p::op_t transa,
-                  ::cla3p::op_t transb,
+        void gemm(op_t transa,
+                  op_t transb,
                   int_t m, int_t n, int_t k,
                   const T_Scalar* alpha,
                   const T_Scalar* a, int_t lda,
@@ -617,8 +616,8 @@ class CuBlasHandler {
          * @param[in] ldc The leading dimension of matrix @p c.
          */
         template <typename T_Scalar>
-        void symm(::cla3p::side_t side,
-                  ::cla3p::uplo_t uplo,
+        void symm(side_t side,
+                  uplo_t uplo,
                   int_t m, int_t n,
                   const T_Scalar* alpha,
                   const T_Scalar* a, int_t lda,
@@ -656,8 +655,8 @@ class CuBlasHandler {
          * @param[in] ldc The leading dimension of matrix @p c.
          */
         template <typename T_Scalar>
-        void hemm(::cla3p::side_t side,
-                  ::cla3p::uplo_t uplo,
+        void hemm(side_t side,
+                  uplo_t uplo,
                   int_t m, int_t n,
                   const T_Scalar* alpha,
                   const T_Scalar* a, int_t lda,
@@ -696,10 +695,10 @@ class CuBlasHandler {
          * @param[in] ldc The leading dimension of matrix @p c.
          */
         template <typename T_Scalar>
-        void trmm(::cla3p::side_t side,
-                  ::cla3p::uplo_t uplo,
-                  ::cla3p::op_t trans,
-                  ::cla3p::diag_t diag,
+        void trmm(side_t side,
+                  uplo_t uplo,
+                  op_t trans,
+                  diag_t diag,
                   int_t m, int_t n,
                   const T_Scalar* alpha,
                   const T_Scalar* a, int_t lda,
@@ -737,10 +736,10 @@ class CuBlasHandler {
          * @param[in] ldb The leading dimension of matrix @p b.
          */
         template <typename T_Scalar>
-        void trsm(::cla3p::side_t side,
-                  ::cla3p::uplo_t uplo,
-                  ::cla3p::op_t trans,
-                  ::cla3p::diag_t diag,
+        void trsm(side_t side,
+                  uplo_t uplo,
+                  op_t trans,
+                  diag_t diag,
                   int_t m, int_t n,
                   const T_Scalar* alpha,
                   const T_Scalar* a, int_t lda,
@@ -774,8 +773,8 @@ class CuBlasHandler {
          * @param[in] ldc The leading dimension of matrix @p c.
          */
         template <typename T_Scalar>
-        void syrk(::cla3p::uplo_t uplo,
-                    ::cla3p::op_t trans,
+        void syrk(uplo_t uplo,
+                    op_t trans,
                     int_t n, int_t k,
                     const T_Scalar* alpha,
                     const T_Scalar* a, int_t lda,
@@ -809,8 +808,8 @@ class CuBlasHandler {
          * @param[in] ldc The leading dimension of matrix @p c.
          */
         template <typename T_Scalar>
-        void herk(::cla3p::uplo_t uplo,
-                  ::cla3p::op_t trans,
+        void herk(uplo_t uplo,
+                  op_t trans,
                   int_t n, int_t k,
                   const typename TypeTraits<T_Scalar>::real_type* alpha,
                   const T_Scalar* a, int_t lda,
@@ -846,8 +845,8 @@ class CuBlasHandler {
          * @param[in] ldc The leading dimension of matrix @p c.
          */
         template <typename T_Scalar>
-        void syrkx(::cla3p::uplo_t uplo,
-                    ::cla3p::op_t trans,
+        void syrkx(uplo_t uplo,
+                    op_t trans,
                     int_t n, int_t k,
                     const T_Scalar* alpha,
                     const T_Scalar* a, int_t lda,
@@ -885,8 +884,8 @@ class CuBlasHandler {
          * @param[in] ldc The leading dimension of matrix @p c.
          */
         template <typename T_Scalar>
-        void herkx(::cla3p::uplo_t uplo,
-                   ::cla3p::op_t trans,
+        void herkx(uplo_t uplo,
+                   op_t trans,
                    int_t n, int_t k,
                    const T_Scalar* alpha,
                    const T_Scalar* a, int_t lda,

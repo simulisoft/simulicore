@@ -21,11 +21,13 @@
  * @file
  */
 
-#include <cla3p/types/enums.hpp>
-#include <cla3p/generic/meta2d.hpp>
-
 #include "culite/types/integer.hpp"
+#include "culite/types/enums.hpp"
 #include "culite/generic/cusolver_handler.hpp"
+
+// forwards
+#include "culite/types/cla3p_forwards.hpp"
+#include "culite/generic/cla3p_forwards.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -48,7 +50,7 @@ class LapackBase {
         using T_Vector = dns::XxVector<T_Scalar>;
 
     protected:
-        LapackBase(CuSolverHandler& cusolver, ::cla3p::decomp_t decompType);
+        LapackBase(CuSolverHandler& cusolver, decomp_t decompType);
         ~LapackBase();
 
     public:
@@ -92,10 +94,10 @@ class LapackBase {
 
     private:
         CuSolverHandler& m_cusolver;
-        const ::cla3p::decomp_t m_decompType;
-        ::cla3p::Meta2D<int_t> m_factorMeta2D;
+        const decomp_t m_decompType;
+        Meta2D<int_t> m_factorMeta2D;
 
-        ::cla3p::decomp_t decompType() const;
+        decomp_t decompType() const;
         void prepareForDecomposition(const T_Matrix& mat);
         void prepareForSolution(T_Matrix& rhs) const;
 };

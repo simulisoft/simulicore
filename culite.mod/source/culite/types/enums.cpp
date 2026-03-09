@@ -20,7 +20,6 @@
 // system
 
 // 3rd
-#include <cla3p/types/literals.hpp>
 
 // culite
 
@@ -33,7 +32,7 @@ namespace culite {
 /*-------------------------------------------------*/
 std::ostream& operator<<(std::ostream& os, const culite::alloc_t& alloc_type)
 {
-    std::string str = ::cla3p::msg::Unknown();
+    std::string str = "Unknown";
 
     if(alloc_type == culite::alloc_t::Device      ) str = "Device Memory";
     if(alloc_type == culite::alloc_t::Pinned      ) str = "Pinned Memory";

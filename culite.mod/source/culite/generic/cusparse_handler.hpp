@@ -137,7 +137,7 @@ class CuSparseHandler {
          * @param[in] alg Algorithm to use for SpMV (default: CUSPARSE_SPMV_CSR_ALG1).
          */
         template <typename T_Scalar>
-        void reserveSpmv(::cla3p::op_t                    opA,
+        void reserveSpmv(op_t                             opA,
                          const T_Scalar*                  alpha,
                          const cusparse::SpMatBase&       matA,
                          const cusparse::DnVec<T_Scalar>& vecX,
@@ -174,7 +174,7 @@ class CuSparseHandler {
          * @param[in] alg Algorithm to use for SpMV (default: CUSPARSE_SPMV_CSR_ALG1).
          */
         template <typename T_Scalar>
-        void preprocessSpmv(::cla3p::op_t                    opA,
+        void preprocessSpmv(op_t                             opA,
                             const T_Scalar*                  alpha,
                             const cusparse::SpMatBase&       matA,
                             const cusparse::DnVec<T_Scalar>& vecX,
@@ -209,7 +209,7 @@ class CuSparseHandler {
          * @param[in] alg Algorithm to use for SpMV (default: CUSPARSE_SPMV_CSR_ALG1).
          */
         template <typename T_Scalar>
-        void performSpmv(::cla3p::op_t                    opA,
+        void performSpmv(op_t                             opA,
                          const T_Scalar*                  alpha,
                          const cusparse::SpMatBase&       matA,
                          const cusparse::DnVec<T_Scalar>& vecX,
@@ -245,8 +245,8 @@ class CuSparseHandler {
          * @param[in] alg Algorithm to use for SpMM (default: CUSPARSE_SPMM_CSR_ALG1).
          */
         template <typename T_Scalar>
-        void reserveSpmm(::cla3p::op_t                    opA,
-                         ::cla3p::op_t                    opB,
+        void reserveSpmm(op_t                             opA,
+                         op_t                             opB,
                          const T_Scalar*                  alpha,
                          const cusparse::SpMatBase&       matA,
                          const cusparse::DnMat<T_Scalar>& matB,
@@ -285,8 +285,8 @@ class CuSparseHandler {
          * @param[in] alg Algorithm to use for SpMM (default: CUSPARSE_SPMM_CSR_ALG1).
          */
         template <typename T_Scalar>
-        void preprocessSpmm(::cla3p::op_t                    opA,
-                            ::cla3p::op_t                    opB,
+        void preprocessSpmm(op_t                             opA,
+                            op_t                             opB,
                             const T_Scalar*                  alpha,
                             const cusparse::SpMatBase&       matA,
                             const cusparse::DnMat<T_Scalar>& matB,
@@ -323,8 +323,8 @@ class CuSparseHandler {
          * @param[in] alg Algorithm to use for SpMM (default: CUSPARSE_SPMM_CSR_ALG1).
          */
         template <typename T_Scalar>
-        void performSpmm(::cla3p::op_t                    opA,
-                         ::cla3p::op_t                    opB,
+        void performSpmm(op_t                             opA,
+                         op_t                             opB,
                          const T_Scalar*                  alpha,
                          const cusparse::SpMatBase&       matA,
                          const cusparse::DnMat<T_Scalar>& matB,

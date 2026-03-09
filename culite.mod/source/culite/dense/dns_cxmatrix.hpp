@@ -96,7 +96,7 @@ class CxMatrix : public XxMatrix<T_Scalar> {
          * @param[in] nc The number of columns.
          * @param[in] pr The matrix property (default: General).
          */
-        explicit CxMatrix(int_t nr, int_t nc, const ::cla3p::Property& pr = ::cla3p::Property::General());
+        explicit CxMatrix(int_t nr, int_t nc, const Property& pr = Property::General());
 
         /**
          * @brief Auxiliary constructor.
@@ -108,7 +108,7 @@ class CxMatrix : public XxMatrix<T_Scalar> {
          * @param[in] bind If true, the matrix takes ownership of the memory.
          * @param[in] pr The matrix property (default: General).
          */
-        explicit CxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const ::cla3p::Property& pr = ::cla3p::Property::General());
+        explicit CxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const Property& pr = Property::General());
 
         /**
          * @brief Copy constructor.

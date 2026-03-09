@@ -21,25 +21,24 @@
 #include <string>
 
 // 3rd
-#include <cla3p/generic/matrix_meta.hpp>
 #include <cla3p/error/exceptions.hpp>
-#include <cla3p/checks/matrix_math_checks.hpp>
-#include <cla3p/checks/hermitian_coeff_checks.hpp>
-
 
 // culite
 #include "culite/bulk/csx.hpp"
 #include "culite/error/exceptions.hpp"
 #include "culite/dense/dns_xxmatrix.hpp"
 
+// forwards
+#include "culite/checks/cla3p_forwards.hpp"
+
 /*-------------------------------------------------*/
 namespace culite {
 namespace ops {
 /*-------------------------------------------------*/
 template <typename T_Int>
-static void throw_prop_compatibility_error(const ::cla3p::MatrixMeta<T_Int>& A, 
-                                           const ::cla3p::MatrixMeta<T_Int>& B, 
-                                           const ::cla3p::MatrixMeta<T_Int>& C)
+static void throw_prop_compatibility_error(const MatrixMeta<T_Int>& A, 
+                                           const MatrixMeta<T_Int>& B, 
+                                           const MatrixMeta<T_Int>& C)
 {
     std::string message = "Bad matrix property combo:\n";
     message = message + "A: " + A.prop().name() + "\n";
@@ -50,8 +49,8 @@ static void throw_prop_compatibility_error(const ::cla3p::MatrixMeta<T_Int>& A,
 }
 /*-------------------------------------------------*/
 template <typename T_Int>
-static void throw_prop_compatibility_error(const ::cla3p::MatrixMeta<T_Int>& A, 
-                                           const ::cla3p::MatrixMeta<T_Int>& B) 
+static void throw_prop_compatibility_error(const MatrixMeta<T_Int>& A, 
+                                           const MatrixMeta<T_Int>& B) 
 {
     std::string message = "Bad matrix property combo:\n";
     message = message + "A: " + A.prop().name() + "\n";
@@ -64,30 +63,24 @@ static void throw_prop_compatibility_error(const ::cla3p::MatrixMeta<T_Int>& A,
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void mult(T_Scalar alpha,
-          ::cla3p::op_t opA, const dns::XxMatrix<T_Scalar>& A,
-          ::cla3p::op_t opB, const dns::XxMatrix<T_Scalar>& B,
+          op_t opA, const dns::XxMatrix<T_Scalar>& A,
+          op_t opB, const dns::XxMatrix<T_Scalar>& B,
           T_Scalar beta, dns::XxMatrix<T_Scalar>& C,
           CuBlasHandler& cuBlasHandler)
 {
-    if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = ::cla3p::op_t::N;
-    if(B.prop().isSymmetric() || B.prop().isHermitian()) opB = ::cla3p::op_t::N;
+    if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = op_t::N;
+    if(B.prop().isSymmetric() || B.prop().isHermitian()) opB = op_t::N;
 
-    opA = (TypeTraits<T_Scalar>::is_real() && opA == ::cla3p::op_t::C ? ::cla3p::op_t::T : opA);
-    opB = (TypeTraits<T_Scalar>::is_real() && opB == ::cla3p::op_t::C ? ::cla3p::op_t::T : opB);
+    opA = (TypeTraits<T_Scalar>::is_real() && opA == op_t::C ? op_t::T : opA);
+    opB = (TypeTraits<T_Scalar>::is_real() && opB == op_t::C ? op_t::T : opB);
 
     ::cla3p::mult_dim_check(opA, A, opB, B, C);
-
-    {
-        using T_Cla3pScalar = typename TypeTraits<T_Scalar>::cla3p_type;
-        T_Cla3pScalar cla3pAlpha = TypeTraits<T_Scalar>::toCla3pType(alpha);
-        T_Cla3pScalar cla3pBeta = TypeTraits<T_Scalar>::toCla3pType(beta);
-        ::cla3p::hermitian_coeff_check<T_Cla3pScalar>(C.prop(), cla3pAlpha);
-        ::cla3p::hermitian_coeff_check<T_Cla3pScalar>(C.prop(), cla3pBeta);
-    }
+    hermitian_coeff_check2<T_Scalar>(C.prop(), alpha);
+    hermitian_coeff_check2<T_Scalar>(C.prop(), beta);
 
     if(A.prop().isGeneral() && B.prop().isGeneral() && C.prop().isGeneral()) {
 
-        int_t k = (opA == ::cla3p::op_t::N ? A.ncols() : A.nrows());
+        int_t k = (opA == op_t::N ? A.ncols() : A.nrows());
 
         cuBlasHandler.gemm(opA,
                            opB,
@@ -100,7 +93,7 @@ void mult(T_Scalar alpha,
 
     } else if(A.prop().isSymmetric() && B.prop().isGeneral() && C.prop().isGeneral()) {
 
-        cuBlasHandler.symm(::cla3p::side_t::Left,
+        cuBlasHandler.symm(side_t::Left,
                            A.prop().uplo(),
                            C.nrows(), C.ncols(),
                            &alpha,
@@ -111,7 +104,7 @@ void mult(T_Scalar alpha,
 
     } else if(A.prop().isHermitian() && B.prop().isGeneral() && C.prop().isGeneral()) {
 
-        cuBlasHandler.hemm(::cla3p::side_t::Left,
+        cuBlasHandler.hemm(side_t::Left,
                            A.prop().uplo(),
                            C.nrows(), C.ncols(),
                            &alpha,
@@ -122,19 +115,19 @@ void mult(T_Scalar alpha,
 
     } else if(A.prop().isGeneral() && B.prop().isGeneral() && C.prop().isSymmetric()) {
 
-        ::cla3p::op_t op = ::cla3p::op_t::N;
+        op_t op = op_t::N;
 
-        if(opA == ::cla3p::op_t::N && opB == ::cla3p::op_t::T) {
-            op = ::cla3p::op_t::N;
-        } else if(opA == ::cla3p::op_t::T && opB == ::cla3p::op_t::N) {
-            op = ::cla3p::op_t::T;
+        if(opA == op_t::N && opB == op_t::T) {
+            op = op_t::N;
+        } else if(opA == op_t::T && opB == op_t::N) {
+            op = op_t::T;
         } else {
             std::stringstream ss;
             ss << "Invalid opA/opB combo for symmetric rank-k update: opA=" << opA << ", opB=" << opB;
             throw err::CudaException(ss.str());
         }
 
-        int_t k = (opA == ::cla3p::op_t::N ? A.ncols() : A.nrows());
+        int_t k = (opA == op_t::N ? A.ncols() : A.nrows());
 
         cuBlasHandler.syrkx(C.prop().uplo(),
                             op,
@@ -147,19 +140,19 @@ void mult(T_Scalar alpha,
 
     } else if(A.prop().isGeneral() && B.prop().isGeneral() && C.prop().isHermitian()) {
 
-        ::cla3p::op_t op = ::cla3p::op_t::N;
+        op_t op = op_t::N;
 
-        if(opA == ::cla3p::op_t::N && opB == ::cla3p::op_t::C) {
-            op = ::cla3p::op_t::N;
-        } else if(opA == ::cla3p::op_t::C && opB == ::cla3p::op_t::N) {
-            op = ::cla3p::op_t::C;
+        if(opA == op_t::N && opB == op_t::C) {
+            op = op_t::N;
+        } else if(opA == op_t::C && opB == op_t::N) {
+            op = op_t::C;
         } else {
             std::stringstream ss;
             ss << "Invalid opA/opB combo for Hermitian rank-k update: opA=" << opA << ", opB=" << opB;
             throw err::CudaException(ss.str());
         }
 
-        int_t k = (opA == ::cla3p::op_t::N ? A.ncols() : A.nrows());
+        int_t k = (opA == op_t::N ? A.ncols() : A.nrows());
         typename TypeTraits<T_Scalar>::real_type realBeta = arith::getRe(beta);
 
         cuBlasHandler.herkx(C.prop().uplo(),
@@ -180,8 +173,8 @@ void mult(T_Scalar alpha,
 /*-------------------------------------------------*/
 #define instantiate_mult(T_Scl) \
 template void mult(T_Scl, \
-                   ::cla3p::op_t, const dns::XxMatrix<T_Scl>&, \
-                   ::cla3p::op_t, const dns::XxMatrix<T_Scl>&, \
+                   op_t, const dns::XxMatrix<T_Scl>&, \
+                   op_t, const dns::XxMatrix<T_Scl>&, \
                    T_Scl, dns::XxMatrix<T_Scl>&, \
                    CuBlasHandler&)
 instantiate_mult(real_t);
@@ -193,16 +186,16 @@ instantiate_mult(complex8_t);
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-void mult(T_Scalar alpha, ::cla3p::op_t opA,
+void mult(T_Scalar alpha, op_t opA,
           const csr::XxMatrix<T_Int,T_Scalar>& A,
           const dns::XxMatrix<T_Scalar>& B,
           T_Scalar beta, dns::XxMatrix<T_Scalar>& C,
           CuSparseHandler& cuSparseHandler)
 {
-    if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = ::cla3p::op_t::N;
+    if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = op_t::N;
 
-    opA = (TypeTraits<T_Scalar>::is_real() && opA == ::cla3p::op_t::C ? ::cla3p::op_t::T : opA);
-    ::cla3p::op_t opB = ::cla3p::op_t::N;
+    opA = (TypeTraits<T_Scalar>::is_real() && opA == op_t::C ? op_t::T : opA);
+    op_t opB = op_t::N;
 
     ::cla3p::mult_dim_check(opA, A, opB, B, C);
 
@@ -220,7 +213,7 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
 
         {
             // C = beta * C + alpha * A{uplo} * B
-            ::cla3p::op_t op = ::cla3p::op_t::N;
+            op_t op = op_t::N;
             cuSparseHandler.reserveSpmm(op, opB, &alpha, csrA, dnsB, &beta, dnsC);
             cuSparseHandler.preprocessSpmm(op, opB, &alpha, csrA, dnsB, &beta, dnsC);
             cuSparseHandler.performSpmm(op, opB, &alpha, csrA, dnsB, &beta, dnsC);
@@ -228,7 +221,7 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
         {
             // C = C + alpha * A{uplo}.transpose() * B
             T_Scalar betaOne = makeScalar<T_Scalar>(1);
-            ::cla3p::op_t op = (A.prop().isSymmetric() ? ::cla3p::op_t::T : ::cla3p::op_t::C);
+            op_t op = (A.prop().isSymmetric() ? op_t::T : op_t::C);
             cuSparseHandler.reserveSpmm(op, opB, &alpha, csrA, dnsB, &betaOne, dnsC);
             cuSparseHandler.preprocessSpmm(op, opB, &alpha, csrA, dnsB, &betaOne, dnsC);
             cuSparseHandler.performSpmm(op, opB, &alpha, csrA, dnsB, &betaOne, dnsC);
@@ -254,7 +247,7 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
 }
 /*-------------------------------------------------*/
 #define instantiate_mult(T_Int, T_Scl) \
-template void mult(T_Scl, ::cla3p::op_t, \
+template void mult(T_Scl, op_t, \
               const csr::XxMatrix<T_Int,T_Scl>&, \
               const dns::XxMatrix<T_Scl>&, \
               T_Scl, dns::XxMatrix<T_Scl>&, \
@@ -266,16 +259,16 @@ instantiate_mult(int_t, complex8_t);
 #undef instantiate_mult
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-void mult(T_Scalar alpha, ::cla3p::op_t opA,
+void mult(T_Scalar alpha, op_t opA,
           const csc::XxMatrix<T_Int,T_Scalar>& A,
           const dns::XxMatrix<T_Scalar>& B,
           T_Scalar beta, dns::XxMatrix<T_Scalar>& C,
           CuSparseHandler& cuSparseHandler)
 {
-    if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = ::cla3p::op_t::N;
+    if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = op_t::N;
 
-    opA = (TypeTraits<T_Scalar>::is_real() && opA == ::cla3p::op_t::C ? ::cla3p::op_t::T : opA);
-    ::cla3p::op_t opB = ::cla3p::op_t::N;
+    opA = (TypeTraits<T_Scalar>::is_real() && opA == op_t::C ? op_t::T : opA);
+    op_t opB = op_t::N;
 
     ::cla3p::mult_dim_check(opA, A, opB, B, C);
 
@@ -293,7 +286,7 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
 
         {
             // C = beta * C + alpha * A{uplo} * B
-            ::cla3p::op_t op = ::cla3p::op_t::N;
+            op_t op = op_t::N;
             cuSparseHandler.reserveSpmm(op, opB, &alpha, cscA, dnsB, &beta, dnsC);
             cuSparseHandler.preprocessSpmm(op, opB, &alpha, cscA, dnsB, &beta, dnsC);
             cuSparseHandler.performSpmm(op, opB, &alpha, cscA, dnsB, &beta, dnsC);
@@ -301,7 +294,7 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
         {
             // C = C + alpha * A{uplo}.transpose() * B
             T_Scalar betaOne = makeScalar<T_Scalar>(1);
-            ::cla3p::op_t op = (A.prop().isSymmetric() ? ::cla3p::op_t::T : ::cla3p::op_t::C);
+            op_t op = (A.prop().isSymmetric() ? op_t::T : op_t::C);
             cuSparseHandler.reserveSpmm(op, opB, &alpha, cscA, dnsB, &betaOne, dnsC);
             cuSparseHandler.preprocessSpmm(op, opB, &alpha, cscA, dnsB, &betaOne, dnsC);
             cuSparseHandler.performSpmm(op, opB, &alpha, cscA, dnsB, &betaOne, dnsC);
@@ -327,7 +320,7 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
 }
 /*-------------------------------------------------*/
 #define instantiate_mult(T_Int, T_Scl) \
-template void mult(T_Scl, ::cla3p::op_t, \
+template void mult(T_Scl, op_t, \
                    const csc::XxMatrix<T_Int,T_Scl>&, \
                    const dns::XxMatrix<T_Scl>&, \
                    T_Scl, dns::XxMatrix<T_Scl>&, \

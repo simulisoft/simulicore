@@ -20,11 +20,13 @@
 // system
 
 // 3rd
-#include <cla3p/types/property.hpp>
-#include <cla3p/checks/basic_checks.hpp>
 
 // culite
 #include "culite/error/exceptions.hpp"
+
+// forwards
+#include "culite/types/cla3p_forwards.hpp"
+#include "culite/checks/cla3p_forwards.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -40,8 +42,8 @@ void add(T_Scalar alpha, const dns::XxVector<T_Scalar>& x,
     ::cla3p::similarity_dim_check(x.size(), z.size());
     ::cla3p::similarity_dim_check(y.size(), z.size());
 
-    cublasHandler.geam(::cla3p::op_t::N,
-                       ::cla3p::op_t::N,
+    cublasHandler.geam(op_t::N,
+                       op_t::N,
                        z.size(), 1,
                        &alpha, x.values(), x.size(),
                        &beta,  y.values(), y.size(),
@@ -60,12 +62,12 @@ instantiate_add(complex8_t);
 #undef instantiate_add
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void add(::cla3p::op_t opA, T_Scalar alpha, const dns::XxMatrix<T_Scalar>& A,
-         ::cla3p::op_t opB, T_Scalar beta , const dns::XxMatrix<T_Scalar>& B,
+void add(op_t opA, T_Scalar alpha, const dns::XxMatrix<T_Scalar>& A,
+         op_t opB, T_Scalar beta , const dns::XxMatrix<T_Scalar>& B,
          dns::XxMatrix<T_Scalar>& C,
          CuBlasHandler& cublasHandler)
 {
-    ::cla3p::op_t opC = ::cla3p::op_t::N;
+    op_t opC = op_t::N;
 
     ::cla3p::similarity_check(opA, A, opB, B);
     ::cla3p::similarity_check(opA, A, opC, C);
@@ -89,8 +91,8 @@ void add(::cla3p::op_t opA, T_Scalar alpha, const dns::XxMatrix<T_Scalar>& A,
 /*-------------------------------------------------*/
 #define instantiate_add(T_Scl) \
 template void add( \
-        ::cla3p::op_t, T_Scl, const dns::XxMatrix<T_Scl>&, \
-        ::cla3p::op_t, T_Scl, const dns::XxMatrix<T_Scl>&, \
+        op_t, T_Scl, const dns::XxMatrix<T_Scl>&, \
+        op_t, T_Scl, const dns::XxMatrix<T_Scl>&, \
         dns::XxMatrix<T_Scl>&, CuBlasHandler&)
 instantiate_add(real_t);
 instantiate_add(real4_t);

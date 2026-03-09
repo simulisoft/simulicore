@@ -21,9 +21,11 @@
  * @file
  */
 
-#include <cla3p/types/enums.hpp>
-
+#include "culite/types/enums.hpp"
 #include "culite/virtuals/virtual_expression.hpp"
+
+// forwards
+#include "culite/types/cla3p_forwards.hpp"
 
 /*-------------------------------------------------*/
 namespace culite { 
@@ -77,7 +79,7 @@ class VirtualTranspose : public VirtualExpression<T_Result, VirtualTranspose<T_R
         void accumulateOnExisting(T_Result& dest, T_Scalar coeff) const override { VirtualTransposeAccumulateOnExistingSpec(m_src, m_conj, dest, coeff); }
 
         const T_Result& get() const { return m_src; }
-        ::cla3p::op_t op() const { return m_conj ? ::cla3p::op_t::C : ::cla3p::op_t::T; }
+        op_t op() const { return m_conj ? op_t::C : op_t::T; }
 
     private:
         const T_Result& m_src;

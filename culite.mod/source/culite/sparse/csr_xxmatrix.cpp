@@ -21,15 +21,15 @@
 
 // 3rd
 #include <cla3p/support/utils.hpp>
-#include <cla3p/checks/basic_checks.hpp>
-#include <cla3p/checks/hermitian_coeff_checks.hpp>
-#include <cla3p/checks/csx_checks.hpp>
 
 // culite
 #include "culite/types/integer.hpp"
 #include "culite/types/scalar.hpp"
 #include "culite/error/exceptions.hpp"
 #include "culite/bulk/dns1d.hpp"
+
+// forwards
+#include "culite/checks/cla3p_forwards.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -41,8 +41,8 @@ XxMatrix<T_Int,T_Scalar>::XxMatrix()
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-XxMatrix<T_Int,T_Scalar>::XxMatrix(T_Int nr, T_Int nc, T_Int nz, const ::cla3p::Property& pr)
-    : ::cla3p::MatrixMeta<T_Int>(nr, nc, ::cla3p::sanitizeProperty<T_Cla3pScalar>(pr)), 
+XxMatrix<T_Int,T_Scalar>::XxMatrix(T_Int nr, T_Int nc, T_Int nz, const Property& pr)
+    : MatrixMeta<T_Int>(nr, nc, ::cla3p::sanitizeProperty<T_Cla3pScalar>(pr)), 
       csx::XxContainer<T_Int,T_Scalar>(nr, nz)
 {
     if(nr > 0 && nc > 0) {
@@ -53,8 +53,8 @@ XxMatrix<T_Int,T_Scalar>::XxMatrix(T_Int nr, T_Int nc, T_Int nz, const ::cla3p::
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-XxMatrix<T_Int,T_Scalar>::XxMatrix(T_Int nr, T_Int nc, T_Int *rptr, T_Int *cidx, T_Scalar *vals, bool bind, const ::cla3p::Property& pr)
-    : ::cla3p::MatrixMeta<T_Int>(nr, nc, ::cla3p::sanitizeProperty<T_Cla3pScalar>(pr)), 
+XxMatrix<T_Int,T_Scalar>::XxMatrix(T_Int nr, T_Int nc, T_Int *rptr, T_Int *cidx, T_Scalar *vals, bool bind, const Property& pr)
+    : MatrixMeta<T_Int>(nr, nc, ::cla3p::sanitizeProperty<T_Cla3pScalar>(pr)), 
       csx::XxContainer<T_Int,T_Scalar>(rptr, cidx, vals, bind)
 {
     if(nr > 0 && nc > 0) {
@@ -101,7 +101,7 @@ XxMatrix<T_Int,T_Scalar>& XxMatrix<T_Int,T_Scalar>::operator=(XxMatrix<T_Int,T_S
 template <typename T_Int, typename T_Scalar>
 void XxMatrix<T_Int,T_Scalar>::clear()
 {
-    ::cla3p::MatrixMeta<T_Int>::clear();
+    MatrixMeta<T_Int>::clear();
     csx::XxContainer<T_Int,T_Scalar>::clear();
 }
 /*-------------------------------------------------*/
@@ -188,7 +188,7 @@ XxMatrix<T_Int,T_Scalar>& XxMatrix<T_Int,T_Scalar>::moveFrom(XxMatrix<T_Int,T_Sc
         if(*this) {
             *this = other;
         } else {
-            ::cla3p::MatrixMeta<T_Int>::operator=(std::move(other));
+            MatrixMeta<T_Int>::operator=(std::move(other));
             csx::XxContainer<T_Int,T_Scalar>::operator=(std::move(other));
             other.unbind();
         } // similar
@@ -215,7 +215,7 @@ XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::rcopy()
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-::cla3p::Guard<XxMatrix<T_Int,T_Scalar>> XxMatrix<T_Int,T_Scalar>::rcopy() const
+Guard<XxMatrix<T_Int,T_Scalar>> XxMatrix<T_Int,T_Scalar>::rcopy() const
 {
     return view(this->nrows(), this->ncols(), this->rowptr(), this->colidx(), this->values(), this->prop());
 }
@@ -231,8 +231,7 @@ XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::move()
 template <typename T_Int, typename T_Scalar>
 void XxMatrix<T_Int,T_Scalar>::iscale(T_Scalar val)
 {
-    T_Cla3pScalar cla3pVal = TypeTraits<T_Scalar>::toCla3pType(val);
-    ::cla3p::hermitian_coeff_check<T_Cla3pScalar>(this->prop(), cla3pVal);
+    hermitian_coeff_check2<T_Scalar>(this->prop(), val);
     blk::dns::scale(nnz(), val, this->values());
 }
 /*-------------------------------------------------*/
@@ -275,17 +274,17 @@ void XxMatrix<T_Int,T_Scalar>::checker() const
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-::cla3p::Guard<XxMatrix<T_Int,T_Scalar>> XxMatrix<T_Int,T_Scalar>::view(T_Int nr, T_Int nc, 
+Guard<XxMatrix<T_Int,T_Scalar>> XxMatrix<T_Int,T_Scalar>::view(T_Int nr, T_Int nc, 
                                                                         const T_Int *cptr, 
                                                                         const T_Int *ridx, 
                                                                         const T_Scalar *vals, 
-                                                                        const ::cla3p::Property& pr)
+                                                                        const Property& pr)
 {
     XxMatrix<T_Int,T_Scalar> tmp(nr, nc,
             const_cast<T_Int   *>(cptr),
             const_cast<T_Int   *>(ridx),
             const_cast<T_Scalar*>(vals), false, pr);
-    ::cla3p::Guard<XxMatrix<T_Int,T_Scalar>> ret(tmp);
+    Guard<XxMatrix<T_Int,T_Scalar>> ret(tmp);
     return ret;
 }
 /*-------------------------------------------------*/

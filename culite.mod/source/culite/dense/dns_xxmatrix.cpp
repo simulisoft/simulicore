@@ -20,16 +20,15 @@
 // system
 
 // 3rd
-#include <cla3p/checks/basic_checks.hpp>
-#include <cla3p/checks/hermitian_coeff_checks.hpp>
-#include <cla3p/checks/block_ops_checks.hpp>
-#include <cla3p/checks/dns_checks.hpp>
 #include <cla3p/support/utils.hpp>
 
 // culite
 #include "culite/types/scalar.hpp"
 #include "culite/bulk/dns2d.hpp"
 #include "culite/support/utils.hpp"
+
+// forwards
+#include "culite/checks/cla3p_forwards.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -42,7 +41,7 @@ XxMatrix<T_Scalar>::XxMatrix()
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-XxMatrix<T_Scalar>::XxMatrix(int_t nr, int_t nc, const ::cla3p::Property& pr)
+XxMatrix<T_Scalar>::XxMatrix(int_t nr, int_t nc, const Property& pr)
     : MatrixMeta<int_t>(nr, nc, ::cla3p::sanitizeProperty<T_Cla3pScalar>(pr)), XxContainer<T_Scalar>(nr * nc)
 {
     if(nr > 0 && nc > 0) {
@@ -54,7 +53,7 @@ XxMatrix<T_Scalar>::XxMatrix(int_t nr, int_t nc, const ::cla3p::Property& pr)
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-XxMatrix<T_Scalar>::XxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const ::cla3p::Property& pr)
+XxMatrix<T_Scalar>::XxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const Property& pr)
     : MatrixMeta<int_t>(nr, nc, ::cla3p::sanitizeProperty<T_Cla3pScalar>(pr)), XxContainer<T_Scalar>(vals, bind)
 {
     if(nr > 0 && nc > 0) {
@@ -126,7 +125,7 @@ int_t XxMatrix<T_Scalar>::ld() const
 template <typename T_Scalar>
 void XxMatrix<T_Scalar>::clear()
 {
-    ::cla3p::MatrixMeta<int_t>::clear();
+    MatrixMeta<int_t>::clear();
     XxContainer<T_Scalar>::clear();
     defaults();
 }
@@ -160,7 +159,7 @@ XxMatrix<T_Scalar> XxMatrix<T_Scalar>::rcopy()
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-::cla3p::Guard<XxMatrix<T_Scalar>> XxMatrix<T_Scalar>::rcopy() const
+Guard<XxMatrix<T_Scalar>> XxMatrix<T_Scalar>::rcopy() const
 {
     return view(nrows(), ncols(), this->values(), ld(), prop());
 }
@@ -176,8 +175,7 @@ XxMatrix<T_Scalar> XxMatrix<T_Scalar>::move()
 template <typename T_Scalar>
 void XxMatrix<T_Scalar>::iscale(T_Scalar val)
 {
-    T_Cla3pScalar cla3pVal = TypeTraits<T_Scalar>::toCla3pType(val);
-    ::cla3p::hermitian_coeff_check<T_Cla3pScalar>(prop(), cla3pVal);
+    hermitian_coeff_check2<T_Scalar>(prop(), val);
     blk::dns::scale(prop().uplo(),
                     nrows(),
                     ncols(),
@@ -291,7 +289,7 @@ XxMatrix<T_Scalar> XxMatrix<T_Scalar>::block(int_t ibgn, int_t jbgn, int_t ni, i
 template <typename T_Scalar>
 XxMatrix<T_Scalar> XxMatrix<T_Scalar>::rblock(int_t ibgn, int_t jbgn, int_t ni, int_t nj)
 {
-    ::cla3p::Property pr = ::cla3p::block_op_consistency_check(
+    Property pr = ::cla3p::block_op_consistency_check(
             prop(), nrows(), ncols(),
             ibgn, jbgn, ni, nj);
     
@@ -301,9 +299,9 @@ XxMatrix<T_Scalar> XxMatrix<T_Scalar>::rblock(int_t ibgn, int_t jbgn, int_t ni, 
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-::cla3p::Guard<XxMatrix<T_Scalar>> XxMatrix<T_Scalar>::rblock(int_t ibgn, int_t jbgn, int_t ni, int_t nj) const
+Guard<XxMatrix<T_Scalar>> XxMatrix<T_Scalar>::rblock(int_t ibgn, int_t jbgn, int_t ni, int_t nj) const
 {
-    ::cla3p::Property pr = ::cla3p::block_op_consistency_check(
+    Property pr = ::cla3p::block_op_consistency_check(
             prop(), nrows(), ncols(),
             ibgn, jbgn, ni, nj);
     
@@ -334,10 +332,10 @@ XxVector<T_Scalar> XxMatrix<T_Scalar>::rcolumn(int_t j)
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-::cla3p::Guard<XxVector<T_Scalar>> XxMatrix<T_Scalar>::rcolumn(int_t j) const 
+Guard<XxVector<T_Scalar>> XxMatrix<T_Scalar>::rcolumn(int_t j) const 
 { 
-    ::cla3p::Guard<XxMatrix<T_Scalar>> tmpMat = rblock(0, j, nrows(), 1);
-    ::cla3p::Guard<XxVector<T_Scalar>> ret = XiVector<T_Scalar>::view(tmpMat.get().nrows(), tmpMat.get().values());
+    Guard<XxMatrix<T_Scalar>> tmpMat = rblock(0, j, nrows(), 1);
+    Guard<XxVector<T_Scalar>> ret = XiVector<T_Scalar>::view(tmpMat.get().nrows(), tmpMat.get().values());
     return ret;
 }
 /*-------------------------------------------------*/
@@ -354,7 +352,7 @@ XxMatrix<T_Scalar> XxMatrix<T_Scalar>::rrow(int_t i)
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-::cla3p::Guard<XxMatrix<T_Scalar>> XxMatrix<T_Scalar>::rrow(int_t i) const 
+Guard<XxMatrix<T_Scalar>> XxMatrix<T_Scalar>::rrow(int_t i) const 
 { 
     return rblock(i, 0, 1, ncols());
 }
@@ -362,15 +360,15 @@ template <typename T_Scalar>
 template <typename T_Scalar>
 VirtualRowvec<T_Scalar> XxMatrix<T_Scalar>::rrowvec(int_t i) const
 {
-    ::cla3p::Guard<XxMatrix<T_Scalar>> tmp = rrow(i);
+    Guard<XxMatrix<T_Scalar>> tmp = rrow(i);
     return VirtualRowvec<T_Scalar>(tmp.get().ncols(), tmp.get().values(), tmp.get().ld(), false);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-::cla3p::Guard<XxMatrix<T_Scalar>> XxMatrix<T_Scalar>::view(int_t nr, int_t nc, const T_Scalar *vals, int_t ldv, const ::cla3p::Property& pr)
+Guard<XxMatrix<T_Scalar>> XxMatrix<T_Scalar>::view(int_t nr, int_t nc, const T_Scalar *vals, int_t ldv, const Property& pr)
 {
     XxMatrix<T_Scalar> tmp(nr, nc, const_cast<T_Scalar*>(vals), ldv, false, pr);
-    ::cla3p::Guard<XxMatrix<T_Scalar>> ret(tmp);
+    Guard<XxMatrix<T_Scalar>> ret(tmp);
     return ret;
 }
 /*-------------------------------------------------*/
@@ -391,7 +389,7 @@ XxMatrix<T_Scalar>& XxMatrix<T_Scalar>::moveFrom(XxMatrix<T_Scalar>& other)
         if(*this) {
             *this = other;
         } else {
-            ::cla3p::MatrixMeta<int_t>::operator=(std::move(other));
+            MatrixMeta<int_t>::operator=(std::move(other));
             XxContainer<T_Scalar>::operator=(std::move(other));
             setLd(other.ld());
             other.unbind();

@@ -36,7 +36,7 @@ namespace blk {
 namespace dns {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-__global__ void copy_2d_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, 
+__global__ void copy_2d_kernel(uplo_t uplo, int_t m, int_t n, 
                                const T_Scalar* a, int_t lda, 
                                T_Scalar* b, int_t ldb)
 {
@@ -44,14 +44,14 @@ __global__ void copy_2d_kernel(::cla3p::uplo_t uplo, int_t m, int_t n,
     int_t j = blockIdx.y * blockDim.y + threadIdx.y;
 
     if (i < m && j < n) {
-        if(uplo == ::cla3p::uplo_t::Upper && i > j) return;
-        if(uplo == ::cla3p::uplo_t::Lower && i < j) return;
+        if(uplo == uplo_t::Upper && i > j) return;
+        if(uplo == uplo_t::Lower && i < j) return;
         b[j * ldb + i] = a[j * lda + i];
     }
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void launch_copy_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, 
+void launch_copy_kernel(uplo_t uplo, int_t m, int_t n, 
                         const T_Scalar *a, int_t lda, 
                         T_Scalar *b, int_t ldb)
 {
@@ -63,26 +63,26 @@ void launch_copy_kernel(::cla3p::uplo_t uplo, int_t m, int_t n,
     syncDevice();
 }
 /*-------------------------------------------------*/
-template void launch_copy_kernel(::cla3p::uplo_t, int_t, int_t, const real_t*, int_t, real_t*, int_t);
-template void launch_copy_kernel(::cla3p::uplo_t, int_t, int_t, const real4_t*, int_t, real4_t*, int_t);
-template void launch_copy_kernel(::cla3p::uplo_t, int_t, int_t, const complex_t*, int_t, complex_t*, int_t);
-template void launch_copy_kernel(::cla3p::uplo_t, int_t, int_t, const complex8_t*, int_t, complex8_t*, int_t);
+template void launch_copy_kernel(uplo_t, int_t, int_t, const real_t*, int_t, real_t*, int_t);
+template void launch_copy_kernel(uplo_t, int_t, int_t, const real4_t*, int_t, real4_t*, int_t);
+template void launch_copy_kernel(uplo_t, int_t, int_t, const complex_t*, int_t, complex_t*, int_t);
+template void launch_copy_kernel(uplo_t, int_t, int_t, const complex8_t*, int_t, complex8_t*, int_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-__global__ void fill_2d_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda, T_Scalar val)
+__global__ void fill_2d_kernel(uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda, T_Scalar val)
 {
     int_t i = blockIdx.x * blockDim.x + threadIdx.x;
     int_t j = blockIdx.y * blockDim.y + threadIdx.y;
 
     if (i < m && j < n) {
-        if(uplo == ::cla3p::uplo_t::Upper && i > j) return;
-        if(uplo == ::cla3p::uplo_t::Lower && i < j) return;
+        if(uplo == uplo_t::Upper && i > j) return;
+        if(uplo == uplo_t::Lower && i < j) return;
         a[j * lda + i] = val;
     }
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void launch_fill_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda, T_Scalar val)
+void launch_fill_kernel(uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda, T_Scalar val)
 {
     if(m <= 0 || n <= 0) return;
 
@@ -93,26 +93,26 @@ void launch_fill_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar *a, int
     syncDevice();
 }
 /*-------------------------------------------------*/
-template void launch_fill_kernel(::cla3p::uplo_t, int_t, int_t, real_t*, int_t, real_t);
-template void launch_fill_kernel(::cla3p::uplo_t, int_t, int_t, real4_t*, int_t, real4_t);
-template void launch_fill_kernel(::cla3p::uplo_t, int_t, int_t, complex_t*, int_t, complex_t);
-template void launch_fill_kernel(::cla3p::uplo_t, int_t, int_t, complex8_t*, int_t, complex8_t);
+template void launch_fill_kernel(uplo_t, int_t, int_t, real_t*, int_t, real_t);
+template void launch_fill_kernel(uplo_t, int_t, int_t, real4_t*, int_t, real4_t);
+template void launch_fill_kernel(uplo_t, int_t, int_t, complex_t*, int_t, complex_t);
+template void launch_fill_kernel(uplo_t, int_t, int_t, complex8_t*, int_t, complex8_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-__global__ void scale_2d_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar* a, int_t lda, T_Scalar alpha)
+__global__ void scale_2d_kernel(uplo_t uplo, int_t m, int_t n, T_Scalar* a, int_t lda, T_Scalar alpha)
 {
     int_t i = blockIdx.x * blockDim.x + threadIdx.x;
     int_t j = blockIdx.y * blockDim.y + threadIdx.y;
     
     if (i < m && j < n) {
-        if(uplo == ::cla3p::uplo_t::Upper && i > j) return;
-        if(uplo == ::cla3p::uplo_t::Lower && i < j) return;
+        if(uplo == uplo_t::Upper && i > j) return;
+        if(uplo == uplo_t::Lower && i < j) return;
         a[j * lda + i] = alpha * a[j * lda + i];
     }
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void launch_scale_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar* a, int_t lda, T_Scalar alpha)
+void launch_scale_kernel(uplo_t uplo, int_t m, int_t n, T_Scalar* a, int_t lda, T_Scalar alpha)
 {
     if(m <= 0 || n <= 0) return;
 
@@ -121,10 +121,10 @@ void launch_scale_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar* a, in
     syncDevice();
 }
 /*-------------------------------------------------*/
-template void launch_scale_kernel<real_t>(::cla3p::uplo_t, int_t, int_t, real_t*, int_t, real_t);
-template void launch_scale_kernel<real4_t>(::cla3p::uplo_t, int_t, int_t, real4_t*, int_t, real4_t);
-template void launch_scale_kernel<complex_t>(::cla3p::uplo_t, int_t, int_t, complex_t*, int_t, complex_t);
-template void launch_scale_kernel<complex8_t>(::cla3p::uplo_t, int_t, int_t, complex8_t*, int_t, complex8_t);
+template void launch_scale_kernel<real_t>(uplo_t, int_t, int_t, real_t*, int_t, real_t);
+template void launch_scale_kernel<real4_t>(uplo_t, int_t, int_t, real4_t*, int_t, real4_t);
+template void launch_scale_kernel<complex_t>(uplo_t, int_t, int_t, complex_t*, int_t, complex_t);
+template void launch_scale_kernel<complex8_t>(uplo_t, int_t, int_t, complex8_t*, int_t, complex8_t);
 /*-------------------------------------------------*/
 __device__ static double atomicMax(double* address, double val) {
     unsigned long long int* address_as_ull = (unsigned long long int*)address;
@@ -330,7 +330,7 @@ template real_t launch_matrix_fro_norm_kernel<complex_t>(int_t, int_t, const com
 template real4_t  launch_matrix_fro_norm_kernel<complex8_t>(int_t, int_t, const complex8_t*, int_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-__global__ void get_real_2d_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, 
+__global__ void get_real_2d_kernel(uplo_t uplo, int_t m, int_t n, 
                                    const T_Scalar* a, int_t lda, 
                                    typename TypeTraits<T_Scalar>::real_type* b, int_t ldb)
 {
@@ -338,14 +338,14 @@ __global__ void get_real_2d_kernel(::cla3p::uplo_t uplo, int_t m, int_t n,
     int_t j = blockIdx.y * blockDim.y + threadIdx.y;
 
     if (i < m && j < n) {
-        if(uplo == ::cla3p::uplo_t::Upper && i > j) return;
-        if(uplo == ::cla3p::uplo_t::Lower && i < j) return;
+        if(uplo == uplo_t::Upper && i > j) return;
+        if(uplo == uplo_t::Lower && i < j) return;
         b[j * ldb + i] = arith::getRe(a[j * lda + i]);
     }
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void launch_get_real_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, 
+void launch_get_real_kernel(uplo_t uplo, int_t m, int_t n, 
                             const T_Scalar* a, int_t lda, 
                             typename TypeTraits<T_Scalar>::real_type* b, int_t ldb)
 {
@@ -357,11 +357,11 @@ void launch_get_real_kernel(::cla3p::uplo_t uplo, int_t m, int_t n,
     syncDevice();
 }
 /*-------------------------------------------------*/
-template void launch_get_real_kernel<complex_t>(::cla3p::uplo_t, int_t, int_t, const complex_t*, int_t, real_t*, int_t);
-template void launch_get_real_kernel<complex8_t>(::cla3p::uplo_t, int_t, int_t, const complex8_t*, int_t, real4_t*, int_t);
+template void launch_get_real_kernel<complex_t>(uplo_t, int_t, int_t, const complex_t*, int_t, real_t*, int_t);
+template void launch_get_real_kernel<complex8_t>(uplo_t, int_t, int_t, const complex8_t*, int_t, real4_t*, int_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-__global__ void get_imag_2d_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, 
+__global__ void get_imag_2d_kernel(uplo_t uplo, int_t m, int_t n, 
                                    const T_Scalar* a, int_t lda, 
                                    typename TypeTraits<T_Scalar>::real_type* b, int_t ldb)
 {
@@ -369,14 +369,14 @@ __global__ void get_imag_2d_kernel(::cla3p::uplo_t uplo, int_t m, int_t n,
     int_t j = blockIdx.y * blockDim.y + threadIdx.y;
 
     if (i < m && j < n) {
-        if(uplo == ::cla3p::uplo_t::Upper && i > j) return;
-        if(uplo == ::cla3p::uplo_t::Lower && i < j) return;
+        if(uplo == uplo_t::Upper && i > j) return;
+        if(uplo == uplo_t::Lower && i < j) return;
         b[j * ldb + i] = arith::getIm(a[j * lda + i]);
     }
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void launch_get_imag_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, 
+void launch_get_imag_kernel(uplo_t uplo, int_t m, int_t n, 
                             const T_Scalar* a, int_t lda, 
                             typename TypeTraits<T_Scalar>::real_type* b, int_t ldb)
 {
@@ -388,24 +388,24 @@ void launch_get_imag_kernel(::cla3p::uplo_t uplo, int_t m, int_t n,
     syncDevice();
 }
 /*-------------------------------------------------*/
-template void launch_get_imag_kernel<complex_t>(::cla3p::uplo_t, int_t, int_t, const complex_t*, int_t, real_t*, int_t);
-template void launch_get_imag_kernel<complex8_t>(::cla3p::uplo_t, int_t, int_t, const complex8_t*, int_t, real4_t*, int_t);
+template void launch_get_imag_kernel<complex_t>(uplo_t, int_t, int_t, const complex_t*, int_t, real_t*, int_t);
+template void launch_get_imag_kernel<complex8_t>(uplo_t, int_t, int_t, const complex8_t*, int_t, real4_t*, int_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-__global__ void conjugate_2d_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar* a, int_t lda)
+__global__ void conjugate_2d_kernel(uplo_t uplo, int_t m, int_t n, T_Scalar* a, int_t lda)
 {
     int_t i = blockIdx.x * blockDim.x + threadIdx.x;
     int_t j = blockIdx.y * blockDim.y + threadIdx.y;
 
     if (i < m && j < n) {
-        if(uplo == ::cla3p::uplo_t::Upper && i > j) return;
-        if(uplo == ::cla3p::uplo_t::Lower && i < j) return;
+        if(uplo == uplo_t::Upper && i > j) return;
+        if(uplo == uplo_t::Lower && i < j) return;
         a[j * lda + i] = arith::conj(a[j * lda + i]);
     }
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void launch_conjugate_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar* a, int_t lda)
+void launch_conjugate_kernel(uplo_t uplo, int_t m, int_t n, T_Scalar* a, int_t lda)
 {
     if(m <= 0 || n <= 0) return;
 
@@ -415,10 +415,10 @@ void launch_conjugate_kernel(::cla3p::uplo_t uplo, int_t m, int_t n, T_Scalar* a
     syncDevice();
 }
 /*-------------------------------------------------*/
-template void launch_conjugate_kernel<real_t>(::cla3p::uplo_t, int_t, int_t, real_t*, int_t);
-template void launch_conjugate_kernel<real4_t>(::cla3p::uplo_t, int_t, int_t, real4_t*, int_t);
-template void launch_conjugate_kernel<complex_t>(::cla3p::uplo_t, int_t, int_t, complex_t*, int_t);
-template void launch_conjugate_kernel<complex8_t>(::cla3p::uplo_t, int_t, int_t, complex8_t*, int_t);
+template void launch_conjugate_kernel<real_t>(uplo_t, int_t, int_t, real_t*, int_t);
+template void launch_conjugate_kernel<real4_t>(uplo_t, int_t, int_t, real4_t*, int_t);
+template void launch_conjugate_kernel<complex_t>(uplo_t, int_t, int_t, complex_t*, int_t);
+template void launch_conjugate_kernel<complex8_t>(uplo_t, int_t, int_t, complex8_t*, int_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 __global__ void geev_calculate_complex_eigenvectors_kernel(int_t n, 

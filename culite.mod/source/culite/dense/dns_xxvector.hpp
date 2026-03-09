@@ -246,7 +246,7 @@ class XxVector : public XiVector<T_Scalar> {
          * @param[in] ni The number of elements in the block.
          * @return A guarded device vector that shares device memory with this vector.
          */
-        ::cla3p::Guard<XxVector<T_Scalar>> rblock(int_t ibgn, int_t ni) const;
+        Guard<XxVector<T_Scalar>> rblock(int_t ibgn, int_t ni) const;
 
         /**
          * @brief Set a block of elements.

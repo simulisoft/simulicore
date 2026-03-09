@@ -20,8 +20,6 @@
 // system
 
 // 3rd
-#include <cla3p/checks/basic_checks.hpp>
-#include <cla3p/checks/dns_checks.hpp>
 #include <cla3p/support/utils.hpp>
 
 // culite
@@ -29,6 +27,9 @@
 #include "culite/support/utils.hpp"
 #include "culite/support/imalloc.hpp"
 #include "culite/bulk/dns1d.hpp"
+
+// forwards
+#include "culite/checks/cla3p_forwards.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -41,7 +42,7 @@ XiVector<T_Scalar>::XiVector()
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XiVector<T_Scalar>::XiVector(int_t n)
-    : ::cla3p::Meta1D<int_t>(n), XxContainer<T_Scalar>(n)
+    : Meta1D<int_t>(n), XxContainer<T_Scalar>(n)
 {
     if(n > 0) {
         checker();
@@ -52,7 +53,7 @@ XiVector<T_Scalar>::XiVector(int_t n)
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XiVector<T_Scalar>::XiVector(int_t n, T_Scalar *val, bool bind)
-    : ::cla3p::Meta1D<int_t>(n), XxContainer<T_Scalar>(val, bind)
+    : Meta1D<int_t>(n), XxContainer<T_Scalar>(val, bind)
 {
     if(n > 0) {
         checker();
@@ -98,7 +99,7 @@ XiVector<T_Scalar>& XiVector<T_Scalar>::operator=(XiVector<T_Scalar>&& other)
 template <typename T_Scalar>
 void XiVector<T_Scalar>::clear()
 {
-    ::cla3p::Meta1D<int_t>::clear();
+    Meta1D<int_t>::clear();
     XxContainer<T_Scalar>::clear();
 }
 /*-------------------------------------------------*/
@@ -122,7 +123,7 @@ XiVector<T_Scalar> XiVector<T_Scalar>::rcopy()
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-::cla3p::Guard<XiVector<T_Scalar>> XiVector<T_Scalar>::rcopy() const
+Guard<XiVector<T_Scalar>> XiVector<T_Scalar>::rcopy() const
 {
     return view(size(), this->values());
 }
@@ -171,7 +172,7 @@ XiVector<T_Scalar>& XiVector<T_Scalar>::moveFrom(XiVector<T_Scalar>& other)
         if(*this) {
             *this = other;
         } else {
-            ::cla3p::Meta1D<int_t>::operator=(std::move(other));
+            Meta1D<int_t>::operator=(std::move(other));
             XxContainer<T_Scalar>::operator=(std::move(other));
             other.unbind();
         } // similar
@@ -195,10 +196,10 @@ XiVector<T_Scalar>& XiVector<T_Scalar>::copyFromExisting(const XiVector<T_Scalar
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-::cla3p::Guard<XiVector<T_Scalar>> XiVector<T_Scalar>::view(int_t n, const T_Scalar *vals)
+Guard<XiVector<T_Scalar>> XiVector<T_Scalar>::view(int_t n, const T_Scalar *vals)
 {
     XiVector<T_Scalar> tmp(n, const_cast<T_Scalar*>(vals), false);
-    ::cla3p::Guard<XiVector<T_Scalar>> ret(tmp);
+    Guard<XiVector<T_Scalar>> ret(tmp);
     return ret;
 }
 /*-------------------------------------------------*/

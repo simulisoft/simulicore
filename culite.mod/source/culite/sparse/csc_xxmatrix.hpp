@@ -34,6 +34,10 @@
 #include "culite/virtuals/virtual_conjugate.hpp"
 #include "culite/virtuals/virtual_scale.hpp"
 
+// forwards
+#include "culite/types/cla3p_forwards.hpp"
+#include "culite/generic/cla3p_forwards.hpp"
+
 /*-------------------------------------------------*/
 namespace culite { 
 namespace csc {
@@ -47,7 +51,7 @@ namespace csc {
  * @tparam T_Scalar The scalar type (e.g., float, double, complex).
  */
 template <typename T_Int, typename T_Scalar>
-class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public csx::XxContainer<T_Int,T_Scalar> {
+class XxMatrix : public MatrixMeta<T_Int>, public csx::XxContainer<T_Int,T_Scalar> {
 
     private:
         using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
@@ -90,7 +94,7 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public csx::XxContainer<T_In
          * @param[in] nz The number of non-zero elements.
          * @param[in] pr The matrix property (default: General).
          */
-        explicit XxMatrix(T_Int nr, T_Int nc, T_Int nz, const ::cla3p::Property& pr = ::cla3p::Property::General());
+        explicit XxMatrix(T_Int nr, T_Int nc, T_Int nz, const Property& pr = Property::General());
 
         /**
          * @brief Auxiliary constructor.
@@ -104,7 +108,7 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public csx::XxContainer<T_In
          * @param[in] pr The matrix property (default: General).
          */
         explicit XxMatrix(T_Int nr, T_Int nc, T_Int *cptr, T_Int *ridx, T_Scalar *vals, bool bind, 
-                          const ::cla3p::Property& pr = ::cla3p::Property::General());
+                          const Property& pr = Property::General());
 
         /**
          * @brief Copy constructor.
@@ -241,7 +245,7 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public csx::XxContainer<T_In
          *          as this matrix. The guard ensures the reference is read-only.
          * @return A guarded device sparse matrix that shares device memory with this matrix.
          */
-        ::cla3p::Guard<XxMatrix<T_Int,T_Scalar>> rcopy() const;
+        Guard<XxMatrix<T_Int,T_Scalar>> rcopy() const;
 
         /**
          * @brief Move the device sparse matrix's resources.
@@ -325,10 +329,10 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public csx::XxContainer<T_In
          * @param[in] pr The matrix property (default: General).
          * @return A guarded device sparse matrix that views the specified device CSC arrays.
          */
-        static ::cla3p::Guard<XxMatrix<T_Int,T_Scalar>> 
+        static Guard<XxMatrix<T_Int,T_Scalar>> 
         view(T_Int nr, T_Int nc, 
              const T_Int *cptr, const T_Int *ridx, const T_Scalar *vals, 
-             const ::cla3p::Property& pr = ::cla3p::Property::General());
+             const Property& pr = Property::General());
 
         /** @} */
 
@@ -366,8 +370,8 @@ class XxMatrix : public ::cla3p::MatrixMeta<T_Int>, public csx::XxContainer<T_In
  */
 template <typename T_Int, typename T_Scalar>
 void operator>>(const culite::csc::XxMatrix<T_Int,T_Scalar>& src,
-                ::cla3p::csc::XxMatrix<typename culite::TypeTraits<T_Int>::cla3p_type,
-                                       typename culite::TypeTraits<T_Scalar>::cla3p_type>& dest)
+                cla3p::csc::XxMatrix<typename culite::TypeTraits<T_Int>::cla3p_type,
+                                     typename culite::TypeTraits<T_Scalar>::cla3p_type>& dest)
 {
     src.copyToHost(dest);
 }
@@ -385,8 +389,8 @@ void operator>>(const culite::csc::XxMatrix<T_Int,T_Scalar>& src,
  * @param[out] dest The destination device sparse matrix.
  */
 template <typename T_Int, typename T_Scalar>
-void operator>>(const ::cla3p::csc::XxMatrix<typename culite::TypeTraits<T_Int>::cla3p_type,
-                                             typename culite::TypeTraits<T_Scalar>::cla3p_type>& src,
+void operator>>(const cla3p::csc::XxMatrix<typename culite::TypeTraits<T_Int>::cla3p_type,
+                                           typename culite::TypeTraits<T_Scalar>::cla3p_type>& src,
                 culite::csc::XxMatrix<T_Int,T_Scalar>& dest)
 {
     dest.copyFromHost(src);
@@ -401,7 +405,8 @@ void operator>>(const ::cla3p::csc::XxMatrix<typename culite::TypeTraits<T_Int>:
 template <typename T_Int, typename T_Scalar>
 std::ostream& operator<<(std::ostream& os, const culite::csc::XxMatrix<T_Int,T_Scalar>& mat)
 {
-    ::cla3p::csc::XxMatrix<T_Int,T_Scalar> hostMat;
+    cla3p::csc::XxMatrix<typename culite::TypeTraits<T_Int>::cla3p_type,
+                         typename culite::TypeTraits<T_Scalar>::cla3p_type> hostMat;
     mat >> hostMat;
     os << hostMat;
     return os;

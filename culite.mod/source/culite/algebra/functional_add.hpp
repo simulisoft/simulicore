@@ -21,8 +21,7 @@
  * @file
  */
 
-#include <cla3p/types/enums.hpp>
-
+#include "culite/types/enums.hpp"
 #include "culite/dense/dns_xxvector.hpp"
 #include "culite/dense/dns_xxmatrix.hpp"
 #include "culite/sparse/csr_xxmatrix.hpp"
@@ -68,8 +67,8 @@ void add(T_Scalar alpha, const dns::XxVector<T_Scalar>& x,
  * @param[in] cublasHandler The cuBLAS handler for GPU operations (defaults to global handler).
  */
 template <typename T_Scalar>
-void add(::cla3p::op_t opA, T_Scalar alpha, const dns::XxMatrix<T_Scalar>& A,
-         ::cla3p::op_t opB, T_Scalar beta , const dns::XxMatrix<T_Scalar>& B,
+void add(op_t opA, T_Scalar alpha, const dns::XxMatrix<T_Scalar>& A,
+         op_t opB, T_Scalar beta , const dns::XxMatrix<T_Scalar>& B,
          dns::XxMatrix<T_Scalar>& C,
          CuBlasHandler& cublasHandler = globalCuBlasHandler());
 

@@ -22,11 +22,14 @@
  */
 
 #include <cusparse.h>
-#include <cla3p/types/enums.hpp>
 
 #include "culite/types/integer.hpp"
 #include "culite/types/scalar.hpp"
+#include "culite/types/enums.hpp"
 #include "culite/error/cuda.hpp"
+
+// forwards
+#include "culite/types/cla3p_forwards.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -37,14 +40,14 @@ using cuSparseInt = int64_t;
 
 /*-------------------------------------------------*/
 
-::cla3p::op_t cusparseOp2cla3pOp(cusparseOperation_t op);
-cusparseOperation_t cla3pOp2cusparseOp(::cla3p::op_t op);
+op_t cusparseOp2cla3pOp(cusparseOperation_t op);
+cusparseOperation_t cla3pOp2cusparseOp(op_t op);
 
-::cla3p::uplo_t cusparseUplo2cla3pUplo(cusparseFillMode_t uplo);
-cusparseFillMode_t cla3pUplo2cusparseUplo(::cla3p::uplo_t uplo);
+uplo_t cusparseUplo2cla3pUplo(cusparseFillMode_t uplo);
+cusparseFillMode_t cla3pUplo2cusparseUplo(uplo_t uplo);
 
-::cla3p::diag_t cusparseDiag2cla3pDiag(cusparseDiagType_t diag);
-cusparseDiagType_t cla3pDiag2cusparseDiag(::cla3p::diag_t diag);
+diag_t cusparseDiag2cla3pDiag(cusparseDiagType_t diag);
+cusparseDiagType_t cla3pDiag2cusparseDiag(diag_t diag);
 
 /*-------------------------------------------------*/
 

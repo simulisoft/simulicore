@@ -51,7 +51,7 @@ class LapackLU : public LapackBase<T_Matrix> {
      * @param[in] cusolver Reference to the cuSOLVER handler (defaults to global handler).
      */
     LapackLU(CuSolverHandler& cusolver = globalCuSolverHandler()) 
-    : LapackBase<T_Matrix>(cusolver, ::cla3p::decomp_t::LU) {}
+    : LapackBase<T_Matrix>(cusolver, decomp_t::LU) {}
 
     /**
      * @brief Destructor.
