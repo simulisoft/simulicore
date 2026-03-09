@@ -51,178 +51,178 @@ namespace lra {
 template <typename T_Matrix>
 class RankModerator {
 
-	private:
-		using T_Scalar = typename T_Matrix::value_type;
-		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+    private:
+        using T_Scalar = typename T_Matrix::value_type;
+        using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
-	public:
+    public:
 
-		/**
-		 * @name Constructors
-		 * @{
-		 */
+        /**
+         * @name Constructors
+         * @{
+         */
 
-		/**
-		 * @brief Default constructor.
-		 * @details Creates a rank moderator with default parameter values.
-		 */
-		RankModerator();
+        /**
+         * @brief Default constructor.
+         * @details Creates a rank moderator with default parameter values.
+         */
+        RankModerator();
 
-		/**
-		 * @brief The parameterized constructor.
-		 * @details Constructs a rank moderator with user defined parameters.
-		 *          Ranks kept must satisfy @f$ \sigma_j > \mathrm{ref} \cdot \mathrm{tol} @f$.
-		 * @param[in] tol The cutoff tolerance.
-		 * @param[in] method The reduction method.
-		 * @param[in] ref Use an auto/fixed value as reference.
-		 *                If negative, the maximum singular value will be used instead.
-		 */
-		explicit RankModerator(T_RScalar tol, lraMethod_t method, T_RScalar ref = autoReference());
+        /**
+         * @brief The parameterized constructor.
+         * @details Constructs a rank moderator with user defined parameters.
+         *          Ranks kept must satisfy @f$ \sigma_j > \mathrm{ref} \cdot \mathrm{tol} @f$.
+         * @param[in] tol The cutoff tolerance.
+         * @param[in] method The reduction method.
+         * @param[in] ref Use an auto/fixed value as reference.
+         *                If negative, the maximum singular value will be used instead.
+         */
+        explicit RankModerator(T_RScalar tol, lraMethod_t method, T_RScalar ref = autoReference());
 
-		/**
-		 * @brief Destructor.
-		 * @details Destroys the rank moderator object.
-		 */
-		~RankModerator();
+        /**
+         * @brief Destructor.
+         * @details Destroys the rank moderator object.
+         */
+        ~RankModerator();
 
-		/** @} */
+        /** @} */
 
-		/**
-		 * @name Operators
-		 * @{
-		 */
+        /**
+         * @name Operators
+         * @{
+         */
 
-		/** @} */
+        /** @} */
 
-		/**
-		 * @name Arguments
-		 * @{
-		 */
+        /**
+         * @name Arguments
+         * @{
+         */
 
-		/**
-		 * @brief The cutoff tolerance.
-		 * @details Controls the level of detail in the low-rank matrix.
-		 *          Ranks kept must satisfy @f$ \sigma_j > \mathrm{maxReference}() \cdot \mathrm{cutTolerance}() @f$.
-		 * @return The cutoff tolerance value.
-		 */
-		T_RScalar cutTolerance() const;
+        /**
+         * @brief The cutoff tolerance.
+         * @details Controls the level of detail in the low-rank matrix.
+         *          Ranks kept must satisfy @f$ \sigma_j > \mathrm{maxReference}() \cdot \mathrm{cutTolerance}() @f$.
+         * @return The cutoff tolerance value.
+         */
+        T_RScalar cutTolerance() const;
 
-		/**
-		 * @brief The reduction method.
-		 * @details Controls the full-rank to low-rank conversion method.
-		 * @return The reduction method.
-		 */
-		lraMethod_t reductionMethod() const;
+        /**
+         * @brief The reduction method.
+         * @details Controls the full-rank to low-rank conversion method.
+         * @return The reduction method.
+         */
+        lraMethod_t reductionMethod() const;
 
-		/**
-		 * @brief The reference value.
-		 * @details Controls the level of detail in the low-rank matrix.
-		 *          Ranks kept must satisfy @f$ \sigma_j > \mathrm{maxReference}() \cdot \mathrm{cutTolerance}() @f$.
-		 *          If negative, the maximum singular value will be used instead.
-		 * @return The reference value.
-		 */
-		T_RScalar maxReference() const;
+        /**
+         * @brief The reference value.
+         * @details Controls the level of detail in the low-rank matrix.
+         *          Ranks kept must satisfy @f$ \sigma_j > \mathrm{maxReference}() \cdot \mathrm{cutTolerance}() @f$.
+         *          If negative, the maximum singular value will be used instead.
+         * @return The reference value.
+         */
+        T_RScalar maxReference() const;
 
-		/**
-		 * @brief Sets the cutoff tolerance.
-		 * @details Controls the level of detail in the low-rank matrix.
-		 *          Ranks kept must satisfy @f$ \sigma_j > \mathrm{maxReference}() \cdot \mathrm{cutTolerance}() @f$.
-		 * @param[in] tol The desired cutoff tolerance.
-		 */
-		void setCutTolerance(T_RScalar tol);
+        /**
+         * @brief Sets the cutoff tolerance.
+         * @details Controls the level of detail in the low-rank matrix.
+         *          Ranks kept must satisfy @f$ \sigma_j > \mathrm{maxReference}() \cdot \mathrm{cutTolerance}() @f$.
+         * @param[in] tol The desired cutoff tolerance.
+         */
+        void setCutTolerance(T_RScalar tol);
 
-		/**
-		 * @brief Sets the reduction method.
-		 * @details Controls the full-rank to low-rank conversion method.
-		 * @param[in] method The desired reduction method.
-		 */
-		void setReductionMethod(lraMethod_t method);
+        /**
+         * @brief Sets the reduction method.
+         * @details Controls the full-rank to low-rank conversion method.
+         * @param[in] method The desired reduction method.
+         */
+        void setReductionMethod(lraMethod_t method);
 
-		/**
-		 * @brief The reference value.
-		 * @details Controls the level of detail in the low-rank matrix.
-		 *          Ranks kept must satisfy @f$ \sigma_j > \mathrm{maxReference}() \cdot \mathrm{cutTolerance}() @f$.
-		 *          If negative, the maximum singular value will be used instead.
-		 * @param[in] ref The desired auto/fixed reference value.
-		 */
-		void setMaxReference(T_RScalar ref);
+        /**
+         * @brief The reference value.
+         * @details Controls the level of detail in the low-rank matrix.
+         *          Ranks kept must satisfy @f$ \sigma_j > \mathrm{maxReference}() \cdot \mathrm{cutTolerance}() @f$.
+         *          If negative, the maximum singular value will be used instead.
+         * @param[in] ref The desired auto/fixed reference value.
+         */
+        void setMaxReference(T_RScalar ref);
 
-		/** @} */
+        /** @} */
 
-		/**
-		 * @name Public Member Functions
-		 * @{
-		 */
+        /**
+         * @name Public Member Functions
+         * @{
+         */
 
-		/**
-		 * @brief Clears the rank moderator.
-		 * @details Resets all members to match those of the default rank moderator.
-		 */
-		void clear();
+        /**
+         * @brief Clears the rank moderator.
+         * @details Resets all members to match those of the default rank moderator.
+         */
+        void clear();
 
-		/**
-		 * @brief Full-rank to low-rank convertor.
-		 * @details Converts a full rank dense matrix to low-rank using internal parameterization.
-		 * @param[in] mat The dense matrix to be reduced.
-		 * @return The low-rank approximation of @p mat.
-		 */
-		XxMatrix<T_Matrix> reduce(const T_Matrix& mat) const;
+        /**
+         * @brief Full-rank to low-rank convertor.
+         * @details Converts a full rank dense matrix to low-rank using internal parameterization.
+         * @param[in] mat The dense matrix to be reduced.
+         * @return The low-rank approximation of @p mat.
+         */
+        XxMatrix<T_Matrix> reduce(const T_Matrix& mat) const;
 
-		/** @} */
+        /** @} */
 
-		/**
-		 * @name Advanced Public Member Functions
-		 * @{
-		 */
+        /**
+         * @name Advanced Public Member Functions
+         * @{
+         */
 
-		/**
-		 * @brief Full-rank to low-rank convertor.
-		 * @details Converts a full rank dense matrix to low-rank using the standard SVD method.
-		 *          A user parameterized svd object is supplied in order to avoid repeated (de-)allocations.
-		 * @param[in] mat The dense matrix to be reduced.
-		 * @param[in,out] svd The Singular Value Decomposition object to be used.
-		 * @return The low-rank approximation of @p mat.
-		 */
-		XxMatrix<T_Matrix> reduceUsingDefaultSVD(const T_Matrix& mat, DefaultSVD<T_Matrix>& svd) const;
+        /**
+         * @brief Full-rank to low-rank convertor.
+         * @details Converts a full rank dense matrix to low-rank using the standard SVD method.
+         *          A user parameterized svd object is supplied in order to avoid repeated (de-)allocations.
+         * @param[in] mat The dense matrix to be reduced.
+         * @param[in,out] svd The Singular Value Decomposition object to be used.
+         * @return The low-rank approximation of @p mat.
+         */
+        XxMatrix<T_Matrix> reduceUsingDefaultSVD(const T_Matrix& mat, DefaultSVD<T_Matrix>& svd) const;
 
-		/**
-		 * @brief Full-rank to low-rank convertor.
-		 * @details Converts a full rank dense matrix to low-rank using the hybrid QR/SVD method.
-		 *          User parameterized pqr/svd objects are supplied in order to avoid repeated (de-)allocations.
-		 * @param[in] mat The dense matrix to be reduced.
-		 * @param[in,out] pqr The Partial QR Decomposition object to be used.
-		 * @param[in,out] svd The Singular Value Decomposition object to be used.
-		 * @return The low-rank approximation of @p mat.
-		 */
-		XxMatrix<T_Matrix> reduceUsingFastQR(const T_Matrix& mat, PartialQR<T_Matrix>& pqr, DefaultSVD<T_Matrix>& svd) const;
+        /**
+         * @brief Full-rank to low-rank convertor.
+         * @details Converts a full rank dense matrix to low-rank using the hybrid QR/SVD method.
+         *          User parameterized pqr/svd objects are supplied in order to avoid repeated (de-)allocations.
+         * @param[in] mat The dense matrix to be reduced.
+         * @param[in,out] pqr The Partial QR Decomposition object to be used.
+         * @param[in,out] svd The Singular Value Decomposition object to be used.
+         * @return The low-rank approximation of @p mat.
+         */
+        XxMatrix<T_Matrix> reduceUsingFastQR(const T_Matrix& mat, PartialQR<T_Matrix>& pqr, DefaultSVD<T_Matrix>& svd) const;
 
-		/** @} */
+        /** @} */
 
-		/**
-		 * @name Global Options
-		 * @{
-		 */
+        /**
+         * @name Global Options
+         * @{
+         */
 
-		/**
-		 * @brief Reference value will be set automaticaly.
-		 * @details The default value for automatic deduction of the reference value @f$ \sigma_{\mathrm{max}} @f$.
-		 * @return The automatic reference sentinel value.
-		 */
-		static constexpr T_RScalar autoReference() { return T_RScalar(-1); }
+        /**
+         * @brief Reference value will be set automaticaly.
+         * @details The default value for automatic deduction of the reference value @f$ \sigma_{\mathrm{max}} @f$.
+         * @return The automatic reference sentinel value.
+         */
+        static constexpr T_RScalar autoReference() { return T_RScalar(-1); }
 
-		/** @} */
+        /** @} */
 
-	private:
+    private:
 
-		T_RScalar m_cutTolerance;
-		lraMethod_t m_reductionMethod;
-		T_RScalar m_maxReference;
+        T_RScalar m_cutTolerance;
+        lraMethod_t m_reductionMethod;
+        T_RScalar m_maxReference;
 
-		void defaults();
+        void defaults();
 
-		int_t findRank(const dns::XxVector<T_RScalar>& S) const;
-		void accumulateSigma(const dns::XxVector<T_RScalar>& S, T_Matrix& A, T_Matrix& B) const;
-		int_t reduceUntilAllValuesFound(const T_Matrix& mat, PartialQR<T_Matrix>& pqr, DefaultSVD<T_Matrix>& svd) const;
+        int_t findRank(const dns::XxVector<T_RScalar>& S) const;
+        void accumulateSigma(const dns::XxVector<T_RScalar>& S, T_Matrix& A, T_Matrix& B) const;
+        int_t reduceUntilAllValuesFound(const T_Matrix& mat, PartialQR<T_Matrix>& pqr, DefaultSVD<T_Matrix>& svd) const;
 };
 
 

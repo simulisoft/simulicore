@@ -31,9 +31,9 @@ template<typename T_Matrix> class RankModerator;
 
 template <typename T_Matrix>
 XxMatrix<T_Matrix> add(
-		typename T_Matrix::value_type alpha, const XxMatrix<T_Matrix>& A,
-		typename T_Matrix::value_type beta, const XxMatrix<T_Matrix>& B,
-		const RankModerator<T_Matrix>& rmod);
+        typename T_Matrix::value_type alpha, const XxMatrix<T_Matrix>& A,
+        typename T_Matrix::value_type beta, const XxMatrix<T_Matrix>& B,
+        const RankModerator<T_Matrix>& rmod);
 
 /*-------------------------------------------------*/
 } // namespace lra

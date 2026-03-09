@@ -39,190 +39,190 @@ namespace lra {
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 static void create_merged_matrices(
-		typename T_Matrix::value_type alpha, const XxMatrix<T_Matrix>& A, 
-		typename T_Matrix::value_type beta, const XxMatrix<T_Matrix>& B,
-		T_Matrix& mergedLeft, T_Matrix& mergedRight)
+        typename T_Matrix::value_type alpha, const XxMatrix<T_Matrix>& A, 
+        typename T_Matrix::value_type beta, const XxMatrix<T_Matrix>& B,
+        T_Matrix& mergedLeft, T_Matrix& mergedRight)
 {
-	int_t m = A.nrows();
-	int_t n = A.ncols();
-	int_t k1 = A.nrank();
-	int_t k2 = B.nrank();
-	int_t k = k1 + k2;
+    int_t m = A.nrows();
+    int_t n = A.ncols();
+    int_t k1 = A.nrank();
+    int_t k2 = B.nrank();
+    int_t k = k1 + k2;
 
-	mergedLeft = T_Matrix(m, k);
-	mergedRight = T_Matrix(n, k);
+    mergedLeft = T_Matrix(m, k);
+    mergedRight = T_Matrix(n, k);
 
-	mergedLeft.rblock(0, 0,m,k1) = A.A();
-	mergedLeft.rblock(0,k1,m,k2) = B.A();
+    mergedLeft.rblock(0, 0,m,k1) = A.A();
+    mergedLeft.rblock(0,k1,m,k2) = B.A();
 
-	mergedLeft.rblock(0, 0,m,k1).iscale(alpha);
-	mergedLeft.rblock(0,k1,m,k2).iscale(beta);
+    mergedLeft.rblock(0, 0,m,k1).iscale(alpha);
+    mergedLeft.rblock(0,k1,m,k2).iscale(beta);
 
-	mergedRight.rblock(0, 0,n,k1) = A.B();
-	mergedRight.rblock(0,k1,n,k2) = B.B();
+    mergedRight.rblock(0, 0,n,k1) = A.B();
+    mergedRight.rblock(0,k1,n,k2) = B.B();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 static void update_matrix_with_R_transposed(const DefaultQR<T_Matrix>& qr, T_Matrix& A)
 {
-	using T_Scalar = typename T_Matrix::value_type;
+    using T_Scalar = typename T_Matrix::value_type;
 
-	const T_Matrix& R = qr.R();
+    const T_Matrix& R = qr.R();
 
-	blas::trmm('R', 'U', 'C', 'N', 
-			A.nrows(), A.ncols(), T_Scalar(1), 
-			R.values(), R.ld(), 
-			A.values(), A.ld());
+    blas::trmm('R', 'U', 'C', 'N', 
+            A.nrows(), A.ncols(), T_Scalar(1), 
+            R.values(), R.ld(), 
+            A.values(), A.ld());
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 static void update_matrix_with_Q(const DefaultQR<T_Matrix>& qr, T_Matrix& A)
 {
-	using T_Scalar = typename T_Matrix::value_type;
-	using T_Vector = dns::XxVector<T_Scalar>;
+    using T_Scalar = typename T_Matrix::value_type;
+    using T_Vector = dns::XxVector<T_Scalar>;
 
-	const T_Matrix& Q = qr.elementaryReflectors();
-	const T_Vector& T = qr.tau();
+    const T_Matrix& Q = qr.elementaryReflectors();
+    const T_Vector& T = qr.tau();
 
-	int_t info = lapack::xxmqr('L', 'N', 
-			A.nrows(), A.ncols(), T.size(),
-			Q.values(), A.ld(), 
-			T.values(), 
-			A.values(), A.ld());
+    int_t info = lapack::xxmqr('L', 'N', 
+            A.nrows(), A.ncols(), T.size(),
+            Q.values(), A.ld(), 
+            T.values(), 
+            A.values(), A.ld());
 
-	lapack_info_check(info);
+    lapack_info_check(info);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 static XxMatrix<T_Matrix> calculate_non_trivial_sum_qq(
-		typename T_Matrix::value_type alpha, const XxMatrix<T_Matrix>& A, 
-		typename T_Matrix::value_type beta, const XxMatrix<T_Matrix>& B,
-		const RankModerator<T_Matrix>& rmod)
+        typename T_Matrix::value_type alpha, const XxMatrix<T_Matrix>& A, 
+        typename T_Matrix::value_type beta, const XxMatrix<T_Matrix>& B,
+        const RankModerator<T_Matrix>& rmod)
 {
-	int_t m = A.nrows();
-	int_t n = A.ncols();
-	//int_t k = A.nrank() + B.nrank(); // k < n && k < m
+    int_t m = A.nrows();
+    int_t n = A.ncols();
+    //int_t k = A.nrank() + B.nrank(); // k < n && k < m
 
-	T_Matrix mergedLeft;
-	T_Matrix mergedRight;
-	create_merged_matrices(alpha, A, beta, B, mergedLeft, mergedRight);
+    T_Matrix mergedLeft;
+    T_Matrix mergedRight;
+    create_merged_matrices(alpha, A, beta, B, mergedLeft, mergedRight);
 
-	DefaultQR<T_Matrix> qrLeft;
-	DefaultQR<T_Matrix> qrRight;
-	qrLeft.decompose(mergedLeft);
-	qrRight.decompose(mergedRight);
+    DefaultQR<T_Matrix> qrLeft;
+    DefaultQR<T_Matrix> qrRight;
+    qrLeft.decompose(mergedLeft);
+    qrRight.decompose(mergedRight);
 
-	T_Matrix C = qrLeft.R() * qrRight.R().ctranspose();
+    T_Matrix C = qrLeft.R() * qrRight.R().ctranspose();
 
-	XxMatrix<T_Matrix> tmp = rmod.reduce(C); // (k x k) -> (k x l) &  (k x l)
-	XxMatrix<T_Matrix> ret;
+    XxMatrix<T_Matrix> tmp = rmod.reduce(C); // (k x k) -> (k x l) &  (k x l)
+    XxMatrix<T_Matrix> ret;
 
-	if(tmp) {
-		int_t l = tmp.nrank();
-		ret = XxMatrix<T_Matrix>(m,n,l);
-		ret = 0;
-		ret.A().setBlock(0,0,tmp.A());
-		ret.B().setBlock(0,0,tmp.B());
-		update_matrix_with_Q(qrLeft, ret.A());
-		update_matrix_with_Q(qrRight, ret.B());
-	} // tmp
+    if(tmp) {
+        int_t l = tmp.nrank();
+        ret = XxMatrix<T_Matrix>(m,n,l);
+        ret = 0;
+        ret.A().setBlock(0,0,tmp.A());
+        ret.B().setBlock(0,0,tmp.B());
+        update_matrix_with_Q(qrLeft, ret.A());
+        update_matrix_with_Q(qrRight, ret.B());
+    } // tmp
 
-	return ret;
+    return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 static XxMatrix<T_Matrix> calculate_non_trivial_sum_qb(
-		typename T_Matrix::value_type alpha, const XxMatrix<T_Matrix>& A, 
-		typename T_Matrix::value_type beta, const XxMatrix<T_Matrix>& B,
-		const RankModerator<T_Matrix>& rmod)
+        typename T_Matrix::value_type alpha, const XxMatrix<T_Matrix>& A, 
+        typename T_Matrix::value_type beta, const XxMatrix<T_Matrix>& B,
+        const RankModerator<T_Matrix>& rmod)
 {
-	int_t m = A.nrows();
-	int_t n = A.ncols();
-	//int_t k = A.nrank() + B.nrank(); // n < k < m
+    int_t m = A.nrows();
+    int_t n = A.ncols();
+    //int_t k = A.nrank() + B.nrank(); // n < k < m
 
-	T_Matrix mergedLeft;
-	T_Matrix mergedRight;
-	create_merged_matrices(alpha, A, beta, B, mergedLeft, mergedRight);
+    T_Matrix mergedLeft;
+    T_Matrix mergedRight;
+    create_merged_matrices(alpha, A, beta, B, mergedLeft, mergedRight);
 
-	DefaultQR<T_Matrix> qrLeft;
-	qrLeft.decompose(mergedLeft);
-	update_matrix_with_R_transposed(qrLeft, mergedRight);
+    DefaultQR<T_Matrix> qrLeft;
+    qrLeft.decompose(mergedLeft);
+    update_matrix_with_R_transposed(qrLeft, mergedRight);
 
-	XxMatrix<T_Matrix> tmp = rmod.reduce(mergedRight); // (n x k) -> (n x l) &  (k x l)
-	XxMatrix<T_Matrix> ret;
+    XxMatrix<T_Matrix> tmp = rmod.reduce(mergedRight); // (n x k) -> (n x l) &  (k x l)
+    XxMatrix<T_Matrix> ret;
 
-	if(tmp) {
-		int_t l = tmp.nrank();
-		ret = XxMatrix<T_Matrix>(m,n,l);
-		ret = 0;
-		ret.A().setBlock(0,0,tmp.B());
-		ret.B().setBlock(0,0,tmp.A());
-		update_matrix_with_Q(qrLeft, ret.A());
-	} // tmp
+    if(tmp) {
+        int_t l = tmp.nrank();
+        ret = XxMatrix<T_Matrix>(m,n,l);
+        ret = 0;
+        ret.A().setBlock(0,0,tmp.B());
+        ret.B().setBlock(0,0,tmp.A());
+        update_matrix_with_Q(qrLeft, ret.A());
+    } // tmp
 
-	return ret;
+    return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 static XxMatrix<T_Matrix> calculate_non_trivial_sum_aq(
-		typename T_Matrix::value_type alpha, const XxMatrix<T_Matrix>& A, 
-		typename T_Matrix::value_type beta, const XxMatrix<T_Matrix>& B,
-		const RankModerator<T_Matrix>& rmod)
+        typename T_Matrix::value_type alpha, const XxMatrix<T_Matrix>& A, 
+        typename T_Matrix::value_type beta, const XxMatrix<T_Matrix>& B,
+        const RankModerator<T_Matrix>& rmod)
 {
-	int_t m = A.nrows();
-	int_t n = A.ncols();
-	//int_t k = A.nrank() + B.nrank(); // m < k < n
+    int_t m = A.nrows();
+    int_t n = A.ncols();
+    //int_t k = A.nrank() + B.nrank(); // m < k < n
 
-	T_Matrix mergedLeft;
-	T_Matrix mergedRight;
-	create_merged_matrices(alpha, A, beta, B, mergedLeft, mergedRight);
+    T_Matrix mergedLeft;
+    T_Matrix mergedRight;
+    create_merged_matrices(alpha, A, beta, B, mergedLeft, mergedRight);
 
-	DefaultQR<T_Matrix> qrRight;
-	qrRight.decompose(mergedRight);
-	update_matrix_with_R_transposed(qrRight, mergedLeft);
+    DefaultQR<T_Matrix> qrRight;
+    qrRight.decompose(mergedRight);
+    update_matrix_with_R_transposed(qrRight, mergedLeft);
 
-	XxMatrix<T_Matrix> tmp = rmod.reduce(mergedLeft); // (m x k) -> (m x l) &  (k x l)
-	XxMatrix<T_Matrix> ret;
+    XxMatrix<T_Matrix> tmp = rmod.reduce(mergedLeft); // (m x k) -> (m x l) &  (k x l)
+    XxMatrix<T_Matrix> ret;
 
-	if(tmp) {
-		int_t l = tmp.nrank();
-		ret = XxMatrix<T_Matrix>(m,n,l);
-		ret = 0;
-		ret.A().setBlock(0,0,tmp.A());
-		ret.B().setBlock(0,0,tmp.B());
-		update_matrix_with_Q(qrRight, ret.B());
-	} // tmp
+    if(tmp) {
+        int_t l = tmp.nrank();
+        ret = XxMatrix<T_Matrix>(m,n,l);
+        ret = 0;
+        ret.A().setBlock(0,0,tmp.A());
+        ret.B().setBlock(0,0,tmp.B());
+        update_matrix_with_Q(qrRight, ret.B());
+    } // tmp
 
-	return ret;
+    return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 static XxMatrix<T_Matrix> calculate_non_trivial_sum_ab(
-		typename T_Matrix::value_type alpha, const XxMatrix<T_Matrix>& A, 
-		typename T_Matrix::value_type beta, const XxMatrix<T_Matrix>& B,
-		const RankModerator<T_Matrix>& rmod)
+        typename T_Matrix::value_type alpha, const XxMatrix<T_Matrix>& A, 
+        typename T_Matrix::value_type beta, const XxMatrix<T_Matrix>& B,
+        const RankModerator<T_Matrix>& rmod)
 {
-	T_Matrix C = alpha * A.A() * A.B().ctranspose() + beta * B.A() * B.B().ctranspose();
-	return rmod.reduce(C);
+    T_Matrix C = alpha * A.A() * A.B().ctranspose() + beta * B.A() * B.B().ctranspose();
+    return rmod.reduce(C);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 static XxMatrix<T_Matrix> calculate_non_trivial_sum(
-		typename T_Matrix::value_type alpha, const XxMatrix<T_Matrix>& A, 
-		typename T_Matrix::value_type beta, const XxMatrix<T_Matrix>& B,
-		const RankModerator<T_Matrix>& rmod)
+        typename T_Matrix::value_type alpha, const XxMatrix<T_Matrix>& A, 
+        typename T_Matrix::value_type beta, const XxMatrix<T_Matrix>& B,
+        const RankModerator<T_Matrix>& rmod)
 {
-	int_t m = A.nrows();
-	int_t n = A.ncols();
-	int_t k = A.nrank() + B.nrank();
+    int_t m = A.nrows();
+    int_t n = A.ncols();
+    int_t k = A.nrank() + B.nrank();
 
-	bool qrA = (k < m);
-	bool qrB = (k < n);
+    bool qrA = (k < m);
+    bool qrB = (k < n);
 
-	/**/ if( qrA &&  qrB) return calculate_non_trivial_sum_qq(alpha, A, beta, B, rmod);
-	else if( qrA && !qrB) return calculate_non_trivial_sum_qb(alpha, A, beta, B, rmod);
-	else if(!qrA &&  qrB) return calculate_non_trivial_sum_aq(alpha, A, beta, B, rmod);
-	else                  return calculate_non_trivial_sum_ab(alpha, A, beta, B, rmod);
+    /**/ if( qrA &&  qrB) return calculate_non_trivial_sum_qq(alpha, A, beta, B, rmod);
+    else if( qrA && !qrB) return calculate_non_trivial_sum_qb(alpha, A, beta, B, rmod);
+    else if(!qrA &&  qrB) return calculate_non_trivial_sum_aq(alpha, A, beta, B, rmod);
+    else                  return calculate_non_trivial_sum_ab(alpha, A, beta, B, rmod);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
@@ -231,33 +231,33 @@ XxMatrix<T_Matrix> add(
     typename T_Matrix::value_type beta, const XxMatrix<T_Matrix>& B,
     const RankModerator<T_Matrix>& rmod)
 {
-	using T_Scalar = typename T_Matrix::value_type;
+    using T_Scalar = typename T_Matrix::value_type;
 
-	similarity_dim_check(A.nrows(), B.nrows());
-	similarity_dim_check(A.ncols(), B.ncols());
+    similarity_dim_check(A.nrows(), B.nrows());
+    similarity_dim_check(A.ncols(), B.ncols());
 
-	bool validA = alpha != T_Scalar(0) && A.nrank();
-	bool validB = beta != T_Scalar(0) && B.nrank();
+    bool validA = alpha != T_Scalar(0) && A.nrank();
+    bool validB = beta != T_Scalar(0) && B.nrank();
 
-	XxMatrix<T_Matrix> ret;
+    XxMatrix<T_Matrix> ret;
 
-	if(validA && validB) {
+    if(validA && validB) {
 
-		ret = calculate_non_trivial_sum(alpha, A, beta, B, rmod);
+        ret = calculate_non_trivial_sum(alpha, A, beta, B, rmod);
 
-	} else if(validA && !validB) {
+    } else if(validA && !validB) {
 
-		ret = A;
-		ret.iscale(alpha);
+        ret = A;
+        ret.iscale(alpha);
 
-	} else if(!validA && validB) {
+    } else if(!validA && validB) {
 
-		ret = B;
-		ret.iscale(beta);
+        ret = B;
+        ret.iscale(beta);
 
-	} // cases
+    } // cases
 
-	return ret;
+    return ret;
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
