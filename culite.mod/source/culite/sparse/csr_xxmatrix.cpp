@@ -42,67 +42,67 @@ XxMatrix<T_Int,T_Scalar>::XxMatrix()
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 XxMatrix<T_Int,T_Scalar>::XxMatrix(T_Int nr, T_Int nc, T_Int nz, const ::cla3p::Property& pr)
-	: ::cla3p::MatrixMeta<T_Int>(nr, nc, ::cla3p::sanitizeProperty<T_Cla3pScalar>(pr)), 
+    : ::cla3p::MatrixMeta<T_Int>(nr, nc, ::cla3p::sanitizeProperty<T_Cla3pScalar>(pr)), 
       csx::XxContainer<T_Int,T_Scalar>(nr, nz)
 {
-	if(nr > 0 && nc > 0) {
-		checker();
-	} else {
-		clear();
-	}
+    if(nr > 0 && nc > 0) {
+        checker();
+    } else {
+        clear();
+    }
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 XxMatrix<T_Int,T_Scalar>::XxMatrix(T_Int nr, T_Int nc, T_Int *rptr, T_Int *cidx, T_Scalar *vals, bool bind, const ::cla3p::Property& pr)
-	: ::cla3p::MatrixMeta<T_Int>(nr, nc, ::cla3p::sanitizeProperty<T_Cla3pScalar>(pr)), 
+    : ::cla3p::MatrixMeta<T_Int>(nr, nc, ::cla3p::sanitizeProperty<T_Cla3pScalar>(pr)), 
       csx::XxContainer<T_Int,T_Scalar>(rptr, cidx, vals, bind)
 {
-	if(nr > 0 && nc > 0) {
-		checker();
-	} else {
-		clear();
-	}
+    if(nr > 0 && nc > 0) {
+        checker();
+    } else {
+        clear();
+    }
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 XxMatrix<T_Int,T_Scalar>::~XxMatrix()
 {
-	clear();
+    clear();
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 XxMatrix<T_Int,T_Scalar>::XxMatrix(const XxMatrix<T_Int,T_Scalar>& other)
-	: XxMatrix(other.nrows(), other.ncols(), other.nnz(), other.prop())
+    : XxMatrix(other.nrows(), other.ncols(), other.nnz(), other.prop())
 {
-	copyFromExisting(other);
+    copyFromExisting(other);
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 XxMatrix<T_Int,T_Scalar>& XxMatrix<T_Int,T_Scalar>::operator=(const XxMatrix<T_Int,T_Scalar>& other)
 {
-	if(!(*this)) {
-		*this = XxMatrix<T_Int,T_Scalar>(other.nrows(), other.ncols(), other.nnz(), other.prop());
-	}
-	return copyFromExisting(other);
+    if(!(*this)) {
+        *this = XxMatrix<T_Int,T_Scalar>(other.nrows(), other.ncols(), other.nnz(), other.prop());
+    }
+    return copyFromExisting(other);
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 XxMatrix<T_Int,T_Scalar>::XxMatrix(XxMatrix<T_Int,T_Scalar>&& other)
 {
-	moveFrom(other);
+    moveFrom(other);
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 XxMatrix<T_Int,T_Scalar>& XxMatrix<T_Int,T_Scalar>::operator=(XxMatrix<T_Int,T_Scalar>&& other)
 {
-	return moveFrom(other);
+    return moveFrom(other);
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 void XxMatrix<T_Int,T_Scalar>::clear()
 {
-	::cla3p::MatrixMeta<T_Int>::clear();
-	csx::XxContainer<T_Int,T_Scalar>::clear();
+    ::cla3p::MatrixMeta<T_Int>::clear();
+    csx::XxContainer<T_Int,T_Scalar>::clear();
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
@@ -125,57 +125,57 @@ template <typename T_Int, typename T_Scalar>
 T_Int XxMatrix<T_Int,T_Scalar>::nnz() const
 {
     T_Int nz = 0;
-	if(!this->empty()) {
+    if(!this->empty()) {
         // TODO: rethink about copying
         memCopyD2H(1, this->rowptr() + this->nrows(), &nz);
-	}
-	return nz;
+    }
+    return nz;
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 std::string XxMatrix<T_Int,T_Scalar>::info(const std::string& header) const
 { 
-	std::string top;
-	std::string bottom;
-	::cla3p::fill_info_margins(header, top, bottom);
+    std::string top;
+    std::string bottom;
+    ::cla3p::fill_info_margins(header, top, bottom);
 
-	std::ostringstream ss;
+    std::ostringstream ss;
 
-	ss << top << "\n";
+    ss << top << "\n";
 
-	ss << "  Datatype............. " << TypeTraits<T_Scalar>::type_name() << "\n";
-	ss << "  Precision............ " << TypeTraits<T_Scalar>::prec_name() << "\n";
+    ss << "  Datatype............. " << TypeTraits<T_Scalar>::type_name() << "\n";
+    ss << "  Precision............ " << TypeTraits<T_Scalar>::prec_name() << "\n";
     ss << "  Index Precision...... " << TypeTraits<T_Int>::prec_name() << "\n";
-	ss << "  Number of rows....... " << this->nrows() << "\n";
-	ss << "  Number of columns.... " << this->ncols() << "\n";
-	ss << "  Number of non zeros.. " << nnz() << "\n";
-	ss << "  Rowptr............... " << this->rowptr() << "\n";
-	ss << "  Colidx............... " << this->colidx() << "\n";
-	ss << "  Values............... " << this->values() << "\n";
-	ss << "  Property............. " << this->prop() << "\n";
-	ss << "  Owner................ " << ::cla3p::boolToYesNo(this->owner()) << "\n";
+    ss << "  Number of rows....... " << this->nrows() << "\n";
+    ss << "  Number of columns.... " << this->ncols() << "\n";
+    ss << "  Number of non zeros.. " << nnz() << "\n";
+    ss << "  Rowptr............... " << this->rowptr() << "\n";
+    ss << "  Colidx............... " << this->colidx() << "\n";
+    ss << "  Values............... " << this->values() << "\n";
+    ss << "  Property............. " << this->prop() << "\n";
+    ss << "  Owner................ " << ::cla3p::boolToYesNo(this->owner()) << "\n";
 
-	ss << bottom << "\n";
+    ss << bottom << "\n";
 
-	return ss.str();
+    return ss.str();
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 XxMatrix<T_Int,T_Scalar>& XxMatrix<T_Int,T_Scalar>::copyFromExisting(const XxMatrix<T_Int,T_Scalar>& other)
 {
-	if(this != &other) {
+    if(this != &other) {
 
-		::cla3p::similarity_check(*this, other);
-		::cla3p::similarity_dim_check(nnz(), other.nnz());
+        ::cla3p::similarity_check(*this, other);
+        ::cla3p::similarity_dim_check(nnz(), other.nnz());
 
-		T_Int nr = other.nrows() + 1;
-		T_Int nz = other.nnz();
+        T_Int nr = other.nrows() + 1;
+        T_Int nz = other.nnz();
 
         memCopyD2D(nr, other.rowptr(), this->rowptr());
         memCopyD2D(nz, other.colidx(), this->colidx());
         memCopyD2D(nz, other.values(), this->values());
 
-	} // do not apply on self
+    } // do not apply on self
 
     return *this;
 }
@@ -183,19 +183,19 @@ XxMatrix<T_Int,T_Scalar>& XxMatrix<T_Int,T_Scalar>::copyFromExisting(const XxMat
 template <typename T_Int, typename T_Scalar>
 XxMatrix<T_Int,T_Scalar>& XxMatrix<T_Int,T_Scalar>::moveFrom(XxMatrix<T_Int,T_Scalar>& other)
 {
-	if(this != &other) {
+    if(this != &other) {
 
-		if(*this) {
-			*this = other;
-		} else {
-			::cla3p::MatrixMeta<T_Int>::operator=(std::move(other));
-			csx::XxContainer<T_Int,T_Scalar>::operator=(std::move(other));
-			other.unbind();
-		} // similar
+        if(*this) {
+            *this = other;
+        } else {
+            ::cla3p::MatrixMeta<T_Int>::operator=(std::move(other));
+            csx::XxContainer<T_Int,T_Scalar>::operator=(std::move(other));
+            other.unbind();
+        } // similar
 
-		other.clear();
+        other.clear();
 
-	} // do not apply on self
+    } // do not apply on self
 
     return *this;
 }
@@ -203,29 +203,29 @@ XxMatrix<T_Int,T_Scalar>& XxMatrix<T_Int,T_Scalar>::moveFrom(XxMatrix<T_Int,T_Sc
 template <typename T_Int, typename T_Scalar>
 XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::copy() const
 {
-	XxMatrix<T_Int,T_Scalar> ret(this->nrows(), this->ncols(), nnz(), this->prop());
-	ret.copyFromExisting(*this);
-	return ret;
+    XxMatrix<T_Int,T_Scalar> ret(this->nrows(), this->ncols(), nnz(), this->prop());
+    ret.copyFromExisting(*this);
+    return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::rcopy()
 {
-	return XxMatrix<T_Int,T_Scalar>(this->nrows(), this->ncols(), this->rowptr(), this->colidx(), this->values(), false, this->prop());
+    return XxMatrix<T_Int,T_Scalar>(this->nrows(), this->ncols(), this->rowptr(), this->colidx(), this->values(), false, this->prop());
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 ::cla3p::Guard<XxMatrix<T_Int,T_Scalar>> XxMatrix<T_Int,T_Scalar>::rcopy() const
 {
-	return view(this->nrows(), this->ncols(), this->rowptr(), this->colidx(), this->values(), this->prop());
+    return view(this->nrows(), this->ncols(), this->rowptr(), this->colidx(), this->values(), this->prop());
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::move()
 {
-	XxMatrix<T_Int,T_Scalar> ret;
-	ret.moveFrom(*this);
-	return ret;
+    XxMatrix<T_Int,T_Scalar> ret;
+    ret.moveFrom(*this);
+    return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
@@ -233,7 +233,7 @@ void XxMatrix<T_Int,T_Scalar>::iscale(T_Scalar val)
 {
     T_Cla3pScalar cla3pVal = TypeTraits<T_Scalar>::toCla3pType(val);
     ::cla3p::hermitian_coeff_check<T_Cla3pScalar>(this->prop(), cla3pVal);
-	blk::dns::scale(nnz(), val, this->values());
+    blk::dns::scale(nnz(), val, this->values());
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
@@ -264,10 +264,10 @@ template <typename T_Int, typename T_Scalar>
 void XxMatrix<T_Int,T_Scalar>::checker() const
 {
     if(!this->prop().isGeneral()) {
-		throw err::CudaException("Only the 'General' matrix property is supported currently.");
-	}
+        throw err::CudaException("Only the 'General' matrix property is supported currently.");
+    }
 
-	::cla3p::csx_consistency_check(this->nrows(), this->ncols(), nnz(), 
+    ::cla3p::csx_consistency_check(this->nrows(), this->ncols(), nnz(), 
                                    this->rowptr(), 
                                    this->colidx(), 
                                    this->values(), 
@@ -281,22 +281,22 @@ template <typename T_Int, typename T_Scalar>
                                                                         const T_Scalar *vals, 
                                                                         const ::cla3p::Property& pr)
 {
-	XxMatrix<T_Int,T_Scalar> tmp(nr, nc,
-			const_cast<T_Int   *>(cptr),
-			const_cast<T_Int   *>(ridx),
-			const_cast<T_Scalar*>(vals), false, pr);
-	::cla3p::Guard<XxMatrix<T_Int,T_Scalar>> ret(tmp);
-	return ret;
+    XxMatrix<T_Int,T_Scalar> tmp(nr, nc,
+            const_cast<T_Int   *>(cptr),
+            const_cast<T_Int   *>(ridx),
+            const_cast<T_Scalar*>(vals), false, pr);
+    ::cla3p::Guard<XxMatrix<T_Int,T_Scalar>> ret(tmp);
+    return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 void XxMatrix<T_Int,T_Scalar>::copyToHost(::cla3p::csr::XxMatrix<T_Cla3pInt,T_Cla3pScalar>& dest) const
 {
-	if(!dest) {
-		dest = ::cla3p::csr::XxMatrix<T_Cla3pInt,T_Cla3pScalar>(this->nrows(), this->ncols(), nnz(), this->prop());
-	}
+    if(!dest) {
+        dest = ::cla3p::csr::XxMatrix<T_Cla3pInt,T_Cla3pScalar>(this->nrows(), this->ncols(), nnz(), this->prop());
+    }
 
-	::cla3p::similarity_check<T_Int>(this->prop(), this->nrows(), this->ncols(), 
+    ::cla3p::similarity_check<T_Int>(this->prop(), this->nrows(), this->ncols(), 
                                      dest.prop(), dest.nrows(), dest.ncols());
     ::cla3p::similarity_dim_check<T_Int>(nnz(), dest.nnz());
 
@@ -311,11 +311,11 @@ void XxMatrix<T_Int,T_Scalar>::copyToHost(::cla3p::csr::XxMatrix<T_Cla3pInt,T_Cl
 template <typename T_Int, typename T_Scalar>
 void XxMatrix<T_Int,T_Scalar>::copyFromHost(const ::cla3p::csr::XxMatrix<T_Cla3pInt,T_Cla3pScalar>& src)
 {
-	if(!(*this)) {
-		*this = XxMatrix<T_Int,T_Scalar>(src.nrows(), src.ncols(), src.nnz(), src.prop());
-	}
+    if(!(*this)) {
+        *this = XxMatrix<T_Int,T_Scalar>(src.nrows(), src.ncols(), src.nnz(), src.prop());
+    }
 
-	::cla3p::similarity_check<T_Int>(this->prop(), this->nrows(), this->ncols(), 
+    ::cla3p::similarity_check<T_Int>(this->prop(), this->nrows(), this->ncols(), 
                                      src.prop(), src.nrows(), src.ncols());
     ::cla3p::similarity_dim_check<T_Int>(nnz(), src.nnz());
 
