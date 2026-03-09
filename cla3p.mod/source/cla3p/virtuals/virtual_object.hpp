@@ -36,33 +36,33 @@ namespace cla3p {
 template <typename T_Result>
 class VirtualObject : public VirtualExpression<T_Result, VirtualObject<T_Result>> {
 
-	private:
-		using T_Scalar = typename T_Result::value_type;
-		
-	public:
-		explicit VirtualObject(const T_Result& obj) : m_obj(obj) {}
-		~VirtualObject() {}
+    private:
+        using T_Scalar = typename T_Result::value_type;
+        
+    public:
+        explicit VirtualObject(const T_Result& obj) : m_obj(obj) {}
+        ~VirtualObject() {}
 
-		void evaluateOnNew(T_Result& dest) const override
-		{ 
-			dest.clear(); 
-			dest = m_obj; 
-		}
+        void evaluateOnNew(T_Result& dest) const override
+        { 
+            dest.clear(); 
+            dest = m_obj; 
+        }
 
-		void evaluateOnExisting(T_Result& dest) const override
-		{ 
-			dest = m_obj; 
-		}
+        void evaluateOnExisting(T_Result& dest) const override
+        { 
+            dest = m_obj; 
+        }
 
-		void accumulateOnExisting(T_Result& dest, T_Scalar coeff) const override
-		{ 
-			ops::update(coeff, m_obj, dest); 
-		}
+        void accumulateOnExisting(T_Result& dest, T_Scalar coeff) const override
+        { 
+            ops::update(coeff, m_obj, dest); 
+        }
 
-		const T_Result& get() const { return m_obj; }
+        const T_Result& get() const { return m_obj; }
 
-	private:
-		const T_Result& m_obj;
+    private:
+        const T_Result& m_obj;
 };
 
 /*-------------------------------------------------*/

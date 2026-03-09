@@ -60,7 +60,7 @@ class VirtualStridedDnsVector : public Meta1D<int_t> {
         view(int_t n, const T_Scalar *vals, int_t incv);
 
         void evaluateOnNew(dns::XxVector<T_Scalar>& dest) const;
-		void evaluateOnExisting(dns::XxVector<T_Scalar>& dest) const;
+        void evaluateOnExisting(dns::XxVector<T_Scalar>& dest) const;
 
     private:
         T_Scalar *m_values;
@@ -98,7 +98,7 @@ class VirtualStridedDnsMatrix : public MatrixMeta<int_t> {
              const Property& pr, int_t incv);
 
         void evaluateOnNew(dns::XxMatrix<T_Scalar>& dest) const;
-		void evaluateOnExisting(dns::XxMatrix<T_Scalar>& dest) const;
+        void evaluateOnExisting(dns::XxMatrix<T_Scalar>& dest) const;
 
     private:
         T_Scalar *m_values;
@@ -137,7 +137,7 @@ class VirtualStridedCsrMatrix : MatrixMeta<T_Int> {
              const Property& pr, T_Int incv);
 
         void evaluateOnNew(csr::XxMatrix<T_Int,T_Scalar>& dest) const;
-		void evaluateOnExisting(csr::XxMatrix<T_Int,T_Scalar>& dest) const;
+        void evaluateOnExisting(csr::XxMatrix<T_Int,T_Scalar>& dest) const;
 
     private:
         T_Int *m_rowptr;
@@ -179,7 +179,7 @@ class VirtualStridedCscMatrix : MatrixMeta<T_Int> {
              const Property& pr, T_Int incv);
 
         void evaluateOnNew(csc::XxMatrix<T_Int,T_Scalar>& dest) const;
-		void evaluateOnExisting(csc::XxMatrix<T_Int,T_Scalar>& dest) const;
+        void evaluateOnExisting(csc::XxMatrix<T_Int,T_Scalar>& dest) const;
 
     private:
         T_Int *m_colptr;

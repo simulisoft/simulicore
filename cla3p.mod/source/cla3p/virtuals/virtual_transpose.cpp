@@ -35,13 +35,13 @@ namespace cla3p {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void VirtualTransposeEvaluateOnNewSpec(
-		const dns::XxMatrix<T_Scalar>& src,
-		bool conj,
-		dns::XxMatrix<T_Scalar>& dest)
+        const dns::XxMatrix<T_Scalar>& src,
+        bool conj,
+        dns::XxMatrix<T_Scalar>& dest)
 {
-	dest.clear();
-	dest = dns::XxMatrix<T_Scalar>(src.ncols(), src.nrows(), src.prop().transpose());
-	VirtualTransposeEvaluateOnExistingSpec(src, conj, dest);
+    dest.clear();
+    dest = dns::XxMatrix<T_Scalar>(src.ncols(), src.nrows(), src.prop().transpose());
+    VirtualTransposeEvaluateOnExistingSpec(src, conj, dest);
 }
 /*-------------------------------------------------*/
 template void VirtualTransposeEvaluateOnNewSpec(const dns::XxMatrix<real_t    >& , bool, dns::XxMatrix<real_t    >&);
@@ -51,27 +51,27 @@ template void VirtualTransposeEvaluateOnNewSpec(const dns::XxMatrix<complex8_t>&
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void VirtualTransposeEvaluateOnExistingSpec(
-		const dns::XxMatrix<T_Scalar>& src,
-		bool conj,
-		dns::XxMatrix<T_Scalar>& dest)
+        const dns::XxMatrix<T_Scalar>& src,
+        bool conj,
+        dns::XxMatrix<T_Scalar>& dest)
 {
-	if(conj) {
-		blk::dns::conjugate_transpose(
-				src.nrows(),
-				src.ncols(),
-				src.values(),
-				src.ld(),
-				dest.values(),
-				dest.ld());
-	} else {
-		blk::dns::transpose(
-				src.nrows(),
-				src.ncols(),
-				src.values(),
-				src.ld(),
-				dest.values(), 
-				dest.ld());
-	} // conj
+    if(conj) {
+        blk::dns::conjugate_transpose(
+                src.nrows(),
+                src.ncols(),
+                src.values(),
+                src.ld(),
+                dest.values(),
+                dest.ld());
+    } else {
+        blk::dns::transpose(
+                src.nrows(),
+                src.ncols(),
+                src.values(),
+                src.ld(),
+                dest.values(), 
+                dest.ld());
+    } // conj
 }
 /*-------------------------------------------------*/
 template void VirtualTransposeEvaluateOnExistingSpec(const dns::XxMatrix<real_t    >&, bool, dns::XxMatrix<real_t    >&);
@@ -81,15 +81,15 @@ template void VirtualTransposeEvaluateOnExistingSpec(const dns::XxMatrix<complex
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void VirtualTransposeAccumulateOnExistingSpec(
-		const dns::XxMatrix<T_Scalar>& src,
-		bool conj,
-		dns::XxMatrix<T_Scalar>& dest,
-		T_Scalar coeff)
+        const dns::XxMatrix<T_Scalar>& src,
+        bool conj,
+        dns::XxMatrix<T_Scalar>& dest,
+        T_Scalar coeff)
 {
-	// TODO: add without evaluating to temp
-	dns::XxMatrix<T_Scalar> tmp;
-	VirtualTransposeEvaluateOnNewSpec(src, conj, tmp);
-	ops::update(coeff, tmp, dest);
+    // TODO: add without evaluating to temp
+    dns::XxMatrix<T_Scalar> tmp;
+    VirtualTransposeEvaluateOnNewSpec(src, conj, tmp);
+    ops::update(coeff, tmp, dest);
 }
 /*-------------------------------------------------*/
 template void VirtualTransposeAccumulateOnExistingSpec(const dns::XxMatrix<real_t    >&, bool, dns::XxMatrix<real_t    >&, real_t    );
@@ -99,13 +99,13 @@ template void VirtualTransposeAccumulateOnExistingSpec(const dns::XxMatrix<compl
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 void VirtualTransposeEvaluateOnNewSpec(
-		const csr::XxMatrix<T_Int,T_Scalar>& src,
-		bool conj,
-		csr::XxMatrix<T_Int, T_Scalar>& dest)
+        const csr::XxMatrix<T_Int,T_Scalar>& src,
+        bool conj,
+        csr::XxMatrix<T_Int, T_Scalar>& dest)
 {
-	dest.clear();
-	dest = csr::XxMatrix<T_Int,T_Scalar>(src.ncols(), src.nrows(), src.nnz(), src.prop().transpose());
-	VirtualTransposeEvaluateOnExistingSpec(src, conj, dest);
+    dest.clear();
+    dest = csr::XxMatrix<T_Int,T_Scalar>(src.ncols(), src.nrows(), src.nnz(), src.prop().transpose());
+    VirtualTransposeEvaluateOnExistingSpec(src, conj, dest);
 }
 /*-------------------------------------------------*/
 template void VirtualTransposeEvaluateOnNewSpec(const csr::XxMatrix<int_t,real_t    >&, bool, csr::XxMatrix<int_t,real_t    >&);
@@ -115,31 +115,31 @@ template void VirtualTransposeEvaluateOnNewSpec(const csr::XxMatrix<int_t,comple
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 void VirtualTransposeEvaluateOnExistingSpec(
-		const csr::XxMatrix<T_Int,T_Scalar>& src,
-		bool conj,
-		csr::XxMatrix<T_Int, T_Scalar>& dest)
+        const csr::XxMatrix<T_Int,T_Scalar>& src,
+        bool conj,
+        csr::XxMatrix<T_Int, T_Scalar>& dest)
 {
-	if(conj) {
-		blk::csr::conjugate_transpose(
-				src.nrows(),
-				src.ncols(),
-				src.rowptr(),
-				src.colidx(),
-				src.values(),
-				dest.rowptr(),
-				dest.colidx(),
-				dest.values());
-	} else {
-		blk::csr::transpose(
-				src.nrows(),
-				src.ncols(),
-				src.rowptr(),
-				src.colidx(),
-				src.values(),
-				dest.rowptr(),
-				dest.colidx(),
-				dest.values());
-	} // conj
+    if(conj) {
+        blk::csr::conjugate_transpose(
+                src.nrows(),
+                src.ncols(),
+                src.rowptr(),
+                src.colidx(),
+                src.values(),
+                dest.rowptr(),
+                dest.colidx(),
+                dest.values());
+    } else {
+        blk::csr::transpose(
+                src.nrows(),
+                src.ncols(),
+                src.rowptr(),
+                src.colidx(),
+                src.values(),
+                dest.rowptr(),
+                dest.colidx(),
+                dest.values());
+    } // conj
 }
 /*-------------------------------------------------*/
 template void VirtualTransposeEvaluateOnExistingSpec(const csr::XxMatrix<int_t,real_t    >&, bool, csr::XxMatrix<int_t,real_t    >&);
@@ -149,14 +149,14 @@ template void VirtualTransposeEvaluateOnExistingSpec(const csr::XxMatrix<int_t,c
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 void VirtualTransposeAccumulateOnExistingSpec(
-		const csr::XxMatrix<T_Int,T_Scalar>& src,
-		bool conj,
-		csr::XxMatrix<T_Int, T_Scalar>& dest,
-		T_Scalar coeff)
+        const csr::XxMatrix<T_Int,T_Scalar>& src,
+        bool conj,
+        csr::XxMatrix<T_Int, T_Scalar>& dest,
+        T_Scalar coeff)
 {
-	csr::XxMatrix<T_Int,T_Scalar> tmp;
-	VirtualTransposeEvaluateOnNewSpec(src, conj, tmp);
-	ops::update(coeff, tmp, dest);
+    csr::XxMatrix<T_Int,T_Scalar> tmp;
+    VirtualTransposeEvaluateOnNewSpec(src, conj, tmp);
+    ops::update(coeff, tmp, dest);
 }
 /*-------------------------------------------------*/
 template void VirtualTransposeAccumulateOnExistingSpec(const csr::XxMatrix<int_t,real_t    >&, bool, csr::XxMatrix<int_t,real_t    >&, real_t    );
@@ -166,13 +166,13 @@ template void VirtualTransposeAccumulateOnExistingSpec(const csr::XxMatrix<int_t
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 void VirtualTransposeEvaluateOnNewSpec(
-		const csc::XxMatrix<T_Int,T_Scalar>& src,
-		bool conj,
-		csc::XxMatrix<T_Int, T_Scalar>& dest)
+        const csc::XxMatrix<T_Int,T_Scalar>& src,
+        bool conj,
+        csc::XxMatrix<T_Int, T_Scalar>& dest)
 {
-	dest.clear();
-	dest = csc::XxMatrix<T_Int,T_Scalar>(src.ncols(), src.nrows(), src.nnz(), src.prop().transpose());
-	VirtualTransposeEvaluateOnExistingSpec(src, conj, dest);
+    dest.clear();
+    dest = csc::XxMatrix<T_Int,T_Scalar>(src.ncols(), src.nrows(), src.nnz(), src.prop().transpose());
+    VirtualTransposeEvaluateOnExistingSpec(src, conj, dest);
 }
 /*-------------------------------------------------*/
 template void VirtualTransposeEvaluateOnNewSpec(const csc::XxMatrix<int_t,real_t    >&, bool, csc::XxMatrix<int_t,real_t    >&);
@@ -182,31 +182,31 @@ template void VirtualTransposeEvaluateOnNewSpec(const csc::XxMatrix<int_t,comple
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 void VirtualTransposeEvaluateOnExistingSpec(
-		const csc::XxMatrix<T_Int,T_Scalar>& src,
-		bool conj,
-		csc::XxMatrix<T_Int, T_Scalar>& dest)
+        const csc::XxMatrix<T_Int,T_Scalar>& src,
+        bool conj,
+        csc::XxMatrix<T_Int, T_Scalar>& dest)
 {
-	if(conj) {
-		blk::csc::conjugate_transpose(
-				src.nrows(),
-				src.ncols(),
-				src.colptr(),
-				src.rowidx(),
-				src.values(),
-				dest.colptr(),
-				dest.rowidx(),
-				dest.values());
-	} else {
-		blk::csc::transpose(
-				src.nrows(),
-				src.ncols(),
-				src.colptr(),
-				src.rowidx(),
-				src.values(),
-				dest.colptr(),
-				dest.rowidx(),
-				dest.values());
-	} // conj
+    if(conj) {
+        blk::csc::conjugate_transpose(
+                src.nrows(),
+                src.ncols(),
+                src.colptr(),
+                src.rowidx(),
+                src.values(),
+                dest.colptr(),
+                dest.rowidx(),
+                dest.values());
+    } else {
+        blk::csc::transpose(
+                src.nrows(),
+                src.ncols(),
+                src.colptr(),
+                src.rowidx(),
+                src.values(),
+                dest.colptr(),
+                dest.rowidx(),
+                dest.values());
+    } // conj
 }
 /*-------------------------------------------------*/
 template void VirtualTransposeEvaluateOnExistingSpec(const csc::XxMatrix<int_t,real_t    >&, bool, csc::XxMatrix<int_t,real_t    >&);
@@ -216,14 +216,14 @@ template void VirtualTransposeEvaluateOnExistingSpec(const csc::XxMatrix<int_t,c
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 void VirtualTransposeAccumulateOnExistingSpec(
-		const csc::XxMatrix<T_Int,T_Scalar>& src,
-		bool conj,
-		csc::XxMatrix<T_Int, T_Scalar>& dest,
-		T_Scalar coeff)
+        const csc::XxMatrix<T_Int,T_Scalar>& src,
+        bool conj,
+        csc::XxMatrix<T_Int, T_Scalar>& dest,
+        T_Scalar coeff)
 {
-	csc::XxMatrix<T_Int,T_Scalar> tmp;
-	VirtualTransposeEvaluateOnNewSpec(src, conj, tmp);
-	ops::update(coeff, tmp, dest);
+    csc::XxMatrix<T_Int,T_Scalar> tmp;
+    VirtualTransposeEvaluateOnNewSpec(src, conj, tmp);
+    ops::update(coeff, tmp, dest);
 }
 /*-------------------------------------------------*/
 template void VirtualTransposeAccumulateOnExistingSpec(const csc::XxMatrix<int_t,real_t    >&, bool, csc::XxMatrix<int_t,real_t    >&, real_t    );
