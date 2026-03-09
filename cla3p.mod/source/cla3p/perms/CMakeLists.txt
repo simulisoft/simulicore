@@ -2,12 +2,12 @@
 # source setup
 #-----------------------------------------------
 set(CLA3P_SRC ${CLA3P_SRC}
-	perms/pxmatrix.cpp
-	PARENT_SCOPE)
+    perms/pxmatrix.cpp
+    PARENT_SCOPE)
 
 set(CLA3P_PERMS_HPP 
-	pxmatrix.hpp
-	)
+    pxmatrix.hpp
+    )
 
 #-----------------------------------------------
 # installation setup
