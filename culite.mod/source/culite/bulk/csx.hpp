@@ -43,7 +43,7 @@ void diag_times_vec(const T_Scalar* alpha, int_t np,
                         const T_Scalar*x, T_Int incx,
                         T_Scalar *y, T_Int incy)
 {
-	launch_diag_times_vec_kernel(alpha, np, xxxptr, xxxidx, values, x, incx, y, incy);
+    launch_diag_times_vec_kernel(alpha, np, xxxptr, xxxidx, values, x, incx, y, incy);
 }
 
 /*-------------------------------------------------*/
@@ -63,7 +63,7 @@ void diag_times_mat(const T_Scalar* alpha, int_t np,
                     const T_Scalar*b, T_Int ldb, 
                     T_Scalar *c, T_Int ldc)
 {
-	launch_diag_times_mat_kernel(alpha, np, xxxptr, xxxidx, values, nc, b, ldb, c, ldc);
+    launch_diag_times_mat_kernel(alpha, np, xxxptr, xxxidx, values, nc, b, ldb, c, ldc);
 }
 
 /*-------------------------------------------------*/

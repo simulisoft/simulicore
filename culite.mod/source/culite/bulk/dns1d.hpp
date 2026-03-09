@@ -35,9 +35,9 @@ namespace dns {
 template <typename T_Scalar>
 void copy(int_t n, const T_Scalar *x, T_Scalar *b)
 {
-	if(n > 0) {
-		memCopyD2D(n, x, b);
-	}
+    if(n > 0) {
+        memCopyD2D(n, x, b);
+    }
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -49,9 +49,9 @@ void fill(int_t n, T_Scalar *x, T_Scalar val)
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type normOne(int_t n, const T_Scalar *x)
 {
-	typename TypeTraits<T_Scalar>::real_type ret = 0;
-	globalCuBlasHandler().asum<T_Scalar>(n, x, 1, &ret);
-	return ret;
+    typename TypeTraits<T_Scalar>::real_type ret = 0;
+    globalCuBlasHandler().asum<T_Scalar>(n, x, 1, &ret);
+    return ret;
 }
 /*-------------------------------------------------*/
 //
@@ -60,25 +60,25 @@ typename TypeTraits<T_Scalar>::real_type normOne(int_t n, const T_Scalar *x)
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type normInf(int_t n, const T_Scalar *x)
 {
-	int_t idx = 0;
-	globalCuBlasHandler().iamax<T_Scalar>(n, x, 1, &idx);
-	T_Scalar ret = makeScalar<T_Scalar>(0);
-	memCopyD2H(1, x + idx - 1, &ret);
-	return arith::abs(ret);
+    int_t idx = 0;
+    globalCuBlasHandler().iamax<T_Scalar>(n, x, 1, &idx);
+    T_Scalar ret = makeScalar<T_Scalar>(0);
+    memCopyD2H(1, x + idx - 1, &ret);
+    return arith::abs(ret);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type normEuc(int_t n, const T_Scalar *x)
 {
-	typename TypeTraits<T_Scalar>::real_type ret = 0;
-	globalCuBlasHandler().nrm2<T_Scalar>(n, x, 1, &ret);
-	return ret;
+    typename TypeTraits<T_Scalar>::real_type ret = 0;
+    globalCuBlasHandler().nrm2<T_Scalar>(n, x, 1, &ret);
+    return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void scale(int_t n, const T_Scalar& alpha, T_Scalar *x)
 {
-	globalCuBlasHandler().scal<T_Scalar>(n, &alpha, x, 1);
+    globalCuBlasHandler().scal<T_Scalar>(n, &alpha, x, 1);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>

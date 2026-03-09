@@ -47,7 +47,7 @@ void launch_fill_kernel(int_t n, T_Scalar* x, T_Scalar val)
     // TODO: consider using memSetZero() for zero values --- IGNORE ---
 
     Grid1D grid(n);
-	fill_1d_kernel<T_Scalar><<<grid.numBlocks(), grid.threadsPerBlock()>>>(n, x, val);
+    fill_1d_kernel<T_Scalar><<<grid.numBlocks(), grid.threadsPerBlock()>>>(n, x, val);
 
     syncDevice();
 }
