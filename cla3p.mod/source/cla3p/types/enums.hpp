@@ -35,12 +35,12 @@ namespace cla3p {
  *          Each property type imposes specific structural constraints and enables specialized algorithms.
  */
 enum class prop_t {
-	Undefined   = 0, /**< No algebraic property defined. */
-	General        , /**< General matrix with no special algebraic structure. */
-	Symmetric      , /**< Symmetric matrix: @f$ A = A^T @f$. */
-	Hermitian      , /**< Hermitian matrix: @f$ A = A^H @f$. */
-	Triangular     , /**< Triangular or trapezoidal matrix structure. */
-	Skew             /**< Skew-symmetric matrix: @f$ A = -A^T @f$. */
+    Undefined   = 0, /**< No algebraic property defined. */
+    General        , /**< General matrix with no special algebraic structure. */
+    Symmetric      , /**< Symmetric matrix: @f$ A = A^T @f$. */
+    Hermitian      , /**< Hermitian matrix: @f$ A = A^H @f$. */
+    Triangular     , /**< Triangular or trapezoidal matrix structure. */
+    Skew             /**< Skew-symmetric matrix: @f$ A = -A^T @f$. */
 };
 
 /**
@@ -52,9 +52,9 @@ enum class prop_t {
  *          and triangular matrices where only one triangular portion needs to be stored.
  */
 enum class uplo_t : char {
-	Full  = 'F', /**< Full matrix storage; both upper and lower triangular parts are stored and utilized. */
-	Upper = 'U', /**< Upper triangular storage; only the upper triangular part is stored and utilized. */
-	Lower = 'L'  /**< Lower triangular storage; only the lower triangular part is stored and utilized. */
+    Full  = 'F', /**< Full matrix storage; both upper and lower triangular parts are stored and utilized. */
+    Upper = 'U', /**< Upper triangular storage; only the upper triangular part is stored and utilized. */
+    Lower = 'L'  /**< Lower triangular storage; only the lower triangular part is stored and utilized. */
 };
 
 /**
@@ -71,9 +71,9 @@ enum class uplo_t : char {
  @endcode
  */
 enum class op_t : char {
-	N = 'N', /**< No operation: @f$ \text{op}(A) = A @f$. */
-	T = 'T', /**< Transpose operation: @f$ \text{op}(A) = A^T @f$. */
-	C = 'C'  /**< Conjugate transpose operation: @f$ \text{op}(A) = A^H @f$. */
+    N = 'N', /**< No operation: @f$ \text{op}(A) = A @f$. */
+    T = 'T', /**< Transpose operation: @f$ \text{op}(A) = A^T @f$. */
+    C = 'C'  /**< Conjugate transpose operation: @f$ \text{op}(A) = A^H @f$. */
 };
 
 /**
@@ -84,8 +84,8 @@ enum class op_t : char {
  *          in binary matrix operations such as triangular solves and matrix multiplication.
  */
 enum class side_t : char {
-	Left  = 'L', /**< Matrix is positioned on the left side of the operation. */
-	Right = 'R'  /**< Matrix is positioned on the right side of the operation. */
+    Left  = 'L', /**< Matrix is positioned on the left side of the operation. */
+    Right = 'R'  /**< Matrix is positioned on the right side of the operation. */
 };
 
 /**
@@ -96,8 +96,8 @@ enum class side_t : char {
  *          or arbitrary values. This affects storage requirements and computational algorithms.
  */
 enum class diag_t : char {
-	NonUnit = 'N', /**< Diagonal elements are arbitrary (non-unit) values. */
-	Unit    = 'U'  /**< Diagonal elements are implicitly one; not stored explicitly. */
+    NonUnit = 'N', /**< Diagonal elements are arbitrary (non-unit) values. */
+    Unit    = 'U'  /**< Diagonal elements are implicitly one; not stored explicitly. */
 };
 
 /**
@@ -109,10 +109,10 @@ enum class diag_t : char {
  *          according to the specified policy.
  */
 enum class dup_t {
-	Sum  = 0, /**< Duplicated entries are summed: @f$ a_{ij} = \sum \text{values}_{ij} @f$. */
-	Prod    , /**< Duplicated entries are multiplied: @f$ a_{ij} = \prod \text{values}_{ij} @f$. */
-	Amax    , /**< The entry with maximum absolute value is retained: @f$ a_{ij} = \max|\text{values}_{ij}| @f$. */
-	Amin      /**< The entry with minimum absolute value is retained: @f$ a_{ij} = \min|\text{values}_{ij}| @f$. */
+    Sum  = 0, /**< Duplicated entries are summed: @f$ a_{ij} = \sum \text{values}_{ij} @f$. */
+    Prod    , /**< Duplicated entries are multiplied: @f$ a_{ij} = \prod \text{values}_{ij} @f$. */
+    Amax    , /**< The entry with maximum absolute value is retained: @f$ a_{ij} = \max|\text{values}_{ij}| @f$. */
+    Amin      /**< The entry with minimum absolute value is retained: @f$ a_{ij} = \min|\text{values}_{ij}| @f$. */
 };
 
 /**
@@ -123,12 +123,12 @@ enum class dup_t {
  *          The choice of decomposition method depends on matrix properties and computational requirements.
  */
 enum class decomp_t {
-	Auto        = 0, /**< Automatic selection based on matrix properties. */
-	LLT         = 1, /**< Cholesky decomposition: @f$ A = L \cdot L^T @f$ (for symmetric positive definite matrices). */
-	LDLT        = 2, /**< @f$ LDL^T @f$ decomposition: @f$ A = L \cdot D \cdot L^T @f$ (for symmetric indefinite matrices). */
-	LU          = 3, /**< LU decomposition with partial pivoting: @f$ P \cdot A = L \cdot U @f$. */
-	CompleteLU  = 4, /**< Complete LU decomposition with full pivoting: @f$ P \cdot A \cdot Q = L \cdot U @f$. */
-	SymmetricLU = 5  /**< Symmetric LU decomposition with Bunch-Kaufman pivoting. */
+    Auto        = 0, /**< Automatic selection based on matrix properties. */
+    LLT         = 1, /**< Cholesky decomposition: @f$ A = L \cdot L^T @f$ (for symmetric positive definite matrices). */
+    LDLT        = 2, /**< @f$ LDL^T @f$ decomposition: @f$ A = L \cdot D \cdot L^T @f$ (for symmetric indefinite matrices). */
+    LU          = 3, /**< LU decomposition with partial pivoting: @f$ P \cdot A = L \cdot U @f$. */
+    CompleteLU  = 4, /**< Complete LU decomposition with full pivoting: @f$ P \cdot A \cdot Q = L \cdot U @f$. */
+    SymmetricLU = 5  /**< Symmetric LU decomposition with Bunch-Kaufman pivoting. */
 };
 
 /**
@@ -139,9 +139,9 @@ enum class decomp_t {
  *          Different policies trade off computational cost against the completeness of the decomposition.
  */
 enum class svdPolicy_t : char {
-	NoCalculation = 'N', /**< Singular vectors are not computed; only singular values are calculated. */
-	Limited       = 'S', /**< Compute the first @f$ \min(m,n) @f$ singular vectors (thin/economy SVD). */
-	Full          = 'A'  /**< Compute all @f$ m @f$ left and @f$ n @f$ right singular vectors (full SVD). */
+    NoCalculation = 'N', /**< Singular vectors are not computed; only singular values are calculated. */
+    Limited       = 'S', /**< Compute the first @f$ \min(m,n) @f$ singular vectors (thin/economy SVD). */
+    Full          = 'A'  /**< Compute all @f$ m @f$ left and @f$ n @f$ right singular vectors (full SVD). */
 };
 
 /**
@@ -152,8 +152,8 @@ enum class svdPolicy_t : char {
  *          The choice affects memory usage and subsequent computational operations.
  */
 enum class qrPolicy_t {
-	Reflection = 0, /**< Matrix @f$ Q @f$ is stored implicitly as a product of elementary Householder reflectors. */
-	Full            /**< Matrix @f$ Q @f$ is explicitly formed and stored in full matrix format. */
+    Reflection = 0, /**< Matrix @f$ Q @f$ is stored implicitly as a product of elementary Householder reflectors. */
+    Full            /**< Matrix @f$ Q @f$ is explicitly formed and stored in full matrix format. */
 };
 
 /**
@@ -167,8 +167,8 @@ enum class qrPolicy_t {
  *          - AutoTranspose: If @f$ m < n @f$, decomposes @f$ A^H \rightarrow QR @f$ instead.
  */
 enum class qrtrans_t {
-	NoTranspose   = 0, /**< The input matrix is decomposed without modification. */
-	AutoTranspose      /**< The input matrix is conjugate-transposed if @f$ m < n @f$ to form a tall matrix. */
+    NoTranspose   = 0, /**< The input matrix is decomposed without modification. */
+    AutoTranspose      /**< The input matrix is conjugate-transposed if @f$ m < n @f$ to form a tall matrix. */
 };
 
 /**
@@ -179,8 +179,8 @@ enum class qrtrans_t {
  *          Used as a parameter in the @ref cla3p::lra::RankModerator class to select the factorization strategy.
  */
 enum class lraMethod_t {
-	StandardSVD = 0, /**< Standard Singular Value Decomposition for rank determination (accurate but computationally expensive). */
-	FastQR           /**< Hybrid QR-SVD method optimized for large matrices (faster approximation with acceptable accuracy). */
+    StandardSVD = 0, /**< Standard Singular Value Decomposition for rank determination (accurate but computationally expensive). */
+    FastQR           /**< Hybrid QR-SVD method optimized for large matrices (faster approximation with acceptable accuracy). */
 };
 
 /*-------------------------------------------------*/

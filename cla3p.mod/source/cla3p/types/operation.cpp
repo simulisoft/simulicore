@@ -29,23 +29,23 @@
 namespace cla3p {
 /*-------------------------------------------------*/
 Operation::Operation()
-	: m_type(op_t::N)
+    : m_type(op_t::N)
 {
 }
 /*-------------------------------------------------*/
 Operation::Operation(const Operation& other)
-	: m_type(other.type())
+    : m_type(other.type())
 {
 }
 /*-------------------------------------------------*/
 Operation& Operation::operator=(const Operation& other)
 {
-	m_type = other.type();
-	return *this;
+    m_type = other.type();
+    return *this;
 }
 /*-------------------------------------------------*/
 Operation::Operation(op_t otype)
-	: m_type(otype)
+    : m_type(otype)
 {
 }
 /*-------------------------------------------------*/
@@ -55,33 +55,33 @@ Operation::~Operation()
 /*-------------------------------------------------*/
 op_t Operation::type() const
 {
-	return m_type;
+    return m_type;
 }
 /*-------------------------------------------------*/
 char Operation::ctype() const
 {
-	return static_cast<char>(type());
+    return static_cast<char>(type());
 }
 /*-------------------------------------------------*/
 std::string Operation::name() const
 {
-	std::ostringstream ss;
+    std::ostringstream ss;
 
-	ss << type();
+    ss << type();
 
-	return ss.str();
+    return ss.str();
 }
 /*-------------------------------------------------*/
 bool Operation::isTranspose() const
 {
-	return (type() != op_t::N);
+    return (type() != op_t::N);
 }
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 std::ostream& operator<<(std::ostream& os, const cla3p::Operation& op)
 {
-	os << op.name();
-	return os;
+    os << op.name();
+    return os;
 }
 /*-------------------------------------------------*/

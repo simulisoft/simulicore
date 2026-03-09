@@ -42,19 +42,19 @@ using nint_t = int;
 /*-------------------------------------------------*/
 
 template<> class TypeTraits<int_t> {
-	public:
-		using real_type = int_t;
-		static std::string type_name();
-		static std::string prec_name();
-		static int_t epsilon();
+    public:
+        using real_type = int_t;
+        static std::string type_name();
+        static std::string prec_name();
+        static int_t epsilon();
 };
 
 template<> class TypeTraits<uint_t> {
-	public:
-		using real_type = uint_t;
-		static std::string type_name();
-		static std::string prec_name();
-		static uint_t epsilon();
+    public:
+        using real_type = uint_t;
+        static std::string type_name();
+        static std::string prec_name();
+        static uint_t epsilon();
 };
 
 /*-------------------------------------------------*/

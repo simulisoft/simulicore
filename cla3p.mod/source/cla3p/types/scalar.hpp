@@ -58,59 +58,59 @@ using complex_t = std::complex<real_t>;
 /*-------------------------------------------------*/
 
 template<> class TypeTraits<real_t> {
-	public:
-		using real_type = real_t;
-		using complex_type = complex_t;
-		static std::string type_name();
-		static std::string prec_name();
-		constexpr static char netlibChar() { return 'd'; }
-		constexpr static bool is_real() { return true; }
-		constexpr static bool is_complex() { return false; }
-		constexpr static bool is_single_precision() { return false; }
-		constexpr static bool is_double_precision() { return true; }
-		static real_type epsilon();
+    public:
+        using real_type = real_t;
+        using complex_type = complex_t;
+        static std::string type_name();
+        static std::string prec_name();
+        constexpr static char netlibChar() { return 'd'; }
+        constexpr static bool is_real() { return true; }
+        constexpr static bool is_complex() { return false; }
+        constexpr static bool is_single_precision() { return false; }
+        constexpr static bool is_double_precision() { return true; }
+        static real_type epsilon();
 };
 
 template<> class TypeTraits<real4_t> {
-	public:
-		using real_type = real4_t;
-		using complex_type = complex8_t;
-		static std::string type_name();
-		static std::string prec_name();
-		constexpr static char netlibChar() { return 's'; }
-		constexpr static bool is_real() { return true; }
-		constexpr static bool is_complex() { return false; }
-		constexpr static bool is_single_precision() { return true; }
-		constexpr static bool is_double_precision() { return false; }
-		static real_type epsilon();
+    public:
+        using real_type = real4_t;
+        using complex_type = complex8_t;
+        static std::string type_name();
+        static std::string prec_name();
+        constexpr static char netlibChar() { return 's'; }
+        constexpr static bool is_real() { return true; }
+        constexpr static bool is_complex() { return false; }
+        constexpr static bool is_single_precision() { return true; }
+        constexpr static bool is_double_precision() { return false; }
+        static real_type epsilon();
 };
 
 template<> class TypeTraits<complex_t> {
-	public:
-		using real_type = complex_t::value_type;
-		using complex_type = complex_t;
-		static std::string type_name();
-		static std::string prec_name();
-		constexpr static char netlibChar() { return 'z'; }
-		constexpr static bool is_real() { return false; }
-		constexpr static bool is_complex() { return true; }
-		constexpr static bool is_single_precision() { return false; }
-		constexpr static bool is_double_precision() { return true; }
-		static real_type epsilon();
+    public:
+        using real_type = complex_t::value_type;
+        using complex_type = complex_t;
+        static std::string type_name();
+        static std::string prec_name();
+        constexpr static char netlibChar() { return 'z'; }
+        constexpr static bool is_real() { return false; }
+        constexpr static bool is_complex() { return true; }
+        constexpr static bool is_single_precision() { return false; }
+        constexpr static bool is_double_precision() { return true; }
+        static real_type epsilon();
 };
 
 template<> class TypeTraits<complex8_t> {
-	public:
-		using real_type = complex8_t::value_type;
-		using complex_type = complex8_t;
-		static std::string type_name();
-		static std::string prec_name();
-		constexpr static char netlibChar() { return 'c'; }
-		constexpr static bool is_real() { return false; }
-		constexpr static bool is_complex() { return true; }
-		constexpr static bool is_single_precision() { return true; }
-		constexpr static bool is_double_precision() { return false; }
-		static real_type epsilon();
+    public:
+        using real_type = complex8_t::value_type;
+        using complex_type = complex8_t;
+        static std::string type_name();
+        static std::string prec_name();
+        constexpr static char netlibChar() { return 'c'; }
+        constexpr static bool is_real() { return false; }
+        constexpr static bool is_complex() { return true; }
+        constexpr static bool is_single_precision() { return true; }
+        constexpr static bool is_double_precision() { return false; }
+        static real_type epsilon();
 };
 
 /*-------------------------------------------------*/

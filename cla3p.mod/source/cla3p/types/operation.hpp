@@ -37,70 +37,70 @@ namespace cla3p {
  */
 class Operation {
 
-	public:
+    public:
 
-		/**
-		 * @brief The default constructor.
-		 *
-		 * Constructs an empty operation.
-		 */
-		Operation();
+        /**
+         * @brief The default constructor.
+         *
+         * Constructs an empty operation.
+         */
+        Operation();
 
-		/**
-		 * @brief The member constructor.
-		 *
-		 * Constructs an operation with type @p otype.
-		 */
-		explicit Operation(op_t otype);
+        /**
+         * @brief The member constructor.
+         *
+         * Constructs an operation with type @p otype.
+         */
+        explicit Operation(op_t otype);
 
-		/**
-		 * @brief Destructs the operation.
-		 */
-		~Operation();
+        /**
+         * @brief Destructs the operation.
+         */
+        ~Operation();
 
-		/**
-		 * @brief The copy constructor.
-		 *
-		 * Constructs an operation with the copy of the contents of @p other.
-		 */
-		Operation(const Operation& other);
+        /**
+         * @brief The copy constructor.
+         *
+         * Constructs an operation with the copy of the contents of @p other.
+         */
+        Operation(const Operation& other);
 
-		/**
-		 * @brief The copy assignment operator.
-		 *
-		 * Replaces the contents of @c *this with a copy of the contents of @p other.
-		 */
-		Operation& operator=(const Operation& other);
+        /**
+         * @brief The copy assignment operator.
+         *
+         * Replaces the contents of @c *this with a copy of the contents of @p other.
+         */
+        Operation& operator=(const Operation& other);
 
-		/**
-		 * @brief The operation type.
-		 */
-		op_t type() const;
+        /**
+         * @brief The operation type.
+         */
+        op_t type() const;
 
-		/**
-		 * @brief The operation type as a char.
-		 */
-		char ctype() const;
+        /**
+         * @brief The operation type as a char.
+         */
+        char ctype() const;
 
-		/**
-		 * @brief The operation name.
-		 */
-		std::string name() const;
+        /**
+         * @brief The operation name.
+         */
+        std::string name() const;
 
-		/**
-		 * @brief Checks whether the operation is (conjugate) transpose
-		 */
-		bool isTranspose() const;
+        /**
+         * @brief Checks whether the operation is (conjugate) transpose
+         */
+        bool isTranspose() const;
 
-	private:
-		op_t m_type;
+    private:
+        op_t m_type;
 };
 
 /*-------------------------------------------------*/
 
 inline Operation noOp()
 {
-	return Operation(op_t::N);
+    return Operation(op_t::N);
 }
 
 /*-------------------------------------------------*/

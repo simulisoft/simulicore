@@ -29,190 +29,190 @@ namespace msg {
 /*-------------------------------------------------*/
 std::string Unknown()
 { 
-	return "Unknown"; 
+    return "Unknown"; 
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 std::string Integer()
 { 
-	return "Integer"; 
+    return "Integer"; 
 }
 /*-------------------------------------------------*/
 std::string UnsignedInteger()
 { 
-	return "Unsigned " + Integer(); 
+    return "Unsigned " + Integer(); 
 }
 /*-------------------------------------------------*/
 std::string Real()
 { 
-	return "Real"; 
+    return "Real"; 
 }
 /*-------------------------------------------------*/
 std::string Complex()
 { 
-	return "Complex"; 
+    return "Complex"; 
 }
 /*-------------------------------------------------*/
 std::string Single()
 { 
-	return "Single (32bit)"; 
+    return "Single (32bit)"; 
 }
 /*-------------------------------------------------*/
 std::string Double()
 { 
-	return "Double (64bit)"; 
+    return "Double (64bit)"; 
 }
 /*-------------------------------------------------*/
 std::string Dense()
 { 
-	return "Dense"; 
+    return "Dense"; 
 }
 /*-------------------------------------------------*/
 std::string SparseCsc()
 { 
-	return "Sparse (csc)"; 
+    return "Sparse (csc)"; 
 }
 /*-------------------------------------------------*/
 std::string SparseCoo()
 { 
-	return "Sparse (coo)"; 
+    return "Sparse (coo)"; 
 }
 /*-------------------------------------------------*/
 std::string Vector()
 { 
-	return "Vector"; 
+    return "Vector"; 
 }
 /*-------------------------------------------------*/
 std::string Matrix()
 { 
-	return "Matrix"; 
+    return "Matrix"; 
 }
 /*-------------------------------------------------*/
 std::string PermutationMatrix()
 { 
-	return "Permutation " + Matrix(); 
+    return "Permutation " + Matrix(); 
 }
 /*-------------------------------------------------*/
 std::string DenseVector()
 { 
-	return Dense() + " " + Vector(); 
+    return Dense() + " " + Vector(); 
 }
 /*-------------------------------------------------*/
 std::string DenseMatrix ()
 { 
-	return Dense() + " " + Matrix(); 
+    return Dense() + " " + Matrix(); 
 }
 /*-------------------------------------------------*/
 std::string SparseCscMatrix()
 {
-	return SparseCsc() + " " + Matrix(); 
+    return SparseCsc() + " " + Matrix(); 
 }
 /*-------------------------------------------------*/
 std::string SparseCooMatrix()
 {
-	return SparseCoo() + " " + Matrix(); 
+    return SparseCoo() + " " + Matrix(); 
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 std::string NoOperation()
 { 
-	return "No operation";
+    return "No operation";
 }
 /*-------------------------------------------------*/
 std::string TransposeOperation()
 { 
-	return "Transpose";
+    return "Transpose";
 }
 /*-------------------------------------------------*/
 std::string ConjugateTransposeOperation()
 { 
-	return "Conjugate Transpose";
+    return "Conjugate Transpose";
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 std::string General()
 { 
-	return "General"; 
+    return "General"; 
 }
 /*-------------------------------------------------*/
 std::string Symmetric()
 { 
-	return "Symmetric"; 
+    return "Symmetric"; 
 }
 /*-------------------------------------------------*/
 std::string Hermitian()
 { 
-	return "Hermitian"; 
+    return "Hermitian"; 
 }
 /*-------------------------------------------------*/
 std::string Triangular()
 { 
-	return "Triangular/Trapezoidal"; 
+    return "Triangular/Trapezoidal"; 
 }
 /*-------------------------------------------------*/
 std::string Skew()
 { 
-	return "Skew"; 
+    return "Skew"; 
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 std::string Full()
 { 
-	return "Full"; 
+    return "Full"; 
 }
 /*-------------------------------------------------*/
 std::string Upper()
 { 
-	return "Upper"; 
+    return "Upper"; 
 }
 /*-------------------------------------------------*/
 std::string Lower()
 { 
-	return "Lower"; 
+    return "Lower"; 
 }
 /*-------------------------------------------------*/
 std::string Left()
 {
-	return "Left";
+    return "Left";
 }
 /*-------------------------------------------------*/
 std::string Right()
 {
-	return "Right";
+    return "Right";
 }
 /*-------------------------------------------------*/
 std::string DecompAuto()
 {
-	return "Auto detection decomposition method";
+    return "Auto detection decomposition method";
 }
 /*-------------------------------------------------*/
 std::string DecompLLt()
 {
-	return "Definite Cholesky (LL')";
+    return "Definite Cholesky (LL')";
 }
 /*-------------------------------------------------*/
 std::string DecompLDLt()
 {
-	return "Indefinite Cholesky (LDL')";
+    return "Indefinite Cholesky (LDL')";
 }
 /*-------------------------------------------------*/
 std::string DecompPartialLU()
 {
-	return "Partial Pivoting LU";
+    return "Partial Pivoting LU";
 }
 /*-------------------------------------------------*/
 std::string DecompCompleteLU()
 {
-	return "Complete Pivoting LU";
+    return "Complete Pivoting LU";
 }
 /*-------------------------------------------------*/
 std::string DecompSymmetricLU()
 {
-	return "Structurally Symmetric LU";
+    return "Structurally Symmetric LU";
 }
 /*-------------------------------------------------*/
 } // namespace msg

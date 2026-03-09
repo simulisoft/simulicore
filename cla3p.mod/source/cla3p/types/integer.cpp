@@ -45,7 +45,7 @@ std::string TypeTraits<int_t>::prec_name()
 /*-------------------------------------------------*/
 int_t TypeTraits<int_t>::epsilon()
 {
-	return std::numeric_limits<int_t>::epsilon();
+    return std::numeric_limits<int_t>::epsilon();
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
@@ -66,7 +66,7 @@ std::string TypeTraits<uint_t>::prec_name()
 /*-------------------------------------------------*/
 uint_t TypeTraits<uint_t>::epsilon()
 {
-	return std::numeric_limits<uint_t>::epsilon();
+    return std::numeric_limits<uint_t>::epsilon();
 }
 /*-------------------------------------------------*/
 } // namespace cla3p
