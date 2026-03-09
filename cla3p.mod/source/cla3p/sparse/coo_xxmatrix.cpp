@@ -43,209 +43,209 @@ XxMatrix<T_Int,T_Scalar>::XxMatrix()
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 XxMatrix<T_Int,T_Scalar>::XxMatrix(T_Int nr, T_Int nc, const Property& pr)
-	: MatrixMeta<T_Int>(nr, nc, sanitizeProperty<T_Scalar>(pr))
+    : MatrixMeta<T_Int>(nr, nc, sanitizeProperty<T_Scalar>(pr))
 {
-	if(nr > 0 && nc > 0) {
-		checker();
-	} else {
-		clear();
-	} // nr/nc
+    if(nr > 0 && nc > 0) {
+        checker();
+    } else {
+        clear();
+    } // nr/nc
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 XxMatrix<T_Int,T_Scalar>::~XxMatrix()
 {
-	clear();
+    clear();
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 void XxMatrix<T_Int,T_Scalar>::clear()
 {
-	MatrixMeta<T_Int>::clear();
-	tupleVec().clear();
+    MatrixMeta<T_Int>::clear();
+    tupleVec().clear();
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 T_Int XxMatrix<T_Int,T_Scalar>::nnz() const
 {
-	return static_cast<T_Int>(tupleVec().size());
+    return static_cast<T_Int>(tupleVec().size());
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 typename XxMatrix<T_Int,T_Scalar>::TupleVec& XxMatrix<T_Int,T_Scalar>::tupleVec()
 {
-	return m_tuples;
+    return m_tuples;
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 const typename XxMatrix<T_Int,T_Scalar>::TupleVec& XxMatrix<T_Int,T_Scalar>::tupleVec() const
 {
-	return m_tuples;
+    return m_tuples;
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 void XxMatrix<T_Int,T_Scalar>::reserve(T_Int nz)
 {
-	tupleVec().reserve(nz);
+    tupleVec().reserve(nz);
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 void XxMatrix<T_Int,T_Scalar>::insert(const Tuple<T_Int,T_Scalar>& tuple)
 {
-	coo_check_triplet(this->nrows(), this->ncols(), this->prop(), tuple.row(), tuple.col(), tuple.val());
+    coo_check_triplet(this->nrows(), this->ncols(), this->prop(), tuple.row(), tuple.col(), tuple.val());
 
-	tupleVec().push_back(tuple);
+    tupleVec().push_back(tuple);
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 void XxMatrix<T_Int,T_Scalar>::insert(T_Int i, T_Int j, T_Scalar v)
 {
-	Tuple<T_Int,T_Scalar> tuple(i, j, v);
-	insert(tuple);
+    Tuple<T_Int,T_Scalar> tuple(i, j, v);
+    insert(tuple);
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 std::string XxMatrix<T_Int,T_Scalar>::info(const std::string& header) const
 { 
-	std::string top;
-	std::string bottom;
-	fill_info_margins(header, top, bottom);
+    std::string top;
+    std::string bottom;
+    fill_info_margins(header, top, bottom);
 
-	std::ostringstream ss;
+    std::ostringstream ss;
 
-	ss << top << "\n";
+    ss << top << "\n";
 
-	ss << "  Datatype............. " << TypeTraits<T_Scalar>::type_name() << "\n";
-	ss << "  Precision............ " << TypeTraits<T_Scalar>::prec_name() << "\n";
+    ss << "  Datatype............. " << TypeTraits<T_Scalar>::type_name() << "\n";
+    ss << "  Precision............ " << TypeTraits<T_Scalar>::prec_name() << "\n";
     ss << "  Index Precision...... " << TypeTraits<T_Int>::prec_name() << "\n";
-	ss << "  Number of rows....... " << this->nrows() << "\n";
-	ss << "  Number of columns.... " << this->ncols() << "\n";
-	ss << "  Number of non zeros.. " << nnz() << "\n";
-	ss << "  Property............. " << this->prop() << "\n";
+    ss << "  Number of rows....... " << this->nrows() << "\n";
+    ss << "  Number of columns.... " << this->ncols() << "\n";
+    ss << "  Number of non zeros.. " << nnz() << "\n";
+    ss << "  Property............. " << this->prop() << "\n";
 
-	ss << bottom << "\n";
+    ss << bottom << "\n";
 
-	return ss.str();
+    return ss.str();
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 void XxMatrix<T_Int,T_Scalar>::toStream(std::ostream& os, std::streamsize prec) const
 {
-	if(this->empty() || !nnz()) return;
+    if(this->empty() || !nnz()) return;
 
-	ListPrinter listPrinter(os, this->nrows(), this->ncols(), nnz(), prec);
+    ListPrinter listPrinter(os, this->nrows(), this->ncols(), nnz(), prec);
 
-	listPrinter.streamHeader();
+    listPrinter.streamHeader();
 
-	for(T_Int cnt = 0; cnt < nnz(); cnt++) {
-			T_Int    i = tupleVec()[cnt].row();
-			T_Int    j = tupleVec()[cnt].col();
-			T_Scalar v = tupleVec()[cnt].val();
-			listPrinter.streamTuple(cnt, i, j, v);
-	} // cnt
+    for(T_Int cnt = 0; cnt < nnz(); cnt++) {
+            T_Int    i = tupleVec()[cnt].row();
+            T_Int    j = tupleVec()[cnt].col();
+            T_Scalar v = tupleVec()[cnt].val();
+            listPrinter.streamTuple(cnt, i, j, v);
+    } // cnt
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 csc::XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::toCsc(dup_t duplicatePolicy) const
 {
-	if(!this->nrows() || !this->ncols())
-		return csc::XxMatrix<T_Int,T_Scalar>();
+    if(!this->nrows() || !this->ncols())
+        return csc::XxMatrix<T_Int,T_Scalar>();
 
-	T_Int *colptr = i_calloc_t<T_Int>(this->ncols() + 1);
+    T_Int *colptr = i_calloc_t<T_Int>(this->ncols() + 1);
 
-	std::for_each(tupleVec().begin(), tupleVec().end(), 
-			[&](const Tuple<T_Int,T_Scalar> &tuple) 
-			{ 
-			colptr[tuple.col() + 1]++;
-			});
+    std::for_each(tupleVec().begin(), tupleVec().end(), 
+            [&](const Tuple<T_Int,T_Scalar> &tuple) 
+            { 
+            colptr[tuple.col() + 1]++;
+            });
 
-	blk::csx::roll(this->ncols(), colptr);
+    blk::csx::roll(this->ncols(), colptr);
 
-	T_Int nnz = colptr[this->ncols()];
+    T_Int nnz = colptr[this->ncols()];
 
-	T_Int    *rowidx = nullptr;
-	T_Scalar *values = nullptr;
+    T_Int    *rowidx = nullptr;
+    T_Scalar *values = nullptr;
 
-	if(nnz) {
+    if(nnz) {
 
-		rowidx = i_malloc_t<T_Int>(nnz);
-		values = i_malloc_t<T_Scalar>(nnz);
+        rowidx = i_malloc_t<T_Int>(nnz);
+        values = i_malloc_t<T_Scalar>(nnz);
 
-		std::for_each(tupleVec().begin(), tupleVec().end(), 
-				[&](const Tuple<T_Int,T_Scalar> &tuple) 
-				{ 
-				rowidx[colptr[tuple.col()]] = tuple.row();
-				values[colptr[tuple.col()]] = tuple.val();
-				colptr[tuple.col()]++;
-				});
+        std::for_each(tupleVec().begin(), tupleVec().end(), 
+                [&](const Tuple<T_Int,T_Scalar> &tuple) 
+                { 
+                rowidx[colptr[tuple.col()]] = tuple.row();
+                values[colptr[tuple.col()]] = tuple.val();
+                colptr[tuple.col()]++;
+                });
 
-		blk::csx::unroll(this->ncols(), colptr);
-		blk::csx::sort(this->ncols(), colptr, rowidx, values);
-		blk::csx::remove_duplicates(this->ncols(), colptr, rowidx, values, duplicatePolicy);
+        blk::csx::unroll(this->ncols(), colptr);
+        blk::csx::sort(this->ncols(), colptr, rowidx, values);
+        blk::csx::remove_duplicates(this->ncols(), colptr, rowidx, values, duplicatePolicy);
 
-		rowidx = i_realloc_t<T_Int>(rowidx, colptr[this->ncols()]);
-		values = i_realloc_t<T_Scalar>(values, colptr[this->ncols()]);
+        rowidx = i_realloc_t<T_Int>(rowidx, colptr[this->ncols()]);
+        values = i_realloc_t<T_Scalar>(values, colptr[this->ncols()]);
 
-	} // nnz
+    } // nnz
 
-	csc::XxMatrix<T_Int,T_Scalar> ret(this->nrows(), this->ncols(), colptr, rowidx, values, true, this->prop());
+    csc::XxMatrix<T_Int,T_Scalar> ret(this->nrows(), this->ncols(), colptr, rowidx, values, true, this->prop());
 
-	return ret;
+    return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 csr::XxMatrix<T_Int,T_Scalar> XxMatrix<T_Int,T_Scalar>::toCsr(dup_t duplicatePolicy) const
 {
-	if(!this->nrows() || !this->ncols())
-		return csr::XxMatrix<T_Int,T_Scalar>();
+    if(!this->nrows() || !this->ncols())
+        return csr::XxMatrix<T_Int,T_Scalar>();
 
-	T_Int *rowptr = i_calloc_t<T_Int>(this->nrows() + 1);
+    T_Int *rowptr = i_calloc_t<T_Int>(this->nrows() + 1);
 
     // TODO: group csr/csc functionality into a utility function
 
-	std::for_each(tupleVec().begin(), tupleVec().end(), 
-			[&](const Tuple<T_Int,T_Scalar> &tuple) 
-			{ 
-			rowptr[tuple.row() + 1]++;
-			});
+    std::for_each(tupleVec().begin(), tupleVec().end(), 
+            [&](const Tuple<T_Int,T_Scalar> &tuple) 
+            { 
+            rowptr[tuple.row() + 1]++;
+            });
 
-	blk::csx::roll(this->nrows(), rowptr);
+    blk::csx::roll(this->nrows(), rowptr);
 
-	T_Int nnz = rowptr[this->nrows()];
+    T_Int nnz = rowptr[this->nrows()];
 
-	T_Int    *colidx = nullptr;
-	T_Scalar *values = nullptr;
+    T_Int    *colidx = nullptr;
+    T_Scalar *values = nullptr;
 
-	if(nnz) {
+    if(nnz) {
 
-		colidx = i_malloc_t<T_Int>(nnz);
-		values = i_malloc_t<T_Scalar>(nnz);
+        colidx = i_malloc_t<T_Int>(nnz);
+        values = i_malloc_t<T_Scalar>(nnz);
 
-		std::for_each(tupleVec().begin(), tupleVec().end(), 
-				[&](const Tuple<T_Int,T_Scalar> &tuple) 
-				{ 
-				colidx[rowptr[tuple.row()]] = tuple.col();
-				values[rowptr[tuple.row()]] = tuple.val();
-				rowptr[tuple.row()]++;
-				});
+        std::for_each(tupleVec().begin(), tupleVec().end(), 
+                [&](const Tuple<T_Int,T_Scalar> &tuple) 
+                { 
+                colidx[rowptr[tuple.row()]] = tuple.col();
+                values[rowptr[tuple.row()]] = tuple.val();
+                rowptr[tuple.row()]++;
+                });
 
-		blk::csx::unroll(this->nrows(), rowptr);
-		blk::csx::sort(this->nrows(), rowptr, colidx, values);
-		blk::csx::remove_duplicates(this->nrows(), rowptr, colidx, values, duplicatePolicy);
+        blk::csx::unroll(this->nrows(), rowptr);
+        blk::csx::sort(this->nrows(), rowptr, colidx, values);
+        blk::csx::remove_duplicates(this->nrows(), rowptr, colidx, values, duplicatePolicy);
 
-		colidx = i_realloc_t<T_Int>(colidx, rowptr[this->nrows()]);
-		values = i_realloc_t<T_Scalar>(values, rowptr[this->nrows()]);
+        colidx = i_realloc_t<T_Int>(colidx, rowptr[this->nrows()]);
+        values = i_realloc_t<T_Scalar>(values, rowptr[this->nrows()]);
 
-	} // nnz
+    } // nnz
 
-	csr::XxMatrix<T_Int,T_Scalar> ret(this->nrows(), this->ncols(), rowptr, colidx, values, true, this->prop());
-	return ret;
+    csr::XxMatrix<T_Int,T_Scalar> ret(this->nrows(), this->ncols(), rowptr, colidx, values, true, this->prop());
+    return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 void XxMatrix<T_Int,T_Scalar>::checker() const
 {
-	coo_consistency_check(this->prop(), this->nrows(), this->ncols());
+    coo_consistency_check(this->prop(), this->nrows(), this->ncols());
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

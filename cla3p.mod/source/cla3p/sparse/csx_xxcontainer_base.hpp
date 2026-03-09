@@ -33,78 +33,78 @@ namespace csx {
 template <typename T_Int, typename T_Scalar>
 class XxContainerBase {
 
-	public:
-		using index_type = T_Int;
-		using value_type = T_Scalar;
+    public:
+        using index_type = T_Int;
+        using value_type = T_Scalar;
 
-	public:
-		XxContainerBase() { defaults(); }
+    public:
+        XxContainerBase() { defaults(); }
 
-		explicit XxContainerBase(T_Int *xptr, T_Int *xidx, T_Scalar *vals)
-		{
-			setXxxptr(xptr);
-			setXxxidx(xidx);
-			setValues(vals);
-		}
+        explicit XxContainerBase(T_Int *xptr, T_Int *xidx, T_Scalar *vals)
+        {
+            setXxxptr(xptr);
+            setXxxidx(xidx);
+            setValues(vals);
+        }
 
-		XxContainerBase(XxContainerBase<T_Int,T_Scalar>&) = delete;
-		XxContainerBase<T_Int,T_Scalar>& operator=(XxContainerBase<T_Int,T_Scalar>&) = delete;
+        XxContainerBase(XxContainerBase<T_Int,T_Scalar>&) = delete;
+        XxContainerBase<T_Int,T_Scalar>& operator=(XxContainerBase<T_Int,T_Scalar>&) = delete;
 
-		XxContainerBase(XxContainerBase<T_Int,T_Scalar>&& other) { moveFrom(other); }
-		XxContainerBase<T_Int,T_Scalar>& operator=(XxContainerBase<T_Int,T_Scalar>&& other) { return moveFrom(other); }
+        XxContainerBase(XxContainerBase<T_Int,T_Scalar>&& other) { moveFrom(other); }
+        XxContainerBase<T_Int,T_Scalar>& operator=(XxContainerBase<T_Int,T_Scalar>&& other) { return moveFrom(other); }
 
-		~XxContainerBase() { clear(); }
+        ~XxContainerBase() { clear(); }
 
         /**
-		 * @brief Access the data buffer.
-		 * @details Returns a pointer to the underlying data array.
-		 * @return Pointer to the data buffer.
-		 */
+         * @brief Access the data buffer.
+         * @details Returns a pointer to the underlying data array.
+         * @return Pointer to the data buffer.
+         */
         T_Scalar* values() { return m_values; }
 
         /**
-		 * @brief Access the data buffer.
-		 * @details Returns a pointer to the underlying data array.
-		 * @return Pointer to the data buffer.
-		 */
+         * @brief Access the data buffer.
+         * @details Returns a pointer to the underlying data array.
+         * @return Pointer to the data buffer.
+         */
         const T_Scalar* values() const { return m_values; }
 
-   	protected:
-		T_Int* xxxptr() { return m_xxxptr; }
-		T_Int* xxxidx() { return m_xxxidx; }
+       protected:
+        T_Int* xxxptr() { return m_xxxptr; }
+        T_Int* xxxidx() { return m_xxxidx; }
 
-   		const T_Int* xxxptr() const { return m_xxxptr; }
-		const T_Int* xxxidx() const { return m_xxxidx; }
+           const T_Int* xxxptr() const { return m_xxxptr; }
+        const T_Int* xxxidx() const { return m_xxxidx; }
 
-		void clear() { defaults(); }
+        void clear() { defaults(); }
 
-	private:
-		T_Int*    m_xxxptr;
-		T_Int*    m_xxxidx;
-		T_Scalar* m_values;
+    private:
+        T_Int*    m_xxxptr;
+        T_Int*    m_xxxidx;
+        T_Scalar* m_values;
 
-		void setXxxptr(T_Int*    xptr) { m_xxxptr = xptr; }
-		void setXxxidx(T_Int*    xidx) { m_xxxidx = xidx; }
-		void setValues(T_Scalar* vals) { m_values = vals; }
+        void setXxxptr(T_Int*    xptr) { m_xxxptr = xptr; }
+        void setXxxidx(T_Int*    xidx) { m_xxxidx = xidx; }
+        void setValues(T_Scalar* vals) { m_values = vals; }
 
-		void defaults()
-		{
-			setXxxptr(nullptr);
-			setXxxidx(nullptr);
-			setValues(nullptr);
-		}
+        void defaults()
+        {
+            setXxxptr(nullptr);
+            setXxxidx(nullptr);
+            setValues(nullptr);
+        }
 
-		XxContainerBase<T_Int,T_Scalar>& moveFrom(XxContainerBase<T_Int,T_Scalar>& other)
-		{
-			if(this != &other) {
-				clear();
-				setXxxptr(other.xxxptr());
-				setXxxidx(other.xxxidx());
-				setValues(other.values());
-				other.clear();
-			} // do not apply on self
+        XxContainerBase<T_Int,T_Scalar>& moveFrom(XxContainerBase<T_Int,T_Scalar>& other)
+        {
+            if(this != &other) {
+                clear();
+                setXxxptr(other.xxxptr());
+                setXxxidx(other.xxxidx());
+                setValues(other.values());
+                other.clear();
+            } // do not apply on self
             return *this;
-		}
+        }
 };
 
 /*-------------------------------------------------*/

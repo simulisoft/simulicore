@@ -29,28 +29,28 @@ namespace csc {
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 CxMatrix<T_Int,T_Scalar>::CxMatrix(const XxMatrix<T_Int,T_Scalar>& other)
-	: XxMatrix<T_Int,T_Scalar>(other)
+    : XxMatrix<T_Int,T_Scalar>(other)
 {
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 CxMatrix<T_Int,T_Scalar>& CxMatrix<T_Int,T_Scalar>::operator=(const XxMatrix<T_Int,T_Scalar>& other)
 {
-	XxMatrix<T_Int,T_Scalar>::operator=(other);
-	return *this;
+    XxMatrix<T_Int,T_Scalar>::operator=(other);
+    return *this;
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 CxMatrix<T_Int,T_Scalar>::CxMatrix(XxMatrix<T_Int,T_Scalar>&& other)
-	: XxMatrix<T_Int,T_Scalar>(std::move(other))
+    : XxMatrix<T_Int,T_Scalar>(std::move(other))
 {
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 CxMatrix<T_Int,T_Scalar>& CxMatrix<T_Int,T_Scalar>::operator=(XxMatrix<T_Int,T_Scalar>&& other)
 {
-	XxMatrix<T_Int,T_Scalar>::operator=(std::move(other));
-	return *this;
+    XxMatrix<T_Int,T_Scalar>::operator=(std::move(other));
+    return *this;
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
@@ -60,7 +60,7 @@ CxMatrix<T_Int,T_Scalar>::CxMatrix()
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 CxMatrix<T_Int,T_Scalar>::CxMatrix(T_Int nr, T_Int nc, T_Int nz, const Property& pr)
-	: CxMatrix<T_Int,T_Scalar>::XxMatrix(nr, nc, nz, pr)
+    : CxMatrix<T_Int,T_Scalar>::XxMatrix(nr, nc, nz, pr)
 {
 }
 /*-------------------------------------------------*/
@@ -68,7 +68,7 @@ template <typename T_Int, typename T_Scalar>
 CxMatrix<T_Int,T_Scalar>::CxMatrix(T_Int nr, T_Int nc, 
                                    T_Int *cptr, T_Int *ridx, T_Scalar *vals, 
                                    bool bind, const Property& pr)
-	: CxMatrix<T_Int,T_Scalar>::XxMatrix(nr, nc, cptr, ridx, vals, bind, pr)
+    : CxMatrix<T_Int,T_Scalar>::XxMatrix(nr, nc, cptr, ridx, vals, bind, pr)
 {
 }
 /*-------------------------------------------------*/

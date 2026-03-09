@@ -39,136 +39,136 @@ namespace csr {
 template <typename T_Int, typename T_Scalar>
 class CxMatrix : public XxMatrix<T_Int,T_Scalar> {
 
-	private:
-		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+    private:
+        using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
-	public:
+    public:
 
-		//
-		// Convertors
-		// Move convertors intentionally left as non-explicit
-		//
-		explicit CxMatrix(const XxMatrix<T_Int,T_Scalar>& other);
+        //
+        // Convertors
+        // Move convertors intentionally left as non-explicit
+        //
+        explicit CxMatrix(const XxMatrix<T_Int,T_Scalar>& other);
         CxMatrix<T_Int,T_Scalar>& operator=(const XxMatrix<T_Int,T_Scalar>& other);
 
-		CxMatrix(XxMatrix<T_Int,T_Scalar>&& other);
-		CxMatrix<T_Int,T_Scalar>& operator=(XxMatrix<T_Int,T_Scalar>&& other);
+        CxMatrix(XxMatrix<T_Int,T_Scalar>&& other);
+        CxMatrix<T_Int,T_Scalar>& operator=(XxMatrix<T_Int,T_Scalar>&& other);
 
-		template <typename T_Virtual>
-		CxMatrix(const alias::VirtualExpr_csr<T_Int,T_Scalar,T_Virtual>& v) : XxMatrix<T_Int,T_Scalar>(v) {}
         template <typename T_Virtual>
-		CxMatrix<T_Int,T_Scalar>& operator=(const alias::VirtualExpr_csr<T_Int,T_Scalar,T_Virtual>& v) { XxMatrix<T_Int,T_Scalar>::operator=(v); return *this; }
+        CxMatrix(const alias::VirtualExpr_csr<T_Int,T_Scalar,T_Virtual>& v) : XxMatrix<T_Int,T_Scalar>(v) {}
+        template <typename T_Virtual>
+        CxMatrix<T_Int,T_Scalar>& operator=(const alias::VirtualExpr_csr<T_Int,T_Scalar,T_Virtual>& v) { XxMatrix<T_Int,T_Scalar>::operator=(v); return *this; }
 
-		/**
-		 * @name Constructors
-		 * @{
-		 */
+        /**
+         * @name Constructors
+         * @{
+         */
 
-		/**
-		 * @brief Default constructor.
-		 * @details Creates an empty complex sparse matrix with no allocated memory.
-		 */
-		CxMatrix();
+        /**
+         * @brief Default constructor.
+         * @details Creates an empty complex sparse matrix with no allocated memory.
+         */
+        CxMatrix();
 
-		/**
-		 * @brief Dimension constructor.
-		 * @details Creates a complex sparse matrix of the specified dimensions in CSR format and allocates memory.
-		 * @param[in] nr The number of rows.
-		 * @param[in] nc The number of columns.
-		 * @param[in] nz The number of non-zero elements.
-		 * @param[in] pr The matrix property (default: General).
-		 */
-		explicit CxMatrix(T_Int nr, T_Int nc, T_Int nz, const Property& pr = Property::General());
+        /**
+         * @brief Dimension constructor.
+         * @details Creates a complex sparse matrix of the specified dimensions in CSR format and allocates memory.
+         * @param[in] nr The number of rows.
+         * @param[in] nc The number of columns.
+         * @param[in] nz The number of non-zero elements.
+         * @param[in] pr The matrix property (default: General).
+         */
+        explicit CxMatrix(T_Int nr, T_Int nc, T_Int nz, const Property& pr = Property::General());
 
-		/**
-		 * @brief Auxiliary constructor.
-		 * @details Creates a complex sparse matrix using existing CSR format arrays.
-		 * @param[in] nr The number of rows.
-		 * @param[in] nc The number of columns.
-		 * @param[in] rptr Pointer to existing row pointer array.
-		 * @param[in] cidx Pointer to existing column index array.
-		 * @param[in] vals Pointer to existing values array.
-		 * @param[in] bind If true, the matrix takes ownership of the memory.
-		 * @param[in] pr The matrix property (default: General).
-		 */
-		explicit CxMatrix(T_Int nr, T_Int nc, T_Int *rptr, T_Int *cidx, T_Scalar *vals, bool bind, const Property& pr = Property::General());
+        /**
+         * @brief Auxiliary constructor.
+         * @details Creates a complex sparse matrix using existing CSR format arrays.
+         * @param[in] nr The number of rows.
+         * @param[in] nc The number of columns.
+         * @param[in] rptr Pointer to existing row pointer array.
+         * @param[in] cidx Pointer to existing column index array.
+         * @param[in] vals Pointer to existing values array.
+         * @param[in] bind If true, the matrix takes ownership of the memory.
+         * @param[in] pr The matrix property (default: General).
+         */
+        explicit CxMatrix(T_Int nr, T_Int nc, T_Int *rptr, T_Int *cidx, T_Scalar *vals, bool bind, const Property& pr = Property::General());
 
-		/**
-		 * @brief Copy constructor.
-		 * @details Creates a new complex sparse matrix by copying another complex sparse matrix.
-		 * @param[in] other The complex sparse matrix to copy.
-		 */
-		CxMatrix(const CxMatrix<T_Int,T_Scalar>& other) = default;
+        /**
+         * @brief Copy constructor.
+         * @details Creates a new complex sparse matrix by copying another complex sparse matrix.
+         * @param[in] other The complex sparse matrix to copy.
+         */
+        CxMatrix(const CxMatrix<T_Int,T_Scalar>& other) = default;
 
-		/**
-		 * @brief Move constructor.
-		 * @details Creates a new complex sparse matrix by moving resources from another complex sparse matrix.
-		 * @param[in] other The complex sparse matrix to move from.
-		 */
-		CxMatrix(CxMatrix<T_Int,T_Scalar>&& other) = default;
+        /**
+         * @brief Move constructor.
+         * @details Creates a new complex sparse matrix by moving resources from another complex sparse matrix.
+         * @param[in] other The complex sparse matrix to move from.
+         */
+        CxMatrix(CxMatrix<T_Int,T_Scalar>&& other) = default;
 
-		/**
-		 * @brief Destructor.
-		 * @details Destroys the complex sparse matrix and releases allocated memory.
-		 */
-		~CxMatrix();
+        /**
+         * @brief Destructor.
+         * @details Destroys the complex sparse matrix and releases allocated memory.
+         */
+        ~CxMatrix();
 
-		/** @} */
+        /** @} */
 
-		/**
-		 * @name Operators
-		 * @{
-		 */
+        /**
+         * @name Operators
+         * @{
+         */
 
-		/**
-		 * @brief Copy assignment operator.
-		 * @details Copies the contents of another complex sparse matrix to this complex sparse matrix.
-		 * @param[in] other The complex sparse matrix to copy.
-		 * @return Reference to this complex sparse matrix.
-		 */
-		CxMatrix<T_Int,T_Scalar>& operator=(const CxMatrix<T_Int,T_Scalar>& other) = default;
+        /**
+         * @brief Copy assignment operator.
+         * @details Copies the contents of another complex sparse matrix to this complex sparse matrix.
+         * @param[in] other The complex sparse matrix to copy.
+         * @return Reference to this complex sparse matrix.
+         */
+        CxMatrix<T_Int,T_Scalar>& operator=(const CxMatrix<T_Int,T_Scalar>& other) = default;
 
-		/**
-		 * @brief Move assignment operator.
-		 * @details Moves resources from another complex sparse matrix to this complex sparse matrix.
-		 * @param[in] other The complex sparse matrix to move from.
-		 * @return Reference to this complex sparse matrix.
-		 */
-		CxMatrix<T_Int,T_Scalar>& operator=(CxMatrix<T_Int,T_Scalar>&& other) = default;
+        /**
+         * @brief Move assignment operator.
+         * @details Moves resources from another complex sparse matrix to this complex sparse matrix.
+         * @param[in] other The complex sparse matrix to move from.
+         * @return Reference to this complex sparse matrix.
+         */
+        CxMatrix<T_Int,T_Scalar>& operator=(CxMatrix<T_Int,T_Scalar>&& other) = default;
 
-		/** @} */
+        /** @} */
 
-		/** 
-		 * @name Public Member Functions
-		 * @{
-		 */
+        /** 
+         * @name Public Member Functions
+         * @{
+         */
 
-		/**
-		 * @brief Accesses the real part of the complex sparse matrix.
-		 * @details Returns a strided view of the real components that can be used for both reading and writing.
-		 * @return A virtual strided view of the real part.
-		 */
+        /**
+         * @brief Accesses the real part of the complex sparse matrix.
+         * @details Returns a strided view of the real components that can be used for both reading and writing.
+         * @return A virtual strided view of the real part.
+         */
         alias::VirtualStrided_csr<T_Int,T_RScalar> real();
 
-		/**
-		 * @brief Accesses the imaginary part of the complex sparse matrix.
-		 * @details Returns a strided view of the imaginary components that can be used for both reading and writing.
-		 * @return A virtual strided view of the imaginary part.
-		 */
+        /**
+         * @brief Accesses the imaginary part of the complex sparse matrix.
+         * @details Returns a strided view of the imaginary components that can be used for both reading and writing.
+         * @return A virtual strided view of the imaginary part.
+         */
         alias::VirtualStrided_csr<T_Int,T_RScalar> imag();
 
-		/**
-		 * @brief Accesses the real part of the complex sparse matrix (const).
-		 * @details Returns a read-only strided view of the real components.
-		 * @return A guarded strided view of the real part.
-		 */
+        /**
+         * @brief Accesses the real part of the complex sparse matrix (const).
+         * @details Returns a read-only strided view of the real components.
+         * @return A guarded strided view of the real part.
+         */
         alias::GuardedStrided_csr<T_Int,T_RScalar> real() const;
 
-		/**
-		 * @brief Accesses the imaginary part of the complex sparse matrix (const).
-		 * @details Returns a read-only strided view of the imaginary components.
-		 * @return A guarded strided view of the imaginary part.
-		 */
+        /**
+         * @brief Accesses the imaginary part of the complex sparse matrix (const).
+         * @details Returns a read-only strided view of the imaginary components.
+         * @return A guarded strided view of the imaginary part.
+         */
         alias::GuardedStrided_csr<T_Int,T_RScalar> imag() const;
 
         /** @} */

@@ -43,169 +43,169 @@ namespace coo {
 template <typename T_Int, typename T_Scalar>
 class XxMatrix : public MatrixMeta<T_Int> {
 
-	private:
-		using TupleVec = std::vector<Tuple<T_Int,T_Scalar>>;
+    private:
+        using TupleVec = std::vector<Tuple<T_Int,T_Scalar>>;
 
-	public:
-		using index_type = T_Int;
-		using value_type = T_Scalar;
+    public:
+        using index_type = T_Int;
+        using value_type = T_Scalar;
 
-	public:
+    public:
 
-		/**
-		 * @name Constructors
-		 * @{
-		 */
+        /**
+         * @name Constructors
+         * @{
+         */
 
-		/**
-		 * @brief Default constructor.
-		 * @details Creates an empty sparse matrix with no allocated memory.
-		 */
-		XxMatrix();
+        /**
+         * @brief Default constructor.
+         * @details Creates an empty sparse matrix with no allocated memory.
+         */
+        XxMatrix();
 
-		/**
-		 * @brief Dimension constructor.
-		 * @details Creates a sparse matrix of the specified dimensions in coordinate format.
-		 * @param[in] nr The number of rows.
-		 * @param[in] nc The number of columns.
-		 * @param[in] pr The matrix property (default: General).
-		 */
-		explicit XxMatrix(T_Int nr, T_Int nc, const Property& pr = Property::General());
+        /**
+         * @brief Dimension constructor.
+         * @details Creates a sparse matrix of the specified dimensions in coordinate format.
+         * @param[in] nr The number of rows.
+         * @param[in] nc The number of columns.
+         * @param[in] pr The matrix property (default: General).
+         */
+        explicit XxMatrix(T_Int nr, T_Int nc, const Property& pr = Property::General());
 
-		/**
-		 * @brief Copy constructor.
-		 * @details Creates a new sparse matrix by copying another sparse matrix.
-		 * @param[in] other The sparse matrix to copy.
-		 */
-		XxMatrix(const XxMatrix<T_Int,T_Scalar>& other) = default;
+        /**
+         * @brief Copy constructor.
+         * @details Creates a new sparse matrix by copying another sparse matrix.
+         * @param[in] other The sparse matrix to copy.
+         */
+        XxMatrix(const XxMatrix<T_Int,T_Scalar>& other) = default;
 
-		/**
-		 * @brief Move constructor.
-		 * @details Creates a new sparse matrix by moving resources from another sparse matrix.
-		 * @param[in] other The sparse matrix to move from.
-		 */
-		XxMatrix(XxMatrix<T_Int,T_Scalar>&& other) = default;
+        /**
+         * @brief Move constructor.
+         * @details Creates a new sparse matrix by moving resources from another sparse matrix.
+         * @param[in] other The sparse matrix to move from.
+         */
+        XxMatrix(XxMatrix<T_Int,T_Scalar>&& other) = default;
 
-		/**
-		 * @brief Destructor.
-		 * @details Destroys the sparse matrix and releases allocated memory.
-		 */
-		~XxMatrix();
+        /**
+         * @brief Destructor.
+         * @details Destroys the sparse matrix and releases allocated memory.
+         */
+        ~XxMatrix();
 
-		/** @} */
+        /** @} */
 
-		/** 
-		 * @name Operators
-		 * @{
-		 */
+        /** 
+         * @name Operators
+         * @{
+         */
 
-		/**
-		 * @brief Copy assignment operator.
-		 * @details Copies the contents of another sparse matrix to this sparse matrix.
-		 * @param[in] other The sparse matrix to copy.
-		 * @return Reference to this sparse matrix.
-		 */
-		XxMatrix<T_Int,T_Scalar>& operator=(const XxMatrix<T_Int,T_Scalar>& other) = default;
+        /**
+         * @brief Copy assignment operator.
+         * @details Copies the contents of another sparse matrix to this sparse matrix.
+         * @param[in] other The sparse matrix to copy.
+         * @return Reference to this sparse matrix.
+         */
+        XxMatrix<T_Int,T_Scalar>& operator=(const XxMatrix<T_Int,T_Scalar>& other) = default;
 
-		/**
-		 * @brief Move assignment operator.
-		 * @details Moves resources from another sparse matrix to this sparse matrix.
-		 * @param[in] other The sparse matrix to move from.
-		 * @return Reference to this sparse matrix.
-		 */
-		XxMatrix<T_Int,T_Scalar>& operator=(XxMatrix<T_Int,T_Scalar>&& other) = default;
+        /**
+         * @brief Move assignment operator.
+         * @details Moves resources from another sparse matrix to this sparse matrix.
+         * @param[in] other The sparse matrix to move from.
+         * @return Reference to this sparse matrix.
+         */
+        XxMatrix<T_Int,T_Scalar>& operator=(XxMatrix<T_Int,T_Scalar>&& other) = default;
 
-		/** @} */
+        /** @} */
 
-		/** 
-		 * @name Arguments
-		 * @{
-		 */
+        /** 
+         * @name Arguments
+         * @{
+         */
 
-		/**
-		 * @brief Get the number of non-zero elements.
-		 * @details Returns the number of stored non-zero elements in the sparse matrix.
-		 * @return The number of non-zero elements.
-		 */
-		T_Int nnz() const;
+        /**
+         * @brief Get the number of non-zero elements.
+         * @details Returns the number of stored non-zero elements in the sparse matrix.
+         * @return The number of non-zero elements.
+         */
+        T_Int nnz() const;
 
-		/** @} */
+        /** @} */
 
-		/** 
-		 * @name Public Member Functions
-		 * @{
-		 */
+        /** 
+         * @name Public Member Functions
+         * @{
+         */
 
-		/**
-		 * @brief Clear the sparse matrix.
-		 * @details Releases all memory and resets the matrix to an empty state.
-		 */
-		void clear();
+        /**
+         * @brief Clear the sparse matrix.
+         * @details Releases all memory and resets the matrix to an empty state.
+         */
+        void clear();
 
-		/**
-		 * @brief Reserve storage for non-zero elements.
-		 * @details Preallocates memory for the specified number of non-zero elements to avoid reallocations.
-		 * @param[in] nz The number of non-zero elements to reserve space for.
-		 */
-		void reserve(T_Int nz);
+        /**
+         * @brief Reserve storage for non-zero elements.
+         * @details Preallocates memory for the specified number of non-zero elements to avoid reallocations.
+         * @param[in] nz The number of non-zero elements to reserve space for.
+         */
+        void reserve(T_Int nz);
 
-		/**
-		 * @brief Insert a non-zero element using a tuple.
-		 * @details Inserts a non-zero element specified as a tuple (row, column, value) into the sparse matrix.
-		 * @param[in] tuple The tuple containing the row index, column index, and value.
-		 */
-		void insert(const Tuple<T_Int,T_Scalar>& tuple);
+        /**
+         * @brief Insert a non-zero element using a tuple.
+         * @details Inserts a non-zero element specified as a tuple (row, column, value) into the sparse matrix.
+         * @param[in] tuple The tuple containing the row index, column index, and value.
+         */
+        void insert(const Tuple<T_Int,T_Scalar>& tuple);
 
-		/**
-		 * @brief Insert a non-zero element.
-		 * @details Inserts a non-zero element at the specified row and column with the given value.
-		 * @param[in] i The row index.
-		 * @param[in] j The column index.
-		 * @param[in] v The value to insert.
-		 */
-		void insert(T_Int i, T_Int j, T_Scalar v);
+        /**
+         * @brief Insert a non-zero element.
+         * @details Inserts a non-zero element at the specified row and column with the given value.
+         * @param[in] i The row index.
+         * @param[in] j The column index.
+         * @param[in] v The value to insert.
+         */
+        void insert(T_Int i, T_Int j, T_Scalar v);
 
-		/**
-		 * @brief Get information about the sparse matrix.
-		 * @details Returns a string containing information about the matrix's dimensions, non-zeros, and properties.
-		 * @param[in] header Optional header string to prepend to the information.
-		 * @return A string containing matrix information.
-		 */
-		std::string info(const std::string& header = "") const;
+        /**
+         * @brief Get information about the sparse matrix.
+         * @details Returns a string containing information about the matrix's dimensions, non-zeros, and properties.
+         * @param[in] header Optional header string to prepend to the information.
+         * @return A string containing matrix information.
+         */
+        std::string info(const std::string& header = "") const;
 
-		/**
-		 * @brief Output the sparse matrix to a stream.
-		 * @details Writes the sparse matrix elements to the specified output stream with specified precision.
-		 * @param[in,out] os The output stream to write to.
-		 * @param[in] prec The output precision (default: 0 for default precision).
-		 */
-		void toStream(std::ostream& os, std::streamsize prec = 0) const;
+        /**
+         * @brief Output the sparse matrix to a stream.
+         * @details Writes the sparse matrix elements to the specified output stream with specified precision.
+         * @param[in,out] os The output stream to write to.
+         * @param[in] prec The output precision (default: 0 for default precision).
+         */
+        void toStream(std::ostream& os, std::streamsize prec = 0) const;
 
-		/**
-		 * @brief Convert to compressed sparse column (CSC) format.
-		 * @details Converts the coordinate format sparse matrix to CSC format.
-		 * @param[in] duplicatePolicy The policy for handling duplicate entries (default: Sum).
-		 * @return A sparse matrix in CSC format.
-		 */
-		csc::XxMatrix<T_Int,T_Scalar> toCsc(dup_t duplicatePolicy = dup_t::Sum) const;
+        /**
+         * @brief Convert to compressed sparse column (CSC) format.
+         * @details Converts the coordinate format sparse matrix to CSC format.
+         * @param[in] duplicatePolicy The policy for handling duplicate entries (default: Sum).
+         * @return A sparse matrix in CSC format.
+         */
+        csc::XxMatrix<T_Int,T_Scalar> toCsc(dup_t duplicatePolicy = dup_t::Sum) const;
 
-		/**
-		 * @brief Convert to compressed sparse row (CSR) format.
-		 * @details Converts the coordinate format sparse matrix to CSR format.
-		 * @param[in] duplicatePolicy The policy for handling duplicate entries (default: Sum).
-		 * @return A sparse matrix in CSR format.
-		 */
-		csr::XxMatrix<T_Int,T_Scalar> toCsr(dup_t duplicatePolicy = dup_t::Sum) const;
+        /**
+         * @brief Convert to compressed sparse row (CSR) format.
+         * @details Converts the coordinate format sparse matrix to CSR format.
+         * @param[in] duplicatePolicy The policy for handling duplicate entries (default: Sum).
+         * @return A sparse matrix in CSR format.
+         */
+        csr::XxMatrix<T_Int,T_Scalar> toCsr(dup_t duplicatePolicy = dup_t::Sum) const;
 
-		/** @} */
+        /** @} */
 
-	private:
-		TupleVec m_tuples;
+    private:
+        TupleVec m_tuples;
 
-		TupleVec& tupleVec();
-		const TupleVec& tupleVec() const;
+        TupleVec& tupleVec();
+        const TupleVec& tupleVec() const;
 
-		void checker() const;
+        void checker() const;
 };
 
 /*-------------------------------------------------*/
@@ -220,8 +220,8 @@ class XxMatrix : public MatrixMeta<T_Int> {
 template <typename T_Int, typename T_Scalar>
 std::ostream& operator<<(std::ostream& os, const cla3p::coo::XxMatrix<T_Int,T_Scalar>& mat)
 {
-	mat.toStream(os);
-	return os;
+    mat.toStream(os);
+    return os;
 }
 
 #endif // CLA3P_COO_XXMATRIX_HPP_

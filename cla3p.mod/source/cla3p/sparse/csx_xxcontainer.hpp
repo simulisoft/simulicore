@@ -39,56 +39,56 @@ namespace csx {
 template <typename T_Int, typename T_Scalar>
 class XxContainer : public XxContainerBase<T_Int, T_Scalar>, public Ownership {
 
-	public:
-		XxContainer() {}
+    public:
+        XxContainer() {}
 
-		explicit XxContainer(std::size_t np, std::size_t nz)
-			: XxContainerBase<T_Int,T_Scalar>(np ? i_malloc_t<T_Int>(np+1) : nullptr,
-			                                  np ? i_malloc_t<T_Int>(nz) : nullptr,
-			                                  np ? i_malloc_t<T_Scalar>(nz) : nullptr),
-			  Ownership(np ? true : false)
-		{
-			this->xxxptr()[np] = static_cast<T_Int>(nz);
-		}
+        explicit XxContainer(std::size_t np, std::size_t nz)
+            : XxContainerBase<T_Int,T_Scalar>(np ? i_malloc_t<T_Int>(np+1) : nullptr,
+                                              np ? i_malloc_t<T_Int>(nz) : nullptr,
+                                              np ? i_malloc_t<T_Scalar>(nz) : nullptr),
+              Ownership(np ? true : false)
+        {
+            this->xxxptr()[np] = static_cast<T_Int>(nz);
+        }
 
-		explicit XxContainer(T_Int *xptr, T_Int *xidx, T_Scalar *vals, bool bind)
-			: XxContainerBase<T_Int,T_Scalar>(xptr ? xptr : nullptr, 
-											  xptr ? xidx : nullptr, 
-											  xptr ? vals : nullptr),
-			  Ownership(xptr ? bind : false) {}
+        explicit XxContainer(T_Int *xptr, T_Int *xidx, T_Scalar *vals, bool bind)
+            : XxContainerBase<T_Int,T_Scalar>(xptr ? xptr : nullptr, 
+                                              xptr ? xidx : nullptr, 
+                                              xptr ? vals : nullptr),
+              Ownership(xptr ? bind : false) {}
 
-		XxContainer(XxContainer<T_Int,T_Scalar>&) = delete;
-		XxContainer<T_Int,T_Scalar>& operator=(XxContainer<T_Int,T_Scalar>&) = delete;
+        XxContainer(XxContainer<T_Int,T_Scalar>&) = delete;
+        XxContainer<T_Int,T_Scalar>& operator=(XxContainer<T_Int,T_Scalar>&) = delete;
 
-		XxContainer(XxContainer<T_Int,T_Scalar>&& other) { moveFrom(other); }
-		XxContainer<T_Int,T_Scalar>& operator=(XxContainer<T_Int,T_Scalar>&& other) { return moveFrom(other); }
+        XxContainer(XxContainer<T_Int,T_Scalar>&& other) { moveFrom(other); }
+        XxContainer<T_Int,T_Scalar>& operator=(XxContainer<T_Int,T_Scalar>&& other) { return moveFrom(other); }
 
-		~XxContainer() { clear(); }
+        ~XxContainer() { clear(); }
 
-	protected:
-		void clear()
-		{
-			if(owner()) {
-				i_free(this->xxxptr());
-				i_free(this->xxxidx());
-				i_free(this->values());
-			} // owner
-			XxContainerBase<T_Int,T_Scalar>::clear();
-			Ownership::clear();
-		}
+    protected:
+        void clear()
+        {
+            if(owner()) {
+                i_free(this->xxxptr());
+                i_free(this->xxxidx());
+                i_free(this->values());
+            } // owner
+            XxContainerBase<T_Int,T_Scalar>::clear();
+            Ownership::clear();
+        }
 
-	private:
-		XxContainer<T_Int,T_Scalar>& moveFrom(XxContainer<T_Int,T_Scalar>& other)
-		{
-			if(this != &other) {
-				clear();
-				XxContainerBase<T_Int,T_Scalar>::operator=(std::move(other));
-				Ownership::operator=(std::move(other));
-				other.unbind();
-				other.clear();
-			} // do not apply on self
+    private:
+        XxContainer<T_Int,T_Scalar>& moveFrom(XxContainer<T_Int,T_Scalar>& other)
+        {
+            if(this != &other) {
+                clear();
+                XxContainerBase<T_Int,T_Scalar>::operator=(std::move(other));
+                Ownership::operator=(std::move(other));
+                other.unbind();
+                other.clear();
+            } // do not apply on self
             return *this;
-		}
+        }
 };
 
 /*-------------------------------------------------*/
