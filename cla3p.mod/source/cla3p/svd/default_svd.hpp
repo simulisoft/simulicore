@@ -42,137 +42,137 @@ namespace dns{ template <typename T_Scalar> class XxVector; }
 template <typename T_Matrix>
 class DefaultSVD {
 
-	private:
-		using T_Scalar = typename T_Matrix::value_type;
-		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
-		using T_RVector = dns::XxVector<T_RScalar>;
+    private:
+        using T_Scalar = typename T_Matrix::value_type;
+        using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+        using T_RVector = dns::XxVector<T_RScalar>;
 
-	public:
+    public:
 
-		/**
-		 * @brief Constructs an uninitialized SVD decomposition object.
-		 * @details Initializes an empty SVD object with no allocated memory for decomposition results.
-		 */
-		DefaultSVD();
+        /**
+         * @brief Constructs an uninitialized SVD decomposition object.
+         * @details Initializes an empty SVD object with no allocated memory for decomposition results.
+         */
+        DefaultSVD();
 
-		/**
-		 * @brief Constructs an SVD object with pre-allocated buffers.
-		 * @details Initializes the SVD decomposition object and allocates internal buffers
-		 *          to accommodate matrices up to the specified dimensions.
-		 * @param[in] m The maximum number of matrix rows.
-		 * @param[in] n The maximum number of matrix columns.
-		 * @param[in] leftPolicy The singular vector computation policy for @f$ U @f$.
-		 * @param[in] rightPolicy The singular vector computation policy for @f$ V @f$.
-		 */
-		DefaultSVD(int_t m, int_t n, svdPolicy_t leftPolicy = svdPolicy_t::Limited, svdPolicy_t rightPolicy = svdPolicy_t::Limited);
+        /**
+         * @brief Constructs an SVD object with pre-allocated buffers.
+         * @details Initializes the SVD decomposition object and allocates internal buffers
+         *          to accommodate matrices up to the specified dimensions.
+         * @param[in] m The maximum number of matrix rows.
+         * @param[in] n The maximum number of matrix columns.
+         * @param[in] leftPolicy The singular vector computation policy for @f$ U @f$.
+         * @param[in] rightPolicy The singular vector computation policy for @f$ V @f$.
+         */
+        DefaultSVD(int_t m, int_t n, svdPolicy_t leftPolicy = svdPolicy_t::Limited, svdPolicy_t rightPolicy = svdPolicy_t::Limited);
 
-		/**
-		 * @brief Destroys the SVD decomposition object.
-		 * @details Releases all allocated memory and clears internal data structures.
-		 */
-		~DefaultSVD();
+        /**
+         * @brief Destroys the SVD decomposition object.
+         * @details Releases all allocated memory and clears internal data structures.
+         */
+        ~DefaultSVD();
 
-		/**
-		 * @brief Clears all decomposition results and resets the object.
-		 * @details Deallocates decomposition results and returns the object to its default state.
-		 */
-		void clear();
+        /**
+         * @brief Clears all decomposition results and resets the object.
+         * @details Deallocates decomposition results and returns the object to its default state.
+         */
+        void clear();
 
-		/**
-		 * @brief Pre-allocates buffers for decomposition.
-		 * @details Allocates internal buffers to accommodate matrices with up to @p m rows and @p n columns.
-		 *          This avoids memory reallocation during subsequent decompositions.
-		 * @param[in] m The maximum number of matrix rows to support.
-		 * @param[in] n The maximum number of matrix columns to support.
-		 */
-		void reserve(int_t m, int_t n);
+        /**
+         * @brief Pre-allocates buffers for decomposition.
+         * @details Allocates internal buffers to accommodate matrices with up to @p m rows and @p n columns.
+         *          This avoids memory reallocation during subsequent decompositions.
+         * @param[in] m The maximum number of matrix rows to support.
+         * @param[in] n The maximum number of matrix columns to support.
+         */
+        void reserve(int_t m, int_t n);
 
-		/**
-		 * @brief Retrieves the left singular vector computation policy.
-		 * @details Returns the policy that determines whether the left singular vectors (@f$ U @f$ matrix)
-		 *          will be computed in full, limited to @f$ \min(m,n) @f$ columns, or not at all.
-		 * @return The current left singular vector computation policy.
-		 */
-		svdPolicy_t getLeftPolicy() const;
+        /**
+         * @brief Retrieves the left singular vector computation policy.
+         * @details Returns the policy that determines whether the left singular vectors (@f$ U @f$ matrix)
+         *          will be computed in full, limited to @f$ \min(m,n) @f$ columns, or not at all.
+         * @return The current left singular vector computation policy.
+         */
+        svdPolicy_t getLeftPolicy() const;
 
-		/**
-		 * @brief Retrieves the right singular vector computation policy.
-		 * @details Returns the policy that determines whether the right singular vectors (@f$ V^H @f$ matrix)
-		 *          will be computed in full, limited to @f$ \min(m,n) @f$ rows, or not at all.
-		 * @return The current right singular vector computation policy.
-		 */
-		svdPolicy_t getRightPolicy() const;
+        /**
+         * @brief Retrieves the right singular vector computation policy.
+         * @details Returns the policy that determines whether the right singular vectors (@f$ V^H @f$ matrix)
+         *          will be computed in full, limited to @f$ \min(m,n) @f$ rows, or not at all.
+         * @return The current right singular vector computation policy.
+         */
+        svdPolicy_t getRightPolicy() const;
 
-		/**
-		 * @brief Configures the left singular vector computation policy.
-		 * @details Specifies whether the left singular vectors (@f$ U @f$ matrix) should be computed
-		 *          in full, limited to @f$ \min(m,n) @f$ columns, or not computed at all.
-		 * @param[in] leftPolicy The left singular vector computation policy.
-		 */
-		void setLeftPolicy(svdPolicy_t leftPolicy);
+        /**
+         * @brief Configures the left singular vector computation policy.
+         * @details Specifies whether the left singular vectors (@f$ U @f$ matrix) should be computed
+         *          in full, limited to @f$ \min(m,n) @f$ columns, or not computed at all.
+         * @param[in] leftPolicy The left singular vector computation policy.
+         */
+        void setLeftPolicy(svdPolicy_t leftPolicy);
 
-		/**
-		 * @brief Configures the right singular vector computation policy.
-		 * @details Specifies whether the right singular vectors (@f$ V^H @f$ matrix) should be computed
-		 *          in full, limited to @f$ \min(m,n) @f$ rows, or not computed at all.
-		 * @param[in] rightPolicy The right singular vector computation policy.
-		 */
-		void setRightPolicy(svdPolicy_t rightPolicy);
+        /**
+         * @brief Configures the right singular vector computation policy.
+         * @details Specifies whether the right singular vectors (@f$ V^H @f$ matrix) should be computed
+         *          in full, limited to @f$ \min(m,n) @f$ rows, or not computed at all.
+         * @param[in] rightPolicy The right singular vector computation policy.
+         */
+        void setRightPolicy(svdPolicy_t rightPolicy);
 
-		/**
-		 * @brief Performs Singular Value Decomposition on the input matrix.
-		 * @details Computes the decomposition @f$ A = U \cdot \Sigma \cdot V^H @f$ of the input matrix.
-		 *          The computation respects the singular vector policies set via @ref setLeftPolicy() and @ref setRightPolicy().
-		 * @param[in] mat The matrix to decompose.
-		 */
-		void decompose(const T_Matrix& mat);
+        /**
+         * @brief Performs Singular Value Decomposition on the input matrix.
+         * @details Computes the decomposition @f$ A = U \cdot \Sigma \cdot V^H @f$ of the input matrix.
+         *          The computation respects the singular vector policies set via @ref setLeftPolicy() and @ref setRightPolicy().
+         * @param[in] mat The matrix to decompose.
+         */
+        void decompose(const T_Matrix& mat);
 
-		/**
-		 * @brief Retrieves the computed singular values.
-		 * @details Returns the diagonal elements of @f$ \Sigma @f$ in descending order.
-		 * @return A constant reference to a vector of @f$ \min(m,n) @f$ singular values.
-		 */
-		const T_RVector& singularValues() const;
+        /**
+         * @brief Retrieves the computed singular values.
+         * @details Returns the diagonal elements of @f$ \Sigma @f$ in descending order.
+         * @return A constant reference to a vector of @f$ \min(m,n) @f$ singular values.
+         */
+        const T_RVector& singularValues() const;
 
-		/**
-		 * @brief Retrieves the left singular vectors matrix.
-		 * @details Returns the matrix @f$ U @f$ of size @f$ m \times k @f$, where:
-		 *          - @f$ k = m @f$ if left policy is Full
-		 *          - @f$ k = \min(m,n) @f$ if left policy is Limited
-		 *          - The matrix is empty if left policy is NoCalculation
-		 * @return A constant reference to the left singular vectors matrix.
-		 */
-		const T_Matrix& leftSingularVectors() const;
+        /**
+         * @brief Retrieves the left singular vectors matrix.
+         * @details Returns the matrix @f$ U @f$ of size @f$ m \times k @f$, where:
+         *          - @f$ k = m @f$ if left policy is Full
+         *          - @f$ k = \min(m,n) @f$ if left policy is Limited
+         *          - The matrix is empty if left policy is NoCalculation
+         * @return A constant reference to the left singular vectors matrix.
+         */
+        const T_Matrix& leftSingularVectors() const;
 
-		/**
-		 * @brief Retrieves the right singular vectors matrix.
-		 * @details Returns the matrix @f$ V^H @f$ of size @f$ k \times n @f$, where:
-		 *          - @f$ k = n @f$ if right policy is Full
-		 *          - @f$ k = \min(m,n) @f$ if right policy is Limited
-		 *          - The matrix is empty if right policy is NoCalculation
-		 * @return A constant reference to the right singular vectors matrix.
-		 */
-		const T_Matrix& rightSingularVectors() const;
+        /**
+         * @brief Retrieves the right singular vectors matrix.
+         * @details Returns the matrix @f$ V^H @f$ of size @f$ k \times n @f$, where:
+         *          - @f$ k = n @f$ if right policy is Full
+         *          - @f$ k = \min(m,n) @f$ if right policy is Limited
+         *          - The matrix is empty if right policy is NoCalculation
+         * @return A constant reference to the right singular vectors matrix.
+         */
+        const T_Matrix& rightSingularVectors() const;
 
-	private:
-		svdPolicy_t m_leftPolicy;
-		svdPolicy_t m_rightPolicy;
+    private:
+        svdPolicy_t m_leftPolicy;
+        svdPolicy_t m_rightPolicy;
 
-		T_RVector m_singularValues;
-		T_RVector m_superbVector;
+        T_RVector m_singularValues;
+        T_RVector m_superbVector;
 
-		T_Matrix m_matrixBackup;
-		T_Matrix m_leftSingularVectors;
-		T_Matrix m_rightSingularVectors;
+        T_Matrix m_matrixBackup;
+        T_Matrix m_leftSingularVectors;
+        T_Matrix m_rightSingularVectors;
 
-		HeapBuffer<T_RScalar> m_realBuffers;
-		HeapBuffer<T_Scalar> m_scalarBuffers;
+        HeapBuffer<T_RScalar> m_realBuffers;
+        HeapBuffer<T_Scalar> m_scalarBuffers;
 
-		void defaults();
+        void defaults();
 
-		void clearInternalWrappers();
-		void clearInternalBuffers();
-		void resizeInternalObjects(const T_Matrix& mat);
+        void clearInternalWrappers();
+        void clearInternalBuffers();
+        void resizeInternalObjects(const T_Matrix& mat);
 };
 
 /*-------------------------------------------------*/

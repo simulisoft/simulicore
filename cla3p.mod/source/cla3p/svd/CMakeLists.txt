@@ -2,12 +2,12 @@
 # source setup
 #-----------------------------------------------
 set(CLA3P_SRC ${CLA3P_SRC}
-	svd/default_svd.cpp
-	PARENT_SCOPE)
+    svd/default_svd.cpp
+    PARENT_SCOPE)
 
 set(CLA3P_SVD_HPP 
-	default_svd.hpp
-	)
+    default_svd.hpp
+    )
 
 #-----------------------------------------------
 # installation setup
