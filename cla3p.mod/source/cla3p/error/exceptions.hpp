@@ -37,29 +37,29 @@ namespace err {
  */
 class Exception : public std::exception {
 
-	public:
-		/**
-		 * @brief Message constructor.
-		 * @details Constructs an exception with the specified message.
-		 * @param[in] msg The error message.
-		 */
-		Exception(const std::string& msg = "Untitled");
+    public:
+        /**
+         * @brief Message constructor.
+         * @details Constructs an exception with the specified message.
+         * @param[in] msg The error message.
+         */
+        Exception(const std::string& msg = "Untitled");
 
-		/**
-		 * @brief Destructor.
-		 * @details Destroys the exception object.
-		 */
-		~Exception() throw();
+        /**
+         * @brief Destructor.
+         * @details Destroys the exception object.
+         */
+        ~Exception() throw();
 
-		/**
-		 * @brief Returns the exception message.
-		 * @details Provides the explanatory error string.
-		 * @return Pointer to the null-terminated error message.
-		 */
-		const char *what() const throw();
+        /**
+         * @brief Returns the exception message.
+         * @details Provides the explanatory error string.
+         * @return Pointer to the null-terminated error message.
+         */
+        const char *what() const throw();
 
-	private:
-		std::string m_msg;
+    private:
+        std::string m_msg;
 };
 
 /*-------------------------------------------------*/
@@ -69,16 +69,16 @@ class Exception : public std::exception {
  * @details Thrown when an operation encounters inconsistent or incompatible data.
  */
 class NoConsistency : public Exception {
-	public:
-		/** 
-		 * @copydoc Exception::Exception()
-		 */
-		NoConsistency(const std::string& msg = "Untitled");
+    public:
+        /** 
+         * @copydoc Exception::Exception()
+         */
+        NoConsistency(const std::string& msg = "Untitled");
 
-		/** 
-		 * @copydoc Exception::~Exception()
-		 */
-		~NoConsistency() throw();
+        /** 
+         * @copydoc Exception::~Exception()
+         */
+        ~NoConsistency() throw();
 };
 
 /*-------------------------------------------------*/
@@ -89,16 +89,16 @@ class NoConsistency : public Exception {
  *          current context.
  */
 class InvalidOp : public Exception {
-	public:
-		/** 
-		 * @copydoc Exception::Exception()
-		 */
-		InvalidOp(const std::string& msg = "Untitled");
+    public:
+        /** 
+         * @copydoc Exception::Exception()
+         */
+        InvalidOp(const std::string& msg = "Untitled");
 
-		/** 
-		 * @copydoc Exception::~Exception()
-		 */
-		~InvalidOp() throw();
+        /** 
+         * @copydoc Exception::~Exception()
+         */
+        ~InvalidOp() throw();
 };
 
 /*-------------------------------------------------*/
@@ -108,16 +108,16 @@ class InvalidOp : public Exception {
  * @details Thrown when a memory allocation request cannot be satisfied.
  */
 class OutOfMemory : public Exception {
-	public:
-		/** 
-		 * @copydoc Exception::Exception()
-		 */
-		OutOfMemory(const std::string& msg = "Untitled");
+    public:
+        /** 
+         * @copydoc Exception::Exception()
+         */
+        OutOfMemory(const std::string& msg = "Untitled");
 
-		/** 
-		 * @copydoc Exception::~Exception()
-		 */
-		~OutOfMemory() throw();
+        /** 
+         * @copydoc Exception::~Exception()
+         */
+        ~OutOfMemory() throw();
 };
 
 /*-------------------------------------------------*/
@@ -127,16 +127,16 @@ class OutOfMemory : public Exception {
  * @details Thrown when an array or matrix access uses an invalid index.
  */
 class OutOfBounds : public Exception {
-	public:
-		/** 
-		 * @copydoc Exception::Exception()
-		 */
-		OutOfBounds(const std::string& msg = "Untitled");
+    public:
+        /** 
+         * @copydoc Exception::Exception()
+         */
+        OutOfBounds(const std::string& msg = "Untitled");
 
-		/** 
-		 * @copydoc Exception::~Exception()
-		 */
-		~OutOfBounds() throw();
+        /** 
+         * @copydoc Exception::~Exception()
+         */
+        ~OutOfBounds() throw();
 };
 
 /*-------------------------------------------------*/
