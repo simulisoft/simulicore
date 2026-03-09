@@ -28,12 +28,12 @@ namespace cla3p {
 /*-------------------------------------------------*/
 Ownership::Ownership()
 {
-	defaults();
+    defaults();
 }
 /*-------------------------------------------------*/
 Ownership::Ownership(bool owner)
 {
-	setOwner(owner);
+    setOwner(owner);
 }
 /*-------------------------------------------------*/
 Ownership::~Ownership()
@@ -42,27 +42,27 @@ Ownership::~Ownership()
 /*-------------------------------------------------*/
 bool Ownership::owner() const 
 {
-	return m_owner; 
+    return m_owner; 
 }
 /*-------------------------------------------------*/
 void Ownership::setOwner(bool owner) 
 { 
-	m_owner = owner; 
+    m_owner = owner; 
 }
 /*-------------------------------------------------*/
 void Ownership::clear()
 {
-	defaults();
+    defaults();
 }
 /*-------------------------------------------------*/
 void Ownership::defaults()
 {
-	setOwner(false);
+    setOwner(false);
 }
 /*-------------------------------------------------*/
 void Ownership::unbind()
 {
-	setOwner(false);
+    setOwner(false);
 }
 /*-------------------------------------------------*/
 } // namespace cla3p

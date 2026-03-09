@@ -36,73 +36,73 @@ namespace cla3p {
 template <typename T_Object>
 class Guard {
 
-	public:
+    public:
 
-		/**
-		 * @brief Default constructor.
-		 * @details Constructs an empty guard with no attached object.
-		 */
-		Guard() {}
+        /**
+         * @brief Default constructor.
+         * @details Constructs an empty guard with no attached object.
+         */
+        Guard() {}
 
-		/**
-		 * @brief Destructor.
-		 * @details Detaches the guarded object and destroys the guard.
-		 */
-		~Guard() { clear(); }
+        /**
+         * @brief Destructor.
+         * @details Detaches the guarded object and destroys the guard.
+         */
+        ~Guard() { clear(); }
 
-		/**
-		 * @brief Copy constructor.
-		 * @details Constructs a guard with a referenced copy of @p other.
-		 */
-		Guard(const Guard<T_Object>& other) { setLocalObj(other.get()); }
+        /**
+         * @brief Copy constructor.
+         * @details Constructs a guard with a referenced copy of @p other.
+         */
+        Guard(const Guard<T_Object>& other) { setLocalObj(other.get()); }
 
-		/**
-		 * @brief Copy assignment operator.
-		 * @details Replaces the guarded object with a referenced copy of @p other.
-		 */
-		Guard<T_Object>& operator=(const Guard<T_Object>& other)
-		{
-			setLocalObj(other.get());
-			return *this;
-		}
+        /**
+         * @brief Copy assignment operator.
+         * @details Replaces the guarded object with a referenced copy of @p other.
+         */
+        Guard<T_Object>& operator=(const Guard<T_Object>& other)
+        {
+            setLocalObj(other.get());
+            return *this;
+        }
 
-		/**
-		 * @brief Move converting constructor.
-		 * @tparam U_Object The source object type.
-		 * @details Constructs a guard by converting and moving from @p other.
-		 */
-		template <typename U_Object>
-		Guard(Guard<U_Object>&& other) 
-			: Guard(static_cast<const T_Object&>(other.get())) {} 
+        /**
+         * @brief Move converting constructor.
+         * @tparam U_Object The source object type.
+         * @details Constructs a guard by converting and moving from @p other.
+         */
+        template <typename U_Object>
+        Guard(Guard<U_Object>&& other) 
+            : Guard(static_cast<const T_Object&>(other.get())) {} 
 
-		/**
-		 * @brief Object constructor.
-		 * @details Constructs a guard with a referenced copy of @p obj.
-		 * @param[in] obj The object to guard.
-		 */
-		explicit Guard(const T_Object& obj) { setLocalObj(obj); }
+        /**
+         * @brief Object constructor.
+         * @details Constructs a guard with a referenced copy of @p obj.
+         * @param[in] obj The object to guard.
+         */
+        explicit Guard(const T_Object& obj) { setLocalObj(obj); }
 
-		/**
-		 * @brief Clears the guard.
-		 * @details Detaches the guarded object and resets the guard to an empty state.
-		 */
-		void clear() { m_obj.clear(); }
+        /**
+         * @brief Clears the guard.
+         * @details Detaches the guarded object and resets the guard to an empty state.
+         */
+        void clear() { m_obj.clear(); }
 
-		/**
-		 * @brief Retrieves the guarded object.
-		 * @details Returns a constant reference to the object being guarded.
-		 * @return A constant reference to the guarded object.
-		 */
-		const T_Object& get() const { return m_obj; }
+        /**
+         * @brief Retrieves the guarded object.
+         * @details Returns a constant reference to the object being guarded.
+         * @return A constant reference to the guarded object.
+         */
+        const T_Object& get() const { return m_obj; }
 
-	private:
-		T_Object m_obj;
+    private:
+        T_Object m_obj;
 
-		void setLocalObj(const T_Object& obj)
-		{
-			m_obj.clear();
-			m_obj = const_cast<T_Object&>(obj).rcopy(); 
-		}
+        void setLocalObj(const T_Object& obj)
+        {
+            m_obj.clear();
+            m_obj = const_cast<T_Object&>(obj).rcopy(); 
+        }
 };
 /*-------------------------------------------------*/
 } // namespace cla3p

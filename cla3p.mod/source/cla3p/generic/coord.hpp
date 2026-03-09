@@ -37,60 +37,60 @@ namespace cla3p {
 template <typename T_Int>
 class Coord {
 
-	public:
-		/**
-		 * @brief Default constructor.
-		 * @details Constructs a coordinate initialized to (0, 0).
-		 */
-		Coord() { defaults(); }
+    public:
+        /**
+         * @brief Default constructor.
+         * @details Constructs a coordinate initialized to (0, 0).
+         */
+        Coord() { defaults(); }
 
-		/**
-		 * @brief Coordinate constructor.
-		 * @details Constructs a coordinate with specified row and column indices.
-		 * @param[in] r The row index.
-		 * @param[in] c The column index.
-		 */
-		Coord(T_Int r, T_Int c)
-		{
-			setRow(r);
-			setCol(c);
-		}
+        /**
+         * @brief Coordinate constructor.
+         * @details Constructs a coordinate with specified row and column indices.
+         * @param[in] r The row index.
+         * @param[in] c The column index.
+         */
+        Coord(T_Int r, T_Int c)
+        {
+            setRow(r);
+            setCol(c);
+        }
 
-		/**
-		 * @brief Destructor.
-		 * @details Destroys the coordinate object.
-		 */
-		~Coord() { clear(); }
+        /**
+         * @brief Destructor.
+         * @details Destroys the coordinate object.
+         */
+        ~Coord() { clear(); }
 
-		/**
-		 * @brief Row index accessor.
-		 * @details Returns the row coordinate value.
-		 * @return The row index.
-		 */
-		T_Int row() const { return m_row; }
+        /**
+         * @brief Row index accessor.
+         * @details Returns the row coordinate value.
+         * @return The row index.
+         */
+        T_Int row() const { return m_row; }
 
-		/**
-		 * @brief Column index accessor.
-		 * @details Returns the column coordinate value.
-		 * @return The column index.
-		 */
-		T_Int col() const { return m_col; }
+        /**
+         * @brief Column index accessor.
+         * @details Returns the column coordinate value.
+         * @return The column index.
+         */
+        T_Int col() const { return m_col; }
 
-	protected:
-		void clear() { defaults(); }
+    protected:
+        void clear() { defaults(); }
 
-	private:
-		T_Int m_row;
-		T_Int m_col;
+    private:
+        T_Int m_row;
+        T_Int m_col;
 
-		void setRow(T_Int r) { m_row = r; }
-		void setCol(T_Int c) { m_col = c; }
+        void setRow(T_Int r) { m_row = r; }
+        void setCol(T_Int c) { m_col = c; }
 
-		void defaults()
-		{
-			setRow(0);
-			setCol(0);
-		}
+        void defaults()
+        {
+            setRow(0);
+            setCol(0);
+        }
 };
 
 /*-------------------------------------------------*/

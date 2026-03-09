@@ -37,66 +37,66 @@ namespace cla3p {
 template <typename T_Int>
 class Meta2D {
 
-	public:
-		Meta2D() { defaults(); }
-		Meta2D(T_Int m, T_Int n)
-		{
-			setNrows(m);
-			setNcols(n);
-		}
-		~Meta2D() { clear(); }
+    public:
+        Meta2D() { defaults(); }
+        Meta2D(T_Int m, T_Int n)
+        {
+            setNrows(m);
+            setNcols(n);
+        }
+        ~Meta2D() { clear(); }
 
-		/**
-		 * @brief Number of rows.
-		 * @details Returns the number of rows stored in @p (*this).
-		 * @return The row dimension.
-		 */
-		virtual T_Int nrows() const { return m_nrows; }
+        /**
+         * @brief Number of rows.
+         * @details Returns the number of rows stored in @p (*this).
+         * @return The row dimension.
+         */
+        virtual T_Int nrows() const { return m_nrows; }
 
-		/**
-		 * @brief Number of columns.
-		 * @details Returns the number of columns stored in @p (*this).
-		 * @return The column dimension.
-		 */
-		virtual T_Int ncols() const { return m_ncols; }
+        /**
+         * @brief Number of columns.
+         * @details Returns the number of columns stored in @p (*this).
+         * @return The column dimension.
+         */
+        virtual T_Int ncols() const { return m_ncols; }
 
-		/**
-		 * @brief Tests whether the object has zero dimensions.
-		 * @details Returns @c true if either dimension is zero.
-		 * @return @c true if the object is empty, @c false otherwise.
-		 */
-		bool empty() const { return !(nrows() && ncols()); }
+        /**
+         * @brief Tests whether the object has zero dimensions.
+         * @details Returns @c true if either dimension is zero.
+         * @return @c true if the object is empty, @c false otherwise.
+         */
+        bool empty() const { return !(nrows() && ncols()); }
 
         /* No need for impl
-		 * @brief Logical negation operator.
-		 * @details Equivalent to @ref empty(); returns @c true if object has zero dimension.
-		 * @return @c true if the object is empty, @c false otherwise.
-		 */
-		//bool operator!() const { return empty(); } 
+         * @brief Logical negation operator.
+         * @details Equivalent to @ref empty(); returns @c true if object has zero dimension.
+         * @return @c true if the object is empty, @c false otherwise.
+         */
+        //bool operator!() const { return empty(); } 
 
-		/**
-		 * @brief Boolean conversion operator.
-		 * @details Enables implicit conversion to @c bool; returns @c true if object
-		 *          has non-zero dimensions.
-		 * @return @c true if the object is not empty, @c false otherwise.
-		 */
-		explicit operator bool() const { return !empty(); }
+        /**
+         * @brief Boolean conversion operator.
+         * @details Enables implicit conversion to @c bool; returns @c true if object
+         *          has non-zero dimensions.
+         * @return @c true if the object is not empty, @c false otherwise.
+         */
+        explicit operator bool() const { return !empty(); }
 
-	protected:
-		void clear() { defaults(); }
+    protected:
+        void clear() { defaults(); }
 
-	private:
-		T_Int m_nrows;
-		T_Int m_ncols;
+    private:
+        T_Int m_nrows;
+        T_Int m_ncols;
 
-		void setNrows(T_Int m) { m_nrows = m; }
-		void setNcols(T_Int n) { m_ncols = n; }
+        void setNrows(T_Int m) { m_nrows = m; }
+        void setNcols(T_Int n) { m_ncols = n; }
 
-		void defaults()
-		{
-			setNrows(0);
-			setNcols(0);
-		}
+        void defaults()
+        {
+            setNrows(0);
+            setNcols(0);
+        }
 };
 
 /*-------------------------------------------------*/

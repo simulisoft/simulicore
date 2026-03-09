@@ -37,49 +37,49 @@ namespace cla3p {
 template <typename T_Int>
 class Meta1D {
 
-	public:
-		Meta1D() { defaults(); }
-		Meta1D(T_Int n) { setSize(n); }
-		~Meta1D() { clear(); }
+    public:
+        Meta1D() { defaults(); }
+        Meta1D(T_Int n) { setSize(n); }
+        ~Meta1D() { clear(); }
 
-		/**
-		 * @brief Vector size.
-		 * @details Returns the number of entries stored in @p (*this).
-		 * @return The size dimension.
-		 */
-		T_Int size() const { return m_size; }
+        /**
+         * @brief Vector size.
+         * @details Returns the number of entries stored in @p (*this).
+         * @return The size dimension.
+         */
+        T_Int size() const { return m_size; }
 
-		/**
-		 * @brief Tests whether the object has zero dimension.
-		 * @details Returns @c true if the size is zero.
-		 * @return @c true if the object is empty, @c false otherwise.
-		 */
-		bool empty() const { return !size(); }
+        /**
+         * @brief Tests whether the object has zero dimension.
+         * @details Returns @c true if the size is zero.
+         * @return @c true if the object is empty, @c false otherwise.
+         */
+        bool empty() const { return !size(); }
 
-		/* No need for impl
-		 * @brief Logical negation operator.
-		 * @details Equivalent to @ref empty(); returns @c true if object has zero dimension.
-		 * @return @c true if the object is empty, @c false otherwise.
-		 */
-		// bool operator!() const { return empty(); } 
+        /* No need for impl
+         * @brief Logical negation operator.
+         * @details Equivalent to @ref empty(); returns @c true if object has zero dimension.
+         * @return @c true if the object is empty, @c false otherwise.
+         */
+        // bool operator!() const { return empty(); } 
 
-		/**
-		 * @brief Boolean conversion operator.
-		 * @details Enables implicit conversion to @c bool; returns @c true if object
-		 *          has non-zero dimension.
-		 * @return @c true if the object is not empty, @c false otherwise.
-		 */
-		explicit operator bool() const { return !empty(); }
+        /**
+         * @brief Boolean conversion operator.
+         * @details Enables implicit conversion to @c bool; returns @c true if object
+         *          has non-zero dimension.
+         * @return @c true if the object is not empty, @c false otherwise.
+         */
+        explicit operator bool() const { return !empty(); }
 
-	protected:
-		void clear() { defaults(); }
+    protected:
+        void clear() { defaults(); }
 
-	private:
-		T_Int m_size;
+    private:
+        T_Int m_size;
 
-		void defaults() { setSize(0); }
+        void defaults() { setSize(0); }
 
-		void setSize(T_Int n) { m_size = n; }
+        void setSize(T_Int n) { m_size = n; }
 };
 
 /*-------------------------------------------------*/

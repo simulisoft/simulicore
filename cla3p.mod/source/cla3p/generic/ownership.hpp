@@ -34,53 +34,53 @@ namespace cla3p {
  */
 class Ownership {
 
-	public:
-		/**
-		 * @brief Default constructor.
-		 * @details Initializes ownership state to default.
-		 */
-		Ownership();
-		
-		/**
-		 * @brief Ownership constructor.
-		 * @details Initializes ownership state with the specified flag.
-		 * @param[in] owner If @c true, the object takes ownership of its contents.
-		 */
-		Ownership(bool owner);
-		
-		/**
-		 * @brief Destructor.
-		 * @details Destroys the ownership metadata object.
-		 */
-		~Ownership();
+    public:
+        /**
+         * @brief Default constructor.
+         * @details Initializes ownership state to default.
+         */
+        Ownership();
+        
+        /**
+         * @brief Ownership constructor.
+         * @details Initializes ownership state with the specified flag.
+         * @param[in] owner If @c true, the object takes ownership of its contents.
+         */
+        Ownership(bool owner);
+        
+        /**
+         * @brief Destructor.
+         * @details Destroys the ownership metadata object.
+         */
+        ~Ownership();
 
-		/**
-		 * @brief Tests memory ownership.
-		 * @details Returns @c true if the object is responsible for deallocating
-		 *          its contents. When true, memory is automatically freed upon
-		 *          object destruction.
-		 * @return @c true if the object owns its contents, @c false otherwise.
-		 */
-		bool owner() const;
+        /**
+         * @brief Tests memory ownership.
+         * @details Returns @c true if the object is responsible for deallocating
+         *          its contents. When true, memory is automatically freed upon
+         *          object destruction.
+         * @return @c true if the object owns its contents, @c false otherwise.
+         */
+        bool owner() const;
 
-		/**
-		 * @brief Relinquishes memory ownership.
-		 * @details Makes the object no longer responsible for content deallocation.
-		 *          Use with caution as this may lead to memory leaks if the
-		 *          contents are not deallocated manually. Auto-allocated data
-		 *          should be freed using @ref i_free().
-		 */
-		void unbind();
+        /**
+         * @brief Relinquishes memory ownership.
+         * @details Makes the object no longer responsible for content deallocation.
+         *          Use with caution as this may lead to memory leaks if the
+         *          contents are not deallocated manually. Auto-allocated data
+         *          should be freed using @ref i_free().
+         */
+        void unbind();
 
-	protected:
-		void clear();
+    protected:
+        void clear();
 
-	private:
-		bool m_owner;
+    private:
+        bool m_owner;
 
-		void setOwner(bool owner);
+        void setOwner(bool owner);
 
-		void defaults();
+        void defaults();
 };
 
 /*-------------------------------------------------*/

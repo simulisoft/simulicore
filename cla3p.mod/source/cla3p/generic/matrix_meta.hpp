@@ -40,30 +40,30 @@ namespace cla3p {
 template <typename T_Int>
 class MatrixMeta : public Meta2D<T_Int> {
 
-	public:
-		MatrixMeta() {}
-		MatrixMeta(T_Int nr, T_Int nc, const Property& pr) : Meta2D<T_Int>(nr, nc) { setProp(pr); }
-		~MatrixMeta() { clear(); }
+    public:
+        MatrixMeta() {}
+        MatrixMeta(T_Int nr, T_Int nc, const Property& pr) : Meta2D<T_Int>(nr, nc) { setProp(pr); }
+        ~MatrixMeta() { clear(); }
 
-		/**
-		 * @brief Matrix property accessor.
-		 * @details Returns the property defining the matrix structure (e.g.,
-		 *          symmetric, triangular, hermitian).
-		 * @return A constant reference to the matrix property.
-		 */
-		const Property& prop() const { return m_prop; }
+        /**
+         * @brief Matrix property accessor.
+         * @details Returns the property defining the matrix structure (e.g.,
+         *          symmetric, triangular, hermitian).
+         * @return A constant reference to the matrix property.
+         */
+        const Property& prop() const { return m_prop; }
 
-	protected:
-		void clear()
-		{
-			Meta2D<T_Int>::clear();
-			m_prop.clear();
-		}
+    protected:
+        void clear()
+        {
+            Meta2D<T_Int>::clear();
+            m_prop.clear();
+        }
 
-		void setProp(const Property& pr) { m_prop = pr; }
+        void setProp(const Property& pr) { m_prop = pr; }
 
-	private:
-		Property m_prop;
+    private:
+        Property m_prop;
 };
 
 /*-------------------------------------------------*/

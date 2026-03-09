@@ -40,51 +40,51 @@ namespace cla3p {
 template <typename T_Int, typename T_Scalar>
 class Tuple : public Coord<T_Int> {
 
-	public:
-		/**
-		 * @brief Default constructor.
-		 * @details Constructs a tuple initialized to (0, 0, 0).
-		 */
-		Tuple() { defaults(); }
+    public:
+        /**
+         * @brief Default constructor.
+         * @details Constructs a tuple initialized to (0, 0, 0).
+         */
+        Tuple() { defaults(); }
 
-		/**
-		 * @brief Value constructor.
-		 * @details Constructs a tuple with specified row, column, and value.
-		 * @param[in] r The row index.
-		 * @param[in] c The column index.
-		 * @param[in] v The scalar value.
-		 */
-		Tuple(T_Int r, T_Int c, T_Scalar v) : Coord<T_Int>(r, c) { setVal(v); }
+        /**
+         * @brief Value constructor.
+         * @details Constructs a tuple with specified row, column, and value.
+         * @param[in] r The row index.
+         * @param[in] c The column index.
+         * @param[in] v The scalar value.
+         */
+        Tuple(T_Int r, T_Int c, T_Scalar v) : Coord<T_Int>(r, c) { setVal(v); }
 
-		/**
-		 * @brief Destructor.
-		 * @details Destroys the tuple object.
-		 */
-		~Tuple() { clear(); }
+        /**
+         * @brief Destructor.
+         * @details Destroys the tuple object.
+         */
+        ~Tuple() { clear(); }
 
-		/**
-		 * @brief Value accessor.
-		 * @details Returns the scalar value stored in the tuple.
-		 * @return The tuple value.
-		 */
-		T_Scalar val() const { return m_val; }
+        /**
+         * @brief Value accessor.
+         * @details Returns the scalar value stored in the tuple.
+         * @return The tuple value.
+         */
+        T_Scalar val() const { return m_val; }
 
-		/**
-		 * @brief Clears the tuple.
-		 * @details Resets the coordinate and value to their default states (0, 0, 0).
-		 */
-		void clear()
-		{
-			Coord<T_Int>::clear();
-			defaults(); 
-		}
+        /**
+         * @brief Clears the tuple.
+         * @details Resets the coordinate and value to their default states (0, 0, 0).
+         */
+        void clear()
+        {
+            Coord<T_Int>::clear();
+            defaults(); 
+        }
 
-	private:
-		T_Scalar m_val;
+    private:
+        T_Scalar m_val;
 
-		void setVal(T_Scalar v) { m_val = v; }
+        void setVal(T_Scalar v) { m_val = v; }
 
-		void defaults() { setVal(0); }
+        void defaults() { setVal(0); }
 };
 
 /*-------------------------------------------------*/
