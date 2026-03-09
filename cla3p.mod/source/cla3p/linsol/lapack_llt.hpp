@@ -36,30 +36,30 @@ namespace cla3p {
 template <typename T_Matrix>
 class LapackLLt : public LapackBase<T_Matrix> {
 
-	public:
+    public:
 
-		// no copy
-		LapackLLt(const LapackLLt&) = delete;
-		LapackLLt& operator=(const LapackLLt&) = delete;
+        // no copy
+        LapackLLt(const LapackLLt&) = delete;
+        LapackLLt& operator=(const LapackLLt&) = delete;
 
-		/**
-		 * @brief The default constructor.
-		 * @details Constructs an empty solver object.
-		 */
-		LapackLLt() : LapackBase<T_Matrix>(decomp_t::LLT) {}
+        /**
+         * @brief The default constructor.
+         * @details Constructs an empty solver object.
+         */
+        LapackLLt() : LapackBase<T_Matrix>(decomp_t::LLT) {}
 
-		/**
-		 * @brief The dimensional constructor.
-		 * @details Constructs a solver object with @f$ n^2 @f$ preallocated buffered size.
-		 * @param[in] n The expected problem dimension.
-		 */
-		LapackLLt(int_t n) : LapackBase<T_Matrix>(decomp_t::LLT, n) {}
+        /**
+         * @brief The dimensional constructor.
+         * @details Constructs a solver object with @f$ n^2 @f$ preallocated buffered size.
+         * @param[in] n The expected problem dimension.
+         */
+        LapackLLt(int_t n) : LapackBase<T_Matrix>(decomp_t::LLT, n) {}
 
-		/**
-		 * @brief Destroys the solver.
-		 * @details Clears all internal data and destroys the solver.
-		 */
-		~LapackLLt() = default;
+        /**
+         * @brief Destroys the solver.
+         * @details Clears all internal data and destroys the solver.
+         */
+        ~LapackLLt() = default;
 };
 
 /*-------------------------------------------------*/

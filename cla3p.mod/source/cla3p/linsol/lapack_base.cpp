@@ -36,434 +36,434 @@ namespace cla3p {
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 LapackBase<T_Matrix>::LapackBase(decomp_t decompType)
-	: m_decompType(decompType)
+    : m_decompType(decompType)
 {
-	defaults();
+    defaults();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 LapackBase<T_Matrix>::LapackBase(decomp_t decompType, int_t n)
-	: LapackBase<T_Matrix>(decompType)
+    : LapackBase<T_Matrix>(decompType)
 {
-	reserve(n);
+    reserve(n);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 LapackBase<T_Matrix>::~LapackBase()
 {
-	clear();
+    clear();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 decomp_t LapackBase<T_Matrix>::decompType() const
 {
-	return m_decompType;
+    return m_decompType;
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 std::string LapackBase<T_Matrix>::name() const
 {
-	std::ostringstream ss;
-	ss << "Lapack " << decompType();
-	return ss.str();
+    std::ostringstream ss;
+    ss << "Lapack " << decompType();
+    return ss.str();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::defaults()
 {
-	m_info = 0;
+    m_info = 0;
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::clear()
 {
-	m_factor.clear();
-	m_buffer.clear();
+    m_factor.clear();
+    m_buffer.clear();
 
-	ipiv1().clear();
-	jpiv1().clear();
+    ipiv1().clear();
+    jpiv1().clear();
 
-	defaults();
+    defaults();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 const T_Matrix& LapackBase<T_Matrix>::factor() const
 { 
-	return m_factor; 
+    return m_factor; 
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 T_Matrix&  LapackBase<T_Matrix>::factor()
 { 
-	return m_factor; 
+    return m_factor; 
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 const std::vector<int_t>& LapackBase<T_Matrix>::ipiv1() const 
 { 
-	return m_ipiv1;
+    return m_ipiv1;
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 std::vector<int_t>& LapackBase<T_Matrix>::ipiv1()
 { 
-	return m_ipiv1; 
+    return m_ipiv1; 
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 const std::vector<int_t>& LapackBase<T_Matrix>::jpiv1() const
 { 
-	return m_jpiv1;
+    return m_jpiv1;
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 std::vector<int_t>& LapackBase<T_Matrix>::jpiv1()
 { 
-	return m_jpiv1; 
+    return m_jpiv1; 
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::reserve(int_t n)
 {
-	resizeBuffer(n);
-	ipiv1().reserve(n);
-	jpiv1().reserve(n);
+    resizeBuffer(n);
+    ipiv1().reserve(n);
+    jpiv1().reserve(n);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::resizeBuffer(int_t n)
 {
-	m_buffer.resize(n * n);
+    m_buffer.resize(n * n);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::resizeFactor(const T_Matrix& mat)
 {
-	resizeBuffer(mat.ncols());
+    resizeBuffer(mat.ncols());
 
-	m_factor.clear();
-	m_factor = T_Matrix(
-			mat.nrows(), 
-			mat.ncols(), 
-			m_buffer.data(), 
-			mat.nrows(), 
-			false, 
-			mat.prop());
+    m_factor.clear();
+    m_factor = T_Matrix(
+            mat.nrows(), 
+            mat.ncols(), 
+            m_buffer.data(), 
+            mat.nrows(), 
+            false, 
+            mat.prop());
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::prepareForDecomposition(const T_Matrix& mat)
 {
-	decomp_generic_check(mat);
+    decomp_generic_check(mat);
 
-	m_info = 0;
-	resizeFactor(mat);
-	m_factor = mat;
+    m_info = 0;
+    resizeFactor(mat);
+    m_factor = mat;
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::prepareForIDecomposition(T_Matrix& mat)
 {
-	decomp_generic_check(mat);
+    decomp_generic_check(mat);
 
-	m_info = 0;
-	m_factor.clear();
-	m_factor = mat.move();
+    m_info = 0;
+    m_factor.clear();
+    m_factor = mat.move();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::decompose(const T_Matrix& mat)
 {
-	prepareForDecomposition(mat);
-	decomposeInternallyStoredFactor();
+    prepareForDecomposition(mat);
+    decomposeInternallyStoredFactor();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::idecompose(T_Matrix& mat)
 {
-	prepareForIDecomposition(mat);
-	decomposeInternallyStoredFactor();
+    prepareForIDecomposition(mat);
+    decomposeInternallyStoredFactor();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::decomposeInternallyStoredFactor()
 {
-	decomp_t dtype = determineDecompType(decompType(), m_factor.prop());
+    decomp_t dtype = determineDecompType(decompType(), m_factor.prop());
 
-	if(dtype == decomp_t::LLT)
-		decomposeLLt();
+    if(dtype == decomp_t::LLT)
+        decomposeLLt();
 
-	else if(dtype == decomp_t::LDLT)
-		decomposeLDLt();
+    else if(dtype == decomp_t::LDLT)
+        decomposeLDLt();
 
-	else if(dtype == decomp_t::LU)
-		decomposeLU();
+    else if(dtype == decomp_t::LU)
+        decomposeLU();
 
-	else if(dtype == decomp_t::CompleteLU)
-		decomposeCompleteLU();
+    else if(dtype == decomp_t::CompleteLU)
+        decomposeCompleteLU();
 
-	else
-		throw err::Exception();
+    else
+        throw err::Exception();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::prepareForSolution(T_Matrix& rhs) const
 {
-	if(!m_factor)
-		throw err::InvalidOp("Decomposition stage is not performed");
+    if(!m_factor)
+        throw err::InvalidOp("Decomposition stage is not performed");
 
-	//if(m_info)
-	//	throw err::InvalidOp("Decomposition stage is faulty");
+    //if(m_info)
+    //    throw err::InvalidOp("Decomposition stage is faulty");
 
-	default_solve_input_check(m_factor.ncols(), rhs);
+    default_solve_input_check(m_factor.ncols(), rhs);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::solve(T_Matrix& rhs) const
 {
-	prepareForSolution(rhs);
+    prepareForSolution(rhs);
 
-	decomp_t dtype = determineDecompType(decompType(), m_factor.prop());
+    decomp_t dtype = determineDecompType(decompType(), m_factor.prop());
 
-	if(dtype == decomp_t::LLT)
-		solveLLt(rhs);
+    if(dtype == decomp_t::LLT)
+        solveLLt(rhs);
 
-	else if(dtype == decomp_t::LDLT)
-		solveLDLt(rhs);
+    else if(dtype == decomp_t::LDLT)
+        solveLDLt(rhs);
 
-	else if(dtype == decomp_t::LU)
-		solveLU(rhs);
+    else if(dtype == decomp_t::LU)
+        solveLU(rhs);
 
-	else if(dtype == decomp_t::CompleteLU)
-		solveCompleteLU(rhs);
+    else if(dtype == decomp_t::CompleteLU)
+        solveCompleteLU(rhs);
 
-	else
-		throw err::Exception();
+    else
+        throw err::Exception();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::solve(T_Vector& rhs) const
 {
-	T_Matrix tmp(rhs.size(), 1, rhs.values(), rhs.size(), false);
-	solve(tmp);
+    T_Matrix tmp(rhs.size(), 1, rhs.values(), rhs.size(), false);
+    solve(tmp);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::decomposeLLt()
 {
-	llt_decomp_input_check(m_factor);
+    llt_decomp_input_check(m_factor);
 
-	m_info = lapack::potrf(
-			m_factor.prop().cuplo(), 
-			m_factor.ncols(), 
-			m_factor.values(), 
-			m_factor.ld());
-	
-	lapack_info_check(m_info);
+    m_info = lapack::potrf(
+            m_factor.prop().cuplo(), 
+            m_factor.ncols(), 
+            m_factor.values(), 
+            m_factor.ld());
+    
+    lapack_info_check(m_info);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::decomposeLDLt()
 {
-	ldlt_decomp_input_check(m_factor);
+    ldlt_decomp_input_check(m_factor);
 
-	if(m_factor.prop().isSymmetric()) {
+    if(m_factor.prop().isSymmetric()) {
 
-		ipiv1().resize(m_factor.ncols());
+        ipiv1().resize(m_factor.ncols());
 
-		m_info = lapack::sytrf(
-				m_factor.prop().cuplo(),
-				m_factor.ncols(),
-				m_factor.values(),
-				m_factor.ld(),
-				ipiv1().data());
+        m_info = lapack::sytrf(
+                m_factor.prop().cuplo(),
+                m_factor.ncols(),
+                m_factor.values(),
+                m_factor.ld(),
+                ipiv1().data());
 
-	} else if(m_factor.prop().isHermitian()) {
+    } else if(m_factor.prop().isHermitian()) {
 
-		ipiv1().resize(m_factor.ncols());
+        ipiv1().resize(m_factor.ncols());
 
-		m_info = lapack::hetrf(
-				m_factor.prop().cuplo(),
-				m_factor.ncols(),
-				m_factor.values(),
-				m_factor.ld(),
-				ipiv1().data());
+        m_info = lapack::hetrf(
+                m_factor.prop().cuplo(),
+                m_factor.ncols(),
+                m_factor.values(),
+                m_factor.ld(),
+                ipiv1().data());
 
-	} else {
+    } else {
 
-		throw err::Exception("Unreachable");
+        throw err::Exception("Unreachable");
 
-	} // prop
+    } // prop
 
-	lapack_info_check(m_info);
+    lapack_info_check(m_info);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::decomposeLU()
 {
-	lu_decomp_input_check(m_factor);
+    lu_decomp_input_check(m_factor);
 
-	m_factor.igeneral();
+    m_factor.igeneral();
 
-	if(m_factor.prop().isGeneral()) {
+    if(m_factor.prop().isGeneral()) {
 
-		ipiv1().resize(std::min(m_factor.nrows(), m_factor.ncols()));
+        ipiv1().resize(std::min(m_factor.nrows(), m_factor.ncols()));
 
-		m_info = lapack::getrf(
-				m_factor.nrows(),
-				m_factor.ncols(),
-				m_factor.values(),
-				m_factor.ld(),
-				ipiv1().data());
+        m_info = lapack::getrf(
+                m_factor.nrows(),
+                m_factor.ncols(),
+                m_factor.values(),
+                m_factor.ld(),
+                ipiv1().data());
 
-	} else {
+    } else {
 
-		throw err::Exception("Unreachable");
+        throw err::Exception("Unreachable");
 
-	} // prop
+    } // prop
 
-	lapack_info_check(m_info);
+    lapack_info_check(m_info);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::decomposeCompleteLU()
 {
-	lu_decomp_input_check(m_factor);
+    lu_decomp_input_check(m_factor);
 
-	m_factor.igeneral();
+    m_factor.igeneral();
 
-	if(m_factor.prop().isGeneral()) {
+    if(m_factor.prop().isGeneral()) {
 
-		ipiv1().resize(std::min(m_factor.nrows(), m_factor.ncols()));
-		jpiv1().resize(std::min(m_factor.nrows(), m_factor.ncols()));
+        ipiv1().resize(std::min(m_factor.nrows(), m_factor.ncols()));
+        jpiv1().resize(std::min(m_factor.nrows(), m_factor.ncols()));
 
-		m_info = lapack::getc2(
-				m_factor.ncols(),
-				m_factor.values(),
-				m_factor.ld(),
-				ipiv1().data(),
-				jpiv1().data());
+        m_info = lapack::getc2(
+                m_factor.ncols(),
+                m_factor.values(),
+                m_factor.ld(),
+                ipiv1().data(),
+                jpiv1().data());
 
-	} else {
+    } else {
 
-		throw err::Exception("Unreachable");
+        throw err::Exception("Unreachable");
 
-	} // prop
+    } // prop
 
-	lapack_info_check(m_info);
+    lapack_info_check(m_info);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::solveLLt(T_Matrix& rhs) const
 {
-	int_t info = lapack::potrs(
-			m_factor.prop().cuplo(), 
-			m_factor.ncols(), 
-			rhs.ncols(), 
-			m_factor.values(), 
-			m_factor.ld(), rhs.values(), rhs.ld());
-	
-	lapack_info_check(info);
+    int_t info = lapack::potrs(
+            m_factor.prop().cuplo(), 
+            m_factor.ncols(), 
+            rhs.ncols(), 
+            m_factor.values(), 
+            m_factor.ld(), rhs.values(), rhs.ld());
+    
+    lapack_info_check(info);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::solveLDLt(T_Matrix& rhs) const
 {
-	int_t info = 0;
+    int_t info = 0;
 
-	if(m_factor.prop().isSymmetric()) {
+    if(m_factor.prop().isSymmetric()) {
 
-		info = lapack::sytrs(
-				m_factor.prop().cuplo(),
-				m_factor.ncols(),
-				rhs.ncols(),
-				m_factor.values(),
-				m_factor.ld(),
-				ipiv1().data(),
-				rhs.values(),
-				rhs.ld());
+        info = lapack::sytrs(
+                m_factor.prop().cuplo(),
+                m_factor.ncols(),
+                rhs.ncols(),
+                m_factor.values(),
+                m_factor.ld(),
+                ipiv1().data(),
+                rhs.values(),
+                rhs.ld());
 
-	} else if(m_factor.prop().isHermitian()) {
+    } else if(m_factor.prop().isHermitian()) {
 
-		info = lapack::hetrs(
-				m_factor.prop().cuplo(),
-				m_factor.ncols(),
-				rhs.ncols(),
-				m_factor.values(),
-				m_factor.ld(),
-				ipiv1().data(),
-				rhs.values(),
-				rhs.ld());
+        info = lapack::hetrs(
+                m_factor.prop().cuplo(),
+                m_factor.ncols(),
+                rhs.ncols(),
+                m_factor.values(),
+                m_factor.ld(),
+                ipiv1().data(),
+                rhs.values(),
+                rhs.ld());
 
-	} else {
+    } else {
 
-		throw err::Exception("Unreachable");
+        throw err::Exception("Unreachable");
 
-	} // prop
+    } // prop
 
-	lapack_info_check(info);
+    lapack_info_check(info);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::solveLU(T_Matrix& rhs) const
 {
-	int_t info = 0;
+    int_t info = 0;
 
-	if(m_factor.prop().isGeneral()) {
+    if(m_factor.prop().isGeneral()) {
 
-		info = lapack::getrs('N',
-				m_factor.ncols(),
-				rhs.ncols(),
-				m_factor.values(),
-				m_factor.ld(),
-				ipiv1().data(),
-				rhs.values(),
-				rhs.ld());
+        info = lapack::getrs('N',
+                m_factor.ncols(),
+                rhs.ncols(),
+                m_factor.values(),
+                m_factor.ld(),
+                ipiv1().data(),
+                rhs.values(),
+                rhs.ld());
 
-	} else {
+    } else {
 
-		throw err::Exception("Unreachable");
+        throw err::Exception("Unreachable");
 
-	} // prop
+    } // prop
 
-	lapack_info_check(info);
+    lapack_info_check(info);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::solveCompleteLU(T_Matrix& rhs) const
 {
-	if(m_factor.prop().isGeneral()) {
+    if(m_factor.prop().isGeneral()) {
 
-		int_t nrhs = rhs.ncols();
-		T_Matrix scale(nrhs, int_t(1));
+        int_t nrhs = rhs.ncols();
+        T_Matrix scale(nrhs, int_t(1));
 
-		for(int_t k = 0; k < rhs.ncols(); k++) {
+        for(int_t k = 0; k < rhs.ncols(); k++) {
 
-			auto scale_k = arith::getRe(scale(k,0));
-			T_Vector rhs_k = rhs.rcolumn(k);
+            auto scale_k = arith::getRe(scale(k,0));
+            T_Vector rhs_k = rhs.rcolumn(k);
 
-			int_t info = lapack::gesc2(
-					m_factor.ncols(),
-					m_factor.values(),
-					m_factor.ld(),
-					rhs_k.values(),
-					ipiv1().data(),
-					jpiv1().data(),
-					&scale_k);
+            int_t info = lapack::gesc2(
+                    m_factor.ncols(),
+                    m_factor.values(),
+                    m_factor.ld(),
+                    rhs_k.values(),
+                    ipiv1().data(),
+                    jpiv1().data(),
+                    &scale_k);
 
-			scale(k,0) = scale_k;
+            scale(k,0) = scale_k;
 
-			// should I also scale here ???
+            // should I also scale here ???
 
-			lapack_info_check(info);
+            lapack_info_check(info);
 
-		} // k
+        } // k
 
-	} else {
+    } else {
 
-		throw err::Exception("Unreachable");
+        throw err::Exception("Unreachable");
 
-	} // prop
+    } // prop
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

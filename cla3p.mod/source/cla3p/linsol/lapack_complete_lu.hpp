@@ -36,26 +36,26 @@ namespace cla3p {
 template <typename T_Matrix>
 class LapackCompleteLU : public LapackBase<T_Matrix> {
 
-	public:
+    public:
 
-		// no copy
-		LapackCompleteLU(const LapackCompleteLU&) = delete;
-		LapackCompleteLU& operator=(const LapackCompleteLU&) = delete;
+        // no copy
+        LapackCompleteLU(const LapackCompleteLU&) = delete;
+        LapackCompleteLU& operator=(const LapackCompleteLU&) = delete;
 
-		/**
-		 * @copydoc cla3p::LapackLLt::LapackLLt()
-		 */
-		LapackCompleteLU() : LapackBase<T_Matrix>(decomp_t::CompleteLU) {}
+        /**
+         * @copydoc cla3p::LapackLLt::LapackLLt()
+         */
+        LapackCompleteLU() : LapackBase<T_Matrix>(decomp_t::CompleteLU) {}
 
-		/**
-		 * @copydoc cla3p::LapackLLt::LapackLLt(int_t n)
-		 */
-		LapackCompleteLU(int_t n) : LapackBase<T_Matrix>(decomp_t::CompleteLU, n) {}
+        /**
+         * @copydoc cla3p::LapackLLt::LapackLLt(int_t n)
+         */
+        LapackCompleteLU(int_t n) : LapackBase<T_Matrix>(decomp_t::CompleteLU, n) {}
 
-		/**
-		 * @copydoc cla3p::LapackLLt::~LapackLLt()
-		 */
-		~LapackCompleteLU() = default;
+        /**
+         * @copydoc cla3p::LapackLLt::~LapackLLt()
+         */
+        ~LapackCompleteLU() = default;
 };
 
 /*-------------------------------------------------*/

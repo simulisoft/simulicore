@@ -42,212 +42,212 @@ namespace cla3p {
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 PardisoBase<T_Matrix>::PardisoBase(decomp_t decompType)
-	: m_decompType(decompType)
+    : m_decompType(decompType)
 {
-	defaults();
+    defaults();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 PardisoBase<T_Matrix>::~PardisoBase()
 {
-	clear();
+    clear();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 decomp_t PardisoBase<T_Matrix>::decompType() const
 {
-	return m_decompType;
+    return m_decompType;
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 std::string PardisoBase<T_Matrix>::name() const
 {
-	std::ostringstream ss;
-	ss << "Pardiso " << decompType();
-	return ss.str();
+    std::ostringstream ss;
+    ss << "Pardiso " << decompType();
+    return ss.str();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::defaults()
 {
-	std::fill(m_pt, m_pt + PT_DIM, 0);
-	std::fill(m_iparm, m_iparm + IPARM_DIM, 0);
+    std::fill(m_pt, m_pt + PT_DIM, 0);
+    std::fill(m_iparm, m_iparm + IPARM_DIM, 0);
 
-	pardiso::ImmutableParams<T_Scalar>::setToIparm(m_iparm);
+    pardiso::ImmutableParams<T_Scalar>::setToIparm(m_iparm);
 
-	m_mtype = mtype_t::Undefined;
-	m_maxfct = 1;
-	m_msglvl = 0;
+    m_mtype = mtype_t::Undefined;
+    m_maxfct = 1;
+    m_msglvl = 0;
 
-	m_dim = 0;
-	m_rowptr = nullptr;
-	m_colidx = nullptr;
-	m_values = nullptr;
+    m_dim = 0;
+    m_rowptr = nullptr;
+    m_colidx = nullptr;
+    m_values = nullptr;
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::clear()
 {
-	pardiso::GlobalParams::clear();
-	pardiso::AnalysisParams::clear();
-	pardiso::DecompParams::clear();
-	pardiso::SolveParams::clear();
+    pardiso::GlobalParams::clear();
+    pardiso::AnalysisParams::clear();
+    pardiso::DecompParams::clear();
+    pardiso::SolveParams::clear();
 
-	m_permBuffer.clear();
-	m_permMatrix.clear();
+    m_permBuffer.clear();
+    m_permMatrix.clear();
 
-	callDriver(phase_t::ClearAll);
+    callDriver(phase_t::ClearAll);
 
-	defaults();
+    defaults();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::clearNumeric()
 {
-	callDriver(phase_t::ClearNumeric);
+    callDriver(phase_t::ClearNumeric);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::updateIparmAnalysis()
 {
-	pardiso::GlobalParams::setToIparm(m_iparm);
-	pardiso::AnalysisParams::setToIparm(m_iparm);
+    pardiso::GlobalParams::setToIparm(m_iparm);
+    pardiso::AnalysisParams::setToIparm(m_iparm);
 
-	if(m_iparm[10] == pardiso::Undefined()) {
+    if(m_iparm[10] == pardiso::Undefined()) {
 
-		if(m_mtype == mtype_t::RealNonSymmetric || m_mtype == mtype_t::ComplexNonSymmetric) 
-			m_iparm[10] = 1;
-		else
-			m_iparm[10] = 0;
+        if(m_mtype == mtype_t::RealNonSymmetric || m_mtype == mtype_t::ComplexNonSymmetric) 
+            m_iparm[10] = 1;
+        else
+            m_iparm[10] = 0;
 
-	} // iparm10
+    } // iparm10
 
-	if(m_iparm[12] == pardiso::Undefined()) {
+    if(m_iparm[12] == pardiso::Undefined()) {
 
-		if(m_mtype == mtype_t::RealNonSymmetric || m_mtype == mtype_t::ComplexNonSymmetric) 
-			m_iparm[12] = 1;
-		else
-			m_iparm[12] = 0;
+        if(m_mtype == mtype_t::RealNonSymmetric || m_mtype == mtype_t::ComplexNonSymmetric) 
+            m_iparm[12] = 1;
+        else
+            m_iparm[12] = 0;
 
-	} // iparm12
+    } // iparm12
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::prepareForAnalysis(const T_Matrix& mat)
 {
-	decomp_generic_check(mat);
+    decomp_generic_check(mat);
 
-	clearReservedParams();
-	clearOutputParams();
+    clearReservedParams();
+    clearOutputParams();
 
-	m_mtype = deduceMtype(mat);
+    m_mtype = deduceMtype(mat);
 
-	if(m_mtype == mtype_t::Undefined) {
-		throw err::Exception(msg::PardisoError() + ": Matrix (" + mat.prop().name() + ") is incompatible with " + name());
-	} // error
+    if(m_mtype == mtype_t::Undefined) {
+        throw err::Exception(msg::PardisoError() + ": Matrix (" + mat.prop().name() + ") is incompatible with " + name());
+    } // error
 
-	updateIparmAnalysis();
-	updateMatrixInfo(mat);
-	configureFillReducer();
+    updateIparmAnalysis();
+    updateMatrixInfo(mat);
+    configureFillReducer();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::analysis(const T_Matrix& mat)
 {
-	prepareForAnalysis(mat);
-	callDriver(phase_t::Analysis);
+    prepareForAnalysis(mat);
+    callDriver(phase_t::Analysis);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::updateIparmDecomposition()
 {
-	pardiso::GlobalParams::setToIparm(m_iparm);
-	pardiso::DecompParams::setToIparm(m_iparm);
+    pardiso::GlobalParams::setToIparm(m_iparm);
+    pardiso::DecompParams::setToIparm(m_iparm);
 
-	if(m_iparm[9] == pardiso::Undefined()) {
+    if(m_iparm[9] == pardiso::Undefined()) {
 
-		if(m_mtype == mtype_t::RealNonSymmetric || m_mtype == mtype_t::ComplexNonSymmetric)
-			m_iparm[9] = 13;
-		else if(m_mtype == mtype_t::RealSymmetricIndef || m_mtype == mtype_t::ComplexHermitianIndef || m_mtype == mtype_t::ComplexSymmetric)
-			m_iparm[9] = 8;
-		else
-			m_iparm[9] = 0;
+        if(m_mtype == mtype_t::RealNonSymmetric || m_mtype == mtype_t::ComplexNonSymmetric)
+            m_iparm[9] = 13;
+        else if(m_mtype == mtype_t::RealSymmetricIndef || m_mtype == mtype_t::ComplexHermitianIndef || m_mtype == mtype_t::ComplexSymmetric)
+            m_iparm[9] = 8;
+        else
+            m_iparm[9] = 0;
 
-	} // iparm09
+    } // iparm09
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::prepareForDecomposition(const T_Matrix& mat)
 {
-	decomp_generic_check(mat);
+    decomp_generic_check(mat);
 
-	if(m_mtype == mtype_t::Undefined) {
-		throw err::Exception(msg::PardisoError() + ": Analysis not performed");
-	} // error
+    if(m_mtype == mtype_t::Undefined) {
+        throw err::Exception(msg::PardisoError() + ": Analysis not performed");
+    } // error
 
-	if(m_mtype != deduceMtype(mat)) {
-		throw err::Exception(msg::PardisoError() + ": Matrix (" + mat.prop().name() + ") is incompatible with analysis phase");
-	} // error
+    if(m_mtype != deduceMtype(mat)) {
+        throw err::Exception(msg::PardisoError() + ": Matrix (" + mat.prop().name() + ") is incompatible with analysis phase");
+    } // error
 
-	updateMatrixInfo(mat);
-	updateIparmDecomposition();
+    updateMatrixInfo(mat);
+    updateIparmDecomposition();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::decompose(const T_Matrix& mat)
 {
-	prepareForDecomposition(mat);
-	callDriver(phase_t::Numeric);
+    prepareForDecomposition(mat);
+    callDriver(phase_t::Numeric);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::updateIparmSolve()
 {
-	pardiso::GlobalParams::setToIparm(m_iparm);
-	pardiso::SolveParams::setToIparm(m_iparm);
+    pardiso::GlobalParams::setToIparm(m_iparm);
+    pardiso::SolveParams::setToIparm(m_iparm);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::prepareForSolution(const dns::XxMatrix<T_Scalar>& rhs, dns::XxMatrix<T_Scalar>& sol)
 {
-	similarity_check(rhs, sol);
+    similarity_check(rhs, sol);
 
-	default_solve_input_check(m_dim, rhs);
-	default_solve_input_check(m_dim, sol);
+    default_solve_input_check(m_dim, rhs);
+    default_solve_input_check(m_dim, sol);
 
-	updateIparmSolve();
+    updateIparmSolve();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::solve(const dns::XxMatrix<T_Scalar>& rhs, dns::XxMatrix<T_Scalar>& sol)
 {
-	if(!sol)
-		sol = dns::XxMatrix<T_Scalar>(rhs.nrows(), rhs.ncols());
+    if(!sol)
+        sol = dns::XxMatrix<T_Scalar>(rhs.nrows(), rhs.ncols());
 
-	if(rhs.nrows() == rhs.ld() && sol.nrows() == sol.ld()) {
+    if(rhs.nrows() == rhs.ld() && sol.nrows() == sol.ld()) {
 
-	    prepareForSolution(rhs, sol);
-	    callDriver(phase_t::Solve, rhs.ncols(), const_cast<T_Scalar*>(rhs.values()), sol.values());
+        prepareForSolution(rhs, sol);
+        callDriver(phase_t::Solve, rhs.ncols(), const_cast<T_Scalar*>(rhs.values()), sol.values());
 
-	} else {
+    } else {
 
-		for(int_t j = 0; j < rhs.ncols(); j++) {
+        for(int_t j = 0; j < rhs.ncols(); j++) {
             dns::XxVector<T_Scalar> Xj = sol.rcolumn(j);
-			solve(rhs.rcolumn(j).get(), Xj);
-		} // j
+            solve(rhs.rcolumn(j).get(), Xj);
+        } // j
 
-	} // ld checks
+    } // ld checks
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::solve(const dns::XxVector<T_Scalar>& rhs, dns::XxVector<T_Scalar>& sol)
 {
-	if(!sol)
-		sol = dns::XxVector<T_Scalar>(rhs.size());
+    if(!sol)
+        sol = dns::XxVector<T_Scalar>(rhs.size());
 
-	Guard<dns::XxMatrix<T_Scalar>> rhsView = dns::XxMatrix<T_Scalar>::view(rhs.size(), 1, rhs.values(), rhs.size());
-	dns::XxMatrix<T_Scalar> solView(sol.size(), 1, sol.values(), sol.size(), false);
-	solve(rhsView.get(), solView);
+    Guard<dns::XxMatrix<T_Scalar>> rhsView = dns::XxMatrix<T_Scalar>::view(rhs.size(), 1, rhs.values(), rhs.size());
+    dns::XxMatrix<T_Scalar> solView(sol.size(), 1, sol.values(), sol.size(), false);
+    solve(rhsView.get(), solView);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
@@ -255,123 +255,123 @@ void PardisoBase<T_Matrix>::solve(const dns::XxVector<T_Scalar>& rhs, dns::XxVec
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::setVerbose(bool flg)
 {
-	m_msglvl = (flg ? 1 : 0);
+    m_msglvl = (flg ? 1 : 0);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 typename PardisoBase<T_Matrix>::mtype_t 
 PardisoBase<T_Matrix>::deduceMtype(const T_Matrix& mat)
 {
-	mtype_t ret = mtype_t::Undefined;
+    mtype_t ret = mtype_t::Undefined;
 
-	decomp_t dtype = determineDecompType(decompType(), mat.prop());
+    decomp_t dtype = determineDecompType(decompType(), mat.prop());
 
-	if(TypeTraits<typename T_Matrix::value_type>::is_real()) {
+    if(TypeTraits<typename T_Matrix::value_type>::is_real()) {
 
-		if(mat.prop().isSymmetric() && mat.prop().isUpper() && dtype == decomp_t::LLT        ) return mtype_t::RealSymmetricPosdef;
-		if(mat.prop().isSymmetric() && mat.prop().isUpper() && dtype == decomp_t::LDLT       ) return mtype_t::RealSymmetricIndef;
-		if(mat.prop().isGeneral()                           && dtype == decomp_t::LU         ) return mtype_t::RealNonSymmetric;
-		if(mat.prop().isGeneral()                           && dtype == decomp_t::SymmetricLU) return mtype_t::RealStructurallySymmetric;
+        if(mat.prop().isSymmetric() && mat.prop().isUpper() && dtype == decomp_t::LLT        ) return mtype_t::RealSymmetricPosdef;
+        if(mat.prop().isSymmetric() && mat.prop().isUpper() && dtype == decomp_t::LDLT       ) return mtype_t::RealSymmetricIndef;
+        if(mat.prop().isGeneral()                           && dtype == decomp_t::LU         ) return mtype_t::RealNonSymmetric;
+        if(mat.prop().isGeneral()                           && dtype == decomp_t::SymmetricLU) return mtype_t::RealStructurallySymmetric;
 
-	} else if(TypeTraits<typename T_Matrix::value_type>::is_complex()) {
+    } else if(TypeTraits<typename T_Matrix::value_type>::is_complex()) {
 
-		if(mat.prop().isHermitian() && mat.prop().isUpper() && dtype == decomp_t::LLT        ) return mtype_t::ComplexHermitianPosdef;
-		if(mat.prop().isHermitian() && mat.prop().isUpper() && dtype == decomp_t::LDLT       ) return mtype_t::ComplexHermitianIndef;
-		if(mat.prop().isSymmetric() && mat.prop().isUpper() && dtype == decomp_t::LDLT       ) return mtype_t::ComplexSymmetric;
-		if(mat.prop().isGeneral()                           && dtype == decomp_t::LU         ) return mtype_t::ComplexNonSymmetric;
-		if(mat.prop().isGeneral()                           && dtype == decomp_t::SymmetricLU) return mtype_t::ComplexStructurallySymmetric;
+        if(mat.prop().isHermitian() && mat.prop().isUpper() && dtype == decomp_t::LLT        ) return mtype_t::ComplexHermitianPosdef;
+        if(mat.prop().isHermitian() && mat.prop().isUpper() && dtype == decomp_t::LDLT       ) return mtype_t::ComplexHermitianIndef;
+        if(mat.prop().isSymmetric() && mat.prop().isUpper() && dtype == decomp_t::LDLT       ) return mtype_t::ComplexSymmetric;
+        if(mat.prop().isGeneral()                           && dtype == decomp_t::LU         ) return mtype_t::ComplexNonSymmetric;
+        if(mat.prop().isGeneral()                           && dtype == decomp_t::SymmetricLU) return mtype_t::ComplexStructurallySymmetric;
 
-	} // real/complex
+    } // real/complex
 
-	return ret;
+    return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::updateMatrixInfo(const T_Matrix& mat)
 {
-	m_dim = mat.nrows();
-	m_rowptr = mat.rowptr();
-	m_colidx = mat.colidx();
-	m_values = mat.values();
+    m_dim = mat.nrows();
+    m_rowptr = mat.rowptr();
+    m_colidx = mat.colidx();
+    m_values = mat.values();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::resizePerm(int_t size)
 {
-	if(size > m_permBuffer.size()) {
-		m_permBuffer.clear();
-		m_permBuffer = prm::PiMatrix(size);
-	}
-	m_permMatrix = prm::PiMatrix(size, m_permBuffer.values(), false);
+    if(size > m_permBuffer.size()) {
+        m_permBuffer.clear();
+        m_permBuffer = prm::PiMatrix(size);
+    }
+    m_permMatrix = prm::PiMatrix(size, m_permBuffer.values(), false);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::configureFillReducer()
 {
-	resizePerm(m_dim);
+    resizePerm(m_dim);
 
-	if(userDefinedPermutation()) {
+    if(userDefinedPermutation()) {
 
-		if(m_dim != userPermMatrix().size())
-			throw err::NoConsistency("User defined permutation matrix dimension mismatch");
+        if(m_dim != userPermMatrix().size())
+            throw err::NoConsistency("User defined permutation matrix dimension mismatch");
 
-		m_permMatrix = userPermMatrix();
+        m_permMatrix = userPermMatrix();
 
-	} // user defined perm
+    } // user defined perm
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::clearReservedParams()
 {
-	m_iparm[ 2] = 0;
-	m_iparm[25] = 0;
-	m_iparm[28] = 0;
-	m_iparm[31] = 0;
-	m_iparm[32] = 0;
-	m_iparm[37] = 0;
-	m_iparm[39] = 0;
-	m_iparm[40] = 0;
-	m_iparm[41] = 0;
-	m_iparm[43] = 0;
-	m_iparm[44] = 0;
-	m_iparm[45] = 0;
-	m_iparm[46] = 0;
-	m_iparm[47] = 0;
-	m_iparm[48] = 0;
-	m_iparm[49] = 0;
-	m_iparm[50] = 0;
-	m_iparm[51] = 0;
-	m_iparm[52] = 0;
-	m_iparm[53] = 0;
-	m_iparm[54] = 0;
-	m_iparm[56] = 0;
-	m_iparm[57] = 0;
-	m_iparm[58] = 0;
-	m_iparm[60] = 0;
-	m_iparm[61] = 0;
-	m_iparm[63] = 0;
+    m_iparm[ 2] = 0;
+    m_iparm[25] = 0;
+    m_iparm[28] = 0;
+    m_iparm[31] = 0;
+    m_iparm[32] = 0;
+    m_iparm[37] = 0;
+    m_iparm[39] = 0;
+    m_iparm[40] = 0;
+    m_iparm[41] = 0;
+    m_iparm[43] = 0;
+    m_iparm[44] = 0;
+    m_iparm[45] = 0;
+    m_iparm[46] = 0;
+    m_iparm[47] = 0;
+    m_iparm[48] = 0;
+    m_iparm[49] = 0;
+    m_iparm[50] = 0;
+    m_iparm[51] = 0;
+    m_iparm[52] = 0;
+    m_iparm[53] = 0;
+    m_iparm[54] = 0;
+    m_iparm[56] = 0;
+    m_iparm[57] = 0;
+    m_iparm[58] = 0;
+    m_iparm[60] = 0;
+    m_iparm[61] = 0;
+    m_iparm[63] = 0;
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::clearOutputParams()
 {
-	m_iparm[ 6] = 0; // (output) Number of iterative refinement steps performed
-	m_iparm[13] = 0; // (output) Number of perturbed pivots
-	m_iparm[14] = 0; // (output) Peak memory on symbolic factorization
-	m_iparm[15] = 0; // (output) Permanent memory on symbolic factorization
-	m_iparm[16] = 0; // (output) Size of factors/Peak memory on numerical factorization and solution
-	m_iparm[19] = 0; // (output) Report CG/CGS diagnostics
-	m_iparm[21] = 0; // (output) Inertia: number of positive eigenvalues
-	m_iparm[22] = 0; // (output) Inertia: number of negative eigenvalues
-	m_iparm[29] = 0; // (output) Number of zero or negative pivots
-	m_iparm[62] = 0; // (output) Size of the minimum OOC memory for numerical factorization and solution
+    m_iparm[ 6] = 0; // (output) Number of iterative refinement steps performed
+    m_iparm[13] = 0; // (output) Number of perturbed pivots
+    m_iparm[14] = 0; // (output) Peak memory on symbolic factorization
+    m_iparm[15] = 0; // (output) Permanent memory on symbolic factorization
+    m_iparm[16] = 0; // (output) Size of factors/Peak memory on numerical factorization and solution
+    m_iparm[19] = 0; // (output) Report CG/CGS diagnostics
+    m_iparm[21] = 0; // (output) Inertia: number of positive eigenvalues
+    m_iparm[22] = 0; // (output) Inertia: number of negative eigenvalues
+    m_iparm[29] = 0; // (output) Number of zero or negative pivots
+    m_iparm[62] = 0; // (output) Size of the minimum OOC memory for numerical factorization and solution
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::callDriver(phase_t phase, int_t nrhs, T_Scalar *b, T_Scalar *x)
 {
 #if defined(CLA3P_INTEL_MKL)
-	int_t error = mkl::pardisoDriver(
+    int_t error = mkl::pardisoDriver(
     m_pt,
     m_maxfct,
     1,
@@ -388,79 +388,79 @@ void PardisoBase<T_Matrix>::callDriver(phase_t phase, int_t nrhs, T_Scalar *b, T
     b,
     x);
 
-	checkError(error);
+    checkError(error);
 #else
-	throw err::InvalidOp(msg::MissingIntelMKL());
+    throw err::InvalidOp(msg::MissingIntelMKL());
 #endif
 }
 /*-------------------------------------------------*/
 static std::string pardisoGetErrorMsg(int_t error)
 {
-	std::string ret;
+    std::string ret;
 
-	switch(error) {
+    switch(error) {
 
-		case 0:
-			ret = "Success";
-			break;
+        case 0:
+            ret = "Success";
+            break;
 
-		case -1:
-			ret = "Input inconsistent";
-			break;
+        case -1:
+            ret = "Input inconsistent";
+            break;
 
-		case -2:
-			ret = "Not enough memory";
-			break;
+        case -2:
+            ret = "Not enough memory";
+            break;
 
-		case -3:
-			ret = "Reordering problem";
-			break;
+        case -3:
+            ret = "Reordering problem";
+            break;
 
-		case -4:
-			ret = "Zero pivot, numerical factorization or iterative refinement problem";
-			break;
+        case -4:
+            ret = "Zero pivot, numerical factorization or iterative refinement problem";
+            break;
 
-		case -5:
-			ret = "Unclassified (internal) error";
-			break;
+        case -5:
+            ret = "Unclassified (internal) error";
+            break;
 
-		case -6:
-			ret = "Reordering failed";
-			break;
+        case -6:
+            ret = "Reordering failed";
+            break;
 
-		case -7:
-			ret = "Diagonal matrix is singular";
-			break;
+        case -7:
+            ret = "Diagonal matrix is singular";
+            break;
 
-		case -8:
-			ret = "32-bit integer overflow problem";
-			break;
+        case -8:
+            ret = "32-bit integer overflow problem";
+            break;
 
-		case -9:
-			ret = "Not enough memory for OOC";
-			break;
+        case -9:
+            ret = "Not enough memory for OOC";
+            break;
 
-		case -10:
-			ret = "Problems with opening OOC temporary files";
-			break;
+        case -10:
+            ret = "Problems with opening OOC temporary files";
+            break;
 
-		case -11:
-			ret = "Read/write problems with the OOC data file";
-			break;
+        case -11:
+            ret = "Read/write problems with the OOC data file";
+            break;
 
-		default:
-			ret = "Unknown Error";
+        default:
+            ret = "Unknown Error";
 
-	} // error switch
+    } // error switch
 
-	return ret;
+    return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::checkError(int_t error) const
 {
-	if(error != 0)
-		throw err::Exception(msg::PardisoError() + ": " + pardisoGetErrorMsg(error));
+    if(error != 0)
+        throw err::Exception(msg::PardisoError() + ": " + pardisoGetErrorMsg(error));
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
@@ -468,49 +468,49 @@ void PardisoBase<T_Matrix>::checkError(int_t error) const
 template <typename T_Matrix>
 const prm::PiMatrix& PardisoBase<T_Matrix>::fillReducingOrdering() const
 {
-	return m_permMatrix;
+    return m_permMatrix;
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 int_t PardisoBase<T_Matrix>::iterativeRefinementSteps() const
 {
-	return m_iparm[6];
+    return m_iparm[6];
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 int_t PardisoBase<T_Matrix>::perturbedPivots() const
 {
-	return m_iparm[13];
+    return m_iparm[13];
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 int_t PardisoBase<T_Matrix>::peakAnalysisMemory() const
 {
-	return m_iparm[14];
+    return m_iparm[14];
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 int_t PardisoBase<T_Matrix>::permanentAnalysisMemory() const
 {
-	return m_iparm[15];
+    return m_iparm[15];
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 int_t PardisoBase<T_Matrix>::factorMemory() const
 {
-	return m_iparm[16];
+    return m_iparm[16];
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 int_t PardisoBase<T_Matrix>::inertiaPositive() const
 {
-	return m_iparm[21];
+    return m_iparm[21];
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 int_t PardisoBase<T_Matrix>::inertiaNegative() const
 {
-	return m_iparm[22];
+    return m_iparm[22];
 }
 /*-------------------------------------------------*/
 template class PardisoBase<csr::RdMatrix>;

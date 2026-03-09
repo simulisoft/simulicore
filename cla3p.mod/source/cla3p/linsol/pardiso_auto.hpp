@@ -34,21 +34,21 @@ namespace cla3p {
 template <typename T_Matrix>
 class PardisoAuto : public PardisoBase<T_Matrix> {
 
-	public:
+    public:
 
-		// no copy
-		PardisoAuto(const PardisoAuto&) = delete;
-		PardisoAuto& operator=(const PardisoAuto&) = delete;
+        // no copy
+        PardisoAuto(const PardisoAuto&) = delete;
+        PardisoAuto& operator=(const PardisoAuto&) = delete;
 
-		/**
-		 * @copydoc cla3p::PardisoLLt::PardisoLLt()
-		 */
-		PardisoAuto() : PardisoBase<T_Matrix>(decomp_t::Auto) {}
+        /**
+         * @copydoc cla3p::PardisoLLt::PardisoLLt()
+         */
+        PardisoAuto() : PardisoBase<T_Matrix>(decomp_t::Auto) {}
 
-		/**
-		 * @copydoc cla3p::PardisoLLt::~PardisoLLt()
-		 */
-		~PardisoAuto() = default;
+        /**
+         * @copydoc cla3p::PardisoLLt::~PardisoLLt()
+         */
+        ~PardisoAuto() = default;
 };
 
 /*-------------------------------------------------*/

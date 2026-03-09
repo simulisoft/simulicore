@@ -38,29 +38,29 @@ namespace dns { template <typename T_Scalar> class XxVector; }
 template <typename T_Matrix>
 class LapackLU : public LapackBase<T_Matrix> {
 
-	using T_Scalar = typename T_Matrix::value_type;
-	using T_Vector = dns::XxVector<T_Scalar>;
+    using T_Scalar = typename T_Matrix::value_type;
+    using T_Vector = dns::XxVector<T_Scalar>;
 
-	public:
+    public:
 
-		// no copy
-		LapackLU(const LapackLU&) = delete;
-		LapackLU& operator=(const LapackLU&) = delete;
+        // no copy
+        LapackLU(const LapackLU&) = delete;
+        LapackLU& operator=(const LapackLU&) = delete;
 
-		/**
-		 * @copydoc cla3p::LapackLLt::LapackLLt()
-		 */
-		LapackLU() : LapackBase<T_Matrix>(decomp_t::LU) {}
+        /**
+         * @copydoc cla3p::LapackLLt::LapackLLt()
+         */
+        LapackLU() : LapackBase<T_Matrix>(decomp_t::LU) {}
 
-		/**
-		 * @copydoc cla3p::LapackLLt::LapackLLt(int_t n)
-		 */
-		LapackLU(int_t n) : LapackBase<T_Matrix>(decomp_t::LU, n) {}
+        /**
+         * @copydoc cla3p::LapackLLt::LapackLLt(int_t n)
+         */
+        LapackLU(int_t n) : LapackBase<T_Matrix>(decomp_t::LU, n) {}
 
-		/**
-		 * @copydoc cla3p::LapackLLt::~LapackLLt()
-		 */
-		~LapackLU() = default;
+        /**
+         * @copydoc cla3p::LapackLLt::~LapackLLt()
+         */
+        ~LapackLU() = default;
 };
 
 /*-------------------------------------------------*/

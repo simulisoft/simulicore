@@ -38,29 +38,29 @@ namespace dns { template <typename T_Scalar> class XxVector; }
 template <typename T_Matrix>
 class LapackAuto : public LapackBase<T_Matrix> {
 
-	using T_Scalar = typename T_Matrix::value_type;
-	using T_Vector = dns::XxVector<T_Scalar>;
+    using T_Scalar = typename T_Matrix::value_type;
+    using T_Vector = dns::XxVector<T_Scalar>;
 
-	public:
+    public:
 
-		// no copy
-		LapackAuto(const LapackAuto&) = delete;
-		LapackAuto& operator=(const LapackAuto&) = delete;
+        // no copy
+        LapackAuto(const LapackAuto&) = delete;
+        LapackAuto& operator=(const LapackAuto&) = delete;
 
-		/**
-		 * @copydoc cla3p::LapackLLt::LapackLLt()
-		 */
-		LapackAuto() : LapackBase<T_Matrix>(decomp_t::Auto) {}
+        /**
+         * @copydoc cla3p::LapackLLt::LapackLLt()
+         */
+        LapackAuto() : LapackBase<T_Matrix>(decomp_t::Auto) {}
 
-		/**
-		 * @copydoc cla3p::LapackLLt::LapackLLt(int_t n)
-		 */
-		LapackAuto(int_t n) : LapackBase<T_Matrix>(decomp_t::Auto, n) {}
+        /**
+         * @copydoc cla3p::LapackLLt::LapackLLt(int_t n)
+         */
+        LapackAuto(int_t n) : LapackBase<T_Matrix>(decomp_t::Auto, n) {}
 
-		/**
-		 * @copydoc cla3p::LapackLLt::~LapackLLt()
-		 */
-		~LapackAuto() = default;
+        /**
+         * @copydoc cla3p::LapackLLt::~LapackLLt()
+         */
+        ~LapackAuto() = default;
 };
 
 /*-------------------------------------------------*/

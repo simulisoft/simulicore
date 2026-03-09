@@ -42,99 +42,99 @@ namespace dns { template <typename T_Scalar> class XxVector; }
 template <typename T_Matrix>
 class LapackBase {
 
-	private:
-		using T_Scalar = typename T_Matrix::value_type;
-		using T_Vector = dns::XxVector<T_Scalar>;
+    private:
+        using T_Scalar = typename T_Matrix::value_type;
+        using T_Vector = dns::XxVector<T_Scalar>;
 
-	protected:
-		LapackBase(decomp_t decompType);
-		LapackBase(decomp_t decompType, int_t n);
-		~LapackBase();
+    protected:
+        LapackBase(decomp_t decompType);
+        LapackBase(decomp_t decompType, int_t n);
+        ~LapackBase();
 
-	public:
-		std::string name() const;
+    public:
+        std::string name() const;
 
-		/**
-		 * @brief Allocates internal buffers.
-		 * @details Preallocates internal storage to avoid dynamic allocation during decomposition.
-		 * @param[in] n The maximum dimension for the buffers.
-		 */
-		void reserve(int_t n);
-		
-		/**
-		 * @brief Clears the solver internal data.
-		 * @details Clears the solver internal data and resets all settings.
-		 */
-		void clear();
-		
-		/**
-		 * @brief Performs matrix decomposition.
-		 * @details Computes the matrix factorization without modifying the input matrix.
-		 * @param[in] mat The matrix to be decomposed.
-		 */
-		void decompose(const T_Matrix& mat);
-		
-		/**
-		 * @brief Performs in-place matrix decomposition.
-		 * @details Computes the matrix factorization by overwriting the input matrix.
-		 * @param[in,out] mat The matrix to be decomposed, destroyed after the operation.
-		 */
-		void idecompose(T_Matrix& mat);
-		
-		/**
-		 * @brief Performs in-place matrix solution.
-		 * @details Solves the linear system using the precomputed factorization.
-		 * @param[in,out] rhs On input, the right hand side matrix, on exit is overwritten with the solution.
-		 */
-		void solve(T_Matrix& rhs) const;
-		
-		/**
-		 * @brief Performs in-place vector solution.
-		 * @details Solves the linear system using the precomputed factorization.
-		 * @param[in,out] rhs On input, the right hand side vector, on exit is overwritten with the solution.
-		 */
-		void solve(T_Vector& rhs) const;
+        /**
+         * @brief Allocates internal buffers.
+         * @details Preallocates internal storage to avoid dynamic allocation during decomposition.
+         * @param[in] n The maximum dimension for the buffers.
+         */
+        void reserve(int_t n);
+        
+        /**
+         * @brief Clears the solver internal data.
+         * @details Clears the solver internal data and resets all settings.
+         */
+        void clear();
+        
+        /**
+         * @brief Performs matrix decomposition.
+         * @details Computes the matrix factorization without modifying the input matrix.
+         * @param[in] mat The matrix to be decomposed.
+         */
+        void decompose(const T_Matrix& mat);
+        
+        /**
+         * @brief Performs in-place matrix decomposition.
+         * @details Computes the matrix factorization by overwriting the input matrix.
+         * @param[in,out] mat The matrix to be decomposed, destroyed after the operation.
+         */
+        void idecompose(T_Matrix& mat);
+        
+        /**
+         * @brief Performs in-place matrix solution.
+         * @details Solves the linear system using the precomputed factorization.
+         * @param[in,out] rhs On input, the right hand side matrix, on exit is overwritten with the solution.
+         */
+        void solve(T_Matrix& rhs) const;
+        
+        /**
+         * @brief Performs in-place vector solution.
+         * @details Solves the linear system using the precomputed factorization.
+         * @param[in,out] rhs On input, the right hand side vector, on exit is overwritten with the solution.
+         */
+        void solve(T_Vector& rhs) const;
 
-	private:
-		const T_Matrix& factor() const;
-		T_Matrix& factor();
-		
-		const std::vector<int_t>& ipiv1() const;
-		std::vector<int_t>& ipiv1();
-		
-		const std::vector<int_t>& jpiv1() const;
-		std::vector<int_t>& jpiv1();
+    private:
+        const T_Matrix& factor() const;
+        T_Matrix& factor();
+        
+        const std::vector<int_t>& ipiv1() const;
+        std::vector<int_t>& ipiv1();
+        
+        const std::vector<int_t>& jpiv1() const;
+        std::vector<int_t>& jpiv1();
 
-	private:
-		int_t m_info;
-		T_Matrix m_factor;
-		HeapBuffer<T_Scalar> m_buffer;
-		std::vector<int_t> m_ipiv1;
-		std::vector<int_t> m_jpiv1;
-		
-		void defaults();
+    private:
+        int_t m_info;
+        T_Matrix m_factor;
+        HeapBuffer<T_Scalar> m_buffer;
+        std::vector<int_t> m_ipiv1;
+        std::vector<int_t> m_jpiv1;
+        
+        void defaults();
 
-		void resizeBuffer(int_t n);
-		void resizeFactor(const T_Matrix& mat);
+        void resizeBuffer(int_t n);
+        void resizeFactor(const T_Matrix& mat);
 
-		void prepareForDecomposition(const T_Matrix& mat);
-		void prepareForIDecomposition(T_Matrix& mat);
-		void prepareForSolution(T_Matrix& rhs) const;
+        void prepareForDecomposition(const T_Matrix& mat);
+        void prepareForIDecomposition(T_Matrix& mat);
+        void prepareForSolution(T_Matrix& rhs) const;
 
-		void decomposeInternallyStoredFactor();
-		void decomposeLLt();
-		void decomposeLDLt();
-		void decomposeLU();
-		void decomposeCompleteLU();
+        void decomposeInternallyStoredFactor();
+        void decomposeLLt();
+        void decomposeLDLt();
+        void decomposeLU();
+        void decomposeCompleteLU();
 
-		void solveLLt(T_Matrix& rhs) const;
-		void solveLDLt(T_Matrix& rhs) const;
-		void solveLU(T_Matrix& rhs) const;
-		void solveCompleteLU(T_Matrix& rhs) const;
+        void solveLLt(T_Matrix& rhs) const;
+        void solveLDLt(T_Matrix& rhs) const;
+        void solveLU(T_Matrix& rhs) const;
+        void solveCompleteLU(T_Matrix& rhs) const;
 
-	private:
-		const decomp_t m_decompType;
-		decomp_t decompType() const;
+    private:
+        const decomp_t m_decompType;
+        decomp_t decompType() const;
 };
 
 /*-------------------------------------------------*/

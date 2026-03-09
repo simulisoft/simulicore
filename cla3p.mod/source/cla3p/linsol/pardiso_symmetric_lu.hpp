@@ -34,21 +34,21 @@ namespace cla3p {
 template <typename T_Matrix>
 class PardisoSymmetricLU : public PardisoBase<T_Matrix> {
 
-	public:
+    public:
 
-		// no copy
-		PardisoSymmetricLU(const PardisoSymmetricLU&) = delete;
-		PardisoSymmetricLU& operator=(const PardisoSymmetricLU&) = delete;
+        // no copy
+        PardisoSymmetricLU(const PardisoSymmetricLU&) = delete;
+        PardisoSymmetricLU& operator=(const PardisoSymmetricLU&) = delete;
 
-		/**
-		 * @copydoc cla3p::PardisoLLt::PardisoLLt()
-		 */
-		PardisoSymmetricLU() : PardisoBase<T_Matrix>(decomp_t::SymmetricLU) {}
+        /**
+         * @copydoc cla3p::PardisoLLt::PardisoLLt()
+         */
+        PardisoSymmetricLU() : PardisoBase<T_Matrix>(decomp_t::SymmetricLU) {}
 
-		/**
-		 * @copydoc cla3p::PardisoLLt::~PardisoLLt()
-		 */
-		~PardisoSymmetricLU() = default;
+        /**
+         * @copydoc cla3p::PardisoLLt::~PardisoLLt()
+         */
+        ~PardisoSymmetricLU() = default;
 };
 
 /*-------------------------------------------------*/
