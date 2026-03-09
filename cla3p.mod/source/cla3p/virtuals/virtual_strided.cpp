@@ -23,7 +23,7 @@
 
 // cla3p
 #include "cla3p/types/scalar.hpp"
-#include "cla3p/bulk/dns1D.hpp"
+#include "cla3p/bulk/dns1d.hpp"
 #include "cla3p/bulk/dns.hpp"
 #include "cla3p/checks/basic_checks.hpp"
 #include "cla3p/dense/dns_xxvector.hpp"

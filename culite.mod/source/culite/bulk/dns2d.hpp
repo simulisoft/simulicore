@@ -27,7 +27,7 @@
 #include "culite/types/scalar.hpp"
 #include "culite/support/utils.hpp"
 #include "culite/error/exceptions.hpp"
-#include "culite/bulk/dns2D_impl.hpp"
+#include "culite/bulk/dns2d_impl.hpp"
 #include "culite/generic/cublas_handler.hpp"
 
 /*-------------------------------------------------*/

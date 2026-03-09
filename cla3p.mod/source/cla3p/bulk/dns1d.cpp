@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/bulk/dns1D.hpp"
+#include "cla3p/bulk/dns1d.hpp"
 
 // system
 #include <functional>

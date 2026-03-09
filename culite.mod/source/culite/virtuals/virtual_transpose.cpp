@@ -22,7 +22,7 @@
 // 3rd
 
 // culite
-#include "culite/bulk/dns2D.hpp"
+#include "culite/bulk/dns2d.hpp"
 #include "culite/dense/dns_xxmatrix.hpp"
 #include "culite/sparse/csr_xxmatrix.hpp"
 #include "culite/sparse/csc_xxmatrix.hpp"

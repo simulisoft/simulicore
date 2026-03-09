@@ -29,7 +29,7 @@
 #include "culite/types/integer.hpp"
 #include "culite/types/scalar.hpp"
 #include "culite/error/exceptions.hpp"
-#include "culite/bulk/dns1D.hpp"
+#include "culite/bulk/dns1d.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {

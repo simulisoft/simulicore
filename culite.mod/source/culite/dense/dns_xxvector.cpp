@@ -25,7 +25,7 @@
 
 // culite
 #include "culite/types/scalar.hpp"
-#include "culite/bulk/dns1D.hpp"
+#include "culite/bulk/dns1d.hpp"
 
 /*-------------------------------------------------*/
 namespace culite {

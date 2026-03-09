@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "culite/bulk/dns1D_impl.hpp"
+#include "culite/bulk/dns1d_impl.hpp"
 
 // system
 

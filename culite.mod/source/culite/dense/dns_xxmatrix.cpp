@@ -28,7 +28,7 @@
 
 // culite
 #include "culite/types/scalar.hpp"
-#include "culite/bulk/dns2D.hpp"
+#include "culite/bulk/dns2d.hpp"
 #include "culite/support/utils.hpp"
 
 /*-------------------------------------------------*/

@@ -2,7 +2,7 @@
 # source setup
 #-----------------------------------------------
 set(CLA3P_SRC ${CLA3P_SRC}
-    bulk/dns1D.cpp
+    bulk/dns1d.cpp
 	bulk/dns.cpp
 	bulk/dns_io.cpp
 	bulk/dns_math.cpp

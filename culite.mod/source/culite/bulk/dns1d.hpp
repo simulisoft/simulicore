@@ -24,7 +24,7 @@
 #include "culite/types/integer.hpp"
 #include "culite/types/scalar.hpp"
 #include "culite/support/utils.hpp"
-#include "culite/bulk/dns1D_impl.hpp"
+#include "culite/bulk/dns1d_impl.hpp"
 #include "culite/generic/cublas_handler.hpp"
 
 /*-------------------------------------------------*/

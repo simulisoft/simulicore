@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "culite/bulk/dns2D_impl.hpp"
+#include "culite/bulk/dns2d_impl.hpp"
 
 // system
 #include <cmath>
