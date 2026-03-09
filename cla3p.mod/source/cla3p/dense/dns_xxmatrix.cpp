@@ -202,6 +202,22 @@ XxMatrix<T_Scalar> XxMatrix<T_Scalar>::move()
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
+alias::VirtualStrided_vec<T_Scalar> XxMatrix<T_Scalar>::diag()
+{
+    return alias::VirtualStrided_vec<T_Scalar>(std::min(this->nrows(), this->ncols()), 
+                                               this->values(), 
+                                               this->ld() + 1);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+alias::GuardedStrided_vec<T_Scalar> XxMatrix<T_Scalar>::diag() const
+{
+    return alias::VirtualStrided_vec<T_Scalar>::view(std::min(this->nrows(), this->ncols()),
+                                                     this->values(), 
+                                                     this->ld() + 1);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
 void XxMatrix<T_Scalar>::print(std::streamsize prec) const
 {
     toStream(std::cout, prec);

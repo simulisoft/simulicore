@@ -252,6 +252,22 @@ class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
         XxMatrix<T_Scalar> move();
 
         /**
+         * @brief Access the diagonal of the matrix.
+         * @details Returns a mutable strided vector view of the matrix's diagonal.
+         *          The diagonal elements can be modified through this view.
+         * @return A strided vector view of the diagonal elements.
+         */
+        alias::VirtualStrided_vec<T_Scalar> diag();
+
+        /**
+         * @brief Access the diagonal of the matrix (const).
+         * @details Returns a read-only guarded strided vector view of the matrix's diagonal.
+         *          The diagonal elements cannot be modified through this view.
+         * @return A guarded strided vector view of the diagonal elements.
+         */
+        alias::GuardedStrided_vec<T_Scalar> diag() const;
+
+        /**
          * @brief Get information about the matrix.
          * @details Returns a string containing information about the matrix's dimensions and properties.
          * @param[in] header Optional header string to prepend to the information.
