@@ -34,75 +34,75 @@ namespace cla3p {
 /*-------------------------------------------------*/
 static void check_allocation(const void *ptr, std::size_t nmemb, std::size_t size)
 {
-	if(!ptr) {
-		std::string mem2str = bytesToString(nmemb * size);
-		throw err::OutOfMemory("Failed to allocate " + mem2str);
-	} // ptr
+    if(!ptr) {
+        std::string mem2str = bytesToString(nmemb * size);
+        throw err::OutOfMemory("Failed to allocate " + mem2str);
+    } // ptr
 }
 /*-------------------------------------------------*/
 void* i2malloc(std::size_t size)
 {
-	void *ret = nullptr;
+    void *ret = nullptr;
 
-	if(!size) return ret;
+    if(!size) return ret;
 
 #if defined(CLA3P_INTEL_MKL)
-	ret = mkl::malloc(size);
+    ret = mkl::malloc(size);
 #else
-	ret = std::malloc(size);
+    ret = std::malloc(size);
 #endif
 
-	check_allocation(ret, 1, size);
+    check_allocation(ret, 1, size);
 
-	return ret;
+    return ret;
 }
 /*-------------------------------------------------*/
 void* i2calloc(std::size_t nmemb, std::size_t size)
 {
-	void *ret = nullptr;
+    void *ret = nullptr;
 
-	if(!nmemb || !size) return ret;
+    if(!nmemb || !size) return ret;
 
 #if defined(CLA3P_INTEL_MKL)
-	ret = mkl::calloc(nmemb, size);
+    ret = mkl::calloc(nmemb, size);
 #else
-	ret = std::calloc(nmemb, size);
+    ret = std::calloc(nmemb, size);
 #endif
 
-	check_allocation(ret, nmemb, size);
+    check_allocation(ret, nmemb, size);
 
-	return ret;
+    return ret;
 }
 /*-------------------------------------------------*/
 void* i2realloc(void *ptr, std::size_t size)
 {
-	void *ret = nullptr;
+    void *ret = nullptr;
 
-	if(!size){
-		i_free(ptr);
-		return ret;
-	} // empty allocation
+    if(!size){
+        i_free(ptr);
+        return ret;
+    } // empty allocation
 
 #if defined(CLA3P_INTEL_MKL)
-	ret = mkl::realloc(ptr, size);
+    ret = mkl::realloc(ptr, size);
 #else
-	ret = std::realloc(ptr, size);
+    ret = std::realloc(ptr, size);
 #endif
 
-	check_allocation(ret, 1, size);
+    check_allocation(ret, 1, size);
 
-	return ret;
+    return ret;
 }
 /*-------------------------------------------------*/
 void i_free(void *ptr)
 {
-	if(ptr) {
+    if(ptr) {
 #if defined(CLA3P_INTEL_MKL)
-		mkl::free(ptr);
+        mkl::free(ptr);
 #else
-		std::free(ptr);
+        std::free(ptr);
 #endif
-	} // ptr
+    } // ptr
 }
 /*-------------------------------------------------*/
 } // namespace cla3p

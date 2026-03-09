@@ -32,60 +32,60 @@ namespace cla3p {
 template <typename T_Rep>
 class Timer {
 
-	public:
-		Timer()
-		{
-			reset();
-		}
+    public:
+        Timer()
+        {
+            reset();
+        }
 
-		~Timer()
-		{
-			stop();
-		}
+        ~Timer()
+        {
+            stop();
+        }
 
-		void reset()
-		{
-			m_start = ClockType::now();
-			m_end = m_start;
-		}
+        void reset()
+        {
+            m_start = ClockType::now();
+            m_end = m_start;
+        }
 
-		void stop()
-		{
-			m_end = ClockType::now();
-		}
+        void stop()
+        {
+            m_end = ClockType::now();
+        }
 
-		T_Rep stoppedDiff() const
-		{
-			return timestampDiff(m_start, m_end);
-		}
+        T_Rep stoppedDiff() const
+        {
+            return timestampDiff(m_start, m_end);
+        }
 
-		T_Rep currentDiff() const
-		{
-			return timestampDiff(m_start, ClockType::now());
-		}
+        T_Rep currentDiff() const
+        {
+            return timestampDiff(m_start, ClockType::now());
+        }
 
-	private:
-		using ClockType = std::chrono::high_resolution_clock;
-		using TimeStamp = std::chrono::time_point<ClockType>;
-		using TimeDiffSeconds = std::chrono::duration<T_Rep, std::ratio<1>>;
+    private:
+        using ClockType = std::chrono::high_resolution_clock;
+        using TimeStamp = std::chrono::time_point<ClockType>;
+        using TimeDiffSeconds = std::chrono::duration<T_Rep, std::ratio<1>>;
 
-		TimeStamp m_start;
-		TimeStamp m_end;
+        TimeStamp m_start;
+        TimeStamp m_end;
 
-		T_Rep timestampDiff(const TimeStamp& start, const TimeStamp& end) const
-		{
-			TimeDiffSeconds diff = end - start;
-			return diff.count();
-		}
+        T_Rep timestampDiff(const TimeStamp& start, const TimeStamp& end) const
+        {
+            TimeDiffSeconds diff = end - start;
+            return diff.count();
+        }
 };
 
 /*-------------------------------------------------*/
 
 class RealTimer : public Timer<real_t> {
 
-	public:
-		RealTimer();
-		~RealTimer();
+    public:
+        RealTimer();
+        ~RealTimer();
 };
 
 /*-------------------------------------------------*/

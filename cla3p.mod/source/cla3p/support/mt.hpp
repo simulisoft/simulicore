@@ -36,19 +36,19 @@ nint_t threadId();
 
 class ThreadManager {
 
-	public:
-		ThreadManager();
-		ThreadManager(nint_t numThreads);
-		~ThreadManager();
+    public:
+        ThreadManager();
+        ThreadManager(nint_t numThreads);
+        ~ThreadManager();
 
-		void setNumThreads(nint_t numThreads);
-		void restoreNumThreads();
+        void setNumThreads(nint_t numThreads);
+        void restoreNumThreads();
 
-	private:
-		nint_t m_ompThreads;
-		nint_t m_mklThreads;
+    private:
+        nint_t m_ompThreads;
+        nint_t m_mklThreads;
 
-		void defaults();
+        void defaults();
 };
 
 /*-------------------------------------------------*/

@@ -33,8 +33,8 @@ namespace cla3p {
  */
 template <typename T_Scalar>
 T_Scalar rand(
-		typename TypeTraits<T_Scalar>::real_type lo, 
-		typename TypeTraits<T_Scalar>::real_type hi);
+        typename TypeTraits<T_Scalar>::real_type lo, 
+        typename TypeTraits<T_Scalar>::real_type hi);
 
 /*-------------------------------------------------*/
 } // namespace cla3p

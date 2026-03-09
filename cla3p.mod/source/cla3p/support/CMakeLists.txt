@@ -2,20 +2,20 @@
 # source setup
 #-----------------------------------------------
 set(CLA3P_SRC ${CLA3P_SRC}
-	support/imalloc.cpp
-	support/rand.cpp
-	support/mt.cpp
-	support/time.cpp
-	support/utils.cpp
-	PARENT_SCOPE)
+    support/imalloc.cpp
+    support/rand.cpp
+    support/mt.cpp
+    support/time.cpp
+    support/utils.cpp
+    PARENT_SCOPE)
 
 set(CLA3P_SUPPORT_HPP 
-	imalloc.hpp
-	heap_buffer.hpp
-	rand.hpp
-	mt.hpp
-	time.hpp
-	)
+    imalloc.hpp
+    heap_buffer.hpp
+    rand.hpp
+    mt.hpp
+    time.hpp
+    )
 
 #-----------------------------------------------
 # installation setup

@@ -34,70 +34,70 @@ namespace mt {
 void initialize()
 {
 #if defined(CLA3P_INTEL_MKL)
-	mkl::set_num_threads(mkl::get_max_threads());
+    mkl::set_num_threads(mkl::get_max_threads());
 #endif
 }
 /*-------------------------------------------------*/
 nint_t maxThreads()
 {
-	return omp_get_max_threads();
+    return omp_get_max_threads();
 }
 /*-------------------------------------------------*/
 nint_t numThreads()
 {
-	return omp_get_num_threads();
+    return omp_get_num_threads();
 }
 /*-------------------------------------------------*/
 nint_t threadId()
 {
-	return omp_get_thread_num();
+    return omp_get_thread_num();
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 ThreadManager::ThreadManager()
 {
-	defaults();
+    defaults();
 }
 /*-------------------------------------------------*/
 ThreadManager::ThreadManager(nint_t numThreads)
 {
-	setNumThreads(numThreads);
+    setNumThreads(numThreads);
 }
 /*-------------------------------------------------*/
 ThreadManager::~ThreadManager()
 {
-	restoreNumThreads();
+    restoreNumThreads();
 }
 /*-------------------------------------------------*/
 void ThreadManager::defaults()
 {
-	m_ompThreads = -1;
-	m_mklThreads = -1;
+    m_ompThreads = -1;
+    m_mklThreads = -1;
 }
 /*-------------------------------------------------*/
 void ThreadManager::setNumThreads(nint_t numThreads)
 {
-	m_ompThreads = omp_get_max_threads();
-	omp_set_num_threads(numThreads);
+    m_ompThreads = omp_get_max_threads();
+    omp_set_num_threads(numThreads);
 
 #if defined(CLA3P_INTEL_MKL)
-	m_mklThreads = mkl::get_max_threads();
-	mkl::set_num_threads_local(numThreads);
+    m_mklThreads = mkl::get_max_threads();
+    mkl::set_num_threads_local(numThreads);
 #endif
 }
 /*-------------------------------------------------*/
 void ThreadManager::restoreNumThreads()
 {
-	if(m_ompThreads >= 0)
-		omp_set_num_threads(m_ompThreads);
+    if(m_ompThreads >= 0)
+        omp_set_num_threads(m_ompThreads);
 
 #if defined(CLA3P_INTEL_MKL)
-	if(m_mklThreads >= 0)
-		mkl::set_num_threads_local(m_mklThreads);
+    if(m_mklThreads >= 0)
+        mkl::set_num_threads_local(m_mklThreads);
 #endif
 
-	defaults();
+    defaults();
 }
 /*-------------------------------------------------*/
 } // namespace mt

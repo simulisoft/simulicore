@@ -76,60 +76,60 @@ void streamValue(std::ostream& os, const T_Scalar& v);
 
 class OstreamSettings {
 
-	public:
-		OstreamSettings(std::ostream& os) : m_os(os) { backup(); }
-		~OstreamSettings() {}
+    public:
+        OstreamSettings(std::ostream& os) : m_os(os) { backup(); }
+        ~OstreamSettings() {}
 
-		void backup() 
-		{
-			m_flags = m_os.flags();
-			m_precision = m_os.precision();
-			m_fill = m_os.fill();
-		}
+        void backup() 
+        {
+            m_flags = m_os.flags();
+            m_precision = m_os.precision();
+            m_fill = m_os.fill();
+        }
 
-		void restore() const {
-			m_os.flags(m_flags);
-			m_os.precision(m_precision);
-			m_os.fill(m_fill);
-		}
+        void restore() const {
+            m_os.flags(m_flags);
+            m_os.precision(m_precision);
+            m_os.fill(m_fill);
+        }
 
-	private:
-		std::ostream& m_os;
-		std::ios_base::fmtflags m_flags;
-		std::streamsize m_precision;
-		char m_fill;
+    private:
+        std::ostream& m_os;
+        std::ios_base::fmtflags m_flags;
+        std::streamsize m_precision;
+        char m_fill;
 };
 
 /*
  * Unified code for Matrix element print in list form
  */
 class ListPrinter {
-	public:
-		ListPrinter(std::ostream& os, int_t maxRows, int_t maxCols, int_t maxNnz, std::streamsize prec = 0);
-		~ListPrinter();
+    public:
+        ListPrinter(std::ostream& os, int_t maxRows, int_t maxCols, int_t maxNnz, std::streamsize prec = 0);
+        ~ListPrinter();
 
-		void streamHeader() const;
+        void streamHeader() const;
 
-		template <typename T_Scalar>
-		void streamTuple(int_t k, int_t i, int_t j, const T_Scalar& v) const
-		{
-			m_os << std::setw(m_ndCount) << k;
-			m_os << " | ";
-			m_os << std::setw(m_ndRows) << i;
-			m_os << ' ';
-			m_os << std::setw(m_ndCols) << j;
-			m_os << ' ';
-			m_os << ' ';
-			streamValue(m_os, v);
-			m_os << '\n';
-		}
+        template <typename T_Scalar>
+        void streamTuple(int_t k, int_t i, int_t j, const T_Scalar& v) const
+        {
+            m_os << std::setw(m_ndCount) << k;
+            m_os << " | ";
+            m_os << std::setw(m_ndRows) << i;
+            m_os << ' ';
+            m_os << std::setw(m_ndCols) << j;
+            m_os << ' ';
+            m_os << ' ';
+            streamValue(m_os, v);
+            m_os << '\n';
+        }
 
-	private:
-		std::ostream& m_os;
-		OstreamSettings m_settings;
-		const int_t m_ndCount;
-		const int_t m_ndRows;
-		const int_t m_ndCols;
+    private:
+        std::ostream& m_os;
+        OstreamSettings m_settings;
+        const int_t m_ndCount;
+        const int_t m_ndRows;
+        const int_t m_ndCols;
 };
 
 /*
@@ -139,78 +139,78 @@ decomp_t determineDecompType(decomp_t, const Property&);
 
 /*-------------------------------------------------*/
 typedef struct RowRange {
-	int_t ibgn;
-	int_t iend;
-	int_t ilen;
+    int_t ibgn;
+    int_t iend;
+    int_t ilen;
 } RowRange;
 /*-------------------------------------------------*/
 inline RowRange irange(uplo_t uplo, int_t m, int_t j)
 {
-	RowRange ret = {0, m, m};
-	//ret.ibgn = 0;
-	//ret.iend = m;
-	//ret.ilen = m;
+    RowRange ret = {0, m, m};
+    //ret.ibgn = 0;
+    //ret.iend = m;
+    //ret.ilen = m;
 
-	if(!m) return ret;
+    if(!m) return ret;
 
-	if(uplo == uplo_t::Upper) {
-		ret.ibgn = 0;
-		ret.iend = std::min(j+1,m);
-	} else if(uplo == uplo_t::Lower) {
-		ret.ibgn = std::min(j,m);
-		ret.iend = m;
-	} // uplo
+    if(uplo == uplo_t::Upper) {
+        ret.ibgn = 0;
+        ret.iend = std::min(j+1,m);
+    } else if(uplo == uplo_t::Lower) {
+        ret.ibgn = std::min(j,m);
+        ret.iend = m;
+    } // uplo
 
-	ret.ilen = ret.iend - ret.ibgn;
+    ret.ilen = ret.iend - ret.ibgn;
 
-	return ret;
+    return ret;
 }
 /*-------------------------------------------------*/
 inline RowRange irange_strict(uplo_t uplo, int_t m, int_t j)
 {
-	RowRange ret = irange(uplo, m, j);
+    RowRange ret = irange(uplo, m, j);
 
-	if(!m) return ret;
+    if(!m) return ret;
 
-	if(uplo == uplo_t::Upper) {
-		ret.iend--;
-	} else if(uplo == uplo_t::Lower) {
-		ret.ibgn++;
-	} // uplo
+    if(uplo == uplo_t::Upper) {
+        ret.iend--;
+    } else if(uplo == uplo_t::Lower) {
+        ret.ibgn++;
+    } // uplo
 
-	ret.ilen = ret.iend - ret.ibgn;
+    ret.ilen = ret.iend - ret.ibgn;
 
-	return ret;
+    return ret;
 }
 /*-------------------------------------------------*/
 inline RowRange irange_complement(uplo_t uplo, int_t m, int_t j)
 {
-	RowRange ret = {0, 0, 0};
-	//ret.ibgn = 0;
-	//ret.iend = 0;
-	//ret.ilen = 0;
+    RowRange ret = {0, 0, 0};
+    //ret.ibgn = 0;
+    //ret.iend = 0;
+    //ret.ilen = 0;
 
-	if(!m) return ret;
+    if(!m) return ret;
 
-	if(uplo == uplo_t::Upper) {
-		ret.ibgn = std::min(j+1,m);
-		ret.iend = m;
-	} else if(uplo == uplo_t::Lower) {
-		ret.ibgn = 0;
-		ret.iend = std::min(j,m);
-	} // uplo
+    if(uplo == uplo_t::Upper) {
+        ret.ibgn = std::min(j+1,m);
+        ret.iend = m;
+    } else if(uplo == uplo_t::Lower) {
+        ret.ibgn = 0;
+        ret.iend = std::min(j,m);
+    } // uplo
 
-	ret.ilen = ret.iend - ret.ibgn;
+    ret.ilen = ret.iend - ret.ibgn;
 
-	return ret;
+    return ret;
 }
 /*-------------------------------------------------*/
 inline bool coord_in_range(uplo_t uplo, int_t i, int_t j)
 {
-	/**/ if(uplo == uplo_t::Upper && i > j) return false;
-	else if(uplo == uplo_t::Lower && i < j) return false;
+    /**/ if(uplo == uplo_t::Upper && i > j) return false;
+    else if(uplo == uplo_t::Lower && i < j) return false;
 
-	return true;
+    return true;
 }
 /*-------------------------------------------------*/
 } // namespace cla3p

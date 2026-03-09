@@ -66,7 +66,7 @@ void* i2realloc(void *ptr, std::size_t size);
 template <typename T_Elem>
 T_Elem* i_malloc_t(std::size_t nmemb)
 {
-	return static_cast<T_Elem*>(i2malloc(nmemb * sizeof(T_Elem)));
+    return static_cast<T_Elem*>(i2malloc(nmemb * sizeof(T_Elem)));
 }
 
 /**
@@ -79,7 +79,7 @@ T_Elem* i_malloc_t(std::size_t nmemb)
 template <typename T_Elem>
 T_Elem* i_calloc_t(std::size_t nmemb)
 {
-	return static_cast<T_Elem*>(i2calloc(nmemb, sizeof(T_Elem)));
+    return static_cast<T_Elem*>(i2calloc(nmemb, sizeof(T_Elem)));
 }
 
 /**
@@ -94,7 +94,7 @@ T_Elem* i_calloc_t(std::size_t nmemb)
 template <typename T_Elem>
 T_Elem* i_realloc_t(T_Elem* ptr, std::size_t nmemb)
 {
-	return static_cast<T_Elem*>(i2realloc(ptr, nmemb * sizeof(T_Elem)));
+    return static_cast<T_Elem*>(i2realloc(ptr, nmemb * sizeof(T_Elem)));
 }
 
 /**

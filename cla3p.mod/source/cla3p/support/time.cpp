@@ -33,7 +33,7 @@ RealTimer::RealTimer()
 /*-------------------------------------------------*/
 RealTimer::~RealTimer()
 {
-	std::cout << "Elapsed Time: " << currentDiff() << std::endl;
+    std::cout << "Elapsed Time: " << currentDiff() << std::endl;
 }
 /*-------------------------------------------------*/
 } // namespace cla3p

@@ -31,10 +31,10 @@ namespace cla3p {
 template <typename T_Int>
 static T_Int randomCaseInt(T_Int lo, T_Int hi)
 {
-	T_Int diff = hi - lo;
-	T_Int stdRandVal = std::rand();
-	T_Int inc = stdRandVal % diff;
-	return (lo + inc);
+    T_Int diff = hi - lo;
+    T_Int stdRandVal = std::rand();
+    T_Int inc = stdRandVal % diff;
+    return (lo + inc);
 }
 /*-------------------------------------------------*/
 template int_t  randomCaseInt(int_t , int_t );
@@ -44,9 +44,9 @@ template <typename T_Scalar>
 static T_Scalar randomCaseReal(T_Scalar lo, T_Scalar hi)
 {
   T_Scalar diff = hi - lo;
-	T_Scalar stdRandVal = static_cast<T_Scalar>(std::rand());
+    T_Scalar stdRandVal = static_cast<T_Scalar>(std::rand());
   T_Scalar inc = diff * (stdRandVal / static_cast<T_Scalar>(RAND_MAX + 1U));
-	return (lo + inc);
+    return (lo + inc);
 }
 /*-------------------------------------------------*/
 template real_t  randomCaseReal(real_t , real_t );
@@ -54,10 +54,10 @@ template real4_t randomCaseReal(real4_t, real4_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 static T_Scalar randomCaseComplex(
-		typename TypeTraits<T_Scalar>::real_type lo, 
-		typename TypeTraits<T_Scalar>::real_type hi)
+        typename TypeTraits<T_Scalar>::real_type lo, 
+        typename TypeTraits<T_Scalar>::real_type hi)
 {
-	return T_Scalar(randomCaseReal(lo,hi), randomCaseReal(lo,hi));
+    return T_Scalar(randomCaseReal(lo,hi), randomCaseReal(lo,hi));
 }
 /*-------------------------------------------------*/
 template complex_t  randomCaseComplex(real_t , real_t );
@@ -65,8 +65,8 @@ template complex8_t randomCaseComplex(real4_t, real4_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 static T_Scalar randomCase(
-		typename TypeTraits<T_Scalar>::real_type lo,
-		typename TypeTraits<T_Scalar>::real_type hi);
+        typename TypeTraits<T_Scalar>::real_type lo,
+        typename TypeTraits<T_Scalar>::real_type hi);
 /*-------------------------------------------------*/
 template<> int_t  randomCase<int_t >(int_t  lo, int_t  hi) { return randomCaseInt<int_t >(lo,hi); }
 template<> uint_t randomCase<uint_t>(uint_t lo, uint_t hi) { return randomCaseInt<uint_t>(lo,hi); }
@@ -79,13 +79,13 @@ template<> complex8_t randomCase<complex8_t>(real4_t lo, real4_t hi) { return ra
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 T_Scalar rand(
-		typename TypeTraits<T_Scalar>::real_type lo,
-		typename TypeTraits<T_Scalar>::real_type hi)
+        typename TypeTraits<T_Scalar>::real_type lo,
+        typename TypeTraits<T_Scalar>::real_type hi)
 {
-	if(lo > hi)
-		throw err::Exception("Need lo <= hi");
+    if(lo > hi)
+        throw err::Exception("Need lo <= hi");
 
-	return randomCase<T_Scalar>(lo,hi);
+    return randomCase<T_Scalar>(lo,hi);
 }
 /*-------------------------------------------------*/
 template int_t      rand(int_t  , int_t  );
