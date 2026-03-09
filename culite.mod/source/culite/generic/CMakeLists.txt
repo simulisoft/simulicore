@@ -2,18 +2,18 @@
 # source setup
 #-----------------------------------------------
 set(CULITE_SRC ${CULITE_SRC}
-	generic/cublas_handler.cpp
-	generic/cuda_stream.cpp
-	generic/cusolver_handler.cpp
+    generic/cublas_handler.cpp
+    generic/cuda_stream.cpp
+    generic/cusolver_handler.cpp
     generic/cusparse_handler.cpp
-	PARENT_SCOPE)
+    PARENT_SCOPE)
 
 set(CULITE_GENERIC_HPP 
-	cuda_stream.hpp
-	cublas_handler.hpp
-	cusolver_handler.hpp
+    cuda_stream.hpp
+    cublas_handler.hpp
+    cusolver_handler.hpp
     cusparse_handler.hpp
-	)
+    )
 
 #-----------------------------------------------
 # installation setup
