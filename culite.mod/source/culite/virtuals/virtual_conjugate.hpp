@@ -40,36 +40,36 @@ namespace csc { template <typename T_Int, typename T_Scalar> class XxMatrix; }
 template <typename T_Result>
 class VirtualConjugate : public VirtualExpression<T_Result, VirtualConjugate<T_Result>> {
 
-	private:
-		using T_Scalar = typename T_Result::value_type;
+    private:
+        using T_Scalar = typename T_Result::value_type;
 
-	public:
-		explicit VirtualConjugate(const T_Result& src) : m_src(src) {}
-		~VirtualConjugate() {}
+    public:
+        explicit VirtualConjugate(const T_Result& src) : m_src(src) {}
+        ~VirtualConjugate() {}
 
-		void evaluateOnNew(T_Result& dest) const override 
-		{ 
-			dest.clear();
-			dest = m_src;
-			dest.iconjugate();
-		}
+        void evaluateOnNew(T_Result& dest) const override 
+        { 
+            dest.clear();
+            dest = m_src;
+            dest.iconjugate();
+        }
 
-		void evaluateOnExisting(T_Result& dest) const override
-		{
-			dest = m_src;
-			dest.iconjugate();
-		}
+        void evaluateOnExisting(T_Result& dest) const override
+        {
+            dest = m_src;
+            dest.iconjugate();
+        }
 
-		void accumulateOnExisting(T_Result& dest, T_Scalar coeff) const override
-		{ 
-			T_Result tmp;
-			evaluateOnNew(tmp);
-			ops::update(coeff, tmp, dest);
-		}
+        void accumulateOnExisting(T_Result& dest, T_Scalar coeff) const override
+        { 
+            T_Result tmp;
+            evaluateOnNew(tmp);
+            ops::update(coeff, tmp, dest);
+        }
 
 
-	private:
-		const T_Result& m_src;
+    private:
+        const T_Result& m_src;
 };
 
 /*-------------------------------------------------*/

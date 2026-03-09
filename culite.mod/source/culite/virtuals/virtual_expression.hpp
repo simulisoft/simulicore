@@ -43,47 +43,47 @@ namespace culite {
 template <typename T_Result, typename T_Virtual>
 class VirtualExpression {
 
-	private:
-		using T_Scalar = typename T_Result::value_type;
-		using virtual_type = T_Virtual;
+    private:
+        using T_Scalar = typename T_Result::value_type;
+        using virtual_type = T_Virtual;
 
-	public:
-		using result_type = T_Result;
+    public:
+        using result_type = T_Result;
 
-	public:
-		VirtualExpression() {}
-		~VirtualExpression() {}
+    public:
+        VirtualExpression() {}
+        ~VirtualExpression() {}
 
-		const T_Virtual& self() const { return static_cast<const T_Virtual&>(*this); }
+        const T_Virtual& self() const { return static_cast<const T_Virtual&>(*this); }
 
-		/**
-		 * @brief Evaluates the expression.
-		 * @details Evaluates the expression and stores the result in a new object.
-		 */
-		virtual T_Result evaluate() const 
-		{
-			T_Result ret;
-			evaluateOnNew(ret);
-			return ret; 
-		}
+        /**
+         * @brief Evaluates the expression.
+         * @details Evaluates the expression and stores the result in a new object.
+         */
+        virtual T_Result evaluate() const 
+        {
+            T_Result ret;
+            evaluateOnNew(ret);
+            return ret; 
+        }
 
-		/**
-		 * @brief Evaluates the expression on a return object.
-		 * @details Clears existing data in @p dest, reallocates and evaluates the expression.
-		 */
-		virtual void evaluateOnNew(T_Result& dest) const = 0;
+        /**
+         * @brief Evaluates the expression on a return object.
+         * @details Clears existing data in @p dest, reallocates and evaluates the expression.
+         */
+        virtual void evaluateOnNew(T_Result& dest) const = 0;
 
-		/**
-		 * @brief Evaluates the expression on a return object.
-		 * @details Evaluates the expression on the pre-allocated & compatible @p dest.
-		 */
-		virtual void evaluateOnExisting(T_Result& dest) const = 0;
+        /**
+         * @brief Evaluates the expression on a return object.
+         * @details Evaluates the expression on the pre-allocated & compatible @p dest.
+         */
+        virtual void evaluateOnExisting(T_Result& dest) const = 0;
 
-		/**
-		 * @brief Adds the expression on a return object.
-		 * @details Adds the scaled expression result to the pre-allocated & compatible @p dest.
-		 */
-		virtual void accumulateOnExisting(T_Result& dest, T_Scalar coeff) const = 0;
+        /**
+         * @brief Adds the expression on a return object.
+         * @details Adds the scaled expression result to the pre-allocated & compatible @p dest.
+         */
+        virtual void accumulateOnExisting(T_Result& dest, T_Scalar coeff) const = 0;
 };
 
 /*-------------------------------------------------*/

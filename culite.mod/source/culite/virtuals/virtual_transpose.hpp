@@ -65,23 +65,23 @@ void VirtualTransposeAccumulateOnExistingSpec(const csc::XxMatrix<T_Int,T_Scalar
 template <typename T_Result>
 class VirtualTranspose : public VirtualExpression<T_Result, VirtualTranspose<T_Result>> {
 
-	private:
-		using T_Scalar = typename T_Result::value_type;
+    private:
+        using T_Scalar = typename T_Result::value_type;
 
-	public:
-		explicit VirtualTranspose(const T_Result& src, bool conj) : m_src(src), m_conj(conj) {}
-		~VirtualTranspose() {}
+    public:
+        explicit VirtualTranspose(const T_Result& src, bool conj) : m_src(src), m_conj(conj) {}
+        ~VirtualTranspose() {}
 
-		void evaluateOnNew(T_Result& dest) const override { VirtualTransposeEvaluateOnNewSpec(m_src, m_conj, dest); }
-		void evaluateOnExisting(T_Result& dest) const override { VirtualTransposeEvaluateOnExistingSpec(m_src, m_conj, dest); }
-		void accumulateOnExisting(T_Result& dest, T_Scalar coeff) const override { VirtualTransposeAccumulateOnExistingSpec(m_src, m_conj, dest, coeff); }
+        void evaluateOnNew(T_Result& dest) const override { VirtualTransposeEvaluateOnNewSpec(m_src, m_conj, dest); }
+        void evaluateOnExisting(T_Result& dest) const override { VirtualTransposeEvaluateOnExistingSpec(m_src, m_conj, dest); }
+        void accumulateOnExisting(T_Result& dest, T_Scalar coeff) const override { VirtualTransposeAccumulateOnExistingSpec(m_src, m_conj, dest, coeff); }
 
-		const T_Result& get() const { return m_src; }
-		::cla3p::op_t op() const { return m_conj ? ::cla3p::op_t::C : ::cla3p::op_t::T; }
+        const T_Result& get() const { return m_src; }
+        ::cla3p::op_t op() const { return m_conj ? ::cla3p::op_t::C : ::cla3p::op_t::T; }
 
-	private:
-		const T_Result& m_src;
-		bool m_conj;
+    private:
+        const T_Result& m_src;
+        bool m_conj;
 };
 
 /*-------------------------------------------------*/

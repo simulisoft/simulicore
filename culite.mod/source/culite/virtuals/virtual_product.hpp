@@ -36,23 +36,23 @@ namespace culite {
 template <typename T_Result, typename T_Left, typename T_Right>
 class VirtualProduct : public VirtualExpression<T_Result, VirtualProduct<T_Result, T_Left, T_Right>> {
 
-	private:
-		using T_Scalar = typename T_Result::value_type;
+    private:
+        using T_Scalar = typename T_Result::value_type;
 
-	public:
-		VirtualProduct(
-			const VirtualExpression<typename T_Left::result_type,T_Left>& left, 
-			const VirtualExpression<typename T_Right::result_type,T_Right>& right)
-		: m_left(left.self()), m_right(right.self()) {}
-		~VirtualProduct() {}
+    public:
+        VirtualProduct(
+            const VirtualExpression<typename T_Left::result_type,T_Left>& left, 
+            const VirtualExpression<typename T_Right::result_type,T_Right>& right)
+        : m_left(left.self()), m_right(right.self()) {}
+        ~VirtualProduct() {}
 
-		void evaluateOnNew(T_Result& dest) const override;
-		void evaluateOnExisting(T_Result& dest) const override;
-		void accumulateOnExisting(T_Result& dest, T_Scalar coeff) const override;
+        void evaluateOnNew(T_Result& dest) const override;
+        void evaluateOnExisting(T_Result& dest) const override;
+        void accumulateOnExisting(T_Result& dest, T_Scalar coeff) const override;
 
-	private:
-		T_Left m_left;
-		T_Right m_right;
+    private:
+        T_Left m_left;
+        T_Right m_right;
 };
 
 /*-------------------------------------------------*/
@@ -61,51 +61,51 @@ namespace alias {
 
 template <typename T_Scalar>
 using VirtualProd_dnsmv = VirtualProduct<
-	dns::XxVector<T_Scalar>,
-	VirtualObj_dns<T_Scalar>,
-	VirtualObj_vec<T_Scalar>>;
+    dns::XxVector<T_Scalar>,
+    VirtualObj_dns<T_Scalar>,
+    VirtualObj_vec<T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
 using VirtualProd_csrmv = VirtualProduct<
-	dns::XxVector<T_Scalar>,
-	VirtualObj_csr<T_Int,T_Scalar>,
-	VirtualObj_vec<T_Scalar>>;
+    dns::XxVector<T_Scalar>,
+    VirtualObj_csr<T_Int,T_Scalar>,
+    VirtualObj_vec<T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
 using VirtualProd_cscmv = VirtualProduct<
-	dns::XxVector<T_Scalar>,
-	VirtualObj_csc<T_Int,T_Scalar>,
-	VirtualObj_vec<T_Scalar>>;
+    dns::XxVector<T_Scalar>,
+    VirtualObj_csc<T_Int,T_Scalar>,
+    VirtualObj_vec<T_Scalar>>;
 
 template <typename T_Scalar>
 using VirtualProd_dnsmm = VirtualProduct<
-	dns::XxMatrix<T_Scalar>,
-	VirtualObj_dns<T_Scalar>,
-	VirtualObj_dns<T_Scalar>>;
+    dns::XxMatrix<T_Scalar>,
+    VirtualObj_dns<T_Scalar>,
+    VirtualObj_dns<T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
 using VirtualProd_csrmm = VirtualProduct<
-	dns::XxMatrix<T_Scalar>,
-	VirtualObj_csr<T_Int,T_Scalar>,
-	VirtualObj_dns<T_Scalar>>;
+    dns::XxMatrix<T_Scalar>,
+    VirtualObj_csr<T_Int,T_Scalar>,
+    VirtualObj_dns<T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
 using VirtualProd_cscmm = VirtualProduct<
-	dns::XxMatrix<T_Scalar>,
-	VirtualObj_csc<T_Int,T_Scalar>,
-	VirtualObj_dns<T_Scalar>>;
+    dns::XxMatrix<T_Scalar>,
+    VirtualObj_csc<T_Int,T_Scalar>,
+    VirtualObj_dns<T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
 using VirtualProd_csrspmm = VirtualProduct<
-	csr::XxMatrix<T_Int,T_Scalar>,
-	VirtualObj_csr<T_Int,T_Scalar>,
-	VirtualObj_csr<T_Int,T_Scalar>>;
+    csr::XxMatrix<T_Int,T_Scalar>,
+    VirtualObj_csr<T_Int,T_Scalar>,
+    VirtualObj_csr<T_Int,T_Scalar>>;
 
 template <typename T_Int, typename T_Scalar>
 using VirtualProd_cscspmm = VirtualProduct<
-	csc::XxMatrix<T_Int,T_Scalar>,
-	VirtualObj_csc<T_Int,T_Scalar>,
-	VirtualObj_csc<T_Int,T_Scalar>>;
+    csc::XxMatrix<T_Int,T_Scalar>,
+    VirtualObj_csc<T_Int,T_Scalar>,
+    VirtualObj_csc<T_Int,T_Scalar>>;
 
 } // namespace alias
 
@@ -121,17 +121,17 @@ namespace culite {
 template <typename T_Result, typename T_Left, typename T_Right>
 void VirtualProduct<T_Result, T_Left, T_Right>::evaluateOnNew(T_Result& dest) const
 { 
-	VirtualProductEvaluateOnNewSpec(m_left, m_right, dest); 
+    VirtualProductEvaluateOnNewSpec(m_left, m_right, dest); 
 }
 template <typename T_Result, typename T_Left, typename T_Right>
 void VirtualProduct<T_Result, T_Left, T_Right>::evaluateOnExisting(T_Result& dest) const
 {
-	VirtualProductEvaluateOnExistingSpec(m_left, m_right, dest);
+    VirtualProductEvaluateOnExistingSpec(m_left, m_right, dest);
 }
 template <typename T_Result, typename T_Left, typename T_Right>
 void VirtualProduct<T_Result, T_Left, T_Right>::accumulateOnExisting(T_Result& dest, T_Scalar coeff) const
 {
-	VirtualProductAccumulateOnExistingSpec(m_left, m_right, dest, coeff);
+    VirtualProductAccumulateOnExistingSpec(m_left, m_right, dest, coeff);
 }
 /*-------------------------------------------------*/
 } // namespace culite

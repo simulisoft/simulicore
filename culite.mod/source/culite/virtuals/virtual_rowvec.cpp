@@ -62,9 +62,9 @@ T_Scalar VirtualRowvec<T_Scalar>::evaluateInner(const dns::XxVector<T_Scalar>& v
 template <typename T_Scalar>
 void VirtualRowvec<T_Scalar>::evaluateOuterOnNew(T_Scalar coeff, const dns::XxVector<T_Scalar>& vec, dns::XxMatrix<T_Scalar>& dest) const
 {
-	dest.clear();
-	dest = dns::XxMatrix<T_Scalar>(this->size(), vec.size());
-	evaluateOuterOnExisting(coeff, vec, dest);
+    dest.clear();
+    dest = dns::XxMatrix<T_Scalar>(this->size(), vec.size());
+    evaluateOuterOnExisting(coeff, vec, dest);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
