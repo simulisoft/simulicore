@@ -2,14 +2,14 @@
 # source setup
 #-----------------------------------------------
 set(CLA3P_SRC ${CLA3P_SRC}
-	qr/default_qr.cpp
-	qr/partial_qr.cpp
-	PARENT_SCOPE)
+    qr/default_qr.cpp
+    qr/partial_qr.cpp
+    PARENT_SCOPE)
 
 set(CLA3P_QR_HPP 
-	default_qr.hpp
-	partial_qr.hpp
-	)
+    default_qr.hpp
+    partial_qr.hpp
+    )
 
 #-----------------------------------------------
 # installation setup
