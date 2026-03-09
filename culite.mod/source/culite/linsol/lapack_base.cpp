@@ -32,99 +32,99 @@ namespace culite {
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 LapackBase<T_Matrix>::LapackBase(CuSolverHandler& cusolver, ::cla3p::decomp_t decompType)
-	: m_cusolver(cusolver)
-	, m_decompType(decompType)
+    : m_cusolver(cusolver)
+    , m_decompType(decompType)
 {
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 LapackBase<T_Matrix>::~LapackBase()
 {
-	clear();
+    clear();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 ::cla3p::decomp_t LapackBase<T_Matrix>::decompType() const
 {
-	return m_decompType;
+    return m_decompType;
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::clear()
 {
-	m_factorMeta2D = ::cla3p::Meta2D<int_t>();
+    m_factorMeta2D = ::cla3p::Meta2D<int_t>();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::reserve(const T_Matrix& mat)
 {
-	switch(decompType()) {
+    switch(decompType()) {
 
-	case ::cla3p::decomp_t::LU:
-		m_cusolver.reserveLU(mat);
-		break;
+    case ::cla3p::decomp_t::LU:
+        m_cusolver.reserveLU(mat);
+        break;
 
-	default:
-		throw err::CudaException("Unsupported decomposition type in Culite LapackBase reserve");
-	}
+    default:
+        throw err::CudaException("Unsupported decomposition type in Culite LapackBase reserve");
+    }
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::prepareForDecomposition(const T_Matrix& mat)
 {
-	::cla3p::decomp_generic_check(mat);
+    ::cla3p::decomp_generic_check(mat);
 
-	if(decompType() == ::cla3p::decomp_t::LU && !mat.prop().isGeneral()) {
-		throw err::CudaException("Only general matrices are supported for LU decomposition");
-	}
+    if(decompType() == ::cla3p::decomp_t::LU && !mat.prop().isGeneral()) {
+        throw err::CudaException("Only general matrices are supported for LU decomposition");
+    }
 
-	reserve(mat);
+    reserve(mat);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::decompose(const T_Matrix& mat)
 {
-	prepareForDecomposition(mat);
+    prepareForDecomposition(mat);
 
-	switch(decompType()) {
+    switch(decompType()) {
 
-		case ::cla3p::decomp_t::LU:
-			m_cusolver.decomposeLU(mat);
-			m_factorMeta2D = static_cast<::cla3p::Meta2D<int_t>>(mat);
-			break;
+        case ::cla3p::decomp_t::LU:
+            m_cusolver.decomposeLU(mat);
+            m_factorMeta2D = static_cast<::cla3p::Meta2D<int_t>>(mat);
+            break;
 
-		default:
-			throw err::CudaException("Only LU decomposition is supported in Culite LapackBase");
-	}
+        default:
+            throw err::CudaException("Only LU decomposition is supported in Culite LapackBase");
+    }
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::prepareForSolution(T_Matrix& rhs) const
 {
-	::cla3p::default_solve_input_check(m_factorMeta2D.ncols(), rhs);
+    ::cla3p::default_solve_input_check(m_factorMeta2D.ncols(), rhs);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::solve(T_Matrix& rhs) const
 {
-	prepareForSolution(rhs);
+    prepareForSolution(rhs);
 
-	switch(decompType()) {
+    switch(decompType()) {
 
-		case ::cla3p::decomp_t::LU:
-			m_cusolver.solveLU(rhs);
-			break;
+        case ::cla3p::decomp_t::LU:
+            m_cusolver.solveLU(rhs);
+            break;
 
-		default:
-			throw err::CudaException("Only LU back substitution is supported in Culite LapackBase");
-	}
+        default:
+            throw err::CudaException("Only LU back substitution is supported in Culite LapackBase");
+    }
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::solve(T_Vector& rhs) const
 {
-	T_Matrix tmp(rhs.size(), 1, rhs.values(), rhs.size(), false);
-	solve(tmp);
+    T_Matrix tmp(rhs.size(), 1, rhs.values(), rhs.size(), false);
+    solve(tmp);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

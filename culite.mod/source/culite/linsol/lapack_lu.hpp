@@ -39,25 +39,25 @@ namespace dns { template <typename T_Scalar> class XxVector; }
 template <typename T_Matrix>
 class LapackLU : public LapackBase<T_Matrix> {
 
-	public:
+    public:
 
-		// no copy
-		LapackLU(const LapackLU&) = delete;
-		LapackLU& operator=(const LapackLU&) = delete;
+        // no copy
+        LapackLU(const LapackLU&) = delete;
+        LapackLU& operator=(const LapackLU&) = delete;
 
-	/**
-	 * @brief Constructor.
-	 * @details Initializes the LU solver with the specified cuSOLVER handler.
-	 * @param[in] cusolver Reference to the cuSOLVER handler (defaults to global handler).
-	 */
-	LapackLU(CuSolverHandler& cusolver = globalCuSolverHandler()) 
-	: LapackBase<T_Matrix>(cusolver, ::cla3p::decomp_t::LU) {}
+    /**
+     * @brief Constructor.
+     * @details Initializes the LU solver with the specified cuSOLVER handler.
+     * @param[in] cusolver Reference to the cuSOLVER handler (defaults to global handler).
+     */
+    LapackLU(CuSolverHandler& cusolver = globalCuSolverHandler()) 
+    : LapackBase<T_Matrix>(cusolver, ::cla3p::decomp_t::LU) {}
 
-	/**
-	 * @brief Destructor.
-	 * @details Destroys the solver and releases allocated resources.
-	 */
-		~LapackLU() = default;
+    /**
+     * @brief Destructor.
+     * @details Destroys the solver and releases allocated resources.
+     */
+        ~LapackLU() = default;
 };
 
 /*-------------------------------------------------*/

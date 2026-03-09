@@ -2,13 +2,13 @@
 # source setup
 #-----------------------------------------------
 set(CULITE_SRC ${CULITE_SRC}
-	linsol/lapack_base.cpp
-	PARENT_SCOPE)
+    linsol/lapack_base.cpp
+    PARENT_SCOPE)
 
 set(CULITE_LINSOL_HPP 
-	lapack_base.hpp
-	lapack_lu.hpp
-	)
+    lapack_base.hpp
+    lapack_lu.hpp
+    )
 
 #-----------------------------------------------
 # installation setup

@@ -43,61 +43,61 @@ namespace dns { template <typename T_Scalar> class XxVector; }
 template <typename T_Matrix>
 class LapackBase {
 
-	private:
-		using T_Scalar = typename T_Matrix::value_type;
-		using T_Vector = dns::XxVector<T_Scalar>;
+    private:
+        using T_Scalar = typename T_Matrix::value_type;
+        using T_Vector = dns::XxVector<T_Scalar>;
 
-	protected:
-		LapackBase(CuSolverHandler& cusolver, ::cla3p::decomp_t decompType);
-		~LapackBase();
+    protected:
+        LapackBase(CuSolverHandler& cusolver, ::cla3p::decomp_t decompType);
+        ~LapackBase();
 
-	public:
+    public:
 
-		/**
-		 * @brief Reserves workspace memory for matrix decomposition.
-		 * @details Allocates the necessary device memory buffers required to perform
-		 *          the decomposition of a matrix with the same dimensions as @p mat.
-		 * @param[in] mat The matrix whose dimensions determine the workspace size.
-		 */
-		void reserve(const T_Matrix& mat);
-		
-		/**
-		 * @brief Clears the solver internal data.
-		 * @details Clears the solver internal data and resets all settings.
-		 */
-		void clear();
-		
-		/**
-		 * @brief Performs matrix decomposition.
-		 * @details Computes the matrix factorization without modifying the input matrix.
-		 * @param[in] mat The matrix to be decomposed.
-		 */
-		void decompose(const T_Matrix& mat);
-		
-		/**
-		 * @brief Performs in-place matrix solution.
-		 * @details Solves the linear system using the precomputed factorization.
-		 * @param[in,out] rhs On input, the right hand side matrix, on exit is overwritten with the solution.
-		 */
-		void solve(T_Matrix& rhs) const;
-		
-		/**
-		 * @brief Performs in-place vector solution.
-		 * @details Solves the linear system using the precomputed factorization.
-		 * @param[in,out] rhs On input, the right hand side vector, on exit is overwritten with the solution.
-		 */
-		void solve(T_Vector& rhs) const;
+        /**
+         * @brief Reserves workspace memory for matrix decomposition.
+         * @details Allocates the necessary device memory buffers required to perform
+         *          the decomposition of a matrix with the same dimensions as @p mat.
+         * @param[in] mat The matrix whose dimensions determine the workspace size.
+         */
+        void reserve(const T_Matrix& mat);
+        
+        /**
+         * @brief Clears the solver internal data.
+         * @details Clears the solver internal data and resets all settings.
+         */
+        void clear();
+        
+        /**
+         * @brief Performs matrix decomposition.
+         * @details Computes the matrix factorization without modifying the input matrix.
+         * @param[in] mat The matrix to be decomposed.
+         */
+        void decompose(const T_Matrix& mat);
+        
+        /**
+         * @brief Performs in-place matrix solution.
+         * @details Solves the linear system using the precomputed factorization.
+         * @param[in,out] rhs On input, the right hand side matrix, on exit is overwritten with the solution.
+         */
+        void solve(T_Matrix& rhs) const;
+        
+        /**
+         * @brief Performs in-place vector solution.
+         * @details Solves the linear system using the precomputed factorization.
+         * @param[in,out] rhs On input, the right hand side vector, on exit is overwritten with the solution.
+         */
+        void solve(T_Vector& rhs) const;
 
-	private:
+    private:
 
-	private:
-		CuSolverHandler& m_cusolver;
-		const ::cla3p::decomp_t m_decompType;
-		::cla3p::Meta2D<int_t> m_factorMeta2D;
+    private:
+        CuSolverHandler& m_cusolver;
+        const ::cla3p::decomp_t m_decompType;
+        ::cla3p::Meta2D<int_t> m_factorMeta2D;
 
-		::cla3p::decomp_t decompType() const;
-		void prepareForDecomposition(const T_Matrix& mat);
-		void prepareForSolution(T_Matrix& rhs) const;
+        ::cla3p::decomp_t decompType() const;
+        void prepareForDecomposition(const T_Matrix& mat);
+        void prepareForSolution(T_Matrix& rhs) const;
 };
 
 /*-------------------------------------------------*/
