@@ -2,12 +2,12 @@
 # source setup
 #-----------------------------------------------
 set(CULITE_SRC ${CULITE_SRC}
-	eigsol/lapack_geev.cpp
-	PARENT_SCOPE)
+    eigsol/lapack_geev.cpp
+    PARENT_SCOPE)
 
 set(CULITE_EIGSOL_HPP 
-	lapack_geev.hpp
-	)
+    lapack_geev.hpp
+    )
 
 #-----------------------------------------------
 # installation setup
