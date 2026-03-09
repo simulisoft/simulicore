@@ -1,6 +1,6 @@
 message(STATUS "Configuring CLA3P...")
 if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.16.0")
-	list(APPEND CMAKE_MESSAGE_INDENT ${SIMULICORE_INDENTATION})
+    list(APPEND CMAKE_MESSAGE_INDENT ${SIMULICORE_INDENTATION})
 endif()
 
 #-----------------------------------------------
@@ -16,8 +16,8 @@ add_subdirectory(source)
 add_subdirectory(examples)
 
 if(${SIMULICORE_DEVELOPER_MODE})
-	add_subdirectory(documentation)
-	add_subdirectory(images)
+    add_subdirectory(documentation)
+    add_subdirectory(images)
 endif()
 
 #-----------------------------------------------

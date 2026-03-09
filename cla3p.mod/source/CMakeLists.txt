@@ -13,9 +13,9 @@ set(CLA3P_3RD_PARTY_I64_LIB )
 include(${SIMULICORE_ROOT}/cmake/openmp.cmake)
 
 if(${SIMULICORE_SYSTEM_MACOS})
-	set(CLA3P_3RD_PARTY_INC ${CLA3P_3RD_PARTY_INC} ${MACOS_OMP_INC})
-	set(CLA3P_3RD_PARTY_LIB ${CLA3P_3RD_PARTY_LIB} ${MACOS_OMP_LIB})
-	set(CLA3P_3RD_PARTY_I64_LIB ${CLA3P_3RD_PARTY_I64_LIB} ${MACOS_OMP_LIB})
+    set(CLA3P_3RD_PARTY_INC ${CLA3P_3RD_PARTY_INC} ${MACOS_OMP_INC})
+    set(CLA3P_3RD_PARTY_LIB ${CLA3P_3RD_PARTY_LIB} ${MACOS_OMP_LIB})
+    set(CLA3P_3RD_PARTY_I64_LIB ${CLA3P_3RD_PARTY_I64_LIB} ${MACOS_OMP_LIB})
 endif()
 
 #-----------------------------------------------
@@ -24,26 +24,26 @@ endif()
 set(CLA3P_CMAKE_ARMPL false)
 if(${SIMULICORE_SYSTEM_MACOS})
 
-	include(${SIMULICORE_ROOT}/cmake/3rd/armpl.mac.cmake)
+    include(${SIMULICORE_ROOT}/cmake/3rd/armpl.mac.cmake)
 
-	message(STATUS "Arm Performance Libraries Root: ${ARMPL_ROOT}")
-	message(STATUS "Arm Performance Libraries Root: ${ARMPL_ROOT}")
+    message(STATUS "Arm Performance Libraries Root: ${ARMPL_ROOT}")
+    message(STATUS "Arm Performance Libraries Root: ${ARMPL_ROOT}")
 
-	set(CLA3P_CMAKE_ARMPL true)
+    set(CLA3P_CMAKE_ARMPL true)
 
-	# definitions
-	set(CLA3P_3RD_PARTY_DEF ${CLA3P_3RD_PARTY_DEF} ${ARMPL_DEF} CLA3P_ARMPL)
-	set(CLA3P_3RD_PARTY_I64_DEF ${CLA3P_3RD_PARTY_I64_DEF} ${ARMPL_I64_DEF} CLA3P_ARMPL)
-	# includes
-	set(CLA3P_3RD_PARTY_INC ${CLA3P_3RD_PARTY_INC} ${ARMPL_INC})
-	# libraries
-	set(CLA3P_3RD_PARTY_LIB ${CLA3P_3RD_PARTY_LIB} ${ARMPL_LIB})
-	set(CLA3P_3RD_PARTY_I64_LIB ${CLA3P_3RD_PARTY_I64_LIB} ${ARMPL_I64_LIB})
+    # definitions
+    set(CLA3P_3RD_PARTY_DEF ${CLA3P_3RD_PARTY_DEF} ${ARMPL_DEF} CLA3P_ARMPL)
+    set(CLA3P_3RD_PARTY_I64_DEF ${CLA3P_3RD_PARTY_I64_DEF} ${ARMPL_I64_DEF} CLA3P_ARMPL)
+    # includes
+    set(CLA3P_3RD_PARTY_INC ${CLA3P_3RD_PARTY_INC} ${ARMPL_INC})
+    # libraries
+    set(CLA3P_3RD_PARTY_LIB ${CLA3P_3RD_PARTY_LIB} ${ARMPL_LIB})
+    set(CLA3P_3RD_PARTY_I64_LIB ${CLA3P_3RD_PARTY_I64_LIB} ${ARMPL_I64_LIB})
 
 endif()
 
 if((${SIMULICORE_SYSTEM_LINUX} OR ${SIMULICORE_SYSTEM_WIN32}) AND ${SIMULICORE_ARCH_ARM64})
-	message(FATAL "Arm Performance Libraries for Linux/Windows not yet supported")
+    message(FATAL "Arm Performance Libraries for Linux/Windows not yet supported")
 endif()
 
 #-----------------------------------------------
@@ -52,27 +52,27 @@ endif()
 set(CLA3P_CMAKE_INTEL_MKL false)
 if((${SIMULICORE_SYSTEM_LINUX} OR ${SIMULICORE_SYSTEM_WIN32}) AND ${SIMULICORE_ARCH_X86_64})
 
-	if(${SIMULICORE_SYSTEM_LINUX})
-		include(${SIMULICORE_ROOT}/cmake/3rd/mkl.lin.cmake)
-	elseif(${SIMULICORE_SYSTEM_WIN32})
-		include(${SIMULICORE_ROOT}/cmake/3rd/mkl.win.cmake)
-	endif()
+    if(${SIMULICORE_SYSTEM_LINUX})
+        include(${SIMULICORE_ROOT}/cmake/3rd/mkl.lin.cmake)
+    elseif(${SIMULICORE_SYSTEM_WIN32})
+        include(${SIMULICORE_ROOT}/cmake/3rd/mkl.win.cmake)
+    endif()
 
-	message(STATUS "Intel MKL Root: ${INTEL_MKL_ROOT}")
-	message(STATUS "Intel ICC Root: ${INTEL_ICC_ROOT}")
+    message(STATUS "Intel MKL Root: ${INTEL_MKL_ROOT}")
+    message(STATUS "Intel ICC Root: ${INTEL_ICC_ROOT}")
 
-	set(CLA3P_CMAKE_INTEL_MKL true)
+    set(CLA3P_CMAKE_INTEL_MKL true)
 
-	# definitions
-	set(CLA3P_3RD_PARTY_DEF ${CLA3P_3RD_PARTY_DEF} ${INTEL_MKL_DEF} CLA3P_INTEL_MKL)
-	set(CLA3P_3RD_PARTY_I64_DEF ${CLA3P_3RD_PARTY_I64_DEF} ${INTEL_MKL_I64_DEF} CLA3P_INTEL_MKL)
+    # definitions
+    set(CLA3P_3RD_PARTY_DEF ${CLA3P_3RD_PARTY_DEF} ${INTEL_MKL_DEF} CLA3P_INTEL_MKL)
+    set(CLA3P_3RD_PARTY_I64_DEF ${CLA3P_3RD_PARTY_I64_DEF} ${INTEL_MKL_I64_DEF} CLA3P_INTEL_MKL)
 
-	# includes
-	set(CLA3P_3RD_PARTY_INC ${CLA3P_3RD_PARTY_INC} ${INTEL_MKL_INC})
+    # includes
+    set(CLA3P_3RD_PARTY_INC ${CLA3P_3RD_PARTY_INC} ${INTEL_MKL_INC})
 
-	# libraries
-	set(CLA3P_3RD_PARTY_LIB ${CLA3P_3RD_PARTY_LIB} ${INTEL_MKL_LIB})
-	set(CLA3P_3RD_PARTY_I64_LIB ${CLA3P_3RD_PARTY_I64_LIB} ${INTEL_MKL_I64_LIB})
+    # libraries
+    set(CLA3P_3RD_PARTY_LIB ${CLA3P_3RD_PARTY_LIB} ${INTEL_MKL_LIB})
+    set(CLA3P_3RD_PARTY_I64_LIB ${CLA3P_3RD_PARTY_I64_LIB} ${INTEL_MKL_I64_LIB})
 
 endif()
 
