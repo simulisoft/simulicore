@@ -41,65 +41,65 @@ XiVector<T_Scalar>::XiVector()
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XiVector<T_Scalar>::XiVector(int_t n)
-	: ::cla3p::Meta1D<int_t>(n), XxContainer<T_Scalar>(n)
+    : ::cla3p::Meta1D<int_t>(n), XxContainer<T_Scalar>(n)
 {
-	if(n > 0) {
-		checker();
-	} else {
-		clear();
-	}
+    if(n > 0) {
+        checker();
+    } else {
+        clear();
+    }
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XiVector<T_Scalar>::XiVector(int_t n, T_Scalar *val, bool bind)
-	: ::cla3p::Meta1D<int_t>(n), XxContainer<T_Scalar>(val, bind)
+    : ::cla3p::Meta1D<int_t>(n), XxContainer<T_Scalar>(val, bind)
 {
-	if(n > 0) {
-		checker();
-	} else {
-		clear();
-	}
+    if(n > 0) {
+        checker();
+    } else {
+        clear();
+    }
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XiVector<T_Scalar>::~XiVector()
 {
-	clear();
+    clear();
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XiVector<T_Scalar>::XiVector(const XiVector<T_Scalar>& other)
-	: XiVector(other.size())
+    : XiVector(other.size())
 {
-	copyFromExisting(other);
+    copyFromExisting(other);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XiVector<T_Scalar>& XiVector<T_Scalar>::operator=(const XiVector<T_Scalar>& other)
 {
-	if(!(*this)) {
-		*this = XiVector<T_Scalar>(other.size());
-	}
-	return copyFromExisting(other);
+    if(!(*this)) {
+        *this = XiVector<T_Scalar>(other.size());
+    }
+    return copyFromExisting(other);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XiVector<T_Scalar>::XiVector(XiVector<T_Scalar>&& other)
 {
-	moveFrom(other);
+    moveFrom(other);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XiVector<T_Scalar>& XiVector<T_Scalar>::operator=(XiVector<T_Scalar>&& other)
 {
-	return moveFrom(other);
+    return moveFrom(other);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void XiVector<T_Scalar>::clear()
 {
-	::cla3p::Meta1D<int_t>::clear();
-	XxContainer<T_Scalar>::clear();
+    ::cla3p::Meta1D<int_t>::clear();
+    XxContainer<T_Scalar>::clear();
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -111,74 +111,74 @@ void XiVector<T_Scalar>::fill(T_Scalar val)
 template <typename T_Scalar>
 XiVector<T_Scalar> XiVector<T_Scalar>::copy() const
 {
-	XiVector<T_Scalar> ret(*this);
-	return ret;
+    XiVector<T_Scalar> ret(*this);
+    return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XiVector<T_Scalar> XiVector<T_Scalar>::rcopy()
 {
-	return XiVector<T_Scalar>(size(), this->values(), false);
+    return XiVector<T_Scalar>(size(), this->values(), false);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 ::cla3p::Guard<XiVector<T_Scalar>> XiVector<T_Scalar>::rcopy() const
 {
-	return view(size(), this->values());
+    return view(size(), this->values());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XiVector<T_Scalar> XiVector<T_Scalar>::move()
 {
-	XiVector<T_Scalar> ret;
-	ret.moveFrom(*this);
-	return ret;
+    XiVector<T_Scalar> ret;
+    ret.moveFrom(*this);
+    return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 std::string XiVector<T_Scalar>::info(const std::string& header) const
 { 
-	std::string top;
-	std::string bottom;
-	::cla3p::fill_info_margins(header, top, bottom);
+    std::string top;
+    std::string bottom;
+    ::cla3p::fill_info_margins(header, top, bottom);
 
-	std::ostringstream ss;
+    std::ostringstream ss;
 
-	ss << top << "\n";
+    ss << top << "\n";
 
-	ss << "  Datatype............. " << TypeTraits<T_Scalar>::type_name() << "\n";
-	ss << "  Precision............ " << TypeTraits<T_Scalar>::prec_name() << "\n";
-	ss << "  Size................. " << size() << "\n";
-	ss << "  Values............... " << this->values() << "\n";
-	ss << "  Owner................ " << ::cla3p::boolToYesNo(this->owner()) << "\n";
+    ss << "  Datatype............. " << TypeTraits<T_Scalar>::type_name() << "\n";
+    ss << "  Precision............ " << TypeTraits<T_Scalar>::prec_name() << "\n";
+    ss << "  Size................. " << size() << "\n";
+    ss << "  Values............... " << this->values() << "\n";
+    ss << "  Owner................ " << ::cla3p::boolToYesNo(this->owner()) << "\n";
 
-	ss << bottom << "\n";
+    ss << bottom << "\n";
 
-	return ss.str();
+    return ss.str();
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void XiVector<T_Scalar>::checker() const
 {
-	::cla3p::dns_consistency_check(size(), 1, this->values(), size());
+    ::cla3p::dns_consistency_check(size(), 1, this->values(), size());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XiVector<T_Scalar>& XiVector<T_Scalar>::moveFrom(XiVector<T_Scalar>& other)
 {
-	if(this != &other) {
+    if(this != &other) {
 
-		if(*this) {
-			*this = other;
-		} else {
-			::cla3p::Meta1D<int_t>::operator=(std::move(other));
-			XxContainer<T_Scalar>::operator=(std::move(other));
-			other.unbind();
-		} // similar
+        if(*this) {
+            *this = other;
+        } else {
+            ::cla3p::Meta1D<int_t>::operator=(std::move(other));
+            XxContainer<T_Scalar>::operator=(std::move(other));
+            other.unbind();
+        } // similar
 
-		other.clear();
+        other.clear();
 
-	} // do not apply on self
+    } // do not apply on self
 
     return *this;
 }
@@ -186,10 +186,10 @@ XiVector<T_Scalar>& XiVector<T_Scalar>::moveFrom(XiVector<T_Scalar>& other)
 template <typename T_Scalar>
 XiVector<T_Scalar>& XiVector<T_Scalar>::copyFromExisting(const XiVector<T_Scalar>& other)
 {
-	if(this != &other) {
-		::cla3p::similarity_dim_check(size(), static_cast<int_t>(other.size()));
-		blk::dns::copy(size(), other.values(), this->values());
-	} // do not apply on self
+    if(this != &other) {
+        ::cla3p::similarity_dim_check(size(), static_cast<int_t>(other.size()));
+        blk::dns::copy(size(), other.values(), this->values());
+    } // do not apply on self
     
     return *this;
 }
@@ -197,28 +197,28 @@ XiVector<T_Scalar>& XiVector<T_Scalar>::copyFromExisting(const XiVector<T_Scalar
 template <typename T_Scalar>
 ::cla3p::Guard<XiVector<T_Scalar>> XiVector<T_Scalar>::view(int_t n, const T_Scalar *vals)
 {
-	XiVector<T_Scalar> tmp(n, const_cast<T_Scalar*>(vals), false);
-	::cla3p::Guard<XiVector<T_Scalar>> ret(tmp);
-	return ret;
+    XiVector<T_Scalar> tmp(n, const_cast<T_Scalar*>(vals), false);
+    ::cla3p::Guard<XiVector<T_Scalar>> ret(tmp);
+    return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void XiVector<T_Scalar>::copyToHost(::cla3p::dns::XiVector<T_Cla3pScalar>& dest) const
 {
-	if(!dest) {
-		dest = ::cla3p::dns::XiVector<T_Cla3pScalar>(size());
-	}
-	::cla3p::similarity_dim_check(size(), static_cast<int_t>(dest.size()));
+    if(!dest) {
+        dest = ::cla3p::dns::XiVector<T_Cla3pScalar>(size());
+    }
+    ::cla3p::similarity_dim_check(size(), static_cast<int_t>(dest.size()));
     memCopyD2H(size(), this->values(), dest.values());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void XiVector<T_Scalar>::copyFromHost(const ::cla3p::dns::XiVector<T_Cla3pScalar>& src)
 {
-	if(!(*this)) {
-		*this = XiVector<T_Scalar>(src.size());
-	}
-	::cla3p::similarity_dim_check(size(), static_cast<int_t>(src.size()));
+    if(!(*this)) {
+        *this = XiVector<T_Scalar>(src.size());
+    }
+    ::cla3p::similarity_dim_check(size(), static_cast<int_t>(src.size()));
     memCopyH2D(src.size(), src.values(), this->values());
 }
 /*-------------------------------------------------*/

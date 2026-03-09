@@ -46,20 +46,20 @@ namespace dns {
 template <typename T_Scalar>
 class XxVector : public XiVector<T_Scalar> {
 
-	private:
-		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+    private:
+        using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
-	public:
+    public:
 
-		//
-		// Convertors
-		// Move convertors intentionally left as non-explicit
-		//
-		explicit XxVector(const XiVector<T_Scalar>& other);
+        //
+        // Convertors
+        // Move convertors intentionally left as non-explicit
+        //
+        explicit XxVector(const XiVector<T_Scalar>& other);
         XxVector<T_Scalar>& operator=(const XiVector<T_Scalar>& other);
 
-		XxVector(XiVector<T_Scalar>&& other);
-		XxVector<T_Scalar>& operator=(XiVector<T_Scalar>&& other);
+        XxVector(XiVector<T_Scalar>&& other);
+        XxVector<T_Scalar>& operator=(XiVector<T_Scalar>&& other);
 
          /**
          * @name Virtual Convertors
@@ -75,186 +75,186 @@ class XxVector : public XiVector<T_Scalar> {
 
         /** @} */
 
-		/**
-		 * @name Constructors
-		 * @{
-		 */
+        /**
+         * @name Constructors
+         * @{
+         */
 
-		/**
-		 * @brief Default constructor.
-		 * @details Creates an empty device vector with no allocated device memory.
-		 */
-		XxVector();
+        /**
+         * @brief Default constructor.
+         * @details Creates an empty device vector with no allocated device memory.
+         */
+        XxVector();
 
-		/**
-		 * @brief Dimension constructor.
-		 * @details Creates a device vector of the specified size and allocates device memory.
-		 * @param[in] n The number of elements in the vector.
-		 */
-		explicit XxVector(int_t n);
+        /**
+         * @brief Dimension constructor.
+         * @details Creates a device vector of the specified size and allocates device memory.
+         * @param[in] n The number of elements in the vector.
+         */
+        explicit XxVector(int_t n);
 
-		/**
-		 * @brief Auxiliary constructor.
-		 * @details Creates a device vector using existing device memory.
-		 * @param[in] n The number of elements in the vector.
-		 * @param[in] vals Pointer to existing device memory.
-		 * @param[in] bind If true, the vector takes ownership of the memory.
-		 */
-		explicit XxVector(int_t n, T_Scalar *vals, bool bind);
+        /**
+         * @brief Auxiliary constructor.
+         * @details Creates a device vector using existing device memory.
+         * @param[in] n The number of elements in the vector.
+         * @param[in] vals Pointer to existing device memory.
+         * @param[in] bind If true, the vector takes ownership of the memory.
+         */
+        explicit XxVector(int_t n, T_Scalar *vals, bool bind);
 
-		/**
-		 * @brief Copy constructor.
-		 * @details Creates a new device vector by copying another device vector.
-		 * @param[in] other The device vector to copy.
-		 */
-		XxVector(const XxVector<T_Scalar>& other) = default;
+        /**
+         * @brief Copy constructor.
+         * @details Creates a new device vector by copying another device vector.
+         * @param[in] other The device vector to copy.
+         */
+        XxVector(const XxVector<T_Scalar>& other) = default;
 
-		/**
-		 * @brief Move constructor.
-		 * @details Creates a new device vector by moving resources from another device vector.
-		 * @param[in] other The device vector to move from.
-		 */
-		XxVector(XxVector<T_Scalar>&& other) = default;
+        /**
+         * @brief Move constructor.
+         * @details Creates a new device vector by moving resources from another device vector.
+         * @param[in] other The device vector to move from.
+         */
+        XxVector(XxVector<T_Scalar>&& other) = default;
 
-		/**
-		 * @brief Destructor.
-		 * @details Destroys the device vector and releases allocated device memory.
-		 */
-		~XxVector();
+        /**
+         * @brief Destructor.
+         * @details Destroys the device vector and releases allocated device memory.
+         */
+        ~XxVector();
 
-		/** @} */
+        /** @} */
 
-		/** 
-		 * @name Operators
-		 * @{
-		 */
+        /** 
+         * @name Operators
+         * @{
+         */
 
-		/**
-		 * @brief Copy assignment operator.
-		 * @details Copies the contents of another device vector to this device vector.
-		 * @param[in] other The device vector to copy.
-		 * @return Reference to this device vector.
-		 */
-		XxVector<T_Scalar>& operator=(const XxVector<T_Scalar>& other) = default;
+        /**
+         * @brief Copy assignment operator.
+         * @details Copies the contents of another device vector to this device vector.
+         * @param[in] other The device vector to copy.
+         * @return Reference to this device vector.
+         */
+        XxVector<T_Scalar>& operator=(const XxVector<T_Scalar>& other) = default;
 
-		/**
-		 * @brief Move assignment operator.
-		 * @details Moves resources from another device vector to this device vector.
-		 * @param[in] other The device vector to move from.
-		 * @return Reference to this device vector.
-		 */
-		XxVector<T_Scalar>& operator=(XxVector<T_Scalar>&& other) = default;
+        /**
+         * @brief Move assignment operator.
+         * @details Moves resources from another device vector to this device vector.
+         * @param[in] other The device vector to move from.
+         * @return Reference to this device vector.
+         */
+        XxVector<T_Scalar>& operator=(XxVector<T_Scalar>&& other) = default;
 
-		/**
-		 * @brief Fill operator.
-		 * @details Fills all elements with the specified value.
-		 * @param[in] val The scalar value to fill with.
-		 */
-		void operator=(T_Scalar val);
+        /**
+         * @brief Fill operator.
+         * @details Fills all elements with the specified value.
+         * @param[in] val The scalar value to fill with.
+         */
+        void operator=(T_Scalar val);
 
-		/**
-		 * @brief Unary negation operator.
-		 * @details Returns a negated copy of the device vector.
-		 * @return A device vector containing the negated elements.
-		 */
-		alias::VirtualScal_vec<T_Scalar> operator-() const;
+        /**
+         * @brief Unary negation operator.
+         * @details Returns a negated copy of the device vector.
+         * @return A device vector containing the negated elements.
+         */
+        alias::VirtualScal_vec<T_Scalar> operator-() const;
 
-		/** @} */
+        /** @} */
 
-		/** 
-		 * @name Public Member Functions
-		 * @{
-		 */
+        /** 
+         * @name Public Member Functions
+         * @{
+         */
 
-		/**
+        /**
          * @brief Scale the device vector in-place.
-		 * @details Multiplies all elements of the device vector by a scalar value.
-		 * @param[in] val The scalar value to multiply by.
-		 */
-		void iscale(const T_Scalar& val);
+         * @details Multiplies all elements of the device vector by a scalar value.
+         * @param[in] val The scalar value to multiply by.
+         */
+        void iscale(const T_Scalar& val);
 
-		/**
-		 * @brief Transpose the vector.
-		 * @details Returns a row vector view of this column vector.
-		 * @return A virtual row vector expression.
-		 */
-		VirtualRowvec<T_Scalar> transpose() const;
+        /**
+         * @brief Transpose the vector.
+         * @details Returns a row vector view of this column vector.
+         * @return A virtual row vector expression.
+         */
+        VirtualRowvec<T_Scalar> transpose() const;
 
-		/**
-		 * @brief Conjugate transpose the vector.
-		 * @details Returns a conjugate transposed row vector view of this column vector.
-		 * @return A virtual row vector expression.
-		 */
-		VirtualRowvec<T_Scalar> ctranspose() const;
+        /**
+         * @brief Conjugate transpose the vector.
+         * @details Returns a conjugate transposed row vector view of this column vector.
+         * @return A virtual row vector expression.
+         */
+        VirtualRowvec<T_Scalar> ctranspose() const;
 
-		/**
-		 * @brief Compute the complex conjugate.
-		 * @details Returns a device vector containing the complex conjugate of each element.
-		 * @return A device vector with conjugated elements.
-		 */
-		alias::VirtualConj_vec<T_Scalar> conjugate() const;
+        /**
+         * @brief Compute the complex conjugate.
+         * @details Returns a device vector containing the complex conjugate of each element.
+         * @return A device vector with conjugated elements.
+         */
+        alias::VirtualConj_vec<T_Scalar> conjugate() const;
 
-		/**
-		 * @brief Conjugate the device vector in-place.
-		 * @details Replaces all elements with their complex conjugates.
-		 */
-		void iconjugate();
+        /**
+         * @brief Conjugate the device vector in-place.
+         * @details Replaces all elements with their complex conjugates.
+         */
+        void iconjugate();
 
-		/**
-		 * @brief Compute the 1-norm.
-		 * @details Computes the sum of absolute values of all elements.
-		 * @return The 1-norm of the device vector.
-		 */
-		T_RScalar normOne() const;
+        /**
+         * @brief Compute the 1-norm.
+         * @details Computes the sum of absolute values of all elements.
+         * @return The 1-norm of the device vector.
+         */
+        T_RScalar normOne() const;
 
-		/**
-		 * @brief Compute the infinity norm.
-		 * @details Computes the maximum absolute value of all elements.
-		 * @return The infinity norm of the device vector.
-		 */
-		T_RScalar normInf() const;
+        /**
+         * @brief Compute the infinity norm.
+         * @details Computes the maximum absolute value of all elements.
+         * @return The infinity norm of the device vector.
+         */
+        T_RScalar normInf() const;
 
-		/**
-		 * @brief Compute the Euclidean norm (2-norm).
-		 * @details Computes the square root of the sum of squared absolute values.
-		 * @return The Euclidean norm of the device vector.
-		 */
-		T_RScalar normEuc() const;
+        /**
+         * @brief Compute the Euclidean norm (2-norm).
+         * @details Computes the square root of the sum of squared absolute values.
+         * @return The Euclidean norm of the device vector.
+         */
+        T_RScalar normEuc() const;
 
-		/**
-		 * @brief Extract a block as a new device vector.
-		 * @details Creates a new device vector containing a deep copy of a contiguous block of elements.
-		 * @param[in] ibgn The starting index of the block.
-		 * @param[in] ni The number of elements in the block.
-		 * @return A new device vector containing the block's data.
-		 */
-		XxVector<T_Scalar> block(int_t ibgn, int_t ni) const;
+        /**
+         * @brief Extract a block as a new device vector.
+         * @details Creates a new device vector containing a deep copy of a contiguous block of elements.
+         * @param[in] ibgn The starting index of the block.
+         * @param[in] ni The number of elements in the block.
+         * @return A new device vector containing the block's data.
+         */
+        XxVector<T_Scalar> block(int_t ibgn, int_t ni) const;
 
-		/**
-		 * @brief Extract a reference block.
-		 * @details Creates a device vector that references a contiguous block of this vector's device memory.
-		 * @param[in] ibgn The starting index of the block.
-		 * @param[in] ni The number of elements in the block.
-		 * @return A device vector that shares device memory with this vector.
-		 */
-		XxVector<T_Scalar> rblock(int_t ibgn, int_t ni);
+        /**
+         * @brief Extract a reference block.
+         * @details Creates a device vector that references a contiguous block of this vector's device memory.
+         * @param[in] ibgn The starting index of the block.
+         * @param[in] ni The number of elements in the block.
+         * @return A device vector that shares device memory with this vector.
+         */
+        XxVector<T_Scalar> rblock(int_t ibgn, int_t ni);
 
-		/**
-		 * @brief Extract a guarded reference block.
-		 * @details Creates a guarded device vector that references a contiguous block of this vector's device memory.
-		 * @param[in] ibgn The starting index of the block.
-		 * @param[in] ni The number of elements in the block.
-		 * @return A guarded device vector that shares device memory with this vector.
-		 */
-		::cla3p::Guard<XxVector<T_Scalar>> rblock(int_t ibgn, int_t ni) const;
+        /**
+         * @brief Extract a guarded reference block.
+         * @details Creates a guarded device vector that references a contiguous block of this vector's device memory.
+         * @param[in] ibgn The starting index of the block.
+         * @param[in] ni The number of elements in the block.
+         * @return A guarded device vector that shares device memory with this vector.
+         */
+        ::cla3p::Guard<XxVector<T_Scalar>> rblock(int_t ibgn, int_t ni) const;
 
-		/**
-		 * @brief Set a block of elements.
-		 * @details Copies elements from the source device vector to a contiguous block of this vector.
-		 * @param[in] ibgn The starting index where the block will be written.
-		 * @param[in] src The source device vector to copy from.
-		 */
-		void setBlock(int_t ibgn, const XxVector<T_Scalar>& src);
+        /**
+         * @brief Set a block of elements.
+         * @details Copies elements from the source device vector to a contiguous block of this vector.
+         * @param[in] ibgn The starting index where the block will be written.
+         * @param[in] src The source device vector to copy from.
+         */
+        void setBlock(int_t ibgn, const XxVector<T_Scalar>& src);
 
     private:
     

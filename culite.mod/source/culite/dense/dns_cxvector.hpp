@@ -37,20 +37,20 @@ namespace dns {
 template <typename T_Scalar>
 class CxVector : public XxVector<T_Scalar> {
 
-	private:
-		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+    private:
+        using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
-	public:
+    public:
 
-		//
-		// Convertors
-		// Move convertors intentionally left as non-explicit
-		//
-		explicit CxVector(const XiVector<T_Scalar>& other);
+        //
+        // Convertors
+        // Move convertors intentionally left as non-explicit
+        //
+        explicit CxVector(const XiVector<T_Scalar>& other);
         CxVector<T_Scalar>& operator=(const XiVector<T_Scalar>& other);
 
-		CxVector(XiVector<T_Scalar>&& other);
-    	CxVector<T_Scalar>& operator=(XiVector<T_Scalar>&& other);
+        CxVector(XiVector<T_Scalar>&& other);
+        CxVector<T_Scalar>& operator=(XiVector<T_Scalar>&& other);
 
         /**
          * @name Virtual Convertors
@@ -68,105 +68,105 @@ class CxVector : public XxVector<T_Scalar> {
 
         /** @} */
 
-		/**
-		 * @name Constructors
-		 * @{
-		 */
+        /**
+         * @name Constructors
+         * @{
+         */
 
-		/**
-		 * @brief Default constructor.
-		 * @details Creates an empty complex device vector with no allocated device memory.
-		 */
-		CxVector();
+        /**
+         * @brief Default constructor.
+         * @details Creates an empty complex device vector with no allocated device memory.
+         */
+        CxVector();
 
-		/**
-		 * @brief Dimension constructor.
-		 * @details Creates a complex device vector of the specified size and allocates device memory.
-		 * @param[in] n The number of elements in the vector.
-		 */
-		explicit CxVector(int_t n);
+        /**
+         * @brief Dimension constructor.
+         * @details Creates a complex device vector of the specified size and allocates device memory.
+         * @param[in] n The number of elements in the vector.
+         */
+        explicit CxVector(int_t n);
 
-		/**
-		 * @brief Auxiliary constructor.
-		 * @details Creates a complex device vector using existing device memory.
-		 * @param[in] n The number of elements in the vector.
-		 * @param[in] vals Pointer to existing device memory.
-		 * @param[in] bind If true, the vector takes ownership of the memory.
-		 */
-		explicit CxVector(int_t n, T_Scalar *vals, bool bind);
+        /**
+         * @brief Auxiliary constructor.
+         * @details Creates a complex device vector using existing device memory.
+         * @param[in] n The number of elements in the vector.
+         * @param[in] vals Pointer to existing device memory.
+         * @param[in] bind If true, the vector takes ownership of the memory.
+         */
+        explicit CxVector(int_t n, T_Scalar *vals, bool bind);
 
-		/**
-		 * @brief Copy constructor.
-		 * @details Creates a new complex device vector by copying another complex device vector.
-		 * @param[in] other The complex device vector to copy.
-		 */
-		CxVector(const CxVector<T_Scalar>& other) = default;
+        /**
+         * @brief Copy constructor.
+         * @details Creates a new complex device vector by copying another complex device vector.
+         * @param[in] other The complex device vector to copy.
+         */
+        CxVector(const CxVector<T_Scalar>& other) = default;
 
-		/**
-		 * @brief Move constructor.
-		 * @details Creates a new complex device vector by moving resources from another complex device vector.
-		 * @param[in] other The complex device vector to move from.
-		 */
-		CxVector(CxVector<T_Scalar>&& other) = default;
+        /**
+         * @brief Move constructor.
+         * @details Creates a new complex device vector by moving resources from another complex device vector.
+         * @param[in] other The complex device vector to move from.
+         */
+        CxVector(CxVector<T_Scalar>&& other) = default;
 
-		/**
-		 * @brief Destructor.
-		 * @details Destroys the complex device vector and releases allocated device memory.
-		 */
-		~CxVector();
+        /**
+         * @brief Destructor.
+         * @details Destroys the complex device vector and releases allocated device memory.
+         */
+        ~CxVector();
 
-		/** @} */
+        /** @} */
 
-		/**
-		 * @name Operators
-		 * @{
-		 */
+        /**
+         * @name Operators
+         * @{
+         */
 
-		/**
-		 * @brief Copy assignment operator.
-		 * @details Copies the contents of another complex device vector to this complex device vector.
-		 * @param[in] other The complex device vector to copy.
-		 * @return Reference to this complex device vector.
-		 */
-		CxVector<T_Scalar>& operator=(const CxVector<T_Scalar>& other) = default;
+        /**
+         * @brief Copy assignment operator.
+         * @details Copies the contents of another complex device vector to this complex device vector.
+         * @param[in] other The complex device vector to copy.
+         * @return Reference to this complex device vector.
+         */
+        CxVector<T_Scalar>& operator=(const CxVector<T_Scalar>& other) = default;
 
-		/**
-		 * @brief Move assignment operator.
-		 * @details Moves resources from another complex device vector to this complex device vector.
-		 * @param[in] other The complex device vector to move from.
-		 * @return Reference to this complex device vector.
-		 */
-		CxVector<T_Scalar>& operator=(CxVector<T_Scalar>&& other) = default;
+        /**
+         * @brief Move assignment operator.
+         * @details Moves resources from another complex device vector to this complex device vector.
+         * @param[in] other The complex device vector to move from.
+         * @return Reference to this complex device vector.
+         */
+        CxVector<T_Scalar>& operator=(CxVector<T_Scalar>&& other) = default;
 
-		/**
-		 * @brief Fill operator.
-		 * @details Fills all elements with the specified complex value.
-		 * @param[in] val The complex scalar value to fill with.
-		 */
-		void operator=(T_Scalar val);
+        /**
+         * @brief Fill operator.
+         * @details Fills all elements with the specified complex value.
+         * @param[in] val The complex scalar value to fill with.
+         */
+        void operator=(T_Scalar val);
 
-		/** @} */
+        /** @} */
 
-		/** 
-		 * @name Public Member Functions
-		 * @{
-		 */
+        /** 
+         * @name Public Member Functions
+         * @{
+         */
 
-		/**
-		 * @brief Extract the real part.
-		 * @details Creates a new device vector containing the real part of each complex element.
-		 * @return A device vector containing the real parts.
-		 */
-		XxVector<T_RScalar> real() const;
+        /**
+         * @brief Extract the real part.
+         * @details Creates a new device vector containing the real part of each complex element.
+         * @return A device vector containing the real parts.
+         */
+        XxVector<T_RScalar> real() const;
 
-		/**
-		 * @brief Extract the imaginary part.
-		 * @details Creates a new device vector containing the imaginary part of each complex element.
-		 * @return A device vector containing the imaginary parts.
-		 */
-		XxVector<T_RScalar> imag() const;	
+        /**
+         * @brief Extract the imaginary part.
+         * @details Creates a new device vector containing the imaginary part of each complex element.
+         * @return A device vector containing the imaginary parts.
+         */
+        XxVector<T_RScalar> imag() const;    
 
-		/** @} */
+        /** @} */
 
 };
 

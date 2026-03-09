@@ -31,28 +31,28 @@ namespace dns {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 CxMatrix<T_Scalar>::CxMatrix(const XxMatrix<T_Scalar>& other)
-	: XxMatrix<T_Scalar>(other)
+    : XxMatrix<T_Scalar>(other)
 {
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 CxMatrix<T_Scalar>& CxMatrix<T_Scalar>::operator=(const XxMatrix<T_Scalar>& other)
 {
-	XxMatrix<T_Scalar>::operator=(other);
-	return *this;
+    XxMatrix<T_Scalar>::operator=(other);
+    return *this;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 CxMatrix<T_Scalar>::CxMatrix(XxMatrix<T_Scalar>&& other)
-	: XxMatrix<T_Scalar>(std::move(other))
+    : XxMatrix<T_Scalar>(std::move(other))
 {
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 CxMatrix<T_Scalar>& CxMatrix<T_Scalar>::operator=(XxMatrix<T_Scalar>&& other)
 {
-	XxMatrix<T_Scalar>::operator=(std::move(other));
-	return *this;
+    XxMatrix<T_Scalar>::operator=(std::move(other));
+    return *this;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -62,13 +62,13 @@ CxMatrix<T_Scalar>::CxMatrix()
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 CxMatrix<T_Scalar>::CxMatrix(int_t nr, int_t nc, const ::cla3p::Property& pr)
-	: CxMatrix<T_Scalar>::XxMatrix(nr, nc, pr)
+    : CxMatrix<T_Scalar>::XxMatrix(nr, nc, pr)
 {
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 CxMatrix<T_Scalar>::CxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const ::cla3p::Property& pr)
-	: CxMatrix<T_Scalar>::XxMatrix(nr, nc, vals, ldv, bind, pr)
+    : CxMatrix<T_Scalar>::XxMatrix(nr, nc, vals, ldv, bind, pr)
 {
 }
 /*-------------------------------------------------*/
@@ -80,43 +80,43 @@ CxMatrix<T_Scalar>::~CxMatrix()
 template <typename T_Scalar>
 void CxMatrix<T_Scalar>::operator=(T_Scalar val)
 {
-	this->fill(val);
+    this->fill(val);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XxMatrix<typename TypeTraits<T_Scalar>::real_type> CxMatrix<T_Scalar>::real() const
 {
-	::cla3p::Property retProp = (this->prop().isHermitian()
-		? ::cla3p::Property(::cla3p::prop_t::Symmetric, this->prop().uplo()) 
-		: this->prop());
+    ::cla3p::Property retProp = (this->prop().isHermitian()
+        ? ::cla3p::Property(::cla3p::prop_t::Symmetric, this->prop().uplo()) 
+        : this->prop());
 
-	XxMatrix<T_RScalar> ret(this->nrows(), this->ncols(), retProp);
-	blk::dns::getReal(this->prop().uplo(), 
-			          this->nrows(), 
-			          this->ncols(), 
-			          this->values(), 
-			          this->ld(), 
-			          ret.values(), ret.ld());
+    XxMatrix<T_RScalar> ret(this->nrows(), this->ncols(), retProp);
+    blk::dns::getReal(this->prop().uplo(), 
+                      this->nrows(), 
+                      this->ncols(), 
+                      this->values(), 
+                      this->ld(), 
+                      ret.values(), ret.ld());
 
-	return ret;
+    return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XxMatrix<typename TypeTraits<T_Scalar>::real_type> CxMatrix<T_Scalar>::imag() const
 {
-	::cla3p::Property retProp = (this->prop().isHermitian()
-		? ::cla3p::Property(::cla3p::prop_t::Skew, this->prop().uplo()) 
-		: this->prop());
+    ::cla3p::Property retProp = (this->prop().isHermitian()
+        ? ::cla3p::Property(::cla3p::prop_t::Skew, this->prop().uplo()) 
+        : this->prop());
 
-	XxMatrix<T_RScalar> ret(this->nrows(), this->ncols(), retProp);
-	blk::dns::getImag(this->prop().uplo(), 
-			          this->nrows(), 
-			          this->ncols(), 
-			          this->values(), 
-			          this->ld(), 
-			          ret.values(), ret.ld());
+    XxMatrix<T_RScalar> ret(this->nrows(), this->ncols(), retProp);
+    blk::dns::getImag(this->prop().uplo(), 
+                      this->nrows(), 
+                      this->ncols(), 
+                      this->values(), 
+                      this->ld(), 
+                      ret.values(), ret.ld());
 
-	return ret;
+    return ret;
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

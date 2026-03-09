@@ -31,28 +31,28 @@ namespace dns {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 CxVector<T_Scalar>::CxVector(const XiVector<T_Scalar>& other)
-	: XxVector<T_Scalar>(other)
+    : XxVector<T_Scalar>(other)
 {
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 CxVector<T_Scalar>& CxVector<T_Scalar>::operator=(const XiVector<T_Scalar>& other)
 {
-	XxVector<T_Scalar>::operator=(other);
-	return *this;
+    XxVector<T_Scalar>::operator=(other);
+    return *this;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 CxVector<T_Scalar>::CxVector(XiVector<T_Scalar>&& other)
-	: XxVector<T_Scalar>(std::move(other))
+    : XxVector<T_Scalar>(std::move(other))
 {
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 CxVector<T_Scalar>& CxVector<T_Scalar>::operator=(XiVector<T_Scalar>&& other)
 {
-	XxVector<T_Scalar>::operator=(std::move(other));
-	return *this;
+    XxVector<T_Scalar>::operator=(std::move(other));
+    return *this;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -62,13 +62,13 @@ CxVector<T_Scalar>::CxVector()
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 CxVector<T_Scalar>::CxVector(int_t n)
-	: CxVector<T_Scalar>::XxVector(n)
+    : CxVector<T_Scalar>::XxVector(n)
 {
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 CxVector<T_Scalar>::CxVector(int_t n, T_Scalar *vals, bool bind)
-	: CxVector<T_Scalar>::XxVector(n, vals, bind)
+    : CxVector<T_Scalar>::XxVector(n, vals, bind)
 {
 }
 /*-------------------------------------------------*/
@@ -80,23 +80,23 @@ CxVector<T_Scalar>::~CxVector()
 template <typename T_Scalar>
 void CxVector<T_Scalar>::operator=(T_Scalar val)
 {
-	this->fill(val);
+    this->fill(val);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XxVector<typename TypeTraits<T_Scalar>::real_type> CxVector<T_Scalar>::real() const
 {
-	XxVector<T_RScalar> ret(this->size());
-	blk::dns::getReal(this->size(), this->values(), ret.values());
-	return ret;
+    XxVector<T_RScalar> ret(this->size());
+    blk::dns::getReal(this->size(), this->values(), ret.values());
+    return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 XxVector<typename TypeTraits<T_Scalar>::real_type> CxVector<T_Scalar>::imag() const
 {
-	XxVector<T_RScalar> ret(this->size());
-	blk::dns::getImag(this->size(), this->values(), ret.values());
-	return ret;
+    XxVector<T_RScalar> ret(this->size());
+    blk::dns::getImag(this->size(), this->values(), ret.values());
+    return ret;
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

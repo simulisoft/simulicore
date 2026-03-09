@@ -40,20 +40,20 @@ namespace dns {
 template <typename T_Scalar>
 class CxMatrix : public XxMatrix<T_Scalar> {
 
-	private:
-		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+    private:
+        using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
-	public:
+    public:
 
-		//
-		// Convertors
-		// Move convertors intentionally left as non-explicit
-		//
-		explicit CxMatrix(const XxMatrix<T_Scalar>& other);
+        //
+        // Convertors
+        // Move convertors intentionally left as non-explicit
+        //
+        explicit CxMatrix(const XxMatrix<T_Scalar>& other);
         CxMatrix<T_Scalar>& operator=(const XxMatrix<T_Scalar>& other);
 
-		CxMatrix(XxMatrix<T_Scalar>&& other);		
-		CxMatrix<T_Scalar>& operator=(XxMatrix<T_Scalar>&& other);
+        CxMatrix(XxMatrix<T_Scalar>&& other);        
+        CxMatrix<T_Scalar>& operator=(XxMatrix<T_Scalar>&& other);
 
         /**
          * @name Virtual Convertors
@@ -78,110 +78,110 @@ class CxMatrix : public XxMatrix<T_Scalar> {
 
         /** @} */
 
-		/**
-		 * @name Constructors
-		 * @{
-		 */
+        /**
+         * @name Constructors
+         * @{
+         */
 
-		/**
-		 * @brief Default constructor.
-		 * @details Creates an empty device complex matrix with no allocated device memory.
-		 */
-		CxMatrix();
+        /**
+         * @brief Default constructor.
+         * @details Creates an empty device complex matrix with no allocated device memory.
+         */
+        CxMatrix();
 
-		/**
-		 * @brief Dimension constructor.
-		 * @details Creates a device complex matrix of the specified dimensions and allocates device memory.
-		 * @param[in] nr The number of rows.
-		 * @param[in] nc The number of columns.
-		 * @param[in] pr The matrix property (default: General).
-		 */
-		explicit CxMatrix(int_t nr, int_t nc, const ::cla3p::Property& pr = ::cla3p::Property::General());
+        /**
+         * @brief Dimension constructor.
+         * @details Creates a device complex matrix of the specified dimensions and allocates device memory.
+         * @param[in] nr The number of rows.
+         * @param[in] nc The number of columns.
+         * @param[in] pr The matrix property (default: General).
+         */
+        explicit CxMatrix(int_t nr, int_t nc, const ::cla3p::Property& pr = ::cla3p::Property::General());
 
-		/**
-		 * @brief Auxiliary constructor.
-		 * @details Creates a device complex matrix using existing device memory.
-		 * @param[in] nr The number of rows.
-		 * @param[in] nc The number of columns.
-		 * @param[in] vals Pointer to existing device memory.
-		 * @param[in] ldv The leading dimension.
-		 * @param[in] bind If true, the matrix takes ownership of the memory.
-		 * @param[in] pr The matrix property (default: General).
-		 */
-		explicit CxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const ::cla3p::Property& pr = ::cla3p::Property::General());
+        /**
+         * @brief Auxiliary constructor.
+         * @details Creates a device complex matrix using existing device memory.
+         * @param[in] nr The number of rows.
+         * @param[in] nc The number of columns.
+         * @param[in] vals Pointer to existing device memory.
+         * @param[in] ldv The leading dimension.
+         * @param[in] bind If true, the matrix takes ownership of the memory.
+         * @param[in] pr The matrix property (default: General).
+         */
+        explicit CxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const ::cla3p::Property& pr = ::cla3p::Property::General());
 
-		/**
-		 * @brief Copy constructor.
-		 * @details Creates a new device complex matrix by copying another device complex matrix.
-		 * @param[in] other The device complex matrix to copy.
-		 */
-		CxMatrix(const CxMatrix<T_Scalar>& other) = default;
+        /**
+         * @brief Copy constructor.
+         * @details Creates a new device complex matrix by copying another device complex matrix.
+         * @param[in] other The device complex matrix to copy.
+         */
+        CxMatrix(const CxMatrix<T_Scalar>& other) = default;
 
-		/**
-		 * @brief Move constructor.
-		 * @details Creates a new device complex matrix by moving resources from another device complex matrix.
-		 * @param[in] other The device complex matrix to move from.
-		 */
-		CxMatrix(CxMatrix<T_Scalar>&& other) = default;
+        /**
+         * @brief Move constructor.
+         * @details Creates a new device complex matrix by moving resources from another device complex matrix.
+         * @param[in] other The device complex matrix to move from.
+         */
+        CxMatrix(CxMatrix<T_Scalar>&& other) = default;
 
-		/**
-		 * @brief Destructor.
-		 * @details Destroys the device complex matrix and releases allocated device memory.
-		 */
-		~CxMatrix();
+        /**
+         * @brief Destructor.
+         * @details Destroys the device complex matrix and releases allocated device memory.
+         */
+        ~CxMatrix();
 
-		/** @} */
+        /** @} */
 
-		/**
-		 * @name Operators
-		 * @{
-		 */
+        /**
+         * @name Operators
+         * @{
+         */
 
-		/**
-		 * @brief Copy assignment operator.
-		 * @details Copies the contents of another device complex matrix to this device complex matrix.
-		 * @param[in] other The device complex matrix to copy.
-		 * @return Reference to this device complex matrix.
-		 */
-		CxMatrix<T_Scalar>& operator=(const CxMatrix<T_Scalar>& other) = default;
+        /**
+         * @brief Copy assignment operator.
+         * @details Copies the contents of another device complex matrix to this device complex matrix.
+         * @param[in] other The device complex matrix to copy.
+         * @return Reference to this device complex matrix.
+         */
+        CxMatrix<T_Scalar>& operator=(const CxMatrix<T_Scalar>& other) = default;
 
-		/**
-		 * @brief Move assignment operator.
-		 * @details Moves resources from another device complex matrix to this device complex matrix.
-		 * @param[in] other The device complex matrix to move from.
-		 * @return Reference to this device complex matrix.
-		 */
-		CxMatrix<T_Scalar>& operator=(CxMatrix<T_Scalar>&& other) = default;
+        /**
+         * @brief Move assignment operator.
+         * @details Moves resources from another device complex matrix to this device complex matrix.
+         * @param[in] other The device complex matrix to move from.
+         * @return Reference to this device complex matrix.
+         */
+        CxMatrix<T_Scalar>& operator=(CxMatrix<T_Scalar>&& other) = default;
 
-		/**
-		 * @brief Fill operator.
-		 * @details Fills all elements with the specified complex value.
-		 * @param[in] val The complex scalar value to fill with.
-		 */
-		void operator=(T_Scalar val);
+        /**
+         * @brief Fill operator.
+         * @details Fills all elements with the specified complex value.
+         * @param[in] val The complex scalar value to fill with.
+         */
+        void operator=(T_Scalar val);
 
-		/** @} */
+        /** @} */
 
-		/** 
-		 * @name Public Member Functions
-		 * @{
-		 */
+        /** 
+         * @name Public Member Functions
+         * @{
+         */
 
-		/**
-		 * @brief Extract the real part.
-		 * @details Creates a new device matrix containing the real parts of all complex elements.
-		 * @return A device matrix containing the real components.
-		 */
-		XxMatrix<T_RScalar> real() const;
+        /**
+         * @brief Extract the real part.
+         * @details Creates a new device matrix containing the real parts of all complex elements.
+         * @return A device matrix containing the real components.
+         */
+        XxMatrix<T_RScalar> real() const;
 
-		/**
-		 * @brief Extract the imaginary part.
-		 * @details Creates a new device matrix containing the imaginary parts of all complex elements.
-		 * @return A device matrix containing the imaginary components.
-		 */
-		XxMatrix<T_RScalar> imag() const;
+        /**
+         * @brief Extract the imaginary part.
+         * @details Creates a new device matrix containing the imaginary parts of all complex elements.
+         * @return A device matrix containing the imaginary components.
+         */
+        XxMatrix<T_RScalar> imag() const;
 
-		/** @} */
+        /** @} */
 
 };
 
