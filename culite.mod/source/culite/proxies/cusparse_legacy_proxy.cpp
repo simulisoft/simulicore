@@ -51,7 +51,7 @@ void csr_geam2_reserve(cusparseHandle_t         handle, \
                        const int_t*             csrSortedColIndC, \
                        size_t*                  pBufferSizeInBytes) \
 { \
-	cusparseStatus_t cusparseStatus = \
+    cusparseStatus_t cusparseStatus = \
     cusparse##prefix##csrgeam2_bufferSizeExt(handle, \
                                              m, \
                                              n, \
@@ -72,7 +72,7 @@ void csr_geam2_reserve(cusparseHandle_t         handle, \
                                              csrSortedRowPtrC, \
                                              csrSortedColIndC, \
                                              pBufferSizeInBytes); \
-	err::check_cusparse(cusparseStatus); \
+    err::check_cusparse(cusparseStatus); \
 }
 csr_geam2_reserve_macro(real_t    , D);
 csr_geam2_reserve_macro(real4_t   , S);

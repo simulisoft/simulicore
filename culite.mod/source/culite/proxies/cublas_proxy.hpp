@@ -78,9 +78,9 @@ iamax_macro(complex8_t);
 template <typename T_Scalar>
 int_t iamax(cublasHandle_t handle, int_t n, const T_Scalar *x, int_t incx)
 {
-	int_t result = 0;
-	iamax(handle, n, x, incx, &result);
-	return result;
+    int_t result = 0;
+    iamax(handle, n, x, incx, &result);
+    return result;
 }
 
 /*-------------------------------------------------*/
@@ -96,9 +96,9 @@ asum_macro(complex8_t);
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type asum(cublasHandle_t handle, int_t n, const T_Scalar *x, int_t incx)
 {
-	typename TypeTraits<T_Scalar>::real_type result = 0;
-	asum(handle, n, x, incx, &result);
-	return result;
+    typename TypeTraits<T_Scalar>::real_type result = 0;
+    asum(handle, n, x, incx, &result);
+    return result;
 }
 
 /*-------------------------------------------------*/
@@ -134,7 +134,7 @@ scal_macro(complex8_t);
 template <typename T_Scalar>
 void scal(cublasHandle_t handle, int_t n, T_Scalar alpha, T_Scalar *x, int_t incx)
 {
-	scal(handle, n, &alpha, x, incx);
+    scal(handle, n, &alpha, x, incx);
 }
 
 #define scal_macro(typein) \
@@ -146,7 +146,7 @@ scal_macro(complex8_t);
 template <typename T_Scalar>
 void scal(cublasHandle_t handle, int_t n, typename TypeTraits<T_Scalar>::real_type alpha, T_Scalar *x, int_t incx)
 {
-	scal(handle, n, &alpha, x, incx);
+    scal(handle, n, &alpha, x, incx);
 }
 
 /*-------------------------------------------------*/
@@ -162,9 +162,9 @@ nrm2_macro(complex8_t);
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type nrm2(cublasHandle_t handle, int_t n, const T_Scalar *x, int_t incx)
 {
-	typename TypeTraits<T_Scalar>::real_type result = 0;
-	nrm2(handle, n, x, incx, &result);
-	return result;
+    typename TypeTraits<T_Scalar>::real_type result = 0;
+    nrm2(handle, n, x, incx, &result);
+    return result;
 }
 
 /*-------------------------------------------------*/
@@ -180,9 +180,9 @@ dot_macro(complex8_t);
 template <typename T_Scalar>
 T_Scalar dot(cublasHandle_t handle, int_t n, const T_Scalar *x, int_t incx, const T_Scalar *y, int_t incy)
 {
-	T_Scalar result = 0;
-	dot(handle, n, x, incx, y, incy, &result);
-	return result;
+    T_Scalar result = 0;
+    dot(handle, n, x, incx, y, incy, &result);
+    return result;
 }
 
 #define dotc_macro(typeio) \
@@ -196,9 +196,9 @@ dotc_macro(complex8_t);
 template <typename T_Scalar>
 T_Scalar dotc(cublasHandle_t handle, int_t n, const T_Scalar *x, int_t incx, const T_Scalar *y, int_t incy)
 {
-	T_Scalar result = 0;
-	dotc(handle, n, x, incx, y, incy, &result);
-	return result;
+    T_Scalar result = 0;
+    dotc(handle, n, x, incx, y, incy, &result);
+    return result;
 }
 
 /*-------------------------------------------------*/
@@ -214,19 +214,19 @@ axpy_macro(complex8_t);
 template <typename T_Scalar>
 void axpy(cublasHandle_t handle, int_t n, T_Scalar alpha, const T_Scalar *x, int_t incx, T_Scalar *y, int_t incy)
 {
-	axpy(handle, n, &alpha, x, incx, y, incy);
+    axpy(handle, n, &alpha, x, incx, y, incy);
 }
 
 /*------------------ Level 2 ----------------------*/
 
 #define geam_macro(typein) \
 void geam(cublasHandle_t handle, \
-	      cublasOperation_t transa, \
-		  cublasOperation_t transb, \
-		  int_t m, int_t n, \
-		  const typein *alpha, const typein *a, int_t lda, \
-		  const typein *beta, const typein *b, int_t ldb, \
-		  typein *c, int_t ldc)
+          cublasOperation_t transa, \
+          cublasOperation_t transb, \
+          int_t m, int_t n, \
+          const typein *alpha, const typein *a, int_t lda, \
+          const typein *beta, const typein *b, int_t ldb, \
+          typein *c, int_t ldc)
 geam_macro(real_t);
 geam_macro(real4_t);
 geam_macro(complex_t);
@@ -295,7 +295,7 @@ her_macro(complex8_t);
 
 #define dgmm_macro(typein) \
 void dgmm(cublasHandle_t handle, \
-	      cublasSideMode_t mode, \
+          cublasSideMode_t mode, \
           int_t m, int_t n, \
           const typein *a, int_t lda, \
           const typein *x, int_t incx, \
@@ -310,11 +310,11 @@ dgmm_macro(complex8_t);
 
 #define gemv_macro(typein) \
 void gemv(cublasHandle_t handle, \
-	      cublasOperation_t trans, \
-		  int_t m, int_t n, const typein* alpha, \
-		  const typein *a, int_t lda, \
-		  const typein *x, int_t incx, \
-		  const typein* beta, typein *y, int_t incy)
+          cublasOperation_t trans, \
+          int_t m, int_t n, const typein* alpha, \
+          const typein *a, int_t lda, \
+          const typein *x, int_t incx, \
+          const typein* beta, typein *y, int_t incy)
 gemv_macro(real_t);
 gemv_macro(real4_t);
 gemv_macro(complex_t);
@@ -325,11 +325,11 @@ gemv_macro(complex8_t);
 
 #define symv_macro(typein) \
 void symv(cublasHandle_t handle, \
-	      cublasFillMode_t uplo, \
-		  int_t n, const typein* alpha, \
-		  const typein *a, int_t lda, \
-		  const typein *x, int_t incx, \
-		  const typein* beta, typein *y, int_t incy)
+          cublasFillMode_t uplo, \
+          int_t n, const typein* alpha, \
+          const typein *a, int_t lda, \
+          const typein *x, int_t incx, \
+          const typein* beta, typein *y, int_t incy)
 symv_macro(real_t);
 symv_macro(real4_t);
 symv_macro(complex_t);
@@ -340,11 +340,11 @@ symv_macro(complex8_t);
 
 #define hemv_macro(typein) \
 void hemv(cublasHandle_t handle, \
-	      cublasFillMode_t uplo, \
-		  int_t n, const typein* alpha, \
-		  const typein *a, int_t lda, \
-		  const typein *x, int_t incx, \
-		  const typein* beta, typein *y, int_t incy)
+          cublasFillMode_t uplo, \
+          int_t n, const typein* alpha, \
+          const typein *a, int_t lda, \
+          const typein *x, int_t incx, \
+          const typein* beta, typein *y, int_t incy)
 hemv_macro(real_t);
 hemv_macro(real4_t);
 hemv_macro(complex_t);
@@ -355,11 +355,11 @@ hemv_macro(complex8_t);
 
 #define trmv_macro(typein) \
 void trmv(cublasHandle_t handle, \
-	      cublasFillMode_t uplo, \
-		  cublasOperation_t trans, \
-		  cublasDiagType_t diag, \
-		  int_t n, const typein *a, int_t lda, \
-		  typein *x, int_t incx)
+          cublasFillMode_t uplo, \
+          cublasOperation_t trans, \
+          cublasDiagType_t diag, \
+          int_t n, const typein *a, int_t lda, \
+          typein *x, int_t incx)
 trmv_macro(real_t);
 trmv_macro(real4_t);
 trmv_macro(complex_t);
@@ -370,11 +370,11 @@ trmv_macro(complex8_t);
 
 #define trsv_macro(typein) \
 void trsv(cublasHandle_t handle, \
-	      cublasFillMode_t uplo, \
-		  cublasOperation_t trans, \
-		  cublasDiagType_t diag, \
-		  int_t n, const typein *a, int_t lda, \
-		  typein *x, int_t incx)
+          cublasFillMode_t uplo, \
+          cublasOperation_t trans, \
+          cublasDiagType_t diag, \
+          int_t n, const typein *a, int_t lda, \
+          typein *x, int_t incx)
 trsv_macro(real_t);
 trsv_macro(real4_t);
 trsv_macro(complex_t);
@@ -386,7 +386,7 @@ trsv_macro(complex8_t);
 #define gemm_macro(typein) \
 void gemm(cublasHandle_t handle, \
           cublasOperation_t transa, \
-		  cublasOperation_t transb, \
+          cublasOperation_t transb, \
           int_t m, int_t n, int_t k, \
           const typein* alpha, \
           const typein* a, int_t lda, \
@@ -404,7 +404,7 @@ gemm_macro(complex8_t);
 #define symm_macro(typein) \
 void symm(cublasHandle_t handle, \
           cublasSideMode_t side, \
-		  cublasFillMode_t uplo, \
+          cublasFillMode_t uplo, \
           int_t m, int_t n, \
           const typein* alpha, \
           const typein* a, int_t lda, \
@@ -422,7 +422,7 @@ symm_macro(complex8_t);
 #define hemm_macro(typein) \
 void hemm(cublasHandle_t handle, \
           cublasSideMode_t side, \
-		  cublasFillMode_t uplo, \
+          cublasFillMode_t uplo, \
           int_t m, int_t n, \
           const typein* alpha, \
           const typein* a, int_t lda, \
@@ -440,9 +440,9 @@ hemm_macro(complex8_t);
 #define trmm_macro(typein) \
 void trmm(cublasHandle_t handle, \
           cublasSideMode_t side, \
-		  cublasFillMode_t uplo, \
-		  cublasOperation_t trans, \
-		  cublasDiagType_t diag , \
+          cublasFillMode_t uplo, \
+          cublasOperation_t trans, \
+          cublasDiagType_t diag , \
           int_t m, int_t n, \
           const typein* alpha, \
           const typein* a, int_t lda, \
@@ -459,9 +459,9 @@ trmm_macro(complex8_t);
 #define trsm_macro(typein) \
 void trsm(cublasHandle_t handle, \
           cublasSideMode_t side, \
-		  cublasFillMode_t uplo, \
-		  cublasOperation_t trans, \
-		  cublasDiagType_t diag , \
+          cublasFillMode_t uplo, \
+          cublasOperation_t trans, \
+          cublasDiagType_t diag , \
           int_t m, int_t n, \
           const typein* alpha, \
           const typein* a, int_t lda, \
@@ -477,7 +477,7 @@ trsm_macro(complex8_t);
 #define syrk_macro(typein) \
 void syrk(cublasHandle_t handle, \
           cublasFillMode_t uplo, \
-		  cublasOperation_t trans, \
+          cublasOperation_t trans, \
           int_t n, int_t k, \
           const typein* alpha, \
           const typein* a, int_t lda, \
@@ -494,7 +494,7 @@ syrk_macro(complex8_t);
 #define herk_macro(typein) \
 void herk(cublasHandle_t handle, \
           cublasFillMode_t uplo, \
-		  cublasOperation_t trans, \
+          cublasOperation_t trans, \
           int_t n, int_t k, \
           const typename TypeTraits<typein>::real_type* alpha, \
           const typein* a, int_t lda, \
@@ -511,7 +511,7 @@ herk_macro(complex8_t);
 #define syrkx_macro(typein) \
 void syrkx(cublasHandle_t handle, \
           cublasFillMode_t uplo, \
-		  cublasOperation_t trans, \
+          cublasOperation_t trans, \
           int_t n, int_t k, \
           const typein* alpha, \
           const typein* a, int_t lda, \
@@ -529,7 +529,7 @@ syrkx_macro(complex8_t);
 #define herkx_macro(typein) \
 void herkx(cublasHandle_t handle, \
           cublasFillMode_t uplo, \
-		  cublasOperation_t trans, \
+          cublasOperation_t trans, \
           int_t n, int_t k, \
           const typein* alpha, \
           const typein* a, int_t lda, \
