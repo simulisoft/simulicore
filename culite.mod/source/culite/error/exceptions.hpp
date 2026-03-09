@@ -34,25 +34,25 @@ namespace err {
  */
 class Exception : public std::exception {
 
-	public:
-		/** 
-		 * @brief The default constructor.
-		 * @details Constructs an exception with the given message.
-		 */
-		Exception(const std::string& msg = "Untitled");
+    public:
+        /** 
+         * @brief The default constructor.
+         * @details Constructs an exception with the given message.
+         */
+        Exception(const std::string& msg = "Untitled");
 
-		/** 
-		 * @brief Destroys the exception.
-		 */
-		~Exception() throw();
+        /** 
+         * @brief Destroys the exception.
+         */
+        ~Exception() throw();
 
-		/** 
-		 * @brief Returns the explanatory string.
-		 */
-		const char *what() const throw();
+        /** 
+         * @brief Returns the explanatory string.
+         */
+        const char *what() const throw();
 
-	private:
-		std::string m_msg;
+    private:
+        std::string m_msg;
 };
 
 /*-------------------------------------------------*/
@@ -61,16 +61,16 @@ class Exception : public std::exception {
  * @brief CUDA exception class.
  */
 class CudaException : public Exception {
-	public:
-		/** 
-		 * @copydoc Exception::Exception()
-		 */
-		CudaException(const std::string& msg = "Untitled");
+    public:
+        /** 
+         * @copydoc Exception::Exception()
+         */
+        CudaException(const std::string& msg = "Untitled");
 
-		/** 
-		 * @copydoc Exception::~Exception()
-		 */
-		~CudaException() throw();
+        /** 
+         * @copydoc Exception::~Exception()
+         */
+        ~CudaException() throw();
 };
 
 /*-------------------------------------------------*/

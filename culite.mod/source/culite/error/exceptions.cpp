@@ -29,7 +29,7 @@ namespace err {
 /*-------------------------------------------------*/
 Exception::Exception(const std::string& msg)
 {
-	m_msg = msg;
+    m_msg = msg;
 }
 /*-------------------------------------------------*/
 Exception::~Exception() throw()
@@ -38,11 +38,11 @@ Exception::~Exception() throw()
 /*-------------------------------------------------*/
 const char* Exception::what() const throw()
 {
-	return m_msg.c_str();
+    return m_msg.c_str();
 }
 /*-------------------------------------------------*/
 CudaException::CudaException(const std::string& msg)
-	: Exception("Cuda Error: " + msg)
+    : Exception("Cuda Error: " + msg)
 {
 }
 /*-------------------------------------------------*/
