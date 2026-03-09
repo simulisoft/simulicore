@@ -34,7 +34,7 @@ namespace dns {
 template <typename T_Scalar>
 void fill(int_t n, T_Scalar *x, T_Scalar val, int_t incx)
 {
-	if(!n) return;
+    if(!n) return;
 
     if(!incx) {
 
@@ -72,7 +72,7 @@ void copy<int_t>(int_t n, const int_t *x, int_t *y, int_t incx, int_t incy)
 template <typename T_Scalar>
 void copy(int_t n, const T_Scalar *x, T_Scalar* y, int_t incx, int_t incy)
 {
-	if(!n) return;
+    if(!n) return;
 
     blas::copy(n, x, incx, y, incy);
 }

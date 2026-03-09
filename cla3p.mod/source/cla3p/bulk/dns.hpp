@@ -73,7 +73,7 @@ void fill(uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda, T_Scalar val, T
 template <typename T_Scalar>
 void zero(uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda)
 {
-	fill(uplo, m, n, a, lda, T_Scalar(0));
+    fill(uplo, m, n, a, lda, T_Scalar(0));
 }
 
 //
@@ -81,15 +81,15 @@ void zero(uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda)
 //
 template <typename T_Scalar>
 void rand(uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda,
-		typename TypeTraits<T_Scalar>::real_type lo,
-		typename TypeTraits<T_Scalar>::real_type hi);
+        typename TypeTraits<T_Scalar>::real_type lo,
+        typename TypeTraits<T_Scalar>::real_type hi);
 
 //
 // Copy
 //
 template <typename T_Scalar>
 void copy(uplo_t uplo, int_t m, int_t n, const T_Scalar *a, int_t lda,
-		T_Scalar *b, int_t ldb, T_Scalar coeff = T_Scalar(1));
+        T_Scalar *b, int_t ldb, T_Scalar coeff = T_Scalar(1));
 
 //
 // Copy with internal strides
@@ -97,7 +97,7 @@ void copy(uplo_t uplo, int_t m, int_t n, const T_Scalar *a, int_t lda,
 template <typename T_Scalar>
 void copy_stride(uplo_t uplo, int_t m, int_t n, 
                  const T_Scalar *a, int_t lda, int_t inca,
-		         T_Scalar *b, int_t ldb, int_t incb, 
+                 T_Scalar *b, int_t ldb, int_t incb, 
                  T_Scalar coeff = T_Scalar(1));
 
 //
@@ -105,28 +105,28 @@ void copy_stride(uplo_t uplo, int_t m, int_t n,
 //
 template <typename T_Scalar>
 void get_real(uplo_t uplo, int_t m, int_t n, const T_Scalar *a, int_t lda,
-		typename TypeTraits<T_Scalar>::real_type *b, int_t ldb);
+        typename TypeTraits<T_Scalar>::real_type *b, int_t ldb);
 
 //
 // Get imag part from complex
 //
 template <typename T_Scalar>
 void get_imag(uplo_t uplo, int_t m, int_t n, const T_Scalar *a, int_t lda,
-		typename TypeTraits<T_Scalar>::real_type *b, int_t ldb);
+        typename TypeTraits<T_Scalar>::real_type *b, int_t ldb);
 
 //
 // Set real part to complex
 //
 template <typename T_Scalar>
 void set_real(uplo_t uplo, int_t m, int_t n, const typename TypeTraits<T_Scalar>::real_type *a, int_t lda, 
-		T_Scalar *b, int_t ldb);
+        T_Scalar *b, int_t ldb);
 
 //
 // Set imag part to complex
 //
 template <typename T_Scalar>
 void set_imag(uplo_t uplo, int_t m, int_t n, const typename TypeTraits<T_Scalar>::real_type *a, int_t lda,
-		T_Scalar *b, int_t ldb);
+        T_Scalar *b, int_t ldb);
 
 //
 // Scale
@@ -181,28 +181,28 @@ void tr2ge(uplo_t uplo, int_t m, int_t n, T_Scalar *a, int_t lda);
 //
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type norm_one(prop_t ptype, uplo_t uplo,
-		int_t m, int_t n, const T_Scalar *a, int_t lda);
+        int_t m, int_t n, const T_Scalar *a, int_t lda);
 
 //
 // Norm Inf
 //
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type norm_inf(prop_t ptype, uplo_t uplo,
-		int_t m, int_t n, const T_Scalar *a, int_t lda);
+        int_t m, int_t n, const T_Scalar *a, int_t lda);
 
 //
 // Norm Max
 //
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type norm_max(prop_t ptype, uplo_t uplo,
-		int_t m, int_t n, const T_Scalar *a, int_t lda);
+        int_t m, int_t n, const T_Scalar *a, int_t lda);
 
 //
 // Norm Frobenius
 //
 template <typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type norm_fro(prop_t ptype, uplo_t uplo,
-		int_t m, int_t n, const T_Scalar *a, int_t lda);
+        int_t m, int_t n, const T_Scalar *a, int_t lda);
 
 //
 // Norm Euclidean
@@ -218,7 +218,7 @@ typename TypeTraits<T_Scalar>::real_type norm_euc(int_t n, const T_Scalar *a);
 //
 template <typename T_Scalar>
 void permute(prop_t ptype, uplo_t uplo, int_t m, int_t n, const T_Scalar *a, int_t lda, 
-		T_Scalar *b, int_t ldb, const int_t *P, const int_t *Q);
+        T_Scalar *b, int_t ldb, const int_t *P, const int_t *Q);
 
 /*-------------------------------------------------*/
 } // namespace dns

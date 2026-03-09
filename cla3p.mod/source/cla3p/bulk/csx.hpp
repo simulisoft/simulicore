@@ -55,23 +55,23 @@ void print_to_stream(std::ostream& os, csx_t type, int_t np, const int_t *xxxptr
 
 template <typename T_Scalar>
 void transpose(int_t inp, const int_t *ixptr, const int_t *ixidx, const T_Scalar *ivals,
-		       int_t onp, int_t *oxptr, int_t *oxidx, T_Scalar *ovals, T_Scalar coeff = 1);
+               int_t onp, int_t *oxptr, int_t *oxidx, T_Scalar *ovals, T_Scalar coeff = 1);
 
 template <typename T_Scalar>
 void conjugate_transpose(int_t inp, const int_t *ixptr, const int_t *ixidx, const T_Scalar *ivals,
-		                 int_t onp, int_t *oxptr, int_t *oxidx, T_Scalar *ovals, T_Scalar coeff = 1);
+                         int_t onp, int_t *oxptr, int_t *oxidx, T_Scalar *ovals, T_Scalar coeff = 1);
 
 void uplo2ge_xxptr(uplo_t uplo, csx_t type, int_t np, const int_t *ixptr, const int_t *ixidx, int_t *oxptr);
 
 template <typename T_Scalar>
 void sy2ge(uplo_t uplo, csx_t type, int_t np, 
            const int_t *ixptr, const int_t *ixidx, const T_Scalar *ivals,
-		   int_t *oxptr, int_t *oxidx, T_Scalar *ovals);
+           int_t *oxptr, int_t *oxidx, T_Scalar *ovals);
 
 template <typename T_Scalar>
 void he2ge(uplo_t uplo, csx_t type, int_t np, 
            const int_t *ixptr, const int_t *ixidx, const T_Scalar *ivals,
-		   int_t *oxptr, int_t *oxidx, T_Scalar *ovals);
+           int_t *oxptr, int_t *oxidx, T_Scalar *ovals);
 
 template <typename T_Scalar>
 void remove_duplicates(int_t np, int_t *xxxptr, int_t *xxxidx, T_Scalar *values, dup_t op);

@@ -45,13 +45,13 @@ void print_to_stream(std::ostream& os, int_t m, const int_t *rowptr, const int_t
 template <typename T_Scalar>
 void print(int_t m, const int_t *rowptr, const int_t *colidx, const T_Scalar *values, std::streamsize prec = 0)
 {
-	print_to_stream(std::cout, m, rowptr, colidx, values, prec);
+    print_to_stream(std::cout, m, rowptr, colidx, values, prec);
 }
 
 template <typename T_Scalar>
 void transpose(int_t m, int_t n, 
                const int_t *irowptr, const int_t *icolidx, const T_Scalar *ivalues,
-		       int_t *orowptr, int_t *ocolidx, T_Scalar *ovalues, T_Scalar coeff = 1)
+               int_t *orowptr, int_t *ocolidx, T_Scalar *ovalues, T_Scalar coeff = 1)
 {
     csx::transpose(m, irowptr, icolidx, ivalues,
                    n, orowptr, ocolidx, ovalues, coeff);
@@ -60,7 +60,7 @@ void transpose(int_t m, int_t n,
 template <typename T_Scalar>
 void conjugate_transpose(int_t m, int_t n, 
                          const int_t *irowptr, const int_t *icolidx, const T_Scalar *ivalues,
-		                 int_t *orowptr, int_t *ocolidx, T_Scalar *ovalues, T_Scalar coeff = 1)
+                         int_t *orowptr, int_t *ocolidx, T_Scalar *ovalues, T_Scalar coeff = 1)
 {
     csx::conjugate_transpose(m, irowptr, icolidx, ivalues,
                              n, orowptr, ocolidx, ovalues, coeff);
@@ -74,7 +74,7 @@ inline void uplo2ge_rowptr(uplo_t uplo, int_t m, const int_t *irowptr, const int
 template <typename T_Scalar>
 void sy2ge(uplo_t uplo, int_t m, 
            const int_t *irowptr, const int_t *icolidx, const T_Scalar *ivalues,
-		   int_t *orowptr, int_t *ocolidx, T_Scalar *ovalues)
+           int_t *orowptr, int_t *ocolidx, T_Scalar *ovalues)
 {
     csx::sy2ge(uplo, csx::csx_t::CSR, m, 
                irowptr, icolidx, ivalues,
@@ -84,7 +84,7 @@ void sy2ge(uplo_t uplo, int_t m,
 template <typename T_Scalar>
 void he2ge(uplo_t uplo, int_t m, 
            const int_t *irowptr, const int_t *icolidx, const T_Scalar *ivalues,
-		   int_t *orowptr, int_t *ocolidx, T_Scalar *ovalues)
+           int_t *orowptr, int_t *ocolidx, T_Scalar *ovalues)
 {
     csx::he2ge(uplo, csx::csx_t::CSR, m, 
                irowptr, icolidx, ivalues,
@@ -121,8 +121,8 @@ norm_fro(prop_t ptype, int_t m, const int_t *rowptr, const int_t *colidx, const 
 
 template <typename T_Scalar>
 void permute(prop_t ptype, uplo_t uplo, int_t m, int_t n, 
-		     const int_t *irowptr, const int_t *icolidx, const T_Scalar *ivalues,
-		     int_t *orowptr, int_t *ocolidx, T_Scalar *ovalues, const int_t *P, const int_t *Q);
+             const int_t *irowptr, const int_t *icolidx, const T_Scalar *ivalues,
+             int_t *orowptr, int_t *ocolidx, T_Scalar *ovalues, const int_t *P, const int_t *Q);
 
 /*-------------------------------------------------*/
 } // namespace csr

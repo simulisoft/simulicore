@@ -36,9 +36,9 @@ namespace csr {
 //
 template <typename T_Scalar>
 void add(int_t m, int_t n,
-		T_Scalar alpha, const int_t *rowptrA, const int_t *colidxA, const T_Scalar *valuesA,
-		T_Scalar beta, const int_t *rowptrB, const int_t *colidxB, const T_Scalar *valuesB,
-		int_t **rowptrC, int_t **colidxC, T_Scalar **valuesC);
+        T_Scalar alpha, const int_t *rowptrA, const int_t *colidxA, const T_Scalar *valuesA,
+        T_Scalar beta, const int_t *rowptrB, const int_t *colidxB, const T_Scalar *valuesB,
+        int_t **rowptrC, int_t **colidxC, T_Scalar **valuesC);
 
 //
 // Update: dnsY = beta * dnsY + alpha * op(csrA) * dnsX
@@ -46,8 +46,8 @@ void add(int_t m, int_t n,
 //
 template <typename T_Scalar>
 void gem_x_vec(op_t opA, int_t m, int_t n, T_Scalar alpha, 
-		const int_t *rowptr, const int_t *colidx, const T_Scalar *values, 
-		const T_Scalar *x, T_Scalar beta, T_Scalar *y);
+        const int_t *rowptr, const int_t *colidx, const T_Scalar *values, 
+        const T_Scalar *x, T_Scalar beta, T_Scalar *y);
 
 //
 // Update: dnsY = beta * dnsY + alpha * csrA * dnsX
@@ -55,8 +55,8 @@ void gem_x_vec(op_t opA, int_t m, int_t n, T_Scalar alpha,
 //
 template <typename T_Scalar>
 void sym_x_vec(uplo_t uplo, int_t n, T_Scalar alpha, 
-		const int_t *rowptr, const int_t *colidx, const T_Scalar *values, 
-		const T_Scalar *x, T_Scalar beta, T_Scalar *y);
+        const int_t *rowptr, const int_t *colidx, const T_Scalar *values, 
+        const T_Scalar *x, T_Scalar beta, T_Scalar *y);
 
 //
 // Update: dnsY = beta * dnsY + alpha * csrA * dnsX
@@ -64,8 +64,8 @@ void sym_x_vec(uplo_t uplo, int_t n, T_Scalar alpha,
 //
 template <typename T_Scalar>
 void hem_x_vec(uplo_t uplo, int_t n, T_Scalar alpha, 
-		const int_t *rowptr, const int_t *colidx, const T_Scalar *values, 
-		const T_Scalar *x, T_Scalar beta, T_Scalar *y);
+        const int_t *rowptr, const int_t *colidx, const T_Scalar *values, 
+        const T_Scalar *x, T_Scalar beta, T_Scalar *y);
 
 //
 // Update: dnsC = beta * dnsC + alpha * opA(csrA) * dnsB
@@ -73,8 +73,8 @@ void hem_x_vec(uplo_t uplo, int_t n, T_Scalar alpha,
 //
 template <typename T_Scalar>
 void gem_x_gem(op_t opA, int_t m, int_t n, int_t k, T_Scalar alpha,
-		const int_t *rowptr, const int_t *colidx, const T_Scalar *values, 
-		const T_Scalar *b, int_t ldb, T_Scalar beta, T_Scalar *c, int_t ldc);
+        const int_t *rowptr, const int_t *colidx, const T_Scalar *values, 
+        const T_Scalar *b, int_t ldb, T_Scalar beta, T_Scalar *c, int_t ldc);
 
 //
 // Update: dnsC = beta * dnsC + alpha * csrA * dnsB
@@ -82,8 +82,8 @@ void gem_x_gem(op_t opA, int_t m, int_t n, int_t k, T_Scalar alpha,
 //
 template <typename T_Scalar>
 void sym_x_gem(uplo_t uplo, int_t m, int_t n, T_Scalar alpha,
-		const int_t *rowptr, const int_t *colidx, const T_Scalar *values, 
-		const T_Scalar *b, int_t ldb, T_Scalar beta, T_Scalar *c, int_t ldc);
+        const int_t *rowptr, const int_t *colidx, const T_Scalar *values, 
+        const T_Scalar *b, int_t ldb, T_Scalar beta, T_Scalar *c, int_t ldc);
 
 //
 // Update: dnsC = beta * dnsC + alpha * csrA * dnsB
@@ -91,8 +91,8 @@ void sym_x_gem(uplo_t uplo, int_t m, int_t n, T_Scalar alpha,
 //
 template <typename T_Scalar>
 void hem_x_gem(uplo_t uplo, int_t m, int_t n, T_Scalar alpha,
-		const int_t *rowptr, const int_t *colidx, const T_Scalar *values, 
-		const T_Scalar *b, int_t ldb, T_Scalar beta, T_Scalar *c, int_t ldc);
+        const int_t *rowptr, const int_t *colidx, const T_Scalar *values, 
+        const T_Scalar *b, int_t ldb, T_Scalar beta, T_Scalar *c, int_t ldc);
 
 //
 // Update: dnsC = beta * dnsC + alpha * opA(csrA) * opB(csrB)
@@ -100,9 +100,9 @@ void hem_x_gem(uplo_t uplo, int_t m, int_t n, T_Scalar alpha,
 //
 template <typename T_Scalar>
 void gem_x_gem(int_t m, int_t n, int_t k, T_Scalar alpha,
-		op_t opA, const int_t *rowptrA, const int_t *colidxA, const T_Scalar *valuesA, 
-		op_t opB, const int_t *rowptrB, const int_t *colidxB, const T_Scalar *valuesB, 
-		T_Scalar beta, T_Scalar *c, int_t ldc); 
+        op_t opA, const int_t *rowptrA, const int_t *colidxA, const T_Scalar *valuesA, 
+        op_t opB, const int_t *rowptrB, const int_t *colidxB, const T_Scalar *valuesB, 
+        T_Scalar beta, T_Scalar *c, int_t ldc); 
 
 //
 // Update: csrC = opA(csrA) * opB(csrB)
@@ -110,9 +110,9 @@ void gem_x_gem(int_t m, int_t n, int_t k, T_Scalar alpha,
 //
 template <typename T_Scalar>
 void gem_x_gem(int_t m, int_t n, int_t k,
-		op_t opA, const int_t *rowptrA, const int_t *colidxA, const T_Scalar *valuesA, 
-		op_t opB, const int_t *rowptrB, const int_t *colidxB, const T_Scalar *valuesB, 
-		int_t **rowptrC, int_t **colidxC, T_Scalar **valuesC); 
+        op_t opA, const int_t *rowptrA, const int_t *colidxA, const T_Scalar *valuesA, 
+        op_t opB, const int_t *rowptrB, const int_t *colidxB, const T_Scalar *valuesB, 
+        int_t **rowptrC, int_t **colidxC, T_Scalar **valuesC); 
 
 /*-------------------------------------------------*/
 } // namespace csr

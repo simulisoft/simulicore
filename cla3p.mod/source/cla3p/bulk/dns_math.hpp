@@ -42,8 +42,8 @@ void update(uplo_t uplo, int_t m, int_t n, T_Scalar alpha, const T_Scalar *a, in
 //
 template <typename T_Scalar>
 void add(uplo_t uplo, int_t m, int_t n,
-		T_Scalar alpha, const T_Scalar *a, int_t lda,
-		T_Scalar beta , const T_Scalar *b, int_t ldb, T_Scalar *c, int_t ldc);
+        T_Scalar alpha, const T_Scalar *a, int_t lda,
+        T_Scalar beta , const T_Scalar *b, int_t ldb, T_Scalar *c, int_t ldc);
 
 //
 // Update: y = beta * y + alpha * op(A) * x
@@ -51,28 +51,28 @@ void add(uplo_t uplo, int_t m, int_t n,
 //
 template <typename T_Scalar>
 void gem_x_vec(op_t opA, int_t m, int_t n, T_Scalar alpha, 
-		const T_Scalar *a, int_t lda, const T_Scalar *x, T_Scalar beta, T_Scalar *y);
+        const T_Scalar *a, int_t lda, const T_Scalar *x, T_Scalar beta, T_Scalar *y);
 
 //
 // Update: y = beta * y + alpha * A * x
 //
 template <typename T_Scalar>
 void sym_x_vec(uplo_t uplo, int_t n, T_Scalar alpha, const T_Scalar *a, int_t lda, 
-		const T_Scalar *x, T_Scalar beta, T_Scalar *y);
+        const T_Scalar *x, T_Scalar beta, T_Scalar *y);
 
 //
 // Update: y = beta * y + alpha * A * x
 //
 template <typename T_Scalar>
 void hem_x_vec(uplo_t uplo, int_t n, T_Scalar alpha, const T_Scalar *a, int_t lda, 
-		const T_Scalar *x, T_Scalar beta, T_Scalar *y);
+        const T_Scalar *x, T_Scalar beta, T_Scalar *y);
 
 //
 // Update: y = alpha * opA(A) * x
 //
 template <typename T_Scalar>
 void trm_x_vec(uplo_t uplo, op_t opA, int_t m, int_t n, T_Scalar alpha, 
-		const T_Scalar *a, int_t lda, const T_Scalar *x, T_Scalar *y);
+        const T_Scalar *a, int_t lda, const T_Scalar *x, T_Scalar *y);
 
 //
 // Update: C = beta * C + alpha * opA(A) * opB(B)
@@ -80,9 +80,9 @@ void trm_x_vec(uplo_t uplo, op_t opA, int_t m, int_t n, T_Scalar alpha,
 //
 template <typename T_Scalar>
 void gem_x_gem(int_t m, int_t n, int_t k, T_Scalar alpha,
-		op_t opA, const T_Scalar *a, int_t lda,
-		op_t opB, const T_Scalar *b, int_t ldb,
-		T_Scalar beta, T_Scalar *c, int_t ldc);
+        op_t opA, const T_Scalar *a, int_t lda,
+        op_t opB, const T_Scalar *b, int_t ldb,
+        T_Scalar beta, T_Scalar *c, int_t ldc);
 
 //
 // Update: C = beta * C + alpha * A * B
@@ -90,9 +90,9 @@ void gem_x_gem(int_t m, int_t n, int_t k, T_Scalar alpha,
 //
 template <typename T_Scalar>
 void sym_x_gem(uplo_t uplo, int_t m, int_t n, T_Scalar alpha,
-		const T_Scalar *a, int_t lda,
-		const T_Scalar *b, int_t ldb,
-		T_Scalar beta, T_Scalar *c, int_t ldc);
+        const T_Scalar *a, int_t lda,
+        const T_Scalar *b, int_t ldb,
+        T_Scalar beta, T_Scalar *c, int_t ldc);
 
 //
 // Update: C = beta * C + alpha * B * A
@@ -100,9 +100,9 @@ void sym_x_gem(uplo_t uplo, int_t m, int_t n, T_Scalar alpha,
 //
 template <typename T_Scalar>
 void gem_x_sym(uplo_t uplo, int_t m, int_t n, T_Scalar alpha,
-		const T_Scalar *a, int_t lda,
-		const T_Scalar *b, int_t ldb,
-		T_Scalar beta, T_Scalar *c, int_t ldc);
+        const T_Scalar *a, int_t lda,
+        const T_Scalar *b, int_t ldb,
+        T_Scalar beta, T_Scalar *c, int_t ldc);
 
 //
 // Update: C = beta * C + alpha * A * B
@@ -110,9 +110,9 @@ void gem_x_sym(uplo_t uplo, int_t m, int_t n, T_Scalar alpha,
 //
 template <typename T_Scalar>
 void hem_x_gem(uplo_t uplo, int_t m, int_t n, T_Scalar alpha,
-		const T_Scalar *a, int_t lda,
-		const T_Scalar *b, int_t ldb,
-		T_Scalar beta, T_Scalar *c, int_t ldc);
+        const T_Scalar *a, int_t lda,
+        const T_Scalar *b, int_t ldb,
+        T_Scalar beta, T_Scalar *c, int_t ldc);
 
 //
 // Update: C = beta * C + alpha * B * A
@@ -120,9 +120,9 @@ void hem_x_gem(uplo_t uplo, int_t m, int_t n, T_Scalar alpha,
 //
 template <typename T_Scalar>
 void gem_x_hem(uplo_t uplo, int_t m, int_t n, T_Scalar alpha,
-		const T_Scalar *a, int_t lda,
-		const T_Scalar *b, int_t ldb,
-		T_Scalar beta, T_Scalar *c, int_t ldc);
+        const T_Scalar *a, int_t lda,
+        const T_Scalar *b, int_t ldb,
+        T_Scalar beta, T_Scalar *c, int_t ldc);
 
 //
 // Update: C = alpha * opA(A) * B
@@ -130,9 +130,9 @@ void gem_x_hem(uplo_t uplo, int_t m, int_t n, T_Scalar alpha,
 //
 template <typename T_Scalar>
 void trm_x_gem(uplo_t uplo, op_t opA, int_t m, int_t n, int_t k, T_Scalar alpha,
-		const T_Scalar *a, int_t lda,
-		const T_Scalar *b, int_t ldb,
-		T_Scalar *c, int_t ldc);
+        const T_Scalar *a, int_t lda,
+        const T_Scalar *b, int_t ldb,
+        T_Scalar *c, int_t ldc);
 
 //
 // Update: C = alpha * B * opA(A)
@@ -140,9 +140,9 @@ void trm_x_gem(uplo_t uplo, op_t opA, int_t m, int_t n, int_t k, T_Scalar alpha,
 //
 template <typename T_Scalar>
 void gem_x_trm(uplo_t uplo, op_t opA, int_t m, int_t n, int_t k, T_Scalar alpha,
-		const T_Scalar *a, int_t lda,
-		const T_Scalar *b, int_t ldb,
-		T_Scalar *c, int_t ldc);
+        const T_Scalar *a, int_t lda,
+        const T_Scalar *b, int_t ldb,
+        T_Scalar *c, int_t ldc);
 
 /*-------------------------------------------------*/
 } // namespace dns

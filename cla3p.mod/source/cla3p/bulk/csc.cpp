@@ -34,172 +34,172 @@ namespace csc {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 static void permute_ge_both(int_t /*m*/, int_t n,
-		const int_t *icolptr, const int_t *irowidx, const T_Scalar *ivalues,
-		int_t *ocolptr, int_t *orowidx, T_Scalar *ovalues, const int_t *P, const int_t *Q)
+        const int_t *icolptr, const int_t *irowidx, const T_Scalar *ivalues,
+        int_t *ocolptr, int_t *orowidx, T_Scalar *ovalues, const int_t *P, const int_t *Q)
 {
-	ocolptr[0] = 0;
-	for(int_t j = 0; j < n; j++) {
-		ocolptr[j + 1] = icolptr[Q[j]+1] - icolptr[Q[j]];
-	} // j
+    ocolptr[0] = 0;
+    for(int_t j = 0; j < n; j++) {
+        ocolptr[j + 1] = icolptr[Q[j]+1] - icolptr[Q[j]];
+    } // j
 
-	csx::roll(n, ocolptr);
+    csx::roll(n, ocolptr);
 
-	for(int_t j = 0; j < n; j++) {
-		for(int_t irow = icolptr[Q[j]]; irow < icolptr[Q[j]+1]; irow++) {
-			orowidx[ocolptr[j]] = P[irowidx[irow]];
-			ovalues[ocolptr[j]] = ivalues[irow];
-			ocolptr[j]++;
-		} // irow
-	} // j
-	
-	csx::unroll(n, ocolptr);
+    for(int_t j = 0; j < n; j++) {
+        for(int_t irow = icolptr[Q[j]]; irow < icolptr[Q[j]+1]; irow++) {
+            orowidx[ocolptr[j]] = P[irowidx[irow]];
+            ovalues[ocolptr[j]] = ivalues[irow];
+            ocolptr[j]++;
+        } // irow
+    } // j
+    
+    csx::unroll(n, ocolptr);
 
-	csx::sort(n, ocolptr, orowidx, ovalues);
+    csx::sort(n, ocolptr, orowidx, ovalues);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 static void permute_ge_left(int_t /*m*/, int_t n,
-		const int_t *icolptr, const int_t *irowidx, const T_Scalar *ivalues,
-		int_t *ocolptr, int_t *orowidx, T_Scalar *ovalues, const int_t *P)
+        const int_t *icolptr, const int_t *irowidx, const T_Scalar *ivalues,
+        int_t *ocolptr, int_t *orowidx, T_Scalar *ovalues, const int_t *P)
 {
-	std::copy(icolptr, icolptr + n + 1, ocolptr);
+    std::copy(icolptr, icolptr + n + 1, ocolptr);
 
-	for(int_t j = 0; j < n; j++) {
-		for(int_t irow = icolptr[j]; irow < icolptr[j+1]; irow++) {
-			orowidx[ocolptr[j]] = P[irowidx[irow]];
-			ovalues[ocolptr[j]] = ivalues[irow];
-			ocolptr[j]++;
-		} // irow
-	} // j
-	
-	csx::unroll(n, ocolptr);
+    for(int_t j = 0; j < n; j++) {
+        for(int_t irow = icolptr[j]; irow < icolptr[j+1]; irow++) {
+            orowidx[ocolptr[j]] = P[irowidx[irow]];
+            ovalues[ocolptr[j]] = ivalues[irow];
+            ocolptr[j]++;
+        } // irow
+    } // j
+    
+    csx::unroll(n, ocolptr);
 
-	csx::sort(n, ocolptr, orowidx, ovalues);
+    csx::sort(n, ocolptr, orowidx, ovalues);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 static void permute_ge_right(int_t /*m*/, int_t n,
-		const int_t *icolptr, const int_t *irowidx, const T_Scalar *ivalues,
-		int_t *ocolptr, int_t *orowidx, T_Scalar *ovalues, const int_t *Q)
+        const int_t *icolptr, const int_t *irowidx, const T_Scalar *ivalues,
+        int_t *ocolptr, int_t *orowidx, T_Scalar *ovalues, const int_t *Q)
 {
-	ocolptr[0] = 0;
-	for(int_t j = 0; j < n; j++) {
-		ocolptr[j + 1] = icolptr[Q[j] + 1] - icolptr[Q[j]];
-	} // j
+    ocolptr[0] = 0;
+    for(int_t j = 0; j < n; j++) {
+        ocolptr[j + 1] = icolptr[Q[j] + 1] - icolptr[Q[j]];
+    } // j
 
-	csx::roll(n, ocolptr);
+    csx::roll(n, ocolptr);
 
-	for(int_t j = 0; j < n; j++) {
-		std::copy(irowidx + icolptr[Q[j]], irowidx + icolptr[Q[j] + 1], orowidx + ocolptr[j]);
-		std::copy(ivalues + icolptr[Q[j]], ivalues + icolptr[Q[j] + 1], ovalues + ocolptr[j]);
-	} // j
+    for(int_t j = 0; j < n; j++) {
+        std::copy(irowidx + icolptr[Q[j]], irowidx + icolptr[Q[j] + 1], orowidx + ocolptr[j]);
+        std::copy(ivalues + icolptr[Q[j]], ivalues + icolptr[Q[j] + 1], ovalues + ocolptr[j]);
+    } // j
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void permute_xx_mirror(prop_t ptype, uplo_t uplo, int_t n,
-		const int_t *icolptr, const int_t *irowidx, const T_Scalar *ivalues,
-		int_t *ocolptr, int_t *orowidx, T_Scalar *ovalues, const int_t *P)
+        const int_t *icolptr, const int_t *irowidx, const T_Scalar *ivalues,
+        int_t *ocolptr, int_t *orowidx, T_Scalar *ovalues, const int_t *P)
 {
-	int_t Pi;
-	int_t Pj;
+    int_t Pi;
+    int_t Pj;
 
-	for(int_t j = 0; j < n + 1; j++) 
-		ocolptr[j] = 0;
+    for(int_t j = 0; j < n + 1; j++) 
+        ocolptr[j] = 0;
 
-	for(int_t j = 0; j < n; j++) {
-		for(int_t irow = icolptr[j]; irow < icolptr[j+1]; irow++) {
-			Pi = P[irowidx[irow]];
-			Pj = P[j];
-			if(uplo == uplo_t::Upper && Pj < Pi) 
-				ocolptr[Pi+1]++;
-			else if(uplo == uplo_t::Lower && Pj > Pi) 
-				ocolptr[Pi+1]++;
-			else
-				ocolptr[Pj+1]++;
-		} // irow
-	} // j
+    for(int_t j = 0; j < n; j++) {
+        for(int_t irow = icolptr[j]; irow < icolptr[j+1]; irow++) {
+            Pi = P[irowidx[irow]];
+            Pj = P[j];
+            if(uplo == uplo_t::Upper && Pj < Pi) 
+                ocolptr[Pi+1]++;
+            else if(uplo == uplo_t::Lower && Pj > Pi) 
+                ocolptr[Pi+1]++;
+            else
+                ocolptr[Pj+1]++;
+        } // irow
+    } // j
 
-	csx::roll(n, ocolptr);
+    csx::roll(n, ocolptr);
 
-	for(int_t j = 0; j < n; j++) {
-		for(int_t irow = icolptr[j]; irow < icolptr[j+1]; irow++) {
-			Pi = P[irowidx[irow]];
-			Pj = P[j];
-			if(uplo == uplo_t::Upper && Pj < Pi) {
-				orowidx[ocolptr[Pi]] = Pj;
-				ovalues[ocolptr[Pi]] = opposite_element(ivalues[irow],ptype);
-				ocolptr[Pi]++;
-			} else if(uplo == uplo_t::Lower && Pj > Pi) {
-				orowidx[ocolptr[Pi]] = Pj;
-				ovalues[ocolptr[Pi]] = opposite_element(ivalues[irow],ptype);
-				ocolptr[Pi]++;
-			} else {
-				orowidx[ocolptr[Pj]] = Pi;
-				ovalues[ocolptr[Pj]] = ivalues[irow];
-				ocolptr[Pj]++;
-			}
-		} // irow
-	} // j
-	
-	csx::unroll(n, ocolptr);
+    for(int_t j = 0; j < n; j++) {
+        for(int_t irow = icolptr[j]; irow < icolptr[j+1]; irow++) {
+            Pi = P[irowidx[irow]];
+            Pj = P[j];
+            if(uplo == uplo_t::Upper && Pj < Pi) {
+                orowidx[ocolptr[Pi]] = Pj;
+                ovalues[ocolptr[Pi]] = opposite_element(ivalues[irow],ptype);
+                ocolptr[Pi]++;
+            } else if(uplo == uplo_t::Lower && Pj > Pi) {
+                orowidx[ocolptr[Pi]] = Pj;
+                ovalues[ocolptr[Pi]] = opposite_element(ivalues[irow],ptype);
+                ocolptr[Pi]++;
+            } else {
+                orowidx[ocolptr[Pj]] = Pi;
+                ovalues[ocolptr[Pj]] = ivalues[irow];
+                ocolptr[Pj]++;
+            }
+        } // irow
+    } // j
+    
+    csx::unroll(n, ocolptr);
 
-	csx::sort(n, ocolptr, orowidx, ovalues);
+    csx::sort(n, ocolptr, orowidx, ovalues);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void permute(prop_t ptype, uplo_t uplo, int_t m, int_t n,
-		const int_t *icolptr, const int_t *irowidx, const T_Scalar *ivalues,
-		int_t *ocolptr, int_t *orowidx, T_Scalar *ovalues, const int_t *P, const int_t *Q)
+        const int_t *icolptr, const int_t *irowidx, const T_Scalar *ivalues,
+        int_t *ocolptr, int_t *orowidx, T_Scalar *ovalues, const int_t *P, const int_t *Q)
 {
-	if(!m || !n) return;
+    if(!m || !n) return;
 
-	Property prop(ptype, uplo);
+    Property prop(ptype, uplo);
 
-	if(prop.isSquare()) {
-		square_check(m, n);
-	}
+    if(prop.isSquare()) {
+        square_check(m, n);
+    }
 
-	if(prop.isGeneral()) {
+    if(prop.isGeneral()) {
 
-		if(P && Q) {
+        if(P && Q) {
 
-			permute_ge_both(m, n, icolptr, irowidx, ivalues, ocolptr, orowidx, ovalues, P, Q);
+            permute_ge_both(m, n, icolptr, irowidx, ivalues, ocolptr, orowidx, ovalues, P, Q);
 
-		} else if(P && !Q) {
+        } else if(P && !Q) {
 
-			permute_ge_left(m, n, icolptr, irowidx, ivalues, ocolptr, orowidx, ovalues, P);
+            permute_ge_left(m, n, icolptr, irowidx, ivalues, ocolptr, orowidx, ovalues, P);
 
-		} else if(!P && Q) { 
+        } else if(!P && Q) { 
 
-			permute_ge_right(m, n, icolptr, irowidx, ivalues, ocolptr, orowidx, ovalues, Q);
+            permute_ge_right(m, n, icolptr, irowidx, ivalues, ocolptr, orowidx, ovalues, Q);
 
-		} else {
+        } else {
 
-			std::copy(icolptr, icolptr + n + 1    , ocolptr);
-			std::copy(irowidx, irowidx + icolptr[n], orowidx);
-			std::copy(ivalues, ivalues + icolptr[n], ovalues);
+            std::copy(icolptr, icolptr + n + 1    , ocolptr);
+            std::copy(irowidx, irowidx + icolptr[n], orowidx);
+            std::copy(ivalues, ivalues + icolptr[n], ovalues);
 
-		} // P/Q
+        } // P/Q
 
-	} else if(prop.isSymmetric() || prop.isHermitian() || prop.isSkew()) {
+    } else if(prop.isSymmetric() || prop.isHermitian() || prop.isSkew()) {
 
-		if(P) {
+        if(P) {
 
-			permute_xx_mirror(ptype, uplo, n, icolptr, irowidx, ivalues, ocolptr, orowidx, ovalues, P);
+            permute_xx_mirror(ptype, uplo, n, icolptr, irowidx, ivalues, ocolptr, orowidx, ovalues, P);
 
-		} else {
+        } else {
 
-			std::copy(icolptr, icolptr + n + 1    , ocolptr);
-			std::copy(irowidx, irowidx + icolptr[n], orowidx);
-			std::copy(ivalues, ivalues + icolptr[n], ovalues);
+            std::copy(icolptr, icolptr + n + 1    , ocolptr);
+            std::copy(irowidx, irowidx + icolptr[n], orowidx);
+            std::copy(ivalues, ivalues + icolptr[n], ovalues);
 
-		} // P
+        } // P
 
-	} else {
+    } else {
 
-		throw err::Exception("Invalid property: " + prop.name());
+        throw err::Exception("Invalid property: " + prop.name());
 
-	} // prop
+    } // prop
 }
 /*-------------------------------------------------*/
 #define instantiate_permute(int_t, T_Scl) \

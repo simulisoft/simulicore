@@ -3,19 +3,19 @@
 #-----------------------------------------------
 set(CLA3P_SRC ${CLA3P_SRC}
     bulk/dns1d.cpp
-	bulk/dns.cpp
-	bulk/dns_io.cpp
-	bulk/dns_math.cpp
+    bulk/dns.cpp
+    bulk/dns_io.cpp
+    bulk/dns_math.cpp
     bulk/csx.cpp
     bulk/csr.cpp
-	bulk/csc.cpp
+    bulk/csc.cpp
     bulk/csr_math.cpp
-	bulk/csc_math.cpp
-	PARENT_SCOPE)
+    bulk/csc_math.cpp
+    PARENT_SCOPE)
 
 set(CLA3P_BULK_HPP 
     dns_io.hpp
-	)
+    )
 
 #-----------------------------------------------
 # installation setup
