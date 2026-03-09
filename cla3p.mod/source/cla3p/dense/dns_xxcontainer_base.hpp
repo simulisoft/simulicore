@@ -33,64 +33,64 @@ namespace dns {
 template <typename T_Scalar>
 class XxContainerBase {
 
-	public:
-		using value_type = T_Scalar;
+    public:
+        using value_type = T_Scalar;
 
-	protected:
-		XxContainerBase() { defaults(); }
+    protected:
+        XxContainerBase() { defaults(); }
 
-		XxContainerBase(T_Scalar *vals)
-			: XxContainerBase<T_Scalar>()
-		{
-			setValues(vals);
-		}
+        XxContainerBase(T_Scalar *vals)
+            : XxContainerBase<T_Scalar>()
+        {
+            setValues(vals);
+        }
 
-		XxContainerBase(XxContainerBase<T_Scalar>&) = delete;
-		XxContainerBase<T_Scalar>& operator=(XxContainerBase<T_Scalar>&) = delete;
+        XxContainerBase(XxContainerBase<T_Scalar>&) = delete;
+        XxContainerBase<T_Scalar>& operator=(XxContainerBase<T_Scalar>&) = delete;
 
-		XxContainerBase(XxContainerBase<T_Scalar>&& other) { moveFrom(other); }
-		XxContainerBase<T_Scalar>& operator=(XxContainerBase<T_Scalar>&& other) { return moveFrom(other);}
+        XxContainerBase(XxContainerBase<T_Scalar>&& other) { moveFrom(other); }
+        XxContainerBase<T_Scalar>& operator=(XxContainerBase<T_Scalar>&& other) { return moveFrom(other);}
 
-		~XxContainerBase() { clear(); }
+        ~XxContainerBase() { clear(); }
 
-	public:
+    public:
 
-		/**
-		 * @brief Access the data buffer.
-		 * @details Returns a pointer to the underlying data array.
-		 * @return Pointer to the data buffer.
-		 */
-		T_Scalar* values() { return m_values; }
+        /**
+         * @brief Access the data buffer.
+         * @details Returns a pointer to the underlying data array.
+         * @return Pointer to the data buffer.
+         */
+        T_Scalar* values() { return m_values; }
 
-		/**
-		 * @brief Access the data buffer.
-		 * @details Returns a pointer to the underlying data array.
-		 * @return Pointer to the data buffer.
-		 */
-		const T_Scalar* values() const { return m_values; }
+        /**
+         * @brief Access the data buffer.
+         * @details Returns a pointer to the underlying data array.
+         * @return Pointer to the data buffer.
+         */
+        const T_Scalar* values() const { return m_values; }
 
-	protected:
-		void clear()
-		{
-			defaults();
-		}
+    protected:
+        void clear()
+        {
+            defaults();
+        }
 
-	private:
-		T_Scalar *m_values;
+    private:
+        T_Scalar *m_values;
 
-		void setValues(T_Scalar *vals) { m_values = vals; }
+        void setValues(T_Scalar *vals) { m_values = vals; }
 
-		void defaults() { setValues(nullptr); }
+        void defaults() { setValues(nullptr); }
 
-		XxContainerBase<T_Scalar>& moveFrom(XxContainerBase<T_Scalar>& other)
-		{
-			if(this != &other) {
-				clear();
-				setValues(other.values());
-				other.clear();
-			} // do not apply on self
-			return *this;
-		}
+        XxContainerBase<T_Scalar>& moveFrom(XxContainerBase<T_Scalar>& other)
+        {
+            if(this != &other) {
+                clear();
+                setValues(other.values());
+                other.clear();
+            } // do not apply on self
+            return *this;
+        }
 };
 
 /*-------------------------------------------------*/

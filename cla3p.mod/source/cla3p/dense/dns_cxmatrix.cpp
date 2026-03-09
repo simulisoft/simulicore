@@ -30,28 +30,28 @@ namespace dns {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 CxMatrix<T_Scalar>::CxMatrix(const XxMatrix<T_Scalar>& other)
-	: XxMatrix<T_Scalar>(other)
+    : XxMatrix<T_Scalar>(other)
 {
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 CxMatrix<T_Scalar>& CxMatrix<T_Scalar>::operator=(const XxMatrix<T_Scalar>& other)
 {
-	XxMatrix<T_Scalar>::operator=(other);
-	return *this;
+    XxMatrix<T_Scalar>::operator=(other);
+    return *this;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 CxMatrix<T_Scalar>::CxMatrix(XxMatrix<T_Scalar>&& other)
-	: XxMatrix<T_Scalar>(std::move(other))
+    : XxMatrix<T_Scalar>(std::move(other))
 {
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 CxMatrix<T_Scalar>& CxMatrix<T_Scalar>::operator=(XxMatrix<T_Scalar>&& other)
 {
-	XxMatrix<T_Scalar>::operator=(std::move(other));
-	return *this;
+    XxMatrix<T_Scalar>::operator=(std::move(other));
+    return *this;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -61,13 +61,13 @@ CxMatrix<T_Scalar>::CxMatrix()
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 CxMatrix<T_Scalar>::CxMatrix(int_t nr, int_t nc, const Property& pr)
-	: CxMatrix<T_Scalar>::XxMatrix(nr, nc, pr)
+    : CxMatrix<T_Scalar>::XxMatrix(nr, nc, pr)
 {
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 CxMatrix<T_Scalar>::CxMatrix(int_t nr, int_t nc, T_Scalar *vals, int_t ldv, bool bind, const Property& pr)
-	: CxMatrix<T_Scalar>::XxMatrix(nr, nc, vals, ldv, bind, pr)
+    : CxMatrix<T_Scalar>::XxMatrix(nr, nc, vals, ldv, bind, pr)
 {
 }
 /*-------------------------------------------------*/
@@ -79,7 +79,7 @@ CxMatrix<T_Scalar>::~CxMatrix()
 template <typename T_Scalar>
 void CxMatrix<T_Scalar>::operator=(T_Scalar val)
 {
-	this->fill(val);
+    this->fill(val);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
