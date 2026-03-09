@@ -32,41 +32,41 @@ namespace cla3p {
 /*-------------------------------------------------*/
 void coo_consistency_check(const Property& prop, int_t m, int_t n)
 {
-	if(!m || !n) {
-		throw err::NoConsistency(msg::InvalidDimensions());
-	}
+    if(!m || !n) {
+        throw err::NoConsistency(msg::InvalidDimensions());
+    }
 
-	property_compatibility_check(prop, m, n);
+    property_compatibility_check(prop, m, n);
 }
 /*-------------------------------------------------*/
 void coo_check_coord(int_t m, int_t n, const Property& prop, const int_t& i, const int_t& j)
 {
-	if(i < 0 || i >= m || j < 0 || j >= n)
-	{
-		throw err::OutOfBounds(msg::IndexOutOfBounds(m,n,i,j));
-	}
+    if(i < 0 || i >= m || j < 0 || j >= n)
+    {
+        throw err::OutOfBounds(msg::IndexOutOfBounds(m,n,i,j));
+    }
 
-	if(prop.isLower() && i < j) {
-		throw err::InvalidOp("Invalid insertion of " + coordToString(i,j) + " in upper part");
-	}
+    if(prop.isLower() && i < j) {
+        throw err::InvalidOp("Invalid insertion of " + coordToString(i,j) + " in upper part");
+    }
 
-	if(prop.isUpper() && i > j) {
-		throw err::InvalidOp("Invalid insertion of " + coordToString(i,j) + " in lower part");
-	}
+    if(prop.isUpper() && i > j) {
+        throw err::InvalidOp("Invalid insertion of " + coordToString(i,j) + " in lower part");
+    }
 
-	if(prop.isSkew() && i == j) {
-		throw err::InvalidOp(msg::SkewInconsistency() + " (value on diagonal)");
-	}
+    if(prop.isSkew() && i == j) {
+        throw err::InvalidOp(msg::SkewInconsistency() + " (value on diagonal)");
+    }
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void coo_check_triplet(int_t m, int_t n, const Property& prop, const int_t& i, const int_t& j, const T_Scalar& v)
 {
-	coo_check_coord(m, n, prop, i, j);
+    coo_check_coord(m, n, prop, i, j);
 
-	if(prop.isHermitian() && i == j && arith::getIm(v)) {
-		throw err::InvalidOp(msg::HermitianInconsistency() + " (imaginary value on diagonal)");
-	}
+    if(prop.isHermitian() && i == j && arith::getIm(v)) {
+        throw err::InvalidOp(msg::HermitianInconsistency() + " (imaginary value on diagonal)");
+    }
 }
 /*-------------------------------------------------*/
 template void coo_check_triplet(int_t, int_t, const Property&, const int_t&, const int_t&, const real_t&);

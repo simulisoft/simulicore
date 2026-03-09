@@ -31,23 +31,23 @@ namespace cla3p {
 /*-------------------------------------------------*/
 void dns_consistency_check(int_t m, int_t n, const void *a, int_t lda)
 {
-	if(!(m > 0) || !(n > 0)) {
-		throw err::NoConsistency(msg::InvalidDimensions());
-	}
+    if(!(m > 0) || !(n > 0)) {
+        throw err::NoConsistency(msg::InvalidDimensions());
+    }
 
-	if(!a) {
-		throw err::NoConsistency(msg::InvalidPointer());
-	}
+    if(!a) {
+        throw err::NoConsistency(msg::InvalidPointer());
+    }
 
-	if(lda < m) {
-		throw err::NoConsistency(msg::InvalidLeadingDimension());
-	}
+    if(lda < m) {
+        throw err::NoConsistency(msg::InvalidLeadingDimension());
+    }
 }
 /*-------------------------------------------------*/
 void dns_consistency_check(const Property& prop, int_t m, int_t n, const void *a, int_t lda)
 {
-	dns_consistency_check(m, n, a, lda);
-	property_compatibility_check(prop, m, n);
+    dns_consistency_check(m, n, a, lda);
+    property_compatibility_check(prop, m, n);
 }
 /*-------------------------------------------------*/
 } // namespace cla3p

@@ -31,17 +31,17 @@ namespace cla3p {
 template <typename T_Int>
 void default_solve_input_check(int_t n, const MatrixMeta<T_Int>& rhsMeta)
 {
-	bool supported_prop = rhsMeta.prop().isGeneral();
+    bool supported_prop = rhsMeta.prop().isGeneral();
 
-	if(rhsMeta.nrows() != n) {
-		throw err::InvalidOp("Mismatching dimensions for linear solution stage");
-	} // dim check
+    if(rhsMeta.nrows() != n) {
+        throw err::InvalidOp("Mismatching dimensions for linear solution stage");
+    } // dim check
 
-	if(rhsMeta.empty()) {
-		throw err::InvalidOp("Input rhs matrix is empty");
-	} else if(!supported_prop) {
-		throw err::InvalidOp(rhsMeta.prop().name() + " not supported for rhs in linear solution stage");
-	} // valid prop
+    if(rhsMeta.empty()) {
+        throw err::InvalidOp("Input rhs matrix is empty");
+    } else if(!supported_prop) {
+        throw err::InvalidOp(rhsMeta.prop().name() + " not supported for rhs in linear solution stage");
+    } // valid prop
 }
 
 /*-------------------------------------------------*/

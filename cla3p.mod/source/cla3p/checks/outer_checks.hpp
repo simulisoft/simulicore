@@ -39,11 +39,11 @@ void outer_product_consistency_check(bool conjop,
                                      const Meta1D<T_Int>& metaX, 
                                      const Meta1D<T_Int>& metaY)
 {
-	if(!(metaA.prop().isGeneral() || metaA.prop().isSymmetric() || metaA.prop().isHermitian())) {
+    if(!(metaA.prop().isGeneral() || metaA.prop().isSymmetric() || metaA.prop().isHermitian())) {
         std::stringstream ss;
         ss << "Invalid matrix property for outer product: " << metaA.prop();
         throw err::NoConsistency(ss.str());
-	} // valid props
+    } // valid props
 
     if (metaA.prop().isSymmetric() && conjop) {
         throw err::NoConsistency("For Symmetric matrices, the transpose outer product must be used.");
@@ -57,17 +57,17 @@ void outer_product_consistency_check(bool conjop,
         std::stringstream ss;
         ss << "Inconsistent dimensions for outer product: A" << metaA << " x" << metaX << ", y" << metaY;
         throw err::NoConsistency(ss.str());
-	}
+    }
 }
 
 /*-------------------------------------------------*/
 
 template <typename T_Int>
 void outer_product_consistency_check(bool conjop, 
-		                             T_Int nrowsA, 
+                                     T_Int nrowsA, 
                                      T_Int ncolsA, 
                                      const Property& prA, 
-		                             T_Int sizeX, 
+                                     T_Int sizeX, 
                                      T_Int sizeY)
 {
     MatrixMeta<T_Int> metaA(nrowsA, ncolsA, prA);

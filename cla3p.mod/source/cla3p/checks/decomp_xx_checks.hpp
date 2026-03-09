@@ -31,13 +31,13 @@ namespace cla3p {
 template <typename T_Int>
 void decomp_generic_check(const Meta2D<T_Int>& meta2d)
 {
-	if(!meta2d) {
-		throw err::InvalidOp("Input matrix is empty");
-	} // empty
+    if(!meta2d) {
+        throw err::InvalidOp("Input matrix is empty");
+    } // empty
 
-	if(meta2d.nrows() != meta2d.ncols()) {
-		throw err::InvalidOp("Only square matrices are supported for linear decomposition");
-	} // square
+    if(meta2d.nrows() != meta2d.ncols()) {
+        throw err::InvalidOp("Only square matrices are supported for linear decomposition");
+    } // square
 }
 
 /*-------------------------------------------------*/

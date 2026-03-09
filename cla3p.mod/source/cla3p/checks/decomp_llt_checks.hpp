@@ -33,15 +33,15 @@ namespace cla3p {
 template <typename T_Matrix>
 void llt_decomp_input_check(const T_Matrix& mat)
 {
-	decomp_generic_check(mat);
+    decomp_generic_check(mat);
 
-	bool supported_prop = (
-			(TypeTraits<dns::RfMatrix::value_type>::is_real()    && mat.prop().isSymmetric()) || 
-			(TypeTraits<dns::CfMatrix::value_type>::is_complex() && mat.prop().isHermitian()) ); 
+    bool supported_prop = (
+            (TypeTraits<dns::RfMatrix::value_type>::is_real()    && mat.prop().isSymmetric()) || 
+            (TypeTraits<dns::CfMatrix::value_type>::is_complex() && mat.prop().isHermitian()) ); 
 
-	if(!supported_prop) {
-		throw err::InvalidOp("Matrices with property " + mat.prop().name() + " not supported for PD Cholesky (LL') decomposition");
-	} // valid prop
+    if(!supported_prop) {
+        throw err::InvalidOp("Matrices with property " + mat.prop().name() + " not supported for PD Cholesky (LL') decomposition");
+    } // valid prop
 }
 
 /*-------------------------------------------------*/

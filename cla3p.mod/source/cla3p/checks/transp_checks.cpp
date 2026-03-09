@@ -30,9 +30,9 @@ namespace cla3p {
 /*-------------------------------------------------*/
 void transp_op_consistency_check(prop_t ptype, bool conjop)
 {
-	if(ptype != prop_t::General) {
-		throw err::InvalidOp(std::string(conjop ? "Conjugate t" : "T") + "ranspositions are applied on non-empty general matrices");
-	}
+    if(ptype != prop_t::General) {
+        throw err::InvalidOp(std::string(conjop ? "Conjugate t" : "T") + "ranspositions are applied on non-empty general matrices");
+    }
 }
 /*-------------------------------------------------*/
 } // namespace cla3p

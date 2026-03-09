@@ -30,16 +30,16 @@ namespace cla3p {
 /*-------------------------------------------------*/
 void lapack_info_check(int_t info)
 {
-	if(info > 0) {
+    if(info > 0) {
 
-		// TODO: separate exception for numerical ???
-		throw err::Exception(msg::LapackError() + " info: " + std::to_string(info));
+        // TODO: separate exception for numerical ???
+        throw err::Exception(msg::LapackError() + " info: " + std::to_string(info));
 
-	} else if(info < 0) {
+    } else if(info < 0) {
 
-		throw err::Exception(msg::LapackError() + " info: " + std::to_string(info));
+        throw err::Exception(msg::LapackError() + " info: " + std::to_string(info));
 
-	}
+    }
 }
 /*-------------------------------------------------*/
 } // namespace cla3p

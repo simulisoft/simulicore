@@ -37,22 +37,22 @@ void csx_consistency_check(T_Int m, T_Int n, T_Int nnz,
                            const void *values)
 {
     if(!(m > 0) || !(n > 0) || !(nnz >= 0)) {
-		throw err::NoConsistency("Zero or negative matrix dimensions: (" +
+        throw err::NoConsistency("Zero or negative matrix dimensions: (" +
                                  std::to_string(m) + "x" + std::to_string(n) + 
                                  ") with nnz=" + std::to_string(nnz));
-	}
+    }
 
-	if(!xxxptr) {
-		throw err::NoConsistency("Index pointer array is a null pointer.");
-	}
+    if(!xxxptr) {
+        throw err::NoConsistency("Index pointer array is a null pointer.");
+    }
 
-	if(nnz && !xxxidx) {
-		throw err::NoConsistency("Index array is a null pointer.");
-	}
+    if(nnz && !xxxidx) {
+        throw err::NoConsistency("Index array is a null pointer.");
+    }
 
-	if(nnz && !values) {
-		throw err::NoConsistency("Values array is a null pointer.");
-	}
+    if(nnz && !values) {
+        throw err::NoConsistency("Values array is a null pointer.");
+    }
 }
 
 /*-------------------------------------------------*/
@@ -64,8 +64,8 @@ void csx_consistency_check(T_Int m, T_Int n, T_Int nnz,
                            const void *values,
                            const Property& prop)
 {
-	csx_consistency_check(m, n, nnz, xxxptr, xxxidx, values);
-	property_compatibility_check(prop, m, n);
+    csx_consistency_check(m, n, nnz, xxxptr, xxxidx, values);
+    property_compatibility_check(prop, m, n);
 }
 
 /*-------------------------------------------------*/
