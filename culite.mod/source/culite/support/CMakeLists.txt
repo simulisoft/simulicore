@@ -2,16 +2,16 @@
 # source setup
 #-----------------------------------------------
 set(CULITE_SRC ${CULITE_SRC}
-	support/imalloc.cpp
-	support/utils.cpp
+    support/imalloc.cpp
+    support/utils.cpp
     support/grid.cpp
-	PARENT_SCOPE)
+    PARENT_SCOPE)
 
 set(CULITE_SUPPORT_HPP 
-	imalloc.hpp
-	utils.hpp
+    imalloc.hpp
+    utils.hpp
     grid.hpp
-	)
+    )
 
 #-----------------------------------------------
 # installation setup

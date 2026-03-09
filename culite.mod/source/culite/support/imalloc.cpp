@@ -30,54 +30,54 @@ namespace culite {
 /*-------------------------------------------------*/
 alloc_t detect_allocation_type(const void* ptr)
 {
-	cudaPointerAttributes attributes;
-	cudaError_t cudaError = cudaPointerGetAttributes(&attributes, ptr);
-	err::check_cuda(cudaError);
+    cudaPointerAttributes attributes;
+    cudaError_t cudaError = cudaPointerGetAttributes(&attributes, ptr);
+    err::check_cuda(cudaError);
 
-	alloc_t ret = alloc_t::Unregistered;
+    alloc_t ret = alloc_t::Unregistered;
 
-	if (attributes.type == cudaMemoryTypeDevice) {
-		ret = alloc_t::Device;
-	} else if (attributes.type == cudaMemoryTypeHost) {
-		ret = alloc_t::Pinned;
-	} else if (attributes.type == cudaMemoryTypeManaged) {
-		ret = alloc_t::Managed;
-	} else if (attributes.type == cudaMemoryTypeUnregistered) {
-		ret = alloc_t::Unregistered;
-	}
+    if (attributes.type == cudaMemoryTypeDevice) {
+        ret = alloc_t::Device;
+    } else if (attributes.type == cudaMemoryTypeHost) {
+        ret = alloc_t::Pinned;
+    } else if (attributes.type == cudaMemoryTypeManaged) {
+        ret = alloc_t::Managed;
+    } else if (attributes.type == cudaMemoryTypeUnregistered) {
+        ret = alloc_t::Unregistered;
+    }
 
-	return ret;
+    return ret;
 }
 /*-------------------------------------------------*/
 void* device_alloc(std::size_t size)
 {
-	void *ret = nullptr;
+    void *ret = nullptr;
 
     if (!size) return ret;
 
-	cudaError_t cudaError = cudaMalloc(&ret, size);
-	err::check_cuda(cudaError);
-	
-	return ret;
+    cudaError_t cudaError = cudaMalloc(&ret, size);
+    err::check_cuda(cudaError);
+    
+    return ret;
 }
 /*-------------------------------------------------*/
 void device_free(void *ptr) noexcept
 {
-	if(ptr) {
-		cudaFree(ptr);
-	}
+    if(ptr) {
+        cudaFree(ptr);
+    }
 }
 /*-------------------------------------------------*/
 void* pinned_alloc(std::size_t size)
 {
-	void *ret = nullptr;
+    void *ret = nullptr;
 
-	if (!size) return ret;
+    if (!size) return ret;
 
-	cudaError_t cudaError = cudaMallocHost(&ret, size);
-	err::check_cuda(cudaError);
+    cudaError_t cudaError = cudaMallocHost(&ret, size);
+    err::check_cuda(cudaError);
 
-	return ret;
+    return ret;
 }
 /*-------------------------------------------------*/
 void pinned_free(void *ptr) noexcept
@@ -87,24 +87,24 @@ void pinned_free(void *ptr) noexcept
 /*-------------------------------------------------*/
 void auto_free(void *ptr)
 {
-	alloc_t alloc_type = detect_allocation_type(ptr);
-	switch(alloc_type) {
-		case alloc_t::Device:
-			device_free(ptr);
-			break;
-		case alloc_t::Pinned:
-			pinned_free(ptr);
-			break;
-		case alloc_t::Managed:
-			device_free(ptr);
-			break;
-		case alloc_t::Unregistered:
-			// maybe use cla3p::i_free?
-			break;
-		default:
-			// Do nothing
-			break;
-	}
+    alloc_t alloc_type = detect_allocation_type(ptr);
+    switch(alloc_type) {
+        case alloc_t::Device:
+            device_free(ptr);
+            break;
+        case alloc_t::Pinned:
+            pinned_free(ptr);
+            break;
+        case alloc_t::Managed:
+            device_free(ptr);
+            break;
+        case alloc_t::Unregistered:
+            // maybe use cla3p::i_free?
+            break;
+        default:
+            // Do nothing
+            break;
+    }
 }
 /*-------------------------------------------------*/
 } // namespace culite

@@ -84,7 +84,7 @@ void device_free(void *ptr) noexcept;
  */
 template <typename T>
 T* device_alloc_t(std::size_t n) {
-	return static_cast<T*>(device_alloc(n * sizeof(T)));
+    return static_cast<T*>(device_alloc(n * sizeof(T)));
 }
 
 /**
@@ -123,7 +123,7 @@ void pinned_free(void *ptr) noexcept;
  */
 template <typename T>
 T* pinned_alloc_t(std::size_t n) {
-	return static_cast<T*>(pinned_alloc(n * sizeof(T)));
+    return static_cast<T*>(pinned_alloc(n * sizeof(T)));
 }
 
 /**
@@ -151,90 +151,90 @@ void auto_free(void *ptr);
  */
 class DeviceBufferVoid {
 
-	public:
-		/**
-		 * @brief Default constructor.
-		 * @details Constructs an empty device buffer with no allocated memory.
-		 */
-		DeviceBufferVoid() 
-		{ 
-			defaults(); 
-		}
+    public:
+        /**
+         * @brief Default constructor.
+         * @details Constructs an empty device buffer with no allocated memory.
+         */
+        DeviceBufferVoid() 
+        { 
+            defaults(); 
+        }
 
-		/**
-		 * @brief Constructs a device buffer with specified capacity.
-		 * @details Constructs a device buffer and reserves memory for @p n bytes on the device.
-		 * @param[in] n The number of bytes to allocate.
-		 */
-		explicit DeviceBufferVoid(std::size_t n) 
-			: DeviceBufferVoid()
-		{
-			reserve(n);
-		}
+        /**
+         * @brief Constructs a device buffer with specified capacity.
+         * @details Constructs a device buffer and reserves memory for @p n bytes on the device.
+         * @param[in] n The number of bytes to allocate.
+         */
+        explicit DeviceBufferVoid(std::size_t n) 
+            : DeviceBufferVoid()
+        {
+            reserve(n);
+        }
 
-		/**
-		 * @brief Destructor.
-		 * @details Automatically frees the allocated device memory.
-		 */
-		~DeviceBufferVoid()
-		{
-			clear();
-		}
-		
-		/**
-		 * @brief Reserves device memory for at least the specified number of bytes.
-		 * @details If @p n is greater than the current size, the existing memory is freed and 
-		 *          new memory is allocated. If the allocation fails, the buffer is left empty.
-		 * @param[in] n The number of bytes to reserve.
-		 */
-		void reserve(std::size_t n)
-		{
-			if(n > size()) {
-				clear();
-				m_data = device_alloc(n);
-				m_size = (data() != nullptr) ? n : 0;
-			}
-		}
-		/**
-		 * @brief Frees the allocated device memory.
-		 * @details Releases all device memory and resets the buffer to an empty state.
-		 * @note This function is marked @c noexcept and is guaranteed not to throw exceptions.
-		 */
-		void clear() noexcept
-		{
-			device_free(data());
-			defaults();
-		}
-		/**
-		 * @brief Returns a pointer to the device memory buffer.
-		 * @details Provides direct access to the underlying untyped device memory.
-		 * @return A pointer to the device buffer.
-		 */
-		void* data() noexcept { return m_data; }
+        /**
+         * @brief Destructor.
+         * @details Automatically frees the allocated device memory.
+         */
+        ~DeviceBufferVoid()
+        {
+            clear();
+        }
+        
+        /**
+         * @brief Reserves device memory for at least the specified number of bytes.
+         * @details If @p n is greater than the current size, the existing memory is freed and 
+         *          new memory is allocated. If the allocation fails, the buffer is left empty.
+         * @param[in] n The number of bytes to reserve.
+         */
+        void reserve(std::size_t n)
+        {
+            if(n > size()) {
+                clear();
+                m_data = device_alloc(n);
+                m_size = (data() != nullptr) ? n : 0;
+            }
+        }
+        /**
+         * @brief Frees the allocated device memory.
+         * @details Releases all device memory and resets the buffer to an empty state.
+         * @note This function is marked @c noexcept and is guaranteed not to throw exceptions.
+         */
+        void clear() noexcept
+        {
+            device_free(data());
+            defaults();
+        }
+        /**
+         * @brief Returns a pointer to the device memory buffer.
+         * @details Provides direct access to the underlying untyped device memory.
+         * @return A pointer to the device buffer.
+         */
+        void* data() noexcept { return m_data; }
 
-		/**
-		 * @brief Returns a const pointer to the device memory buffer.
-		 * @details Provides direct read-only access to the underlying untyped device memory.
-		 * @return A const pointer to the device buffer.
-		 */
-		const void* data() const noexcept { return m_data; }
+        /**
+         * @brief Returns a const pointer to the device memory buffer.
+         * @details Provides direct read-only access to the underlying untyped device memory.
+         * @return A const pointer to the device buffer.
+         */
+        const void* data() const noexcept { return m_data; }
 
-		/**
-		 * @brief Returns the number of bytes in the buffer.
-		 * @details Returns the capacity of the buffer (number of bytes allocated).
-		 * @return The number of bytes the buffer can hold.
-		 */
-		std::size_t size() const noexcept { return m_size; }
+        /**
+         * @brief Returns the number of bytes in the buffer.
+         * @details Returns the capacity of the buffer (number of bytes allocated).
+         * @return The number of bytes the buffer can hold.
+         */
+        std::size_t size() const noexcept { return m_size; }
 
-	private:
-		void *m_data;
-		std::size_t m_size;
-		
-		void defaults()
-		{
-			m_data = nullptr;
-			m_size = 0;
-		}
+    private:
+        void *m_data;
+        std::size_t m_size;
+        
+        void defaults()
+        {
+            m_data = nullptr;
+            m_size = 0;
+        }
 };
 
 /**
@@ -248,77 +248,77 @@ class DeviceBufferVoid {
 template <typename T>
 class DeviceBuffer {
 
-	public:
-		/**
-		 * @brief Default constructor.
-		 * @details Constructs an empty device buffer with no allocated memory.
-		 */
-		DeviceBuffer() {}
+    public:
+        /**
+         * @brief Default constructor.
+         * @details Constructs an empty device buffer with no allocated memory.
+         */
+        DeviceBuffer() {}
 
-		/**
-		 * @brief Constructs a device buffer with specified capacity.
-		 * @details Constructs a device buffer and reserves memory for @p n elements on the device.
-		 * @param[in] n The number of elements to allocate.
-		 */
-		explicit DeviceBuffer(std::size_t n) 
-			: DeviceBuffer()
-		{
-			reserve(n);
-		}
+        /**
+         * @brief Constructs a device buffer with specified capacity.
+         * @details Constructs a device buffer and reserves memory for @p n elements on the device.
+         * @param[in] n The number of elements to allocate.
+         */
+        explicit DeviceBuffer(std::size_t n) 
+            : DeviceBuffer()
+        {
+            reserve(n);
+        }
 
-		/**
-		 * @brief Destructor.
-		 * @details Automatically frees the allocated device memory.
-		 */
-		~DeviceBuffer()
-		{
-			clear();
-		}
+        /**
+         * @brief Destructor.
+         * @details Automatically frees the allocated device memory.
+         */
+        ~DeviceBuffer()
+        {
+            clear();
+        }
 
-		/**
-		 * @brief Reserves device memory for at least the specified number of elements.
-		 * @details If @p n is greater than the current size, the existing memory is freed and 
-		 *          new memory is allocated. If the allocation fails, the buffer is left empty.
-		 * @param[in] n The number of elements to reserve.
-		 */
-		void reserve(std::size_t n)
-		{
-			m_voidBuffer.reserve(n * sizeof(T));
-		}
+        /**
+         * @brief Reserves device memory for at least the specified number of elements.
+         * @details If @p n is greater than the current size, the existing memory is freed and 
+         *          new memory is allocated. If the allocation fails, the buffer is left empty.
+         * @param[in] n The number of elements to reserve.
+         */
+        void reserve(std::size_t n)
+        {
+            m_voidBuffer.reserve(n * sizeof(T));
+        }
 
-		/**
-		 * @brief Frees the allocated device memory.
-		 * @details Releases all device memory and resets the buffer to an empty state.
-		 * @note This function is marked @c noexcept and is guaranteed not to throw exceptions.
-		 */
-		void clear() noexcept
-		{
-			m_voidBuffer.clear();
-		}
+        /**
+         * @brief Frees the allocated device memory.
+         * @details Releases all device memory and resets the buffer to an empty state.
+         * @note This function is marked @c noexcept and is guaranteed not to throw exceptions.
+         */
+        void clear() noexcept
+        {
+            m_voidBuffer.clear();
+        }
 
-		/**
-		 * @brief Returns a pointer to the device memory buffer.
-		 * @details Provides direct access to the underlying device memory.
-		 * @return A pointer to the device buffer.
-		 */
-		T* data() noexcept { return static_cast<T*>(m_voidBuffer.data()); }
+        /**
+         * @brief Returns a pointer to the device memory buffer.
+         * @details Provides direct access to the underlying device memory.
+         * @return A pointer to the device buffer.
+         */
+        T* data() noexcept { return static_cast<T*>(m_voidBuffer.data()); }
 
-		/**
-		 * @brief Returns a const pointer to the device memory buffer.
-		 * @details Provides direct read-only access to the underlying device memory.
-		 * @return A const pointer to the device buffer.
-		 */
-		const T* data() const noexcept { return static_cast<const T*>(m_voidBuffer.data()); }
+        /**
+         * @brief Returns a const pointer to the device memory buffer.
+         * @details Provides direct read-only access to the underlying device memory.
+         * @return A const pointer to the device buffer.
+         */
+        const T* data() const noexcept { return static_cast<const T*>(m_voidBuffer.data()); }
 
-		/**
-		 * @brief Returns the number of elements in the buffer.
-		 * @details Returns the capacity of the buffer (number of elements allocated).
-		 * @return The number of elements the buffer can hold.
-		 */
-		std::size_t size() const noexcept { return m_voidBuffer.size(); }
+        /**
+         * @brief Returns the number of elements in the buffer.
+         * @details Returns the capacity of the buffer (number of elements allocated).
+         * @return The number of elements the buffer can hold.
+         */
+        std::size_t size() const noexcept { return m_voidBuffer.size(); }
 
-	private:
-		DeviceBufferVoid m_voidBuffer;
+    private:
+        DeviceBufferVoid m_voidBuffer;
 };
 
 /**
@@ -331,92 +331,92 @@ class DeviceBuffer {
  */
 class PinnedBufferVoid {
 
-	public:
-		/**
-		 * @brief Default constructor.
-		 * @details Constructs an empty pinned buffer with no allocated memory.
-		 */
-		PinnedBufferVoid() 
-		{ 
-			defaults(); 
-		}
+    public:
+        /**
+         * @brief Default constructor.
+         * @details Constructs an empty pinned buffer with no allocated memory.
+         */
+        PinnedBufferVoid() 
+        { 
+            defaults(); 
+        }
 
-		/**
-		 * @brief Constructs a pinned buffer with specified capacity.
-		 * @details Constructs a pinned buffer and reserves memory for @p n bytes on the host.
-		 * @param[in] n The number of bytes to allocate.
-		 */
-		explicit PinnedBufferVoid(std::size_t n) 
-			: PinnedBufferVoid()
-		{
-			reserve(n);
-		}
+        /**
+         * @brief Constructs a pinned buffer with specified capacity.
+         * @details Constructs a pinned buffer and reserves memory for @p n bytes on the host.
+         * @param[in] n The number of bytes to allocate.
+         */
+        explicit PinnedBufferVoid(std::size_t n) 
+            : PinnedBufferVoid()
+        {
+            reserve(n);
+        }
 
-		/**
-		 * @brief Destructor.
-		 * @details Automatically frees the allocated pinned memory.
-		 */
-		~PinnedBufferVoid()
-		{
-			clear();
-		}
-		
-		/**
-		 * @brief Reserves pinned memory for at least the specified number of bytes.
-		 * @details If @p n is greater than the current size, the existing memory is freed and 
-		 *          new memory is allocated. If the allocation fails, the buffer is left empty.
-		 * @param[in] n The number of bytes to reserve.
-		 */
-		void reserve(std::size_t n)
-		{
-			if(n > size()) {
-				clear();
-				m_data = pinned_alloc(n);
-				m_size = (data() != nullptr) ? n : 0;
-			}
-		}
+        /**
+         * @brief Destructor.
+         * @details Automatically frees the allocated pinned memory.
+         */
+        ~PinnedBufferVoid()
+        {
+            clear();
+        }
+        
+        /**
+         * @brief Reserves pinned memory for at least the specified number of bytes.
+         * @details If @p n is greater than the current size, the existing memory is freed and 
+         *          new memory is allocated. If the allocation fails, the buffer is left empty.
+         * @param[in] n The number of bytes to reserve.
+         */
+        void reserve(std::size_t n)
+        {
+            if(n > size()) {
+                clear();
+                m_data = pinned_alloc(n);
+                m_size = (data() != nullptr) ? n : 0;
+            }
+        }
 
-		/**
-		 * @brief Frees the allocated pinned memory.
-		 * @details Releases all pinned memory and resets the buffer to an empty state.
-		 * @note This function is marked @c noexcept and is guaranteed not to throw exceptions.
-		 */
-		void clear() noexcept
-		{
-			pinned_free(data());
-			defaults();
-		}
+        /**
+         * @brief Frees the allocated pinned memory.
+         * @details Releases all pinned memory and resets the buffer to an empty state.
+         * @note This function is marked @c noexcept and is guaranteed not to throw exceptions.
+         */
+        void clear() noexcept
+        {
+            pinned_free(data());
+            defaults();
+        }
 
-		/**
-		 * @brief Returns a pointer to the pinned memory buffer.
-		 * @details Provides direct access to the underlying untyped pinned memory.
-		 * @return A pointer to the pinned buffer.
-		 */
-		void* data() noexcept { return m_data; }
+        /**
+         * @brief Returns a pointer to the pinned memory buffer.
+         * @details Provides direct access to the underlying untyped pinned memory.
+         * @return A pointer to the pinned buffer.
+         */
+        void* data() noexcept { return m_data; }
 
-		/**
-		 * @brief Returns a const pointer to the pinned memory buffer.
-		 * @details Provides direct read-only access to the underlying untyped pinned memory.
-		 * @return A const pointer to the pinned buffer.
-		 */
-		const void* data() const noexcept { return m_data; }
+        /**
+         * @brief Returns a const pointer to the pinned memory buffer.
+         * @details Provides direct read-only access to the underlying untyped pinned memory.
+         * @return A const pointer to the pinned buffer.
+         */
+        const void* data() const noexcept { return m_data; }
 
-		/**
-		 * @brief Returns the number of bytes in the buffer.
-		 * @details Returns the capacity of the buffer (number of bytes allocated).
-		 * @return The number of bytes the buffer can hold.
-		 */
-		std::size_t size() const noexcept { return m_size; }
+        /**
+         * @brief Returns the number of bytes in the buffer.
+         * @details Returns the capacity of the buffer (number of bytes allocated).
+         * @return The number of bytes the buffer can hold.
+         */
+        std::size_t size() const noexcept { return m_size; }
 
-	private:
-		void *m_data;
-		std::size_t m_size;
-		
-		void defaults()
-		{
-			m_data = nullptr;
-			m_size = 0;
-		}
+    private:
+        void *m_data;
+        std::size_t m_size;
+        
+        void defaults()
+        {
+            m_data = nullptr;
+            m_size = 0;
+        }
 };
 
 /**
@@ -430,77 +430,77 @@ class PinnedBufferVoid {
 template <typename T>
 class PinnedBuffer {
 
-	public:
-		/**
-		 * @brief Default constructor.
-		 * @details Constructs an empty pinned buffer with no allocated memory.
-		 */
-		PinnedBuffer() {}
+    public:
+        /**
+         * @brief Default constructor.
+         * @details Constructs an empty pinned buffer with no allocated memory.
+         */
+        PinnedBuffer() {}
 
-		/**
-		 * @brief Constructs a pinned buffer with specified capacity.
-		 * @details Constructs a pinned buffer and reserves memory for @p n elements on the host.
-		 * @param[in] n The number of elements to allocate.
-		 */
-		explicit PinnedBuffer(std::size_t n) 
-			: PinnedBuffer()
-		{
-			reserve(n);
-		}
+        /**
+         * @brief Constructs a pinned buffer with specified capacity.
+         * @details Constructs a pinned buffer and reserves memory for @p n elements on the host.
+         * @param[in] n The number of elements to allocate.
+         */
+        explicit PinnedBuffer(std::size_t n) 
+            : PinnedBuffer()
+        {
+            reserve(n);
+        }
 
-		/**
-		 * @brief Destructor.
-		 * @details Automatically frees the allocated pinned memory.
-		 */
-		~PinnedBuffer()
-		{
-			clear();
-		}
+        /**
+         * @brief Destructor.
+         * @details Automatically frees the allocated pinned memory.
+         */
+        ~PinnedBuffer()
+        {
+            clear();
+        }
 
-		/**
-		 * @brief Reserves pinned memory for at least the specified number of elements.
-		 * @details If @p n is greater than the current size, the existing memory is freed and 
-		 *          new memory is allocated. If the allocation fails, the buffer is left empty.
-		 * @param[in] n The number of elements to reserve.
-		 */
-		void reserve(std::size_t n)
-		{
-			m_voidBuffer.reserve(n * sizeof(T));
-		}
+        /**
+         * @brief Reserves pinned memory for at least the specified number of elements.
+         * @details If @p n is greater than the current size, the existing memory is freed and 
+         *          new memory is allocated. If the allocation fails, the buffer is left empty.
+         * @param[in] n The number of elements to reserve.
+         */
+        void reserve(std::size_t n)
+        {
+            m_voidBuffer.reserve(n * sizeof(T));
+        }
 
-		/**
-		 * @brief Frees the allocated pinned memory.
-		 * @details Releases all pinned memory and resets the buffer to an empty state.
-		 * @note This function is marked @c noexcept and is guaranteed not to throw exceptions.
-		 */
-		void clear() noexcept
-		{
-			m_voidBuffer.clear();
-		}
+        /**
+         * @brief Frees the allocated pinned memory.
+         * @details Releases all pinned memory and resets the buffer to an empty state.
+         * @note This function is marked @c noexcept and is guaranteed not to throw exceptions.
+         */
+        void clear() noexcept
+        {
+            m_voidBuffer.clear();
+        }
 
-		/**
-		 * @brief Returns a pointer to the pinned memory buffer.
-		 * @details Provides direct access to the underlying pinned memory.
-		 * @return A pointer to the pinned buffer.
-		 */
-		T* data() noexcept { return static_cast<T*>(m_voidBuffer.data()); }
+        /**
+         * @brief Returns a pointer to the pinned memory buffer.
+         * @details Provides direct access to the underlying pinned memory.
+         * @return A pointer to the pinned buffer.
+         */
+        T* data() noexcept { return static_cast<T*>(m_voidBuffer.data()); }
 
-		/**
-		 * @brief Returns a const pointer to the pinned memory buffer.
-		 * @details Provides direct read-only access to the underlying pinned memory.
-		 * @return A const pointer to the pinned buffer.
-		 */
-		const T* data() const noexcept { return static_cast<const T*>(m_voidBuffer.data()); }
+        /**
+         * @brief Returns a const pointer to the pinned memory buffer.
+         * @details Provides direct read-only access to the underlying pinned memory.
+         * @return A const pointer to the pinned buffer.
+         */
+        const T* data() const noexcept { return static_cast<const T*>(m_voidBuffer.data()); }
 
-		/**
-		 * @brief Returns the number of elements in the buffer.
-		 * @details Returns the capacity of the buffer (number of elements allocated).
-		 * @return The number of elements the buffer can hold.
-		 */
-		std::size_t size() const noexcept { return m_voidBuffer.size(); }
+        /**
+         * @brief Returns the number of elements in the buffer.
+         * @details Returns the capacity of the buffer (number of elements allocated).
+         * @return The number of elements the buffer can hold.
+         */
+        std::size_t size() const noexcept { return m_voidBuffer.size(); }
 
-	private:
-		PinnedBufferVoid m_voidBuffer;
+    private:
+        PinnedBufferVoid m_voidBuffer;
 };
 
 /*-------------------------------------------------*/
