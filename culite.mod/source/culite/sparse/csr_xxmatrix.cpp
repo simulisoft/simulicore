@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "culite/sparse/csr_xxmatrix.hpp"
+#include <culite/sparse/csr_xxmatrix.hpp>
 
 // system
 
@@ -23,13 +23,13 @@
 #include <cla3p/support/utils.hpp>
 
 // culite
-#include "culite/types/integer.hpp"
-#include "culite/types/scalar.hpp"
-#include "culite/error/exceptions.hpp"
-#include "culite/bulk/dns1d.hpp"
+#include <culite/types/integer.hpp>
+#include <culite/types/scalar.hpp>
+#include <culite/error/exceptions.hpp>
+#include <culite/bulk/dns1d.hpp>
 
 // forwards
-#include "culite/checks/cla3p_forwards.hpp"
+#include <culite/checks/cla3p_forwards.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

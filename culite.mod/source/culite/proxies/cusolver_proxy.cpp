@@ -15,14 +15,14 @@
  */
 
 // this file inc
-#include "culite/proxies/cusolver_proxy.hpp"
+#include <culite/proxies/cusolver_proxy.hpp>
 
 // system
 
 // 3rd
 
 // culite
-#include "culite/error/cuda.hpp"
+#include <culite/error/cuda.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

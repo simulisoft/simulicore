@@ -15,14 +15,14 @@
  */
 
 // this file inc
-#include "culite/proxies/cusparse_proxy.hpp"
+#include <culite/proxies/cusparse_proxy.hpp>
 
 // system
 
 // 3rd
 
 // culite
-#include "culite/error/exceptions.hpp"
+#include <culite/error/exceptions.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

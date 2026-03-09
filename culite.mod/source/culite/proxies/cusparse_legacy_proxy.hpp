@@ -23,9 +23,9 @@
 
 #include <cusparse.h>
 
-#include "culite/types/integer.hpp"
-#include "culite/types/scalar.hpp"
-#include "culite/error/cuda.hpp"
+#include <culite/types/integer.hpp>
+#include <culite/types/scalar.hpp>
+#include <culite/error/cuda.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

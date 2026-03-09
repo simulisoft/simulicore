@@ -15,14 +15,14 @@
  */
 
 // this file inc
-#include "culite/generic/cuda_stream.hpp"
+#include <culite/generic/cuda_stream.hpp>
 
 // system
 
 // 3rd
 
 // culite
-#include "culite/error/cuda.hpp"
+#include <culite/error/cuda.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

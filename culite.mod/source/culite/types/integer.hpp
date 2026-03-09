@@ -25,7 +25,7 @@
 #include <library_types.h> // cuda
 #include <cla3p/types/integer.hpp>
 
-#include "culite/types/traits.hpp"
+#include <culite/types/traits.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

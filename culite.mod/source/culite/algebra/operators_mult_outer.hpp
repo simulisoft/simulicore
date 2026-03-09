@@ -21,10 +21,10 @@
  * @file
  */
 
-#include "culite/virtuals/virtual_expression.hpp"
-#include "culite/virtuals/virtual_object.hpp"
-#include "culite/virtuals/virtual_rowvec.hpp"
-#include "culite/virtuals/virtual_outer.hpp"
+#include <culite/virtuals/virtual_expression.hpp>
+#include <culite/virtuals/virtual_object.hpp>
+#include <culite/virtuals/virtual_rowvec.hpp>
+#include <culite/virtuals/virtual_outer.hpp>
 
 /*-------------------------------------------------*/
 namespace culite { 

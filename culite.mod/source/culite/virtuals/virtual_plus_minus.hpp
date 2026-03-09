@@ -21,8 +21,8 @@
  * @file
  */
 
-#include "culite/virtuals/virtual_expression.hpp"
-#include "culite/virtuals/virtual_object.hpp"
+#include <culite/virtuals/virtual_expression.hpp>
+#include <culite/virtuals/virtual_object.hpp>
 
 /*-------------------------------------------------*/
 namespace culite { 

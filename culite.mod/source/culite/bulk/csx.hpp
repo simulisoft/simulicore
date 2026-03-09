@@ -21,7 +21,7 @@
  * @file
  */
 
-#include "culite/bulk/csx_impl.hpp"
+#include <culite/bulk/csx_impl.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

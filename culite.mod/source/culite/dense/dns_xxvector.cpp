@@ -15,19 +15,19 @@
  */
 
 // this file inc
-#include "culite/dense/dns_xxvector.hpp"
+#include <culite/dense/dns_xxvector.hpp>
 
 // system
 
 // 3rd
 
 // culite
-#include "culite/types/scalar.hpp"
-#include "culite/bulk/dns1d.hpp"
+#include <culite/types/scalar.hpp>
+#include <culite/bulk/dns1d.hpp>
 
 // forwards
-#include "culite/types/cla3p_forwards.hpp"
-#include "culite/checks/cla3p_forwards.hpp"
+#include <culite/types/cla3p_forwards.hpp>
+#include <culite/checks/cla3p_forwards.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

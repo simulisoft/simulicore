@@ -23,13 +23,13 @@
 
 #include <cusparse.h>
 
-#include "culite/types/integer.hpp"
-#include "culite/types/scalar.hpp"
-#include "culite/types/enums.hpp"
-#include "culite/error/cuda.hpp"
+#include <culite/types/integer.hpp>
+#include <culite/types/scalar.hpp>
+#include <culite/types/enums.hpp>
+#include <culite/error/cuda.hpp>
 
 // forwards
-#include "culite/types/cla3p_forwards.hpp"
+#include <culite/types/cla3p_forwards.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

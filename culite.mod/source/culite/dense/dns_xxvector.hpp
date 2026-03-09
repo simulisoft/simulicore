@@ -24,13 +24,13 @@
 #include <string>
 #include <ostream>
 
-#include "culite/dense/dns_xivector.hpp"
+#include <culite/dense/dns_xivector.hpp>
 
-#include "culite/virtuals/virtual_expression.hpp"
-#include "culite/virtuals/virtual_object.hpp"
-#include "culite/virtuals/virtual_rowvec.hpp"
-#include "culite/virtuals/virtual_conjugate.hpp"
-#include "culite/virtuals/virtual_scale.hpp"
+#include <culite/virtuals/virtual_expression.hpp>
+#include <culite/virtuals/virtual_object.hpp>
+#include <culite/virtuals/virtual_rowvec.hpp>
+#include <culite/virtuals/virtual_conjugate.hpp>
+#include <culite/virtuals/virtual_scale.hpp>
 
 /*-------------------------------------------------*/
 namespace culite { 

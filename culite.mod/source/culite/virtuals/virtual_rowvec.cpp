@@ -15,20 +15,20 @@
  */
 
 // this file inc
-#include "culite/virtuals/virtual_rowvec.hpp"
+#include <culite/virtuals/virtual_rowvec.hpp>
 
 // system
 
 // 3rd
 
 // culite
-#include "culite/support/utils.hpp"
-#include "culite/generic/cublas_handler.hpp"
-#include "culite/dense/dns_xxvector.hpp"
-#include "culite/dense/dns_xxmatrix.hpp"
+#include <culite/support/utils.hpp>
+#include <culite/generic/cublas_handler.hpp>
+#include <culite/dense/dns_xxvector.hpp>
+#include <culite/dense/dns_xxmatrix.hpp>
 
 // forwards
-#include "culite/checks/cla3p_forwards.hpp"
+#include <culite/checks/cla3p_forwards.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

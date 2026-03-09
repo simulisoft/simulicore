@@ -15,17 +15,17 @@
  */
 
 // this file inc
-#include "culite/algebra/functional_inner.hpp"
+#include <culite/algebra/functional_inner.hpp>
 
 // system
 
 // 3rd
 
 // culite
-#include "culite/dense/dns_xxvector.hpp"
+#include <culite/dense/dns_xxvector.hpp>
 
 // forwards
-#include "culite/checks/cla3p_forwards.hpp"
+#include <culite/checks/cla3p_forwards.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

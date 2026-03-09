@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "culite/proxies/cusparse_legacy_proxy.hpp"
+#include <culite/proxies/cusparse_legacy_proxy.hpp>
 
 // system
 

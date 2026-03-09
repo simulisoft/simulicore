@@ -21,8 +21,8 @@
  * @file
  */
 
-#include "culite/types/traits.hpp"
-#include "culite/types/cla3p_forwards.hpp"
+#include <culite/types/traits.hpp>
+#include <culite/types/cla3p_forwards.hpp>
 
 #include <cla3p/checks/basic_checks.hpp>
 #include <cla3p/checks/hermitian_coeff_checks.hpp>

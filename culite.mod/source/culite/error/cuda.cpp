@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "culite/error/cuda.hpp"
+#include <culite/error/cuda.hpp>
 
 // system
 #include <string>
@@ -23,7 +23,7 @@
 // 3rd
 
 // culite
-#include "culite/error/exceptions.hpp"
+#include <culite/error/exceptions.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

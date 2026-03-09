@@ -21,8 +21,8 @@
  * @file
  */
 
-#include "culite/support/imalloc.hpp"
-#include "culite/proxies/cusparse_proxy.hpp"
+#include <culite/support/imalloc.hpp>
+#include <culite/proxies/cusparse_proxy.hpp>
 
 /*-------------------------------------------------*/
 namespace culite { 

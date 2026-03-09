@@ -17,7 +17,7 @@
 #ifndef CULITE_LINSOL_HPP_
 #define CULITE_LINSOL_HPP_
 
-#include "culite/linsol/lapack_base.hpp"
-#include "culite/linsol/lapack_lu.hpp"
+#include <culite/linsol/lapack_base.hpp>
+#include <culite/linsol/lapack_lu.hpp>
 
 #endif // CULITE_LINSOL_HPP_

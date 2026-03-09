@@ -21,7 +21,7 @@
  * @file
  */
 
-#include "culite/linsol/lapack_base.hpp"
+#include <culite/linsol/lapack_base.hpp>
 
 /*-------------------------------------------------*/
 namespace culite { 

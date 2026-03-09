@@ -21,9 +21,9 @@
  * @file
  */
 
-#include "culite/types/enums.hpp"
-#include "culite/generic/cublas_handler.hpp"
-#include "culite/generic/cusparse_handler.hpp"
+#include <culite/types/enums.hpp>
+#include <culite/generic/cublas_handler.hpp>
+#include <culite/generic/cusparse_handler.hpp>
 
 /*-------------------------------------------------*/
 

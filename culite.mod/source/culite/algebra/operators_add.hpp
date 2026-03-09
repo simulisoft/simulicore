@@ -21,14 +21,14 @@
  * @file
  */
 
-#include "culite/dense/dns_xxvector.hpp"
-#include "culite/dense/dns_xxmatrix.hpp"
-#include "culite/sparse/csr_xxmatrix.hpp"
-#include "culite/sparse/csc_xxmatrix.hpp"
+#include <culite/dense/dns_xxvector.hpp>
+#include <culite/dense/dns_xxmatrix.hpp>
+#include <culite/sparse/csr_xxmatrix.hpp>
+#include <culite/sparse/csc_xxmatrix.hpp>
 
-#include "culite/virtuals/virtual_expression.hpp"
-#include "culite/virtuals/virtual_object.hpp"
-#include "culite/virtuals/virtual_plus_minus.hpp"
+#include <culite/virtuals/virtual_expression.hpp>
+#include <culite/virtuals/virtual_object.hpp>
+#include <culite/virtuals/virtual_plus_minus.hpp>
 
 /*-------------------------------------------------*/
 

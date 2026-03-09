@@ -21,7 +21,7 @@
  * @file
  */
 
-#include "culite/virtuals/virtual_product.hpp"
+#include <culite/virtuals/virtual_product.hpp>
     
 /*-------------------------------------------------*/
 

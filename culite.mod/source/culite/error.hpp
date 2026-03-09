@@ -17,6 +17,6 @@
 #ifndef CULITE_ERROR_HPP_
 #define CULITE_ERROR_HPP_
 
-#include "culite/error/exceptions.hpp"
+#include <culite/error/exceptions.hpp>
 
 #endif // CULITE_ERROR_HPP_

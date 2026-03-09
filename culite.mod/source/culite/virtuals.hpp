@@ -17,14 +17,14 @@
 #ifndef CULITE_VIRTUALS_HPP_
 #define CULITE_VIRTUALS_HPP_
 
-#include "culite/virtuals/virtual_expression.hpp"
-#include "culite/virtuals/virtual_object.hpp"
-#include "culite/virtuals/virtual_rowvec.hpp"
-#include "culite/virtuals/virtual_transpose.hpp"
-#include "culite/virtuals/virtual_conjugate.hpp"
-#include "culite/virtuals/virtual_plus_minus.hpp"
-#include "culite/virtuals/virtual_scale.hpp"
-#include "culite/virtuals/virtual_outer.hpp"
-#include "culite/virtuals/virtual_product.hpp"
+#include <culite/virtuals/virtual_expression.hpp>
+#include <culite/virtuals/virtual_object.hpp>
+#include <culite/virtuals/virtual_rowvec.hpp>
+#include <culite/virtuals/virtual_transpose.hpp>
+#include <culite/virtuals/virtual_conjugate.hpp>
+#include <culite/virtuals/virtual_plus_minus.hpp>
+#include <culite/virtuals/virtual_scale.hpp>
+#include <culite/virtuals/virtual_outer.hpp>
+#include <culite/virtuals/virtual_product.hpp>
 
 #endif // CULITE_VIRTUALS_HPP_

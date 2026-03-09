@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "culite/dense/dns_xivector.hpp"
+#include <culite/dense/dns_xivector.hpp>
 
 // system
 
@@ -23,13 +23,13 @@
 #include <cla3p/support/utils.hpp>
 
 // culite
-#include "culite/types/scalar.hpp"
-#include "culite/support/utils.hpp"
-#include "culite/support/imalloc.hpp"
-#include "culite/bulk/dns1d.hpp"
+#include <culite/types/scalar.hpp>
+#include <culite/support/utils.hpp>
+#include <culite/support/imalloc.hpp>
+#include <culite/bulk/dns1d.hpp>
 
 // forwards
-#include "culite/checks/cla3p_forwards.hpp"
+#include <culite/checks/cla3p_forwards.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

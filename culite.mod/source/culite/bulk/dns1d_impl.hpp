@@ -21,8 +21,8 @@
  * @file
  */
 
-#include "culite/types/integer.hpp"
-#include "culite/types/traits.hpp"
+#include <culite/types/integer.hpp>
+#include <culite/types/traits.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

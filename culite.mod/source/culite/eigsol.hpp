@@ -17,6 +17,6 @@
 #ifndef CULITE_EIGSOL_HPP_
 #define CULITE_EIGSOL_HPP_
 
-#include "culite/eigsol/lapack_geev.hpp"
+#include <culite/eigsol/lapack_geev.hpp>
 
 #endif // CULITE_EIGSOL_HPP_

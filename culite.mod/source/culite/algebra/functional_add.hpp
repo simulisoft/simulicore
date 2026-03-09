@@ -21,12 +21,12 @@
  * @file
  */
 
-#include "culite/types/enums.hpp"
-#include "culite/dense/dns_xxvector.hpp"
-#include "culite/dense/dns_xxmatrix.hpp"
-#include "culite/sparse/csr_xxmatrix.hpp"
-#include "culite/sparse/csc_xxmatrix.hpp"
-#include "culite/generic/cublas_handler.hpp"
+#include <culite/types/enums.hpp>
+#include <culite/dense/dns_xxvector.hpp>
+#include <culite/dense/dns_xxmatrix.hpp>
+#include <culite/sparse/csr_xxmatrix.hpp>
+#include <culite/sparse/csc_xxmatrix.hpp>
+#include <culite/generic/cublas_handler.hpp>
 
 /*-------------------------------------------------*/
 namespace culite { 

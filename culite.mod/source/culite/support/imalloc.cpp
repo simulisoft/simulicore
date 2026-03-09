@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "culite/support/imalloc.hpp"
+#include <culite/support/imalloc.hpp>
 
 // system
 
@@ -23,7 +23,7 @@
 #include <cuda_runtime.h>
 
 // culite
-#include "culite/error/cuda.hpp"
+#include <culite/error/cuda.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

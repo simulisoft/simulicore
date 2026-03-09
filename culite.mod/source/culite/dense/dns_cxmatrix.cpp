@@ -15,15 +15,15 @@
  */
 
 // this file inc
-#include "culite/dense/dns_cxmatrix.hpp"
+#include <culite/dense/dns_cxmatrix.hpp>
 
 // system
 
 // 3rd
 
 // culite
-#include "culite/types/scalar.hpp"
-#include "culite/bulk/dns2d.hpp"
+#include <culite/types/scalar.hpp>
+#include <culite/bulk/dns2d.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

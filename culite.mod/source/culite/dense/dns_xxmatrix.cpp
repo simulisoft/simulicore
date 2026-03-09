@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "culite/dense/dns_xxmatrix.hpp"
+#include <culite/dense/dns_xxmatrix.hpp>
 
 // system
 
@@ -23,12 +23,12 @@
 #include <cla3p/support/utils.hpp>
 
 // culite
-#include "culite/types/scalar.hpp"
-#include "culite/bulk/dns2d.hpp"
-#include "culite/support/utils.hpp"
+#include <culite/types/scalar.hpp>
+#include <culite/bulk/dns2d.hpp>
+#include <culite/support/utils.hpp>
 
 // forwards
-#include "culite/checks/cla3p_forwards.hpp"
+#include <culite/checks/cla3p_forwards.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

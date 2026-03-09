@@ -21,11 +21,11 @@
  * @file
  */
 
-#include "culite/types/enums.hpp"
-#include "culite/generic/cublas_handler.hpp"
-#include "culite/generic/cusparse_handler.hpp"
-#include "culite/sparse/csr_xxmatrix.hpp"
-#include "culite/sparse/csc_xxmatrix.hpp"
+#include <culite/types/enums.hpp>
+#include <culite/generic/cublas_handler.hpp>
+#include <culite/generic/cusparse_handler.hpp>
+#include <culite/sparse/csr_xxmatrix.hpp>
+#include <culite/sparse/csc_xxmatrix.hpp>
 
 namespace culite { namespace dns { template <typename T_Scalar> class XxMatrix; } } // namespace culite::dns
 

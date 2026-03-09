@@ -15,15 +15,15 @@
  */
 
 // this file inc
-#include "culite/dense/dns_cxvector.hpp"
+#include <culite/dense/dns_cxvector.hpp>
 
 // system
 
 // 3rd
 
 // culite
-#include "culite/types/scalar.hpp"
-#include "culite/bulk/dns1d.hpp"
+#include <culite/types/scalar.hpp>
+#include <culite/bulk/dns1d.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

@@ -15,14 +15,14 @@
  */
 
 // this file inc
-#include "culite/eigsol/lapack_geev.hpp"
+#include <culite/eigsol/lapack_geev.hpp>
 
 // system
 
 // 3rd
 
 // culite
-#include "culite/dense.hpp"
+#include <culite/dense.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

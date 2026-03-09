@@ -25,11 +25,11 @@
 #include <ostream>
 #include <cla3p/dense/dns_xivector.hpp>
 
-#include "culite/types/integer.hpp"
-#include "culite/dense/dns_xxcontainer.hpp"
+#include <culite/types/integer.hpp>
+#include <culite/dense/dns_xxcontainer.hpp>
 
 // forwards
-#include "culite/generic/cla3p_forwards.hpp"
+#include <culite/generic/cla3p_forwards.hpp>
 
 /*-------------------------------------------------*/
 namespace culite { 

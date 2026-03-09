@@ -21,7 +21,7 @@
  * @file
  */
 
-#include "culite/types/integer.hpp"
+#include <culite/types/integer.hpp>
 
 /*-------------------------------------------------*/
 namespace culite { 

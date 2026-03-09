@@ -21,7 +21,7 @@
  * @file
  */
 
-#include "culite/generic/cublas_handler.hpp"
+#include <culite/generic/cublas_handler.hpp>
 
 namespace culite {
 namespace dns { template <typename T_Scalar> class XxVector; }

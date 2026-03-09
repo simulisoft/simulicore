@@ -15,20 +15,20 @@
  */
 
 // this file inc
-#include "culite/algebra/functional_outer.hpp"
+#include <culite/algebra/functional_outer.hpp>
 
 // system
 
 // 3rd
 
 // culite
-#include "culite/types/scalar.hpp"
-#include "culite/error/exceptions.hpp"
-#include "culite/dense/dns_xxvector.hpp"
-#include "culite/dense/dns_xxmatrix.hpp"
+#include <culite/types/scalar.hpp>
+#include <culite/error/exceptions.hpp>
+#include <culite/dense/dns_xxvector.hpp>
+#include <culite/dense/dns_xxmatrix.hpp>
 
 // forwards
-#include "culite/checks/cla3p_forwards.hpp"
+#include <culite/checks/cla3p_forwards.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

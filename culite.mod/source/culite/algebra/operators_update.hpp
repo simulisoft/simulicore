@@ -21,8 +21,8 @@
  * @file
  */
 
-#include "culite/virtuals/virtual_expression.hpp"
-#include "culite/algebra/functional_update.hpp"
+#include <culite/virtuals/virtual_expression.hpp>
+#include <culite/algebra/functional_update.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

@@ -21,10 +21,10 @@
  * @file
  */
 
-#include "culite/dense/dns_xxmatrix.hpp"
+#include <culite/dense/dns_xxmatrix.hpp>
 
-#include "culite/virtuals/virtual_expression.hpp"
-#include "culite/virtuals/virtual_rowvec.hpp"
+#include <culite/virtuals/virtual_expression.hpp>
+#include <culite/virtuals/virtual_rowvec.hpp>
 
 /*-------------------------------------------------*/
 namespace culite { 

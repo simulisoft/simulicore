@@ -17,20 +17,20 @@
 #ifndef CULITE_ALGEBRA_HPP_
 #define CULITE_ALGEBRA_HPP_
 
-#include "culite/algebra/functional_inner.hpp"
-#include "culite/algebra/functional_outer.hpp"
-#include "culite/algebra/functional_add.hpp"
-#include "culite/algebra/functional_update.hpp"
-#include "culite/algebra/functional_multmv.hpp"
-#include "culite/algebra/functional_multmm.hpp"
+#include <culite/algebra/functional_inner.hpp>
+#include <culite/algebra/functional_outer.hpp>
+#include <culite/algebra/functional_add.hpp>
+#include <culite/algebra/functional_update.hpp>
+#include <culite/algebra/functional_multmv.hpp>
+#include <culite/algebra/functional_multmm.hpp>
 
-#include "culite/algebra/operators_mult_inner.hpp"
-#include "culite/algebra/operators_mult_outer.hpp"
-#include "culite/algebra/operators_scale.hpp"
-#include "culite/algebra/operators_update.hpp"
-#include "culite/algebra/operators_add.hpp"
-#include "culite/algebra/operators_multxx.hpp"
-#include "culite/algebra/operators_multmv.hpp"
-#include "culite/algebra/operators_multmm.hpp"
+#include <culite/algebra/operators_mult_inner.hpp>
+#include <culite/algebra/operators_mult_outer.hpp>
+#include <culite/algebra/operators_scale.hpp>
+#include <culite/algebra/operators_update.hpp>
+#include <culite/algebra/operators_add.hpp>
+#include <culite/algebra/operators_multxx.hpp>
+#include <culite/algebra/operators_multmv.hpp>
+#include <culite/algebra/operators_multmm.hpp>
 
 #endif // CULITE_ALGEBRA_HPP_

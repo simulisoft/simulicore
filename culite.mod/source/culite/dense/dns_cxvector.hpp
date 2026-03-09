@@ -21,7 +21,7 @@
  * @file
  */
 
-#include "culite/dense/dns_xxvector.hpp"
+#include <culite/dense/dns_xxvector.hpp>
 
 /*-------------------------------------------------*/
 namespace culite { 

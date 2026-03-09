@@ -17,7 +17,7 @@
 #ifndef CULITE_SUPPORT_HPP_
 #define CULITE_SUPPORT_HPP_
 
-#include "culite/support/imalloc.hpp"
-#include "culite/support/utils.hpp"
+#include <culite/support/imalloc.hpp>
+#include <culite/support/utils.hpp>
 
 #endif // CULITE_SUPPORT_HPP_

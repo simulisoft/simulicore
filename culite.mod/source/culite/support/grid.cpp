@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "culite/support/grid.hpp"
+#include <culite/support/grid.hpp>
 
 // system
 #include <limits>
@@ -23,7 +23,7 @@
 // 3rd
 
 // culite
-#include "culite/error/exceptions.hpp"
+#include <culite/error/exceptions.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

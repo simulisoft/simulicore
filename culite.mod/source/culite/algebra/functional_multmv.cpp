@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "culite/algebra/functional_multmv.hpp"
+#include <culite/algebra/functional_multmv.hpp>
 
 // system
 #include <string>
@@ -24,15 +24,15 @@
 // 3rd
 
 // culite
-#include "culite/bulk/csx.hpp"
-#include "culite/error/exceptions.hpp"
-#include "culite/dense/dns_xxvector.hpp"
-#include "culite/dense/dns_xxmatrix.hpp"
-#include "culite/sparse/csr_xxmatrix.hpp"
-#include "culite/sparse/csc_xxmatrix.hpp"
+#include <culite/bulk/csx.hpp>
+#include <culite/error/exceptions.hpp>
+#include <culite/dense/dns_xxvector.hpp>
+#include <culite/dense/dns_xxmatrix.hpp>
+#include <culite/sparse/csr_xxmatrix.hpp>
+#include <culite/sparse/csc_xxmatrix.hpp>
 
 // forwards
-#include "culite/checks/cla3p_forwards.hpp"
+#include <culite/checks/cla3p_forwards.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

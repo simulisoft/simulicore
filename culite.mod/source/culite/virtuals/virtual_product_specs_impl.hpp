@@ -21,17 +21,17 @@
  * @file
  */
 
-#include "culite/dense/dns_xxvector.hpp"
-#include "culite/dense/dns_xxmatrix.hpp"
-#include "culite/sparse/csr_xxmatrix.hpp"
-#include "culite/sparse/csc_xxmatrix.hpp"
+#include <culite/dense/dns_xxvector.hpp>
+#include <culite/dense/dns_xxmatrix.hpp>
+#include <culite/sparse/csr_xxmatrix.hpp>
+#include <culite/sparse/csc_xxmatrix.hpp>
 
-#include "culite/algebra/functional_update.hpp"
-#include "culite/algebra/functional_multmv.hpp"
-#include "culite/algebra/functional_multmm.hpp"
+#include <culite/algebra/functional_update.hpp>
+#include <culite/algebra/functional_multmv.hpp>
+#include <culite/algebra/functional_multmm.hpp>
 
-#include "culite/virtuals/virtual_transpose.hpp"
-#include "culite/virtuals/virtual_scale.hpp"
+#include <culite/virtuals/virtual_transpose.hpp>
+#include <culite/virtuals/virtual_scale.hpp>
 
 /*-------------------------------------------------*/
 namespace culite { 

@@ -15,15 +15,15 @@
  */
 
 // this file inc
-#include "culite/proxies/cublas_proxy.hpp"
+#include <culite/proxies/cublas_proxy.hpp>
 
 // system
 
 // 3rd
 
 // culite
-#include "culite/error/cuda.hpp"
-#include "culite/error/exceptions.hpp"
+#include <culite/error/cuda.hpp>
+#include <culite/error/exceptions.hpp>
 
 /*-------------------------------------------------*/
 #if defined(CULITE_I64)

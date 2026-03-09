@@ -21,8 +21,8 @@
  * @file
  */
 
-#include "culite/virtuals/virtual_expression.hpp"
-#include "culite/virtuals/virtual_object.hpp"
+#include <culite/virtuals/virtual_expression.hpp>
+#include <culite/virtuals/virtual_object.hpp>
 
 /*-------------------------------------------------*/
 namespace culite { 
@@ -113,7 +113,7 @@ using VirtualProd_cscspmm = VirtualProduct<
 } // namespace culite
 /*-------------------------------------------------*/
 
-#include "culite/virtuals/virtual_product_specs_impl.hpp"
+#include <culite/virtuals/virtual_product_specs_impl.hpp>
 
 /*-------------------------------------------------*/
 namespace culite { 

@@ -15,17 +15,17 @@
  */
 
 // this file inc
-#include "culite/virtuals/virtual_transpose.hpp"
+#include <culite/virtuals/virtual_transpose.hpp>
 
 // system
 
 // 3rd
 
 // culite
-#include "culite/bulk/dns2d.hpp"
-#include "culite/dense/dns_xxmatrix.hpp"
-#include "culite/sparse/csr_xxmatrix.hpp"
-#include "culite/sparse/csc_xxmatrix.hpp"
+#include <culite/bulk/dns2d.hpp>
+#include <culite/dense/dns_xxmatrix.hpp>
+#include <culite/sparse/csr_xxmatrix.hpp>
+#include <culite/sparse/csc_xxmatrix.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

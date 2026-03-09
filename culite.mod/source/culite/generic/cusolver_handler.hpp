@@ -23,19 +23,19 @@
 
 #include <cusolverDn.h>
 
-#include "culite/types/scalar.hpp"
-#include "culite/error/cuda.hpp"
-#include "culite/error/exceptions.hpp"
-#include "culite/support/imalloc.hpp"
-#include "culite/support/utils.hpp"
-#include "culite/bulk/dns1d.hpp"
-#include "culite/bulk/dns2d.hpp"
-#include "culite/proxies/cusolver_proxy.hpp"
-#include "culite/dense/dns_cxvector.hpp"
-#include "culite/dense/dns_cxmatrix.hpp"
+#include <culite/types/scalar.hpp>
+#include <culite/error/cuda.hpp>
+#include <culite/error/exceptions.hpp>
+#include <culite/support/imalloc.hpp>
+#include <culite/support/utils.hpp>
+#include <culite/bulk/dns1d.hpp>
+#include <culite/bulk/dns2d.hpp>
+#include <culite/proxies/cusolver_proxy.hpp>
+#include <culite/dense/dns_cxvector.hpp>
+#include <culite/dense/dns_cxmatrix.hpp>
 
 // forwards
-#include "culite/checks/cla3p_forwards.hpp"
+#include <culite/checks/cla3p_forwards.hpp>
 
 /*-------------------------------------------------*/
 namespace culite { 

@@ -21,8 +21,8 @@
  * @file
  */
 
-#include "culite/support/imalloc.hpp"
-#include "culite/generic/cusolver_handler.hpp"
+#include <culite/support/imalloc.hpp>
+#include <culite/generic/cusolver_handler.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

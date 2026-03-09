@@ -15,18 +15,18 @@
  */
 
 // this file inc
-#include "culite/linsol/lapack_base.hpp"
+#include <culite/linsol/lapack_base.hpp>
 
 // system
 
 // 3rd
 
 // culite
-#include "culite/dense.hpp"
-#include "culite/error/exceptions.hpp"
+#include <culite/dense.hpp>
+#include <culite/error/exceptions.hpp>
 
 // forwards
-#include "culite/checks/cla3p_forwards.hpp"
+#include <culite/checks/cla3p_forwards.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

@@ -25,19 +25,19 @@
 
 #include <cla3p/dense/dns_xxmatrix.hpp>
 
-#include "culite/dense/dns_xxcontainer.hpp"
-#include "culite/dense/dns_xxvector.hpp"
+#include <culite/dense/dns_xxcontainer.hpp>
+#include <culite/dense/dns_xxvector.hpp>
 
-#include "culite/virtuals/virtual_expression.hpp"
-#include "culite/virtuals/virtual_object.hpp"
-#include "culite/virtuals/virtual_transpose.hpp"
-#include "culite/virtuals/virtual_conjugate.hpp"
-#include "culite/virtuals/virtual_rowvec.hpp"
-#include "culite/virtuals/virtual_scale.hpp"
+#include <culite/virtuals/virtual_expression.hpp>
+#include <culite/virtuals/virtual_object.hpp>
+#include <culite/virtuals/virtual_transpose.hpp>
+#include <culite/virtuals/virtual_conjugate.hpp>
+#include <culite/virtuals/virtual_rowvec.hpp>
+#include <culite/virtuals/virtual_scale.hpp>
 
 // forwards
-#include "culite/generic/cla3p_forwards.hpp"
-#include "culite/types/cla3p_forwards.hpp"
+#include <culite/generic/cla3p_forwards.hpp>
+#include <culite/types/cla3p_forwards.hpp>
 
 /*-------------------------------------------------*/
 namespace culite { 

@@ -21,9 +21,9 @@
  * @file
  */
 
-#include "culite/types/integer.hpp"
-#include "culite/types/enums.hpp"
-#include "culite/proxies/cublas_proxy.hpp"
+#include <culite/types/integer.hpp>
+#include <culite/types/enums.hpp>
+#include <culite/proxies/cublas_proxy.hpp>
 
 /*-------------------------------------------------*/
 namespace culite { 

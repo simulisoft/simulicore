@@ -23,7 +23,7 @@
 
 #include <cstddef>
 #include <cuda_runtime.h>
-#include "culite/types/traits.hpp"
+#include <culite/types/traits.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {
