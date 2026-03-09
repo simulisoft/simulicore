@@ -36,47 +36,47 @@
 
 template <typename T_Scalar, typename T_Left>
 culite::VirtualProduct<
-	culite::dns::XxMatrix<T_Scalar>,
-	T_Left,
-	culite::alias::VirtualObj_dns<T_Scalar>>
+    culite::dns::XxMatrix<T_Scalar>,
+    T_Left,
+    culite::alias::VirtualObj_dns<T_Scalar>>
 operator*(
-	const culite::VirtualExpression<typename T_Left::result_type, T_Left>& left, 
-	const culite::dns::XxMatrix<T_Scalar>& B)
+    const culite::VirtualExpression<typename T_Left::result_type, T_Left>& left, 
+    const culite::dns::XxMatrix<T_Scalar>& B)
 { 
-	return culite::VirtualProduct<
-		culite::dns::XxMatrix<T_Scalar>,
-		T_Left,
-		culite::alias::VirtualObj_dns<T_Scalar>>(left.self(), B.virtualize());
+    return culite::VirtualProduct<
+        culite::dns::XxMatrix<T_Scalar>,
+        T_Left,
+        culite::alias::VirtualObj_dns<T_Scalar>>(left.self(), B.virtualize());
 }
 
 template <typename T_Int, typename T_Scalar, typename T_Left>
 culite::VirtualProduct<
-	culite::csr::XxMatrix<T_Int,T_Scalar>,
-	T_Left, 
-	culite::alias::VirtualObj_csr<T_Int,T_Scalar>>
+    culite::csr::XxMatrix<T_Int,T_Scalar>,
+    T_Left, 
+    culite::alias::VirtualObj_csr<T_Int,T_Scalar>>
 operator*(
-	const culite::VirtualExpression<typename T_Left::result_type, T_Left>& left, 
-	const culite::csr::XxMatrix<T_Int,T_Scalar>& B) 
+    const culite::VirtualExpression<typename T_Left::result_type, T_Left>& left, 
+    const culite::csr::XxMatrix<T_Int,T_Scalar>& B) 
 { 
-	return culite::VirtualProduct<
-		culite::csr::XxMatrix<T_Int,T_Scalar>,
-		T_Left,
-		culite::alias::VirtualObj_csr<T_Int,T_Scalar>>(left.self(), B.virtualize());
+    return culite::VirtualProduct<
+        culite::csr::XxMatrix<T_Int,T_Scalar>,
+        T_Left,
+        culite::alias::VirtualObj_csr<T_Int,T_Scalar>>(left.self(), B.virtualize());
 }
 
 template <typename T_Int, typename T_Scalar, typename T_Left>
 culite::VirtualProduct<
-	culite::csc::XxMatrix<T_Int,T_Scalar>,
-	T_Left, 
-	culite::alias::VirtualObj_csc<T_Int,T_Scalar>>
+    culite::csc::XxMatrix<T_Int,T_Scalar>,
+    T_Left, 
+    culite::alias::VirtualObj_csc<T_Int,T_Scalar>>
 operator*(
-	const culite::VirtualExpression<typename T_Left::result_type, T_Left>& left, 
-	const culite::csc::XxMatrix<T_Int,T_Scalar>& B) 
+    const culite::VirtualExpression<typename T_Left::result_type, T_Left>& left, 
+    const culite::csc::XxMatrix<T_Int,T_Scalar>& B) 
 { 
-	return culite::VirtualProduct<
-		culite::csc::XxMatrix<T_Int,T_Scalar>,
-		T_Left,
-		culite::alias::VirtualObj_csc<T_Int,T_Scalar>>(left.self(), B.virtualize());
+    return culite::VirtualProduct<
+        culite::csc::XxMatrix<T_Int,T_Scalar>,
+        T_Left,
+        culite::alias::VirtualObj_csc<T_Int,T_Scalar>>(left.self(), B.virtualize());
 }
 
 /**
@@ -90,10 +90,10 @@ operator*(
 template <typename T_Scalar>
 culite::alias::VirtualProd_dnsmm<T_Scalar>
 operator*(
-	const culite::dns::XxMatrix<T_Scalar>& A, 
-	const culite::dns::XxMatrix<T_Scalar>& B) 
+    const culite::dns::XxMatrix<T_Scalar>& A, 
+    const culite::dns::XxMatrix<T_Scalar>& B) 
 {
-	return culite::alias::VirtualProd_dnsmm<T_Scalar>(A.virtualize(), B.virtualize());
+    return culite::alias::VirtualProd_dnsmm<T_Scalar>(A.virtualize(), B.virtualize());
 }
 
 /**
@@ -112,10 +112,10 @@ operator*(
 template <typename T_Int, typename T_Scalar>
 culite::alias::VirtualProd_csrmm<T_Int,T_Scalar>
 operator*(
-	const culite::csr::XxMatrix<T_Int,T_Scalar>& A, 
-	const culite::dns::XxMatrix<T_Scalar>& B) 
+    const culite::csr::XxMatrix<T_Int,T_Scalar>& A, 
+    const culite::dns::XxMatrix<T_Scalar>& B) 
 {
-	return culite::alias::VirtualProd_csrmm<T_Int,T_Scalar>(A.virtualize(), B.virtualize());
+    return culite::alias::VirtualProd_csrmm<T_Int,T_Scalar>(A.virtualize(), B.virtualize());
 }
 
 /**
@@ -134,10 +134,10 @@ operator*(
 template <typename T_Int, typename T_Scalar>
 culite::alias::VirtualProd_cscmm<T_Int,T_Scalar>
 operator*(
-	const culite::csc::XxMatrix<T_Int,T_Scalar>& A, 
-	const culite::dns::XxMatrix<T_Scalar>& B) 
+    const culite::csc::XxMatrix<T_Int,T_Scalar>& A, 
+    const culite::dns::XxMatrix<T_Scalar>& B) 
 {
-	return culite::alias::VirtualProd_cscmm<T_Int,T_Scalar>(A.virtualize(), B.virtualize());
+    return culite::alias::VirtualProd_cscmm<T_Int,T_Scalar>(A.virtualize(), B.virtualize());
 }
 
 /**
@@ -151,10 +151,10 @@ operator*(
 template <typename T_Int, typename T_Scalar>
 culite::alias::VirtualProd_csrspmm<T_Int,T_Scalar>
 operator*(
-	const culite::csr::XxMatrix<T_Int,T_Scalar>& A, 
-	const culite::csr::XxMatrix<T_Int,T_Scalar>& B) 
+    const culite::csr::XxMatrix<T_Int,T_Scalar>& A, 
+    const culite::csr::XxMatrix<T_Int,T_Scalar>& B) 
 {
-	return culite::alias::VirtualProd_csrspmm<T_Int,T_Scalar>(A.virtualize(), B.virtualize());
+    return culite::alias::VirtualProd_csrspmm<T_Int,T_Scalar>(A.virtualize(), B.virtualize());
 }
 
 /**
@@ -168,10 +168,10 @@ operator*(
 template <typename T_Int, typename T_Scalar>
 culite::alias::VirtualProd_cscspmm<T_Int,T_Scalar>
 operator*(
-	const culite::csc::XxMatrix<T_Int,T_Scalar>& A, 
-	const culite::csc::XxMatrix<T_Int,T_Scalar>& B) 
+    const culite::csc::XxMatrix<T_Int,T_Scalar>& A, 
+    const culite::csc::XxMatrix<T_Int,T_Scalar>& B) 
 {
-	return culite::alias::VirtualProd_cscspmm<T_Int,T_Scalar>(A.virtualize(), B.virtualize());
+    return culite::alias::VirtualProd_cscspmm<T_Int,T_Scalar>(A.virtualize(), B.virtualize());
 }
 
 /*-------------------------------------------------*/

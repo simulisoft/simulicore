@@ -44,9 +44,9 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
           dns::XxVector<T_Scalar>& y,
           CuBlasHandler& cuBlasHandler)
 {
-	::cla3p::mult_dim_check(opA, A, x, y);
+    ::cla3p::mult_dim_check(opA, A, x, y);
 
-	if(A.prop().isGeneral()) {
+    if(A.prop().isGeneral()) {
 
         cuBlasHandler.gemv(opA, 
                            A.nrows(), 
@@ -76,13 +76,13 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
                            x.values(), 1, 
                            &beta, 
                            y.values(), 1);
-	} else {
+    } else {
 
         std::stringstream ss;
         ss << "Invalid matrix property for matrix-vector multiplication: " << A.prop();
-		throw err::CudaException(ss.str());
+        throw err::CudaException(ss.str());
 
-	} // property 
+    } // property 
 }
 /*-------------------------------------------------*/
 #define instantiate_mult(T_Scl) \
@@ -104,20 +104,20 @@ template <typename T_Int, typename T_Scalar>
 void mult(T_Scalar alpha, ::cla3p::op_t opA,
           const csr::XxMatrix<T_Int,T_Scalar>& A,
           const dns::XxVector<T_Scalar>& x,
-	      T_Scalar beta,
+          T_Scalar beta,
           dns::XxVector<T_Scalar>& y,
           CuSparseHandler& cuSparseHandler)
 {
      // ignore opA for symmetric/hermitian matrices
     if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = ::cla3p::op_t::N;
 
-	::cla3p::mult_dim_check(opA, A, x, y);
+    ::cla3p::mult_dim_check(opA, A, x, y);
 
     cusparse::SpMatCsr<T_Scalar> csrA(A.nrows(), A.ncols(), A.nnz(), A.rowptr(), A.colidx(), A.values());
     cusparse::DnVec<T_Scalar> vecX(x.size(), x.values());
     cusparse::DnVec<T_Scalar> vecY(y.size(), y.values());
 
-	if(A.prop().isGeneral()) {
+    if(A.prop().isGeneral()) {
 
         cuSparseHandler.reserveSpmv(opA, &alpha, csrA, vecX, &beta, vecY);
         cuSparseHandler.preprocessSpmv(opA, &alpha, csrA, vecX, &beta, vecY);
@@ -152,20 +152,20 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
                                                       y.values(), 1);
         }
 
-	} else {
+    } else {
 
         std::stringstream ss;
         ss << "Invalid matrix property for matrix-vector multiplication: " << A.prop();
         throw err::CudaException(ss.str());
 
-	} // property 
+    } // property 
 }
 /*-------------------------------------------------*/
 #define instantiate_mult(T_Int, T_Scl) \
 template void mult(T_Scl, ::cla3p::op_t, \
                    const csr::XxMatrix<T_Int, T_Scl>&, \
                    const dns::XxVector<T_Scl>&, \
-	               T_Scl, \
+                   T_Scl, \
                    dns::XxVector<T_Scl>&, \
                    CuSparseHandler&)
 instantiate_mult(int_t, real_t);
@@ -178,21 +178,21 @@ template <typename T_Int, typename T_Scalar>
 void mult(T_Scalar alpha, ::cla3p::op_t opA,
           const csc::XxMatrix<T_Int,T_Scalar>& A,
           const dns::XxVector<T_Scalar>& x,
-	      T_Scalar beta, 
+          T_Scalar beta, 
           dns::XxVector<T_Scalar>& y,
           CuSparseHandler& cuSparseHandler)
 {
     // ignore opA for symmetric/hermitian matrices
     if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = ::cla3p::op_t::N;
 
-	::cla3p::mult_dim_check(opA, A, x, y);
+    ::cla3p::mult_dim_check(opA, A, x, y);
 
     cusparse::SpMatCsc<T_Scalar> cscA(A.nrows(), A.ncols(), A.nnz(), A.colptr(), A.rowidx(), A.values());
     cusparse::DnVec<T_Scalar> vecX(x.size(), x.values());
     cusparse::DnVec<T_Scalar> vecY(y.size(), y.values());
 
 
-	if(A.prop().isGeneral()) {
+    if(A.prop().isGeneral()) {
 
         cuSparseHandler.reserveSpmv(opA, &alpha, cscA, vecX, &beta, vecY);
         cuSparseHandler.preprocessSpmv(opA, &alpha, cscA, vecX, &beta, vecY);
@@ -227,20 +227,20 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
                                                       y.values(), 1);
         }
 
-	} else {
+    } else {
 
         std::stringstream ss;
         ss << "Invalid matrix property for matrix-vector multiplication: " << A.prop();
         throw err::CudaException(ss.str());
 
-	} // property 
+    } // property 
 }
 /*-------------------------------------------------*/
 #define instantiate_mult(T_Int, T_Scl) \
 template void mult(T_Scl, ::cla3p::op_t, \
                    const csc::XxMatrix<T_Int, T_Scl>&, \
                    const dns::XxVector<T_Scl>&, \
-	               T_Scl, \
+                   T_Scl, \
                    dns::XxVector<T_Scl>&, \
                    CuSparseHandler&)
 instantiate_mult(int_t, real_t);

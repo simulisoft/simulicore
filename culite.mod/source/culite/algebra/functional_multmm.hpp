@@ -66,7 +66,7 @@ template <typename T_Scalar>
 void mult(T_Scalar alpha,
           ::cla3p::op_t opA, const dns::XxMatrix<T_Scalar>& A,
           ::cla3p::op_t opB, const dns::XxMatrix<T_Scalar>& B,
-	      T_Scalar beta, dns::XxMatrix<T_Scalar>& C,
+          T_Scalar beta, dns::XxMatrix<T_Scalar>& C,
           CuBlasHandler& cuBlasHandler = globalCuBlasHandler());
 
 /*-------------------------------------------------*/
@@ -95,9 +95,9 @@ void mult(T_Scalar alpha,
  */
 template <typename T_Int, typename T_Scalar>
 void mult(T_Scalar alpha, ::cla3p::op_t opA, 
-		  const csr::XxMatrix<T_Int,T_Scalar>& A,
+          const csr::XxMatrix<T_Int,T_Scalar>& A,
           const dns::XxMatrix<T_Scalar>& B,
-		  T_Scalar beta, dns::XxMatrix<T_Scalar>& C,
+          T_Scalar beta, dns::XxMatrix<T_Scalar>& C,
           CuSparseHandler& cuSparseHandler = globalCuSparseHandler());
 
 /**
@@ -124,9 +124,9 @@ void mult(T_Scalar alpha, ::cla3p::op_t opA,
  */
 template <typename T_Int, typename T_Scalar>
 void mult(T_Scalar alpha, ::cla3p::op_t opA, 
-		  const csc::XxMatrix<T_Int,T_Scalar>& A,
+          const csc::XxMatrix<T_Int,T_Scalar>& A,
           const dns::XxMatrix<T_Scalar>& B,
-		  T_Scalar beta, dns::XxMatrix<T_Scalar>& C,
+          T_Scalar beta, dns::XxMatrix<T_Scalar>& C,
           CuSparseHandler& cuSparseHandler = globalCuSparseHandler());
 
 /*-------------------------------------------------*/

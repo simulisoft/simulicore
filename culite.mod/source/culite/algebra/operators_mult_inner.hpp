@@ -33,10 +33,10 @@ namespace culite { namespace dns { template <typename T_Scalar> class XxVector; 
  */
 template <typename T_Scalar>
 T_Scalar operator*(
-		const culite::VirtualRowvec<T_Scalar>& vx,
-		const culite::dns::XxVector<T_Scalar>& y)
+        const culite::VirtualRowvec<T_Scalar>& vx,
+        const culite::dns::XxVector<T_Scalar>& y)
 {
-	return vx.evaluateInner(y);
+    return vx.evaluateInner(y);
 }
 
 /*
@@ -44,10 +44,10 @@ T_Scalar operator*(
  */
 template <typename T_Scalar, typename T_Virtual>
 T_Scalar operator*(
-		const culite::VirtualRowvec<T_Scalar>& vx,
-		const culite::alias::VirtualExpr_vec<T_Scalar, T_Virtual>& vy)
+        const culite::VirtualRowvec<T_Scalar>& vx,
+        const culite::alias::VirtualExpr_vec<T_Scalar, T_Virtual>& vy)
 {
-	return (vx * vy.evaluate());
+    return (vx * vy.evaluate());
 }
 
 /*-------------------------------------------------*/

@@ -37,9 +37,9 @@ namespace ops {
 template <typename T_Scalar>
 void update(T_Scalar alpha, const dns::XxVector<T_Scalar>& x, dns::XxVector<T_Scalar>& y, CuBlasHandler& cublasHandler)
 {
-	::cla3p::similarity_dim_check(x.size(), y.size());
+    ::cla3p::similarity_dim_check(x.size(), y.size());
 
-	cublasHandler.axpy(x.size(), &alpha, x.values(), 1, y.values(), 1);
+    cublasHandler.axpy(x.size(), &alpha, x.values(), 1, y.values(), 1);
 }
 /*-------------------------------------------------*/
 #define instantiate_update(T_Scl) \
@@ -57,18 +57,18 @@ void update(::cla3p::op_t opA,
             dns::XxMatrix<T_Scalar>& B,
             CuBlasHandler& cublasHandler)
 {
-	::cla3p::similarity_check(opA, A, ::cla3p::op_t::N, B);
+    ::cla3p::similarity_check(opA, A, ::cla3p::op_t::N, B);
 
     T_Scalar beta = makeScalar<T_Scalar>(1);
 
     if(B.prop().isGeneral()) {
 
         cublasHandler.geam<T_Scalar>(opA,
-				                     ::cla3p::op_t::N,
-							         B.nrows(), B.ncols(),
-				                     &alpha, A.values(), A.ld(),
-				                     &beta, B.values(), B.ld(),
-				                     B.values(), B.ld());
+                                     ::cla3p::op_t::N,
+                                     B.nrows(), B.ncols(),
+                                     &alpha, A.values(), A.ld(),
+                                     &beta, B.values(), B.ld(),
+                                     B.values(), B.ld());
 
     } else {
 

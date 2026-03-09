@@ -38,10 +38,10 @@ namespace csc { template <typename T_Int, typename T_Scalar> class XxMatrix; }
  */
 template <typename T_Virtual> 
 void operator+=(
-		typename T_Virtual::result_type& A,
-		const culite::VirtualExpression<typename T_Virtual::result_type, T_Virtual>& vB)
+        typename T_Virtual::result_type& A,
+        const culite::VirtualExpression<typename T_Virtual::result_type, T_Virtual>& vB)
 {
-	vB.accumulateOnExisting(A, 1.0);
+    vB.accumulateOnExisting(A, 1.0);
 }
 
 /*
@@ -49,10 +49,10 @@ void operator+=(
  */
 template <typename T_Virtual> 
 void operator-=(
-		typename T_Virtual::result_type& A,
-		const culite::VirtualExpression<typename T_Virtual::result_type, T_Virtual>& vB)
+        typename T_Virtual::result_type& A,
+        const culite::VirtualExpression<typename T_Virtual::result_type, T_Virtual>& vB)
 {
-	vB.accumulateOnExisting(A, -1.0);
+    vB.accumulateOnExisting(A, -1.0);
 }
 
 /*-------------------------------------------------*/
@@ -66,10 +66,10 @@ void operator-=(
  */
 template <typename T_Scalar>
 void operator+=(
-		culite::dns::XxVector<T_Scalar>& y,
-		const culite::dns::XxVector<T_Scalar>& x)
+        culite::dns::XxVector<T_Scalar>& y,
+        const culite::dns::XxVector<T_Scalar>& x)
 {
-	culite::ops::update(culite::makeScalar<T_Scalar>(1), x, y);
+    culite::ops::update(culite::makeScalar<T_Scalar>(1), x, y);
 }
 
 /**
@@ -81,10 +81,10 @@ void operator+=(
  */
 template <typename T_Scalar>
 void operator-=(
-		culite::dns::XxVector<T_Scalar>& y,
-		const culite::dns::XxVector<T_Scalar>& x)
+        culite::dns::XxVector<T_Scalar>& y,
+        const culite::dns::XxVector<T_Scalar>& x)
 {
-	culite::ops::update(culite::makeScalar<T_Scalar>(-1), x, y);
+    culite::ops::update(culite::makeScalar<T_Scalar>(-1), x, y);
 }
 
 /*-------------------------------------------------*/
@@ -99,10 +99,10 @@ void operator-=(
  */
 template <typename T_Scalar>
 void operator+=(
-		culite::dns::XxMatrix<T_Scalar>& A,
-		const culite::dns::XxMatrix<T_Scalar>& B)
+        culite::dns::XxMatrix<T_Scalar>& A,
+        const culite::dns::XxMatrix<T_Scalar>& B)
 {
-	culite::ops::update(culite::makeScalar<T_Scalar>(1), B, A);
+    culite::ops::update(culite::makeScalar<T_Scalar>(1), B, A);
 }
 
 /**
@@ -115,10 +115,10 @@ void operator+=(
  */
 template <typename T_Scalar>
 void operator-=(
-		culite::dns::XxMatrix<T_Scalar>& A,
-		const culite::dns::XxMatrix<T_Scalar>& B)
+        culite::dns::XxMatrix<T_Scalar>& A,
+        const culite::dns::XxMatrix<T_Scalar>& B)
 {
-	culite::ops::update(culite::makeScalar<T_Scalar>(-1), B, A);
+    culite::ops::update(culite::makeScalar<T_Scalar>(-1), B, A);
 }
 
 /*-------------------------------------------------*/
@@ -133,10 +133,10 @@ void operator-=(
  */
 template <typename T_Int, typename T_Scalar>
 void operator+=(
-		culite::csr::XxMatrix<T_Int,T_Scalar>& A,
-		const culite::csr::XxMatrix<T_Int,T_Scalar>& B)
+        culite::csr::XxMatrix<T_Int,T_Scalar>& A,
+        const culite::csr::XxMatrix<T_Int,T_Scalar>& B)
 {
-	culite::ops::update(culite::makeScalar<T_Scalar>(1), B, A);
+    culite::ops::update(culite::makeScalar<T_Scalar>(1), B, A);
 }
 
 /**
@@ -149,10 +149,10 @@ void operator+=(
  */
 template <typename T_Int, typename T_Scalar>
 void operator-=(
-		culite::csr::XxMatrix<T_Int,T_Scalar>& A,
-		const culite::csr::XxMatrix<T_Int,T_Scalar>& B)
+        culite::csr::XxMatrix<T_Int,T_Scalar>& A,
+        const culite::csr::XxMatrix<T_Int,T_Scalar>& B)
 {
-	culite::ops::update(culite::makeScalar<T_Scalar>(-1), B, A);
+    culite::ops::update(culite::makeScalar<T_Scalar>(-1), B, A);
 }
 
 /*-------------------------------------------------*/
@@ -167,10 +167,10 @@ void operator-=(
  */
 template <typename T_Int, typename T_Scalar>
 void operator+=(
-		culite::csc::XxMatrix<T_Int,T_Scalar>& A,
-		const culite::csc::XxMatrix<T_Int,T_Scalar>& B)
+        culite::csc::XxMatrix<T_Int,T_Scalar>& A,
+        const culite::csc::XxMatrix<T_Int,T_Scalar>& B)
 {
-	culite::ops::update(culite::makeScalar<T_Scalar>(1), B, A);
+    culite::ops::update(culite::makeScalar<T_Scalar>(1), B, A);
 }
 
 /**
@@ -183,10 +183,10 @@ void operator+=(
  */
 template <typename T_Int, typename T_Scalar>
 void operator-=(
-		culite::csc::XxMatrix<T_Int,T_Scalar>& A,
-		const culite::csc::XxMatrix<T_Int,T_Scalar>& B)
+        culite::csc::XxMatrix<T_Int,T_Scalar>& A,
+        const culite::csc::XxMatrix<T_Int,T_Scalar>& B)
 {
-	culite::ops::update(culite::makeScalar<T_Scalar>(-1), B, A);
+    culite::ops::update(culite::makeScalar<T_Scalar>(-1), B, A);
 }
 
 /*-------------------------------------------------*/

@@ -40,19 +40,19 @@ static void outerx(bool conjop, T_Scalar alpha,
                    dns::XxMatrix<T_Scalar>& A,
                    CuBlasHandler& cublasHandler)
 {
-	conjop = (TypeTraits<T_Scalar>::is_real() ? false : conjop);
+    conjop = (TypeTraits<T_Scalar>::is_real() ? false : conjop);
 
     ::cla3p::outer_product_consistency_check(conjop, A, x, y);
 
     {
         using T_Cla3pScalar = typename TypeTraits<T_Scalar>::cla3p_type;
         T_Cla3pScalar cla3pAlpha = TypeTraits<T_Scalar>::toCla3pType(alpha);
-	    ::cla3p::hermitian_coeff_check<T_Cla3pScalar>(A.prop(), cla3pAlpha);
+        ::cla3p::hermitian_coeff_check<T_Cla3pScalar>(A.prop(), cla3pAlpha);
     }
 
-	if(A.prop().isGeneral()) {
+    if(A.prop().isGeneral()) {
 
-		if(conjop) {
+        if(conjop) {
             cublasHandler.gerc(x.size(), y.size(), &alpha, x.values(), 1, y.values(), 1, A.values(), A.ld());
         } else {
             cublasHandler.ger(x.size(), y.size(), &alpha, x.values(), 1, y.values(), 1, A.values(), A.ld());
@@ -82,7 +82,7 @@ static void outerx(bool conjop, T_Scalar alpha,
 
         }
 
-	} else if (A.prop().isHermitian()) {
+    } else if (A.prop().isHermitian()) {
 
         using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
         T_RScalar realAlpha = arith::getRe(alpha);
@@ -108,11 +108,11 @@ static void outerx(bool conjop, T_Scalar alpha,
                                 A.values(), A.ld());
         }
 
-	} else {
+    } else {
 
         throw err::CudaException("Unsupported matrix property for outer product update (" + A.prop().name() + ").");
 
-	} // valid props
+    } // valid props
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -122,7 +122,7 @@ void outer(T_Scalar alpha,
            dns::XxMatrix<T_Scalar>& A,
            CuBlasHandler& cublasHandler)
 {
-	outerx(false, alpha, x, y, A, cublasHandler);
+    outerx(false, alpha, x, y, A, cublasHandler);
 }
 /*-------------------------------------------------*/
 #define instantiate_outer(T_Scl) \
@@ -140,7 +140,7 @@ void outerc(T_Scalar alpha,
             dns::XxMatrix<T_Scalar>& A,
             CuBlasHandler& cublasHandler)
 {
-	outerx(true, alpha, x, y, A, cublasHandler);
+    outerx(true, alpha, x, y, A, cublasHandler);
 }
 /*-------------------------------------------------*/
 #define instantiate_outerc(T_Scl) \

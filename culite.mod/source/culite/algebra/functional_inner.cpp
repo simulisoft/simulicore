@@ -32,10 +32,10 @@ namespace ops {
 template <typename T_Scalar>
 T_Scalar dot(const dns::XxVector<T_Scalar>& x, const dns::XxVector<T_Scalar>& y, CuBlasHandler& cublasHandler)
 {
-	::cla3p::similarity_dim_check(x.size(), y.size());
+    ::cla3p::similarity_dim_check(x.size(), y.size());
 
     T_Scalar ret = makeScalar<T_Scalar>(0);
-	cublasHandler.dot(x.size(), x.values(), 1, y.values(), 1, &ret);
+    cublasHandler.dot(x.size(), x.values(), 1, y.values(), 1, &ret);
     return ret;
 }
 /*-------------------------------------------------*/
@@ -50,10 +50,10 @@ instantiate_dot(complex8_t);
 template <typename T_Scalar>
 T_Scalar dotc(const dns::XxVector<T_Scalar>& x, const dns::XxVector<T_Scalar>& y, CuBlasHandler& cublasHandler)
 {
-	::cla3p::similarity_dim_check(x.size(), y.size());
+    ::cla3p::similarity_dim_check(x.size(), y.size());
 
     T_Scalar ret = makeScalar<T_Scalar>(0);
-	cublasHandler.dotc(x.size(), x.values(), 1, y.values(), 1, &ret);
+    cublasHandler.dotc(x.size(), x.values(), 1, y.values(), 1, &ret);
     return ret;
 }
 /*-------------------------------------------------*/

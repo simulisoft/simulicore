@@ -38,15 +38,15 @@ namespace dns { template <typename T_Scalar> class XxMatrix; }
  */
 template <typename T_Scalar>
 culite::VirtualOuter<
-	culite::dns::XxMatrix<T_Scalar>,
-	culite::alias::VirtualObj_vec<T_Scalar>>
+    culite::dns::XxMatrix<T_Scalar>,
+    culite::alias::VirtualObj_vec<T_Scalar>>
 operator*(
-		const culite::dns::XxVector<T_Scalar>& x,
-		const culite::VirtualRowvec<T_Scalar>& vy)
+        const culite::dns::XxVector<T_Scalar>& x,
+        const culite::VirtualRowvec<T_Scalar>& vy)
 {
-	return culite::VirtualOuter<
-		culite::dns::XxMatrix<T_Scalar>,
-		culite::alias::VirtualObj_vec<T_Scalar>>(x.virtualize(), vy);
+    return culite::VirtualOuter<
+        culite::dns::XxMatrix<T_Scalar>,
+        culite::alias::VirtualObj_vec<T_Scalar>>(x.virtualize(), vy);
 }
 
 /*
@@ -56,10 +56,10 @@ template <typename T_Scalar, typename T_Virtual>
 
 culite::VirtualOuter<culite::dns::XxMatrix<T_Scalar>,T_Virtual>
 operator*(
-		const culite::alias::VirtualExpr_vec<T_Scalar, T_Virtual>& vx,
-		const culite::VirtualRowvec<T_Scalar>& vy)
+        const culite::alias::VirtualExpr_vec<T_Scalar, T_Virtual>& vx,
+        const culite::VirtualRowvec<T_Scalar>& vy)
 {
-	return culite::VirtualOuter<culite::dns::XxMatrix<T_Scalar>,T_Virtual>(vx, vy);
+    return culite::VirtualOuter<culite::dns::XxMatrix<T_Scalar>,T_Virtual>(vx, vy);
 }
 
 /*-------------------------------------------------*/

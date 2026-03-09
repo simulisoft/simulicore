@@ -48,7 +48,7 @@ namespace ops {
  */
 template <typename T_Scalar>
 void add(T_Scalar alpha, const dns::XxVector<T_Scalar>& x,
-		 T_Scalar beta , const dns::XxVector<T_Scalar>& y,
+         T_Scalar beta , const dns::XxVector<T_Scalar>& y,
          dns::XxVector<T_Scalar>& z,
          CuBlasHandler& cublasHandler = globalCuBlasHandler());
 
@@ -69,7 +69,7 @@ void add(T_Scalar alpha, const dns::XxVector<T_Scalar>& x,
  */
 template <typename T_Scalar>
 void add(::cla3p::op_t opA, T_Scalar alpha, const dns::XxMatrix<T_Scalar>& A,
-		 ::cla3p::op_t opB, T_Scalar beta , const dns::XxMatrix<T_Scalar>& B,
+         ::cla3p::op_t opB, T_Scalar beta , const dns::XxMatrix<T_Scalar>& B,
          dns::XxMatrix<T_Scalar>& C,
          CuBlasHandler& cublasHandler = globalCuBlasHandler());
 

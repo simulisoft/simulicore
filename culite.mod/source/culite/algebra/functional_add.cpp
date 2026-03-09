@@ -32,11 +32,11 @@ namespace ops {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void add(T_Scalar alpha, const dns::XxVector<T_Scalar>& x,
-		 T_Scalar beta , const dns::XxVector<T_Scalar>& y,
+         T_Scalar beta , const dns::XxVector<T_Scalar>& y,
          dns::XxVector<T_Scalar>& z,
          CuBlasHandler& cublasHandler)
 {
-	::cla3p::similarity_dim_check(x.size(), y.size());
+    ::cla3p::similarity_dim_check(x.size(), y.size());
     ::cla3p::similarity_dim_check(x.size(), z.size());
     ::cla3p::similarity_dim_check(y.size(), z.size());
 
@@ -50,8 +50,8 @@ void add(T_Scalar alpha, const dns::XxVector<T_Scalar>& x,
 /*-------------------------------------------------*/
 #define instantiate_add(T_Scl) \
 template void add( \
-		T_Scl, const dns::XxVector<T_Scl>&, \
-		T_Scl, const dns::XxVector<T_Scl>&, \
+        T_Scl, const dns::XxVector<T_Scl>&, \
+        T_Scl, const dns::XxVector<T_Scl>&, \
         dns::XxVector<T_Scl>&, CuBlasHandler&)
 instantiate_add(real_t);
 instantiate_add(real4_t);
@@ -61,13 +61,13 @@ instantiate_add(complex8_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void add(::cla3p::op_t opA, T_Scalar alpha, const dns::XxMatrix<T_Scalar>& A,
-		 ::cla3p::op_t opB, T_Scalar beta , const dns::XxMatrix<T_Scalar>& B,
+         ::cla3p::op_t opB, T_Scalar beta , const dns::XxMatrix<T_Scalar>& B,
          dns::XxMatrix<T_Scalar>& C,
          CuBlasHandler& cublasHandler)
 {
     ::cla3p::op_t opC = ::cla3p::op_t::N;
 
-	::cla3p::similarity_check(opA, A, opB, B);
+    ::cla3p::similarity_check(opA, A, opB, B);
     ::cla3p::similarity_check(opA, A, opC, C);
     ::cla3p::similarity_check(opB, B, opC, C);
 
@@ -89,8 +89,8 @@ void add(::cla3p::op_t opA, T_Scalar alpha, const dns::XxMatrix<T_Scalar>& A,
 /*-------------------------------------------------*/
 #define instantiate_add(T_Scl) \
 template void add( \
-		::cla3p::op_t, T_Scl, const dns::XxMatrix<T_Scl>&, \
-		::cla3p::op_t, T_Scl, const dns::XxMatrix<T_Scl>&, \
+        ::cla3p::op_t, T_Scl, const dns::XxMatrix<T_Scl>&, \
+        ::cla3p::op_t, T_Scl, const dns::XxMatrix<T_Scl>&, \
         dns::XxMatrix<T_Scl>&, CuBlasHandler&)
 instantiate_add(real_t);
 instantiate_add(real4_t);
