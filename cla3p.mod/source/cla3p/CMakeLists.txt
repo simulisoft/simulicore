@@ -9,22 +9,22 @@ set(CLA3P_I64_LIB "${CLA3P_LIB}_i64" CACHE INTERNAL "The ilp64 cla3p library")
 # source setup
 #-----------------------------------------------
 set(CLA3P_SRC
-	)
+    )
 
 set(CLA3P_HPP
-	types.hpp
-	error.hpp
-	support.hpp
-	dense.hpp
-	sparse.hpp
-	perms.hpp
-	virtuals.hpp
-	algebra.hpp
-	linsol.hpp
-	svd.hpp
-	qr.hpp
-	lra.hpp
-	)
+    types.hpp
+    error.hpp
+    support.hpp
+    dense.hpp
+    sparse.hpp
+    perms.hpp
+    virtuals.hpp
+    algebra.hpp
+    linsol.hpp
+    svd.hpp
+    qr.hpp
+    lra.hpp
+    )
 
 #-----------------------------------------------
 # sub-directory setup
