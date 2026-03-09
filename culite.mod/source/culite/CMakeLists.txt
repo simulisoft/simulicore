@@ -16,27 +16,27 @@ include(${SIMULICORE_ROOT}/cmake/cuda_compiler.cmake)
 # source setup
 #-----------------------------------------------
 set(CULITE_SRC
-	)
+    )
 
 set(CULITE_HPP
-	types.hpp
-	error.hpp
-	support.hpp
-	dense.hpp
-	sparse.hpp
-	virtuals.hpp
-	algebra.hpp
-	linsol.hpp
+    types.hpp
+    error.hpp
+    support.hpp
+    dense.hpp
+    sparse.hpp
+    virtuals.hpp
+    algebra.hpp
+    linsol.hpp
     eigsol.hpp
-	#svd.hpp
-	#qr.hpp
-	)
+    #svd.hpp
+    #qr.hpp
+    )
 
 set(CULITE_CUSRC
-	)
+    )
 
 set(CULITE_CUH
-	)
+    )
 
 #-----------------------------------------------
 # sub-directory setup
