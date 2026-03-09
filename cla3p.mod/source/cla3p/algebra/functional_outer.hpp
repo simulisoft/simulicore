@@ -46,9 +46,9 @@ namespace ops {
  */
 template <typename T_Scalar>
 void outer(T_Scalar alpha, 
-		const dns::XxVector<T_Scalar>& x, 
-		const dns::XxVector<T_Scalar>& y, 
-		dns::XxMatrix<T_Scalar>& A);
+        const dns::XxVector<T_Scalar>& x, 
+        const dns::XxVector<T_Scalar>& y, 
+        dns::XxMatrix<T_Scalar>& A);
 
 /**
  * @ingroup cla3p_module_index_math_op_vecvec

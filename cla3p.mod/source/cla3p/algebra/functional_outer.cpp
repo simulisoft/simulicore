@@ -35,50 +35,50 @@ namespace ops {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 static void outerx(bool conjop, T_Scalar alpha, 
-		const dns::XxVector<T_Scalar>& x, 
-		const dns::XxVector<T_Scalar>& y, 
-		dns::XxMatrix<T_Scalar>& A)
+        const dns::XxVector<T_Scalar>& x, 
+        const dns::XxVector<T_Scalar>& y, 
+        dns::XxMatrix<T_Scalar>& A)
 {
-	conjop = (TypeTraits<T_Scalar>::is_real() ? false : conjop);
+    conjop = (TypeTraits<T_Scalar>::is_real() ? false : conjop);
 
-	outer_product_consistency_check(conjop, A.nrows(), A.ncols(), A.prop(), x.size(), y.size());
-	hermitian_coeff_check(A.prop(), alpha);
+    outer_product_consistency_check(conjop, A.nrows(), A.ncols(), A.prop(), x.size(), y.size());
+    hermitian_coeff_check(A.prop(), alpha);
 
-	if(A.prop().isGeneral()) {
+    if(A.prop().isGeneral()) {
 
-		if(conjop) blas::gerc(x.size(), y.size(), alpha, x.values(), 1, y.values(), 1, A.values(), A.ld());
-		else       blas::ger (x.size(), y.size(), alpha, x.values(), 1, y.values(), 1, A.values(), A.ld());
+        if(conjop) blas::gerc(x.size(), y.size(), alpha, x.values(), 1, y.values(), 1, A.values(), A.ld());
+        else       blas::ger (x.size(), y.size(), alpha, x.values(), 1, y.values(), 1, A.values(), A.ld());
 
-	} else if(A.prop().isSymmetric()) {
+    } else if(A.prop().isSymmetric()) {
 
-		if(x.values() == y.values()) {
-			blas::syr(A.prop().cuplo(), x.size(), alpha, x.values(), 1, A.values(), A.ld());
-		} else {
-			blas::gemmt(A.prop().cuplo(), 'N', 'T', x.size(), 1, alpha, x.values(), x.size(), y.values(), y.size(), 1, A.values(), A.ld());
-		}
+        if(x.values() == y.values()) {
+            blas::syr(A.prop().cuplo(), x.size(), alpha, x.values(), 1, A.values(), A.ld());
+        } else {
+            blas::gemmt(A.prop().cuplo(), 'N', 'T', x.size(), 1, alpha, x.values(), x.size(), y.values(), y.size(), 1, A.values(), A.ld());
+        }
 
-	} else if(A.prop().isHermitian()) {
+    } else if(A.prop().isHermitian()) {
 
-		if(x.values() == y.values()) {
-			blas::her(A.prop().cuplo(), x.size(), arith::getRe(alpha), x.values(), 1, A.values(), A.ld());
-		} else {
-			blas::gemmt(A.prop().cuplo(), 'N', 'C', x.size(), 1, alpha, x.values(), x.size(), y.values(), y.size(), 1, A.values(), A.ld());
-		}
+        if(x.values() == y.values()) {
+            blas::her(A.prop().cuplo(), x.size(), arith::getRe(alpha), x.values(), 1, A.values(), A.ld());
+        } else {
+            blas::gemmt(A.prop().cuplo(), 'N', 'C', x.size(), 1, alpha, x.values(), x.size(), y.values(), y.size(), 1, A.values(), A.ld());
+        }
 
-	} else {
+    } else {
 
-		throw err::Exception();
+        throw err::Exception();
 
-	} // valid props
+    } // valid props
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void outer(T_Scalar alpha, 
-		const dns::XxVector<T_Scalar>& x, 
-		const dns::XxVector<T_Scalar>& y, 
-		dns::XxMatrix<T_Scalar>& A)
+        const dns::XxVector<T_Scalar>& x, 
+        const dns::XxVector<T_Scalar>& y, 
+        dns::XxMatrix<T_Scalar>& A)
 {
-	outerx(false, alpha, x, y, A);
+    outerx(false, alpha, x, y, A);
 }
 /*-------------------------------------------------*/
 #define instantiate_outer(T_Scl) \
@@ -91,11 +91,11 @@ instantiate_outer(complex8_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void outerc(T_Scalar alpha, 
-		const dns::XxVector<T_Scalar>& x, 
-		const dns::XxVector<T_Scalar>& y, 
-		dns::XxMatrix<T_Scalar>& A)
+        const dns::XxVector<T_Scalar>& x, 
+        const dns::XxVector<T_Scalar>& y, 
+        dns::XxMatrix<T_Scalar>& A)
 {
-	outerx(true, alpha, x, y, A);
+    outerx(true, alpha, x, y, A);
 }
 /*-------------------------------------------------*/
 #define instantiate_outerc(T_Scl) \

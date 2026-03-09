@@ -49,8 +49,8 @@
  */
 template <typename T_Int, typename T_Scalar>
 cla3p::dns::XxVector<T_Scalar> operator*(
-	const cla3p::prm::PxMatrix<T_Int>& P, 
-	const cla3p::dns::XxVector<T_Scalar>& x);
+    const cla3p::prm::PxMatrix<T_Int>& P, 
+    const cla3p::dns::XxVector<T_Scalar>& x);
 
 /**
  * @ingroup cla3p_module_index_math_operators_perm
@@ -62,8 +62,8 @@ cla3p::dns::XxVector<T_Scalar> operator*(
  */
 template <typename T_Int, typename T_Scalar>
 cla3p::dns::XxMatrix<T_Scalar> operator*(
-	const cla3p::prm::PxMatrix<T_Int>& P, 
-	const cla3p::dns::XxMatrix<T_Scalar>& A);
+    const cla3p::prm::PxMatrix<T_Int>& P, 
+    const cla3p::dns::XxMatrix<T_Scalar>& A);
 
 /**
  * @ingroup cla3p_module_index_math_operators_perm
@@ -76,8 +76,8 @@ cla3p::dns::XxMatrix<T_Scalar> operator*(
 
 template <typename T_Int, typename T_Scalar>
 cla3p::dns::XxMatrix<T_Scalar> operator*(
-	const cla3p::dns::XxMatrix<T_Scalar>& A, 
-	const cla3p::prm::PxMatrix<T_Int>& P);
+    const cla3p::dns::XxMatrix<T_Scalar>& A, 
+    const cla3p::prm::PxMatrix<T_Int>& P);
 
 /**
  * @ingroup cla3p_module_index_math_operators_perm
@@ -89,8 +89,8 @@ cla3p::dns::XxMatrix<T_Scalar> operator*(
  */
 template <typename T_Int, typename T_Scalar>
 cla3p::csr::XxMatrix<T_Int,T_Scalar> operator*(
-	const cla3p::prm::PxMatrix<T_Int>& P, 
-	const cla3p::csr::XxMatrix<T_Int,T_Scalar>& A);
+    const cla3p::prm::PxMatrix<T_Int>& P, 
+    const cla3p::csr::XxMatrix<T_Int,T_Scalar>& A);
 
 /**
  * @ingroup cla3p_module_index_math_operators_perm
@@ -102,8 +102,8 @@ cla3p::csr::XxMatrix<T_Int,T_Scalar> operator*(
  */
 template <typename T_Int, typename T_Scalar>
 cla3p::csr::XxMatrix<T_Int,T_Scalar> operator*(
-	const cla3p::csr::XxMatrix<T_Int,T_Scalar>& A, 
-	const cla3p::prm::PxMatrix<T_Int>& P);
+    const cla3p::csr::XxMatrix<T_Int,T_Scalar>& A, 
+    const cla3p::prm::PxMatrix<T_Int>& P);
 
 /**
  * @ingroup cla3p_module_index_math_operators_perm
@@ -115,8 +115,8 @@ cla3p::csr::XxMatrix<T_Int,T_Scalar> operator*(
  */
 template <typename T_Int, typename T_Scalar>
 cla3p::csc::XxMatrix<T_Int,T_Scalar> operator*(
-	const cla3p::prm::PxMatrix<T_Int>& P, 
-	const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A);
+    const cla3p::prm::PxMatrix<T_Int>& P, 
+    const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A);
 
 /**
  * @ingroup cla3p_module_index_math_operators_perm
@@ -128,8 +128,8 @@ cla3p::csc::XxMatrix<T_Int,T_Scalar> operator*(
  */
 template <typename T_Int, typename T_Scalar>
 cla3p::csc::XxMatrix<T_Int,T_Scalar> operator*(
-	const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A, 
-	const cla3p::prm::PxMatrix<T_Int>& P);
+    const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A, 
+    const cla3p::prm::PxMatrix<T_Int>& P);
 
 /**
  * @ingroup cla3p_module_index_math_operators_perm
@@ -141,8 +141,8 @@ cla3p::csc::XxMatrix<T_Int,T_Scalar> operator*(
  */
 template <typename T_Int>
 cla3p::prm::PxMatrix<T_Int> operator*(
-	const cla3p::prm::PxMatrix<T_Int>& P,
-	const cla3p::prm::PxMatrix<T_Int>& Q);
+    const cla3p::prm::PxMatrix<T_Int>& P,
+    const cla3p::prm::PxMatrix<T_Int>& Q);
 
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
@@ -150,18 +150,18 @@ cla3p::prm::PxMatrix<T_Int> operator*(
 
 template <typename T_Int, typename T_Virtual>
 typename T_Virtual::result_type operator*(
-	const cla3p::prm::PxMatrix<T_Int>& P, 
-	const cla3p::VirtualExpression<typename T_Virtual::result_type,T_Virtual>& v)
+    const cla3p::prm::PxMatrix<T_Int>& P, 
+    const cla3p::VirtualExpression<typename T_Virtual::result_type,T_Virtual>& v)
 {
-	return (P * v.evaluate());
+    return (P * v.evaluate());
 }
 
 template <typename T_Int, typename T_Virtual>
 typename T_Virtual::result_type operator*(
-	const cla3p::VirtualExpression<typename T_Virtual::result_type,T_Virtual>& v,
-	const cla3p::prm::PxMatrix<T_Int>& P) 
+    const cla3p::VirtualExpression<typename T_Virtual::result_type,T_Virtual>& v,
+    const cla3p::prm::PxMatrix<T_Int>& P) 
 {
-	return (v.evaluate() * P);
+    return (v.evaluate() * P);
 }
 
 /*-------------------------------------------------*/

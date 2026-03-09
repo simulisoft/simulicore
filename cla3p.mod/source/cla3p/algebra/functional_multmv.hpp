@@ -51,7 +51,7 @@ template <typename T_Scalar>
 void mult(T_Scalar alpha, op_t opA,
           const dns::XxMatrix<T_Scalar>& A,
           const dns::XxVector<T_Scalar>& x,
-	      T_Scalar beta, dns::XxVector<T_Scalar>& y);
+          T_Scalar beta, dns::XxVector<T_Scalar>& y);
 
 /**
  * @ingroup cla3p_module_index_math_op_matvec
@@ -101,7 +101,7 @@ template <typename T_Int, typename T_Scalar>
 void mult(T_Scalar alpha, op_t opA,
           const csr::XxMatrix<T_Int,T_Scalar>& A,
           const dns::XxVector<T_Scalar>& x,
-		  T_Scalar beta,
+          T_Scalar beta,
           dns::XxVector<T_Scalar>& y);
 
 /**
@@ -121,7 +121,7 @@ template <typename T_Int, typename T_Scalar>
 void mult(T_Scalar alpha, op_t opA,
           const csc::XxMatrix<T_Int,T_Scalar>& A,
           const dns::XxVector<T_Scalar>& x,
-		  T_Scalar beta,
+          T_Scalar beta,
           dns::XxVector<T_Scalar>& y);
 
 /*-------------------------------------------------*/

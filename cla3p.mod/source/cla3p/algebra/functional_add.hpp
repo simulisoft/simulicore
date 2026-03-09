@@ -47,8 +47,8 @@ namespace ops {
  */
 template <typename T_Scalar>
 dns::XxVector<T_Scalar> add(
-		T_Scalar alpha, const dns::XxVector<T_Scalar>& x,
-		T_Scalar beta , const dns::XxVector<T_Scalar>& y);
+        T_Scalar alpha, const dns::XxVector<T_Scalar>& x,
+        T_Scalar beta , const dns::XxVector<T_Scalar>& y);
 
 /**
  * @ingroup cla3p_module_index_math_op_add
@@ -63,8 +63,8 @@ dns::XxVector<T_Scalar> add(
  */
 template <typename T_Scalar>
 dns::XxMatrix<T_Scalar> add(
-		T_Scalar alpha, const dns::XxMatrix<T_Scalar>& A,
-		T_Scalar beta , const dns::XxMatrix<T_Scalar>& B);
+        T_Scalar alpha, const dns::XxMatrix<T_Scalar>& A,
+        T_Scalar beta , const dns::XxMatrix<T_Scalar>& B);
 
 /**
  * @ingroup cla3p_module_index_math_op_add
@@ -80,8 +80,8 @@ dns::XxMatrix<T_Scalar> add(
  */
 template <typename T_Int, typename T_Scalar>
 csr::XxMatrix<T_Int, T_Scalar> add(
-		T_Scalar alpha, const csr::XxMatrix<T_Int, T_Scalar>& A,
-		T_Scalar beta , const csr::XxMatrix<T_Int, T_Scalar>& B);
+        T_Scalar alpha, const csr::XxMatrix<T_Int, T_Scalar>& A,
+        T_Scalar beta , const csr::XxMatrix<T_Int, T_Scalar>& B);
 
 /**
  * @ingroup cla3p_module_index_math_op_add
@@ -97,8 +97,8 @@ csr::XxMatrix<T_Int, T_Scalar> add(
  */
 template <typename T_Int, typename T_Scalar>
 csc::XxMatrix<T_Int, T_Scalar> add(
-		T_Scalar alpha, const csc::XxMatrix<T_Int, T_Scalar>& A,
-		T_Scalar beta , const csc::XxMatrix<T_Int, T_Scalar>& B);
+        T_Scalar alpha, const csc::XxMatrix<T_Int, T_Scalar>& A,
+        T_Scalar beta , const csc::XxMatrix<T_Int, T_Scalar>& B);
 
 /**
  * @ingroup cla3p_module_index_math_op_add
@@ -114,9 +114,9 @@ csc::XxMatrix<T_Int, T_Scalar> add(
  */
 template <typename T_Matrix>
 lra::XxMatrix<T_Matrix> add(
-		typename T_Matrix::value_type alpha, const lra::XxMatrix<T_Matrix>& A,
-		typename T_Matrix::value_type beta, const lra::XxMatrix<T_Matrix>& B,
-		const lra::RankModerator<T_Matrix>& rmod);
+        typename T_Matrix::value_type alpha, const lra::XxMatrix<T_Matrix>& A,
+        typename T_Matrix::value_type beta, const lra::XxMatrix<T_Matrix>& B,
+        const lra::RankModerator<T_Matrix>& rmod);
 
 /*-------------------------------------------------*/
 } // namespace ops

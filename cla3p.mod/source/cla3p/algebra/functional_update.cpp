@@ -38,8 +38,8 @@ namespace ops {
 template <typename T_Scalar>
 void update(T_Scalar alpha, const dns::XxVector<T_Scalar>& x, dns::XxVector<T_Scalar>& y)
 {
-	similarity_dim_check(x.size(), y.size());
-	blas::axpy(x.size(), alpha, x.values(), 1, y.values(), 1);
+    similarity_dim_check(x.size(), y.size());
+    blas::axpy(x.size(), alpha, x.values(), 1, y.values(), 1);
 }
 /*-------------------------------------------------*/
 #define instantiate_update(T_Scl) \
@@ -53,13 +53,13 @@ instantiate_update(complex8_t);
 template <typename T_Scalar>
 void update(T_Scalar alpha, const dns::XxMatrix<T_Scalar>& A, dns::XxMatrix<T_Scalar>& B)
 {
-	similarity_check(
-			A.prop(), A.nrows(), A.ncols(),
-			B.prop(), B.nrows(), B.ncols());
+    similarity_check(
+            A.prop(), A.nrows(), A.ncols(),
+            B.prop(), B.nrows(), B.ncols());
 
-	blk::dns::update(A.prop().uplo(), A.nrows(), A.ncols(), alpha, 
-			A.values(), A.ld(),
-			B.values(), B.ld());
+    blk::dns::update(A.prop().uplo(), A.nrows(), A.ncols(), alpha, 
+            A.values(), A.ld(),
+            B.values(), B.ld());
 }
 /*-------------------------------------------------*/
 #define instantiate_update(T_Scl) \
@@ -73,13 +73,13 @@ instantiate_update(complex8_t);
 template <typename T_Int, typename T_Scalar>
 void update(T_Scalar alpha, const csr::XxMatrix<T_Int,T_Scalar>& A, csr::XxMatrix<T_Int,T_Scalar>& B)
 {
-	similarity_check(
-			A.prop(), A.nrows(), A.ncols(),
-			B.prop(), B.nrows(), B.ncols());
+    similarity_check(
+            A.prop(), A.nrows(), A.ncols(),
+            B.prop(), B.nrows(), B.ncols());
 
-	csr::XxMatrix<T_Int,T_Scalar> tmp = add(alpha, A, T_Scalar(1), B);
-	B.clear();
-	B = tmp.move();
+    csr::XxMatrix<T_Int,T_Scalar> tmp = add(alpha, A, T_Scalar(1), B);
+    B.clear();
+    B = tmp.move();
 }
 /*-------------------------------------------------*/
 #define instantiate_update(T_Int,T_Scl) \
@@ -93,13 +93,13 @@ instantiate_update(int_t, complex8_t);
 template <typename T_Int, typename T_Scalar>
 void update(T_Scalar alpha, const csc::XxMatrix<T_Int,T_Scalar>& A, csc::XxMatrix<T_Int,T_Scalar>& B)
 {
-	similarity_check(
-			A.prop(), A.nrows(), A.ncols(),
-			B.prop(), B.nrows(), B.ncols());
+    similarity_check(
+            A.prop(), A.nrows(), A.ncols(),
+            B.prop(), B.nrows(), B.ncols());
 
-	csc::XxMatrix<T_Int,T_Scalar> tmp = add(alpha, A, T_Scalar(1), B);
-	B.clear();
-	B = tmp.move();
+    csc::XxMatrix<T_Int,T_Scalar> tmp = add(alpha, A, T_Scalar(1), B);
+    B.clear();
+    B = tmp.move();
 }
 /*-------------------------------------------------*/
 #define instantiate_update(T_Int,T_Scl) \

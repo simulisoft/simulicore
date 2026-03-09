@@ -35,17 +35,17 @@
  */
 template <typename T_Left>
 cla3p::VirtualProduct<
-	cla3p::dns::XxVector<typename T_Left::result_type::value_type>,
-	T_Left,
-	cla3p::alias::VirtualObj_vec<typename T_Left::result_type::value_type>> 
+    cla3p::dns::XxVector<typename T_Left::result_type::value_type>,
+    T_Left,
+    cla3p::alias::VirtualObj_vec<typename T_Left::result_type::value_type>> 
 operator*(
-	const cla3p::VirtualExpression<typename T_Left::result_type, T_Left>& left, 
-	const cla3p::dns::XxVector<typename T_Left::result_type::value_type>& x) 
+    const cla3p::VirtualExpression<typename T_Left::result_type, T_Left>& left, 
+    const cla3p::dns::XxVector<typename T_Left::result_type::value_type>& x) 
 { 
-	return cla3p::VirtualProduct<
-		cla3p::dns::XxVector<typename T_Left::result_type::value_type>,
-		T_Left,
-		cla3p::alias::VirtualObj_vec<typename T_Left::result_type::value_type>>(left.self(), x.virtualize());
+    return cla3p::VirtualProduct<
+        cla3p::dns::XxVector<typename T_Left::result_type::value_type>,
+        T_Left,
+        cla3p::alias::VirtualObj_vec<typename T_Left::result_type::value_type>>(left.self(), x.virtualize());
 }
 
 /*
@@ -63,10 +63,10 @@ operator*(
 template <typename T_Scalar>
 cla3p::alias::VirtualProd_dnsmv<T_Scalar>
 operator*(
-	const cla3p::dns::XxMatrix<T_Scalar>& A, 
-	const cla3p::dns::XxVector<T_Scalar>& x) 
+    const cla3p::dns::XxMatrix<T_Scalar>& A, 
+    const cla3p::dns::XxVector<T_Scalar>& x) 
 { 
-	return cla3p::alias::VirtualProd_dnsmv<T_Scalar>(A.virtualize(), x.virtualize());
+    return cla3p::alias::VirtualProd_dnsmv<T_Scalar>(A.virtualize(), x.virtualize());
 }
 
 /**
@@ -80,10 +80,10 @@ operator*(
 template <typename T_Int, typename T_Scalar>
 cla3p::alias::VirtualProd_csrmv<T_Int,T_Scalar>
 operator*(
-	const cla3p::csr::XxMatrix<T_Int,T_Scalar>& A, 
-	const cla3p::dns::XxVector<T_Scalar>& x) 
+    const cla3p::csr::XxMatrix<T_Int,T_Scalar>& A, 
+    const cla3p::dns::XxVector<T_Scalar>& x) 
 { 
-	return cla3p::alias::VirtualProd_csrmv<T_Int,T_Scalar>(A.virtualize(), x.virtualize());
+    return cla3p::alias::VirtualProd_csrmv<T_Int,T_Scalar>(A.virtualize(), x.virtualize());
 }
 
 /**
@@ -97,10 +97,10 @@ operator*(
 template <typename T_Int, typename T_Scalar>
 cla3p::alias::VirtualProd_cscmv<T_Int,T_Scalar>
 operator*(
-	const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A, 
-	const cla3p::dns::XxVector<T_Scalar>& x) 
+    const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A, 
+    const cla3p::dns::XxVector<T_Scalar>& x) 
 { 
-	return cla3p::alias::VirtualProd_cscmv<T_Int,T_Scalar>(A.virtualize(), x.virtualize());
+    return cla3p::alias::VirtualProd_cscmv<T_Int,T_Scalar>(A.virtualize(), x.virtualize());
 }
 
 /*-------------------------------------------------*/

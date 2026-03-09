@@ -38,15 +38,15 @@ namespace dns { template <typename T_Scalar> class XxMatrix; }
  */
 template <typename T_Scalar>
 cla3p::VirtualOuter<
-	cla3p::dns::XxMatrix<T_Scalar>,
-	cla3p::alias::VirtualObj_vec<T_Scalar>>
+    cla3p::dns::XxMatrix<T_Scalar>,
+    cla3p::alias::VirtualObj_vec<T_Scalar>>
 operator*(
-		const cla3p::dns::XxVector<T_Scalar>& x,
-		const cla3p::VirtualRowvec<T_Scalar>& vy)
+        const cla3p::dns::XxVector<T_Scalar>& x,
+        const cla3p::VirtualRowvec<T_Scalar>& vy)
 {
-	return cla3p::VirtualOuter<
-		cla3p::dns::XxMatrix<T_Scalar>,
-		cla3p::alias::VirtualObj_vec<T_Scalar>>(x.virtualize(), vy);
+    return cla3p::VirtualOuter<
+        cla3p::dns::XxMatrix<T_Scalar>,
+        cla3p::alias::VirtualObj_vec<T_Scalar>>(x.virtualize(), vy);
 }
 
 /*
@@ -56,10 +56,10 @@ template <typename T_Scalar, typename T_Virtual>
 
 cla3p::VirtualOuter<cla3p::dns::XxMatrix<T_Scalar>,T_Virtual>
 operator*(
-		const cla3p::alias::VirtualExpr_vec<T_Scalar, T_Virtual>& vx,
-		const cla3p::VirtualRowvec<T_Scalar>& vy)
+        const cla3p::alias::VirtualExpr_vec<T_Scalar, T_Virtual>& vx,
+        const cla3p::VirtualRowvec<T_Scalar>& vy)
 {
-	return cla3p::VirtualOuter<cla3p::dns::XxMatrix<T_Scalar>,T_Virtual>(vx, vy);
+    return cla3p::VirtualOuter<cla3p::dns::XxMatrix<T_Scalar>,T_Virtual>(vx, vy);
 }
 
 /*-------------------------------------------------*/

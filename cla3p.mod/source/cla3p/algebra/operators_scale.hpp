@@ -37,10 +37,10 @@
 template <typename T_Virtual> 
 cla3p::VirtualScale<typename T_Virtual::result_type, T_Virtual>
 operator*(
-	typename T_Virtual::result_type::value_type val, 
-	const cla3p::VirtualExpression<typename T_Virtual::result_type, T_Virtual>& src)
+    typename T_Virtual::result_type::value_type val, 
+    const cla3p::VirtualExpression<typename T_Virtual::result_type, T_Virtual>& src)
 { 
-	return cla3p::VirtualScale<typename T_Virtual::result_type, T_Virtual>(src.self(), val); 
+    return cla3p::VirtualScale<typename T_Virtual::result_type, T_Virtual>(src.self(), val); 
 }
 
 /**
@@ -55,7 +55,7 @@ template <typename T_Scalar>
 cla3p::alias::VirtualScal_vec<T_Scalar>
 operator*(T_Scalar val, const cla3p::dns::XxVector<T_Scalar>& x) 
 { 
-	return cla3p::alias::VirtualScal_vec<T_Scalar>(x.virtualize(), val);
+    return cla3p::alias::VirtualScal_vec<T_Scalar>(x.virtualize(), val);
 }
 
 /**
@@ -70,7 +70,7 @@ template <typename T_Scalar>
 cla3p::alias::VirtualScal_dns<T_Scalar>
 operator*(T_Scalar val, const cla3p::dns::XxMatrix<T_Scalar>& A) 
 { 
-	return cla3p::alias::VirtualScal_dns<T_Scalar>(A.virtualize(), val);
+    return cla3p::alias::VirtualScal_dns<T_Scalar>(A.virtualize(), val);
 }
 
 /**
@@ -85,7 +85,7 @@ template <typename T_Int, typename T_Scalar>
 cla3p::alias::VirtualScal_csr<T_Int,T_Scalar>
 operator*(T_Scalar val, const cla3p::csr::XxMatrix<T_Int,T_Scalar>& A) 
 { 
-	return cla3p::alias::VirtualScal_csr<T_Int,T_Scalar>(A.virtualize(), val);
+    return cla3p::alias::VirtualScal_csr<T_Int,T_Scalar>(A.virtualize(), val);
 }
 
 /**
@@ -100,7 +100,7 @@ template <typename T_Int, typename T_Scalar>
 cla3p::alias::VirtualScal_csc<T_Int,T_Scalar>
 operator*(T_Scalar val, const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A) 
 { 
-	return cla3p::alias::VirtualScal_csc<T_Int,T_Scalar>(A.virtualize(), val);
+    return cla3p::alias::VirtualScal_csc<T_Int,T_Scalar>(A.virtualize(), val);
 }
 
 /*-------------------------------------------------*/
@@ -116,10 +116,10 @@ operator*(T_Scalar val, const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A)
  */
 template <typename T_Scalar>
 void operator*=(
-		cla3p::dns::XxVector<T_Scalar>& x, 
-		T_Scalar val)
+        cla3p::dns::XxVector<T_Scalar>& x, 
+        T_Scalar val)
 {
-	x.iscale(val);
+    x.iscale(val);
 }
 
 /**
@@ -131,10 +131,10 @@ void operator*=(
  */
 template <typename T_Scalar>
 void operator*=(
-		cla3p::dns::XxMatrix<T_Scalar>& A, 
-		T_Scalar val)
+        cla3p::dns::XxMatrix<T_Scalar>& A, 
+        T_Scalar val)
 {
-	A.iscale(val);
+    A.iscale(val);
 }
 
 /**
@@ -146,10 +146,10 @@ void operator*=(
  */
 template <typename T_Int, typename T_Scalar>
 void operator*=(
-		cla3p::csr::XxMatrix<T_Int,T_Scalar>& A, 
-		T_Scalar val)
+        cla3p::csr::XxMatrix<T_Int,T_Scalar>& A, 
+        T_Scalar val)
 {
-	A.iscale(val);
+    A.iscale(val);
 }
 
 /**
@@ -161,10 +161,10 @@ void operator*=(
  */
 template <typename T_Int, typename T_Scalar>
 void operator*=(
-		cla3p::csc::XxMatrix<T_Int,T_Scalar>& A, 
-		T_Scalar val)
+        cla3p::csc::XxMatrix<T_Int,T_Scalar>& A, 
+        T_Scalar val)
 {
-	A.iscale(val);
+    A.iscale(val);
 }
 
 /*-------------------------------------------------*/

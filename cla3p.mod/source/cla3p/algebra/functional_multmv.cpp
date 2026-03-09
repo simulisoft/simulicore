@@ -42,51 +42,51 @@ template <typename T_Scalar>
 void mult(T_Scalar alpha, op_t opA,
     const dns::XxMatrix<T_Scalar>& A,
     const dns::XxVector<T_Scalar>& x,
-		T_Scalar beta,
+        T_Scalar beta,
     dns::XxVector<T_Scalar>& y)
 {
-	Operation _opA(opA);
-	mat_x_vec_mult_check(_opA, A.prop(), A.nrows(), A.ncols(), x.size(), y.size());
+    Operation _opA(opA);
+    mat_x_vec_mult_check(_opA, A.prop(), A.nrows(), A.ncols(), x.size(), y.size());
 
-	if(A.prop().isGeneral()) {
+    if(A.prop().isGeneral()) {
 
-		blk::dns::gem_x_vec(opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), x.values(), beta, y.values());
+        blk::dns::gem_x_vec(opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), x.values(), beta, y.values());
 
-	} else if(A.prop().isSymmetric()) {
+    } else if(A.prop().isSymmetric()) {
 
-		blk::dns::sym_x_vec(A.prop().uplo(), A.ncols(), alpha, A.values(), A.ld(), x.values(), beta, y.values());
+        blk::dns::sym_x_vec(A.prop().uplo(), A.ncols(), alpha, A.values(), A.ld(), x.values(), beta, y.values());
 
-	} else if(A.prop().isHermitian()) {
+    } else if(A.prop().isHermitian()) {
 
-		blk::dns::hem_x_vec(A.prop().uplo(), A.ncols(), alpha, A.values(), A.ld(), x.values(), beta, y.values());
+        blk::dns::hem_x_vec(A.prop().uplo(), A.ncols(), alpha, A.values(), A.ld(), x.values(), beta, y.values());
 
-	} else if(A.prop().isTriangular()) {
+    } else if(A.prop().isTriangular()) {
 
-		if(beta == T_Scalar(0)) {
+        if(beta == T_Scalar(0)) {
 
-			blk::dns::trm_x_vec(A.prop().uplo(), opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), x.values(), y.values());
+            blk::dns::trm_x_vec(A.prop().uplo(), opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), x.values(), y.values());
 
-		} else {
+        } else {
 
-			dns::XxVector<T_Scalar> tmp(y.size());
-			blk::dns::trm_x_vec(A.prop().uplo(), opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), x.values(), tmp.values());
-			y.iscale(beta);
-			ops::update(T_Scalar(1), tmp, y);
+            dns::XxVector<T_Scalar> tmp(y.size());
+            blk::dns::trm_x_vec(A.prop().uplo(), opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), x.values(), tmp.values());
+            y.iscale(beta);
+            ops::update(T_Scalar(1), tmp, y);
 
-		} // beta
+        } // beta
 
-	} else {
+    } else {
 
-		throw err::Exception();
+        throw err::Exception();
 
-	} // property 
+    } // property 
 }
 /*-------------------------------------------------*/
 #define instantiate_mult(T_Scl) \
 template void mult(T_Scl, op_t, \
     const dns::XxMatrix<T_Scl>&, \
     const dns::XxVector<T_Scl>&, \
-		T_Scl, \
+        T_Scl, \
     dns::XxVector<T_Scl>&)
 instantiate_mult(real_t);
 instantiate_mult(real4_t);
@@ -96,13 +96,13 @@ instantiate_mult(complex8_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void trimult(op_t opA,
-		const dns::XxMatrix<T_Scalar>& A,
-		dns::XxVector<T_Scalar>& x)
+        const dns::XxMatrix<T_Scalar>& A,
+        dns::XxVector<T_Scalar>& x)
 {
-	Operation _opA(opA);
-	trivec_mult_replace_check(A.prop(), A.nrows(), A.ncols(), _opA, x.size());
+    Operation _opA(opA);
+    trivec_mult_replace_check(A.prop(), A.nrows(), A.ncols(), _opA, x.size());
 
-	blas::trmv(A.prop().cuplo(), _opA.ctype(), 'N', A.ncols(), A.values(), A.ld(), x.values(), 1);
+    blas::trmv(A.prop().cuplo(), _opA.ctype(), 'N', A.ncols(), A.values(), A.ld(), x.values(), 1);
 }
 /*-------------------------------------------------*/
 #define instantiate_trimult(T_Scl) \
@@ -120,10 +120,10 @@ void trisol(op_t opA,
     const dns::XxMatrix<T_Scalar>& A,
     dns::XxVector<T_Scalar>& b)
 {
-	Operation _opA(opA);
-	trivec_mult_replace_check(A.prop(), A.nrows(), A.ncols(), _opA, b.size());
+    Operation _opA(opA);
+    trivec_mult_replace_check(A.prop(), A.nrows(), A.ncols(), _opA, b.size());
 
-	blas::trsv(A.prop().cuplo(), _opA.ctype(), 'N', A.ncols(), A.values(), A.ld(), b.values(), 1);
+    blas::trsv(A.prop().cuplo(), _opA.ctype(), 'N', A.ncols(), A.values(), A.ld(), b.values(), 1);
 }
 /*-------------------------------------------------*/
 #define instantiate_trisol(T_Scl) \
@@ -142,42 +142,42 @@ template <typename T_Int, typename T_Scalar>
 void mult(T_Scalar alpha, op_t opA,
           const csr::XxMatrix<T_Int,T_Scalar>& A,
           const dns::XxVector<T_Scalar>& x,
-	      T_Scalar beta,
+          T_Scalar beta,
           dns::XxVector<T_Scalar>& y)
 {
-	Operation _opA(opA);
-	mat_x_vec_mult_check(_opA, A.prop(), A.nrows(), A.ncols(), x.size(), y.size());
+    Operation _opA(opA);
+    mat_x_vec_mult_check(_opA, A.prop(), A.nrows(), A.ncols(), x.size(), y.size());
 
-	if(A.prop().isGeneral() || A.prop().isTriangular()) {
+    if(A.prop().isGeneral() || A.prop().isTriangular()) {
 
-		blk::csr::gem_x_vec(opA, A.nrows(), A.ncols(), alpha, 
-				            A.rowptr(), A.colidx(), A.values(), 
-				            x.values(), beta, y.values());
+        blk::csr::gem_x_vec(opA, A.nrows(), A.ncols(), alpha, 
+                            A.rowptr(), A.colidx(), A.values(), 
+                            x.values(), beta, y.values());
 
-	} else if(A.prop().isSymmetric()) {
+    } else if(A.prop().isSymmetric()) {
 
-		blk::csr::sym_x_vec(A.prop().uplo(), A.ncols(), alpha, 
-				            A.rowptr(), A.colidx(), A.values(), 
-				            x.values(), beta, y.values());
+        blk::csr::sym_x_vec(A.prop().uplo(), A.ncols(), alpha, 
+                            A.rowptr(), A.colidx(), A.values(), 
+                            x.values(), beta, y.values());
 
-	} else if(A.prop().isHermitian()) {
+    } else if(A.prop().isHermitian()) {
 
-		blk::csr::hem_x_vec(A.prop().uplo(), A.ncols(), alpha, 
-				            A.rowptr(), A.colidx(), A.values(), 
-				            x.values(), beta, y.values());
+        blk::csr::hem_x_vec(A.prop().uplo(), A.ncols(), alpha, 
+                            A.rowptr(), A.colidx(), A.values(), 
+                            x.values(), beta, y.values());
 
-	} else {
+    } else {
 
-		throw err::Exception();
+        throw err::Exception();
 
-	} // property 
+    } // property 
 }
 /*-------------------------------------------------*/
 #define instantiate_mult(T_Int, T_Scl) \
 template void mult(T_Scl, op_t, \
                    const csr::XxMatrix<T_Int, T_Scl>&, \
                    const dns::XxVector<T_Scl>&, \
-	               T_Scl, \
+                   T_Scl, \
                    dns::XxVector<T_Scl>&)
 instantiate_mult(int_t, real_t);
 instantiate_mult(int_t, real4_t);
@@ -189,42 +189,42 @@ template <typename T_Int, typename T_Scalar>
 void mult(T_Scalar alpha, op_t opA,
           const csc::XxMatrix<T_Int,T_Scalar>& A,
           const dns::XxVector<T_Scalar>& x,
-	      T_Scalar beta, 
+          T_Scalar beta, 
           dns::XxVector<T_Scalar>& y)
 {
-	Operation _opA(opA);
-	mat_x_vec_mult_check(_opA, A.prop(), A.nrows(), A.ncols(), x.size(), y.size());
+    Operation _opA(opA);
+    mat_x_vec_mult_check(_opA, A.prop(), A.nrows(), A.ncols(), x.size(), y.size());
 
-	if(A.prop().isGeneral() || A.prop().isTriangular()) {
+    if(A.prop().isGeneral() || A.prop().isTriangular()) {
 
-		blk::csc::gem_x_vec(opA, A.nrows(), A.ncols(), alpha, 
-				            A.colptr(), A.rowidx(), A.values(), 
-				            x.values(), beta, y.values());
+        blk::csc::gem_x_vec(opA, A.nrows(), A.ncols(), alpha, 
+                            A.colptr(), A.rowidx(), A.values(), 
+                            x.values(), beta, y.values());
 
-	} else if(A.prop().isSymmetric()) {
+    } else if(A.prop().isSymmetric()) {
 
-		blk::csc::sym_x_vec(A.prop().uplo(), A.ncols(), alpha, 
-				            A.colptr(), A.rowidx(), A.values(), 
-				            x.values(), beta, y.values());
+        blk::csc::sym_x_vec(A.prop().uplo(), A.ncols(), alpha, 
+                            A.colptr(), A.rowidx(), A.values(), 
+                            x.values(), beta, y.values());
 
-	} else if(A.prop().isHermitian()) {
+    } else if(A.prop().isHermitian()) {
 
-		blk::csc::hem_x_vec(A.prop().uplo(), A.ncols(), alpha, 
-				            A.colptr(), A.rowidx(), A.values(), 
-				            x.values(), beta, y.values());
+        blk::csc::hem_x_vec(A.prop().uplo(), A.ncols(), alpha, 
+                            A.colptr(), A.rowidx(), A.values(), 
+                            x.values(), beta, y.values());
 
-	} else {
+    } else {
 
-		throw err::Exception();
+        throw err::Exception();
 
-	} // property 
+    } // property 
 }
 /*-------------------------------------------------*/
 #define instantiate_mult(T_Int, T_Scl) \
 template void mult(T_Scl, op_t, \
                    const csc::XxMatrix<T_Int, T_Scl>&, \
                    const dns::XxVector<T_Scl>&, \
-	               T_Scl, \
+                   T_Scl, \
                    dns::XxVector<T_Scl>&)
 instantiate_mult(int_t, real_t);
 instantiate_mult(int_t, real4_t);

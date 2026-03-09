@@ -38,10 +38,10 @@ namespace csc { template <typename T_Int, typename T_Scalar> class XxMatrix; }
  */
 template <typename T_Virtual> 
 void operator+=(
-		typename T_Virtual::result_type& A,
-		const cla3p::VirtualExpression<typename T_Virtual::result_type, T_Virtual>& vB)
+        typename T_Virtual::result_type& A,
+        const cla3p::VirtualExpression<typename T_Virtual::result_type, T_Virtual>& vB)
 {
-	vB.accumulateOnExisting(A, 1.0);
+    vB.accumulateOnExisting(A, 1.0);
 }
 
 /*
@@ -49,10 +49,10 @@ void operator+=(
  */
 template <typename T_Virtual> 
 void operator-=(
-		typename T_Virtual::result_type& A,
-		const cla3p::VirtualExpression<typename T_Virtual::result_type, T_Virtual>& vB)
+        typename T_Virtual::result_type& A,
+        const cla3p::VirtualExpression<typename T_Virtual::result_type, T_Virtual>& vB)
 {
-	vB.accumulateOnExisting(A, -1.0);
+    vB.accumulateOnExisting(A, -1.0);
 }
 
 /*-------------------------------------------------*/
@@ -66,10 +66,10 @@ void operator-=(
  */
 template <typename T_Scalar>
 void operator+=(
-		cla3p::dns::XxVector<T_Scalar>& y,
-		const cla3p::dns::XxVector<T_Scalar>& x)
+        cla3p::dns::XxVector<T_Scalar>& y,
+        const cla3p::dns::XxVector<T_Scalar>& x)
 {
-	cla3p::ops::update(T_Scalar(1), x, y);
+    cla3p::ops::update(T_Scalar(1), x, y);
 }
 
 /**
@@ -81,10 +81,10 @@ void operator+=(
  */
 template <typename T_Scalar>
 void operator-=(
-		cla3p::dns::XxVector<T_Scalar>& y,
-		const cla3p::dns::XxVector<T_Scalar>& x)
+        cla3p::dns::XxVector<T_Scalar>& y,
+        const cla3p::dns::XxVector<T_Scalar>& x)
 {
-	cla3p::ops::update(T_Scalar(-1), x, y);
+    cla3p::ops::update(T_Scalar(-1), x, y);
 }
 
 /*-------------------------------------------------*/
@@ -99,10 +99,10 @@ void operator-=(
  */
 template <typename T_Scalar>
 void operator+=(
-		cla3p::dns::XxMatrix<T_Scalar>& A,
-		const cla3p::dns::XxMatrix<T_Scalar>& B)
+        cla3p::dns::XxMatrix<T_Scalar>& A,
+        const cla3p::dns::XxMatrix<T_Scalar>& B)
 {
-	cla3p::ops::update(T_Scalar(1), B, A);
+    cla3p::ops::update(T_Scalar(1), B, A);
 }
 
 /**
@@ -115,10 +115,10 @@ void operator+=(
  */
 template <typename T_Scalar>
 void operator-=(
-		cla3p::dns::XxMatrix<T_Scalar>& A,
-		const cla3p::dns::XxMatrix<T_Scalar>& B)
+        cla3p::dns::XxMatrix<T_Scalar>& A,
+        const cla3p::dns::XxMatrix<T_Scalar>& B)
 {
-	cla3p::ops::update(T_Scalar(-1), B, A);
+    cla3p::ops::update(T_Scalar(-1), B, A);
 }
 
 /*-------------------------------------------------*/
@@ -133,10 +133,10 @@ void operator-=(
  */
 template <typename T_Int, typename T_Scalar>
 void operator+=(
-		cla3p::csr::XxMatrix<T_Int,T_Scalar>& A,
-		const cla3p::csr::XxMatrix<T_Int,T_Scalar>& B)
+        cla3p::csr::XxMatrix<T_Int,T_Scalar>& A,
+        const cla3p::csr::XxMatrix<T_Int,T_Scalar>& B)
 {
-	cla3p::ops::update(T_Scalar(1), B, A);
+    cla3p::ops::update(T_Scalar(1), B, A);
 }
 
 /**
@@ -149,10 +149,10 @@ void operator+=(
  */
 template <typename T_Int, typename T_Scalar>
 void operator-=(
-		cla3p::csr::XxMatrix<T_Int,T_Scalar>& A,
-		const cla3p::csr::XxMatrix<T_Int,T_Scalar>& B)
+        cla3p::csr::XxMatrix<T_Int,T_Scalar>& A,
+        const cla3p::csr::XxMatrix<T_Int,T_Scalar>& B)
 {
-	cla3p::ops::update(T_Scalar(-1), B, A);
+    cla3p::ops::update(T_Scalar(-1), B, A);
 }
 
 /*-------------------------------------------------*/
@@ -167,10 +167,10 @@ void operator-=(
  */
 template <typename T_Int, typename T_Scalar>
 void operator+=(
-		cla3p::csc::XxMatrix<T_Int,T_Scalar>& A,
-		const cla3p::csc::XxMatrix<T_Int,T_Scalar>& B)
+        cla3p::csc::XxMatrix<T_Int,T_Scalar>& A,
+        const cla3p::csc::XxMatrix<T_Int,T_Scalar>& B)
 {
-	cla3p::ops::update(T_Scalar(1), B, A);
+    cla3p::ops::update(T_Scalar(1), B, A);
 }
 
 /**
@@ -183,10 +183,10 @@ void operator+=(
  */
 template <typename T_Int, typename T_Scalar>
 void operator-=(
-		cla3p::csc::XxMatrix<T_Int,T_Scalar>& A,
-		const cla3p::csc::XxMatrix<T_Int,T_Scalar>& B)
+        cla3p::csc::XxMatrix<T_Int,T_Scalar>& A,
+        const cla3p::csc::XxMatrix<T_Int,T_Scalar>& B)
 {
-	cla3p::ops::update(T_Scalar(-1), B, A);
+    cla3p::ops::update(T_Scalar(-1), B, A);
 }
 
 /*-------------------------------------------------*/

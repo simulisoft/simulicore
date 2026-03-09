@@ -37,25 +37,25 @@ namespace ops {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 dns::XxVector<T_Scalar> add(
-		T_Scalar alpha, const dns::XxVector<T_Scalar>& x,
-		T_Scalar beta , const dns::XxVector<T_Scalar>& y)
+        T_Scalar alpha, const dns::XxVector<T_Scalar>& x,
+        T_Scalar beta , const dns::XxVector<T_Scalar>& y)
 {
-	similarity_dim_check(x.size(), y.size());
+    similarity_dim_check(x.size(), y.size());
 
-	dns::XxVector<T_Scalar> ret(x.size());
+    dns::XxVector<T_Scalar> ret(x.size());
 
-	blk::dns::add(uplo_t::Full, x.size(), 1, 
-		alpha, x.values(), x.size(),
-		beta , y.values(), y.size(), 
-		ret.values(), ret.size());
+    blk::dns::add(uplo_t::Full, x.size(), 1, 
+        alpha, x.values(), x.size(),
+        beta , y.values(), y.size(), 
+        ret.values(), ret.size());
 
-	return ret;
+    return ret;
 }
 /*-------------------------------------------------*/
 #define instantiate_add(T_Scl) \
 template dns::XxVector<T_Scl> add( \
-		T_Scl, const dns::XxVector<T_Scl>&, \
-		T_Scl, const dns::XxVector<T_Scl>&)
+        T_Scl, const dns::XxVector<T_Scl>&, \
+        T_Scl, const dns::XxVector<T_Scl>&)
 instantiate_add(real_t);
 instantiate_add(real4_t);
 instantiate_add(complex_t);
@@ -64,31 +64,31 @@ instantiate_add(complex8_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
  dns::XxMatrix<T_Scalar> add(
-		T_Scalar alpha, const dns::XxMatrix<T_Scalar>& A,
-		T_Scalar beta , const dns::XxMatrix<T_Scalar>& B)
+        T_Scalar alpha, const dns::XxMatrix<T_Scalar>& A,
+        T_Scalar beta , const dns::XxMatrix<T_Scalar>& B)
 {
-	similarity_check(
-			A.prop(), A.nrows(), A.ncols(),
-			B.prop(), B.nrows(), B.ncols());
+    similarity_check(
+            A.prop(), A.nrows(), A.ncols(),
+            B.prop(), B.nrows(), B.ncols());
 
-	int_t m = A.nrows();
-	int_t n = A.ncols();
-	Property pr = A.prop();
+    int_t m = A.nrows();
+    int_t n = A.ncols();
+    Property pr = A.prop();
 
-	dns::XxMatrix<T_Scalar> ret(m, n, pr);
+    dns::XxMatrix<T_Scalar> ret(m, n, pr);
 
-	blk::dns::add(pr.uplo(), m, n, 
-			alpha, A.values(), A.ld(),
-			beta, B.values(), B.ld(), 
-			ret.values(), ret.ld());
+    blk::dns::add(pr.uplo(), m, n, 
+            alpha, A.values(), A.ld(),
+            beta, B.values(), B.ld(), 
+            ret.values(), ret.ld());
 
-	return ret;
+    return ret;
 }
 /*-------------------------------------------------*/
 #define instantiate_add(T_Scl) \
 template dns::XxMatrix<T_Scl> add( \
-		T_Scl, const dns::XxMatrix<T_Scl>&, \
-		T_Scl, const dns::XxMatrix<T_Scl>&)
+        T_Scl, const dns::XxMatrix<T_Scl>&, \
+        T_Scl, const dns::XxMatrix<T_Scl>&)
 instantiate_add(real_t);
 instantiate_add(real4_t);
 instantiate_add(complex_t);
@@ -97,46 +97,46 @@ instantiate_add(complex8_t);
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 csr::XxMatrix<T_Int,T_Scalar> add(
-		T_Scalar alpha, const csr::XxMatrix<T_Int,T_Scalar>& A,
-		T_Scalar beta, const csr::XxMatrix<T_Int,T_Scalar>& B)
+        T_Scalar alpha, const csr::XxMatrix<T_Int,T_Scalar>& A,
+        T_Scalar beta, const csr::XxMatrix<T_Int,T_Scalar>& B)
 {
-    	similarity_check(A, B);
+        similarity_check(A, B);
 
-	csr::XxMatrix<T_Int,T_Scalar> ret;
+    csr::XxMatrix<T_Int,T_Scalar> ret;
 
-	if(beta == T_Scalar(0) && alpha != T_Scalar(0)) {
-		ret = A;
-		ret.iscale(alpha);
-		return ret;
-	} else if(alpha == T_Scalar(0) && beta != T_Scalar(0)) {
-		ret = B;
-		ret.iscale(beta);
-		return ret;
-	} else if(alpha == T_Scalar(0) && beta == T_Scalar(0)) {
-		return ret;
-	} // alpha/beta
+    if(beta == T_Scalar(0) && alpha != T_Scalar(0)) {
+        ret = A;
+        ret.iscale(alpha);
+        return ret;
+    } else if(alpha == T_Scalar(0) && beta != T_Scalar(0)) {
+        ret = B;
+        ret.iscale(beta);
+        return ret;
+    } else if(alpha == T_Scalar(0) && beta == T_Scalar(0)) {
+        return ret;
+    } // alpha/beta
 
-	int_t     nrowsC  = A.nrows();
-	int_t     ncolsC  = A.ncols();
-	Property  propC   = A.prop();
-	int_t*    rowptrC = nullptr;
-	int_t*    colidxC = nullptr;
-	T_Scalar* valuesC = nullptr;
+    int_t     nrowsC  = A.nrows();
+    int_t     ncolsC  = A.ncols();
+    Property  propC   = A.prop();
+    int_t*    rowptrC = nullptr;
+    int_t*    colidxC = nullptr;
+    T_Scalar* valuesC = nullptr;
 
-	blk::csr::add(nrowsC, ncolsC, 
-			alpha, A.rowptr(), A.colidx(), A.values(),
-			beta, B.rowptr(), B.colidx(), B.values(),
-			&rowptrC, &colidxC, &valuesC);
+    blk::csr::add(nrowsC, ncolsC, 
+            alpha, A.rowptr(), A.colidx(), A.values(),
+            beta, B.rowptr(), B.colidx(), B.values(),
+            &rowptrC, &colidxC, &valuesC);
 
-	ret = csr::XxMatrix<T_Int,T_Scalar>(nrowsC, ncolsC, rowptrC, colidxC, valuesC, true, propC);
+    ret = csr::XxMatrix<T_Int,T_Scalar>(nrowsC, ncolsC, rowptrC, colidxC, valuesC, true, propC);
 
-	return ret;
+    return ret;
 }
 /*-------------------------------------------------*/
 #define instantiate_add(T_Int,T_Scl) \
 template csr::XxMatrix<T_Int,T_Scl> add( \
-		T_Scl, const csr::XxMatrix<T_Int,T_Scl>&, \
-		T_Scl, const csr::XxMatrix<T_Int,T_Scl>&)
+        T_Scl, const csr::XxMatrix<T_Int,T_Scl>&, \
+        T_Scl, const csr::XxMatrix<T_Int,T_Scl>&)
 instantiate_add(int_t,real_t);
 instantiate_add(int_t,real4_t);
 instantiate_add(int_t,complex_t);
@@ -145,46 +145,46 @@ instantiate_add(int_t,complex8_t);
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
 csc::XxMatrix<T_Int,T_Scalar> add(
-		T_Scalar alpha, const csc::XxMatrix<T_Int,T_Scalar>& A,
-		T_Scalar beta, const csc::XxMatrix<T_Int,T_Scalar>& B)
+        T_Scalar alpha, const csc::XxMatrix<T_Int,T_Scalar>& A,
+        T_Scalar beta, const csc::XxMatrix<T_Int,T_Scalar>& B)
 {
-	similarity_check(A, B);
+    similarity_check(A, B);
 
-	csc::XxMatrix<T_Int,T_Scalar> ret;
+    csc::XxMatrix<T_Int,T_Scalar> ret;
 
-	if(beta == T_Scalar(0) && alpha != T_Scalar(0)) {
-		ret = A;
-		ret.iscale(alpha);
-		return ret;
-	} else if(alpha == T_Scalar(0) && beta != T_Scalar(0)) {
-		ret = B;
-		ret.iscale(beta);
-		return ret;
-	} else if(alpha == T_Scalar(0) && beta == T_Scalar(0)) {
-		return ret;
-	} // alpha/beta
+    if(beta == T_Scalar(0) && alpha != T_Scalar(0)) {
+        ret = A;
+        ret.iscale(alpha);
+        return ret;
+    } else if(alpha == T_Scalar(0) && beta != T_Scalar(0)) {
+        ret = B;
+        ret.iscale(beta);
+        return ret;
+    } else if(alpha == T_Scalar(0) && beta == T_Scalar(0)) {
+        return ret;
+    } // alpha/beta
 
-	int_t     nrowsC  = A.nrows();
-	int_t     ncolsC  = A.ncols();
-	Property  propC   = A.prop();
-	int_t*    colptrC = nullptr;
-	int_t*    rowidxC = nullptr;
-	T_Scalar* valuesC = nullptr;
+    int_t     nrowsC  = A.nrows();
+    int_t     ncolsC  = A.ncols();
+    Property  propC   = A.prop();
+    int_t*    colptrC = nullptr;
+    int_t*    rowidxC = nullptr;
+    T_Scalar* valuesC = nullptr;
 
-	blk::csc::add(nrowsC, ncolsC, 
-			alpha, A.colptr(), A.rowidx(), A.values(),
-			beta, B.colptr(), B.rowidx(), B.values(),
-			&colptrC, &rowidxC, &valuesC);
+    blk::csc::add(nrowsC, ncolsC, 
+            alpha, A.colptr(), A.rowidx(), A.values(),
+            beta, B.colptr(), B.rowidx(), B.values(),
+            &colptrC, &rowidxC, &valuesC);
 
-	ret = csc::XxMatrix<T_Int,T_Scalar>(nrowsC, ncolsC, colptrC, rowidxC, valuesC, true, propC);
+    ret = csc::XxMatrix<T_Int,T_Scalar>(nrowsC, ncolsC, colptrC, rowidxC, valuesC, true, propC);
 
-	return ret;
+    return ret;
 }
 /*-------------------------------------------------*/
 #define instantiate_add(T_Int,T_Scl) \
 template csc::XxMatrix<T_Int,T_Scl> add( \
-		T_Scl, const csc::XxMatrix<T_Int,T_Scl>&, \
-		T_Scl, const csc::XxMatrix<T_Int,T_Scl>&)
+        T_Scl, const csc::XxMatrix<T_Int,T_Scl>&, \
+        T_Scl, const csc::XxMatrix<T_Int,T_Scl>&)
 instantiate_add(int_t,real_t);
 instantiate_add(int_t,real4_t);
 instantiate_add(int_t,complex_t);
@@ -193,18 +193,18 @@ instantiate_add(int_t,complex8_t);
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 lra::XxMatrix<T_Matrix> add(
-		typename T_Matrix::value_type alpha, const lra::XxMatrix<T_Matrix>& A, 
-		typename T_Matrix::value_type beta, const lra::XxMatrix<T_Matrix>& B,
-		const lra::RankModerator<T_Matrix>& rmod)
+        typename T_Matrix::value_type alpha, const lra::XxMatrix<T_Matrix>& A, 
+        typename T_Matrix::value_type beta, const lra::XxMatrix<T_Matrix>& B,
+        const lra::RankModerator<T_Matrix>& rmod)
 {
-	return lra::add(alpha, A, beta, B, rmod);
+    return lra::add(alpha, A, beta, B, rmod);
 }
 /*-------------------------------------------------*/
 #define instantiate_add(T_Mat) \
 template lra::XxMatrix<T_Mat> add( \
-		typename T_Mat::value_type, const lra::XxMatrix<T_Mat>&, \
-		typename T_Mat::value_type, const lra::XxMatrix<T_Mat>&, \
-		const lra::RankModerator<T_Mat>&)
+        typename T_Mat::value_type, const lra::XxMatrix<T_Mat>&, \
+        typename T_Mat::value_type, const lra::XxMatrix<T_Mat>&, \
+        const lra::RankModerator<T_Mat>&)
 instantiate_add(dns::RdMatrix);
 instantiate_add(dns::RfMatrix);
 instantiate_add(dns::CdMatrix);

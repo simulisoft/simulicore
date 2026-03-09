@@ -32,10 +32,10 @@
 template <typename T_Lhs, typename T_Rhs>
 cla3p::VirtualProduct<typename T_Rhs::result_type, T_Lhs, T_Rhs>
 operator*(
-	const cla3p::VirtualExpression<typename T_Lhs::result_type, T_Lhs>& A, 
-	const cla3p::VirtualExpression<typename T_Rhs::result_type, T_Rhs>& B)
+    const cla3p::VirtualExpression<typename T_Lhs::result_type, T_Lhs>& A, 
+    const cla3p::VirtualExpression<typename T_Rhs::result_type, T_Rhs>& B)
 {
-	return cla3p::VirtualProduct<typename T_Rhs::result_type,T_Lhs,T_Rhs>(A.self(), B.self());
+    return cla3p::VirtualProduct<typename T_Rhs::result_type,T_Lhs,T_Rhs>(A.self(), B.self());
 }
 
 /*
@@ -44,47 +44,47 @@ operator*(
 
 template <typename T_Scalar, typename T_Right>
 cla3p::VirtualProduct<
-	typename T_Right::result_type,
-	cla3p::alias::VirtualObj_dns<T_Scalar>, 
-	T_Right>
+    typename T_Right::result_type,
+    cla3p::alias::VirtualObj_dns<T_Scalar>, 
+    T_Right>
 operator*(
-	const cla3p::dns::XxMatrix<T_Scalar>& A, 
-	const cla3p::VirtualExpression<typename T_Right::result_type, T_Right>& right) 
+    const cla3p::dns::XxMatrix<T_Scalar>& A, 
+    const cla3p::VirtualExpression<typename T_Right::result_type, T_Right>& right) 
 { 
-	return cla3p::VirtualProduct<
-		typename T_Right::result_type,
-		cla3p::alias::VirtualObj_dns<T_Scalar>,
-		T_Right>(A.virtualize(), right.self());
+    return cla3p::VirtualProduct<
+        typename T_Right::result_type,
+        cla3p::alias::VirtualObj_dns<T_Scalar>,
+        T_Right>(A.virtualize(), right.self());
 }
 
 template <typename T_Int, typename T_Scalar, typename T_Right>
 cla3p::VirtualProduct<
-	typename T_Right::result_type,
-	cla3p::alias::VirtualObj_csr<T_Int,T_Scalar>, 
-	T_Right>
+    typename T_Right::result_type,
+    cla3p::alias::VirtualObj_csr<T_Int,T_Scalar>, 
+    T_Right>
 operator*(
-	const cla3p::csr::XxMatrix<T_Int,T_Scalar>& A, 
-	const cla3p::VirtualExpression<typename T_Right::result_type, T_Right>& right)
+    const cla3p::csr::XxMatrix<T_Int,T_Scalar>& A, 
+    const cla3p::VirtualExpression<typename T_Right::result_type, T_Right>& right)
 { 
-	return cla3p::VirtualProduct<
-		typename T_Right::result_type,
-		cla3p::alias::VirtualObj_csr<T_Int,T_Scalar>,
-		T_Right>(A.virtualize(), right.self());
+    return cla3p::VirtualProduct<
+        typename T_Right::result_type,
+        cla3p::alias::VirtualObj_csr<T_Int,T_Scalar>,
+        T_Right>(A.virtualize(), right.self());
 }
 
 template <typename T_Int, typename T_Scalar, typename T_Right>
 cla3p::VirtualProduct<
-	typename T_Right::result_type,
-	cla3p::alias::VirtualObj_csc<T_Int,T_Scalar>, 
-	T_Right>
+    typename T_Right::result_type,
+    cla3p::alias::VirtualObj_csc<T_Int,T_Scalar>, 
+    T_Right>
 operator*(
-	const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A, 
-	const cla3p::VirtualExpression<typename T_Right::result_type, T_Right>& right)
+    const cla3p::csc::XxMatrix<T_Int,T_Scalar>& A, 
+    const cla3p::VirtualExpression<typename T_Right::result_type, T_Right>& right)
 { 
-	return cla3p::VirtualProduct<
-		typename T_Right::result_type,
-		cla3p::alias::VirtualObj_csc<T_Int,T_Scalar>,
-		T_Right>(A.virtualize(), right.self());
+    return cla3p::VirtualProduct<
+        typename T_Right::result_type,
+        cla3p::alias::VirtualObj_csc<T_Int,T_Scalar>,
+        T_Right>(A.virtualize(), right.self());
 }
 
 /*-------------------------------------------------*/
