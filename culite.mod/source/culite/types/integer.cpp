@@ -29,15 +29,15 @@ namespace culite {
 /*-------------------------------------------------*/
 std::string TypeTraits<int_t>::type_name()
 {
-	return ::cla3p::msg::Integer();
+    return ::cla3p::msg::Integer();
 }
 /*-------------------------------------------------*/
 std::string TypeTraits<int_t>::prec_name()
 {
 #if defined (CULITE_I64)
-	return ::cla3p::msg::Double();
+    return ::cla3p::msg::Double();
 #else
-	return ::cla3p::msg::Single();
+    return ::cla3p::msg::Single();
 #endif
 }
 /*-------------------------------------------------*/
@@ -45,15 +45,15 @@ std::string TypeTraits<int_t>::prec_name()
 /*-------------------------------------------------*/
 std::string TypeTraits<uint_t>::type_name()
 {
-	return ::cla3p::msg::UnsignedInteger();
+    return ::cla3p::msg::UnsignedInteger();
 }
 /*-------------------------------------------------*/
 std::string TypeTraits<uint_t>::prec_name()
 {
 #if defined (CULITE_I64)
-	return ::cla3p::msg::Double();
+    return ::cla3p::msg::Double();
 #else
-	return ::cla3p::msg::Single();
+    return ::cla3p::msg::Single();
 #endif
 }
 /*-------------------------------------------------*/

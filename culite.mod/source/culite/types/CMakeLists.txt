@@ -2,25 +2,25 @@
 # source setup
 #-----------------------------------------------
 set(CULITE_SRC ${CULITE_SRC}
-	types/integer.cpp
-	types/scalar.cpp
-	types/enums.cpp
-	PARENT_SCOPE)
+    types/integer.cpp
+    types/scalar.cpp
+    types/enums.cpp
+    PARENT_SCOPE)
 
 set(CULITE_TYPES_HPP 
-	cuda_api.hpp
-	traits.hpp
-	integer.hpp
-	complex.hpp
-	scalar.hpp
-	enums.hpp
-	)
+    cuda_api.hpp
+    traits.hpp
+    integer.hpp
+    complex.hpp
+    scalar.hpp
+    enums.hpp
+    )
 
 set(CULITE_CUSRC ${CULITE_CUSRC}
-	PARENT_SCOPE)
+    PARENT_SCOPE)
 
 set(CULITE_TYPES_CUH 
-	)
+    )
 
 #-----------------------------------------------
 # installation setup

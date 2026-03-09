@@ -44,19 +44,19 @@ const cudaDataType __cuda_utype = cudaDataType::CUDA_R_32U;
 #endif
 
 template<> class TypeTraits<int_t> {
-	public:
-		using cla3p_type = ::cla3p::int_t;
-		static std::string type_name();
-		static std::string prec_name();
-		static constexpr cudaDataType cuda_type() { return __cuda_itype; }
+    public:
+        using cla3p_type = ::cla3p::int_t;
+        static std::string type_name();
+        static std::string prec_name();
+        static constexpr cudaDataType cuda_type() { return __cuda_itype; }
 };
 
 template<> class TypeTraits<uint_t> {
-	public:
-		using cla3p_type = ::cla3p::uint_t;
-		static std::string type_name();
-		static std::string prec_name();
-		static constexpr cudaDataType cuda_utype() { return __cuda_utype; }
+    public:
+        using cla3p_type = ::cla3p::uint_t;
+        static std::string type_name();
+        static std::string prec_name();
+        static constexpr cudaDataType cuda_utype() { return __cuda_utype; }
 };
 
 /*-------------------------------------------------*/

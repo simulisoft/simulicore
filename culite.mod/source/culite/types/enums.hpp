@@ -36,10 +36,10 @@ namespace culite {
  *          @c cudaFreeHost) and optimize data transfer directions.
  */
 enum class alloc_t {
-	Device       = 0, /**< Device memory */
-	Pinned          , /**< Pinned memory */
-	Managed         , /**< Managed memory */
-	Unregistered      /**< Unknown origin memory */
+    Device       = 0, /**< Device memory */
+    Pinned          , /**< Pinned memory */
+    Managed         , /**< Managed memory */
+    Unregistered      /**< Unknown origin memory */
 };
 
 /*-------------------------------------------------*/
