@@ -21,8 +21,8 @@
  * @file
  */
 
-#include "cla3p/types.hpp"
-#include "cla3p/perms.hpp"
+#include <cla3p/types.hpp>
+#include <cla3p/perms.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p { 

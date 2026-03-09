@@ -15,15 +15,15 @@
  */
 
 // this file inc
-#include "cla3p/lra/lra_xxmatrix.hpp"
+#include <cla3p/lra/lra_xxmatrix.hpp>
 
 // system
 
 // 3rd
 
 // cla3p
-#include "cla3p/support/utils.hpp"
-#include "cla3p/dense.hpp"
+#include <cla3p/support/utils.hpp>
+#include <cla3p/dense.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

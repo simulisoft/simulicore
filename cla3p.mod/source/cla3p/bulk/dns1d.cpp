@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/bulk/dns1d.hpp"
+#include <cla3p/bulk/dns1d.hpp>
 
 // system
 #include <functional>
@@ -23,8 +23,8 @@
 // 3rd
 
 // cla3p
-#include "cla3p/types/scalar.hpp"
-#include "cla3p/proxies/blas_proxy.hpp"
+#include <cla3p/types/scalar.hpp>
+#include <cla3p/proxies/blas_proxy.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

@@ -21,7 +21,7 @@
  * @file
  */
 
-#include "cla3p/virtuals/virtual_product.hpp"
+#include <cla3p/virtuals/virtual_product.hpp>
 
 /*-------------------------------------------------*/
 

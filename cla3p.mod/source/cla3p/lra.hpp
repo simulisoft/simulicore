@@ -17,8 +17,8 @@
 #ifndef CLA3P_LRA_HPP_
 #define CLA3P_LRA_HPP_
 
-#include "cla3p/lra/lra_xxmatrix.hpp"
-#include "cla3p/lra/rank_moderator.hpp"
+#include <cla3p/lra/lra_xxmatrix.hpp>
+#include <cla3p/lra/rank_moderator.hpp>
 
 namespace cla3p {
 namespace lra {

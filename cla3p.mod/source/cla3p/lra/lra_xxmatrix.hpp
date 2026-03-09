@@ -24,8 +24,8 @@
 #include <string>
 #include <iostream>
 
-#include "cla3p/types/integer.hpp"
-#include "cla3p/generic/meta2d.hpp"
+#include <cla3p/types/integer.hpp>
+#include <cla3p/generic/meta2d.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p { 

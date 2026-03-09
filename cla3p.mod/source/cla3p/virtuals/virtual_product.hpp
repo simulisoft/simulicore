@@ -21,8 +21,8 @@
  * @file
  */
 
-#include "cla3p/virtuals/virtual_expression.hpp"
-#include "cla3p/virtuals/virtual_object.hpp"
+#include <cla3p/virtuals/virtual_expression.hpp>
+#include <cla3p/virtuals/virtual_object.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -113,7 +113,7 @@ using VirtualProd_cscspmm = VirtualProduct<
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#include "cla3p/virtuals/virtual_product_specs_impl.hpp"
+#include <cla3p/virtuals/virtual_product_specs_impl.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p { 

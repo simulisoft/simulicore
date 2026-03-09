@@ -15,21 +15,21 @@
  */
 
 // this file inc
-#include "cla3p/linsol/lapack_base.hpp"
+#include <cla3p/linsol/lapack_base.hpp>
 
 // system
 
 // 3rd
 
 // cla3p
-#include "cla3p/dense.hpp"
-#include "cla3p/support/utils.hpp"
-#include "cla3p/proxies/lapack_proxy.hpp"
-#include "cla3p/checks/decomp_llt_checks.hpp"
-#include "cla3p/checks/decomp_ldlt_checks.hpp"
-#include "cla3p/checks/decomp_lu_checks.hpp"
-#include "cla3p/checks/solve_checks.hpp"
-#include "cla3p/checks/lapack_checks.hpp"
+#include <cla3p/dense.hpp>
+#include <cla3p/support/utils.hpp>
+#include <cla3p/proxies/lapack_proxy.hpp>
+#include <cla3p/checks/decomp_llt_checks.hpp>
+#include <cla3p/checks/decomp_ldlt_checks.hpp>
+#include <cla3p/checks/decomp_lu_checks.hpp>
+#include <cla3p/checks/solve_checks.hpp>
+#include <cla3p/checks/lapack_checks.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

@@ -23,9 +23,9 @@
 
 #include <cstddef>
 
-#include "cla3p/dense/dns_xxcontainer_base.hpp"
-#include "cla3p/generic/ownership.hpp"
-#include "cla3p/support/imalloc.hpp"
+#include <cla3p/dense/dns_xxcontainer_base.hpp>
+#include <cla3p/generic/ownership.hpp>
+#include <cla3p/support/imalloc.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p { 

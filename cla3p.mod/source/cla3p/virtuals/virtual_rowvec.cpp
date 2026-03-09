@@ -15,19 +15,19 @@
  */
 
 // this file inc
-#include "cla3p/virtuals/virtual_rowvec.hpp"
+#include <cla3p/virtuals/virtual_rowvec.hpp>
 
 // system
 
 // 3rd
 
 // cla3p
-#include "cla3p/checks/basic_checks.hpp"
-#include "cla3p/checks/outer_checks.hpp"
-#include "cla3p/checks/hermitian_coeff_checks.hpp"
-#include "cla3p/proxies/blas_proxy.hpp"
-#include "cla3p/dense/dns_xxvector.hpp"
-#include "cla3p/dense/dns_xxmatrix.hpp"
+#include <cla3p/checks/basic_checks.hpp>
+#include <cla3p/checks/outer_checks.hpp>
+#include <cla3p/checks/hermitian_coeff_checks.hpp>
+#include <cla3p/proxies/blas_proxy.hpp>
+#include <cla3p/dense/dns_xxvector.hpp>
+#include <cla3p/dense/dns_xxmatrix.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

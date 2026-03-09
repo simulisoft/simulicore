@@ -21,9 +21,9 @@
  * @file
  */
 
-#include "cla3p/virtuals/virtual_expression.hpp"
-#include "cla3p/virtuals/virtual_object.hpp"
-#include "cla3p/virtuals/virtual_rowvec.hpp"
+#include <cla3p/virtuals/virtual_expression.hpp>
+#include <cla3p/virtuals/virtual_object.hpp>
+#include <cla3p/virtuals/virtual_rowvec.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p { 

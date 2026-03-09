@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/perms/pxmatrix.hpp"
+#include <cla3p/perms/pxmatrix.hpp>
 
 // system
 #include <algorithm>
@@ -23,9 +23,9 @@
 // 3rd
 
 // cla3p
-#include "cla3p/support/rand.hpp"
-#include "cla3p/checks/basic_checks.hpp"
-#include "cla3p/checks/perm_checks.hpp"
+#include <cla3p/support/rand.hpp>
+#include <cla3p/checks/basic_checks.hpp>
+#include <cla3p/checks/perm_checks.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

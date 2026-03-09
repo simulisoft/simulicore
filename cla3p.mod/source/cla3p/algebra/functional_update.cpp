@@ -15,21 +15,21 @@
  */
 
 // this file inc
-#include "cla3p/algebra/functional_update.hpp"
+#include <cla3p/algebra/functional_update.hpp>
 
 // system
 
 // 3rd
 
 // cla3p
-#include "cla3p/checks/basic_checks.hpp"
-#include "cla3p/proxies/blas_proxy.hpp"
-#include "cla3p/bulk/dns_math.hpp"
-#include "cla3p/dense/dns_xxvector.hpp"
-#include "cla3p/dense/dns_xxmatrix.hpp"
-#include "cla3p/sparse/csr_xxmatrix.hpp"
-#include "cla3p/sparse/csc_xxmatrix.hpp"
-#include "cla3p/algebra/functional_add.hpp"
+#include <cla3p/checks/basic_checks.hpp>
+#include <cla3p/proxies/blas_proxy.hpp>
+#include <cla3p/bulk/dns_math.hpp>
+#include <cla3p/dense/dns_xxvector.hpp>
+#include <cla3p/dense/dns_xxmatrix.hpp>
+#include <cla3p/sparse/csr_xxmatrix.hpp>
+#include <cla3p/sparse/csc_xxmatrix.hpp>
+#include <cla3p/algebra/functional_add.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

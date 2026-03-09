@@ -23,7 +23,7 @@
 
 #include <string>
 
-#include "cla3p/generic/type_traits.hpp"
+#include <cla3p/generic/type_traits.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

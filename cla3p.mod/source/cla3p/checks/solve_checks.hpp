@@ -21,8 +21,8 @@
  * @file
  */
 
-#include "cla3p/generic/matrix_meta.hpp"
-#include "cla3p/error/exceptions.hpp"
+#include <cla3p/generic/matrix_meta.hpp>
+#include <cla3p/error/exceptions.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

@@ -15,16 +15,16 @@
  */
 
 // this file inc
-#include "cla3p/qr/default_qr.hpp"
+#include <cla3p/qr/default_qr.hpp>
 
 // system
 
 // 3rd
 
 // cla3p
-#include "cla3p/dense.hpp"
-#include "cla3p/proxies/lapack_proxy.hpp"
-#include "cla3p/checks/lapack_checks.hpp"
+#include <cla3p/dense.hpp>
+#include <cla3p/proxies/lapack_proxy.hpp>
+#include <cla3p/checks/lapack_checks.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

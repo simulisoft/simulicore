@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/proxies/blas_proxy.hpp"
+#include <cla3p/proxies/blas_proxy.hpp>
 
 // system
 
@@ -28,9 +28,9 @@
 #endif
 
 // cla3p
-#include "cla3p/error/exceptions.hpp"
-#include "cla3p/error/literals.hpp"
-#include "cla3p/bulk/dns.hpp"
+#include <cla3p/error/exceptions.hpp>
+#include <cla3p/error/literals.hpp>
+#include <cla3p/bulk/dns.hpp>
 
 /*-------------------------------------------------*/
 #if defined(CLA3P_INTEL_MKL)

@@ -17,11 +17,11 @@
 #ifndef CLA3P_SPARSE_HPP_
 #define CLA3P_SPARSE_HPP_
 
-#include "cla3p/sparse/csr_xxmatrix.hpp"
-#include "cla3p/sparse/csr_cxmatrix.hpp"
-#include "cla3p/sparse/csc_xxmatrix.hpp"
-#include "cla3p/sparse/csc_cxmatrix.hpp"
-#include "cla3p/sparse/coo_xxmatrix.hpp"
+#include <cla3p/sparse/csr_xxmatrix.hpp>
+#include <cla3p/sparse/csr_cxmatrix.hpp>
+#include <cla3p/sparse/csc_xxmatrix.hpp>
+#include <cla3p/sparse/csc_cxmatrix.hpp>
+#include <cla3p/sparse/coo_xxmatrix.hpp>
 
 namespace cla3p {
 namespace csr {

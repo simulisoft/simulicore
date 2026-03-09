@@ -15,23 +15,23 @@
  */
 
 // this file inc
-#include "cla3p/lra/lra_math.hpp"
+#include <cla3p/lra/lra_math.hpp>
 
 // system
 
 // 3rd
 
 // cla3p
-#include "cla3p/lra/lra_xxmatrix.hpp"
-#include "cla3p/lra/rank_moderator.hpp"
-#include "cla3p/checks/basic_checks.hpp"
-#include "cla3p/checks/lapack_checks.hpp"
-#include "cla3p/proxies/blas_proxy.hpp"
-#include "cla3p/proxies/lapack_proxy.hpp"
-#include "cla3p/qr/default_qr.hpp"
+#include <cla3p/lra/lra_xxmatrix.hpp>
+#include <cla3p/lra/rank_moderator.hpp>
+#include <cla3p/checks/basic_checks.hpp>
+#include <cla3p/checks/lapack_checks.hpp>
+#include <cla3p/proxies/blas_proxy.hpp>
+#include <cla3p/proxies/lapack_proxy.hpp>
+#include <cla3p/qr/default_qr.hpp>
 
-#include "cla3p/dense.hpp"
-#include "cla3p/algebra.hpp"
+#include <cla3p/dense.hpp>
+#include <cla3p/algebra.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

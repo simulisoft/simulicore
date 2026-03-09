@@ -21,12 +21,12 @@
  * @file
  */
 
-#include "cla3p/types/integer.hpp"
-#include "cla3p/types/scalar.hpp"
-#include "cla3p/types/enums.hpp"
-#include "cla3p/support/heap_buffer.hpp"
-#include "cla3p/dense/dns_xxvector.hpp"
-#include "cla3p/perms.hpp"
+#include <cla3p/types/integer.hpp>
+#include <cla3p/types/scalar.hpp>
+#include <cla3p/types/enums.hpp>
+#include <cla3p/support/heap_buffer.hpp>
+#include <cla3p/dense/dns_xxvector.hpp>
+#include <cla3p/perms.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p { 

@@ -15,14 +15,14 @@
  */
 
 // this file inc
-#include "cla3p/dense/dns_cxmatrix.hpp"
+#include <cla3p/dense/dns_cxmatrix.hpp>
 
 // system
 
 // 3rd
 
 // cla3p
-#include "cla3p/bulk/dns.hpp"
+#include <cla3p/bulk/dns.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/qr/partial_qr.hpp"
+#include <cla3p/qr/partial_qr.hpp>
 
 // system
 #include <cstring>

@@ -21,7 +21,7 @@
  * @file
  */
 
-#include "cla3p/types.hpp"
+#include <cla3p/types.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

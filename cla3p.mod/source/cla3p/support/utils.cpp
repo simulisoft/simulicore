@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/support/utils.hpp"
+#include <cla3p/support/utils.hpp>
 
 // system
 #include <iterator>
@@ -23,8 +23,8 @@
 // 3rd
 
 // cla3p
-#include "cla3p/error/exceptions.hpp"
-#include "cla3p/support/rand.hpp"
+#include <cla3p/error/exceptions.hpp>
+#include <cla3p/support/rand.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

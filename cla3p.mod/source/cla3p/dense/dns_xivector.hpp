@@ -24,9 +24,9 @@
 #include <string>
 #include <ostream>
 
-#include "cla3p/generic/guard.hpp"
-#include "cla3p/generic/meta1d.hpp"
-#include "cla3p/dense/dns_xxcontainer.hpp"
+#include <cla3p/generic/guard.hpp>
+#include <cla3p/generic/meta1d.hpp>
+#include <cla3p/dense/dns_xxcontainer.hpp>
 
 /*-------------------------------------------------*/
 

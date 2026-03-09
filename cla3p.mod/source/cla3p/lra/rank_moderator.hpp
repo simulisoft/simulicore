@@ -24,11 +24,11 @@
 #include <string>
 #include <iostream>
 
-#include "cla3p/types/integer.hpp"
-#include "cla3p/types/scalar.hpp"
-#include "cla3p/types/enums.hpp"
-#include "cla3p/generic/type_traits.hpp"
-#include "cla3p/lra/lra_xxmatrix.hpp"
+#include <cla3p/types/integer.hpp>
+#include <cla3p/types/scalar.hpp>
+#include <cla3p/types/enums.hpp>
+#include <cla3p/generic/type_traits.hpp>
+#include <cla3p/lra/lra_xxmatrix.hpp>
 
 /*-------------------------------------------------*/
 

@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/linsol/pardiso_base.hpp"
+#include <cla3p/linsol/pardiso_base.hpp>
 
 // system
 #include <sstream>
@@ -24,17 +24,17 @@
 // 3rd
 
 // cla3p
-#include "cla3p/sparse.hpp"
-#include "cla3p/dense/dns_xxvector.hpp"
-#include "cla3p/dense/dns_xxmatrix.hpp"
-#include "cla3p/support/utils.hpp"
-#include "cla3p/error/exceptions.hpp"
-#include "cla3p/error/literals.hpp"
-#include "cla3p/checks/basic_checks.hpp"
-#include "cla3p/checks/decomp_xx_checks.hpp"
-#include "cla3p/checks/solve_checks.hpp"
+#include <cla3p/sparse.hpp>
+#include <cla3p/dense/dns_xxvector.hpp>
+#include <cla3p/dense/dns_xxmatrix.hpp>
+#include <cla3p/support/utils.hpp>
+#include <cla3p/error/exceptions.hpp>
+#include <cla3p/error/literals.hpp>
+#include <cla3p/checks/basic_checks.hpp>
+#include <cla3p/checks/decomp_xx_checks.hpp>
+#include <cla3p/checks/solve_checks.hpp>
 #if defined(CLA3P_INTEL_MKL)
-#include "cla3p/proxies/mkl_pardiso_proxy.hpp"
+#include <cla3p/proxies/mkl_pardiso_proxy.hpp>
 #endif
 
 /*-------------------------------------------------*/

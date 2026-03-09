@@ -15,16 +15,16 @@
  */
 
 // this file inc
-#include "cla3p/algebra/functional_inner.hpp"
+#include <cla3p/algebra/functional_inner.hpp>
 
 // system
 
 // 3rd
 
 // cla3p
-#include "cla3p/checks/basic_checks.hpp"
-#include "cla3p/proxies/blas_proxy.hpp"
-#include "cla3p/dense/dns_xxvector.hpp"
+#include <cla3p/checks/basic_checks.hpp>
+#include <cla3p/proxies/blas_proxy.hpp>
+#include <cla3p/dense/dns_xxvector.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

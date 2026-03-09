@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/proxies/lapack_proxy.hpp"
+#include <cla3p/proxies/lapack_proxy.hpp>
 
 // system
 
@@ -28,10 +28,10 @@
 #endif
 
 // cla3p
-#include "cla3p/error/exceptions.hpp"
-#include "cla3p/error/literals.hpp"
-#include "cla3p/support/imalloc.hpp"
-#include "cla3p/bulk/dns.hpp"
+#include <cla3p/error/exceptions.hpp>
+#include <cla3p/error/literals.hpp>
+#include <cla3p/support/imalloc.hpp>
+#include <cla3p/bulk/dns.hpp>
 
 /*-------------------------------------------------*/
 #define CLA3P_PREFER_LAPACKE

@@ -25,8 +25,8 @@
 #include <string>
 #include <vector>
 
-#include "cla3p/types/enums.hpp"
-#include "cla3p/types/scalar.hpp"
+#include <cla3p/types/enums.hpp>
+#include <cla3p/types/scalar.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

@@ -23,10 +23,10 @@
 
 #include <string>
 
-#include "cla3p/types/integer.hpp"
-#include "cla3p/linsol/pardiso_options.hpp"
+#include <cla3p/types/integer.hpp>
+#include <cla3p/linsol/pardiso_options.hpp>
 
-#include "cla3p/perms.hpp"
+#include <cla3p/perms.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p { 

@@ -23,8 +23,8 @@
 
 #include <ostream>
 
-#include "cla3p/generic/meta2d.hpp"
-#include "cla3p/types/property.hpp"
+#include <cla3p/generic/meta2d.hpp>
+#include <cla3p/types/property.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p { 

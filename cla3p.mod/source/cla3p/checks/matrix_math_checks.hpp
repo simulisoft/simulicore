@@ -24,13 +24,13 @@
 #include <string>
 #include <sstream>
 
-#include "cla3p/types/enums.hpp"
-#include "cla3p/types/integer.hpp"
-#include "cla3p/types/property.hpp"
-#include "cla3p/types/operation.hpp"
-#include "cla3p/generic/meta1d.hpp"
-#include "cla3p/generic/meta2d.hpp"
-#include "cla3p/error/exceptions.hpp"
+#include <cla3p/types/enums.hpp>
+#include <cla3p/types/integer.hpp>
+#include <cla3p/types/property.hpp>
+#include <cla3p/types/operation.hpp>
+#include <cla3p/generic/meta1d.hpp>
+#include <cla3p/generic/meta2d.hpp>
+#include <cla3p/error/exceptions.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

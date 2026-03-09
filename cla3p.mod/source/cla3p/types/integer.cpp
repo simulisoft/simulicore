@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/types/integer.hpp"
+#include <cla3p/types/integer.hpp>
 
 // system
 #include <type_traits>
@@ -24,7 +24,7 @@
 // 3rd
 
 // cla3p
-#include "cla3p/types/literals.hpp"
+#include <cla3p/types/literals.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

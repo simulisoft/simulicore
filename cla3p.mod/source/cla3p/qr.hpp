@@ -17,7 +17,7 @@
 #ifndef CLA3P_QR_HPP_
 #define CLA3P_QR_HPP_
 
-#include "cla3p/qr/default_qr.hpp"
-#include "cla3p/qr/partial_qr.hpp"
+#include <cla3p/qr/default_qr.hpp>
+#include <cla3p/qr/partial_qr.hpp>
 
 #endif // CLA3P_QR_HPP_

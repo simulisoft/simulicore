@@ -21,13 +21,13 @@
  * @file
  */
 
-#include "cla3p/dense/dns_xxvector.hpp"
-#include "cla3p/dense/dns_xxmatrix.hpp"
-#include "cla3p/sparse/csr_xxmatrix.hpp"
-#include "cla3p/sparse/csc_xxmatrix.hpp"
+#include <cla3p/dense/dns_xxvector.hpp>
+#include <cla3p/dense/dns_xxmatrix.hpp>
+#include <cla3p/sparse/csr_xxmatrix.hpp>
+#include <cla3p/sparse/csc_xxmatrix.hpp>
 
-#include "cla3p/virtuals/virtual_object.hpp"
-#include "cla3p/virtuals/virtual_scale.hpp"
+#include <cla3p/virtuals/virtual_object.hpp>
+#include <cla3p/virtuals/virtual_scale.hpp>
 
 /*-------------------------------------------------*/
 

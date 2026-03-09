@@ -21,7 +21,7 @@
  * @file
  */
 
-#include "cla3p/linsol/lapack_base.hpp"
+#include <cla3p/linsol/lapack_base.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p { 

@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/bulk/csx.hpp"
+#include <cla3p/bulk/csx.hpp>
 
 // system
 #include <algorithm>
@@ -25,9 +25,9 @@
 // 3rd
 
 // cla3p
-#include "cla3p/error/exceptions.hpp"
-#include "cla3p/proxies/blas_proxy.hpp"
-#include "cla3p/support/utils.hpp"
+#include <cla3p/error/exceptions.hpp>
+#include <cla3p/proxies/blas_proxy.hpp>
+#include <cla3p/support/utils.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

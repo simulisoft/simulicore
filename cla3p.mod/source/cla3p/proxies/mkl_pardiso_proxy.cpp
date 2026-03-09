@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/proxies/mkl_pardiso_proxy.hpp"
+#include <cla3p/proxies/mkl_pardiso_proxy.hpp>
 
 // system
 

@@ -21,8 +21,8 @@
  * @file
  */
 
-#include "cla3p/algebra/functional_update.hpp"
-#include "cla3p/virtuals/virtual_expression.hpp"
+#include <cla3p/algebra/functional_update.hpp>
+#include <cla3p/virtuals/virtual_expression.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p { 

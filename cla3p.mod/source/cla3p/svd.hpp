@@ -17,6 +17,6 @@
 #ifndef CLA3P_SVD_HPP_
 #define CLA3P_SVD_HPP_
 
-#include "cla3p/svd/default_svd.hpp"
+#include <cla3p/svd/default_svd.hpp>
 
 #endif // CLA3P_SVD_HPP_

@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/support/imalloc.hpp"
+#include <cla3p/support/imalloc.hpp>
 
 // system
 #include <cstdlib>
@@ -23,10 +23,10 @@
 // 3rd
 
 // cla3p
-#include "cla3p/error/exceptions.hpp"
-#include "cla3p/support/utils.hpp"
+#include <cla3p/error/exceptions.hpp>
+#include <cla3p/support/utils.hpp>
 #if defined(CLA3P_INTEL_MKL)
-#include "cla3p/proxies/mkl_proxy.hpp"
+#include <cla3p/proxies/mkl_proxy.hpp>
 #endif
 
 /*-------------------------------------------------*/

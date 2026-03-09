@@ -26,8 +26,8 @@
 #include <string>
 #include <vector>
 
-#include "cla3p/types.hpp"
-#include "cla3p/error.hpp"
+#include <cla3p/types.hpp>
+#include <cla3p/error.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

@@ -15,14 +15,14 @@
  */
 
 // this file inc
-#include "cla3p/types/enums.hpp"
+#include <cla3p/types/enums.hpp>
 
 // system
 
 // 3rd
 
 // cla3p
-#include "cla3p/types/literals.hpp"
+#include <cla3p/types/literals.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

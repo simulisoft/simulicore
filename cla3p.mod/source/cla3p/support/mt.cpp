@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/support/mt.hpp"
+#include <cla3p/support/mt.hpp>
 
 // system
 #include <omp.h>
@@ -24,7 +24,7 @@
 
 // cla3p
 #if defined(CLA3P_INTEL_MKL)
-#include "cla3p/proxies/mkl_proxy.hpp"
+#include <cla3p/proxies/mkl_proxy.hpp>
 #endif
 
 /*-------------------------------------------------*/

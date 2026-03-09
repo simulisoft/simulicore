@@ -21,17 +21,17 @@
  * @file
  */
 
-#include "cla3p/dense/dns_xxvector.hpp"
-#include "cla3p/dense/dns_xxmatrix.hpp"
-#include "cla3p/sparse/csr_xxmatrix.hpp"
-#include "cla3p/sparse/csc_xxmatrix.hpp"
+#include <cla3p/dense/dns_xxvector.hpp>
+#include <cla3p/dense/dns_xxmatrix.hpp>
+#include <cla3p/sparse/csr_xxmatrix.hpp>
+#include <cla3p/sparse/csc_xxmatrix.hpp>
 
-#include "cla3p/algebra/functional_update.hpp"
-#include "cla3p/algebra/functional_multmv.hpp"
-#include "cla3p/algebra/functional_multmm.hpp"
+#include <cla3p/algebra/functional_update.hpp>
+#include <cla3p/algebra/functional_multmv.hpp>
+#include <cla3p/algebra/functional_multmm.hpp>
 
-#include "cla3p/virtuals/virtual_transpose.hpp"
-#include "cla3p/virtuals/virtual_scale.hpp"
+#include <cla3p/virtuals/virtual_transpose.hpp>
+#include <cla3p/virtuals/virtual_scale.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p { 

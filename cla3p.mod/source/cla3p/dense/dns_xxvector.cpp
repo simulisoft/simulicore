@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/dense/dns_xxvector.hpp"
+#include <cla3p/dense/dns_xxvector.hpp>
 
 // system
 #include <algorithm>
@@ -23,11 +23,11 @@
 // 3rd
 
 // cla3p
-#include "cla3p/perms.hpp"
-#include "cla3p/bulk/dns.hpp"
-#include "cla3p/checks/basic_checks.hpp"
-#include "cla3p/checks/perm_checks.hpp"
-#include "cla3p/checks/block_ops_checks.hpp"
+#include <cla3p/perms.hpp>
+#include <cla3p/bulk/dns.hpp>
+#include <cla3p/checks/basic_checks.hpp>
+#include <cla3p/checks/perm_checks.hpp>
+#include <cla3p/checks/block_ops_checks.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

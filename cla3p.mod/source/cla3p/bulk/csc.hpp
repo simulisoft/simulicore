@@ -23,7 +23,7 @@
 
 #include <iostream>
 
-#include "cla3p/bulk/csx.hpp"
+#include <cla3p/bulk/csx.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

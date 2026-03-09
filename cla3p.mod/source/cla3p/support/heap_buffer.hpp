@@ -21,7 +21,7 @@
  * @file
  */
 
-#include "cla3p/support/imalloc.hpp"
+#include <cla3p/support/imalloc.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

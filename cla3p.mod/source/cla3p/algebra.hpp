@@ -17,21 +17,21 @@
 #ifndef CLA3P_ALGEBRA_HPP_
 #define CLA3P_ALGEBRA_HPP_
 
-#include "cla3p/algebra/functional_inner.hpp"
-#include "cla3p/algebra/functional_outer.hpp"
-#include "cla3p/algebra/functional_add.hpp"
-#include "cla3p/algebra/functional_update.hpp"
-#include "cla3p/algebra/functional_multmv.hpp"
-#include "cla3p/algebra/functional_multmm.hpp"
+#include <cla3p/algebra/functional_inner.hpp>
+#include <cla3p/algebra/functional_outer.hpp>
+#include <cla3p/algebra/functional_add.hpp>
+#include <cla3p/algebra/functional_update.hpp>
+#include <cla3p/algebra/functional_multmv.hpp>
+#include <cla3p/algebra/functional_multmm.hpp>
 
-#include "cla3p/algebra/operators_mult_inner.hpp"
-#include "cla3p/algebra/operators_mult_outer.hpp"
-#include "cla3p/algebra/operators_scale.hpp"
-#include "cla3p/algebra/operators_update.hpp"
-#include "cla3p/algebra/operators_add.hpp"
-#include "cla3p/algebra/operators_multxx.hpp"
-#include "cla3p/algebra/operators_multmv.hpp"
-#include "cla3p/algebra/operators_multmm.hpp"
-#include "cla3p/algebra/operators_perm.hpp"
+#include <cla3p/algebra/operators_mult_inner.hpp>
+#include <cla3p/algebra/operators_mult_outer.hpp>
+#include <cla3p/algebra/operators_scale.hpp>
+#include <cla3p/algebra/operators_update.hpp>
+#include <cla3p/algebra/operators_add.hpp>
+#include <cla3p/algebra/operators_multxx.hpp>
+#include <cla3p/algebra/operators_multmv.hpp>
+#include <cla3p/algebra/operators_multmm.hpp>
+#include <cla3p/algebra/operators_perm.hpp>
 
 #endif // CLA3P_ALGEBRA_HPP_

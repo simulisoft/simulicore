@@ -21,7 +21,7 @@
  * @file
  */
 
-#include "cla3p/types/enums.hpp"
+#include <cla3p/types/enums.hpp>
 
 namespace cla3p {
 namespace dns { template <typename T_Scalar> class XxVector; }

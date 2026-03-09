@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/types/property.hpp"
+#include <cla3p/types/property.hpp>
 
 // system
 #include <sstream>
@@ -23,8 +23,8 @@
 // 3rd
 
 // cla3p
-#include "cla3p/types/literals.hpp"
-#include "cla3p/error/exceptions.hpp"
+#include <cla3p/types/literals.hpp>
+#include <cla3p/error/exceptions.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

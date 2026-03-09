@@ -24,17 +24,17 @@
 #include <ostream>
 #include <string>
 
-#include "cla3p/generic/matrix_meta.hpp"
-#include "cla3p/sparse/csx_xxcontainer.hpp"
-#include "cla3p/generic/guard.hpp"
+#include <cla3p/generic/matrix_meta.hpp>
+#include <cla3p/sparse/csx_xxcontainer.hpp>
+#include <cla3p/generic/guard.hpp>
 
-#include "cla3p/dense/dns_xxmatrix.hpp"
+#include <cla3p/dense/dns_xxmatrix.hpp>
 
-#include "cla3p/virtuals/virtual_expression.hpp"
-#include "cla3p/virtuals/virtual_object.hpp"
-#include "cla3p/virtuals/virtual_transpose.hpp"
-#include "cla3p/virtuals/virtual_scale.hpp"
-#include "cla3p/virtuals/virtual_strided.hpp"
+#include <cla3p/virtuals/virtual_expression.hpp>
+#include <cla3p/virtuals/virtual_object.hpp>
+#include <cla3p/virtuals/virtual_transpose.hpp>
+#include <cla3p/virtuals/virtual_scale.hpp>
+#include <cla3p/virtuals/virtual_strided.hpp>
 
 /*-------------------------------------------------*/
 

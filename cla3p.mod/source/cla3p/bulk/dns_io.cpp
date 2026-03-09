@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/bulk/dns_io.hpp"
+#include <cla3p/bulk/dns_io.hpp>
 
 // system
 #include <iomanip>
@@ -24,8 +24,8 @@
 // 3rd
 
 // cla3p
-#include "cla3p/bulk/dns.hpp"
-#include "cla3p/support/utils.hpp"
+#include <cla3p/bulk/dns.hpp>
+#include <cla3p/support/utils.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

@@ -24,8 +24,8 @@
 #include <sstream>
 #include <iomanip>
 
-#include "cla3p/types/property.hpp"
-#include "cla3p/error/exceptions.hpp"
+#include <cla3p/types/property.hpp>
+#include <cla3p/error/exceptions.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

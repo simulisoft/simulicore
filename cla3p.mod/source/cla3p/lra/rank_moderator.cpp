@@ -15,18 +15,18 @@
  */
 
 // this file inc
-#include "cla3p/lra/rank_moderator.hpp"
+#include <cla3p/lra/rank_moderator.hpp>
 
 // system
 
 // 3rd
 
 // cla3p
-#include "cla3p/dense.hpp"
-#include "cla3p/svd.hpp"
-#include "cla3p/proxies/lapack_proxy.hpp"
-#include "cla3p/checks/lapack_checks.hpp"
-#include "cla3p/qr/partial_qr.hpp"
+#include <cla3p/dense.hpp>
+#include <cla3p/svd.hpp>
+#include <cla3p/proxies/lapack_proxy.hpp>
+#include <cla3p/checks/lapack_checks.hpp>
+#include <cla3p/qr/partial_qr.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

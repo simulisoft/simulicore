@@ -15,17 +15,17 @@
  */
 
 // this file inc
-#include "cla3p/svd/default_svd.hpp"
+#include <cla3p/svd/default_svd.hpp>
 
 // system
 
 // 3rd
 
 // cla3p
-#include "cla3p/dense.hpp"
-#include "cla3p/error/exceptions.hpp"
-#include "cla3p/proxies/lapack_proxy.hpp"
-#include "cla3p/checks/lapack_checks.hpp"
+#include <cla3p/dense.hpp>
+#include <cla3p/error/exceptions.hpp>
+#include <cla3p/proxies/lapack_proxy.hpp>
+#include <cla3p/checks/lapack_checks.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

@@ -23,8 +23,8 @@
 
 #include <string>
 
-#include "cla3p/types/property.hpp"
-#include "cla3p/checks/basic_checks.hpp"
+#include <cla3p/types/property.hpp>
+#include <cla3p/checks/basic_checks.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

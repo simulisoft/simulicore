@@ -23,7 +23,7 @@
 
 #include <ostream>
 
-#include "cla3p/generic/coord.hpp"
+#include <cla3p/generic/coord.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p { 

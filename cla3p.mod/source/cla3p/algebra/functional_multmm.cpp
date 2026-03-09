@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/algebra/functional_multmm.hpp"
+#include <cla3p/algebra/functional_multmm.hpp>
 
 // system
 #include <string>
@@ -23,15 +23,15 @@
 // 3rd
 
 // cla3p
-#include "cla3p/error/exceptions.hpp"
-#include "cla3p/checks/matrix_math_checks.hpp"
-#include "cla3p/checks/hermitian_coeff_checks.hpp"
-#include "cla3p/proxies/blas_proxy.hpp"
-#include "cla3p/bulk/dns_math.hpp"
-#include "cla3p/bulk/csr_math.hpp"
-#include "cla3p/bulk/csc_math.hpp"
-#include "cla3p/dense/dns_xxmatrix.hpp"
-#include "cla3p/algebra/functional_update.hpp"
+#include <cla3p/error/exceptions.hpp>
+#include <cla3p/checks/matrix_math_checks.hpp>
+#include <cla3p/checks/hermitian_coeff_checks.hpp>
+#include <cla3p/proxies/blas_proxy.hpp>
+#include <cla3p/bulk/dns_math.hpp>
+#include <cla3p/bulk/csr_math.hpp>
+#include <cla3p/bulk/csc_math.hpp>
+#include <cla3p/dense/dns_xxmatrix.hpp>
+#include <cla3p/algebra/functional_update.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

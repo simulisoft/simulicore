@@ -21,8 +21,8 @@
  * @file
  */
 
-#include "cla3p/generic/meta2d.hpp"
-#include "cla3p/error/exceptions.hpp"
+#include <cla3p/generic/meta2d.hpp>
+#include <cla3p/error/exceptions.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

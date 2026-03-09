@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/proxies/mkl_sparse_proxy.hpp"
+#include <cla3p/proxies/mkl_sparse_proxy.hpp>
 
 // system
 #include <algorithm>
@@ -24,10 +24,10 @@
 #include <mkl_spblas.h>
 
 // cla3p
-#include "cla3p/bulk/dns.hpp"
-#include "cla3p/bulk/csc.hpp"
-#include "cla3p/error/exceptions.hpp"
-#include "cla3p/support/imalloc.hpp"
+#include <cla3p/bulk/dns.hpp>
+#include <cla3p/bulk/csc.hpp>
+#include <cla3p/error/exceptions.hpp>
+#include <cla3p/support/imalloc.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

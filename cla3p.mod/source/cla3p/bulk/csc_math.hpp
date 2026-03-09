@@ -21,8 +21,8 @@
  * @file
  */
 
-#include "cla3p/types/integer.hpp"
-#include "cla3p/types/enums.hpp"
+#include <cla3p/types/integer.hpp>
+#include <cla3p/types/enums.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

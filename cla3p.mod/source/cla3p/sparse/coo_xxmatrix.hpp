@@ -25,11 +25,11 @@
 #include <string>
 #include <vector>
 
-#include "cla3p/types/enums.hpp"
-#include "cla3p/generic/matrix_meta.hpp"
-#include "cla3p/generic/tuple.hpp"
-#include "cla3p/sparse/csr_xxmatrix.hpp"
-#include "cla3p/sparse/csc_xxmatrix.hpp"
+#include <cla3p/types/enums.hpp>
+#include <cla3p/generic/matrix_meta.hpp>
+#include <cla3p/generic/tuple.hpp>
+#include <cla3p/sparse/csr_xxmatrix.hpp>
+#include <cla3p/sparse/csc_xxmatrix.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p { 

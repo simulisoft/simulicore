@@ -15,15 +15,15 @@
  */
 
 // this file inc
-#include "cla3p/checks/matrix_math_checks.hpp"
+#include <cla3p/checks/matrix_math_checks.hpp>
 
 // system
 
 // 3rd
 
 // cla3p
-#include "cla3p/checks/basic_checks.hpp"
-#include "cla3p/error/literals.hpp"
+#include <cla3p/checks/basic_checks.hpp>
+#include <cla3p/error/literals.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

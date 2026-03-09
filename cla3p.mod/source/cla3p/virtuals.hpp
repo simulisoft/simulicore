@@ -17,14 +17,14 @@
 #ifndef CLA3P_VIRTUALS_HPP_
 #define CLA3P_VIRTUALS_HPP_
 
-#include "cla3p/virtuals/virtual_expression.hpp"
-#include "cla3p/virtuals/virtual_object.hpp"
-#include "cla3p/virtuals/virtual_rowvec.hpp"
-#include "cla3p/virtuals/virtual_transpose.hpp"
-#include "cla3p/virtuals/virtual_conjugate.hpp"
-#include "cla3p/virtuals/virtual_plus_minus.hpp"
-#include "cla3p/virtuals/virtual_scale.hpp"
-#include "cla3p/virtuals/virtual_outer.hpp"
-#include "cla3p/virtuals/virtual_product.hpp"
+#include <cla3p/virtuals/virtual_expression.hpp>
+#include <cla3p/virtuals/virtual_object.hpp>
+#include <cla3p/virtuals/virtual_rowvec.hpp>
+#include <cla3p/virtuals/virtual_transpose.hpp>
+#include <cla3p/virtuals/virtual_conjugate.hpp>
+#include <cla3p/virtuals/virtual_plus_minus.hpp>
+#include <cla3p/virtuals/virtual_scale.hpp>
+#include <cla3p/virtuals/virtual_outer.hpp>
+#include <cla3p/virtuals/virtual_product.hpp>
 
 #endif // CLA3P_VIRTUALS_HPP_

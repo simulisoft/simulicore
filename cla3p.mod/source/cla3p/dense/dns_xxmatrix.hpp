@@ -23,17 +23,17 @@
 
 #include <string>
 
-#include "cla3p/generic/guard.hpp"
-#include "cla3p/generic/matrix_meta.hpp"
-#include "cla3p/dense/dns_xxcontainer.hpp"
-#include "cla3p/dense/dns_xxvector.hpp"
+#include <cla3p/generic/guard.hpp>
+#include <cla3p/generic/matrix_meta.hpp>
+#include <cla3p/dense/dns_xxcontainer.hpp>
+#include <cla3p/dense/dns_xxvector.hpp>
 
-#include "cla3p/virtuals/virtual_object.hpp"
-#include "cla3p/virtuals/virtual_rowvec.hpp"
-#include "cla3p/virtuals/virtual_transpose.hpp"
-#include "cla3p/virtuals/virtual_conjugate.hpp"
-#include "cla3p/virtuals/virtual_scale.hpp"
-#include "cla3p/virtuals/virtual_strided.hpp"
+#include <cla3p/virtuals/virtual_object.hpp>
+#include <cla3p/virtuals/virtual_rowvec.hpp>
+#include <cla3p/virtuals/virtual_transpose.hpp>
+#include <cla3p/virtuals/virtual_conjugate.hpp>
+#include <cla3p/virtuals/virtual_scale.hpp>
+#include <cla3p/virtuals/virtual_strided.hpp>
 
 /*-------------------------------------------------*/
 

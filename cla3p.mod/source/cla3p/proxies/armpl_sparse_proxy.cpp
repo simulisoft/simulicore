@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/proxies/armpl_sparse_proxy.hpp"
+#include <cla3p/proxies/armpl_sparse_proxy.hpp>
 
 // system
 
@@ -23,10 +23,10 @@
 #include <armpl.h>
 
 // cla3p
-#include "cla3p/bulk/dns.hpp"
-#include "cla3p/bulk/csx.hpp"
-#include "cla3p/error/exceptions.hpp"
-#include "cla3p/error/literals.hpp"
+#include <cla3p/bulk/dns.hpp>
+#include <cla3p/bulk/csx.hpp>
+#include <cla3p/error/exceptions.hpp>
+#include <cla3p/error/literals.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

@@ -15,27 +15,27 @@
  */
 
 // this file inc
-#include "cla3p/sparse/csr_xxmatrix.hpp"
+#include <cla3p/sparse/csr_xxmatrix.hpp>
 
 // system
 
 // 3rd
 
 // cla3p
-#include "cla3p/sparse/coo_xxmatrix.hpp"
-#include "cla3p/perms/pxmatrix.hpp"
+#include <cla3p/sparse/coo_xxmatrix.hpp>
+#include <cla3p/perms/pxmatrix.hpp>
 
-#include "cla3p/bulk/dns.hpp"
-#include "cla3p/bulk/csr.hpp"
-#include "cla3p/support/imalloc.hpp"
-#include "cla3p/support/rand.hpp"
-#include "cla3p/support/utils.hpp"
+#include <cla3p/bulk/dns.hpp>
+#include <cla3p/bulk/csr.hpp>
+#include <cla3p/support/imalloc.hpp>
+#include <cla3p/support/rand.hpp>
+#include <cla3p/support/utils.hpp>
 
-#include "cla3p/checks/basic_checks.hpp"
-#include "cla3p/checks/csx_checks.hpp"
-#include "cla3p/checks/block_ops_checks.hpp"
-#include "cla3p/checks/perm_checks.hpp"
-#include "cla3p/checks/hermitian_coeff_checks.hpp"
+#include <cla3p/checks/basic_checks.hpp>
+#include <cla3p/checks/csx_checks.hpp>
+#include <cla3p/checks/block_ops_checks.hpp>
+#include <cla3p/checks/perm_checks.hpp>
+#include <cla3p/checks/hermitian_coeff_checks.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

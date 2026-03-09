@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/algebra/operators_perm.hpp"
+#include <cla3p/algebra/operators_perm.hpp>
 
 // system
 

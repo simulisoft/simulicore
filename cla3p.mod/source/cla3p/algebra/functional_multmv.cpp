@@ -15,24 +15,24 @@
  */
 
 // this file inc
-#include "cla3p/algebra/functional_multmv.hpp"
+#include <cla3p/algebra/functional_multmv.hpp>
 
 // system
 
 // 3rd
 
 // cla3p
-#include "cla3p/error.hpp"
-#include "cla3p/checks/matrix_math_checks.hpp"
-#include "cla3p/proxies/blas_proxy.hpp"
-#include "cla3p/bulk/dns_math.hpp"
-#include "cla3p/bulk/csr_math.hpp"
-#include "cla3p/bulk/csc_math.hpp"
-#include "cla3p/dense/dns_xxvector.hpp"
-#include "cla3p/dense/dns_xxmatrix.hpp"
-#include "cla3p/sparse/csr_xxmatrix.hpp"
-#include "cla3p/sparse/csc_xxmatrix.hpp"
-#include "cla3p/algebra/functional_update.hpp"
+#include <cla3p/error.hpp>
+#include <cla3p/checks/matrix_math_checks.hpp>
+#include <cla3p/proxies/blas_proxy.hpp>
+#include <cla3p/bulk/dns_math.hpp>
+#include <cla3p/bulk/csr_math.hpp>
+#include <cla3p/bulk/csc_math.hpp>
+#include <cla3p/dense/dns_xxvector.hpp>
+#include <cla3p/dense/dns_xxmatrix.hpp>
+#include <cla3p/sparse/csr_xxmatrix.hpp>
+#include <cla3p/sparse/csc_xxmatrix.hpp>
+#include <cla3p/algebra/functional_update.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

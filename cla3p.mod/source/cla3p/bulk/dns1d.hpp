@@ -21,7 +21,7 @@
  * @file
  */
 
-#include "cla3p/types/integer.hpp"
+#include <cla3p/types/integer.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

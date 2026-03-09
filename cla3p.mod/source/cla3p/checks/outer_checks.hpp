@@ -23,11 +23,11 @@
 
 #include <sstream>
 
-#include "cla3p/types/property.hpp"
-#include "cla3p/generic/meta1d.hpp"
-#include "cla3p/generic/meta2d.hpp"
-#include "cla3p/generic/matrix_meta.hpp"
-#include "cla3p/error/exceptions.hpp"
+#include <cla3p/types/property.hpp>
+#include <cla3p/generic/meta1d.hpp>
+#include <cla3p/generic/meta2d.hpp>
+#include <cla3p/generic/matrix_meta.hpp>
+#include <cla3p/error/exceptions.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {

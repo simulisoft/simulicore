@@ -23,9 +23,9 @@
 
 #include <string>
 
-#include "cla3p/types/literals.hpp"
-#include "cla3p/generic/type_traits.hpp"
-#include "cla3p/dense/dns_xivector.hpp"
+#include <cla3p/types/literals.hpp>
+#include <cla3p/generic/type_traits.hpp>
+#include <cla3p/dense/dns_xivector.hpp>
 
 /*-------------------------------------------------*/
 namespace cla3p {
