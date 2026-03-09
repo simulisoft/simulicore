@@ -42,8 +42,8 @@ nint_t set_num_threads_local(nint_t numThreads);
 
 #define omatcopy_macro(typeout, typein) \
 typeout omatcopy(char ordering, char trans, std::size_t rows, std::size_t cols, typein alpha, \
-		const typein *a, std::size_t lda, \
-		      typein *b, std::size_t ldb)
+        const typein *a, std::size_t lda, \
+              typein *b, std::size_t ldb)
 omatcopy_macro(void, real_t);
 omatcopy_macro(void, real4_t);
 omatcopy_macro(void, complex_t);
@@ -52,8 +52,8 @@ omatcopy_macro(void, complex8_t);
 
 #define omatcopy_macro(typeout, typein) \
 typeout omatcopy(char ordering, char trans, std::size_t rows, std::size_t cols, typein alpha, \
-		const typein *a, std::size_t lda, std::size_t stridea, \
-		      typein *b, std::size_t ldb, std::size_t strideb)
+        const typein *a, std::size_t lda, std::size_t stridea, \
+              typein *b, std::size_t ldb, std::size_t strideb)
 omatcopy_macro(void, real_t);
 omatcopy_macro(void, real4_t);
 omatcopy_macro(void, complex_t);
@@ -70,8 +70,8 @@ imatcopy_macro(void, complex8_t);
 
 #define omatadd_macro(typeout, typein) \
 typeout omatadd(char ordering, char transa, char transb, std::size_t rows, std::size_t cols, \
-		typein alpha, const typein *A, std::size_t lda, \
-		typein beta , const typein *B, std::size_t ldb, typein *C, std::size_t ldc)
+        typein alpha, const typein *A, std::size_t lda, \
+        typein beta , const typein *B, std::size_t ldb, typein *C, std::size_t ldc)
 omatadd_macro(void, real_t);
 omatadd_macro(void, real4_t);
 omatadd_macro(void, complex_t);

@@ -112,9 +112,9 @@ axpy_macro(complex8_t);
 
 #define ger_macro(typein) \
 void ger(int_t m, int_t n, typein alpha, \
-		const typein *x, int_t incx, \
-		const typein *y, int_t incy, \
-		typein *a, int_t lda)
+        const typein *x, int_t incx, \
+        const typein *y, int_t incy, \
+        typein *a, int_t lda)
 ger_macro(real_t);
 ger_macro(real4_t);
 ger_macro(complex_t);
@@ -123,9 +123,9 @@ ger_macro(complex8_t);
 
 #define gerc_macro(typein) \
 void gerc(int_t m, int_t n, typein alpha, \
-		const typein *x, int_t incx, \
-		const typein *y, int_t incy, \
-		typein *a, int_t lda)
+        const typein *x, int_t incx, \
+        const typein *y, int_t incy, \
+        typein *a, int_t lda)
 gerc_macro(real_t); // same as ger
 gerc_macro(real4_t); // same as ger
 gerc_macro(complex_t);
@@ -134,8 +134,8 @@ gerc_macro(complex8_t);
 
 #define syr_macro(typein) \
 void syr(char uplo, int_t n, typein alpha, \
-		const typein *x, int_t incx, \
-		typein *a, int_t lda)
+        const typein *x, int_t incx, \
+        typein *a, int_t lda)
 syr_macro(real_t);
 syr_macro(real4_t);
 syr_macro(complex_t);
@@ -144,8 +144,8 @@ syr_macro(complex8_t);
 
 #define her_macro(typein) \
 void her(char uplo, int_t n, TypeTraits<typein>::real_type alpha, \
-		const typein *x, int_t incx, \
-		typein *a, int_t lda)
+        const typein *x, int_t incx, \
+        typein *a, int_t lda)
 her_macro(real_t); // same as syr
 her_macro(real4_t); // same as syr
 her_macro(complex_t);
@@ -173,15 +173,15 @@ symv_macro(complex8_t);
 
 #define hemv_macro(typein) \
 void hemv(char uplo, int_t n, typein alpha, \
-		const typein *a, int_t lda, const typein *x, int_t incx, \
-		typein beta, typein *y, int_t incy)
+        const typein *a, int_t lda, const typein *x, int_t incx, \
+        typein beta, typein *y, int_t incy)
 hemv_macro(complex_t);
 hemv_macro(complex8_t);
 #undef hemv_macro
 
 #define trmv_macro(typein) \
 void trmv(char uplo, char transa, char diag, int_t n, \
-		const typein *a, int_t lda, typein *b, int_t incx)
+        const typein *a, int_t lda, typein *b, int_t incx)
 trmv_macro(real_t);
 trmv_macro(real4_t);
 trmv_macro(complex_t);
@@ -190,7 +190,7 @@ trmv_macro(complex8_t);
 
 #define trsv_macro(typein) \
 void trsv(char uplo, char transa, char diag, int_t n, \
-		const typein *a, int_t lda, typein *b, int_t incx)
+        const typein *a, int_t lda, typein *b, int_t incx)
 trsv_macro(real_t);
 trsv_macro(real4_t);
 trsv_macro(complex_t);
@@ -221,8 +221,8 @@ gemmt_macro(complex8_t);
 
 #define symm_macro(typein) \
 void symm(char side, char uplo, int_t m, int_t n, \
-		typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
-		typein beta, typein *c, int_t ldc)
+        typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
+        typein beta, typein *c, int_t ldc)
 symm_macro(real_t);
 symm_macro(real4_t);
 symm_macro(complex_t);
@@ -231,16 +231,16 @@ symm_macro(complex8_t);
 
 #define hemm_macro(typein) \
 void hemm(char side, char uplo, int_t m, int_t n, \
-		typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
-		typein beta, typein *c, int_t ldc)
+        typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
+        typein beta, typein *c, int_t ldc)
 hemm_macro(complex_t);
 hemm_macro(complex8_t);
 #undef hemm_macro
 
 #define trmm_macro(typein) \
 void trmm(char side, char uplo, char transa, char diag, \
-		int_t m, int_t n, typein alpha, const typein *a, int_t lda, \
-		typein *b, int_t ldb)
+        int_t m, int_t n, typein alpha, const typein *a, int_t lda, \
+        typein *b, int_t ldb)
 trmm_macro(real_t);
 trmm_macro(real4_t);
 trmm_macro(complex_t);
@@ -249,8 +249,8 @@ trmm_macro(complex8_t);
 
 #define trsm_macro(typein) \
 void trsm(char side, char uplo, char transa, char diag, \
-		int_t m, int_t n, typein alpha, const typein *a, int_t lda, \
-		typein *b, int_t ldb)
+        int_t m, int_t n, typein alpha, const typein *a, int_t lda, \
+        typein *b, int_t ldb)
 trsm_macro(real_t);
 trsm_macro(real4_t);
 trsm_macro(complex_t);

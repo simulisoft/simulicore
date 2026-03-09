@@ -33,21 +33,21 @@ namespace mkl {
 // C(m x n)
 template <typename T_Scalar>
 void csr_add(int_t m, int_t n, T_Scalar alpha, op_t opA,
-		const int_t* rowptrA, const int_t* colidxA, const T_Scalar* valuesA, 
-		const int_t* rowptrB, const int_t* colidxB, const T_Scalar* valuesB,
-		int_t **rowptrC, int_t **colidxC, T_Scalar **valuesC);
+        const int_t* rowptrA, const int_t* colidxA, const T_Scalar* valuesA, 
+        const int_t* rowptrB, const int_t* colidxB, const T_Scalar* valuesB,
+        int_t **rowptrC, int_t **colidxC, T_Scalar **valuesC);
 
 // A(m x n)
 template <typename T_Scalar>
 void csr_mv(prop_t propA, uplo_t uploA, int_t m, int_t n, T_Scalar alpha, op_t opA,
-		const int_t* rowptrA, const int_t* colidxA, const T_Scalar* valuesA, 
-		const T_Scalar* x, T_Scalar beta, T_Scalar *y);
+        const int_t* rowptrA, const int_t* colidxA, const T_Scalar* valuesA, 
+        const T_Scalar* x, T_Scalar beta, T_Scalar *y);
 
 // A(m x n) B(? x k) C(? x k)
 template <typename T_Scalar>
 void csr_mm(prop_t propA, uplo_t uploA, int_t m, int_t n, T_Scalar alpha, op_t opA,
-		const int_t* rowptrA, const int_t* colidxA, const T_Scalar* valuesA, 
-		int_t k, const T_Scalar* b, int_t ldb, T_Scalar beta, T_Scalar *c, int_t ldc);
+        const int_t* rowptrA, const int_t* colidxA, const T_Scalar* valuesA, 
+        int_t k, const T_Scalar* b, int_t ldb, T_Scalar beta, T_Scalar *c, int_t ldc);
 
 // A(mA x nA) B(mB x nB) C(? x ?)
 template <typename T_Scalar>
@@ -68,21 +68,21 @@ void csr_sp2md(T_Scalar alpha,
 // C(m x n)
 template <typename T_Scalar>
 void csc_add(int_t m, int_t n, T_Scalar alpha, op_t opA,
-		const int_t* colptrA, const int_t* rowidxA, const T_Scalar* valuesA, 
-		const int_t* colptrB, const int_t* rowidxB, const T_Scalar* valuesB,
-		int_t **colptrC, int_t **rowidxC, T_Scalar **valuesC);
+        const int_t* colptrA, const int_t* rowidxA, const T_Scalar* valuesA, 
+        const int_t* colptrB, const int_t* rowidxB, const T_Scalar* valuesB,
+        int_t **colptrC, int_t **rowidxC, T_Scalar **valuesC);
 
 // A(m x n)
 template <typename T_Scalar>
 void csc_mv(prop_t propA, uplo_t uploA, int_t m, int_t n, T_Scalar alpha, op_t opA,
-		const int_t* colptrA, const int_t* rowidxA, const T_Scalar* valuesA, 
-		const T_Scalar* x, T_Scalar beta, T_Scalar *y);
+        const int_t* colptrA, const int_t* rowidxA, const T_Scalar* valuesA, 
+        const T_Scalar* x, T_Scalar beta, T_Scalar *y);
 
 // A(m x n) B(? x k) C(? x k)
 template <typename T_Scalar>
 void csc_mm(prop_t propA, uplo_t uploA, int_t m, int_t n, T_Scalar alpha, op_t opA,
-		const int_t* colptrA, const int_t* rowidxA, const T_Scalar* valuesA, 
-		int_t k, const T_Scalar* b, int_t ldb, T_Scalar beta, T_Scalar *c, int_t ldc);
+        const int_t* colptrA, const int_t* rowidxA, const T_Scalar* valuesA, 
+        int_t k, const T_Scalar* b, int_t ldb, T_Scalar beta, T_Scalar *c, int_t ldc);
 
 #if 0
 template <typename T_Scalar>

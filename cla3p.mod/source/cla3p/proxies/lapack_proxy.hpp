@@ -102,7 +102,7 @@ laswp_macro(complex8_t);
 
 #define laqp2_macro(typein) \
 void laqp2(int_t m, int_t n, int_t offset, typein *a, int_t lda, \
-		int_t *jpvt, typein *tau, TypeTraits<typein>::real_type *vn1, TypeTraits<typein>::real_type *vn2, typein *work)
+        int_t *jpvt, typein *tau, TypeTraits<typein>::real_type *vn1, TypeTraits<typein>::real_type *vn2, typein *work)
 laqp2_macro(real_t);
 laqp2_macro(real4_t);
 laqp2_macro(complex_t);
@@ -111,8 +111,8 @@ laqp2_macro(complex8_t);
 
 #define laqps_macro(typein) \
 void laqps(int_t m, int_t n, int_t offset, int_t nb, int_t *kb, typein *a, int_t lda, \
-		int_t *jpvt, typein *tau, TypeTraits<typein>::real_type *vn1, TypeTraits<typein>::real_type *vn2, \
-		typein *auxv, typein *f, int_t ldf)
+        int_t *jpvt, typein *tau, TypeTraits<typein>::real_type *vn1, TypeTraits<typein>::real_type *vn2, \
+        typein *auxv, typein *f, int_t ldf)
 laqps_macro(real_t);
 laqps_macro(real4_t);
 laqps_macro(complex_t);
@@ -209,8 +209,8 @@ trtrs_macro(complex8_t);
 
 #define gesvd_macro(typein) \
 int_t gesvd(char jobu, char jobvt, int_t m, int_t n, typein *a, int_t lda, \
-		TypeTraits<typein>::real_type *s, typein *u, int_t ldu, typein *vt, int_t ldvt, \
-		TypeTraits<typein>::real_type *superb)
+        TypeTraits<typein>::real_type *s, typein *u, int_t ldu, typein *vt, int_t ldvt, \
+        TypeTraits<typein>::real_type *superb)
 gesvd_macro(real_t);
 gesvd_macro(real4_t);
 gesvd_macro(complex_t);
@@ -227,7 +227,7 @@ geqrf_macro(complex8_t);
 
 #define xxmqr_macro(typein) \
 int_t xxmqr(char side, char trans, int_t m, int_t n, int_t k, \
-		const typein *a, int_t lda, const typein *tau, typein *c, int_t ldc)
+        const typein *a, int_t lda, const typein *tau, typein *c, int_t ldc)
 xxmqr_macro(real_t);
 xxmqr_macro(real4_t);
 xxmqr_macro(complex_t);

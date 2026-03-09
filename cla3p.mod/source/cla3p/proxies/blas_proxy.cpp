@@ -45,7 +45,7 @@ namespace blas {
 #define iamax_macro(typein, prefix) \
 int_t iamax(int_t n, const typein *x, int_t incx) \
 { \
-	return (blas_func_name(i##prefix##amax)(&n, x, &incx) - 1); \
+    return (blas_func_name(i##prefix##amax)(&n, x, &incx) - 1); \
 }
 iamax_macro(real_t    , d);
 iamax_macro(real4_t   , s);
@@ -56,7 +56,7 @@ iamax_macro(complex8_t, c);
 #define asum_macro(typein, prefix) \
 TypeTraits<typein>::real_type asum(int_t n, const typein *x, int_t incx) \
 { \
-	return blas_func_name(prefix##asum)(&n, x, &incx); \
+    return blas_func_name(prefix##asum)(&n, x, &incx); \
 }
 asum_macro(real_t    ,  d);
 asum_macro(real4_t   ,  s);
@@ -67,7 +67,7 @@ asum_macro(complex8_t, sc);
 #define copy_macro(typein, prefix) \
 void copy(int_t n, const typein *x, int_t incx, typein *y, int_t incy) \
 { \
-	blas_func_name(prefix##copy)(&n, x, &incx, y, &incy); \
+    blas_func_name(prefix##copy)(&n, x, &incx, y, &incy); \
 }
 copy_macro(real_t    , d)
 copy_macro(real4_t   , s)
@@ -78,7 +78,7 @@ copy_macro(complex8_t, c)
 #define swap_macro(typein, prefix) \
 void swap(int_t n, typein *x, int_t incx, typein *y, int_t incy) \
 { \
-	blas_func_name(prefix##swap)(&n, x, &incx, y, &incy); \
+    blas_func_name(prefix##swap)(&n, x, &incx, y, &incy); \
 }
 swap_macro(real_t    , d)
 swap_macro(real4_t   , s)
@@ -89,7 +89,7 @@ swap_macro(complex8_t, c)
 #define scal_macro(typein, prefix) \
 void scal(int_t n, typein alpha, typein *x, int_t incx) \
 { \
-	blas_func_name(prefix##scal)(&n, &alpha, x, &incx); \
+    blas_func_name(prefix##scal)(&n, &alpha, x, &incx); \
 }
 scal_macro(real_t    , d)
 scal_macro(real4_t   , s);
@@ -100,7 +100,7 @@ scal_macro(complex8_t, c);
 #define scal_macro(typein, prefix) \
 void scal(int_t n, TypeTraits<typein>::real_type alpha, typein *x, int_t incx) \
 { \
-	blas_func_name(prefix##scal)(&n, &alpha, x, &incx); \
+    blas_func_name(prefix##scal)(&n, &alpha, x, &incx); \
 }
 scal_macro(complex_t , zd);
 scal_macro(complex8_t, cs);
@@ -109,7 +109,7 @@ scal_macro(complex8_t, cs);
 #define nrm2_macro(typein, prefix) \
 TypeTraits<typein>::real_type nrm2(int_t n, const typein *x, int_t incx) \
 { \
-	return blas_func_name(prefix##nrm2)(&n, x, &incx); \
+    return blas_func_name(prefix##nrm2)(&n, x, &incx); \
 }
 nrm2_macro(real_t    ,  d)
 nrm2_macro(real4_t   ,  s)
@@ -120,7 +120,7 @@ nrm2_macro(complex8_t, sc)
 #define real_dot_macro(typeio, prefix, suffix) \
 typeio dot##suffix(int_t n, const typeio *x, int_t incx, const typeio *y, int_t incy) \
 { \
-	return blas_func_name(prefix##dot)(&n, x, &incx, y, &incy); \
+    return blas_func_name(prefix##dot)(&n, x, &incx, y, &incy); \
 }
 real_dot_macro(real_t , d,  )
 real_dot_macro(real4_t, s,  )
@@ -132,15 +132,15 @@ real_dot_macro(real4_t, s, c)
 #define complex_dot_macro(typeio, prefix, suffix, blas_suffix) \
 typeio dot##suffix(int_t n, const typeio *x, int_t incx, const typeio *y, int_t incy) \
 { \
-	typeio res;  \
-	blas_func_name(prefix##dot##blas_suffix)(&res, &n, x, &incx, y, &incy); \
-	return res; \
+    typeio res;  \
+    blas_func_name(prefix##dot##blas_suffix)(&res, &n, x, &incx, y, &incy); \
+    return res; \
 }
 #elif defined(CLA3P_ARMPL)
 #define complex_dot_macro(typeio, prefix, suffix, blas_suffix) \
 typeio dot##suffix(int_t n, const typeio *x, int_t incx, const typeio *y, int_t incy) \
 { \
-	return blas_func_name(prefix##dot##blas_suffix)(&n, x, &incx, y, &incy); \
+    return blas_func_name(prefix##dot##blas_suffix)(&n, x, &incx, y, &incy); \
 }
 #endif
 complex_dot_macro(complex_t , z,  , u)
@@ -152,7 +152,7 @@ complex_dot_macro(complex8_t, c, c, c)
 #define axpy_macro(typein, prefix) \
 void axpy(int_t n, typein alpha, const typein *x, int_t incx, typein *y, int_t incy) \
 { \
-	blas_func_name(prefix##axpy)(&n, &alpha, x, &incx, y, &incy); \
+    blas_func_name(prefix##axpy)(&n, &alpha, x, &incx, y, &incy); \
 }
 axpy_macro(real_t    , d)
 axpy_macro(real4_t   , s)
@@ -162,11 +162,11 @@ axpy_macro(complex8_t, c)
 /*-------------------------------------------------*/
 #define real_ger_macro(typein, prefix, suffix) \
 void ger##suffix(int_t m, int_t n, typein alpha, \
-		const typein *x, int_t incx, \
-		const typein *y, int_t incy, \
-		typein *a, int_t lda) \
+        const typein *x, int_t incx, \
+        const typein *y, int_t incy, \
+        typein *a, int_t lda) \
 { \
-	blas_func_name(prefix##ger)(&m, &n, &alpha, x, &incx, y, &incy, a, &lda); \
+    blas_func_name(prefix##ger)(&m, &n, &alpha, x, &incx, y, &incy, a, &lda); \
 }
 real_ger_macro(real_t , d,  )
 real_ger_macro(real4_t, s,  )
@@ -180,7 +180,7 @@ void ger##suffix(int_t m, int_t n, typein alpha, \
     const typein *y, int_t incy, \
     typein *a, int_t lda) \
 { \
-	blas_func_name(prefix##ger##blas_suffix)(&m, &n, &alpha, x, &incx, y, &incy, a, &lda); \
+    blas_func_name(prefix##ger##blas_suffix)(&m, &n, &alpha, x, &incx, y, &incy, a, &lda); \
 }
 complex_ger_macro(complex_t , z,  , u)
 complex_ger_macro(complex8_t, c,  , u)
@@ -190,10 +190,10 @@ complex_ger_macro(complex8_t, c, c, c)
 /*-------------------------------------------------*/
 #define syr_macro(typein, prefix) \
 void syr(char uplo, int_t n, typein alpha, \
-		const typein *x, int_t incx, \
-		typein *a, int_t lda) \
+        const typein *x, int_t incx, \
+        typein *a, int_t lda) \
 { \
-	blas_func_name(prefix##syr)(&uplo, &n, &alpha, x, &incx, a, &lda); \
+    blas_func_name(prefix##syr)(&uplo, &n, &alpha, x, &incx, a, &lda); \
 }
 syr_macro(real_t    , d)
 syr_macro(real4_t   , s)
@@ -203,10 +203,10 @@ syr_macro(complex8_t, c)
 /*-------------------------------------------------*/
 #define her_macro(typein, prefix) \
 void her(char uplo, int_t n, TypeTraits<typein>::real_type alpha, \
-		const typein *x, int_t incx, \
-		typein *a, int_t lda) \
+        const typein *x, int_t incx, \
+        typein *a, int_t lda) \
 { \
-	blas_func_name(prefix##syr)(&uplo, &n, &alpha, x, &incx, a, &lda); \
+    blas_func_name(prefix##syr)(&uplo, &n, &alpha, x, &incx, a, &lda); \
 }
 her_macro(real_t , d)
 her_macro(real4_t, s)
@@ -214,10 +214,10 @@ her_macro(real4_t, s)
 /*-------------------------------------------------*/
 #define her_macro(typein, prefix) \
 void her(char uplo, int_t n, TypeTraits<typein>::real_type alpha, \
-		const typein *x, int_t incx, \
-		typein *a, int_t lda) \
+        const typein *x, int_t incx, \
+        typein *a, int_t lda) \
 { \
-	blas_func_name(prefix##her)(&uplo, &n, &alpha, x, &incx, a, &lda); \
+    blas_func_name(prefix##her)(&uplo, &n, &alpha, x, &incx, a, &lda); \
 }
 her_macro(complex_t , z)
 her_macro(complex8_t, c)
@@ -225,10 +225,10 @@ her_macro(complex8_t, c)
 /*-------------------------------------------------*/
 #define gemv_macro(typein, prefix) \
 void gemv(char trans, int_t m, int_t n, typein alpha, \
-		const typein *a, int_t lda, const typein *x, int_t incx, \
-		typein beta, typein *y, int_t incy) \
+        const typein *a, int_t lda, const typein *x, int_t incx, \
+        typein beta, typein *y, int_t incy) \
 { \
-	blas_func_name(prefix##gemv)(&trans, &m, &n, &alpha, a, &lda, x, &incx, &beta, y, &incy); \
+    blas_func_name(prefix##gemv)(&trans, &m, &n, &alpha, a, &lda, x, &incx, &beta, y, &incy); \
 }
 gemv_macro(real_t    , d)
 gemv_macro(real4_t   , s)
@@ -238,9 +238,9 @@ gemv_macro(complex8_t, c)
 /*-------------------------------------------------*/
 #define symv_macro(typein, prefix) \
 void symv(char uplo, int_t n, typein alpha, const typein *a, int_t lda, \
-		const typein *x, int_t incx, typein beta, typein *y, int_t incy) \
+        const typein *x, int_t incx, typein beta, typein *y, int_t incy) \
 { \
-	blas_func_name(prefix##symv)(&uplo, &n, &alpha, a, &lda, x, &incx, &beta, y, &incy); \
+    blas_func_name(prefix##symv)(&uplo, &n, &alpha, a, &lda, x, &incx, &beta, y, &incy); \
 }
 symv_macro(real_t    , d)
 symv_macro(real4_t   , s)
@@ -250,10 +250,10 @@ symv_macro(complex8_t, c)
 /*-------------------------------------------------*/
 #define hemv_macro(typein, prefix) \
 void hemv(char uplo, int_t n, typein alpha, \
-		const typein *a, int_t lda, const typein *x, int_t incx, \
-		typein beta, typein *y, int_t incy) \
+        const typein *a, int_t lda, const typein *x, int_t incx, \
+        typein beta, typein *y, int_t incy) \
 { \
-	blas_func_name(prefix##hemv)(&uplo, &n, &alpha, a, &lda, x, &incx, &beta, y, &incy); \
+    blas_func_name(prefix##hemv)(&uplo, &n, &alpha, a, &lda, x, &incx, &beta, y, &incy); \
 }
 hemv_macro(complex_t , z)
 hemv_macro(complex8_t, c)
@@ -261,9 +261,9 @@ hemv_macro(complex8_t, c)
 /*-------------------------------------------------*/
 #define trmv_macro(typein, prefix) \
 void trmv(char uplo, char transa, char diag, int_t n, \
-		const typein *a, int_t lda, typein *b, int_t incx) \
+        const typein *a, int_t lda, typein *b, int_t incx) \
 { \
-	blas_func_name(prefix##trmv)(&uplo, &transa, &diag, &n, a, &lda, b, &incx); \
+    blas_func_name(prefix##trmv)(&uplo, &transa, &diag, &n, a, &lda, b, &incx); \
 }
 trmv_macro(real_t    , d)
 trmv_macro(real4_t   , s)
@@ -273,9 +273,9 @@ trmv_macro(complex8_t, c)
 /*-------------------------------------------------*/
 #define trsv_macro(typein, prefix) \
 void trsv(char uplo, char transa, char diag, int_t n, \
-		const typein *a, int_t lda, typein *b, int_t incx) \
+        const typein *a, int_t lda, typein *b, int_t incx) \
 { \
-	blas_func_name(prefix##trsv)(&uplo, &transa, &diag, &n, a, &lda, b, &incx); \
+    blas_func_name(prefix##trsv)(&uplo, &transa, &diag, &n, a, &lda, b, &incx); \
 }
 trsv_macro(real_t    , d)
 trsv_macro(real4_t   , s)
@@ -285,10 +285,10 @@ trsv_macro(complex8_t, c)
 /*-------------------------------------------------*/
 #define gemm_macro(typein, prefix) \
 void gemm(char transa, char transb, int_t m, int_t n, int_t k, \
-		typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
-		typein beta, typein *c, int_t ldc) \
+        typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
+        typein beta, typein *c, int_t ldc) \
 { \
-	blas_func_name(prefix##gemm)(&transa, &transb, &m, &n, &k, &alpha, a, &lda, b, &ldb, &beta, c, &ldc); \
+    blas_func_name(prefix##gemm)(&transa, &transb, &m, &n, &k, &alpha, a, &lda, b, &ldb, &beta, c, &ldc); \
 }
 gemm_macro(real_t    , d)
 gemm_macro(real4_t   , s)
@@ -298,89 +298,89 @@ gemm_macro(complex8_t, c)
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 static void gemmt_recursive(char uplo, char transa, char transb, int_t n, int_t k,
-		T_Scalar alpha, const T_Scalar *a, int_t lda, const T_Scalar *b, int_t ldb,
-		T_Scalar beta, T_Scalar *c, int_t ldc)
+        T_Scalar alpha, const T_Scalar *a, int_t lda, const T_Scalar *b, int_t ldb,
+        T_Scalar beta, T_Scalar *c, int_t ldc)
 {
-	constexpr int_t gemmtRecLimit = 64;
+    constexpr int_t gemmtRecLimit = 64;
 
-	if(n < gemmtRecLimit) {
+    if(n < gemmtRecLimit) {
 
-		for(int_t j = 0; j < n; j++) {
+        for(int_t j = 0; j < n; j++) {
 
-			int_t incb = (transb == 'N' ? 1 : ldb);
-			const T_Scalar *bj = (transb == 'N' ? blk::dns::ptrmv(ldb,b,0,j) : blk::dns::ptrmv(ldb,b,j,0));
+            int_t incb = (transb == 'N' ? 1 : ldb);
+            const T_Scalar *bj = (transb == 'N' ? blk::dns::ptrmv(ldb,b,0,j) : blk::dns::ptrmv(ldb,b,j,0));
 
-			if(uplo == 'L') {
+            if(uplo == 'L') {
 
-				const T_Scalar *al = (transa == 'N' ? blk::dns::ptrmv(lda,a,j,0) : blk::dns::ptrmv(lda,a,0,j));
+                const T_Scalar *al = (transa == 'N' ? blk::dns::ptrmv(lda,a,j,0) : blk::dns::ptrmv(lda,a,0,j));
 
-				int_t ma = (transa == 'N' ? n-j : k  );
-				int_t na = (transa == 'N' ? k   : n-j);
-				int_t incc = 1;
-				T_Scalar *cj = blk::dns::ptrmv(ldc,c,j,j);
-				gemv(transa, ma, na, alpha, al, lda, bj, incb, beta, cj, incc);
+                int_t ma = (transa == 'N' ? n-j : k  );
+                int_t na = (transa == 'N' ? k   : n-j);
+                int_t incc = 1;
+                T_Scalar *cj = blk::dns::ptrmv(ldc,c,j,j);
+                gemv(transa, ma, na, alpha, al, lda, bj, incb, beta, cj, incc);
 
-			} else if(uplo == 'U') {
+            } else if(uplo == 'U') {
 
-				const T_Scalar *au = a;
+                const T_Scalar *au = a;
 
-				int_t ma = (transa == 'N' ? j+1 : k  );
-				int_t na = (transa == 'N' ? k   : j+1);
-				int_t incc = 1;
-				T_Scalar *cj = blk::dns::ptrmv(ldc,c,0,j);
-				gemv(transa, ma, na, alpha, au, lda, bj, incb, beta, cj, incc);
+                int_t ma = (transa == 'N' ? j+1 : k  );
+                int_t na = (transa == 'N' ? k   : j+1);
+                int_t incc = 1;
+                T_Scalar *cj = blk::dns::ptrmv(ldc,c,0,j);
+                gemv(transa, ma, na, alpha, au, lda, bj, incb, beta, cj, incc);
 
-			} // U/L
+            } // U/L
 
-		} // j
+        } // j
 
-	} else {
+    } else {
 
-		int_t n1 = n/2;
-		int_t n2 = n - n1;
+        int_t n1 = n/2;
+        int_t n2 = n - n1;
 
-		const T_Scalar *a1 = a;
-		const T_Scalar *a2 = (transa == 'N' ? blk::dns::ptrmv(lda,a,n1,0) : blk::dns::ptrmv(lda,a,0,n1));
+        const T_Scalar *a1 = a;
+        const T_Scalar *a2 = (transa == 'N' ? blk::dns::ptrmv(lda,a,n1,0) : blk::dns::ptrmv(lda,a,0,n1));
 
-		const T_Scalar *b1 = b;
-		const T_Scalar *b2 = (transb == 'N' ? blk::dns::ptrmv(ldb,b,0,n1) : blk::dns::ptrmv(ldb,b,n1,0));
+        const T_Scalar *b1 = b;
+        const T_Scalar *b2 = (transb == 'N' ? blk::dns::ptrmv(ldb,b,0,n1) : blk::dns::ptrmv(ldb,b,n1,0));
 
-		T_Scalar *c11 = c;
-		T_Scalar *c22 = blk::dns::ptrmv(ldc,c,n1,n1);
+        T_Scalar *c11 = c;
+        T_Scalar *c22 = blk::dns::ptrmv(ldc,c,n1,n1);
 
-		gemmt_recursive(uplo, transa, transb, n1, k, alpha, a1, lda, b1, ldb, beta, c11, ldc);
-		gemmt_recursive(uplo, transa, transb, n2, k, alpha, a2, lda, b2, ldb, beta, c22, ldc);
+        gemmt_recursive(uplo, transa, transb, n1, k, alpha, a1, lda, b1, ldb, beta, c11, ldc);
+        gemmt_recursive(uplo, transa, transb, n2, k, alpha, a2, lda, b2, ldb, beta, c22, ldc);
 
-		if(uplo == 'L') {
+        if(uplo == 'L') {
 
-			T_Scalar *c21 = blk::dns::ptrmv(ldc,c,n1,0);
-			gemm(transa, transb, n2, n1, k, alpha, a2, lda, b1, ldb, beta, c21, ldc);
+            T_Scalar *c21 = blk::dns::ptrmv(ldc,c,n1,0);
+            gemm(transa, transb, n2, n1, k, alpha, a2, lda, b1, ldb, beta, c21, ldc);
 
-		} else if(uplo == 'U') {
+        } else if(uplo == 'U') {
 
-			T_Scalar *c12 = blk::dns::ptrmv(ldc,c,0,n1);
-			gemm(transa, transb, n1, n2, k, alpha, a1, lda, b2, ldb, beta, c12, ldc);
+            T_Scalar *c12 = blk::dns::ptrmv(ldc,c,0,n1);
+            gemm(transa, transb, n1, n2, k, alpha, a1, lda, b2, ldb, beta, c12, ldc);
 
-		} // U/L
+        } // U/L
 
-	} // n
+    } // n
 }
 /*-------------------------------------------------*/
 #if defined(CLA3P_INTEL_MKL) || defined(CLA3P_ARMPL)
 #define gemmt_macro(typein, prefix) \
 void gemmt(char uplo, char transa, char transb, int_t n, int_t k, \
-		typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
-		typein beta, typein *c, int_t ldc) \
+        typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
+        typein beta, typein *c, int_t ldc) \
 { \
-	blas_func_name(prefix##gemmt)(&uplo, &transa, &transb, &n, &k, &alpha, a, &lda, b, &ldb, &beta, c, &ldc); \
+    blas_func_name(prefix##gemmt)(&uplo, &transa, &transb, &n, &k, &alpha, a, &lda, b, &ldb, &beta, c, &ldc); \
 }
 #else
 #define gemmt_macro(typein, prefix) \
 void gemmt(char uplo, char transa, char transb, int_t n, int_t k, \
-		typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
-		typein beta, typein *c, int_t ldc) \
+        typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
+        typein beta, typein *c, int_t ldc) \
 { \
-	gemmt_recursive<typein>(uplo, transa, transb, n, k, alpha, a, lda, b, ldb, beta, c, ldc); \
+    gemmt_recursive<typein>(uplo, transa, transb, n, k, alpha, a, lda, b, ldb, beta, c, ldc); \
 }
 #endif
 gemmt_macro(real_t    , d)
@@ -391,10 +391,10 @@ gemmt_macro(complex8_t, c)
 /*-------------------------------------------------*/
 #define symm_macro(typein, prefix) \
 void symm(char side, char uplo, int_t m, int_t n, \
-		typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
-		typein beta, typein *c, int_t ldc) \
+        typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
+        typein beta, typein *c, int_t ldc) \
 { \
-	blas_func_name(prefix##symm)(&side, &uplo, &m, &n, &alpha, a, &lda, b, &ldb, &beta, c, &ldc); \
+    blas_func_name(prefix##symm)(&side, &uplo, &m, &n, &alpha, a, &lda, b, &ldb, &beta, c, &ldc); \
 }
 symm_macro(real_t    , d)
 symm_macro(real4_t   , s)
@@ -404,10 +404,10 @@ symm_macro(complex8_t, c)
 /*-------------------------------------------------*/
 #define hemm_macro(typein, prefix) \
 void hemm(char side, char uplo, int_t m, int_t n, \
-		typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
-		typein beta, typein *c, int_t ldc) \
+        typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
+        typein beta, typein *c, int_t ldc) \
 { \
-	blas_func_name(prefix##hemm)(&side, &uplo, &m, &n, &alpha, a, &lda, b, &ldb, &beta, c, &ldc); \
+    blas_func_name(prefix##hemm)(&side, &uplo, &m, &n, &alpha, a, &lda, b, &ldb, &beta, c, &ldc); \
 }
 hemm_macro(complex_t , z)
 hemm_macro(complex8_t, c)
@@ -415,10 +415,10 @@ hemm_macro(complex8_t, c)
 /*-------------------------------------------------*/
 #define trmm_macro(typein, prefix) \
 void trmm(char side, char uplo, char transa, char diag, \
-		int_t m, int_t n, typein alpha, const typein *a, int_t lda, \
-		typein *b, int_t ldb) \
+        int_t m, int_t n, typein alpha, const typein *a, int_t lda, \
+        typein *b, int_t ldb) \
 { \
-	blas_func_name(prefix##trmm)(&side, &uplo, &transa, &diag, &m, &n, &alpha, a, &lda, b, &ldb); \
+    blas_func_name(prefix##trmm)(&side, &uplo, &transa, &diag, &m, &n, &alpha, a, &lda, b, &ldb); \
 }
 trmm_macro(real_t    , d)
 trmm_macro(real4_t   , s)
@@ -428,10 +428,10 @@ trmm_macro(complex8_t, c)
 /*-------------------------------------------------*/
 #define trsm_macro(typein, prefix) \
 void trsm(char side, char uplo, char transa, char diag, \
-		int_t m, int_t n, typein alpha, const typein *a, int_t lda, \
-		typein *b, int_t ldb) \
+        int_t m, int_t n, typein alpha, const typein *a, int_t lda, \
+        typein *b, int_t ldb) \
 { \
-	blas_func_name(prefix##trsm)(&side, &uplo, &transa, &diag, &m, &n, &alpha, a, &lda, b, &ldb); \
+    blas_func_name(prefix##trsm)(&side, &uplo, &transa, &diag, &m, &n, &alpha, a, &lda, b, &ldb); \
 }
 trsm_macro(real_t    , d)
 trsm_macro(real4_t   , s)
