@@ -547,8 +547,8 @@ class XxMatrix : public MatrixMeta<int_t>, public XxContainer<T_Scalar> {
          * @return A matrix containing random values.
          */
         static XxMatrix<T_Scalar> random(int_t nr, int_t nc, const Property& pr = Property::General(), 
-                T_RScalar lo = T_RScalar(0), 
-                T_RScalar hi = T_RScalar(1));
+                                         T_RScalar lo = T_RScalar(0), 
+                                         T_RScalar hi = T_RScalar(1));
 
         /**
          * @brief Create a view of existing memory.
