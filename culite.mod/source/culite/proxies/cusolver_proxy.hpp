@@ -23,12 +23,16 @@
 
 #include <cusolverDn.h>
 
+// forwards
+#include <culite/types/cla3p_forwards.hpp>
+
 /*-------------------------------------------------*/
 namespace culite {
 namespace cusolver {
 /*-------------------------------------------------*/
 
 cusolverEigMode_t bool2cusolverEigMode(bool job);
+cusolverEigRange_t cla3pEigRange2cusolverEigRange(eigRange_t range);
 
 /*-------------------------------------------------*/
 

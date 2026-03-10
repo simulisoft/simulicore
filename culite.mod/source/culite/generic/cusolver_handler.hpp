@@ -30,6 +30,7 @@
 #include <culite/support/utils.hpp>
 #include <culite/bulk/dns1d.hpp>
 #include <culite/bulk/dns2d.hpp>
+#include <culite/proxies/cublas_proxy.hpp>
 #include <culite/proxies/cusolver_proxy.hpp>
 #include <culite/dense/dns_cxvector.hpp>
 #include <culite/dense/dns_cxmatrix.hpp>
@@ -56,6 +57,32 @@ class CuSolverHandler {
     private:
         using cuSolverInt = int64_t;
         using infoInt = int;
+
+        class InputMeta {
+
+            public:
+                InputMeta() { defaults(); }
+                InputMeta(cuSolverInt nrows, cuSolverInt ncols, cudaDataType_t cuda_type)
+                    : m_nrows(nrows), m_ncols(ncols), m_cuda_type(cuda_type) {}
+                
+                cuSolverInt nrows() const { return m_nrows; }
+                cuSolverInt ncols() const { return m_ncols; }
+                cudaDataType_t cuda_type() const { return m_cuda_type; }
+                
+                void clear() { defaults(); }
+
+            private:
+                    cuSolverInt m_nrows;
+                    cuSolverInt m_ncols;
+                    cudaDataType_t m_cuda_type;
+
+                void defaults() 
+                {
+                    m_nrows = 0;
+                    m_ncols = 0;
+                    m_cuda_type = CUDA_R_32F; // default to single precision real
+                }
+        };
 
     public:
 
@@ -158,8 +185,7 @@ class CuSolverHandler {
 
             err::check_cusolver(cusolverStatus);
 
-            m_problemCudaType = TypeTraits<T_Scalar>::cuda_type();
-            m_problemDim = n;
+            inputMeta() = InputMeta(A.nrows(), A.ncols(), TypeTraits<T_Scalar>::cuda_type());
         }
 
         /**
@@ -175,14 +201,14 @@ class CuSolverHandler {
             using T_Scalar = typename T_Matrix::value_type;
 
             cuSolverInt n = B.nrows();
-            ::cla3p::similarity_dim_check(m_problemDim, n);
+            ::cla3p::similarity_dim_check(inputMeta().nrows(), n);
 
             cusolverStatus_t cusolverStatus = 
             cusolverDnXgetrs(handle(),
                              params(),
                              CUBLAS_OP_N,
                              n, B.ncols(),
-                             m_problemCudaType, customWork().data(), n,
+                             inputMeta().cuda_type(), customWork().data(), n,
                              ipiv().data(),
                              TypeTraits<T_Scalar>::cuda_type(), B.values(), B.ld(),
                              info().data());
@@ -195,12 +221,6 @@ class CuSolverHandler {
          * @details Computes the required workspace size and allocates buffers for performing
          *          eigenvalue decomposition on matrix @p A. This includes memory for eigenvalues,
          *          eigenvectors (if requested), and device/host workspaces.
-         * 
-         *          Memory layout in customWork buffer: W | A | VL | VR
-         *          - W: eigenvalues (complex)
-         *          - A: working copy of input matrix
-         *          - VL: left eigenvectors (if calcLeft = true)
-         *          - VR: right eigenvectors (if calcRight = true)
          * 
          * @tparam T_Matrix The matrix type.
          * @param[in] A The matrix for which to reserve workspace.
@@ -302,8 +322,7 @@ class CuSolverHandler {
 
             err::check_cusolver(cusolverStatus);
 
-            m_problemCudaType = TypeTraits<T_Scalar>::cuda_type();
-            m_problemDim = n;
+            inputMeta() = InputMeta(A.nrows(), A.ncols(), TypeTraits<T_Scalar>::cuda_type());
         }
 
         /**
@@ -325,12 +344,12 @@ class CuSolverHandler {
                 throw err::CudaException("Geev only returns complex eigenpairs.");
             }
 
-            int_t n = m_problemDim;
+            int_t n = inputMeta().nrows();
 
             if(!eigs) eigs = T_Vector(n);
             ::cla3p::similarity_dim_check(eigs.size(), n);
 
-            if(m_problemCudaType == cudaDataType::CUDA_R_32F || m_problemCudaType == cudaDataType::CUDA_R_64F) {
+            if(inputMeta().cuda_type() == cudaDataType::CUDA_R_32F || inputMeta().cuda_type() == cudaDataType::CUDA_R_64F) {
 
                 using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
@@ -339,7 +358,7 @@ class CuSolverHandler {
 
                 blk::dns::geevCalculateComplexEigenvalues(n, W, eigs.values());
 
-            } else if(m_problemCudaType == cudaDataType::CUDA_C_32F || m_problemCudaType == cudaDataType::CUDA_C_64F) {
+            } else if(inputMeta().cuda_type() == cudaDataType::CUDA_C_32F || inputMeta().cuda_type() == cudaDataType::CUDA_C_64F) {
 
                 T_Scalar *W = nullptr;
                 geevAssignInternalPointers<T_Scalar>(false, false, n, &W, nullptr, nullptr, nullptr);
@@ -384,7 +403,7 @@ class CuSolverHandler {
                 throw err::CudaException("Geev only returns complex eigenpairs.");
             }
 
-            int_t n = m_problemDim;
+            int_t n = inputMeta().nrows();
 
             if(calcLeft) {
                 if(!leftEigenvectors) leftEigenvectors = T_Matrix(n, n);
@@ -398,7 +417,7 @@ class CuSolverHandler {
                 ::cla3p::similarity_dim_check(rightEigenvectors.ncols(), n);
             }
 
-            if(m_problemCudaType == cudaDataType::CUDA_R_32F || m_problemCudaType == cudaDataType::CUDA_R_64F) {
+            if(inputMeta().cuda_type() == cudaDataType::CUDA_R_32F || inputMeta().cuda_type() == cudaDataType::CUDA_R_64F) {
 
                 using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
@@ -419,7 +438,7 @@ class CuSolverHandler {
                                                                rightEigenvectors.ld());
                 } // calcRight
 
-            } else if(m_problemCudaType == cudaDataType::CUDA_C_32F || m_problemCudaType == cudaDataType::CUDA_C_64F) {
+            } else if(inputMeta().cuda_type() == cudaDataType::CUDA_C_32F || inputMeta().cuda_type() == cudaDataType::CUDA_C_64F) {
 
                 T_Scalar *VL = nullptr;
                 T_Scalar *VR = nullptr;
@@ -435,13 +454,581 @@ class CuSolverHandler {
             } // problem cuda type
         }
 
+        /**
+         * @brief Reserves workspace memory for symmetric/Hermitian eigenvalue decomposition.
+         * @details Computes the required workspace size and allocates buffers for performing
+         *          eigenvalue decomposition on a symmetric or Hermitian matrix @p A. This includes
+         *          memory for eigenvalues (real), eigenvectors (if requested), and device/host workspaces.
+         * 
+         * @tparam T_Matrix The matrix type (must have symmetric or Hermitian property).
+         * @param[in] A The symmetric/Hermitian matrix for which to reserve workspace.
+         * @param[in] calcVectors If true, reserves memory for eigenvectors; if false, only eigenvalues.
+         * 
+         * @note This must be called before @ref executeSyevd with the same calcVectors parameter.
+         * @note The matrix uplo property (upper/lower triangular storage) is preserved in workspace allocation.
+         */
+        template <typename T_Matrix>
+        void reserveSyevd(const T_Matrix& A, bool calcVectors)
+        {
+            using T_Scalar = typename T_Matrix::value_type;
+            using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
+            cuSolverInt n = A.nrows();
+            cuSolverInt sizeW = n * sizeof(T_RScalar);
+            cuSolverInt sizeV = n * n * sizeof(T_Scalar);
+
+            customWork().reserve(sizeW + sizeV);
+
+            T_RScalar *W = nullptr;
+            T_Scalar *V = nullptr;
+            syevdAssignInternalPointers<T_Scalar>(n, &W, &V);
+
+            cusolverStatus_t cusolverStatus = 
+            cusolverDnXsyevd_bufferSize(handle(),
+                                        params(),
+                                        cusolver::bool2cusolverEigMode(calcVectors),
+                                        cublas::cla3pUplo2cublasUplo(A.prop().uplo()),
+                                        n,
+                                        TypeTraits<T_Scalar>::cuda_type(), A.values(), A.ld(),
+                                        TypeTraits<T_RScalar>::cuda_type(), W,
+                                        TypeTraits<T_Scalar>::cuda_type(),
+                                        &m_workspaceInBytesOnDevice,
+                                        &m_workspaceInBytesOnHost);
+
+            err::check_cusolver(cusolverStatus);
+
+            info().reserve(1);
+            deviceWork().reserve(m_workspaceInBytesOnDevice);
+            hostWork().reserve(m_workspaceInBytesOnHost);
+        }
+
+        /**
+         * @brief Computes eigenvalues and optionally eigenvectors of a symmetric/Hermitian matrix.
+         * @details Performs eigenvalue decomposition on a symmetric or Hermitian matrix @p A,
+         *          computing real eigenvalues @f$ \lambda @f$ and optionally eigenvectors @f$ v @f$
+         *          such that @f$ A v = \lambda v @f$.
+         * 
+         *          This method uses cusolverDnXsyevd() internally, which employs a divide-and-conquer
+         *          algorithm for efficient computation. The input matrix is copied to internal workspace
+         *          before decomposition (original matrix is not modified). Results are stored internally
+         *          and can be retrieved using appropriate getter methods.
+         * 
+         *          For symmetric/Hermitian matrices, all eigenvalues are guaranteed to be real,
+         *          and eigenvectors form an orthonormal basis.
+         * 
+         * @tparam T_Matrix The matrix type (must have symmetric or Hermitian property).
+         * @param[in] A The symmetric/Hermitian matrix for which to compute eigenvalues/eigenvectors.
+         * @param[in] calcVectors If true, computes eigenvectors; if false, only eigenvalues.
+         * 
+         * @note @ref reserveSyevd must be called first with matching calcVectors parameter.
+         * @note The input matrix A is not modified; an internal copy is made.
+         * @note Only the upper or lower triangular part of A is accessed, as specified by A.prop().uplo().
+         */
+        template <typename T_Matrix>
+        void executeSyevd(const T_Matrix& A, bool calcVectors)
+        {
+            using T_Scalar = typename T_Matrix::value_type;
+            using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
+            cuSolverInt n = A.nrows();
+
+            T_RScalar *W = nullptr;
+            T_Scalar *V = nullptr;
+            syevdAssignInternalPointers<T_Scalar>(n, &W, &V);
+
+            memCopyD2D<T_Scalar>(n, n, A.values(), A.ld(), V, n);
+
+            cusolverStatus_t cusolverStatus = 
+            cusolverDnXsyevd(handle(),
+                             params(),
+                             cusolver::bool2cusolverEigMode(calcVectors),
+                             cublas::cla3pUplo2cublasUplo(A.prop().uplo()),
+                             n,
+                             TypeTraits<T_Scalar>::cuda_type(), V, n,
+                             TypeTraits<T_RScalar>::cuda_type(), W,
+                             TypeTraits<T_Scalar>::cuda_type(),
+                             deviceWork().data(), m_workspaceInBytesOnDevice,
+                             hostWork().data(), m_workspaceInBytesOnHost,
+                             info().data());
+
+            err::check_cusolver(cusolverStatus);
+
+            inputMeta() = InputMeta(A.nrows(), A.ncols(), TypeTraits<T_Scalar>::cuda_type());
+        }
+
+        /**
+         * @brief Reserves workspace memory for selective symmetric/Hermitian eigenvalue decomposition.
+         * @details Computes the required workspace size and allocates buffers for performing
+         *          selective eigenvalue decomposition on a symmetric or Hermitian matrix @p A.
+         *          This is an expert routine that allows computing only a subset of eigenvalues
+         *          and eigenvectors based on value range or index range criteria.
+         * 
+         *          **Eigenvalue Range Options:**
+         * 
+         *          | Value | Description | Parameters Used |
+         *          |-------|-------------|------------------|
+         *          | All   | Computes all eigenvalues (equivalent to syevd) | - |
+         *          | Value | Computes eigenvalues in the half-open interval (vl, vu] | vl, vu |
+         *          | Index | Computes eigenvalues with indices il through iu (1-based indexing) | il, iu |
+         * 
+         * @tparam T_Matrix The matrix type (must have symmetric or Hermitian property).
+         * @param[in] A The symmetric/Hermitian matrix for which to reserve workspace.
+         * @param[in] calcVectors If true, reserves memory for eigenvectors; if false, only eigenvalues.
+         * @param[in] range Specifies the range of eigenvalues to compute (see table above).
+         * @param[in] il Lower index of the eigenvalue range (1-based, used when range = Index).
+         * @param[in] iu Upper index of the eigenvalue range (1-based, used when range = Index).
+         * @param[in] vl Lower bound of the eigenvalue interval (used when range = Value).
+         * @param[in] vu Upper bound of the eigenvalue interval (used when range = Value).
+         * 
+         * @note This must be called before @ref executeSyevdx with matching parameters.
+         */
+        template <typename T_Matrix>
+        void reserveSyevdx(const T_Matrix& A, bool calcVectors, 
+                           eigRange_t range, 
+                           cuSolverInt il, 
+                           cuSolverInt iu, 
+                           typename TypeTraits<typename T_Matrix::value_type>::real_type vl, 
+                           typename TypeTraits<typename T_Matrix::value_type>::real_type vu)
+        {
+            using T_Scalar = typename T_Matrix::value_type;
+            using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
+            cuSolverInt n = A.nrows();
+            cuSolverInt sizeW = n * sizeof(T_RScalar);
+            cuSolverInt sizeV = n * n * sizeof(T_Scalar);
+
+            customWork().reserve(sizeW + sizeV);
+
+            T_RScalar *W = nullptr;
+            T_Scalar *V = nullptr;
+            syevdAssignInternalPointers<T_Scalar>(n, &W, &V);
+
+            cuSolverInt eigsFound = 0;
+
+            cusolverStatus_t cusolverStatus = 
+            cusolverDnXsyevdx_bufferSize(handle(),
+                                         params(),
+                                         cusolver::bool2cusolverEigMode(calcVectors),
+                                         cusolver::cla3pEigRange2cusolverEigRange(range),
+                                         cublas::cla3pUplo2cublasUplo(A.prop().uplo()),
+                                         n,
+                                         TypeTraits<T_Scalar>::cuda_type(), A.values(), A.ld(),
+                                         &vl, &vu, il, iu, &eigsFound,
+                                         TypeTraits<T_RScalar>::cuda_type(), W,
+                                         TypeTraits<T_Scalar>::cuda_type(),
+                                         &m_workspaceInBytesOnDevice,
+                                         &m_workspaceInBytesOnHost);
+
+            err::check_cusolver(cusolverStatus);
+
+            info().reserve(1);
+            deviceWork().reserve(m_workspaceInBytesOnDevice);
+            hostWork().reserve(m_workspaceInBytesOnHost);
+        }
+
+        /**
+         * @brief Computes selected eigenvalues and optionally eigenvectors of a symmetric/Hermitian matrix.
+         * @details Performs selective eigenvalue decomposition on a symmetric or Hermitian matrix @p A,
+         *          computing a subset of real eigenvalues @f$ \lambda @f$ and optionally eigenvectors @f$ v @f$
+         *          such that @f$ A v = \lambda v @f$. The subset is determined by the range parameter.
+         * 
+         *          This method uses cusolverDnXsyevdx() internally, which employs a divide-and-conquer
+         *          algorithm optimized for selective computation. The input matrix is copied to internal
+         *          workspace before decomposition (original matrix is not modified). Results are stored
+         *          internally and can be retrieved using appropriate getter methods.
+         * 
+         *          For symmetric/Hermitian matrices, all eigenvalues are guaranteed to be real,
+         *          and eigenvectors form an orthonormal basis. This expert routine is more efficient
+         *          than computing all eigenvalues when only a subset is needed.
+         * 
+         *          **Eigenvalue Range Options:**
+         * 
+         *          | Value | Description | Parameters Used |
+         *          |-------|-------------|------------------|
+         *          | All   | Behaves identically to executeSyevd and returns n eigenvalues | - |
+         *          | Value | Computes eigenvalues in the half-open interval (vl, vu] | vl, vu |
+         *          | Index | Eigenvalues are sorted in ascending order (1-based indexing) | il, iu |
+         * 
+         * @tparam T_Matrix The matrix type (must have symmetric or Hermitian property).
+         * @param[in] A The symmetric/Hermitian matrix for which to compute eigenvalues/eigenvectors.
+         * @param[in] calcVectors If true, computes eigenvectors; if false, only eigenvalues.
+         * @param[in] range Specifies the range of eigenvalues to compute (see table above).
+         * @param[in] il Lower index of the eigenvalue range (1-based, used when range = Index).
+         * @param[in] iu Upper index of the eigenvalue range (1-based, used when range = Index).
+         * @param[in] vl Lower bound of the eigenvalue interval (used when range = Value).
+         * @param[in] vu Upper bound of the eigenvalue interval (used when range = Value).
+         * @return The number of eigenvalues found that satisfy the range criteria.
+         * 
+         * @note @ref reserveSyevdx must be called first with matching parameters.
+         * @note The input matrix A is not modified; an internal copy is made.
+         * @note Only the upper or lower triangular part of A is accessed, as specified by A.prop().uplo().
+         */
+        template <typename T_Matrix>
+        int_t executeSyevdx(const T_Matrix& A, bool calcVectors, 
+                            eigRange_t range, 
+                            cuSolverInt il, 
+                            cuSolverInt iu, 
+                            typename TypeTraits<typename T_Matrix::value_type>::real_type vl, 
+                            typename TypeTraits<typename T_Matrix::value_type>::real_type vu)
+        {
+            using T_Scalar = typename T_Matrix::value_type;
+            using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
+            cuSolverInt n = A.nrows();
+
+            T_RScalar *W = nullptr;
+            T_Scalar *V = nullptr;
+            syevdAssignInternalPointers<T_Scalar>(n, &W, &V);
+
+            memCopyD2D<T_Scalar>(n, n, A.values(), A.ld(), V, n);
+
+            cuSolverInt eigsFound = 0;
+
+            cusolverStatus_t cusolverStatus = 
+            cusolverDnXsyevdx(handle(),
+                              params(),
+                              cusolver::bool2cusolverEigMode(calcVectors),
+                              cusolver::cla3pEigRange2cusolverEigRange(range),
+                              cublas::cla3pUplo2cublasUplo(A.prop().uplo()),
+                              n,
+                              TypeTraits<T_Scalar>::cuda_type(), V, n,
+                              &vl, &vu, il, iu, &eigsFound,
+                              TypeTraits<T_RScalar>::cuda_type(), W,
+                              TypeTraits<T_Scalar>::cuda_type(),
+                              deviceWork().data(), m_workspaceInBytesOnDevice,
+                              hostWork().data(), m_workspaceInBytesOnHost,
+                              info().data());
+
+            err::check_cusolver(cusolverStatus);
+
+            inputMeta() = InputMeta(A.nrows(), A.ncols(), TypeTraits<T_Scalar>::cuda_type());
+
+            return eigsFound;
+        }
+
+        /**
+         * @brief Reserves workspace memory for Singular Value Decomposition (SVD).
+         * @details Computes the required workspace size and allocates buffers for performing
+         *          SVD on matrix @p A. This includes memory for singular values, singular vectors
+         *          (U and V^T matrices), working copy of the input matrix, and device/host workspaces.
+         * 
+         *          **Left Singular Vectors (U) Policy:**
+         * 
+         *          | Policy | Description | Matrix Size |
+         *          |--------|-------------|-------------|
+         *          | Full   | Compute all m columns of U | m×m |
+         *          | Limited | Compute first min(m,n) columns of U (economy-size) | m×min(m,n) |
+         *          | NoCalculation | Do not compute U | - |
+         * 
+         *          **Right Singular Vectors (V^T) Policy:**
+         * 
+         *          | Policy | Description | Matrix Size |
+         *          |--------|-------------|-------------|
+         *          | Full   | Compute all n rows of V^T | n×n |
+         *          | Limited | Compute first min(m,n) rows of V^T (economy-size) | min(m,n)×n |
+         *          | NoCalculation | Do not compute V^T | - |
+         * 
+         * @tparam T_Matrix The matrix type.
+         * @param[in] A The matrix for which to reserve workspace (m×n).
+         * @param[in] policyU Policy for computing left singular vectors U (see table above).
+         * @param[in] policyVT Policy for computing right singular vectors V^T (see table above).
+         * 
+         * @note This must be called before @ref executeGesvd with matching policyU and policyVT parameters.
+         * @note For economy-size SVD (Limited policy), memory usage is significantly reduced compared to Full.
+         */
+        template <typename T_Matrix>
+        void reserveGesvd(const T_Matrix& A, svdPolicy_t policyU, svdPolicy_t policyVT)
+        {
+            using T_Scalar = typename T_Matrix::value_type;
+            using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
+            cuSolverInt m = A.nrows();
+            cuSolverInt n = A.ncols();
+            cuSolverInt k = std::min(m, n);
+
+            cuSolverInt sizeS = k * sizeof(T_RScalar);
+            cuSolverInt sizeA = m * n * sizeof(T_Scalar);
+            cuSolverInt sizeU = svdVectorSize(policyU, m, k) * sizeof(T_Scalar);
+            cuSolverInt sizeV = svdVectorSize(policyVT, n, k) * sizeof(T_Scalar);
+
+            customWork().reserve(sizeS + sizeA + sizeU + sizeV);
+
+            T_RScalar *S = nullptr;
+            T_Scalar *U = nullptr;
+            T_Scalar *VT = nullptr;
+            gesvdAssignInternalPointers<T_Scalar>(policyU, policyVT, m, n, &S, nullptr, &U, &VT);
+
+            cuSolverInt ldu = m;
+            cuSolverInt ldvt = (policyVT == svdPolicy_t::Limited ? k : n);
+
+            cusolverStatus_t cusolverStatus = 
+            cusolverDnXgesvd_bufferSize(handle(),
+                                        params(),
+                                        static_cast<signed char>(policyU),
+                                        static_cast<signed char>(policyVT),
+                                        m, n,
+                                        TypeTraits<T_Scalar>::cuda_type(), A.values(), A.ld(),
+                                        TypeTraits<T_RScalar>::cuda_type(), S,
+                                        TypeTraits<T_Scalar>::cuda_type(), U, ldu,
+                                        TypeTraits<T_Scalar>::cuda_type(), VT, ldvt,
+                                        TypeTraits<T_Scalar>::cuda_type(),
+                                        &m_workspaceInBytesOnDevice,
+                                        &m_workspaceInBytesOnHost);
+
+            err::check_cusolver(cusolverStatus);
+
+            info().reserve(1);
+            deviceWork().reserve(m_workspaceInBytesOnDevice);
+            hostWork().reserve(m_workspaceInBytesOnHost);
+        }
+
+        /**
+         * @brief Computes the Singular Value Decomposition (SVD) of a matrix.
+         * @details Performs SVD on matrix @p A, computing the factorization @f$ A = U \Sigma V^T @f$
+         *          where @f$ U @f$ and @f$ V @f$ are orthogonal/unitary matrices, and @f$ \Sigma @f$
+         *          is a diagonal matrix containing the singular values in descending order.
+         * 
+         *          This method uses cusolverDnXgesvd() internally. The input matrix is copied to
+         *          internal workspace before decomposition (original matrix is not modified).
+         *          Results are stored internally and can be retrieved using appropriate getter methods.
+         * 
+         *          The singular values are always real and non-negative, even for complex input matrices.
+         *          The computation policies control whether full or economy-size decompositions are performed.
+         * 
+         *          **Left Singular Vectors (U) Policy:**
+         * 
+         *          | Policy | Description | Matrix Size |
+         *          |--------|-------------|-------------|
+         *          | Full   | Compute all m columns of U | m×m |
+         *          | Limited | Compute first min(m,n) columns of U (economy-size) | m×min(m,n) |
+         *          | NoCalculation | Do not compute U | - |
+         * 
+         *          **Right Singular Vectors (V^T) Policy:**
+         * 
+         *          | Policy | Description | Matrix Size |
+         *          |--------|-------------|-------------|
+         *          | Full   | Compute all n rows of V^T | n×n |
+         *          | Limited | Compute first min(m,n) rows of V^T (economy-size) | min(m,n)×n |
+         *          | NoCalculation | Do not compute V^T | - |
+         * 
+         * @tparam T_Matrix The matrix type.
+         * @param[in] A The matrix to decompose (m×n).
+         * @param[in] policyU Policy for computing left singular vectors U (see table above).
+         * @param[in] policyVT Policy for computing right singular vectors V^T (see table above).
+         * 
+         * @note @ref reserveGesvd must be called first with matching policyU and policyVT parameters.
+         * @note The input matrix A is not modified; an internal copy is made.
+         * @note Singular values are returned in descending order: σ₁ ≥ σ₂ ≥ ... ≥ σₘᵢₙ₍ₘ,ₙ₎ ≥ 0.
+         * @note For economy-size decomposition (Limited policy), computational cost is reduced.
+         */
+        template <typename T_Matrix>
+        void executeGesvd(const T_Matrix& A, svdPolicy_t policyU, svdPolicy_t policyVT)
+        {
+            using T_Scalar = typename T_Matrix::value_type;
+            using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
+            cuSolverInt m = A.nrows();
+            cuSolverInt n = A.ncols();
+            cuSolverInt k = std::min(m, n);
+
+            T_RScalar *S = nullptr;
+            T_Scalar *vA = nullptr;
+            T_Scalar *U = nullptr;
+            T_Scalar *VT = nullptr;
+            gesvdAssignInternalPointers<T_Scalar>(policyU, policyVT, m, n, &S, &vA, &U, &VT);
+
+            cuSolverInt lda = m;
+            cuSolverInt ldu = m;
+            cuSolverInt ldvt = (policyVT == svdPolicy_t::Limited ? k : n);
+
+            memCopyD2D<T_Scalar>(m, n, A.values(), A.ld(), vA, lda);
+
+            cusolverStatus_t cusolverStatus = 
+            cusolverDnXgesvd(handle(),
+                             params(),
+                             static_cast<signed char>(policyU),
+                             static_cast<signed char>(policyVT),
+                             m, n,
+                             TypeTraits<T_Scalar>::cuda_type(), vA, lda,
+                             TypeTraits<T_RScalar>::cuda_type(), S,
+                             TypeTraits<T_Scalar>::cuda_type(), U, ldu,
+                             TypeTraits<T_Scalar>::cuda_type(), VT, ldvt,
+                             TypeTraits<T_Scalar>::cuda_type(),
+                             deviceWork().data(), m_workspaceInBytesOnDevice,
+                             hostWork().data(), m_workspaceInBytesOnHost,
+                             info().data());
+
+            err::check_cusolver(cusolverStatus);
+
+            inputMeta() = InputMeta(A.nrows(), A.ncols(), TypeTraits<T_Scalar>::cuda_type());
+        }
+
+        /**
+         * @brief Retrieves computed singular values from the Singular Value Decomposition.
+         * @details Extracts the singular values computed by a previous @ref executeGesvd call
+         *          and stores them in the provided vector. Singular values are always real and
+         *          non-negative, returned in descending order: σ₁ ≥ σ₂ ≥ ... ≥ σₘᵢₙ₍ₘ,ₙ₎ ≥ 0.
+         *          
+         *          For an m×n matrix, the number of singular values is min(m,n).
+         * @tparam T_Vector The vector type (must be a real vector type).
+         * @param[out] sigma Real vector to store the computed singular values.
+         * @throws CudaException if T_Vector contains complex scalars instead of real.
+         * @note The output vector must have real value type (e.g., RdVector for double precision).
+         * @note The vector will be automatically sized to min(m,n) if not already allocated.
+         */
+        template <typename T_Vector>
+        void gesvdGetSingularValues(T_Vector& sigma)
+        {
+            using T_Scalar = typename T_Vector::value_type;
+
+            if(!TypeTraits<T_Scalar>::is_real()) {
+                throw err::CudaException("Gesvd only returns real singular values.");
+            }
+
+            int_t m = inputMeta().nrows();
+            int_t n = inputMeta().ncols();
+            int_t k = std::min(m, n);
+
+            if(!sigma) sigma = T_Vector(k);
+            ::cla3p::similarity_dim_check(sigma.size(), k);
+
+            T_Scalar *S = nullptr;
+            gesvdAssignInternalPointers<T_Scalar>(svdPolicy_t::NoCalculation, 
+                                                  svdPolicy_t::NoCalculation, 
+                                                  m, n, &S, nullptr, nullptr, nullptr);
+
+            memCopyD2D<T_Scalar>(k, S, sigma.values());
+        }
+
+        /**
+         * @brief Retrieves computed singular vectors from the Singular Value Decomposition.
+         * @details Extracts the left singular vectors (U) and/or right singular vectors
+         *          computed by a previous @ref executeGesvd call. The matrices returned depend
+         *          on the policies specified, which must match those used in the executeGesvd call.
+         * 
+         *          For an m×n matrix decomposition @f$ A = U \Sigma V^T @f$, the singular vectors
+         *          form orthogonal/unitary matrices satisfying specific size constraints based on
+         *          the computation policy.
+         * 
+         *          The @p transposeVT parameter controls whether the right singular vectors are
+         *          returned as @f$ V^T @f$ (transpose format, as computed by cuSOLVER) or as
+         *          @f$ V @f$ (standard format, transposed for convenience).
+         * 
+         *          **Left Singular Vectors (U) Policy:**
+         * 
+         *          | Policy | Description | Matrix Size |
+         *          |--------|-------------|-------------|
+         *          | Full   | Returns all m columns of U | m×m |
+         *          | Limited | Returns first min(m,n) columns of U (economy-size) | m×min(m,n) |
+         *          | NoCalculation | Does not retrieve U (U is not modified) | - |
+         * 
+         *          **Right Singular Vectors (V/V^T) Policy:**
+         * 
+         *          When transposeVT = true (default), returns V:
+         * 
+         *          | Policy | Description | Matrix Size |
+         *          |--------|-------------|-------------|
+         *          | Full   | Returns all n columns of V | n×n |
+         *          | Limited | Returns first min(m,n) columns of V (economy-size) | n×min(m,n) |
+         *          | NoCalculation | Does not retrieve V (V is not modified) | - |
+         * 
+         *          When transposeVT = false, returns V^T:
+         * 
+         *          | Policy | Description | Matrix Size |
+         *          |--------|-------------|-------------|
+         *          | Full   | Returns all n rows of V^T | n×n |
+         *          | Limited | Returns first min(m,n) rows of V^T (economy-size) | min(m,n)×n |
+         *          | NoCalculation | Does not retrieve V^T (V is not modified) | - |
+         * 
+         * @tparam T_Matrix The matrix type.
+         * @param[in] policyU Policy for retrieving left singular vectors (must match executeGesvd).
+         * @param[in] policyVT Policy for retrieving right singular vectors (must match executeGesvd).
+         * @param[out] U Matrix to store the left singular vectors (if policyU ≠ NoCalculation).
+         * @param[out] V Matrix to store the right singular vectors, either as V or V^T depending on transposeVT.
+         * @param[in] transposeVT If true (default), returns V by transposing V^T; if false, returns V^T directly.
+         * 
+         * @note The policyU and policyVT parameters must match those used in the executeGesvd call.
+         * @note Output matrices will be automatically sized if not already allocated.
+         * @note If a policy is NoCalculation, the corresponding matrix parameter is ignored.
+         * @note Setting transposeVT = true requires additional transpose operation but provides V in standard format.
+         */
+        template <typename T_Matrix>
+        void gesvdGetSingularVectors(svdPolicy_t policyU, 
+                                     svdPolicy_t policyVT, 
+                                     T_Matrix& U, 
+                                     T_Matrix& V,
+                                     bool transposeVT = true)
+        {
+            using T_Scalar = typename T_Matrix::value_type;
+
+            int_t m = inputMeta().nrows();
+            int_t n = inputMeta().ncols();
+            int_t k = std::min(m, n);
+
+            int_t nrowsU = 0;
+            int_t ncolsU = 0;
+            int_t nrowsVT = 0;
+            int_t ncolsVT = 0;
+
+            if(policyU != svdPolicy_t::NoCalculation) {
+                nrowsU = m;
+                ncolsU = (policyU == svdPolicy_t::Limited ? k : m);
+                if(!U) U = T_Matrix(nrowsU, ncolsU);
+                ::cla3p::similarity_dim_check(U.nrows(), nrowsU);
+                ::cla3p::similarity_dim_check(U.ncols(), ncolsU);
+            }
+
+            if(policyVT != svdPolicy_t::NoCalculation) {
+                nrowsVT = (policyVT == svdPolicy_t::Limited ? k : n);
+                ncolsVT = n;
+                int_t nrowsV = transposeVT ? ncolsVT : nrowsVT;
+                int_t ncolsV = transposeVT ? nrowsVT : ncolsVT;
+                if(!V) V = T_Matrix(nrowsV, ncolsV);
+                ::cla3p::similarity_dim_check(V.nrows(), nrowsV);
+                ::cla3p::similarity_dim_check(V.ncols(), ncolsV);
+            }
+
+            T_Scalar *storedU = nullptr;
+            T_Scalar *storedVT = nullptr;
+            gesvdAssignInternalPointers<T_Scalar>(policyU, policyVT, m, n, nullptr, nullptr, &storedU, &storedVT);
+
+            if(policyU != svdPolicy_t::NoCalculation) {
+                memCopyD2D<T_Scalar>(nrowsU, ncolsU, storedU, nrowsU, U.values(), U.ld());
+            } // policyU
+            
+            if(policyVT != svdPolicy_t::NoCalculation) {
+                if(transposeVT) {
+                    blk::dns::ctranspose<T_Scalar>(nrowsVT, ncolsVT, storedVT, nrowsVT, V.values(), V.ld());
+                } else {
+                    memCopyD2D<T_Scalar>(nrowsVT, ncolsVT, storedVT, nrowsVT, V.values(), V.ld());
+                }
+            } // policyVT
+        }
+
+
+
+
+        // ------------ Helper Methods for Internal Pointer Management -----------
+
+        cuSolverInt svdVectorSize(svdPolicy_t policy, cuSolverInt n, cuSolverInt k) const
+        {
+            switch(policy) {
+                case svdPolicy_t::Full         : return n * n;
+                case svdPolicy_t::Limited      : return n * std::min(n, k);
+                case svdPolicy_t::NoCalculation: return 0;
+                default: return 0;
+            }
+        }
+
     private:
+        InputMeta& inputMeta() { return m_inputMeta; }
         DeviceBuffer<cuSolverInt>& ipiv() { return m_ipiv; }
         DeviceBuffer<infoInt>& info() { return m_info; }
         DeviceBufferVoid& customWork() { return m_customBuffer; }
         DeviceBufferVoid& deviceWork() { return m_deviceBuffer; }
         PinnedBufferVoid& hostWork() { return m_hostBuffer; }
 
+        const InputMeta& inputMeta() const { return m_inputMeta; }
         const DeviceBuffer<cuSolverInt>& ipiv() const { return m_ipiv; }
         const DeviceBuffer<infoInt>& info() const { return m_info; }
         const DeviceBufferVoid& customWork() const { return m_customBuffer; }
@@ -478,15 +1065,62 @@ class CuSolverHandler {
             if(calcRight && VR) { *VR = reinterpret_cast<T_Scalar*>(charBuffer); } charBuffer += sizeVR;
         }
 
+        template <typename T_Scalar>
+        void syevdAssignInternalPointers(int_t n, typename TypeTraits<T_Scalar>::real_type** W, T_Scalar** V)
+        {
+            using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
+            if(W) *W = nullptr;
+            if(V) *V = nullptr;
+
+            char *charBuffer = static_cast<char*>(customWork().data());
+
+            std::size_t sizeW = n * sizeof(T_RScalar);
+            std::size_t sizeV = n * n * sizeof(T_Scalar);
+
+            if(W) { *W = reinterpret_cast<T_RScalar*>(charBuffer); } charBuffer += sizeW;
+            if(V) { *V = reinterpret_cast<T_Scalar*>(charBuffer); } charBuffer += sizeV;
+        }
+
+        template <typename T_Scalar>
+        void gesvdAssignInternalPointers(svdPolicy_t jobu, 
+                                         svdPolicy_t jobv,
+                                         int_t m,
+                                         int_t n, 
+                                         typename TypeTraits<T_Scalar>::real_type** S, 
+                                         T_Scalar** A,
+                                         T_Scalar** U, 
+                                         T_Scalar** V)
+        {
+            using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
+            int_t k = std::min(m, n);
+
+            if(S) *S = nullptr;
+            if(A) *A = nullptr;
+            if(U) *U = nullptr;
+            if(V) *V = nullptr;
+
+            char *charBuffer = static_cast<char*>(customWork().data());
+
+            std::size_t sizeS = k * sizeof(T_RScalar);
+            std::size_t sizeA = m * n * sizeof(T_Scalar);
+            std::size_t sizeU = svdVectorSize(jobu, m, k) * sizeof(T_Scalar);
+            std::size_t sizeV = svdVectorSize(jobv, n, k) * sizeof(T_Scalar);
+
+            if(S) { *S = reinterpret_cast<T_RScalar*>(charBuffer); } charBuffer += sizeS;
+            if(A) { *A = reinterpret_cast<T_Scalar *>(charBuffer); } charBuffer += sizeA;
+            if(U) { *U = reinterpret_cast<T_Scalar *>(charBuffer); } charBuffer += sizeU;
+            if(V) { *V = reinterpret_cast<T_Scalar *>(charBuffer); } charBuffer += sizeV;
+        }
+
     private:
         cusolverDnHandle_t m_handle{nullptr};
         cusolver::DnParams m_params;
 
         size_t m_workspaceInBytesOnDevice;
         size_t m_workspaceInBytesOnHost;
-        cudaDataType m_problemCudaType;
-        cuSolverInt m_problemDim;
-
+        InputMeta m_inputMeta;
         DeviceBuffer<cuSolverInt> m_ipiv;
         DeviceBuffer<infoInt> m_info;
         DeviceBufferVoid m_customBuffer;

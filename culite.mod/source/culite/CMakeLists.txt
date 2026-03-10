@@ -28,7 +28,7 @@ set(CULITE_HPP
     algebra.hpp
     linsol.hpp
     eigsol.hpp
-    #svd.hpp
+    svd.hpp
     #qr.hpp
     )
 
@@ -54,7 +54,7 @@ add_subdirectory(virtuals)
 add_subdirectory(algebra)
 add_subdirectory(linsol)
 add_subdirectory(eigsol)
-#add_subdirectory(svd)
+add_subdirectory(svd)
 #add_subdirectory(qr)
 
 #-----------------------------------------------

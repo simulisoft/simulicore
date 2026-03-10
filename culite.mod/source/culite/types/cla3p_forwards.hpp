@@ -94,6 +94,25 @@ using side_t = ::cla3p::side_t;
  */
 using decomp_t = ::cla3p::decomp_t;
 
+/**
+ * @ingroup culite_module_index_datatypes
+ * @brief Singular vector computation policy enumeration.
+ * @details Alias of @ref cla3p::svdPolicy_t into the `culite` namespace.
+ *          Specifies the extent of singular vector computation in Singular Value Decomposition (SVD).
+ *          Different policies trade off computational cost against the completeness of the decomposition.
+ */
+using svdPolicy_t = ::cla3p::svdPolicy_t;
+
+/**
+ * @ingroup culite_module_index_datatypes
+ * @brief Eigenvalue computation range enumeration.
+ * @details Alias of @ref cla3p::eigRange_t into the `culite` namespace.
+ *          Specifies which subset of eigenvalues to compute in eigenvalue decomposition routines.
+ *          This allows selective computation to improve performance when only specific eigenvalues
+ *          are needed, rather than computing the full spectrum.
+ */
+using eigRange_t = ::cla3p::eigRange_t;
+
 /*-------------------------------------------------*/
 } // namespace culite
 /*-------------------------------------------------*/

@@ -13,6 +13,14 @@ set(CLA3P_SRC ${CLA3P_SRC}
 
 set(CLA3P_CHECKS_HPP 
     basic_checks.hpp
+    hermitian_coeff_checks.hpp
+    block_ops_checks.hpp
+    dns_checks.hpp
+    csx_checks.hpp
+    outer_checks.hpp
+    matrix_math_checks.hpp
+    decomp_xx_checks.hpp
+    solve_checks.hpp
     )
 
 #-----------------------------------------------

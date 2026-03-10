@@ -133,6 +133,20 @@ enum class decomp_t {
 
 /**
  * @ingroup cla3p_module_index_datatypes
+ * @enum eigRange_t
+ * @brief Eigenvalue computation range enumeration.
+ * @details Specifies which subset of eigenvalues to compute in eigenvalue decomposition routines.
+ *          This allows selective computation to improve performance when only specific eigenvalues
+ *          are needed, rather than computing the full spectrum.
+ */
+enum class eigRange_t : char {
+    All   = 'A', /**< All eigenvalues are computed. */
+    Value = 'V', /**< Eigenvalues in the half-open interval (vl, vu] are computed. */
+    Index = 'I'  /**< Eigenvalues with indices il to iu are computed. */
+};
+
+/**
+ * @ingroup cla3p_module_index_datatypes
  * @enum svdPolicy_t
  * @brief Singular vector computation policy enumeration.
  * @details Specifies the extent of singular vector computation in Singular Value Decomposition (SVD).

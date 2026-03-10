@@ -28,8 +28,6 @@
 namespace culite {
 /*-------------------------------------------------*/
 
-//namespace dns { template <typename T_Scalar> class XxVector; }
-
 /**
  * @nosubgrouping
  * @brief Eigenvalue decomposition solver using LAPACK/cuSOLVER GEEV routines.

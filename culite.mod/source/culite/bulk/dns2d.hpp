@@ -164,10 +164,10 @@ void transpose(int_t m, int_t n, const T_Scalar *a, int_t lda, T_Scalar* b, int_
     T_Scalar *p_null = nullptr;
     globalCuBlasHandler().geam(op_t::T,
                                op_t::N,
-                                n, m,
-                                &alpha, a, lda,
-                                &beta, p_null, n,
-                                b, ldb);
+                               n, m,
+                               &alpha, a, lda,
+                               &beta, p_null, n,
+                               b, ldb);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>

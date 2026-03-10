@@ -23,6 +23,7 @@
 
 // culite
 #include <culite/error/cuda.hpp>
+#include <culite/error/exceptions.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {
@@ -32,6 +33,17 @@ cusolverEigMode_t bool2cusolverEigMode(bool job)
 {
     return (job ? cusolverEigMode_t::CUSOLVER_EIG_MODE_VECTOR 
                 : cusolverEigMode_t::CUSOLVER_EIG_MODE_NOVECTOR);
+}
+/*-------------------------------------------------*/
+cusolverEigRange_t cla3pEigRange2cusolverEigRange(eigRange_t range)
+{
+    switch(range) {
+        case eigRange_t::All  : return cusolverEigRange_t::CUSOLVER_EIG_RANGE_ALL;
+        case eigRange_t::Index: return cusolverEigRange_t::CUSOLVER_EIG_RANGE_I;
+        case eigRange_t::Value: return cusolverEigRange_t::CUSOLVER_EIG_RANGE_V;
+        default:
+            throw err::CudaException("Invalid (eigRange_t) value.");
+    }
 }
 /*-------------------------------------------------*/
 DnParams::DnParams()
