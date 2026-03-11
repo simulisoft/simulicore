@@ -63,7 +63,7 @@ void VirtualOuterEvaluateOnNewSpec(
     const VirtualRowvec<T_Scalar>& right, 
     dns::XxMatrix<T_Scalar>& dest)
 {
-    right.evaluateOuterOnNew(T_Scalar(1), left.get(), dest);
+    right.evaluateOuterOnNew(makeScalar<T_Scalar>(1), left.get(), dest);
 }
 /*-------------------------------------------------*/
 template <typename T_Virtual>
@@ -81,7 +81,7 @@ void VirtualOuterEvaluateOnExistingSpec(
     const VirtualRowvec<T_Scalar>& right, 
     dns::XxMatrix<T_Scalar>& dest)
 {
-    right.evaluateOuterOnExisting(T_Scalar(1), left.get(), dest);
+    right.evaluateOuterOnExisting(makeScalar<T_Scalar>(1), left.get(), dest);
 }
 /*-------------------------------------------------*/
 template <typename T_Virtual>

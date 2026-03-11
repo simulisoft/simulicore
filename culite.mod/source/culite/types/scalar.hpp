@@ -134,14 +134,14 @@ template<> class TypeTraits<complex8_t> {
  * @return The complex number initialized with the provided values
  */
 CULITE_HOST CULITE_DEVICE inline complex_t
-makeComplex(const real_t re, const real_t im = 0) { return make_cuDoubleComplex(re, im); }
+makeComplex(const real_t re, const real_t im = 0.0) { return make_cuDoubleComplex(re, im); }
 
 /**
  * @ingroup culite_module_index_datatypes
  * @copydoc makeComplex(const real_t, const real_t)
  */
 CULITE_HOST CULITE_DEVICE inline complex8_t
-makeComplex(const real4_t re, const real4_t im = 0) { return make_cuFloatComplex(re, im); }
+makeComplex(const real4_t re, const real4_t im = 0.0f) { return make_cuFloatComplex(re, im); }
 
 /**
  * @ingroup culite_module_index_datatypes

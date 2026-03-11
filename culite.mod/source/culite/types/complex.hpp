@@ -52,10 +52,17 @@ class DoubleComplex {
         CULITE_HOST CULITE_DEVICE void setReal(const T_RScalar r) { m_data.x = r; }
         CULITE_HOST CULITE_DEVICE void setImag(const T_RScalar i) { m_data.y = i; }
 
+        CULITE_HOST CULITE_DEVICE DoubleComplex conj() const
+        { 
+            DoubleComplex ret;
+            ret.m_data = cuConj(m_data);
+            return ret; 
+        }
+
         CULITE_HOST CULITE_DEVICE T_RScalar abs() const { return cuCabs(m_data); }
         CULITE_HOST CULITE_DEVICE T_RScalar abs2() const 
         { 
-            return cuCreal(m_data)*cuCreal(m_data) + cuCimag(m_data)*cuCimag(m_data); 
+            return (cuCreal(m_data) * cuCreal(m_data) + cuCimag(m_data) * cuCimag(m_data)); 
         }
 
         CULITE_HOST CULITE_DEVICE DoubleComplex operator+(const DoubleComplex c) const {
@@ -108,10 +115,17 @@ class SingleComplex {
         CULITE_HOST CULITE_DEVICE void setReal(const T_RScalar r) { m_data.x = r; }
         CULITE_HOST CULITE_DEVICE void setImag(const T_RScalar i) { m_data.y = i; }
 
+        CULITE_HOST CULITE_DEVICE SingleComplex conj() const
+        { 
+            SingleComplex ret;
+            ret.m_data = cuConjf(m_data);
+            return ret; 
+        }
+
         CULITE_HOST CULITE_DEVICE T_RScalar abs() const { return cuCabsf(m_data); }
         CULITE_HOST CULITE_DEVICE T_RScalar abs2() const 
         { 
-            return cuCrealf(m_data)*cuCrealf(m_data) + cuCimagf(m_data)*cuCimagf(m_data); 
+            return (cuCrealf(m_data) * cuCrealf(m_data) + cuCimagf(m_data) * cuCimagf(m_data)); 
         }
 
         CULITE_HOST CULITE_DEVICE SingleComplex operator+(const SingleComplex c) const {

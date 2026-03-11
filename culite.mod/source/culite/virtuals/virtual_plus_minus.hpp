@@ -48,7 +48,7 @@ class VirtualPlus : public VirtualExpression<T_Result, VirtualPlus<T_Result, T_L
         {
             dest.clear();
             m_left.evaluateOnNew(dest);
-            m_right.accumulateOnExisting(dest, T_Scalar(1));
+            m_right.accumulateOnExisting(dest, makeScalar<T_Scalar>(1));
         }
 
         void evaluateOnExisting(T_Result& dest) const override;
@@ -124,7 +124,7 @@ class VirtualMinus : public VirtualExpression<T_Result, VirtualMinus<T_Result, T
         {
             dest.clear();
             m_left.evaluateOnNew(dest);
-            m_right.accumulateOnExisting(dest, T_Scalar(-1));
+            m_right.accumulateOnExisting(dest, makeScalar<T_Scalar>(-1));
         }
 
         void evaluateOnExisting(T_Result& dest) const override;
@@ -148,7 +148,7 @@ void VirtualMinusEvaluateOnExistingSpec(
     T_Result& dest)
 { 
     left.evaluateOnExisting(dest);
-    right.accumulateOnExisting(dest, typename T_Result::value_type(-1));
+    right.accumulateOnExisting(dest, makeScalar<typename T_Result::value_type>(-1));
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Left, typename T_Right>
