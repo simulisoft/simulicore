@@ -746,7 +746,10 @@ class CuSolverHandler {
             cuSolverInt n = A.ncols();
             cuSolverInt k = std::min(m, n);
 
-            cuSolverInt sizeS = k * sizeof(T_RScalar);
+            // TODO: If allocate with Real size, cuSOLVER returns 
+            //       CUDA_ERROR_MISALIGNED_ADDRESS error (for complex types only)
+            // cuSolverInt sizeS = k * sizeof(T_RScalar);
+            cuSolverInt sizeS = k * sizeof(T_Scalar);
             cuSolverInt sizeA = m * n * sizeof(T_Scalar);
             cuSolverInt sizeU = svdVectorSize(policyU, m, k) * sizeof(T_Scalar);
             cuSolverInt sizeV = svdVectorSize(policyVT, n, k) * sizeof(T_Scalar);
@@ -1014,7 +1017,7 @@ class CuSolverHandler {
         {
             switch(policy) {
                 case svdPolicy_t::Full         : return n * n;
-                case svdPolicy_t::Limited      : return n * std::min(n, k);
+                case svdPolicy_t::Limited      : return n * k;
                 case svdPolicy_t::NoCalculation: return 0;
                 default: return 0;
             }
@@ -1083,8 +1086,8 @@ class CuSolverHandler {
         }
 
         template <typename T_Scalar>
-        void gesvdAssignInternalPointers(svdPolicy_t jobu, 
-                                         svdPolicy_t jobv,
+        void gesvdAssignInternalPointers(svdPolicy_t policyU, 
+                                         svdPolicy_t policyV,
                                          int_t m,
                                          int_t n, 
                                          typename TypeTraits<T_Scalar>::real_type** S, 
@@ -1103,10 +1106,13 @@ class CuSolverHandler {
 
             char *charBuffer = static_cast<char*>(customWork().data());
 
-            std::size_t sizeS = k * sizeof(T_RScalar);
+            // TODO: If allocate with Real size, cuSOLVER returns 
+            //       CUDA_ERROR_MISALIGNED_ADDRESS error (for complex types only)
+            // cuSolverInt sizeS = k * sizeof(T_RScalar);
+            cuSolverInt sizeS = k * sizeof(T_Scalar);
             std::size_t sizeA = m * n * sizeof(T_Scalar);
-            std::size_t sizeU = svdVectorSize(jobu, m, k) * sizeof(T_Scalar);
-            std::size_t sizeV = svdVectorSize(jobv, n, k) * sizeof(T_Scalar);
+            std::size_t sizeU = svdVectorSize(policyU, m, k) * sizeof(T_Scalar);
+            std::size_t sizeV = svdVectorSize(policyV, n, k) * sizeof(T_Scalar);
 
             if(S) { *S = reinterpret_cast<T_RScalar*>(charBuffer); } charBuffer += sizeS;
             if(A) { *A = reinterpret_cast<T_Scalar *>(charBuffer); } charBuffer += sizeA;
