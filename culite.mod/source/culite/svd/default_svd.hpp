@@ -50,11 +50,10 @@ namespace culite {
  * 
  * @section svd_usage Usage Example
  * @code
- * CuSolverHandler cusolver;
  * culite::dns::RdMatrix A = ...; // Input matrix
  * 
- * DefaultSVD<culite::dns::RdMatrix> svd(cusolver);
- * svd.reserve(A);
+ * DefaultSVD<culite::dns::RdMatrix> svd;
+ * svd.reserve(A); // Optional
  * svd.decompose(A);
  * 
  * const culite::dns::RdVector& S = svd.singularValues();
@@ -71,17 +70,30 @@ class DefaultSVD {
         using T_RVector = dns::XxVector<T_RScalar>;
 
     public:
+
+        // do not copy
+        DefaultSVD(const DefaultSVD&) = delete;
+        DefaultSVD& operator=(const DefaultSVD&) = delete;
+
         /**
-         * @brief Constructor.
+         * @brief Default constructor.
+         * @details Initializes the SVD solver with default settings.
+         *          Both leftPolicy and rightPolicy are initialized to Limited.
+         * @param[in] cusolver Reference to a cuSOLVER handler instance (defaults to global handler).
+         */
+        DefaultSVD(CuSolverHandler& cusolver = globalCuSolverHandler());
+
+        /**
+         * @brief Constructor with specified policies.
          * @details Initializes the SVD solver with the specified cuSOLVER handler and
          *          singular vector computation policies.
-         * @param[in] cusolver Reference to a cuSOLVER handler instance.
          * @param[in] leftPolicy Policy for computing left singular vectors U (Limited, Full, or None).
          * @param[in] rightPolicy Policy for computing right singular vectors V (Limited, Full, or None).
+         * @param[in] cusolver Reference to a cuSOLVER handler instance (defaults to global handler).
          */
-        DefaultSVD(CuSolverHandler& cusolver, 
-                   svdPolicy_t leftPolicy = svdPolicy_t::Limited, 
-                   svdPolicy_t rightPolicy = svdPolicy_t::Limited);
+        DefaultSVD(svdPolicy_t leftPolicy, 
+                   svdPolicy_t rightPolicy, 
+                   CuSolverHandler& cusolver = globalCuSolverHandler());
         
         /**
          * @brief Destructor.
@@ -183,6 +195,7 @@ class DefaultSVD {
         DeviceBuffer<T_RScalar> m_deviceValuesBuffer;
         DeviceBuffer<T_Scalar> m_deviceVectorBuffer;
 
+        void defaults();
         void clearOutput();
 };
 

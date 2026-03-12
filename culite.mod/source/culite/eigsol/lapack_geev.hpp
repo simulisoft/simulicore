@@ -44,15 +44,14 @@ namespace culite {
  * 
  * @section geev_usage Usage Example
  * @code
- * CuSolverHandler cusolver;
  * culite::dns::RdMatrix A = ...; // Input matrix
  * 
- * LapackGeev<culite::dns::RdMatrix> geev(cusolver, false, true);
- * geev.reserve(A);
+ * LapackGeev<culite::dns::RdMatrix> geev;
+ * geev.reserve(A); // Optional
  * geev.decompose(A);
  * 
- * auto eigenvalues = geev.eigenvalues();
- * auto rightEigenvectors = geev.rightEigenvectors();
+ * const culite::dns::CdVector& eigenvalues = geev.eigenvalues();
+ * const culite::dns::CdMatrix& rightEigenvectors = geev.rightEigenvectors();
  * @endcode
  */
 template <typename T_Matrix>

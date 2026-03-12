@@ -28,15 +28,31 @@
 namespace culite {
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-DefaultSVD<T_Matrix>::DefaultSVD(CuSolverHandler& cusolver, svdPolicy_t leftPolicy, svdPolicy_t rightPolicy)
-    : m_cusolver(cusolver), m_LeftPolicy(leftPolicy), m_RightPolicy(rightPolicy)
+DefaultSVD<T_Matrix>::DefaultSVD(CuSolverHandler& cusolver)
+    : m_cusolver(cusolver)
 {
+    defaults();
+}
+/*-------------------------------------------------*/
+template <typename T_Matrix>
+DefaultSVD<T_Matrix>::DefaultSVD(svdPolicy_t leftPolicy, svdPolicy_t rightPolicy, CuSolverHandler& cusolver)
+    : DefaultSVD<T_Matrix>::DefaultSVD(cusolver)
+{
+    setLeftPolicy(leftPolicy);
+    setRightPolicy(rightPolicy);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 DefaultSVD<T_Matrix>::~DefaultSVD()
 {
     clear();
+}
+/*-------------------------------------------------*/
+template <typename T_Matrix>
+void DefaultSVD<T_Matrix>::defaults()
+{
+    m_LeftPolicy = svdPolicy_t::Limited;
+    m_RightPolicy = svdPolicy_t::Limited;
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
@@ -90,6 +106,8 @@ void DefaultSVD<T_Matrix>::clear()
     clearOutput();
     m_deviceValuesBuffer.clear();
     m_deviceVectorBuffer.clear();
+
+    defaults();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
