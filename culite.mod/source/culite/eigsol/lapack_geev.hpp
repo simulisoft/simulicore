@@ -63,21 +63,58 @@ class LapackGeev {
         using T_CScalar = typename TypeTraits<T_Scalar>::complex_type;
 
     public:
+
+        // do not copy
+        LapackGeev(const LapackGeev&) = delete;
+        LapackGeev& operator=(const LapackGeev&) = delete;
+
+        /**
+         * @brief Default constructor.
+         * @details Initializes the eigenvalue solver with default settings.
+         *          calcLeft is initialized to false and calcRight is initialized to true.
+         * @param[in] cusolver Reference to a cuSOLVER handler instance (defaults to global handler).
+         */
+        LapackGeev(CuSolverHandler& cusolver = globalCuSolverHandler());
+
         /**
          * @brief Constructor.
          * @details Initializes the eigenvalue solver with the specified cuSOLVER handler
          *          and eigenvector computation options.
-         * @param[in] cusolver Reference to a cuSOLVER handler instance.
          * @param[in] calcLeft If true, computes left eigenvectors.
          * @param[in] calcRight If true, computes right eigenvectors.
+         * @param[in] cusolver Reference to a cuSOLVER handler instance (defaults to global handler).
          */
-        LapackGeev(CuSolverHandler& cusolver, bool calcLeft, bool calcRight);
+        LapackGeev(bool calcLeft, bool calcRight, CuSolverHandler& cusolver = globalCuSolverHandler());
         
         /**
          * @brief Destructor.
          * @details Releases all allocated resources and clears internal state.
          */
         ~LapackGeev();
+
+        /**
+         * @brief Checks if left eigenvectors will be computed.
+         * @return True if left eigenvectors will be computed, false otherwise.
+         */
+        bool getCalcLeft() const { return m_calcLeft; }
+        
+        /**
+         * @brief Checks if right eigenvectors will be computed.
+         * @return True if right eigenvectors will be computed, false otherwise.
+         */
+        bool getCalcRight() const { return m_calcRight; }
+
+        /**
+         * @brief Sets whether to compute left eigenvectors.
+         * @param[in] calcLeft If true, left eigenvectors will be computed in @ref decompose.
+         */
+        void setCalcLeft(bool calcLeft) { m_calcLeft = calcLeft; }
+        
+        /**
+         * @brief Sets whether to compute right eigenvectors.
+         * @param[in] calcRight If true, right eigenvectors will be computed in @ref decompose.
+         */
+        void setCalcRight(bool calcRight) { m_calcRight = calcRight; }
 
         /**
          * @brief Reserves workspace memory for eigenvalue decomposition.
@@ -143,6 +180,7 @@ class LapackGeev {
 
         DeviceBuffer<T_CScalar> m_deviceBuffer;
 
+        void defaults();
         void clearOutput();
 };
 

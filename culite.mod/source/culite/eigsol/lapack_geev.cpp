@@ -28,15 +28,31 @@
 namespace culite {
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-LapackGeev<T_Matrix>::LapackGeev(CuSolverHandler& cusolver, bool calcLeft, bool calcRight)
-    : m_cusolver(cusolver), m_calcLeft(calcLeft), m_calcRight(calcRight)
+LapackGeev<T_Matrix>::LapackGeev(CuSolverHandler& cusolver)
+    : m_cusolver(cusolver)
 {
+    defaults(); 
+}
+/*-------------------------------------------------*/
+template <typename T_Matrix>
+LapackGeev<T_Matrix>::LapackGeev(bool calcLeft, bool calcRight, CuSolverHandler& cusolver)
+    : LapackGeev<T_Matrix>::LapackGeev(cusolver)
+{
+    setCalcLeft(calcLeft);
+    setCalcRight(calcRight);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 LapackGeev<T_Matrix>::~LapackGeev()
 {
     clear();
+}
+/*-------------------------------------------------*/
+template <typename T_Matrix>
+void LapackGeev<T_Matrix>::defaults()
+{
+    m_calcLeft = false;
+    m_calcRight = true;
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
@@ -76,6 +92,8 @@ void LapackGeev<T_Matrix>::clear()
 {
     clearOutput();
     m_deviceBuffer.clear();
+
+    defaults();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
