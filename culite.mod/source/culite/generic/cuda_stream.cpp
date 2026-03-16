@@ -45,5 +45,7 @@ void CudaStream::sync()
     err::check_cuda(cudaError);
 }
 /*-------------------------------------------------*/
+cudaStream_t CudaStream::stream() { return m_stream; }
+/*-------------------------------------------------*/
 } // namespace culite
 /*-------------------------------------------------*/

@@ -100,7 +100,7 @@ class CuBlasHandler {
          * @brief Get the cuBlas handle.
          * @return The cuBlas handle.
          */
-        cublasHandle_t handle() { return m_handle; }
+        cublasHandle_t handle();
 
         /**
          * @brief Set the pointer mode for cuBLAS operations.
@@ -129,10 +129,7 @@ class CuBlasHandler {
          * @param[out] result Pointer to store the result index (1-based).
          */
         template <typename T_Scalar>
-        void iamax(int_t n, const T_Scalar *x, int_t incx, int_t *result)
-        {
-            cublas::iamax(handle(), n, x, incx, result);
-        }
+        void iamax(int_t n, const T_Scalar *x, int_t incx, int_t *result);
 
         /**
          * @brief Computes the sum of absolute values.
@@ -144,10 +141,7 @@ class CuBlasHandler {
          * @param[out] result Pointer to store the sum of absolute values.
          */
         template <typename T_Scalar>
-        void asum(int_t n, const T_Scalar *x, int_t incx, typename TypeTraits<T_Scalar>::real_type *result)
-        {
-            cublas::asum(handle(), n, x, incx, result);
-        }
+        void asum(int_t n, const T_Scalar *x, int_t incx, typename TypeTraits<T_Scalar>::real_type *result);
 
         /**
          * @brief Computes the Euclidean norm (L2 norm).
@@ -159,10 +153,7 @@ class CuBlasHandler {
          * @param[out] result Pointer to store the Euclidean norm.
          */
         template <typename T_Scalar>
-        void nrm2(int_t n, const T_Scalar *x, int_t incx, typename TypeTraits<T_Scalar>::real_type *result)
-        {
-            cublas::nrm2(handle(), n, x, incx, result);
-        }
+        void nrm2(int_t n, const T_Scalar *x, int_t incx, typename TypeTraits<T_Scalar>::real_type *result);
 
         /**
          * @brief Copies a vector to another vector.
@@ -175,10 +166,7 @@ class CuBlasHandler {
          * @param[in] incy The stride between consecutive elements of @p y.
          */
         template <typename T_Scalar>
-        void copy(int_t n, const T_Scalar *x, int_t incx, T_Scalar *y, int_t incy)
-        {
-            cublas::copy(handle(), n, x, incx, y, incy);
-        }
+        void copy(int_t n, const T_Scalar *x, int_t incx, T_Scalar *y, int_t incy);
 
         /**
          * @brief Scales a vector by a scalar.
@@ -190,10 +178,7 @@ class CuBlasHandler {
          * @param[in] incx The stride between consecutive elements of @p x.
          */
         template <typename T_Scalar>
-        void scal(int_t n, const T_Scalar *alpha, T_Scalar *x, int_t incx)
-        {
-            cublas::scal(handle(), n, alpha, x, incx);
-        }
+        void scal(int_t n, const T_Scalar *alpha, T_Scalar *x, int_t incx);
 
         /**
          * @brief Computes the dot product of two vectors.
@@ -207,10 +192,7 @@ class CuBlasHandler {
          * @param[out] result Pointer to store the dot product result.
          */
         template <typename T_Scalar>
-        void dot(int_t n, const T_Scalar *x, int_t incx, const T_Scalar *y, int_t incy, T_Scalar *result)
-        {
-            cublas::dot(handle(), n, x, incx, y, incy, result);
-        }
+        void dot(int_t n, const T_Scalar *x, int_t incx, const T_Scalar *y, int_t incy, T_Scalar *result);
 
         /**
          * @brief Computes the conjugate dot product of two vectors.
@@ -225,10 +207,7 @@ class CuBlasHandler {
          * @param[out] result Pointer to store the conjugate dot product result.
          */
         template <typename T_Scalar>
-        void dotc(int_t n, const T_Scalar *x, int_t incx, const T_Scalar *y, int_t incy, T_Scalar *result)
-        {
-            cublas::dot(handle(), n, x, incx, y, incy, result);
-        }
+        void dotc(int_t n, const T_Scalar *x, int_t incx, const T_Scalar *y, int_t incy, T_Scalar *result);
 
         /**
          * @brief Computes a vector plus scalar times a vector.
@@ -242,10 +221,7 @@ class CuBlasHandler {
          * @param[in] incy The stride between consecutive elements of @p y.
          */
         template <typename T_Scalar>
-        void axpy(int_t n, const T_Scalar *alpha, const T_Scalar *x, int_t incx, T_Scalar *y, int_t incy)
-        {
-            cublas::axpy(handle(), n, alpha, x, incx, y, incy);
-        }
+        void axpy(int_t n, const T_Scalar *alpha, const T_Scalar *x, int_t incx, T_Scalar *y, int_t incy);
 
         /**
          * @brief Performs parametrized matrix addition.
@@ -272,16 +248,7 @@ class CuBlasHandler {
                   int_t m, int_t n,
                   const T_Scalar *alpha, const T_Scalar *a, int_t lda,
                   const T_Scalar *beta,  const T_Scalar *b, int_t ldb,
-                  T_Scalar *c, int_t ldc)
-        {
-            cublas::geam(handle(),
-                         cublas::cla3pOp2cublasOp(opA),
-                         cublas::cla3pOp2cublasOp(opB),
-                         m, n,
-                         alpha, a, lda,
-                         beta, b, ldb,
-                         c, ldc);
-        }
+                  T_Scalar *c, int_t ldc);
 
         /**
          * @brief Performs matrix-diagonal matrix multiplication.
@@ -304,15 +271,7 @@ class CuBlasHandler {
                   int_t m, int_t n,
                   const T_Scalar *a, int_t lda,
                   const T_Scalar *x, int_t incx,
-                  T_Scalar *c, int_t ldc)
-        {
-            cublas::dgmm(handle(),
-                         cublas::cla3pSide2cublasSide(side),
-                         m, n,
-                         a, lda,
-                         x, incx,
-                         c, ldc);
-        }
+                  T_Scalar *c, int_t ldc);
 
         /**
          * @brief Performs general rank-1 update (unconjugated).
@@ -333,10 +292,7 @@ class CuBlasHandler {
                  const T_Scalar *alpha,
                  const T_Scalar *x, int_t incx,
                  const T_Scalar *y, int_t incy,
-                 T_Scalar *a, int_t lda)
-        {
-            cublas::ger(handle(), m, n, alpha, x, incx, y, incy, a, lda);
-        }
+                 T_Scalar *a, int_t lda);
 
         /**
          * @brief Performs general rank-1 update (conjugated).
@@ -358,10 +314,7 @@ class CuBlasHandler {
                   const T_Scalar *alpha,
                   const T_Scalar *x, int_t incx,
                   const T_Scalar *y, int_t incy,
-                  T_Scalar *a, int_t lda)
-        {
-            cublas::gerc(handle(), m, n, alpha, x, incx, y, incy, a, lda);
-        }
+                  T_Scalar *a, int_t lda);
 
         /**
          * @brief Performs symmetric rank-1 update.
@@ -380,12 +333,7 @@ class CuBlasHandler {
                  int_t n,
                  const T_Scalar *alpha,
                  const T_Scalar *x, int_t incx,
-                 T_Scalar *a, int_t lda)
-        {
-            cublas::syr(handle(),
-                        cublas::cla3pUplo2cublasUplo(uplo),
-                        n, alpha, x, incx, a, lda);
-        }
+                 T_Scalar *a, int_t lda);
 
         /**
          * @brief Performs Hermitian rank-1 update.
@@ -404,12 +352,7 @@ class CuBlasHandler {
                  int_t n,
                  const typename TypeTraits<T_Scalar>::real_type *alpha,
                  const T_Scalar *x, int_t incx,
-                 T_Scalar *a, int_t lda)
-        {
-            cublas::her(handle(),
-                        cublas::cla3pUplo2cublasUplo(uplo),
-                        n, alpha, x, incx, a, lda);
-        }
+                 T_Scalar *a, int_t lda);
 
         /**
          * @brief Performs general matrix-vector multiplication.
@@ -432,15 +375,7 @@ class CuBlasHandler {
                   int_t m, int_t n, const T_Scalar* alpha,
                   const T_Scalar *a, int_t lda,
                   const T_Scalar *x, int_t incx,
-                  const T_Scalar* beta, T_Scalar *y, int_t incy)
-        {
-            cublas::gemv(handle(),
-                         cublas::cla3pOp2cublasOp(op),
-                         m, n, alpha,
-                         a, lda,
-                         x, incx,
-                         beta, y, incy);
-        }
+                  const T_Scalar* beta, T_Scalar *y, int_t incy);
 
         /**
          * @brief Performs symmetric matrix-vector multiplication.
@@ -462,15 +397,7 @@ class CuBlasHandler {
                   int_t n, const T_Scalar* alpha,
                   const T_Scalar *a, int_t lda,
                   const T_Scalar *x, int_t incx,
-                  const T_Scalar* beta, T_Scalar *y, int_t incy)
-        {
-            cublas::symv(handle(),
-                         cublas::cla3pUplo2cublasUplo(uplo),
-                         n, alpha,
-                         a, lda,
-                         x, incx,
-                         beta, y, incy);
-        }
+                  const T_Scalar* beta, T_Scalar *y, int_t incy);
 
         /**
          * @brief Performs Hermitian matrix-vector multiplication.
@@ -492,15 +419,7 @@ class CuBlasHandler {
                   int_t n, const T_Scalar* alpha,
                   const T_Scalar *a, int_t lda,
                   const T_Scalar *x, int_t incx,
-                  const T_Scalar* beta, T_Scalar *y, int_t incy)
-        {
-            cublas::hemv(handle(),
-                         cublas::cla3pUplo2cublasUplo(uplo),
-                         n, alpha,
-                         a, lda,
-                         x, incx,
-                         beta, y, incy);
-        }
+                  const T_Scalar* beta, T_Scalar *y, int_t incy);
 
         /**
          * @brief Performs triangular matrix-vector multiplication.
@@ -520,15 +439,7 @@ class CuBlasHandler {
                   op_t trans,
                   diag_t diag,
                   int_t n, const T_Scalar* a, int_t lda,
-                  T_Scalar *x, int_t incx)
-        {
-            cublas::trmv(handle(),
-                         cublas::cla3pUplo2cublasUplo(uplo),
-                         cublas::cla3pOp2cublasOp(trans),
-                         cublas::cla3pDiag2cublasDiag(diag),
-                         n, a, lda,
-                         x, incx);
-        }
+                  T_Scalar *x, int_t incx);
 
         /**
          * @brief Solves a triangular system of equations.
@@ -548,15 +459,7 @@ class CuBlasHandler {
                   op_t trans,
                   diag_t diag,
                   int_t n, const T_Scalar* a, int_t lda,
-                  T_Scalar *x, int_t incx)
-        {
-            cublas::trsv(handle(),
-                         cublas::cla3pUplo2cublasUplo(uplo),
-                         cublas::cla3pOp2cublasOp(trans),
-                         cublas::cla3pDiag2cublasDiag(diag),
-                         n, a, lda,
-                         x, incx);
-        }
+                  T_Scalar *x, int_t incx);
 
         /**
          * @brief Performs general matrix-matrix multiplication.
@@ -584,18 +487,7 @@ class CuBlasHandler {
                   const T_Scalar* a, int_t lda,
                   const T_Scalar* b, int_t ldb,
                   const T_Scalar* beta,
-                  T_Scalar* c, int_t ldc)
-        {
-            cublas::gemm(handle(),
-                         cublas::cla3pOp2cublasOp(transa),
-                         cublas::cla3pOp2cublasOp(transb),
-                         m, n, k,
-                         alpha,
-                         a, lda,
-                         b, ldb,
-                         beta,
-                         c, ldc);
-        }
+                  T_Scalar* c, int_t ldc);
 
         /**
          * @brief Performs symmetric matrix-matrix multiplication.
@@ -623,18 +515,7 @@ class CuBlasHandler {
                   const T_Scalar* a, int_t lda,
                   const T_Scalar* b, int_t ldb,
                   const T_Scalar* beta,
-                  T_Scalar* c, int_t ldc)
-        {
-            cublas::symm(handle(),
-                         cublas::cla3pSide2cublasSide(side),
-                         cublas::cla3pUplo2cublasUplo(uplo),
-                         m, n,
-                         alpha,
-                         a, lda,
-                         b, ldb,
-                         beta,
-                         c, ldc);
-        }
+                  T_Scalar* c, int_t ldc);
 
         /**
          * @brief Performs Hermitian matrix-matrix multiplication.
@@ -662,18 +543,7 @@ class CuBlasHandler {
                   const T_Scalar* a, int_t lda,
                   const T_Scalar* b, int_t ldb,
                   const T_Scalar* beta,
-                  T_Scalar* c, int_t ldc)
-        {
-            cublas::hemm(handle(),
-                         cublas::cla3pSide2cublasSide(side),
-                         cublas::cla3pUplo2cublasUplo(uplo),
-                         m, n,
-                         alpha,
-                         a, lda,
-                         b, ldb,
-                         beta,
-                         c, ldc);
-        }
+                  T_Scalar* c, int_t ldc);
 
         /**
          * @brief Performs triangular matrix-matrix multiplication.
@@ -703,19 +573,7 @@ class CuBlasHandler {
                   const T_Scalar* alpha,
                   const T_Scalar* a, int_t lda,
                   const T_Scalar* b, int_t ldb,
-                  T_Scalar* c, int_t ldc)
-        {
-            cublas::trmm(handle(),
-                         cublas::cla3pSide2cublasSide(side),
-                         cublas::cla3pUplo2cublasUplo(uplo),
-                         cublas::cla3pOp2cublasOp(trans),
-                         cublas::cla3pDiag2cublasDiag(diag),
-                         m, n,
-                         alpha,
-                         a, lda,
-                         b, ldb,
-                         c, ldc);
-        }
+                  T_Scalar* c, int_t ldc);
 
         /**
          * @brief Solves a triangular matrix equation.
@@ -743,18 +601,7 @@ class CuBlasHandler {
                   int_t m, int_t n,
                   const T_Scalar* alpha,
                   const T_Scalar* a, int_t lda,
-                  T_Scalar* b, int_t ldb)
-        {
-            cublas::trsm(handle(),
-                         cublas::cla3pSide2cublasSide(side),
-                         cublas::cla3pUplo2cublasUplo(uplo),
-                         cublas::cla3pOp2cublasOp(trans),
-                         cublas::cla3pDiag2cublasDiag(diag),
-                         m, n,
-                         alpha,
-                         a, lda,
-                         b, ldb);
-        }
+                  T_Scalar* b, int_t ldb);
 
         /**
          * @brief Performs symmetric rank-k update.
@@ -779,17 +626,7 @@ class CuBlasHandler {
                     const T_Scalar* alpha,
                     const T_Scalar* a, int_t lda,
                     const T_Scalar* beta,
-                    T_Scalar* c, int_t ldc)
-        {
-            cublas::syrk(handle(),
-                         cublas::cla3pUplo2cublasUplo(uplo),
-                         cublas::cla3pOp2cublasOp(trans),
-                         n, k,
-                         alpha,
-                         a, lda,
-                         beta,
-                         c, ldc);
-        }
+                    T_Scalar* c, int_t ldc);
 
         /**
          * @brief Performs Hermitian rank-k update.
@@ -814,17 +651,7 @@ class CuBlasHandler {
                   const typename TypeTraits<T_Scalar>::real_type* alpha,
                   const T_Scalar* a, int_t lda,
                   const typename TypeTraits<T_Scalar>::real_type* beta,
-                  T_Scalar* c, int_t ldc)
-        {
-            cublas::herk(handle(),
-                         cublas::cla3pUplo2cublasUplo(uplo),
-                         cublas::cla3pOp2cublasOp(trans),
-                         n, k,
-                         alpha,
-                         a, lda,
-                         beta,
-                         c, ldc);
-        }
+                  T_Scalar* c, int_t ldc);
 
         /**
          * @brief Performs symmetric rank-k update with two matrices.
@@ -852,18 +679,7 @@ class CuBlasHandler {
                     const T_Scalar* a, int_t lda,
                     const T_Scalar* b, int_t ldb,
                     const T_Scalar* beta,
-                    T_Scalar* c, int_t ldc)
-        {
-            cublas::syrkx(handle(),
-                         cublas::cla3pUplo2cublasUplo(uplo),
-                         cublas::cla3pOp2cublasOp(trans),
-                         n, k,
-                         alpha,
-                         a, lda,
-                         b, ldb,
-                         beta,
-                         c, ldc);
-        }
+                    T_Scalar* c, int_t ldc);
 
         /**
          * @brief Performs Hermitian rank-k update with two matrices.
@@ -891,18 +707,7 @@ class CuBlasHandler {
                    const T_Scalar* a, int_t lda,
                    const T_Scalar* b, int_t ldb,
                    const typename TypeTraits<T_Scalar>::real_type* beta,
-                   T_Scalar* c, int_t ldc)
-        {
-            cublas::herkx(handle(),
-                         cublas::cla3pUplo2cublasUplo(uplo),
-                         cublas::cla3pOp2cublasOp(trans),
-                         n, k,
-                         alpha,
-                         a, lda,
-                         b, ldb,
-                         beta,
-                         c, ldc);
-        }
+                   T_Scalar* c, int_t ldc);
                 
     private:
         cublasHandle_t m_handle{nullptr};

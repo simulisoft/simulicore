@@ -66,7 +66,7 @@ class CudaStream {
          *          CUDA runtime API functions and cuBLAS operations.
          * @return The CUDA stream handle.
          */
-        cudaStream_t stream() { return m_stream; }
+        cudaStream_t stream();
 
     private:
         cudaStream_t m_stream{nullptr};
