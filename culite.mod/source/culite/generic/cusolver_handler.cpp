@@ -590,7 +590,10 @@ void CuSolverHandler::reserveGesvd(const T_Matrix& A, svdPolicy_t policyU, svdPo
     cuSolverInt n = A.ncols();
     cuSolverInt k = std::min(m, n);
 
-    cuSolverInt sizeS = k * sizeof(T_RScalar);
+    // TODO: If allocate with Real size, cuSOLVER returns 
+    //       CUDA_ERROR_MISALIGNED_ADDRESS error (for complex types only)
+    // cuSolverInt sizeS = k * sizeof(T_RScalar);
+    cuSolverInt sizeS = k * sizeof(T_Scalar);
     cuSolverInt sizeA = m * n * sizeof(T_Scalar);
     cuSolverInt sizeU = svdVectorSize(policyU, m, k) * sizeof(T_Scalar);
     cuSolverInt sizeV = svdVectorSize(policyVT, n, k) * sizeof(T_Scalar);
@@ -834,7 +837,10 @@ void CuSolverHandler::gesvdAssignInternalPointers(svdPolicy_t jobu, svdPolicy_t 
 
     char *charBuffer = static_cast<char*>(customWork().data());
 
-    std::size_t sizeS = k * sizeof(T_RScalar);
+    // TODO: If allocate with Real size, cuSOLVER returns 
+    //       CUDA_ERROR_MISALIGNED_ADDRESS error (for complex types only)
+    // std::size_t sizeS = k * sizeof(T_RScalar);
+    std::size_t sizeS = k * sizeof(T_Scalar);
     std::size_t sizeA = m * n * sizeof(T_Scalar);
     std::size_t sizeU = svdVectorSize(jobu, m, k) * sizeof(T_Scalar);
     std::size_t sizeV = svdVectorSize(jobv, n, k) * sizeof(T_Scalar);
