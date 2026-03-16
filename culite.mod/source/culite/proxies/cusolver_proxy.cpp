@@ -58,6 +58,8 @@ DnParams::~DnParams()
     err::check_cusolver(cusolverStatus);
 }
 /*-------------------------------------------------*/
+cusolverDnParams_t DnParams::get() const { return m_params; }
+/*-------------------------------------------------*/
 } // namespace cusolver
 } // namespace culite
 /*-------------------------------------------------*/

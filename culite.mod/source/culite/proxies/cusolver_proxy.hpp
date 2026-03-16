@@ -41,7 +41,7 @@ class DnParams {
         DnParams();
         ~DnParams();
 
-        cusolverDnParams_t get() const { return m_params; }
+        cusolverDnParams_t get() const;
 
     private:
         cusolverDnParams_t m_params{nullptr};

@@ -23,6 +23,7 @@
 
 #include <culite/support/imalloc.hpp>
 #include <culite/proxies/cusparse_proxy.hpp>
+#include <culite/error/cuda.hpp>
 
 /*-------------------------------------------------*/
 namespace culite { 
