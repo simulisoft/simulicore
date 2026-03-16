@@ -23,7 +23,6 @@
 
 #include <culite/support/imalloc.hpp>
 #include <culite/proxies/cusparse_proxy.hpp>
-#include <culite/error/cuda.hpp>
 
 /*-------------------------------------------------*/
 namespace culite { 
@@ -99,7 +98,7 @@ class CuSparseHandler {
          * @brief Get the cuSPARSE handle.
          * @return The cuSPARSE handle.
          */
-        cusparseHandle_t handle() { return m_handle; }
+        cusparseHandle_t handle();
 
         /**
          * @brief Clear the internal workspace buffers.
@@ -144,22 +143,7 @@ class CuSparseHandler {
                          const cusparse::DnVec<T_Scalar>& vecX,
                          const T_Scalar*                  beta,
                          cusparse::DnVec<T_Scalar>&       vecY,
-                         cusparseSpMVAlg_t                alg = cusparseSpMVAlg_t::CUSPARSE_SPMV_CSR_ALG1)
-        {
-            cusparseStatus_t status = cusparseSpMV_bufferSize(handle(),
-                                                              cusparse::cla3pOp2cusparseOp(opA),
-                                                              alpha,
-                                                              matA.descr(),
-                                                              vecX.descr(),
-                                                              beta,
-                                                              vecY.descr(),
-                                                              TypeTraits<T_Scalar>::cuda_type(),
-                                                              alg,
-                                                              &m_workspaceInBytes);
-            err::check_cusparse(status);
-
-            deviceWork().reserve(m_workspaceInBytes);
-        }
+                         cusparseSpMVAlg_t                alg = cusparseSpMVAlg_t::CUSPARSE_SPMV_CSR_ALG1);
 
         /**
          * @brief Preprocess the sparse matrix-vector multiplication operation.
@@ -181,20 +165,7 @@ class CuSparseHandler {
                             const cusparse::DnVec<T_Scalar>& vecX,
                             const T_Scalar*                  beta,
                             cusparse::DnVec<T_Scalar>&       vecY,
-                            cusparseSpMVAlg_t                alg = cusparseSpMVAlg_t::CUSPARSE_SPMV_CSR_ALG1)
-        {
-            cusparseStatus_t status = cusparseSpMV_preprocess(handle(),
-                                                              cusparse::cla3pOp2cusparseOp(opA),
-                                                              alpha,
-                                                              matA.descr(),
-                                                              vecX.descr(),
-                                                              beta,
-                                                              vecY.descr(),
-                                                              TypeTraits<T_Scalar>::cuda_type(),
-                                                              alg,
-                                                              deviceWork().data());
-            err::check_cusparse(status);
-        }
+                            cusparseSpMVAlg_t                alg = cusparseSpMVAlg_t::CUSPARSE_SPMV_CSR_ALG1);
 
         /**
          * @brief Perform sparse matrix-vector multiplication.
@@ -216,20 +187,7 @@ class CuSparseHandler {
                          const cusparse::DnVec<T_Scalar>& vecX,
                          const T_Scalar*                  beta,
                          cusparse::DnVec<T_Scalar>&       vecY,
-                         cusparseSpMVAlg_t                alg = cusparseSpMVAlg_t::CUSPARSE_SPMV_CSR_ALG1)
-        {
-            cusparseStatus_t status = cusparseSpMV(handle(),
-                                                   cusparse::cla3pOp2cusparseOp(opA),
-                                                   alpha,
-                                                   matA.descr(),
-                                                   vecX.descr(),
-                                                   beta,
-                                                   vecY.descr(),
-                                                   TypeTraits<T_Scalar>::cuda_type(),
-                                                   alg,
-                                                   deviceWork().data());
-            err::check_cusparse(status);
-        }
+                         cusparseSpMVAlg_t                alg = cusparseSpMVAlg_t::CUSPARSE_SPMV_CSR_ALG1);
 
         /**
          * @brief Reserve workspace memory for sparse matrix-matrix multiplication (SpMM).
@@ -253,23 +211,7 @@ class CuSparseHandler {
                          const cusparse::DnMat<T_Scalar>& matB,
                          const T_Scalar*                  beta,
                          cusparse::DnMat<T_Scalar>&       matC,
-                         cusparseSpMMAlg_t                alg = cusparseSpMMAlg_t::CUSPARSE_SPMM_CSR_ALG1)
-        {
-            cusparseStatus_t status = cusparseSpMM_bufferSize(handle(),
-                                                              cusparse::cla3pOp2cusparseOp(opA),
-                                                              cusparse::cla3pOp2cusparseOp(opB),
-                                                              alpha,
-                                                              matA.descr(),
-                                                              matB.descr(),
-                                                              beta,
-                                                              matC.descr(),
-                                                              TypeTraits<T_Scalar>::cuda_type(),
-                                                              alg,
-                                                              &m_workspaceInBytes);
-            err::check_cusparse(status);
-
-            deviceWork().reserve(m_workspaceInBytes);
-        }
+                         cusparseSpMMAlg_t                alg = cusparseSpMMAlg_t::CUSPARSE_SPMM_CSR_ALG1);
 
         /**
          * @brief Preprocess the sparse matrix-matrix multiplication operation.
@@ -293,21 +235,7 @@ class CuSparseHandler {
                             const cusparse::DnMat<T_Scalar>& matB,
                             const T_Scalar*                  beta,
                             cusparse::DnMat<T_Scalar>&       matC,
-                            cusparseSpMMAlg_t                alg = cusparseSpMMAlg_t::CUSPARSE_SPMM_CSR_ALG1)
-        {
-            cusparseStatus_t status = cusparseSpMM_preprocess(handle(),
-                                                              cusparse::cla3pOp2cusparseOp(opA),
-                                                              cusparse::cla3pOp2cusparseOp(opB),
-                                                              alpha,
-                                                              matA.descr(),
-                                                              matB.descr(),
-                                                              beta,
-                                                              matC.descr(),
-                                                              TypeTraits<T_Scalar>::cuda_type(),
-                                                              alg,
-                                                              deviceWork().data());
-            err::check_cusparse(status);
-        }
+                            cusparseSpMMAlg_t                alg = cusparseSpMMAlg_t::CUSPARSE_SPMM_CSR_ALG1);
 
         /**
          * @brief Perform sparse matrix-matrix multiplication.
@@ -331,30 +259,14 @@ class CuSparseHandler {
                          const cusparse::DnMat<T_Scalar>& matB,
                          const T_Scalar*                  beta,
                          cusparse::DnMat<T_Scalar>&       matC,
-                         cusparseSpMMAlg_t                alg = cusparseSpMMAlg_t::CUSPARSE_SPMM_CSR_ALG1)
-        {
-            cusparseStatus_t status = cusparseSpMM(handle(),
-                                                   cusparse::cla3pOp2cusparseOp(opA),
-                                                   cusparse::cla3pOp2cusparseOp(opB),
-                                                   alpha,
-                                                   matA.descr(),
-                                                   matB.descr(),
-                                                   beta,
-                                                   matC.descr(),
-                                                   TypeTraits<T_Scalar>::cuda_type(),
-                                                   alg,
-                                                   deviceWork().data());
-            err::check_cusparse(status);
-        }
+                         cusparseSpMMAlg_t                alg = cusparseSpMMAlg_t::CUSPARSE_SPMM_CSR_ALG1);
 
     private:
         DeviceBufferVoid& deviceWork() { return m_deviceBuffer; }
 
     private:
         cusparseHandle_t m_handle{nullptr};
-
         std::size_t m_workspaceInBytes;
-
         DeviceBufferVoid m_deviceBuffer;
 
         void defaults();

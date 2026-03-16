@@ -23,6 +23,7 @@
 
 #include <culite/support/imalloc.hpp>
 #include <culite/generic/cusolver_handler.hpp>
+#include <culite/dense/dns_xxvector.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {
