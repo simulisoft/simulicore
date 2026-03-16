@@ -27,9 +27,6 @@
 #include <culite/types/scalar.hpp>
 #include <culite/types/enums.hpp>
 
-// forwards
-#include <culite/types/cla3p_forwards.hpp>
-
 /*-------------------------------------------------*/
 namespace culite {
 namespace cublas {

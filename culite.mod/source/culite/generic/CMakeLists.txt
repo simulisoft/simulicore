@@ -9,7 +9,10 @@ set(CULITE_SRC ${CULITE_SRC}
     PARENT_SCOPE)
 
 set(CULITE_GENERIC_HPP 
-    cla3p_forwards.hpp
+    guard.hpp
+    meta1d.hpp
+    meta2d.hpp
+    matrix_meta.hpp
     cuda_stream.hpp
     cublas_handler.hpp
     cusolver_handler.hpp

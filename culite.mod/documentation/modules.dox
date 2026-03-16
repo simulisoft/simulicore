@@ -3,6 +3,7 @@
  * 
  * Comprehensive guide to the cuLite library modules. Select a subpage below to explore specific components and implementation details.
  *
+ * - @subpage culite_module_index_forwards
  * - @subpage culite_module_index_datatypes
  * - @subpage culite_module_index_allocators
  * - @subpage culite_module_index_vectors
@@ -14,6 +15,12 @@
  * - @subpage culite_module_index_device2host_operators
  * - @subpage culite_module_index_stream_operators
  *
+ * @defgroup culite_module_index_forwards Type Forwarding from CLA3P
+ * @brief Import and aliasing of CLA3P types into the cuLite namespace.
+ * @details This module documents the types and enumerations that cuLite imports from the CLA3P library
+ * to maintain API consistency between CPU and GPU implementations. Includes matrix properties, operation
+ * flags, decomposition policies, and generic container types.
+ * 
  * @defgroup culite_module_index_datatypes Datatypes
  * @brief The basic cuLite datatypes and precision aliases.
  * @details This module defines the fundamental numerical types used across the cuLite ecosystem. It includes 

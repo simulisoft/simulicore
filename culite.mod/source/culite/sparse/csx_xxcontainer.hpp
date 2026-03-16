@@ -28,9 +28,6 @@
 #include <culite/support/imalloc.hpp>
 #include <culite/support/utils.hpp>
 
-// forwards
-#include <culite/generic/cla3p_forwards.hpp>
-
 /*-------------------------------------------------*/
 namespace culite { 
 namespace csx {

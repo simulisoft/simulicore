@@ -26,7 +26,6 @@
 #include <culite/bulk/dns1d.hpp>
 
 // forwards
-#include <culite/types/cla3p_forwards.hpp>
 #include <culite/checks/cla3p_forwards.hpp>
 
 /*-------------------------------------------------*/

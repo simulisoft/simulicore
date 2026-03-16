@@ -26,10 +26,9 @@
 #include <cla3p/dense/dns_xivector.hpp>
 
 #include <culite/types/integer.hpp>
+#include <culite/generic/guard.hpp>
+#include <culite/generic/meta1d.hpp>
 #include <culite/dense/dns_xxcontainer.hpp>
-
-// forwards
-#include <culite/generic/cla3p_forwards.hpp>
 
 /*-------------------------------------------------*/
 namespace culite { 

@@ -23,8 +23,7 @@
 
 #include <cusolverDn.h>
 
-// forwards
-#include <culite/types/cla3p_forwards.hpp>
+#include <culite/types/enums.hpp>
 
 /*-------------------------------------------------*/
 namespace culite {

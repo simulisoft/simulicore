@@ -26,6 +26,9 @@
 
 #include <cla3p/sparse/csc_xxmatrix.hpp>
 
+#include <culite/types/property.hpp>
+#include <culite/generic/guard.hpp>
+#include <culite/generic/matrix_meta.hpp>
 #include <culite/sparse/csx_xxcontainer.hpp>
 
 #include <culite/virtuals/virtual_expression.hpp>
@@ -33,10 +36,6 @@
 #include <culite/virtuals/virtual_transpose.hpp>
 #include <culite/virtuals/virtual_conjugate.hpp>
 #include <culite/virtuals/virtual_scale.hpp>
-
-// forwards
-#include <culite/types/cla3p_forwards.hpp>
-#include <culite/generic/cla3p_forwards.hpp>
 
 /*-------------------------------------------------*/
 namespace culite { 

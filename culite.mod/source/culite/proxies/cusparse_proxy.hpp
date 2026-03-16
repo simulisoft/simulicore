@@ -28,9 +28,6 @@
 #include <culite/types/enums.hpp>
 #include <culite/error/cuda.hpp>
 
-// forwards
-#include <culite/types/cla3p_forwards.hpp>
-
 /*-------------------------------------------------*/
 namespace culite {
 namespace cusparse {
