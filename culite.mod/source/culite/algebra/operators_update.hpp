@@ -41,7 +41,8 @@ void operator+=(
         typename T_Virtual::result_type& A,
         const culite::VirtualExpression<typename T_Virtual::result_type, T_Virtual>& vB)
 {
-    vB.accumulateOnExisting(A, 1.0);
+    using T_Scalar = typename T_Virtual::result_type::value_type;
+    vB.accumulateOnExisting(A, culite::makeScalar<T_Scalar>(1));
 }
 
 /*
@@ -52,7 +53,8 @@ void operator-=(
         typename T_Virtual::result_type& A,
         const culite::VirtualExpression<typename T_Virtual::result_type, T_Virtual>& vB)
 {
-    vB.accumulateOnExisting(A, -1.0);
+    using T_Scalar = typename T_Virtual::result_type::value_type;
+    vB.accumulateOnExisting(A, culite::makeScalar<T_Scalar>(-1));
 }
 
 /*-------------------------------------------------*/
