@@ -7,28 +7,28 @@
 
 int main()
 {
-	cla3p::dns::RfMatrix A(3, 3);
-	A = 2;
-	std::cout << A.info("A") << A;
+    cla3p::dns::RfMatrix A(3, 3);
+    A = 2;
+    std::cout << A.info("A") << A;
 
-	/*
-	 * Move A to B.
-	 */
-	cla3p::dns::RfMatrix B = A.move();
-	std::cout << A.info("A") << A;
-	std::cout << B.info("B") << B;
+    /*
+     * Move A to B.
+     */
+    cla3p::dns::RfMatrix B = A.move();
+    std::cout << A.info("A") << A;
+    std::cout << B.info("B") << B;
 
-	/*
-	 * Move B to C
-	 * C is non-empty with non matching dimension, so operation will fail
-	 */
-	cla3p::dns::RfMatrix C(2, 2);
+    /*
+     * Move B to C
+     * C is non-empty with non matching dimension, so operation will fail
+     */
+    cla3p::dns::RfMatrix C(2, 2);
 
-	try {
-		C = B.move();
-	} catch(...) {
-		std::cout << "Invalid move exception caught" << std::endl;
-	}
+    try {
+        C = B.move();
+    } catch(...) {
+        std::cout << "Invalid move exception caught" << std::endl;
+    }
 
-	return 0;
+    return 0;
 }

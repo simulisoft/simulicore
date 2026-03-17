@@ -7,7 +7,7 @@ fi
 
 for file in ${ROOT_DIR}/i64/bin/*.sh
 do
-	echo "Running ${file%.sh}"
+    echo "Running ${file%.sh}"
   ofile="$(basename  "${file%.sh}").out"
   "$file" > "${ROOT_DIR}/i64/out/$ofile"
 done

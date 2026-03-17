@@ -7,37 +7,37 @@
 
 int main()
 {
-	/*
-	 * Create properties for A, B and C
-	 */
+    /*
+     * Create properties for A, B and C
+     */
 
-	cla3p::Property prA = cla3p::Property::General();
-	cla3p::Property prB = cla3p::Property::SymmetricLower();
-	cla3p::Property prC = cla3p::Property::HermitianUpper();
+    cla3p::Property prA = cla3p::Property::General();
+    cla3p::Property prB = cla3p::Property::SymmetricLower();
+    cla3p::Property prC = cla3p::Property::HermitianUpper();
 
-	/*
-	 * Declare matrices with a property
-	 */
+    /*
+     * Declare matrices with a property
+     */
 
-	{
-		cla3p::dns::RfMatrix A(3, 4, prA);
-		cla3p::dns::RfMatrix B(3, 3, prB);
-		cla3p::dns::CdMatrix C(3, 3, prC);
-		std::cout << A.info("A") << B.info("B") << C.info("C");
-	}
+    {
+        cla3p::dns::RfMatrix A(3, 4, prA);
+        cla3p::dns::RfMatrix B(3, 3, prB);
+        cla3p::dns::CdMatrix C(3, 3, prC);
+        std::cout << A.info("A") << B.info("B") << C.info("C");
+    }
 
-	/*
-	 * Allocate space with property for existing matrices.
-	 */
-	{
-		cla3p::dns::RfMatrix A;
-		cla3p::dns::RfMatrix B;
-		cla3p::dns::CdMatrix C;
+    /*
+     * Allocate space with property for existing matrices.
+     */
+    {
+        cla3p::dns::RfMatrix A;
+        cla3p::dns::RfMatrix B;
+        cla3p::dns::CdMatrix C;
 
-		A = cla3p::dns::RfMatrix(3, 4, prA);
-		B = cla3p::dns::RfMatrix(3, 3, prB);
-		C = cla3p::dns::CdMatrix(3, 3, prC);
-	}
+        A = cla3p::dns::RfMatrix(3, 4, prA);
+        B = cla3p::dns::RfMatrix(3, 3, prB);
+        C = cla3p::dns::CdMatrix(3, 3, prC);
+    }
 
-	return 0;
+    return 0;
 }

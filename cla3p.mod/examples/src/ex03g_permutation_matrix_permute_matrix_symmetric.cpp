@@ -9,44 +9,44 @@
 
 int main()
 {
-	/*
-	 * Create a (3x3) random symmetric lower matrix.
-	 */
+    /*
+     * Create a (3x3) random symmetric lower matrix.
+     */
 
-	cla3p::dns::RdMatrix A(3, 3, cla3p::Property::SymmetricLower());
+    cla3p::dns::RdMatrix A(3, 3, cla3p::Property::SymmetricLower());
 
-	for(cla3p::uint_t j = 0, icnt = 0; j < 3; j++)
-		for(cla3p::uint_t i = j; i < 3; i++)
-			A(i,j) = icnt++;
+    for(cla3p::uint_t j = 0, icnt = 0; j < 3; j++)
+        for(cla3p::uint_t i = j; i < 3; i++)
+            A(i,j) = icnt++;
 
-	/*
-	 * Create a (3x3) random permutation matrix.
-	 */
+    /*
+     * Create a (3x3) random permutation matrix.
+     */
 
-	cla3p::prm::PiMatrix P(3);
+    cla3p::prm::PiMatrix P(3);
 
-	P(0) = 1;
-	P(1) = 2;
-	P(2) = 0;
+    P(0) = 1;
+    P(1) = 2;
+    P(2) = 0;
 
-	std::cout << "A:\n" << A;
-	std::cout << "P:\n" << P << "\n";
+    std::cout << "A:\n" << A;
+    std::cout << "P:\n" << P << "\n";
 
-	/*
-	 * Perform the operation (P * A * P') 
-	 * using operators and the permute member function respectively.
-	 *
-	 * Permutation operators are used on general matrices.
-	 * In order to use operators A needs to be converted from symmetric to general. 
-	 * Resulting matrix will be general.
-	 *
-	 * Using permuteMirror() the resulting matrix will be symmetric.
-	 */
-	cla3p::dns::RdMatrix PAPT1 = P * A.general() * P.inverse();
-	std::cout << "PAPT1:\n" << PAPT1;
+    /*
+     * Perform the operation (P * A * P') 
+     * using operators and the permute member function respectively.
+     *
+     * Permutation operators are used on general matrices.
+     * In order to use operators A needs to be converted from symmetric to general. 
+     * Resulting matrix will be general.
+     *
+     * Using permuteMirror() the resulting matrix will be symmetric.
+     */
+    cla3p::dns::RdMatrix PAPT1 = P * A.general() * P.inverse();
+    std::cout << "PAPT1:\n" << PAPT1;
 
-	cla3p::dns::RdMatrix PAPT2 = A.permuteMirror(P);
-	std::cout << "PAPT2:\n" << PAPT2;
+    cla3p::dns::RdMatrix PAPT2 = A.permuteMirror(P);
+    std::cout << "PAPT2:\n" << PAPT2;
 
-	return 0;
+    return 0;
 }

@@ -8,23 +8,23 @@
 
 int main()
 {
-	cla3p::dns::RdVector x(3);
-	cla3p::dns::RdVector y(3);
+    cla3p::dns::RdVector x(3);
+    cla3p::dns::RdVector y(3);
 
-	x = 3.;
-	y = 2.;
+    x = 3.;
+    y = 2.;
 
-	std::cout << "x:\n" << x;
-	std::cout << "y:\n" << y << "\n";
+    std::cout << "x:\n" << x;
+    std::cout << "y:\n" << y << "\n";
 
-	/*
-	 * Perform the operation (x' * y) using operators and the dot function respectively
-	 */
-	cla3p::real_t d1 = x.transpose() * y;
-	std::cout << "d1: " << d1 << std::endl;
+    /*
+     * Perform the operation (x' * y) using operators and the dot function respectively
+     */
+    cla3p::real_t d1 = x.transpose() * y;
+    std::cout << "d1: " << d1 << std::endl;
 
-	cla3p::real_t d2 = cla3p::ops::dot(x, y);
-	std::cout << "d2: " << d2 << std::endl;
+    cla3p::real_t d2 = cla3p::ops::dot(x, y);
+    std::cout << "d2: " << d2 << std::endl;
 
-	return 0;
+    return 0;
 }

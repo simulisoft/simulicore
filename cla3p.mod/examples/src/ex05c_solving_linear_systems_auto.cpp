@@ -11,56 +11,56 @@
 template <typename T_Rhs>
 static void solve_linear_system(const cla3p::dns::RdMatrix& A, const T_Rhs& B)
 {
-	cla3p::LapackAuto<cla3p::dns::RdMatrix> autoSolver;
+    cla3p::LapackAuto<cla3p::dns::RdMatrix> autoSolver;
 
-	/*
-	 * Decompose A into a product depending on property.
-	 */
-	autoSolver.decompose(A);
+    /*
+     * Decompose A into a product depending on property.
+     */
+    autoSolver.decompose(A);
 
-	T_Rhs X = B;
+    T_Rhs X = B;
 
-	/*
-	 * Overwrite X with the solution (A^{-1} * B).
-	 */
-	autoSolver.solve(X);
+    /*
+     * Overwrite X with the solution (A^{-1} * B).
+     */
+    autoSolver.solve(X);
 
-	std::string type_name = "Unknown";
-	if(std::is_same<T_Rhs, cla3p::dns::RdVector>::value) type_name = "Vector";
-	if(std::is_same<T_Rhs, cla3p::dns::RdMatrix>::value) type_name = "Matrix";
+    std::string type_name = "Unknown";
+    if(std::is_same<T_Rhs, cla3p::dns::RdVector>::value) type_name = "Vector";
+    if(std::is_same<T_Rhs, cla3p::dns::RdMatrix>::value) type_name = "Matrix";
 
-	std::cout << "  " << type_name << " rhs::";
-	std::cout << "Absolute error: " << (B - A * X).evaluate().normOne() << std::endl;
+    std::cout << "  " << type_name << " rhs::";
+    std::cout << "Absolute error: " << (B - A * X).evaluate().normOne() << std::endl;
 }
 /*-----------------------------------------------------*/
 int main()
 {
-	/*
-	 * Create a random general matrix.
-	 */
-	const cla3p::dns::RdMatrix Age = cla3p::dns::RdMatrix::random(5, 5);
+    /*
+     * Create a random general matrix.
+     */
+    const cla3p::dns::RdMatrix Age = cla3p::dns::RdMatrix::random(5, 5);
 
-	/*
-	 * Create a random symmetric matrix.
-	 */
-	cla3p::Property prA = cla3p::Property::SymmetricLower();
-	const cla3p::dns::RdMatrix Asy = cla3p::dns::RdMatrix::random(5, 5, prA);
+    /*
+     * Create a random symmetric matrix.
+     */
+    cla3p::Property prA = cla3p::Property::SymmetricLower();
+    const cla3p::dns::RdMatrix Asy = cla3p::dns::RdMatrix::random(5, 5, prA);
 
-	/*
-	 * Create random right hand sides.
-	 */
+    /*
+     * Create random right hand sides.
+     */
 
-	const cla3p::dns::RdVector b = cla3p::dns::RdVector::random(5);
-	const cla3p::dns::RdMatrix B = cla3p::dns::RdMatrix::random(5, 3);
+    const cla3p::dns::RdVector b = cla3p::dns::RdVector::random(5);
+    const cla3p::dns::RdMatrix B = cla3p::dns::RdMatrix::random(5, 3);
 
-	std::cout << "General lhs\n";
-	solve_linear_system(Age, b);
-	solve_linear_system(Age, B);
+    std::cout << "General lhs\n";
+    solve_linear_system(Age, b);
+    solve_linear_system(Age, B);
 
-	std::cout << "\nSymmetric lhs\n";
-	solve_linear_system(Asy, b);
-	solve_linear_system(Asy, B);
+    std::cout << "\nSymmetric lhs\n";
+    solve_linear_system(Asy, b);
+    solve_linear_system(Asy, B);
 
-	return 0;
+    return 0;
 }
 /*-----------------------------------------------------*/

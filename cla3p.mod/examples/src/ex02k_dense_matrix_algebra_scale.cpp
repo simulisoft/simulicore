@@ -8,21 +8,21 @@
 
 int main()
 {
-	cla3p::dns::RdMatrix A(3,3);
-	A = 3.;
-	std::cout << "A:\n" << A << "\n";
+    cla3p::dns::RdMatrix A(3,3);
+    A = 3.;
+    std::cout << "A:\n" << A << "\n";
 
-	/*
-	 * Scale A using operators and the scale function respectively
-	 */
-	A *= 2.;
-	std::cout << "A *= 2:\n" << A;
+    /*
+     * Scale A using operators and the scale function respectively
+     */
+    A *= 2.;
+    std::cout << "A *= 2:\n" << A;
 
-	A.iscale(.5);
-	std::cout << "A.iscale(.5):\n" << A << "\n";
+    A.iscale(.5);
+    std::cout << "A.iscale(.5):\n" << A << "\n";
 
-	cla3p::dns::RdMatrix B = 2. * A ;
-	std::cout << "B:\n" << B;
+    cla3p::dns::RdMatrix B = 2. * A ;
+    std::cout << "B:\n" << B;
 
-	return 0;
+    return 0;
 }
