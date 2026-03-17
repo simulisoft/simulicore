@@ -18,6 +18,8 @@ set(CULITE_EXAMPLES_SRC
 	ex06l_sparse_matrix_algebra_add.cpp
 	ex06m_sparse_matrix_algebra_vmult.cpp
     ex06n_sparse_matrix_algebra_mmult.cpp
+	ex07a_eigenproblem_geev.cpp
+	ex08a_sv_decomposition.cpp
 	)
 
 #-----------------------------------------------

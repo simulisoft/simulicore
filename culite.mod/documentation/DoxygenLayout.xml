@@ -40,6 +40,13 @@
         -->
       </tab>
 
+      <tab type="usergroup" url="@ref culite_tutorial_eigsol" title="Eigenvalue Solvers">
+        <tab type="user" url="@ref culite_tutorial_eigsol_geev" title="General (GEEV)"/>
+      </tab>
+      <tab type="usergroup" url="@ref culite_tutorial_svd" title="Singular Value Decomposition">
+        <tab type="user" url="@ref culite_tutorial_svd_default" title="Default SVD"/>
+      </tab>
+
     </tab>
 
     <!-- ==================================================================== -->

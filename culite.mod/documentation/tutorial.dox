@@ -20,6 +20,8 @@
  *  - @subpage culite_tutorial_vectors
  *  - @subpage culite_tutorial_matrices
  *  - @subpage culite_tutorial_linsol
+ *  - @subpage culite_tutorial_eigsol
+ *  - @subpage culite_tutorial_svd
  *
  *
  *
@@ -392,6 +394,59 @@
  *   <tr>
  *     <td> @include src/ex05a_solving_linear_systems_lu.cpp </td>
  *     <td> @include i32/out/ex05a_solving_linear_systems_lu.out </td>
+ *   </tr>
+ * </table>
+ *
+ *
+ *
+ *
+ *
+ *
+ * @page culite_tutorial_eigsol Eigenvalue Solvers
+ *
+ * cuLite provides GPU-accelerated eigenvalue solvers for dense matrices, utilizing
+ * optimized cuSOLVER backends.
+ *
+ * - @subpage culite_tutorial_eigsol_geev
+ *
+ * @page culite_tutorial_eigsol_geev General Eigenvalue Problem (GEEV)
+ *
+ * This section demonstrates how to compute eigenvalues and eigenvectors of general
+ * (non-symmetric) dense matrices on GPU using the GEEV algorithm.
+ * Eigenvalues are returned as complex values, even for real input matrices.
+ * Optionally, left and/or right eigenvectors can be computed.
+ * <table>
+ *   <tr><th>Source Code</th><th>Console Output</th></tr>
+ *   <tr>
+ *     <td> @include src/ex07a_eigenproblem_geev.cpp </td>
+ *     <td> @include i32/out/ex07a_eigenproblem_geev.out </td>
+ *   </tr>
+ * </table>
+ *
+ *
+ *
+ *
+ *
+ *
+ * @page culite_tutorial_svd Singular Value Decomposition
+ *
+ * cuLite provides GPU-accelerated SVD solvers for dense matrices, utilizing
+ * optimized cuSOLVER backends.
+ *
+ * - @subpage culite_tutorial_svd_default
+ *
+ * @page culite_tutorial_svd_default Default SVD
+ *
+ * This section demonstrates how to compute the singular value decomposition (SVD)
+ * of a dense matrix on GPU. The SVD factorizes A = U * S * V', where S contains
+ * the singular values in descending order.
+ * Policies control whether left (U) and right (V) singular vectors are computed.
+ * Available policies are `Limited` (economy SVD), `Full`, and `NoCalculation`.
+ * <table>
+ *   <tr><th>Source Code</th><th>Console Output</th></tr>
+ *   <tr>
+ *     <td> @include src/ex08a_sv_decomposition.cpp </td>
+ *     <td> @include i32/out/ex08a_sv_decomposition.out </td>
  *   </tr>
  * </table>
  */
