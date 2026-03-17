@@ -55,6 +55,13 @@ class LapackAllocator {
             defaults();
         }
 
+        LapackAllocator(std::size_t worklen)
+        : LapackAllocator()
+        {
+            m_worklen = static_cast<T_Scalar>(worklen);
+            allocate();
+        }
+
         ~LapackAllocator()
         {
             clear();
@@ -634,6 +641,124 @@ trtrs_macro(complex8_t, c)
 #undef trtrs_macro
 /*-------------------------------------------------*/
 #if defined(CLA3P_PREFER_LAPACKE)
+#define syev_macro(typein, prefix) \
+int_t syev(char jobz, char uplo, int_t n, typein *a, int_t lda, typein *w) \
+{ \
+    return lapacke_func_name(prefix##syev)(LAPACK_COL_MAJOR, jobz, uplo, n, a, lda, w); \
+}
+#else
+#define syev_macro(typein, prefix) \
+int_t syev(char jobz, char uplo, int_t n, typein *a, int_t lda, typein *w) \
+{ \
+    int_t info = 0; \
+    LapackAllocator<typein> alloc; \
+    lapack_func_name(prefix##syev)(&jobz, &uplo, &n, a, &lda, w, alloc.work(), alloc.lwork(), &info); \
+    if(info == 0) { \
+        alloc.allocate(); \
+        lapack_func_name(prefix##syev)(&jobz, &uplo, &n, a, &lda, w, alloc.work(), alloc.lwork(), &info); \
+    } \
+    return info; \
+}
+#endif // CLA3P_PREFER_LAPACKE
+syev_macro(real_t , d)
+syev_macro(real4_t, s)
+#undef syev_macro
+/*-------------------------------------------------*/
+#define heev_macro(typein) \
+int_t heev(char jobz, char uplo, int_t n, typein *a, int_t lda, \
+           TypeTraits<typein>::real_type *w) \
+{ \
+    return syev(jobz, uplo, n, a, lda, w); \
+}
+heev_macro(real_t)
+heev_macro(real4_t)
+#undef heev_macro
+/*-------------------------------------------------*/
+#if defined(CLA3P_PREFER_LAPACKE)
+#define heev_macro(typein, prefix) \
+int_t heev(char jobz, char uplo, int_t n, typein *a, int_t lda, \
+           TypeTraits<typein>::real_type *w) \
+{ \
+    return lapacke_func_name(prefix##heev)(LAPACK_COL_MAJOR, jobz, uplo, n, a, lda, w); \
+}
+#else
+#define heev_macro(typein, prefix) \
+int_t heev(char jobz, char uplo, int_t n, typein *a, int_t lda, \
+           TypeTraits<typein>::real_type *w) \
+{ \
+    int_t info = 0; \
+    LapackAllocator<TypeTraits<typein>::real_type> allocRe(std::max(1, 3 * n - 2)); \
+    LapackAllocator<typein> alloc; \
+    lapack_func_name(prefix##heev)(&jobz, &uplo, &n, a, &lda, w, alloc.work(), alloc.lwork(), allocRe.work(), &info); \
+    if(info == 0) { \
+        alloc.allocate(); \
+        lapack_func_name(prefix##heev)(&jobz, &uplo, &n, a, &lda, w, alloc.work(), alloc.lwork(), allocRe.work(), &info); \
+    } \
+    return info; \
+}
+#endif // CLA3P_PREFER_LAPACKE
+heev_macro(complex_t , z)
+heev_macro(complex8_t, c)
+#undef heev_macro
+/*-------------------------------------------------*/
+#if defined(CLA3P_PREFER_LAPACKE)
+#define geev_macro(typein, prefix) \
+int_t geev(char jobvl, char jobvr, int_t n, typein *a, int_t lda, \
+           typein *w, typein *vl, int_t ldvl, typein *vr, int_t ldvr) \
+{ \
+    typein *wr = w; \
+    typein *wi = w + n; \
+    return lapacke_func_name(prefix##geev)(LAPACK_COL_MAJOR, jobvl, jobvr, n, a, lda, wr, wi, vl, ldvl, vr, ldvr); \
+}
+#else
+#define geev_macro(typein, prefix) \
+int_t geev(char jobvl, char jobvr, int_t n, typein *a, int_t lda, \
+           typein *w, typein *vl, int_t ldvl, typein *vr, int_t ldvr) \
+{ \
+    int_t info = 0; \
+    typein *wr = w; \
+    typein *wi = w + n; \
+    LapackAllocator<typein> alloc; \
+    lapack_func_name(prefix##geev)(&jobvl, &jobvr, &n, a, &lda, wr, wi, vl, &ldvl, vr, &ldvr, alloc.work(), alloc.lwork(), &info); \
+    if(info == 0) { \
+        alloc.allocate(); \
+        lapack_func_name(prefix##geev)(&jobvl, &jobvr, &n, a, &lda, wr, wi, vl, &ldvl, vr, &ldvr, alloc.work(), alloc.lwork(), &info); \
+    } \
+    return info; \
+}
+#endif // CLA3P_PREFER_LAPACKE
+geev_macro(real_t , d)
+geev_macro(real4_t, s)
+#undef geev_macro
+/*-------------------------------------------------*/
+#if defined(CLA3P_PREFER_LAPACKE)
+#define geev_macro(typein, prefix) \
+int_t geev(char jobvl, char jobvr, int_t n, typein *a, int_t lda, \
+           typein *w, typein *vl, int_t ldvl, typein *vr, int_t ldvr) \
+{ \
+    return lapacke_func_name(prefix##geev)(LAPACK_COL_MAJOR, jobvl, jobvr, n, a, lda, w, vl, ldvl, vr, ldvr); \
+}
+#else
+#define geev_macro(typein, prefix) \
+int_t geev(char jobvl, char jobvr, int_t n, typein *a, int_t lda, \
+           typein *w, typein *vl, int_t ldvl, typein *vr, int_t ldvr) \
+{ \
+    int_t info = 0; \
+    LapackAllocator<TypeTraits<typein>::real_type> allocRe(2 * n); \
+    LapackAllocator<typein> alloc; \
+    lapack_func_name(prefix##geev)(&jobvl, &jobvr, &n, a, &lda, w, vl, &ldvl, vr, &ldvr, alloc.work(), alloc.lwork(), allocRe.work(), &info); \
+    if(info == 0) { \
+        alloc.allocate(); \
+        lapack_func_name(prefix##geev)(&jobvl, &jobvr, &n, a, &lda, w, vl, &ldvl, vr, &ldvr, alloc.work(), alloc.lwork(), allocRe.work(), &info); \
+    } \
+    return info; \
+}
+#endif // CLA3P_PREFER_LAPACKE
+geev_macro(complex_t , z)
+geev_macro(complex8_t, c)
+#undef geev_macro
+/*-------------------------------------------------*/
+#if defined(CLA3P_PREFER_LAPACKE)
 #define real_gesvd_macro(typein, prefix) \
 int_t gesvd(char jobu, char jobvt, int_t m, int_t n, typein *a, int_t lda, \
         TypeTraits<typein>::real_type *s, typein *u, int_t ldu, typein *vt, int_t ldvt, \
@@ -645,8 +770,8 @@ int_t gesvd(char jobu, char jobvt, int_t m, int_t n, typein *a, int_t lda, \
 #else
 #define real_gesvd_macro(typein, prefix) \
 int_t gesvd(char jobu, char jobvt, int_t m, int_t n, typein *a, int_t lda, \
-        TypeTraits<typein>::real_type *s, typein *u, int_t ldu, typein *vt, int_t ldvt, \
-        TypeTraits<typein>::real_type* superb) \
+            TypeTraits<typein>::real_type *s, typein *u, int_t ldu, typein *vt, int_t ldvt, \
+            TypeTraits<typein>::real_type* superb) \
 { \
     int_t info = 0; \
     LapackAllocator<typein> alloc; \

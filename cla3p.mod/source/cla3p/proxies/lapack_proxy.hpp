@@ -207,10 +207,33 @@ trtrs_macro(complex_t);
 trtrs_macro(complex8_t);
 #undef trtrs_macro
 
+#define syev_macro(typein) \
+int_t syev(char jobz, char uplo, int_t n, typein *a, int_t lda, typein *w)
+syev_macro(real_t);
+syev_macro(real4_t);
+#undef syev_macro
+
+#define heev_macro(typein) \
+int_t heev(char jobz, char uplo, int_t n, typein *a, int_t lda, TypeTraits<typein>::real_type *w)
+heev_macro(real_t); // same as syev
+heev_macro(real4_t); // same as syev
+heev_macro(complex_t);
+heev_macro(complex8_t);
+#undef heev_macro
+
+#define geev_macro(typein) \
+int_t geev(char jobvl, char jobvr, int_t n, typein *a, int_t lda, \
+           typein *w, typein *vl, int_t ldvl, typein *vr, int_t ldvr)
+geev_macro(real_t);
+geev_macro(real4_t);
+geev_macro(complex_t);
+geev_macro(complex8_t);
+#undef geev_macro
+
 #define gesvd_macro(typein) \
 int_t gesvd(char jobu, char jobvt, int_t m, int_t n, typein *a, int_t lda, \
-        TypeTraits<typein>::real_type *s, typein *u, int_t ldu, typein *vt, int_t ldvt, \
-        TypeTraits<typein>::real_type *superb)
+            TypeTraits<typein>::real_type *s, typein *u, int_t ldu, typein *vt, int_t ldvt, \
+            TypeTraits<typein>::real_type *superb)
 gesvd_macro(real_t);
 gesvd_macro(real4_t);
 gesvd_macro(complex_t);
