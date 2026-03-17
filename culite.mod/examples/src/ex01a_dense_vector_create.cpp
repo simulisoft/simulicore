@@ -7,29 +7,29 @@
 
 int main()
 {
-	/*
-	 * Double precision real empty vector
-	 */
+    /*
+     * Double precision real empty vector
+     */
 
-	culite::dns::RdVector x;
+    culite::dns::RdVector x;
 
-	std::cout << x.info("x");
+    std::cout << x.info("x");
 
-	/*
-	 * Single precision real vector with size 3 (uninitialized values)
-	 */
+    /*
+     * Single precision real vector with size 3 (uninitialized values)
+     */
 
-	culite::dns::RfVector y(3);
+    culite::dns::RfVector y(3);
 
-	std::cout << y.info("y");
+    std::cout << y.info("y");
 
-	/*
-	 * Allocate space for x (size 5, uninitialized values)
-	 */
+    /*
+     * Allocate space for x (size 5, uninitialized values)
+     */
 
-	x = culite::dns::RdVector(5);
+    x = culite::dns::RdVector(5);
 
-	std::cout << x.info("x");
+    std::cout << x.info("x");
 
-	return 0;
+    return 0;
 }

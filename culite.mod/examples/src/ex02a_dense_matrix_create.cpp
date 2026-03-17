@@ -7,23 +7,23 @@
 
 int main()
 {
-	/*
-	 * Double precision real empty matrix
-	 */
-	culite::dns::RdMatrix A;
-	std::cout << A.info("A");
+    /*
+     * Double precision real empty matrix
+     */
+    culite::dns::RdMatrix A;
+    std::cout << A.info("A");
 
-	/*
-	 * (3x4) single precision real matrix (uninitialized values)
-	 */
-	culite::dns::RfMatrix B(3,4);
-	std::cout << B.info("B");
+    /*
+     * (3x4) single precision real matrix (uninitialized values)
+     */
+    culite::dns::RfMatrix B(3,4);
+    std::cout << B.info("B");
 
-	/*
-	 * Allocate space for A (5x2, uninitialized values)
-	 */
-	A = culite::dns::RdMatrix(5,2);
-	std::cout << A.info("A");
+    /*
+     * Allocate space for A (5x2, uninitialized values)
+     */
+    A = culite::dns::RdMatrix(5,2);
+    std::cout << A.info("A");
 
-	return 0;
+    return 0;
 }

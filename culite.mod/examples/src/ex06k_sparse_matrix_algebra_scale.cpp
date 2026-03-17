@@ -19,19 +19,19 @@ int main()
 
     culite::csr::RdMatrix A;
     hostA >> A; // Transfer to GPU
-	std::cout << "A:\n" << A << "\n";
+    std::cout << "A:\n" << A << "\n";
 
-	/*
-	 * Scale A using operators and the scale function respectively
-	 */
-	A *= 2.;
-	std::cout << "A *= 2:\n" << A << "\n";
+    /*
+     * Scale A using operators and the scale function respectively
+     */
+    A *= 2.;
+    std::cout << "A *= 2:\n" << A << "\n";
 
-	A.iscale(.5);
-	std::cout << "A.iscale(.5):\n" << A << "\n";
+    A.iscale(.5);
+    std::cout << "A.iscale(.5):\n" << A << "\n";
 
-	culite::csr::RdMatrix B = 2. * A ;
-	std::cout << "B:\n" << B << "\n";
+    culite::csr::RdMatrix B = 2. * A ;
+    std::cout << "B:\n" << B << "\n";
 
-	return 0;
+    return 0;
 }

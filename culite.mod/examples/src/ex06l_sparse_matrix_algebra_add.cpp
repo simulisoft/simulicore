@@ -27,30 +27,30 @@ int main()
     cla3p::csr::RdMatrix hostA = hostAcoo.toCsr();
     cla3p::csr::RdMatrix hostB = hostBcoo.toCsr();
 
-	culite::csr::RdMatrix A;
-	culite::csr::RdMatrix B;
-	hostA >> A; // Transfer to GPU
-	hostB >> B; // Transfer to GPU
-	std::cout << A.info("A") << A << "\n";
-	std::cout << B.info("B") << B << "\n";
+    culite::csr::RdMatrix A;
+    culite::csr::RdMatrix B;
+    hostA >> A; // Transfer to GPU
+    hostB >> B; // Transfer to GPU
+    std::cout << A.info("A") << A << "\n";
+    std::cout << B.info("B") << B << "\n";
 
-	/*
-	 * Perform the operation (A + 2 * B) using operators and the add function respectively
-	 */
-	culite::csr::RdMatrix C1 = 3. * A + 2. * B;
-	std::cout << "C1:\n" << C1 << "\n";
+    /*
+     * Perform the operation (A + 2 * B) using operators and the add function respectively
+     */
+    culite::csr::RdMatrix C1 = 3. * A + 2. * B;
+    std::cout << "C1:\n" << C1 << "\n";
 
-	culite::csr::RdMatrix C2 = culite::ops::add(3., A, 2., B);
-	std::cout << "C2:\n" << C2 << "\n";
+    culite::csr::RdMatrix C2 = culite::ops::add(3., A, 2., B);
+    std::cout << "C2:\n" << C2 << "\n";
 
-	/*
-	 * Perform the operation (Cx += 3 * A) using operators and the update function respectively
-	 */
-	C1 += 3. * A;
-	std::cout << "C1:\n" << C1 << "\n";
+    /*
+     * Perform the operation (Cx += 3 * A) using operators and the update function respectively
+     */
+    C1 += 3. * A;
+    std::cout << "C1:\n" << C1 << "\n";
 
-	culite::ops::update(3., A, C2);
-	std::cout << "C2:\n" << C2 << "\n";
+    culite::ops::update(3., A, C2);
+    std::cout << "C2:\n" << C2 << "\n";
 
-	return 0;
+    return 0;
 }
