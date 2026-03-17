@@ -62,6 +62,8 @@ class LapackGeev {
     private:
         using T_Scalar = typename T_Matrix::value_type;
         using T_CScalar = typename TypeTraits<T_Scalar>::complex_type;
+        using T_CVector = dns::CxVector<T_CScalar>;
+        using T_CMatrix = dns::CxMatrix<T_CScalar>;
 
     public:
 
@@ -152,7 +154,7 @@ class LapackGeev {
          * @return Const reference to the complex vector containing the eigenvalues.
          * @note Only valid after calling @ref decompose.
          */
-        const dns::CxVector<T_CScalar>& eigenvalues() const { return m_eigenvalues; }
+        const T_CVector& eigenvalues() const { return m_eigenvalues; }
         
         /**
          * @brief Gets the computed left eigenvectors.
@@ -160,7 +162,7 @@ class LapackGeev {
          * @note Only valid after calling @ref decompose with calcLeft=true.
          * @note Each column i contains the left eigenvector corresponding to eigenvalue i.
          */
-        const dns::CxMatrix<T_CScalar>& leftEigenvectors() const { return m_leftEigenvectors; }
+        const T_CMatrix& leftEigenvectors() const { return m_leftEigenvectors; }
         
         /**
          * @brief Gets the computed right eigenvectors.
@@ -168,16 +170,16 @@ class LapackGeev {
          * @note Only valid after calling @ref decompose with calcRight=true.
          * @note Each column i contains the right eigenvector corresponding to eigenvalue i.
          */
-        const dns::CxMatrix<T_CScalar>& rightEigenvectors() const { return m_rightEigenvectors; }
+        const T_CMatrix& rightEigenvectors() const { return m_rightEigenvectors; }
 
     private:
         CuSolverHandler& m_cusolver;
         bool m_calcLeft;
         bool m_calcRight;
 
-        dns::CxVector<T_CScalar> m_eigenvalues;
-        dns::CxMatrix<T_CScalar> m_leftEigenvectors;
-        dns::CxMatrix<T_CScalar> m_rightEigenvectors;
+        T_CVector m_eigenvalues;
+        T_CMatrix m_leftEigenvectors;
+        T_CMatrix m_rightEigenvectors;
 
         DeviceBuffer<T_CScalar> m_deviceBuffer;
 

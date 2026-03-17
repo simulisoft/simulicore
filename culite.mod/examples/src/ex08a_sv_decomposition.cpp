@@ -24,7 +24,7 @@ int main()
 	culite::DefaultSVD<culite::dns::RdMatrix> svdA;
 
 	/*
-	 * Decompose A into USV' product
+	 * Decompose A into USV* product
 	 */
 	svdA.decompose(A);
 

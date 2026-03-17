@@ -37,12 +37,12 @@ namespace culite {
  *          
  *          For a given @f$ m \times n @f$ matrix A, the SVD computes the factorization:
  *          @f[
- *              A = U \Sigma V^T
+ *              A = U \Sigma V^*
  *          @f]
  *          where:
- *          - @f$ U @f$ is an @f$ m \times m @f$ (or @f$ m \times \min(m,n) @f$ if limited) orthogonal matrix of left singular vectors
+ *          - @f$ U @f$ is an @f$ m \times m @f$ (or @f$ m \times \min(m,n) @f$ if limited) unitary matrix of left singular vectors
  *          - @f$ \Sigma @f$ is an @f$ m \times n @f$ diagonal matrix with non-negative real singular values
- *          - @f$ V^T @f$ is the transpose of an @f$ n \times n @f$ (or @f$ \min(m,n) \times n @f$ if limited) orthogonal matrix
+ *          - @f$ V^* @f$ is the conjugate transpose of an @f$ n \times n @f$ (or @f$ \min(m,n) \times n @f$ if limited) unitary matrix
  * 
  *          The computation of singular vectors can be controlled independently via policy settings
  *          (Full, Limited, or None) to optimize performance and memory usage.
@@ -180,7 +180,7 @@ class DefaultSVD {
          * @return Const reference to the matrix containing the right singular vectors (V matrix).
          * @note Only valid after calling @ref decompose.
          * @note Each column i contains the right singular vector corresponding to singular value i.
-         * @note Returns V (not V^T). Dimensions depend on right policy: Limited gives @f$ n \times \min(m,n) @f$, Full gives @f$ n \times n @f$.
+         * @note Returns V (not V^*). Dimensions depend on right policy: Limited gives @f$ n \times \min(m,n) @f$, Full gives @f$ n \times n @f$.
          */
         const T_Matrix& rightSingularVectors() const { return m_rightSingularVectors; }
 

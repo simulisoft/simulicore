@@ -11,5 +11,10 @@ sed -i 's/#culite_tutorial_matrices_sparse\>//g' ${ROOT_DIR}/html/*.js
 sed -i 's/#culite_tutorial_linsol\>//g' ${ROOT_DIR}/html/*.js
 sed -i 's/#culite_tutorial_linsol_lapack\>//g' ${ROOT_DIR}/html/*.js
 sed -i 's/#culite_tutorial_linsol_cudss\>//g' ${ROOT_DIR}/html/*.js
+sed -i 's/#culite_tutorial_eigsol\>//g' ${ROOT_DIR}/html/*.js
+sed -i 's/#culite_tutorial_eigsol_geev\>//g' ${ROOT_DIR}/html/*.js
+sed -i 's/#culite_tutorial_svd\>//g' ${ROOT_DIR}/html/*.js
+sed -i 's/#culite_tutorial_svd_default\>//g' ${ROOT_DIR}/html/*.js
+
 
 exit 0

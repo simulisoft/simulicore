@@ -73,10 +73,10 @@ void LapackGeev<T_Matrix>::reserve(const T_Matrix& mat)
 
     T_CScalar* currentBuff = m_deviceBuffer.data();
 
-    m_eigenvalues = dns::CxVector<T_CScalar>(n, currentBuff, false); currentBuff += sizeE;
+    m_eigenvalues = T_CVector(n, currentBuff, false); currentBuff += sizeE;
 
-    if(m_calcLeft ) { m_leftEigenvectors  = dns::CxMatrix<T_CScalar>(n, n, currentBuff, n, false); currentBuff += sizeVL; }
-    if(m_calcRight) { m_rightEigenvectors = dns::CxMatrix<T_CScalar>(n, n, currentBuff, n, false); currentBuff += sizeVR; }
+    if(m_calcLeft ) { m_leftEigenvectors  = T_CMatrix(n, n, currentBuff, n, false); currentBuff += sizeVL; }
+    if(m_calcRight) { m_rightEigenvectors = T_CMatrix(n, n, currentBuff, n, false); currentBuff += sizeVR; }
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>

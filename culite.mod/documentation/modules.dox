@@ -10,6 +10,9 @@
  * - @subpage culite_module_index_matrices
  * - @subpage culite_module_index_math_op
  * - @subpage culite_module_index_math_operators
+ * - @subpage culite_module_index_linsol
+ * - @subpage culite_module_index_eigsol
+ * - @subpage culite_module_index_svd
  * - @subpage culite_module_index_cuda_utils
  * - @subpage culite_module_index_host2device_operators
  * - @subpage culite_module_index_device2host_operators
@@ -120,6 +123,31 @@
  *   @details Implements the `*` operator for dot products, matrix-vector multiplications, and 
  *   matrix-matrix products (GEMM). These are mapped to high-performance cuBLAS routines.
  * @}
+ *
+ * @addtogroup culite_module_index_linsol Linear Solvers
+ * @brief Solvers for systems of linear equations (Ax = B).
+ * @details Interfaces for factorization-based solvers on GPU, optimized for dense matrix structures
+ * using cuSOLVER backends.
+ * @{
+ *   @defgroup culite_module_index_linsol_dense Dense Linear Solvers
+ *   @brief Solvers for dense systems using cuSOLVER backends.
+ *   Includes classes:
+ *    - @ref culite::LapackLU : LU factorization with partial pivoting.
+ * @}
+ *
+ * @defgroup culite_module_index_eigsol Eigenvalue Solvers
+ * @brief Eigenvalue decomposition for general matrices.
+ * @details Tools for computing eigenvalues and eigenvectors of general (non-symmetric)
+ * dense matrices on GPU using cuSOLVER backends.
+ * Includes class:
+ *  - @ref culite::LapackGeev : General eigenvalue problem solver (GEEV).
+ *
+ * @defgroup culite_module_index_svd Singular Value Decomposition
+ * @brief Singular value-based matrix factorization.
+ * @details Tools for computing singular values and singular vectors of dense matrices
+ * on GPU using cuSOLVER backends.
+ * Includes class:
+ *  - @ref culite::DefaultSVD : Standard SVD interface.
  *
  * @addtogroup culite_module_index_cuda_utils CUDA Module Utilities
  * @brief Core CUDA runtime and library utility classes.
