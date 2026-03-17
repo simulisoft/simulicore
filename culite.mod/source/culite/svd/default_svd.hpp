@@ -40,12 +40,12 @@ namespace culite {
  *              A = U \Sigma V^*
  *          @f]
  *          where:
- *          - @f$ U @f$ is an @f$ m \times m @f$ (or @f$ m \times \min(m,n) @f$ if limited) unitary matrix of left singular vectors
+ *          - @f$ U @f$ is an @f$ m \times m @f$ (or @f$ m \times \min(m,n) @f$ if Economy) unitary matrix of left singular vectors
  *          - @f$ \Sigma @f$ is an @f$ m \times n @f$ diagonal matrix with non-negative real singular values
- *          - @f$ V^* @f$ is the conjugate transpose of an @f$ n \times n @f$ (or @f$ \min(m,n) \times n @f$ if limited) unitary matrix
+ *          - @f$ V^* @f$ is the conjugate transpose of an @f$ n \times n @f$ (or @f$ \min(m,n) \times n @f$ if Economy) unitary matrix
  * 
  *          The computation of singular vectors can be controlled independently via policy settings
- *          (Full, Limited, or None) to optimize performance and memory usage.
+ *          (Full, Economy, or None) to optimize performance and memory usage.
  * 
  * @tparam T_Matrix The matrix type (must be a dense GPU matrix type).
  * 
@@ -79,7 +79,7 @@ class DefaultSVD {
         /**
          * @brief Default constructor.
          * @details Initializes the SVD solver with default settings.
-         *          Both leftPolicy and rightPolicy are initialized to Limited.
+         *          Both leftPolicy and rightPolicy are initialized to Economy.
          * @param[in] cusolver Reference to a cuSOLVER handler instance (defaults to global handler).
          */
         DefaultSVD(CuSolverHandler& cusolver = globalCuSolverHandler());
@@ -88,8 +88,8 @@ class DefaultSVD {
          * @brief Constructor with specified policies.
          * @details Initializes the SVD solver with the specified cuSOLVER handler and
          *          singular vector computation policies.
-         * @param[in] leftPolicy Policy for computing left singular vectors U (Limited, Full, or None).
-         * @param[in] rightPolicy Policy for computing right singular vectors V (Limited, Full, or None).
+         * @param[in] leftPolicy Policy for computing left singular vectors U (Economy, Full, or None).
+         * @param[in] rightPolicy Policy for computing right singular vectors V (Economy, Full, or None).
          * @param[in] cusolver Reference to a cuSOLVER handler instance (defaults to global handler).
          */
         DefaultSVD(svdPolicy_t leftPolicy, 
@@ -171,7 +171,7 @@ class DefaultSVD {
          * @return Const reference to the matrix containing the left singular vectors (U matrix).
          * @note Only valid after calling @ref decompose.
          * @note Each column i contains the left singular vector corresponding to singular value i.
-         * @note Dimensions depend on left policy: Limited gives @f$ m \times \min(m,n) @f$, Full gives @f$ m \times m @f$.
+         * @note Dimensions depend on left policy: Economy gives @f$ m \times \min(m,n) @f$, Full gives @f$ m \times m @f$.
          */
         const T_Matrix& leftSingularVectors() const { return m_leftSingularVectors; }
         
@@ -180,7 +180,7 @@ class DefaultSVD {
          * @return Const reference to the matrix containing the right singular vectors (V matrix).
          * @note Only valid after calling @ref decompose.
          * @note Each column i contains the right singular vector corresponding to singular value i.
-         * @note Returns V (not V^*). Dimensions depend on right policy: Limited gives @f$ n \times \min(m,n) @f$, Full gives @f$ n \times n @f$.
+         * @note Returns V (not V^*). Dimensions depend on right policy: Economy gives @f$ n \times \min(m,n) @f$, Full gives @f$ n \times n @f$.
          */
         const T_Matrix& rightSingularVectors() const { return m_rightSingularVectors; }
 

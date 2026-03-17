@@ -23,7 +23,7 @@ int main()
 	 * Set a svd object for B with buffer pre-allocation 
 	 * and no calculation for V
 	 */
-	cla3p::svdPolicy_t policyU = cla3p::svdPolicy_t::Limited;
+	cla3p::svdPolicy_t policyU = cla3p::svdPolicy_t::Economy;
 	cla3p::svdPolicy_t policyV = cla3p::svdPolicy_t::NoCalculation;
 	cla3p::DefaultSVD<cla3p::dns::RdMatrix> svdB(3, 5, policyU, policyV);
 

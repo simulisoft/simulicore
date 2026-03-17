@@ -441,7 +441,7 @@
  * of a dense matrix on GPU. The SVD factorizes A = U * S * V*, where S contains
  * the singular values in descending order.
  * Policies control whether left (U) and right (V) singular vectors are computed.
- * Available policies are `Limited` (economy SVD), `Full`, and `NoCalculation`.
+ * Available policies are `Economy`, `Full`, and `NoCalculation`.
  * <table>
  *   <tr><th>Source Code</th><th>Console Output</th></tr>
  *   <tr>

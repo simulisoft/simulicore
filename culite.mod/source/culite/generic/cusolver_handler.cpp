@@ -606,7 +606,7 @@ void CuSolverHandler::reserveGesvd(const T_Matrix& A, svdPolicy_t policyU, svdPo
     gesvdAssignInternalPointers<T_Scalar>(policyU, policyVT, m, n, &S, nullptr, &U, &VT);
 
     cuSolverInt ldu = m;
-    cuSolverInt ldvt = (policyVT == svdPolicy_t::Limited ? k : n);
+    cuSolverInt ldvt = (policyVT == svdPolicy_t::Economy ? k : n);
 
     cusolverStatus_t cusolverStatus =
     cusolverDnXgesvd_bufferSize(handle(),
@@ -652,7 +652,7 @@ void CuSolverHandler::executeGesvd(const T_Matrix& A, svdPolicy_t policyU, svdPo
 
     cuSolverInt lda = m;
     cuSolverInt ldu = m;
-    cuSolverInt ldvt = (policyVT == svdPolicy_t::Limited ? k : n);
+    cuSolverInt ldvt = (policyVT == svdPolicy_t::Economy ? k : n);
 
     memCopyD2D<T_Scalar>(m, n, A.values(), A.ld(), vA, lda);
 
@@ -724,14 +724,14 @@ void CuSolverHandler::gesvdGetSingularVectors(svdPolicy_t policyU, svdPolicy_t p
 
     if(policyU != svdPolicy_t::NoCalculation) {
         nrowsU = m;
-        ncolsU = (policyU == svdPolicy_t::Limited ? k : m);
+        ncolsU = (policyU == svdPolicy_t::Economy ? k : m);
         if(!U) U = T_Matrix(nrowsU, ncolsU);
         ::cla3p::similarity_dim_check(U.nrows(), nrowsU);
         ::cla3p::similarity_dim_check(U.ncols(), ncolsU);
     }
 
     if(policyVT != svdPolicy_t::NoCalculation) {
-        nrowsVT = (policyVT == svdPolicy_t::Limited ? k : n);
+        nrowsVT = (policyVT == svdPolicy_t::Economy ? k : n);
         ncolsVT = n;
         int_t nrowsV = transposeVT ? ncolsVT : nrowsVT;
         int_t ncolsV = transposeVT ? nrowsVT : ncolsVT;
@@ -766,7 +766,7 @@ CuSolverHandler::cuSolverInt CuSolverHandler::svdVectorSize(svdPolicy_t policy, 
 {
     switch(policy) {
         case svdPolicy_t::Full         : return n * n;
-        case svdPolicy_t::Limited      : return n * std::min(n, k);
+        case svdPolicy_t::Economy      : return n * std::min(n, k);
         case svdPolicy_t::NoCalculation: return 0;
         default: return 0;
     }

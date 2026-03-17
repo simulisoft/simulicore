@@ -55,8 +55,8 @@ DefaultSVD<T_Matrix>::~DefaultSVD()
 template <typename T_Matrix>
 void DefaultSVD<T_Matrix>::defaults()
 {
-    setLeftPolicy(svdPolicy_t::Limited);
-    setRightPolicy(svdPolicy_t::Limited);
+    setLeftPolicy(svdPolicy_t::Economy);
+    setRightPolicy(svdPolicy_t::Economy);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
@@ -92,7 +92,7 @@ static int_t policyToNumCols(svdPolicy_t policy, int_t n, int_t k)
 {
     int_t ret = 0;
 
-    if(policy == svdPolicy_t::Limited)
+    if(policy == svdPolicy_t::Economy)
         ret = k;
     else if(policy == svdPolicy_t::Full)
         ret = n;

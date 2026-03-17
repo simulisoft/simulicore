@@ -51,8 +51,8 @@ DefaultSVD<T_Matrix>::~DefaultSVD()
 template <typename T_Matrix>
 void DefaultSVD<T_Matrix>::defaults()
 {
-    m_LeftPolicy = svdPolicy_t::Limited;
-    m_RightPolicy = svdPolicy_t::Limited;
+    m_LeftPolicy = svdPolicy_t::Economy;
+    m_RightPolicy = svdPolicy_t::Economy;
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>

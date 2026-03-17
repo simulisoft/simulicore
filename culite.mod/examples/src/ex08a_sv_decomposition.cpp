@@ -38,7 +38,7 @@ int main()
 	/*
 	 * Set a svd object with no calculation for V
 	 */
-	culite::svdPolicy_t policyU = culite::svdPolicy_t::Limited;
+	culite::svdPolicy_t policyU = culite::svdPolicy_t::Economy;
 	culite::svdPolicy_t policyV = culite::svdPolicy_t::NoCalculation;
 	culite::DefaultSVD<culite::dns::RdMatrix> svdB(policyU, policyV);
 

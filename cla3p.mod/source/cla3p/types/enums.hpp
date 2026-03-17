@@ -154,7 +154,8 @@ enum class eigRange_t : char {
  */
 enum class svdPolicy_t : char {
     NoCalculation = 'N', /**< Singular vectors are not computed; only singular values are calculated. */
-    Limited       = 'S', /**< Compute the first @f$ \min(m,n) @f$ singular vectors (thin/economy SVD). */
+    Limited       = 'S', /**< @deprecated Use `Economy` instead. */
+    Economy       = 'S', /**< Compute the first @f$ \min(m,n) @f$ singular vectors (thin/economy SVD). */
     Full          = 'A'  /**< Compute all @f$ m @f$ left and @f$ n @f$ right singular vectors (full SVD). */
 };
 

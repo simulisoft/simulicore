@@ -346,7 +346,7 @@ class CuSolverHandler {
          *          | Policy | Description | Matrix Size |
          *          |--------|-------------|-------------|
          *          | Full   | Compute all m columns of U | m×m |
-         *          | Limited | Compute first min(m,n) columns of U (economy-size) | m×min(m,n) |
+         *          | Economy | Compute first min(m,n) columns of U (economy-size) | m×min(m,n) |
          *          | NoCalculation | Do not compute U | - |
          * 
          *          **Right Singular Vectors (V^T) Policy:**
@@ -354,7 +354,7 @@ class CuSolverHandler {
          *          | Policy | Description | Matrix Size |
          *          |--------|-------------|-------------|
          *          | Full   | Compute all n rows of V^T | n×n |
-         *          | Limited | Compute first min(m,n) rows of V^T (economy-size) | min(m,n)×n |
+         *          | Economy | Compute first min(m,n) rows of V^T (economy-size) | min(m,n)×n |
          *          | NoCalculation | Do not compute V^T | - |
          * 
          * @tparam T_Matrix The matrix type. Supported: dns::RdMatrix, dns::RfMatrix, dns::CdMatrix, dns::CfMatrix.
@@ -363,7 +363,7 @@ class CuSolverHandler {
          * @param[in] policyVT Policy for computing right singular vectors V^T (see table above).
          * 
          * @note This must be called before @ref executeGesvd with matching policyU and policyVT parameters.
-         * @note For economy-size SVD (Limited policy), memory usage is significantly reduced compared to Full.
+         * @note For economy-size SVD (Economy policy), memory usage is significantly reduced compared to Full.
          */
         template <typename T_Matrix>
         void reserveGesvd(const T_Matrix& A, svdPolicy_t policyU, svdPolicy_t policyVT);
@@ -386,7 +386,7 @@ class CuSolverHandler {
          *          | Policy | Description | Matrix Size |
          *          |--------|-------------|-------------|
          *          | Full   | Compute all m columns of U | m×m |
-         *          | Limited | Compute first min(m,n) columns of U (economy-size) | m×min(m,n) |
+         *          | Economy | Compute first min(m,n) columns of U (economy-size) | m×min(m,n) |
          *          | NoCalculation | Do not compute U | - |
          * 
          *          **Right Singular Vectors (V^T) Policy:**
@@ -394,7 +394,7 @@ class CuSolverHandler {
          *          | Policy | Description | Matrix Size |
          *          |--------|-------------|-------------|
          *          | Full   | Compute all n rows of V^T | n×n |
-         *          | Limited | Compute first min(m,n) rows of V^T (economy-size) | min(m,n)×n |
+         *          | Economy | Compute first min(m,n) rows of V^T (economy-size) | min(m,n)×n |
          *          | NoCalculation | Do not compute V^T | - |
          * 
          * @tparam T_Matrix The matrix type. Supported: dns::RdMatrix, dns::RfMatrix, dns::CdMatrix, dns::CfMatrix.
@@ -405,7 +405,7 @@ class CuSolverHandler {
          * @note @ref reserveGesvd must be called first with matching policyU and policyVT parameters.
          * @note The input matrix A is not modified; an internal copy is made.
          * @note Singular values are returned in descending order: σ₁ ≥ σ₂ ≥ ... ≥ σₘᵢₙ₍ₘ,ₙ₎ ≥ 0.
-         * @note For economy-size decomposition (Limited policy), computational cost is reduced.
+         * @note For economy-size decomposition (Economy policy), computational cost is reduced.
          */
         template <typename T_Matrix>
         void executeGesvd(const T_Matrix& A, svdPolicy_t policyU, svdPolicy_t policyVT);
@@ -445,7 +445,7 @@ class CuSolverHandler {
          *          | Policy | Description | Matrix Size |
          *          |--------|-------------|-------------|
          *          | Full   | Returns all m columns of U | m×m |
-         *          | Limited | Returns first min(m,n) columns of U (economy-size) | m×min(m,n) |
+         *          | Economy | Returns first min(m,n) columns of U (economy-size) | m×min(m,n) |
          *          | NoCalculation | Does not retrieve U (U is not modified) | - |
          * 
          *          **Right Singular Vectors (V/V^T) Policy:**
@@ -455,7 +455,7 @@ class CuSolverHandler {
          *          | Policy | Description | Matrix Size |
          *          |--------|-------------|-------------|
          *          | Full   | Returns all n columns of V | n×n |
-         *          | Limited | Returns first min(m,n) columns of V (economy-size) | n×min(m,n) |
+         *          | Economy | Returns first min(m,n) columns of V (economy-size) | n×min(m,n) |
          *          | NoCalculation | Does not retrieve V (V is not modified) | - |
          * 
          *          When transposeVT = false, returns V^T:
@@ -463,7 +463,7 @@ class CuSolverHandler {
          *          | Policy | Description | Matrix Size |
          *          |--------|-------------|-------------|
          *          | Full   | Returns all n rows of V^T | n×n |
-         *          | Limited | Returns first min(m,n) rows of V^T (economy-size) | min(m,n)×n |
+         *          | Economy | Returns first min(m,n) rows of V^T (economy-size) | min(m,n)×n |
          *          | NoCalculation | Does not retrieve V^T (V is not modified) | - |
          * 
          * @tparam T_Matrix The matrix type. Supported: dns::RdMatrix, dns::RfMatrix, dns::CdMatrix, dns::CfMatrix.

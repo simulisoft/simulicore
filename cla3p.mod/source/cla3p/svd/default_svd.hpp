@@ -64,7 +64,7 @@ class DefaultSVD {
          * @param[in] leftPolicy The singular vector computation policy for @f$ U @f$.
          * @param[in] rightPolicy The singular vector computation policy for @f$ V @f$.
          */
-        DefaultSVD(int_t m, int_t n, svdPolicy_t leftPolicy = svdPolicy_t::Limited, svdPolicy_t rightPolicy = svdPolicy_t::Limited);
+        DefaultSVD(int_t m, int_t n, svdPolicy_t leftPolicy = svdPolicy_t::Economy, svdPolicy_t rightPolicy = svdPolicy_t::Economy);
 
         /**
          * @brief Destroys the SVD decomposition object.
@@ -138,7 +138,7 @@ class DefaultSVD {
          * @brief Retrieves the left singular vectors matrix.
          * @details Returns the matrix @f$ U @f$ of size @f$ m \times k @f$, where:
          *          - @f$ k = m @f$ if left policy is Full
-         *          - @f$ k = \min(m,n) @f$ if left policy is Limited
+         *          - @f$ k = \min(m,n) @f$ if left policy is Economy
          *          - The matrix is empty if left policy is NoCalculation
          * @return A constant reference to the left singular vectors matrix.
          */
@@ -148,7 +148,7 @@ class DefaultSVD {
          * @brief Retrieves the right singular vectors matrix.
          * @details Returns the matrix @f$ V^H @f$ of size @f$ k \times n @f$, where:
          *          - @f$ k = n @f$ if right policy is Full
-         *          - @f$ k = \min(m,n) @f$ if right policy is Limited
+         *          - @f$ k = \min(m,n) @f$ if right policy is Economy
          *          - The matrix is empty if right policy is NoCalculation
          * @return A constant reference to the right singular vectors matrix.
          */

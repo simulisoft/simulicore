@@ -170,7 +170,8 @@
       <tab type="filelist" visible="no" title="" intro=""/>
       <tab type="globals" visible="no" title="" intro=""/>
     </tab>
-    <tab type="examples" visible="yes" title="Example List" intro=""/>  
+    <tab type="examples" visible="yes" title="Example List" intro=""/>
+    <tab type="user" url="deprecated.html" visible="yes" title="Deprecated List"/>
   </navindex>
 
   <!-- ======================================================================================== -->
