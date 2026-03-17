@@ -44,7 +44,7 @@ Utilizing a foundational framework of GPU memory management and accelerated comp
 - [x] Dense linear system solvers (LU)
 - [ ] Sparse linear system solvers (cuDSS)
 - [ ] QR decomposition
-- [ ] Singular Value Decomposition (SVD)
+- [x] Singular Value Decomposition (SVD)
 - [x] Eigenvalue problems (limited support)
 - [x] CUDA stream management (limited support)
 - [x] cuBLAS integration (Basic Linear Algebra Subprograms on GPU - limited support)
