@@ -21,6 +21,7 @@ set(CLA3P_HPP
     virtuals.hpp
     algebra.hpp
     linsol.hpp
+    eigsol.hpp
     svd.hpp
     qr.hpp
     lra.hpp
@@ -42,6 +43,7 @@ add_subdirectory(perms)
 add_subdirectory(virtuals)
 add_subdirectory(algebra)
 add_subdirectory(linsol)
+add_subdirectory(eigsol)
 add_subdirectory(svd)
 add_subdirectory(qr)
 add_subdirectory(lra)
