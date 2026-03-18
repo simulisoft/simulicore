@@ -53,6 +53,8 @@ set(CLA3P_EXAMPLES_SRC
     ex08a_qr_decomposition.cpp
     ex08b_sv_decomposition.cpp
     ex09a_lowrank_matrix_create.cpp
+    ex10a_geev_decomposition.cpp
+    ex10b_syev_decomposition.cpp
     )
 
 if(${SIMULICORE_ARCH_X86_64})
