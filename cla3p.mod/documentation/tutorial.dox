@@ -22,6 +22,7 @@
  *  - @subpage cla3p_tutorial_linsol
  *  - @subpage cla3p_tutorial_qr
  *  - @subpage cla3p_tutorial_svd
+ *  - @subpage cla3p_tutorial_eigsol
  * 
  *
  *
@@ -996,6 +997,75 @@
  *   <tr>
  *     <td> @include src/ex08b_sv_decomposition.cpp </td>
  *     <td> @include i32/out/ex08b_sv_decomposition.out </td>
+ *   </tr>
+ * </table>
+ *
+ *
+ *
+ *
+ *
+ *
+ * @page cla3p_tutorial_eigsol Eigenvalue Decompositions
+ *
+ * CLA3P provides routines to compute eigenvalue decompositions for both general and
+ * symmetric/Hermitian dense matrices via LAPACK backends.
+ *
+ * - @subpage cla3p_tutorial_eigsol_geev
+ * - @subpage cla3p_tutorial_eigsol_syev
+ *
+ * @page cla3p_tutorial_eigsol_geev General Eigenvalue Decomposition (GEEV)
+ *
+ * CLA3P provides routines to compute the eigenvalue decomposition of general
+ * (non-symmetric) dense matrices via the LAPACK GEEV interface
+ * (`dgeev` / `sgeev` for real, `zgeev` / `cgeev` for complex).
+ *
+ * Given a square matrix \f$ A \f$, the decomposition yields complex eigenvalues
+ * \f$ \lambda_i \f$ together with optional left and/or right eigenvectors satisfying:
+ * \f[
+ *   A \, v_i = \lambda_i \, v_i \qquad (\text{right}), \qquad
+ *   w_i^H \, A = \lambda_i \, w_i^H \qquad (\text{left})
+ * \f]
+ * Eigenvalues and eigenvectors are always returned as complex quantities, even for
+ * real input matrices.
+ *
+ * ### Example
+ *
+ * The following example demonstrates how to compute the general eigenvalue decomposition
+ * of a dense matrix, covering right-only, both-sided, and eigenvalues-only use cases:
+ *
+ * <table>
+ *   <tr><th>Source Code</th><th>Console Output</th></tr>
+ *   <tr>
+ *     <td> @include src/ex10a_geev_decomposition.cpp </td>
+ *     <td> @include i32/out/ex10a_geev_decomposition.out </td>
+ *   </tr>
+ * </table>
+ *
+ *
+ * @page cla3p_tutorial_eigsol_syev Symmetric/Hermitian Eigenvalue Decomposition (SYEV)
+ *
+ * CLA3P provides routines to compute the eigenvalue decomposition of symmetric (real)
+ * or Hermitian (complex) dense matrices via the LAPACK HEEV interface
+ * (`dsyev` / `ssyev` for real, `zheev` / `cheev` for complex).
+ *
+ * For a symmetric/Hermitian matrix \f$ A \f$, all eigenvalues are real and the
+ * eigenvectors form an orthonormal basis:
+ * \f[
+ *   A \, v_i = \lambda_i \, v_i, \quad \lambda_i \in \mathbb{R}, \quad V^H V = I
+ * \f]
+ * Eigenvalues are returned in ascending order. Eigenvector computation is optional
+ * and can be disabled when only the spectrum is needed.
+ *
+ * ### Example
+ *
+ * The following example demonstrates how to compute the symmetric eigenvalue decomposition
+ * of a dense matrix, covering full decomposition and eigenvalues-only use cases:
+ *
+ * <table>
+ *   <tr><th>Source Code</th><th>Console Output</th></tr>
+ *   <tr>
+ *     <td> @include src/ex10b_syev_decomposition.cpp </td>
+ *     <td> @include i32/out/ex10b_syev_decomposition.out </td>
  *   </tr>
  * </table>
  */

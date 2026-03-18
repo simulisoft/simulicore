@@ -21,5 +21,8 @@ sed -i 's/#cla3p_tutorial_linsol_lapack\>//g' ${ROOT_DIR}/html/*.js
 sed -i 's/#cla3p_tutorial_linsol_pardiso\>//g' ${ROOT_DIR}/html/*.js
 sed -i 's/#cla3p_tutorial_qr\>//g' ${ROOT_DIR}/html/*.js
 sed -i 's/#cla3p_tutorial_svd\>//g' ${ROOT_DIR}/html/*.js
+sed -i 's/#cla3p_tutorial_eigsol\>//g' ${ROOT_DIR}/html/*.js
+sed -i 's/#cla3p_tutorial_eigsol_geev\>//g' ${ROOT_DIR}/html/*.js
+sed -i 's/#cla3p_tutorial_eigsol_syev\>//g' ${ROOT_DIR}/html/*.js
 
 exit 0

@@ -12,6 +12,7 @@
  * - @subpage cla3p_module_index_linsol
  * - @subpage cla3p_module_index_qr
  * - @subpage cla3p_module_index_svd
+ * - @subpage cla3p_module_index_eigsol
  * - @subpage cla3p_module_index_math_operators
  * - @subpage cla3p_module_index_stream_operators
  * - @subpage cla3p_module_index_exceptions
@@ -150,6 +151,28 @@
  * @details Tools for computing singular values and singular vectors.
  * Includes class:
  *  - @ref cla3p::DefaultSVD : Standard SVD interface.
+ *
+ * @addtogroup cla3p_module_index_eigsol Eigenvalue Decomposition
+ * @brief Eigenvalue decomposition solvers for dense matrices.
+ * @details Interfaces for computing eigenvalues and eigenvectors of general,
+ * symmetric, and Hermitian dense matrices using LAPACK backends.
+ * @{
+ *   @defgroup cla3p_module_index_eigsol_geev General Eigenvalue Decomposition (GEEV)
+ *   @brief Eigenvalue decomposition for general (non-symmetric) matrices.
+ *   @details Wraps the LAPACK GEEV routine (`dgeev`/`sgeev` for real, `zgeev`/`cgeev` for complex)
+ *   to compute eigenvalues and optionally left and/or right eigenvectors. Results are always
+ *   returned as complex quantities.
+ *   Includes class:
+ *    - @ref cla3p::LapackGeev : General eigenvalue decomposition interface.
+ *
+ *   @defgroup cla3p_module_index_eigsol_syev Symmetric/Hermitian Eigenvalue Decomposition (SYEV)
+ *   @brief Eigenvalue decomposition for symmetric (real) or Hermitian (complex) matrices.
+ *   @details Wraps the LAPACK HEEV routine (`dsyev`/`ssyev` for real, `zheev`/`cheev` for complex)
+ *   to compute real eigenvalues and optionally orthonormal eigenvectors. Eigenvalues are returned
+ *   in ascending order.
+ *   Includes class:
+ *    - @ref cla3p::LapackSyev : Symmetric/Hermitian eigenvalue decomposition interface.
+ * @}
  *
  * @defgroup cla3p_module_index_stream_operators Stream Operators
  * @brief I/O stream integration.
