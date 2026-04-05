@@ -65,7 +65,7 @@ void mult_dim_check(op_t opA, const Meta2D<T_Int>& metaA,
     T_Int m = (opA == op_t::N ? metaA.nrows() : metaA.ncols());
     T_Int n = (opA == op_t::N ? metaA.ncols() : metaA.nrows());
 
-    if(metaX.size() != m || metaY.size() != n) {
+    if(metaX.size() != n || metaY.size() != m) {
         std::stringstream ss;
         ss << "Dimension mismatch for matrix-vector multiplication: \n"
            << "A: " << metaA << " opA: " << opA << "\n"
