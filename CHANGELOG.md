@@ -1,3 +1,52 @@
+# [v0.3.1] - 2026-04-05
+
+## CLA3P Module
+
+### New Features
+- **LapackSyev Eigensolver**: Symmetric/Hermitian eigenvalue decomposition on CPU
+  - Added `syev`, `heev`, and `geev` LAPACK proxies
+  - Implemented `LapackSyev` class for symmetric and Hermitian eigenproblems
+  - Added examples and tutorial/module documentation for `eigsol`
+- **VirtualStrided Support**: Dense matrix diagonal can now be referenced via `VirtualStrided` class
+
+### Bug Fixes
+- Fixed multiplication dimension checks in `mult_dim_check()` for matrix-vector operations
+- Fixed update operators for both dense and sparse cases
+
+### Improvements
+- **Header Include Restructuring**: All internal include paths reorganized into dedicated subdirectories (`algebra`, `bulk`, `checks`, `dense`, `error`, `generic`, `linsol`, `lra`, `perms`, `proxies`, `qr`, `sparse`, `support`, `svd`, `types`, `virtuals`); all includes now use angle-bracket form
+- Renamed `dns?D` file family to `dns?d` for consistent naming conventions
+- Replaced `cla3p::svdPolicy_t::Limited` with `Economy` throughout the codebase
+- Replaced tabs with spaces in example source files
+
+---
+
+## cuLite Module
+
+### New Features
+- **Dense Object Fill**: Added `fill()` member function and `operator=(Scalar)` for dense vectors and matrices
+- **Extended cuSOLVER Support**: Additional cuSOLVER operations exposed through the handler interface
+- **SVD and GEEV Improvements**:
+  - Re-implemented GESVD fix for S-size bug on CUDA
+  - Stabilized `DefaultSVD` and `LapackGeev` constructors
+  - Added additional members to `LapackGeev`
+  - Fixed complex SVD implementation
+  - Added examples and tutorial/module documentation for `geev` and `gesvd`
+- **New Utility Class**: `GridXD` for GPU kernel launch configuration
+
+### Bug Fixes
+- Fixed complex SVD implementation for correctness
+- Fixed `complex_t` class arithmetic operators (`+`, `-`)
+- Fixed update operators for both dense and sparse cases
+
+### Improvements
+- **Implementation Split**: Moved `CuBlasHandler`, `CuSolverHandler`, `CuSparseHandler`, and cuSPARSE proxy template instantiations from header-only to `.cpp` files with explicit specializations, reducing compile times
+- **Header Include Restructuring**: All internal include paths reorganized into dedicated subdirectories; all includes now use angle-bracket form
+- Replaced tabs with spaces in example source files
+- Updated README with SVD support documentation
+
+---
+
 # [v0.3.0] - 2026-03-26
 
 ## CLA3P Module
