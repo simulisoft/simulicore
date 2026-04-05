@@ -63,7 +63,7 @@ target_link_libraries(<target> ${CMPI_LIB} ${MPI_LIB})
 <a name="documentation"></a>
 ## Documentation
 
-You can find the latest **CMPI** version documentation [here](https://www.simulisoft.com/simulicore/v0.3.0/cmpi/html/index.html).
+You can find the latest **CMPI** version documentation [here](https://www.simulisoft.com/simulicore/v0.3.1/cmpi/html/index.html).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

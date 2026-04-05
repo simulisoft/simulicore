@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.12.0)
 cmake_policy(SET CMP0074 NEW)
 
 set(SIMULICORE_NAME "SimuliCore")
-set(SIMULICORE_VERSION "0.3.0")
+set(SIMULICORE_VERSION "0.3.1")
 project(${SIMULICORE_NAME} VERSION ${SIMULICORE_VERSION} LANGUAGES CXX)
 
 #-----------------------------------------------
