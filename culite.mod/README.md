@@ -115,42 +115,71 @@ The library simplifies GPU memory operations through intuitive handler classes:
 #include <culite/dense.hpp>
 
 // Transfer data from host to device
-cla3p::dns::RdVector<cla3p::real_t> h_vec(1000);
+cla3p::dns::RdVector<cla3p::real_t> hostVec(1000);
 
 // Allocate device memory
-culite::dns::RdVector<culite::real_t> d_vec1(1000);
-culite::dns::RdVector<culite::real_t> d_vec2;
+culite::dns::RdVector<culite::real_t> devVec1(1000);
+culite::dns::RdVector<culite::real_t> devVec2;
 
 // Transfer data from host to device
-h_vec >> d_vec1;
-h_vec >> d_vec2; // allocates memory for d_vec2 internally
+hostVec >> devVec1;
+hostVec >> devVec2; // allocates memory for devVec2 internally
 
 // Transfer data from device to host
-d_vec1 >> h_vec;
+devVec1 >> hostVec;
 ```
 
 ### GPU Linear Algebra Operations
 
-Formal **cuLite** linear algebra operations and operators are currently under active development. At present, users can perform limited linear algebra operations directly through the cuBLAS handler interface:
+**cuLite** exposes matrix-vector multiplication at three levels of abstraction, from low-level BLAS calls up to expressive C++ operators. The examples below demonstrate all three approaches for computing `y = alpha * A * x + beta * y` using dense GPU objects.
+
+**1. Direct cuBLAS handler interface** — raw access to the underlying BLAS routine via `culite::CuBlasHandler::gemv`:
 
 ```cpp
-// Get the global cuBLAS handler
+culite::dns::RdMatrix A(m, n);
+culite::dns::RdVector x(n);
+culite::dns::RdVector y(m);
+
+// Fill A and x with data...
+
+// Compute y = alpha * A * x + beta * y through the global cuBLAS handler
+culite::real_t alpha = 1.0, beta = 0.0;
 culite::CuBlasHandler& cuBlasHandler = culite::globalCuBlasHandler();
+cuBlasHandler.gemv(cla3p::op_t::N,
+                   A.nrows(), A.ncols(),
+                   &alpha, A.values(), A.ld(),
+                   x.values(), 1,
+                   &beta, y.values(), 1);
+```
 
-// Compute vector norm on GPU
-culite::real_t norm_result;
-cuBlasHandler.nrm2(n, d_vector_ptr, 1, &norm_result);
+**2. Functional interface with a custom cuBLAS handler** — higher-level `culite::ops::mult` function accepting an explicit handler, useful when multiple independent BLAS contexts are required:
 
-// Scale a vector on GPU
-culite::real_t alpha = 2.0;
-cuBlasHandler.scal(n, &alpha, d_vector_ptr, 1);
+```cpp
+culite::dns::RdMatrix A(m, n);
+culite::dns::RdVector x(n);
+culite::dns::RdVector y(m);
 
-// Matrix addition: C = alpha * op(A) + beta * op(B)
-culite::real_t beta = 1.0;
-cuBlasHandler.geam(cla3p::op_t::N, cla3p::op_t::N, m, n,
-             &alpha, d_A_ptr, lda,
-             &beta, d_B_ptr, ldb,
-             d_C_ptr, ldc);
+// Fill A and x with data...
+
+// Create a dedicated cuBLAS handler and compute y = alpha * A * x + beta * y
+culite::CuBlasHandler myHandler;
+culite::real_t alpha = 1.0, beta = 0.0;
+culite::ops::mult(alpha, cla3p::op_t::N, A, x, beta, y, myHandler);
+```
+
+**3. Operator interface** — the most concise form; the global cuBLAS handler is used internally:
+
+```cpp
+culite::dns::RdMatrix A(m, n);
+culite::dns::RdVector x(n);
+
+// Fill A and x with data...
+
+// Compute y = A * x (global cuBLAS handler is used)
+culite::dns::RdVector y = A * x;
+
+// Or accumulate in-place: y += A * x
+y += A * x;
 ```
 
 ### Stream Management
